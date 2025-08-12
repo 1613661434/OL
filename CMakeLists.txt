@@ -16,4 +16,4 @@ endif()
 
 # 添加子目录
 add_subdirectory(ollib)
-add_subdirectory(oldblib/oracle)
+# add_subdirectory(oldblib/oracle)

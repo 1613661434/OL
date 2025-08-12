@@ -14,10 +14,12 @@ endif()
 # set(CMAKE_BUILD_TYPE Debug)
 
 # 平台编译选项
-if(WIN32)
-    set(COMMON_FLAGS "/W3 /D_CRT_SECURE_NO_WARNINGS")  # MSVC选项
+if(MSVC)
+    # Visual Studio 选项
+    set(COMMON_FLAGS "/W3 /D_CRT_SECURE_NO_WARNINGS")
 else()
-    set(COMMON_FLAGS "-Wno-write-strings -D_GLIBCXX_USE_CXX11_ABI=1")  # GCC选项
+    # MinGW/GCC 选项
+    set(COMMON_FLAGS "-Wall -D_GLIBCXX_USE_CXX11_ABI=1")  # 移除 -Wno-write-strings（可选）
 endif()
 
 # 应用优化/调试选项

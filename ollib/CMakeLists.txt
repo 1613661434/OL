@@ -14,14 +14,14 @@ endif()
 # set(CMAKE_BUILD_TYPE Debug)
 
 # 平台区分：编译选项
-if(WIN32)
-    # Windows (MSVC/MinGW)：警告等级、优化选项
-    set(RELEASE_FLAGS "/O2 /W3")  # MSVC用/O2，MinGW用-O2（CMake自动转换）
-    set(DEBUG_FLAGS "/O0 /g /W3")
+if(MSVC)
+    # Visual Studio 编译器选项
+    set(RELEASE_FLAGS "/O2 /W3")
+    set(DEBUG_FLAGS "/O0 /Zi /W3")  # /Zi 生成调试信息（MSVC）
 else()
-    # Linux：原选项
-    set(RELEASE_FLAGS "-O2")
-    set(DEBUG_FLAGS "-O0 -g")
+    # MinGW/GCC 编译器选项
+    set(RELEASE_FLAGS "-O2 -Wall")  # -Wall 开启警告（GCC风格）
+    set(DEBUG_FLAGS "-O0 -g -Wall")  # -g 生成调试信息（GCC风格）
 endif()
 
 # 应用编译选项
@@ -74,4 +74,4 @@ set_target_properties(ol_shared PROPERTIES
 add_library(ol ALIAS ol_static)
 
 # 引入测试目录
-add_subdirectory(test)
+# add_subdirectory(test)

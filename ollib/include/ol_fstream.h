@@ -3,7 +3,9 @@
 
 // 禁用Windows的min/max宏
 #ifdef _WIN32
-#define NOMINMAX
+#ifndef NOMINMAX
+#define NOMINMAX  // 仅在未定义时定义
+#endif
 #endif
 
 #include "../include/ol_chrono.h"
