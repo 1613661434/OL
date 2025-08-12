@@ -1,0 +1,32 @@
+# 编译产物
+build/
+bin/
+*.o
+*.exe
+*.out
+*.obj
+
+# CMake相关
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.cmake
+CTestTestfile.cmake
+install_manifest.txt
+
+# 系统/IDE文件
+.DS_Store          # macOS
+.idea/             # IntelliJ/CLion
+.vscode/           # VS Code
+*.swp              # Vim临时文件
+*.swo
+*~
+
+# 日志/临时文件
+logs/
+tmp/
+*.log
+
+# 第三方库（如果已包含在项目中，可忽略此行；若通过包管理安装，建议忽略）
+# third_party/
