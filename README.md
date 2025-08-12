@@ -19,7 +19,7 @@
 
 ```bash
 # 克隆仓库
-git clone https://github.com/你的用户名/OL.git
+git clone https://github.com/1613661434/OL.git
 cd OL
 
 # 创建构建目录
