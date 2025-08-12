@@ -53,47 +53,47 @@ include_directories(
 link_directories(${OCI_LIB})
 
 # 源文件
-set(OLDBA_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/ol_oci.cpp)
+set(OLDB_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/ol_oci.cpp)
 
 # 输出路径（区分平台）
 if(WIN32)
-    set(OLDBA_STATIC_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/win32/static)
-    set(OLDBA_SHARED_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/win32/shared)
+    set(OLDB_STATIC_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/win32/static)
+    set(OLDB_SHARED_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/win32/shared)
 else()
-    set(OLDBA_STATIC_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/linux/static)
-    set(OLDBA_SHARED_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/linux/shared)
+    set(OLDB_STATIC_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/linux/static)
+    set(OLDB_SHARED_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/linux/shared)
 endif()
-file(MAKE_DIRECTORY ${OLDBA_STATIC_LIB_DIR} ${OLDBA_SHARED_LIB_DIR})
+file(MAKE_DIRECTORY ${OLDB_STATIC_LIB_DIR} ${OLDB_SHARED_LIB_DIR})
 
 # ===================== 静态库配置 =====================
-add_library(oldba_static STATIC ${OLDBA_SRC})
-set_target_properties(oldba_static PROPERTIES
+add_library(oldb_static STATIC ${OLDB_SRC})
+set_target_properties(oldb_static PROPERTIES
     OUTPUT_NAME "oldb"
-    ARCHIVE_OUTPUT_DIRECTORY ${OLDBA_STATIC_LIB_DIR}
+    ARCHIVE_OUTPUT_DIRECTORY ${OLDB_STATIC_LIB_DIR}
 )
 if(WIN32)
-    target_link_libraries(oldba_static PRIVATE oci)  # Windows链接oci.lib
+    target_link_libraries(oldb_static PRIVATE oci)  # Windows链接oci.lib
 else()
-    target_link_libraries(oldba_static PRIVATE clntsh)  # Linux链接clntsh
+    target_link_libraries(oldb_static PRIVATE clntsh)  # Linux链接clntsh
 endif()
 
 # ===================== 动态库配置 =====================
-add_library(oldba_shared SHARED ${OLDBA_SRC})
-set_target_properties(oldba_shared PROPERTIES
+add_library(oldb_shared SHARED ${OLDB_SRC})
+set_target_properties(oldb_shared PROPERTIES
     OUTPUT_NAME "oldb"
-    LIBRARY_OUTPUT_DIRECTORY ${OLDBA_SHARED_LIB_DIR}  # Linux .so
-    RUNTIME_OUTPUT_DIRECTORY ${OLDBA_SHARED_LIB_DIR}  # Windows .dll
+    LIBRARY_OUTPUT_DIRECTORY ${OLDB_SHARED_LIB_DIR}  # Linux .so
+    RUNTIME_OUTPUT_DIRECTORY ${OLDB_SHARED_LIB_DIR}  # Windows .dll
     POSITION_INDEPENDENT_CODE ON
     WINDOWS_EXPORT_ALL_SYMBOLS ON  # Windows自动导出符号
 )
 if(WIN32)
-    target_link_libraries(oldba_shared PRIVATE oci)  # Windows链接oci.lib
+    target_link_libraries(oldb_shared PRIVATE oci)  # Windows链接oci.lib
 else()
-    target_link_libraries(oldba_shared PRIVATE clntsh)  # Linux链接clntsh
+    target_link_libraries(oldb_shared PRIVATE clntsh)  # Linux链接clntsh
 endif()
 
 # 静态库别名
-add_library(oldba ALIAS oldba_static)
+add_library(oldb ALIAS oldb_static)
 
 # 引入测试目录
 add_subdirectory(test)
