@@ -9,6 +9,7 @@ namespace ol
     /**
      * TrieSet 基于 TrieMap 实现的集合，仅存储键而不关注值
      * 内部使用 TrieMap<bool> 作为底层结构，以 true 作为占位值
+     * 方法名与 TrieMap 保持一致，便于使用和记忆
      */
     class TrieSet
     {
@@ -19,12 +20,12 @@ namespace ol
         // **** 增 ****
 
         /**
-         * 向集合中添加元素
+         * 向集合中添加元素（幂等操作，重复添加不影响）
          * @param key 要添加的元素（字符串）
          */
-        void add(const std::string& key)
+        void put(const std::string& key)
         {
-            map.put(key, true); // 用 true 标记键存在
+            map.put(key, true); // 用 true 标记键存在，复用 TrieMap 的 put 方法
         }
 
         // **** 删 ****
@@ -35,7 +36,7 @@ namespace ol
          */
         void remove(const std::string& key)
         {
-            map.remove(key);
+            map.remove(key); // 复用 TrieMap 的 remove 方法
         }
 
         // **** 查 ****
@@ -45,7 +46,7 @@ namespace ol
          * @param key 要检查的元素（字符串）
          * @return 存在返回 true，否则返回 false
          */
-        bool contains(const std::string& key)
+        bool has(const std::string& key)
         {
             return map.has(key); // 复用 TrieMap 的 has 方法
         }
@@ -91,7 +92,7 @@ namespace ol
         }
 
         /**
-         * 获取所有匹配模式的元素（支持 '.' 作为通配符，匹配任意字符）
+         * 获取所有匹配模式的元素（支持 '.' 作为通配符，匹配单个任意字符）
          * @param pattern 模式字符串
          * @return 匹配的元素列表
          */
@@ -114,7 +115,7 @@ namespace ol
          * 获取集合中元素的个数
          * @return 元素数量
          */
-        size_t size()
+        size_t size() const
         {
             return map.size();
         }

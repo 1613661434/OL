@@ -1,0 +1,6 @@
+{
+	"files.associations": {
+		".jsonc": "json",
+		"optional": "cpp"
+	}
+}

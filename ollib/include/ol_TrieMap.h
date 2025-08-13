@@ -3,6 +3,7 @@
 
 #include <list>
 #include <memory>
+#include <optional>
 #include <string>
 #include <unordered_map>
 
@@ -138,10 +139,10 @@ namespace ol
         {
             if (!node) return nullptr; // 节点不存在，直接返回
 
-            // 到达键的末尾，清除值
+            // 到达键的末尾，标记为无效
             if (i == key.length())
             {
-                node->val = V();
+                node->isValid = false;
             }
             else
             {
@@ -150,8 +151,8 @@ namespace ol
                 node->children[c] = remove(node->children[c], key, i + 1);
             }
 
-            // 后序处理：如果节点有值，保留节点
-            if (node->val != V())
+            // 后序处理：如果节点有效（isValid=true），保留节点
+            if (node->isValid)
             {
                 return node;
             }
@@ -180,7 +181,7 @@ namespace ol
             // 模式处理完毕，检查当前节点是否有值
             if (i == pattern.length())
             {
-                return node->val != V();
+                return node->isValid;
             }
 
             unsigned char c = pattern[i];
@@ -268,14 +269,19 @@ namespace ol
         }
 
         /**
-         * 获取键对应的值
+         * 获取键对应的值，通过 std::optional 明确表示值是否存在
          * @param key 要查询的键
-         * @return 键对应的值，不存在则返回默认值
+         * @return 若键存在，返回包含对应值的 std::optional<V>；若键不存在，返回 std::nullopt
+         * @note 可通过 has_value() 判断键是否存在，通过 value() 获取值（键存在时）
          */
-        V get(const std::string& key)
+        std::optional<V> get(const std::string& key)
         {
             auto node = findNode(root, key);
-            return (node && node->val != V()) ? node->val : V();
+            if (node && node->isValid)
+            {
+                return node->val;
+            }
+            return std::nullopt;
         }
 
         /**
@@ -285,7 +291,8 @@ namespace ol
          */
         bool has(const std::string& key)
         {
-            return get(key) != V();
+            auto node = findNode(root, key);
+            return (node && node->isValid);
         }
 
         /**
@@ -388,8 +395,8 @@ namespace ol
         }
 
         /**
-         * 获取所有匹配模式的键（支持'.'通配符）
-         * @param pattern 模式字符串
+         * 获取所有匹配模式的键（支持'.'作为通配符，匹配单个任意字符）
+         * @param pattern 模式字符串，其中'.'代表匹配任意单个字符
          * @return 匹配的键列表
          */
         std::list<std::string> keysByPattern(const std::string& pattern)
@@ -401,7 +408,7 @@ namespace ol
         }
 
         /**
-         * 检查是否存在匹配模式的键（支持'.'通配符）
+         * 检查是否存在匹配模式的键（支持'.'作为通配符，匹配单个任意字符）
          * @param pattern 模式字符串
          * @return 存在返回true，否则返回false
          */
