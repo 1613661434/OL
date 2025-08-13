@@ -1,3 +1,18 @@
+/****************************************************************************************/
+/*
+ * 程序名：ol_string.h
+ * 功能描述：字符串处理工具类及函数集合，提供丰富的字符串操作功能，特性包括：
+ *          - 字符串修整（删除首尾指定字符、大小写转换等）
+ *          - 字符串替换、提取数字、正则匹配等基础操作
+ *          - 命令行字符串拆分类（ccmdstr），支持多分隔符和类型转换
+ *          - XML格式字符串解析函数，支持多种数据类型提取
+ *          - 格式化输出函数（sformat），兼容C风格格式符并支持std::string
+ *          - KMP算法实现的高效子串查找
+ * 作者：ol
+ * 适用标准：C++11及以上（需支持变参模板、类型萃取等特性）
+ */
+/****************************************************************************************/
+
 #ifndef __OL_STRING_H
 #define __OL_STRING_H 1
 
@@ -9,85 +24,182 @@
 namespace ol
 {
 
-    ///////////////////////////////////// /////////////////////////////////////
-    // C++风格字符串操作的若干函数。
-    // 删除字符串左边指定的字符。
-    // str：待处理的字符串。
-    // c：需要删除的字符，缺省删除空格。
-    char* deletelchr(char* str, const int c = ' ');
-    std::string& deletelchr(std::string& str, const int c = ' ');
+    // ===========================================================================
+    /**
+     * 删除字符串左边指定字符（C字符串版本）
+     * @param str 待处理的C字符串（会被直接修改）
+     * @param c 要删除的字符（默认空格' '）
+     * @return 修改后的字符串指针
+     */
+    char* deletelchr(char* str, const char c = ' ');
 
-    // 删除字符串右边指定的字符。
-    // str：待处理的字符串。
-    // c：需要删除的字符，缺省删除空格。
-    char* deleterchr(char* str, const int c = ' ');
-    std::string& deleterchr(std::string& str, const int c = ' ');
+    /**
+     * 删除字符串左边指定字符（std::string版本）
+     * @param str 待处理的字符串引用
+     * @param c 要删除的字符（默认空格' '）
+     * @return 修改后的字符串引用
+     */
+    std::string& deletelchr(std::string& str, const char c = ' ');
 
-    // 删除字符串左右两边指定的字符。
-    // str：待处理的字符串。
-    // chr：需要删除的字符，缺省删除空格。
-    char* deletelrchr(char* str, const int c = ' ');
-    std::string& deletelrchr(std::string& str, const int c = ' ');
+    /**
+     * 删除字符串右边指定字符（C字符串版本）
+     * @param str 待处理的C字符串（会被直接修改）
+     * @param c 要删除的字符（默认空格' '）
+     * @return 修改后的字符串指针
+     */
+    char* deleterchr(char* str, const char c = ' ');
 
-    // 把字符串中的小写字母转换成大写，忽略不是字母的字符。
-    // str：待转换的字符串。
+    /**
+     * 删除字符串右边指定字符（std::string版本）
+     * @param str 待处理的字符串引用
+     * @param c 要删除的字符（默认空格' '）
+     * @return 修改后的字符串引用
+     */
+    std::string& deleterchr(std::string& str, const char c = ' ');
+
+    /**
+     * 删除字符串左右两边指定字符（C字符串版本）
+     * @param str 待处理的C字符串（会被直接修改）
+     * @param c 要删除的字符（默认空格' '）
+     * @return 修改后的字符串指针
+     */
+    char* deletelrchr(char* str, const char c = ' ');
+
+    /**
+     * 删除字符串左右两边指定字符（std::string版本）
+     * @param str 待处理的字符串引用
+     * @param c 要删除的字符（默认空格' '）
+     * @return 修改后的字符串引用
+     */
+    std::string& deletelrchr(std::string& str, const char c = ' ');
+
+    /**
+     * 将字符串中的小写字母转换为大写（C字符串版本）
+     * @param str 待转换的C字符串（会被直接修改）
+     * @return 修改后的字符串指针（非字母字符不变）
+     */
     char* toupper(char* str);
+
+    /**
+     * 将字符串中的小写字母转换为大写（std::string版本）
+     * @param str 待转换的字符串引用
+     * @return 修改后的字符串引用（非字母字符不变）
+     */
     std::string& toupper(std::string& str);
 
-    // 把字符串中的大写字母转换成小写，忽略不是字母的字符。
-    // str：待转换的字符串。
+    /**
+     * 将字符串中的大写字母转换为小写（C字符串版本）
+     * @param str 待转换的C字符串（会被直接修改）
+     * @return 修改后的字符串指针（非字母字符不变）
+     */
     char* tolower(char* str);
+
+    /**
+     * 将字符串中的大写字母转换为小写（std::string版本）
+     * @param str 待转换的字符串引用
+     * @return 修改后的字符串引用（非字母字符不变）
+     */
     std::string& tolower(std::string& str);
 
-    // 字符串替换函数。
-    // 在字符串str中，如果存在字符串str1，就替换为字符串str2。
-    // str：待处理的字符串。
-    // str1：旧的内容。
-    // str2：新的内容。
-    // bloop：是否循环执行替换。
-    // 注意：
-    // 1、如果str2比str1要长，替换后str会变长，所以必须保证str有足够的空间，否则内存会溢出（C++风格字符串不存在这个问题）。
-    // 2、如果str2中包含了str1的内容，且bloop为true，这种做法存在逻辑错误，replacestr将什么也不做。
-    // 3、如果str2为空，表示删除str中str1的内容。
+    /**
+     * 字符串替换（C字符串版本）
+     * @param str 待处理的C字符串（会被直接修改）
+     * @param str1 要替换的旧子串
+     * @param str2 替换的新子串
+     * @param bloop 是否循环替换（默认false）
+     * @return true-替换成功，false-替换失败（如存在逻辑错误）
+     * @note 1、如果str2比str1要长，替换后str会变长，所以必须保证str有足够的空间，否则内存会溢出（C++风格字符串不存在这个问题）。
+     *       2、如果str2中包含了str1的内容，且bloop为true，这种做法存在逻辑错误，replacestr将什么也不做。
+     *       3、如果str2为空，表示删除str中str1的内容。
+     */
     bool replacestr(char* str, const std::string& str1, const std::string& str2, const bool bloop = false);
+
+    /**
+     * 字符串替换（std::string版本）
+     * @param str 待处理的字符串引用
+     * @param str1 要替换的旧子串
+     * @param str2 替换的新子串
+     * @param bloop 是否循环替换（默认false）
+     * @return true-替换成功，false-替换失败（如存在逻辑错误）
+     * @note 1、如果str2比str1要长，替换后str会变长，所以必须保证str有足够的空间，否则内存会溢出（C++风格字符串不存在这个问题）。
+     *       2、如果str2中包含了str1的内容，且bloop为true，这种做法存在逻辑错误，replacestr将什么也不做。
+     *       3、如果str2为空，表示删除str中str1的内容。
+     */
     bool replacestr(std::string& str, const std::string& str1, const std::string& str2, const bool bloop = false);
 
-    // 从一个字符串中提取出数字、符号和小数点，存放到另一个字符串中。
-    // src：原字符串。
-    // dest：目标字符串。
-    // bsigned：是否提取符号（+和-），true-包括；false-不包括。
-    // bdot：是否提取小数点（.），true-包括；false-不包括。
-    // 注意：src和dest可以是同一个变量。
+    /**
+     * 从字符串中提取数字相关字符（C字符串输出版本）
+     * @param src 源字符串
+     * @param dest 目标C字符串（存储提取结果）
+     * @param bsigned 是否提取符号（+/-，默认false）
+     * @param bdot 是否提取小数点（.，默认false）
+     * @return 目标字符串指针（src和dest可相同）
+     */
     char* picknumber(const std::string& src, char* dest, const bool bsigned = false, const bool bdot = false);
+
+    /**
+     * 从字符串中提取数字相关字符（std::string输出版本）
+     * @param src 源字符串
+     * @param dest 目标字符串引用（存储提取结果）
+     * @param bsigned 是否提取符号（+/-，默认false）
+     * @param bdot 是否提取小数点（.，默认false）
+     * @return 目标字符串引用
+     */
     std::string& picknumber(const std::string& src, std::string& dest, const bool bsigned = false, const bool bdot = false);
+
+    /**
+     * 从字符串中提取数字相关字符（返回新字符串版本）
+     * @param src 源字符串
+     * @param bsigned 是否提取符号（+/-，默认false）
+     * @param bdot 是否提取小数点（.，默认false）
+     * @return 提取结果的新字符串
+     */
     std::string picknumber(const std::string& src, const bool bsigned = false, const bool bdot = false);
 
-    // 正则表达式，判断一个字符串是否匹配另一个字符串。
-    // str：需要判断的字符串，是精确表示的，如文件名"_public.cpp"。
-    // rules：匹配规则的表达式，用星号"*"代表任意字符，多个表达式之间用半角的逗号分隔，如"*.h,*.cpp"。
-    // 注意：1）str参数不需要支持"*"，rules参数支持"*"；2）函数在判断str是否匹配rules的时候，会忽略字母的大小写。
+    /**
+     * 正则匹配字符串（支持通配符*，匹配多个任意字符）
+     * @param str 待匹配的字符串（精确内容）
+     * @param rules 匹配规则（用*表示多个任意字符，多规则用半角的逗号分隔，如"*.h,*.cpp"）
+     * @return true-匹配成功，false-匹配失败
+     * @note 1）str参数不需要支持"*"，rules参数支持"*"；
+     *       2）函数在判断str是否匹配rules的时候，会忽略字母的大小写。
+     */
     bool matchstr(const std::string& str, const std::string& rules);
-    ///////////////////////////////////// /////////////////////////////////////
+    // ===========================================================================
 
-    ///////////////////////////////////// /////////////////////////////////////
-    // ccmdstr类用于拆分有分隔符的字符串。
+    // ===========================================================================
+    // ccmdstr类，命令行字符串拆分类，用于解析带分隔符的结构化字符串。
     // 字符串的格式为：字段内容1+分隔符+字段内容2+分隔符+字段内容3+分隔符+...+字段内容n。
     // 例如："messi,10,striker,30,1.72,68.5,Barcelona"，这是足球运动员梅西的资料。
     // 包括：姓名、球衣号码、场上位置、年龄、身高、体重和效力的俱乐部，字段之间用半角的逗号分隔。
     class ccmdstr
     {
     private:
-        std::vector<std::string> m_cmdstr; // 存放拆分后的字段内容。
+        std::vector<std::string> m_cmdstr; // 拆分后的字段容器
 
-        ccmdstr(const ccmdstr&) = delete;            // 禁用拷贝构造函数。
-        ccmdstr& operator=(const ccmdstr&) = delete; // 禁用赋值函数。
+        ccmdstr(const ccmdstr&) = delete;            // 禁用拷贝构造函数
+        ccmdstr& operator=(const ccmdstr&) = delete; // 禁用赋值函数
     public:
+        // 默认构造函数
         ccmdstr()
         {
-        } // 构造函数。
+        }
+
+        /**
+         * 带参构造函数，直接拆分字符串
+         * @param buffer 待拆分的字符串
+         * @param sepstr 分隔符（支持多字符，如",,"、" | "）
+         * @param bdelspace 是否删除字段前后空格（默认false）
+         */
         ccmdstr(const std::string& buffer, const std::string& sepstr, const bool bdelspace = false);
 
-        const std::string& operator[](int i) const // 重载[]运算符，可以像访问数组一样访问m_cmdstr成员。
+        /**
+         * 重载[]运算符，访问拆分后的字段(m_cmdstr成员)
+         * @param i 字段索引（从0开始）
+         * @return 字段内容的常量引用
+         * @note 索引越界会抛出异常
+         */
+        const std::string& operator[](int i) const
         {
             return m_cmdstr[i];
         }
@@ -96,36 +208,56 @@ namespace ol
         // buffer：待拆分的字符串。
         // sepstr：buffer中采用的分隔符，注意，sepstr参数的数据类型不是字符，是字符串，如","、" "、"|"、"~!~"。
         // bdelspace：拆分后是否删除字段内容前后的空格，true-删除；false-不删除，缺省不删除。
+
+        /**
+         * 拆分字符串并存储到内部容器
+         * @param buffer 待拆分的字符串
+         * @param sepstr 分隔符（支持多字符，注意，sepstr参数的数据类型不是字符，是字符串，如","、" "、"|"、"~!~"）
+         * @param bdelspace 是否删除字段前后空格（默认false）
+         * @note 空字段会被保留（如",test"拆分为["", "test"]）
+         */
         void splittocmd(const std::string& buffer, const std::string& sepstr, const bool bdelspace = false);
 
-        // 获取拆分后字段的个数，即m_cmdstr容器的大小。
+        /**
+         * 获取拆分后的字段数量
+         * @return 字段总数（m_cmdstr的大小）
+         */
         size_t size() const
         {
             return m_cmdstr.size();
         }
 
-        // 从m_cmdstr容器获取字段内容。
-        // i：字段的顺序号，类似数组的下标，从0开始。
-        // value：传入变量的地址，用于存放字段内容。
-        // 返回值：true-成功；如果i的取值超出了m_cmdstr容器的大小，返回失败。
-        bool getvalue(const size_t i, std::string& value, const size_t len = 0) const; // C++风格字符串。
-        bool getvalue(const size_t i, char* value, const size_t len = 0) const;        // C风格字符串，len缺省值为0-全部长度，会在索引len处设置'\0'
-        bool getvalue(const size_t i, int& value) const;                               // int整数。
-        bool getvalue(const size_t i, unsigned int& value) const;                      // unsigned int整数。
-        bool getvalue(const size_t i, long& value) const;                              // long整数。
-        bool getvalue(const size_t i, unsigned long& value) const;                     // unsigned long整数。
-        bool getvalue(const size_t i, double& value) const;                            // double双精度。
-        bool getvalue(const size_t i, float& value) const;                             // float单精度。
-        bool getvalue(const size_t i, bool& value) const;                              // bool型。
+        /**
+         * 从字段容器（m_cmdstr）中获取指定索引的字段内容并转换为目标类型
+         * @param i 字段索引（从0开始）
+         * @param value 存储结果的变量引用
+         * @param len 仅字符串类型有效，指定截取长度（默认0表示不截取）
+         * @return true-成功（索引有效且转换成功），false-失败（索引越界或转换失败）
+         */
+        bool getvalue(const size_t i, std::string& value, const size_t len = 0) const; // std::string版本
+        bool getvalue(const size_t i, char* value, const size_t len = 0) const;        // C字符串版本（自动添加'\0'）
+        bool getvalue(const size_t i, int& value) const;                               // 转换为int
+        bool getvalue(const size_t i, unsigned int& value) const;                      // 转换为unsigned int
+        bool getvalue(const size_t i, long& value) const;                              // 转换为long
+        bool getvalue(const size_t i, unsigned long& value) const;                     // 转换为unsigned long
+        bool getvalue(const size_t i, double& value) const;                            // 转换为double
+        bool getvalue(const size_t i, float& value) const;                             // 转换为float
+        bool getvalue(const size_t i, bool& value) const;                              // 转换为bool（"true"/"1"为true）
 
-        ~ccmdstr(); // 析构函数。
+        // 析构函数
+        ~ccmdstr();
     };
 
-    // 重载<<运算符，输出ccmdstr::m_cmdstr中的内容，方便调试。
+    /**
+     * 重载<<运算符，输出ccmdstr的字段内容（调试用）
+     * @param out 输出流
+     * @param cmdstr ccmdstr对象
+     * @return 输出流引用
+     */
     std::ostream& operator<<(std::ostream& out, const ccmdstr& cmdstr);
-    ///////////////////////////////////// /////////////////////////////////////
+    // ===========================================================================
 
-    ///////////////////////////////////// /////////////////////////////////////
+    // ===========================================================================
     // 解析xml格式字符串的函数族。
     // xml格式的字符串的内容如下：
     // <filename>/tmp/_public.h</filename><mtime>2020-01-01 12:20:35</mtime><size>18348</size>
@@ -137,22 +269,39 @@ namespace ol
     // 注意：当value参数的数据类型为char []时，必须保证value数组的内存足够，否则可能发生内存溢出的问题，
     //           也可以用len参数限定获取字段内容的长度，len的缺省值为0，表示不限长度。
     // 返回值：true-成功；如果fieldname参数指定的标签名不存在，返回失败。
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, std::string& value, const size_t len = 0);
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, char* value, const size_t len = 0);
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, bool& value);
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, int& value);
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, unsigned int& value);
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, long& value);
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, unsigned long& value);
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, double& value);
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, float& value);
-    ///////////////////////////////////// /////////////////////////////////////
 
-    ///////////////////////////////////// /////////////////////////////////////
+    /**
+     * 解析XML格式字符串，提取指定标签的内容并转换为目标类型
+     * @param xmlbuffer 待解析的XML格式字符串（如"<tag>value</tag>..."）
+     * @param fieldname 要提取的字段标签名（如"filename"对应<filename>标签）
+     * @param value 存储结果的变量引用/指针
+     * @param len 仅字符串类型有效，指定内容最大长度（默认0表示不限长度）
+     * @return true-成功（标签存在且转换成功），false-失败（标签不存在或转换失败）
+     * @note 当value为char[]时，需保证数组内存充足，避免溢出
+     * @example <filename>/tmp/_public.h</filename><mtime>2020-01-01 12:20:35</mtime><size>18348</size>
+     */
+    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, std::string& value, const size_t len = 0); // 提取为std::string
+    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, char* value, const size_t len = 0);        // 提取为C字符串（自动添加'\0'）
+    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, bool& value);                              // 转换为bool
+    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, int& value);                               // 转换为int
+    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, unsigned int& value);                      // 转换为unsigned int
+    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, long& value);                              // 转换为long
+    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, unsigned long& value);                     // 转换为unsigned long
+    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, double& value);                            // 转换为double
+    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, float& value);                             // 转换为float
+    // ===========================================================================
+
+    // ===========================================================================
     // C++格式化输出函数模板。
     // 辅助函数：自动转换 std::string 到 const char*
     namespace detail
     {
+        /**
+         * 格式化参数辅助函数，自动将std::string转换为const char*
+         * @tparam T 参数类型
+         * @param arg 待转换的参数
+         * @return 转换后的参数（const char*或原类型）
+         */
         template <typename T>
         auto format_arg(T&& arg) -> decltype(auto)
         {
@@ -167,12 +316,19 @@ namespace ol
         }
     } // namespace detail
 
-    // 版本1：将结果写入已有 string
-    template <typename... Args>
-    bool sformat(std::string& str, const char* fmt, Args&&... args)
+    /**
+     * 格式化输出函数（写入已有字符串）
+     * @tparam Types 可变参数类型列表
+     * @param str 存储结果的字符串引用
+     * @param fmt 格式字符串（C风格）
+     * @param args 待格式化的参数
+     * @return true-格式化成功，false-失败
+     */
+    template <typename... Types>
+    bool sformat(std::string& str, const char* fmt, Types&&... args)
     {
         // 计算长度
-        int len = std::snprintf(nullptr, 0, fmt, detail::format_arg(std::forward<Args>(args))...);
+        int len = std::snprintf(nullptr, 0, fmt, detail::format_arg(std::forward<Types>(args))...);
         if (len < 0) return false;
 
         if (len == 0)
@@ -183,28 +339,39 @@ namespace ol
 
         // 执行格式化
         str.resize(len);
-        std::snprintf(&str[0], len + 1, fmt, detail::format_arg(std::forward<Args>(args))...);
+        std::snprintf(&str[0], len + 1, fmt, detail::format_arg(std::forward<Types>(args))...);
         return true;
     }
 
-    // 版本2：返回新字符串
-    template <typename... Args>
-    std::string sformat(const char* fmt, Args&&... args)
+    /**
+     * 格式化输出函数（返回新字符串）
+     * @tparam Types 可变参数类型列表
+     * @param fmt 格式字符串（C风格）
+     * @param args 待格式化的参数
+     * @return 格式化后的新字符串
+     */
+    template <typename... Types>
+    std::string sformat(const char* fmt, Types&&... args)
     {
         std::string str;
-        int len = std::snprintf(nullptr, 0, fmt, detail::format_arg(std::forward<Args>(args))...);
+        int len = std::snprintf(nullptr, 0, fmt, detail::format_arg(std::forward<Types>(args))...);
         if (len <= 0) return str;
 
         str.resize(len);
-        std::snprintf(&str[0], len + 1, fmt, detail::format_arg(std::forward<Args>(args))...);
+        std::snprintf(&str[0], len + 1, fmt, detail::format_arg(std::forward<Types>(args))...);
         return str;
     }
-    ///////////////////////////////////// /////////////////////////////////////
+    // ===========================================================================
 
-    ///////////////////////////////////// /////////////////////////////////////
-    // KMP算法查找子串
-    size_t skmp(const std::string& str, const std::string& substr);
-    ///////////////////////////////////// /////////////////////////////////////
+    // ===========================================================================
+    /**
+     * KMP算法查找子串
+     * @param str 主字符串
+     * @param pattern 待查找的子串（模式串）
+     * @return 子串在主串中首次出现的位置（从0开始），未找到返回std::string::npos
+     */
+    size_t skmp(const std::string& str, const std::string& pattern);
+    // ===========================================================================
 } // namespace ol
 
 #endif // !__OL_STRING_H

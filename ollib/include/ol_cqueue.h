@@ -1,3 +1,17 @@
+/****************************************************************************************/
+/*
+ * 程序名：ol_cqueue.h
+ * 功能描述：固定大小的循环队列（circular queue）模板类，支持以下特性：
+ *          - 基于静态数组实现，大小由模板参数指定
+ *          - 支持POD类型和非POD类型，自动适配内存管理
+ *          - 提供入队、出队、查看队头、判断空满等基础操作
+ *          - 支持移动构造和移动赋值，禁用拷贝构造和赋值（避免资源冲突）
+ *          - 支持原地构造元素（emplace）以提升性能
+ * 作者：ol
+ * 适用标准：C++11及以上（需支持constexpr、type_traits、右值引用等特性）
+ */
+/****************************************************************************************/
+
 #ifndef __OL_CQUEUE_H
 #define __OL_CQUEUE_H 1
 
@@ -9,7 +23,12 @@
 namespace ol
 {
 
-    // 循环队列。
+    /**
+     * 循环队列模板类
+     * 基于静态数组实现，大小固定，支持高效的FIFO（先进先出）操作
+     * @tparam T 队列中元素的数据类型
+     * @tparam MAX_SIZE 队列的最大容量（必须大于0）
+     */
     template <class T, size_t MAX_SIZE>
     class cqueue
     {
@@ -25,11 +44,13 @@ namespace ol
         cqueue& operator=(const cqueue&) = delete; // 禁用赋值函数。
 
     public:
+        // 构造函数，自动初始化队列
         cqueue()
         {
             init();
         }
 
+        // 析构函数，释放资源（非平凡析构类型需手动调用析构函数）
         ~cqueue()
         {
             if (m_inited == true)
@@ -46,7 +67,10 @@ namespace ol
             }
         }
 
-        // 移动构造函数
+        /**
+         * 移动构造函数
+         * @param other 待移动的队列对象
+         */
         cqueue(cqueue&& other) noexcept
             : m_inited(other.m_inited),
               m_size(other.m_size),
@@ -76,7 +100,11 @@ namespace ol
             }
         }
 
-        // 移动赋值运算符
+        /**
+         * 移动赋值运算符
+         * @param other 待移动的队列对象
+         * @return 当前队列对象的引用
+         */
         cqueue& operator=(cqueue&& other) noexcept
         {
             if (this != &other)
@@ -131,8 +159,11 @@ namespace ol
             return *this;
         }
 
-        // 循环队列的初始化操作。
-        // 注意：如果用于共享内存的队列，不会调用构造函数，必须调用此函数初始化。
+        /**
+         * 初始化队列（仅未初始化时有效）
+         * 用于共享内存场景（不自动调用构造函数时）
+         * @note 如果用于共享内存的队列，不会调用构造函数，必须调用此函数初始化。
+         */
         void init()
         {
             if (m_inited == true) return; // 循环队列的初始化只能执行一次。
@@ -155,19 +186,29 @@ namespace ol
             }
         }
 
-        // 判断循环队列是否已满，返回值：true-已满，false-未满。
+        /**
+         * 判断队列是否已满
+         * @return true-队列已满，false-队列未满
+         */
         bool full() const
         {
             return m_size == MAX_SIZE;
         }
 
-        // 判断循环队列是否为空，返回值：true-空，false-非空。
+        /**
+         * 判断队列是否为空
+         * @return true-队列为空，false-队列非空
+         */
         bool empty() const
         {
             return m_size == 0;
         }
 
-        // 元素入队，返回值：false-失败；true-成功。
+        /**
+         * 元素入队（拷贝版本）
+         * @param e 待入队的元素（常量引用）
+         * @return true-入队成功，false-队列已满入队失败
+         */
         bool push(const T& e)
         {
             if (full())
@@ -184,7 +225,11 @@ namespace ol
             return true;
         }
 
-        // 支持右值引用的push
+        /**
+         * 元素入队（移动版本）
+         * @param e 待入队的元素（右值引用）
+         * @return true-入队成功，false-队列已满入队失败
+         */
         bool push(T&& e)
         {
             if (full())
@@ -198,7 +243,10 @@ namespace ol
             return true;
         }
 
-        // 元素出队，返回值：false-失败；true-成功。
+        /**
+         * 元素出队
+         * @return true-出队成功，false-队列为空出队失败
+         */
         bool pop()
         {
             if (empty()) return false;
@@ -209,26 +257,43 @@ namespace ol
             return true;
         }
 
-        // 求循环队列的长度，返回值：>=0  队列中元素的个数。
+        /**
+         * 获取队列当前元素数量
+         * @return 队列长度（>=0）
+         */
         size_t size() const
         {
             return m_size;
         }
 
-        // 查看队头元素的值，元素不出队。
+        /**
+         * 获取队头元素（非const版本）
+         * @return 队头元素的引用
+         * @throws std::out_of_range 当队列为空时
+         */
         T& front()
         {
             if (empty()) throw std::out_of_range("队列为空");
             return m_data[m_front];
         }
 
+        /**
+         * 获取队头元素（const版本）
+         * @return 队头元素的常量引用
+         * @throws std::out_of_range 当队列为空时
+         */
         const T& front() const
         {
             if (empty()) throw std::out_of_range("队列为空");
             return m_data[m_front];
         }
 
-        // 原地构造元素
+        /**
+         * 原地构造元素入队（直接在队列内存中构造对象）
+         * @tparam Args 构造函数参数类型列表
+         * @param args 构造函数参数（转发引用）
+         * @return true-入队成功，false-队列已满入队失败
+         */
         template <typename... Args>
         bool emplace(Args&&... args)
         {
@@ -243,8 +308,10 @@ namespace ol
             return true;
         }
 
-        // 显示循环队列中全部的元素。
-        // 这是一个临时的用于调试的函数，队列中元素的数据类型支持cout输出才可用。
+        /**
+         * 打印队列中所有元素（调试用）
+         * 要求元素类型支持std::cout输出
+         */
         void printqueue() const
         {
             for (size_t i = 0; i < size(); ++i)

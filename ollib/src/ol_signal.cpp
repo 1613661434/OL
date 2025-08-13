@@ -1,4 +1,4 @@
-#include "../include/ol_signal.h"
+#include "ol_signal.h"
 
 namespace ol
 {

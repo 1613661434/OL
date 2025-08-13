@@ -1,4 +1,4 @@
-#include "../include/ol_math.h"
+#include "ol_math.h"
 #include <cmath>
 #include <iostream>
 #include <limits>    // 用于numeric_limits
@@ -93,7 +93,7 @@ namespace ol
 
     // 数值计算-非线性方程求解法-弦截迭代法-收敛阶P=1.618
     // Secant_Method(回调函数,初值0,初值1,误差限,最大迭代次数|默认1000,是否为定端点弦截法|固定点0|默认变端点)
-    double Secant_Method(double (*func)(double), double initial_value0, double initial_value1, double tolerance, const size_t max_iterations, bool isFixedPoint0)
+    double Secant_Method(double (*func)(double), double initial_value_0, double initial_value_1, double tolerance, const size_t max_iterations, bool isFixedPoint_0)
     {
         constexpr double ZERO_DERIV_THRESHOLD = 1e-12; // 零判断阈值
 
@@ -107,9 +107,9 @@ namespace ol
             return x1 - f_x1 * (x1 - x0) / res;
         };
 
-        double Xi_minus_1 = initial_value0; // Xi-1
-        double Xi;                          // Xi
-        double Xi_plus_1 = initial_value1;  // Xi+1
+        double Xi_minus_1 = initial_value_0; // Xi-1
+        double Xi;                           // Xi
+        double Xi_plus_1 = initial_value_1;  // Xi+1
 
         for (size_t i = 0; i < max_iterations; ++i)
         {
@@ -117,7 +117,7 @@ namespace ol
             Xi_plus_1 = loop_func(Xi_minus_1, Xi);
 
             if (fabs(Xi_plus_1 - Xi) < tolerance) return Xi_plus_1;
-            if (!isFixedPoint0) Xi_minus_1 = Xi;
+            if (!isFixedPoint_0) Xi_minus_1 = Xi;
         }
 
         throw runtime_error("Exceeded maximum iterations without convergence.");

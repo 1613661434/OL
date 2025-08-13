@@ -1,15 +1,29 @@
+/****************************************************************************************/
+/*
+ * 程序名：ol_fstream.h
+ * 功能描述：文件系统操作工具类及函数集合，支持跨平台（Linux/Windows）操作，特性包括：
+ *          - 目录创建、文件重命名、复制、大小/时间获取等基础文件操作
+ *          - 目录遍历类（cdir），支持递归获取文件列表及属性
+ *          - 文件读写类（cofile/cifile），支持文本/二进制操作及临时文件机制
+ *          - 日志文件类（clogfile），支持自动切换、多线程安全
+ *          - 辅助工具：自旋锁、自定义输出操作符等
+ * 作者：ol
+ * 适用标准：C++11及以上（需支持atomic、fstream、变参模板等特性）
+ */
+/****************************************************************************************/
+
 #ifndef __OL_FSTREAM_H
 #define __OL_FSTREAM_H 1
 
 // 禁用Windows的min/max宏
 #ifdef _WIN32
 #ifndef NOMINMAX
-#define NOMINMAX  // 仅在未定义时定义
+#define NOMINMAX // 仅在未定义时定义
 #endif
 #endif
 
-#include "../include/ol_chrono.h"
-#include "../include/ol_string.h"
+#include "ol_chrono.h"
+#include "ol_string.h"
 #include <algorithm>
 #include <atomic>
 #include <bitset>
@@ -34,57 +48,74 @@ namespace ol
 {
 
 #if defined(__linux__) || defined(_WIN32)
-    ///////////////////////////////////// /////////////////////////////////////
-    // 根据绝对路径的文件名或目录名逐级的创建目录。
-    // pathorfilename：绝对路径的文件名或目录名。
-    // bisfilename：指定pathorfilename的类型，true-pathorfilename是文件名，否则是目录名，缺省值为true。
-    // 返回值：true-成功，false-失败，如果返回失败，原因有大概有三种情况：
-    // 1）权限不足；2）pathorfilename参数不是合法的文件名或目录名；3）磁盘空间不足。
+    // ===========================================================================
+    /**
+     * 根据绝对路径逐级创建目录
+     * @param pathorfilename 绝对路径的文件名或目录名
+     * @param bisfilename 指定pathorfilename类型（true-文件名，false-目录名，默认true）
+     * @return true-成功，false-失败（权限不足、路径非法、磁盘满等）
+     */
     bool newdir(const std::string& pathorfilename, bool bisfilename = true);
-    ///////////////////////////////////// /////////////////////////////////////
+    // ===========================================================================
 
     // 文件操作相关的函数
-    ///////////////////////////////////// /////////////////////////////////////
-    // 重命名文件，类似Linux系统的mv命令。
-    // srcfilename：原文件名，建议采用绝对路径的文件名。
-    // dstfilename：目标文件名，建议采用绝对路径的文件名。
-    // 返回值：true-成功；false-失败，失败的主要原因是权限不足或磁盘空间不够，如果原文件和目标文件不在同一个磁盘分区，重命名也可能失败。
-    // 注意，在重命名文件之前，会自动创建dstfilename参数中包含的目录。
-    // 在应用开发中，可以用renamefile()函数代替rename()库函数。
+    // ===========================================================================
+    /**
+     * 重命名文件（类似Linux mv命令）
+     * @param srcfilename 原文件名（建议绝对路径）
+     * @param dstfilename 目标文件名（建议绝对路径）
+     * @return true-成功，false-失败（权限不足、跨分区、磁盘满等）
+     * @note 在重命名文件之前，会自动创建dstfilename参数中包含的目录，在应用开发中，可以用renamefile()函数代替rename()库函数
+     */
     bool renamefile(const std::string& srcfilename, const std::string& dstfilename);
-    ///////////////////////////////////// /////////////////////////////////////
+    // ===========================================================================
 
-    // 复制文件，类似Linux系统的cp命令。
-    // srcfilename：原文件名，建议采用绝对路径的文件名。
-    // dstfilename：目标文件名，建议采用绝对路径的文件名。
-    // 返回值：true-成功；false-失败，失败的主要原因是权限不足或磁盘空间不够。
-    // 注意：
-    // 1）在复制文件之前，会自动创建dstfilename参数中的目录名。
-    // 2）复制文件的过程中，采用临时文件命名的方法，复制完成后再改名为dstfilename，避免中间状态的文件被读取。
-    // 3）复制后的文件的时间与原文件相同，这一点与Linux系统cp命令不同。
+    // ===========================================================================
+    /**
+     * 复制文件（类似Linux cp命令）
+     * @param srcfilename 原文件名（建议绝对路径）
+     * @param dstfilename 目标文件名（建议绝对路径）
+     * @return true-成功，false-失败（权限不足、磁盘满等）
+     * @note 1. 自动创建目标目录；2. 采用临时文件机制避免中间状态；3. 保留原文件时间属性
+     */
     bool copyfile(const std::string& srcfilename, const std::string& dstfilename);
+    // ===========================================================================
 
-    // 获取文件的大小。
-    // filename：待获取的文件名，建议采用绝对路径的文件名。
-    // 返回值：如果文件不存在或没有访问权限，返回-1，成功返回文件的大小，单位是字节。
+    /**
+     * 获取文件大小
+     * @param filename 文件名（建议绝对路径）
+     * @return 文件大小（字节），失败返回-1（文件不存在、无权限等）
+     */
     long filesize(const std::string& filename);
 
-    // 获取文件的时间。
-    // filename：待获取的文件名，建议采用绝对路径的文件名。
-    // mtime：用于存放文件的时间，即stat结构体的st_mtime。
-    // fmt：设置时间的输出格式，与ltime()函数相同，但缺省是"yyyymmddhh24miss"。
-    // 返回值：如果文件不存在或没有访问权限，返回false，成功返回true。
+    /**
+     * 获取文件修改时间（C字符串版本）
+     * @param filename 文件名（建议绝对路径）
+     * @param mtime 存储时间的字符数组
+     * @param fmt 时间格式（默认"yyyymmddhh24miss"，支持ltime兼容格式）
+     * @return true-成功，false-失败（文件不存在、无权限等）
+     */
     bool filemtime(const std::string& filename, char* mtime, const std::string& fmt = "yyyymmddhh24miss");
+
+    /**
+     * 获取文件修改时间（std::string版本）
+     * @param filename 文件名（建议绝对路径）
+     * @param mtime 存储时间的字符串引用
+     * @param fmt 时间格式（默认"yyyymmddhh24miss"）
+     * @return true-成功，false-失败
+     */
     bool filemtime(const std::string& filename, std::string& mtime, const std::string& fmt = "yyyymmddhh24miss");
 
-    // 重置文件的修改时间属性。
-    // filename：待重置的文件名，建议采用绝对路径的文件名。
-    // mtime：字符串表示的时间，格式不限，但一定要包括yyyymmddhh24miss，一个都不能少，顺序也不能变。
-    // 返回值：true-成功；false-失败，失败的原因保存在errno中。
+    /**
+     * 重置文件修改时间属性
+     * @param filename 文件名（建议绝对路径）
+     * @param mtime 时间字符串（需包含yyyymmddhh24miss，顺序不可变）
+     * @return true-成功，false-失败（失败原因见errno）
+     */
     bool setmtime(const std::string& filename, const std::string& mtime);
-    ///////////////////////////////////// /////////////////////////////////////
+    // ===========================================================================
 
-    ///////////////////////////////////// /////////////////////////////////////
+    // ===========================================================================
     // 获取某目录及其子目录中的文件列表的类。
     class cdir
     {
@@ -105,43 +136,63 @@ namespace ol
         std::string m_ctime;     // 文件生成的时间，即stat结构体的st_ctime成员。
         std::string m_atime;     // 文件最后一次被访问的时间，即stat结构体的st_atime成员。
 
+        // 构造函数。
         cdir() : m_pos(0), m_fmt("yyyymmddhh24miss"), m_filesize(0)
         {
-        } // 构造函数。
+        }
 
-        // 设置文件时间的格式，支持"yyyy-mm-dd hh24:mi:ss"和"yyyymmddhh24miss"两种，缺省是后者。
+        /**
+         * 设置文件时间格式
+         * @param fmt 支持"yyyy-mm-dd hh24:mi:ss"和"yyyymmddhh24miss"（默认后者）
+         */
         void setfmt(const std::string& fmt);
 
-        // 打开目录，获取目录中文件的列表，存放在m_filelist容器中。
-        // dirname，目录名，采用绝对路径，如/tmp/root。
-        // rules，文件名的匹配规则，不匹配的文件将被忽略。
-        // maxfiles，本次获取文件的最大数量，缺省值为10000个，如果文件太多，可能消耗太多的内存。
-        // bandchild，是否打开各级子目录，缺省值为false-不打开子目录。
-        // bsort，是否按文件名排序，缺省值为false-不排序。
-        // 返回值：true-成功，false-失败。
+        /**
+         * 打开目录并获取文件列表，存放在m_filelist容器中
+         * @param dirname 目录名（绝对路径，如/tmp/root）
+         * @param rules 文件名匹配规则（不匹配的文件将被忽略）
+         * @param maxfiles 最大文件数量（默认10000，如果文件太多，可能消耗太多的内存）
+         * @param bandchild 是否递归子目录（默认false）
+         * @param bsort 是否按文件名排序（默认false）
+         * @return true-成功，false-失败
+         */
         bool opendir(const std::string& dirname, const std::string& rules, const size_t maxfiles = 10000, const bool bandchild = false, bool bsort = false);
 
     private:
-        // 这是一个递归函数，被opendir()的调用，在cdir类的外部不需要调用它。
+        /**
+         * 递归遍历目录的内部实现（被opendir调用）
+         * @param dirname 目录名
+         * @param rules 文件名匹配规则
+         * @param maxfiles 最大文件数量
+         * @param bandchild 是否递归子目录
+         * @return true-成功，false-失败
+         */
         bool _opendir(const std::string& dirname, const std::string& rules, const size_t maxfiles, const bool bandchild);
 
     public:
-        // 从m_filelist容器中获取一条记录（文件名），同时获取该文件的大小、修改时间等信息。
-        // 调用opendir方法时，m_filelist容器被清空，m_pos归零，每调用一次readdir方法m_pos加1。
-        // 当m_pos小于m_filelist.size()，返回true，否则返回false。
+        /**
+         * 读取下一个文件信息（从m_filelist容器中获取一条记录（文件名），同时获取该文件的大小、修改时间等信息。）
+         * @return true-成功（数据存入成员变量），false-已无更多文件
+         * @note 调用opendir方法时，m_filelist容器被清空，m_pos归零，每调用一次readdir方法m_pos加1。
+         */
         bool readdir();
 
+        /**
+         * 获取文件列表总数
+         * @return 文件数量
+         */
         size_t size()
         {
             return m_filelist.size();
         }
 
-        ~cdir(); // 析构函数。
+        // 析构函数。
+        ~cdir();
     };
-    ///////////////////////////////////// /////////////////////////////////////
+    // ===========================================================================
 
-    ///////////////////////////////////// /////////////////////////////////////
-    // 写文件的类。
+    // ===========================================================================
+    // 文件写入类，支持文本/二进制及临时文件机制
     class cofile // class out file
     {
     private:
@@ -149,26 +200,39 @@ namespace ol
         std::string m_filename;    // 文件名，建议采用绝对路径。
         std::string m_filenametmp; // 临时文件名，在m_filename后面加".tmp"。
     public:
+        // 构造函数
         cofile()
         {
         }
 
-        // 文件是否已打开。
+        /**
+         * 判断文件是否已打开
+         * @return true-已打开，false-未打开
+         */
         bool isopen() const
         {
             return fout.is_open();
         }
 
-        // 打开文件。
-        // filename，待打开的文件名。
-        // btmp，是否采用临时文件的方案。
-        // mode，打开文件的模式。
-        // benbuffer，是否启用文件缓冲区。
+        /**
+         * 打开文件
+         * @param filename 目标文件名
+         * @param btmp 是否使用临时文件（默认true，完成后重命名）
+         * @param mode 打开模式（默认std::ios::out）
+         * @param benbuffer 是否启用缓冲区（默认true）
+         * @return true-成功，false-失败
+         */
         bool open(const std::string& filename, const bool btmp = true, const std::ios::openmode mode = std::ios::out, const bool benbuffer = true);
 
-        // 把数据以文本的方式格式化输出到文件。
-        template <typename... Args>
-        bool writeline(const char* fmt, Args... args)
+        /**
+         * 格式化写入文本数据
+         * @tparam Types 可变参数类型
+         * @param fmt 格式字符串
+         * @param args 待格式化的参数
+         * @return true-成功，false-失败
+         */
+        template <typename... Types>
+        bool writeline(const char* fmt, Types... args)
         {
             if (fout.is_open() == false) return false;
 
@@ -177,8 +241,13 @@ namespace ol
             return fout.good();
         }
 
-        // 重载<<运算符，把数据以文本的方式输出到文件。
-        // 注意：换行只能用\n，不能用endl。
+        /**
+         * 重载<<运算符，写入文本数据
+         * @tparam T 数据类型
+         * @param value 待写入的数据
+         * @return 自身引用（支持链式调用）
+         * @note 换行需用\n，不可用endl
+         */
         template <typename T>
         cofile& operator<<(const T& value)
         {
@@ -186,66 +255,96 @@ namespace ol
             return *this;
         }
 
-        // 把二进制数据写入文件。
+        /**
+         * 写入二进制数据
+         * @param buf 数据缓冲区
+         * @param bufsize 数据大小（字节）
+         * @return true-成功，false-失败
+         */
         bool write(void* buf, int bufsize);
 
-        // 关闭文件，并且把临时文件名改为正式文件名。
+        /**
+         * 关闭文件并将临时文件重命名为目标文件
+         * @return true-成功，false-失败
+         */
         bool closeandrename();
 
-        // 关闭文件，如果有临时文件，则删除它。
+        // 关闭文件（若有临时文件则删除）
         void close();
 
+        // 析构函数，自动关闭文件
         ~cofile()
         {
             close();
         };
     };
-    ///////////////////////////////////// /////////////////////////////////////
+    // ===========================================================================
 
-    ///////////////////////////////////// /////////////////////////////////////
-    // 读取文件的类。
+    // ===========================================================================
+    // 文件读取类，支持文本/二进制读取
     class cifile // class in file
     {
     private:
         std::ifstream fin;      // 读取文件的对象。
         std::string m_filename; // 文件名，建议采用绝对路径。
     public:
+        // 构造函数
         cifile()
         {
         }
 
-        // 判断文件是否已打开。
+        /**
+         * 判断文件是否已打开
+         * @return true-已打开，false-未打开
+         */
         bool isopen() const
         {
             return fin.is_open();
         }
 
-        // 打开文件。
-        // filename，待打开的文件名。
-        // mode，打开文件的模式。
+        /**
+         * 打开文件
+         * @param filename 文件名
+         * @param mode 打开模式（默认std::ios::in）
+         * @return true-成功，false-失败
+         */
         bool open(const std::string& filename, const std::ios::openmode mode = std::ios::in);
 
-        // 以行的方式读取文本文件，endbz指定行的结尾标志，缺省为空，没有结尾标志。
+        /**
+         * 按行读取文本文件
+         * @param buf 存储读取结果的字符串
+         * @param endbz 行结束标志（默认空，即换行）
+         * @return true-成功，false-失败（如已到文件尾）
+         */
         bool readline(std::string& buf, const std::string& endbz = "");
 
-        // 读取二进制文件，返回实际读取到的字节数。
+        /**
+         * 读取二进制数据
+         * @param buf 接收数据的缓冲区
+         * @param bufsize 缓冲区大小（字节）
+         * @return 实际读取的字节数
+         */
         size_t read(void* buf, const size_t bufsize);
 
-        // 关闭并删除文件。
+        /**
+         * 关闭并删除文件
+         * @return true-成功，false-失败
+         */
         bool closeandremove();
 
         // 只关闭文件。
         void close();
 
+        // 析构函数，自动关闭文件
         ~cifile()
         {
             close();
         }
     };
-    ///////////////////////////////////// /////////////////////////////////////
+    // ===========================================================================
 
-    ///////////////////////////////////// /////////////////////////////////////
-    // 自旋锁。
+    // ===========================================================================
+    // 自旋锁类，用于多线程同步
     class spinlock_mutex
     {
     private:
@@ -255,23 +354,28 @@ namespace ol
         spinlock_mutex& operator=(const spinlock_mutex) = delete;
 
     public:
+        // 构造函数，初始化原子标志
         spinlock_mutex()
         {
             flag.clear();
         }
-        void lock() // 加锁。
+
+        // 加锁（自旋等待直到获取锁）
+        void lock()
         {
             while (flag.test_and_set());
         }
-        void unlock() // 解锁。
+
+        // 解锁
+        void unlock()
         {
             flag.clear();
         }
     };
-    ///////////////////////////////////// /////////////////////////////////////
+    // ===========================================================================
 
-    ///////////////////////////////////// /////////////////////////////////////
-    // 日志文件。
+    // ===========================================================================
+    // 日志文件类，支持自动切换和多线程安全
     class clogfile
     {
         std::ofstream fout;        // 日志文件对象。
@@ -283,25 +387,37 @@ namespace ol
         spinlock_mutex m_splock;   // 自旋锁，用于多线程程序中给写日志的操作加锁。
 
     public:
-        // 构造函数，日志文件的大小缺省100M。
+        /**
+         * 构造函数
+         * @param maxsize 日志最大大小（MB，默认100）
+         */
         clogfile(size_t maxsize = 100) : m_mode(std::ios::app), m_backup(true), m_maxsize(maxsize), m_enbuffer(false)
         {
         }
 
-        // 打开日志文件。
-        // filename：日志文件名，建议采用绝对路径，如果文件名中的目录不存在，就先创建目录。
-        // openmode：日志文件的打开模式，缺省值是ios::app。
-        // bbackup：是否自动切换（备份），true-切换，false-不切换，在多进程的服务程序中，如果多个进程共用一个日志文件，bbackup必须为false。
-        // benbuffer：是否启用文件缓冲机制，true-启用，false-不启用，如果启用缓冲区，那么写进日志文件中的内容不会立即写入文件，缺省是不启用。
-        // 注意，在多进程的程序中，多个进程往同一日志文件写入大量的日志时，可能会出现小混乱，但是，多线程不会。
-        // 1）多个进程往同一日志文件写入大量的日志时，可能会出现小混乱，这个问题并不严重，可以容忍；
-        // 2）只有同时写大量日志时才会出现混乱，在实际开发中，这种情况不多见。
-        // 3）如果业务无法容忍，可以用信号量加锁。
+        /**
+         * 打开日志文件
+         * @param filename 日志文件名（建议采用绝对路径，目录不存在会自动创建）
+         * @param mode 打开模式（默认std::ios::app）
+         * @param bbackup 是否自动备份（默认true，多进程需设为false）
+         * @param benbuffer 是否启用缓冲区（默认false，立即写入）
+         * @return true-成功，false-失败
+         * @note 在多进程的程序中，多个进程往同一日志文件写入大量的日志时，可能会出现小混乱，但是，多线程不会。
+         * 1）多个进程往同一日志文件写入大量的日志时，可能会出现小混乱，这个问题并不严重，可以容忍；
+         * 2）只有同时写大量日志时才会出现混乱，在实际开发中，这种情况不多见。
+         * 3）如果业务无法容忍，可以用信号量加锁。
+         */
         bool open(const std::string& filename, const std::ios::openmode mode = std::ios::app, const bool bbackup = true, const bool benbuffer = false);
 
-        // 把日志内容以文本的方式格式化输出到日志文件，并且，在日志内容前面写入时间。
-        template <typename... Args>
-        bool write(const char* fmt, Args... args)
+        /**
+         * 格式化写入日志（带时间前缀）
+         * @tparam Types 可变参数类型
+         * @param fmt 格式字符串
+         * @param args 待格式化的参数
+         * @return true-成功，false-失败
+         */
+        template <typename... Types>
+        bool write(const char* fmt, Types... args)
         {
             if (fout.is_open() == false) return false;
 
@@ -314,8 +430,13 @@ namespace ol
             return fout.good();
         }
 
-        // 重载<<运算符，把日志内容以文本的方式输出到日志文件，不会在日志内容前面写时间。
-        // 注意：内容换行用\n，不能用endl。
+        /**
+         * 重载<<运算符，写入日志内容（无时间前缀）
+         * @tparam T 数据类型
+         * @param value 待写入的内容
+         * @return 自身引用（支持链式调用）
+         * @note 换行用\n，不可用endl
+         */
         template <typename T>
         clogfile& operator<<(const T& value)
         {
@@ -327,42 +448,61 @@ namespace ol
         }
 
     private:
-        // 如果日志文件的大小超过m_maxsize的值，就把当前的日志文件名改为历史日志文件名，再创建新的当前日志文件。
-        // 备份后的文件会在日志文件名后加上日期时间，如/tmp/log/filetodb.log.20200101123025。
-        // 注意，在多进程的程序中，日志文件不可切换，多线的程序中，日志文件可以切换。
+        /**
+         * 自动备份日志（如果日志文件的大小超过m_maxsize的值，就把当前的日志文件名改为历史日志文件名，再创建新的当前日志文件）
+         * @return true-成功，false-失败
+         * @note 备份文件名为原文件名+时间戳（如/tmp/log/filetodb.log.20200101123025）
+         */
         bool backup();
 
     public:
+        // 关闭日志文件
         void close()
         {
             fout.close();
         }
 
+        // 析构函数，自动关闭文件
         ~clogfile()
         {
             close();
         };
     };
-    ///////////////////////////////////// /////////////////////////////////////
+    // ===========================================================================
 #endif // defined(__linux__) || defined(_WIN32)
 
-    ///////////////////////////////////// /////////////////////////////////////
-    // ======================
     // 自定义操作符
-    // ======================
-
-    // 换行操纵符
+    // ===========================================================================
+    /**
+     * 自定义换行操纵符（替代endl，不刷新缓冲区）
+     * @param os 输出流
+     * @return 输出流引用
+     */
     std::ostream& nl(std::ostream& os);
 
-    // 输出整数的二进制表示
+    /**
+     * 二进制输出辅助结构体
+     */
     struct binary_t
     {
+        // 待输出的整数值
         unsigned long value;
+
+        /**
+         * 构造函数
+         * @param v 待转换为二进制输出的整数
+         */
         explicit binary_t(unsigned long v) : value(v)
         {
         }
     };
 
+    /**
+     * 二进制输出辅助函数
+     * @tparam T 整数类型
+     * @param value 待输出的整数
+     * @return binary_t结构体
+     */
     template <typename T>
     binary_t binary(T value)
     {
@@ -371,9 +511,13 @@ namespace ol
 
     std::ostream& operator<<(std::ostream& os, const binary_t& b);
 
-    // 清空输入缓冲区（忽略所有剩余字符直到换行符）
+    /**
+     * 清空输入缓冲区（忽略剩余字符直到换行）
+     * @param is 输入流
+     * @return 输入流引用
+     */
     std::istream& clearbuf(std::istream& is);
-    ///////////////////////////////////// /////////////////////////////////////
+    // ===========================================================================
 
 } // namespace ol
 

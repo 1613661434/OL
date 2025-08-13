@@ -1,6 +1,15 @@
 /****************************************************************************************/
-/*   程序名：ol_ftp.h，此程序是开发框架的ftp客户端工具的类的声明文件。                       */
-/*   作者：ol                                                                            */
+/*
+ * 程序名：ol_ftp.h
+ * 功能描述：FTP客户端工具类，基于ftplib实现，支持FTP服务器的各类操作，特性包括：
+ *          - 支持主动/被动模式连接FTP服务器
+ *          - 提供文件上传（put）、下载（get）、删除、重命名等基础操作
+ *          - 支持目录创建、删除、切换及列表获取
+ *          - 提供文件大小、修改时间获取及完整性校验功能
+ *          - 记录操作失败原因（连接失败、登录失败、模式设置失败等）
+ * 作者：ol
+ * 适用标准：C++11及以上（需依赖ftplib库）
+ */
 /****************************************************************************************/
 
 #ifndef __OL_FTP_H
@@ -13,6 +22,7 @@
 namespace ol
 {
 
+    // FTP客户端类，封装FTP服务器的连接及文件操作
     class cftpclient
     {
     private:
@@ -26,91 +36,125 @@ namespace ol
         bool m_loginfailed;   // 如果登录失败，用户名和密码不正确，或没有登录权限，该成员的值为true。
         bool m_optionfailed;  // 如果设置传输模式失败，该成员变量的值为true。
 
-        cftpclient();  // 类的构造函数。
-        ~cftpclient(); // 类的析构函数。
+        // 构造函数
+        cftpclient();
 
+        // 析构函数
+        ~cftpclient();
+
+        // 禁用拷贝构造和赋值（避免连接句柄重复释放）
         cftpclient(const cftpclient&) = delete;
         cftpclient& operator=(const cftpclient) = delete;
 
-        void initdata(); // 初始化m_size和m_mtime成员变量。
+        // 初始化m_size和m_mtime成员变量。
+        void initdata();
 
-        // 登录ftp服务器。
-        // host：ftp服务器ip地址和端口，中间用":"分隔，如"192.168.1.1:21"。
-        // username：登录ftp服务器用户名。
-        // password：登录ftp服务器的密码。
-        // imode：传输模式，1-FTPLIB_PASSIVE是被动模式，2-FTPLIB_PORT是主动模式，缺省是被动模式。
+        /**
+         * 登录FTP服务器
+         * @param host FTP服务器地址和端口（格式："ip:port"，如"192.168.1.1:21"）
+         * @param username 登录用户名
+         * @param password 登录密码
+         * @param imode 传输模式（1-FTPLIB_PASSIVE被动模式，2-FTPLIB_PORT主动模式，默认被动模式）
+         * @return true-登录成功，false-失败（失败原因见m_connectfailed/m_loginfailed/m_optionfailed）
+         */
         bool login(const std::string& host, const std::string& username, const std::string& password, const int imode = FTPLIB_PASSIVE);
 
-        // 注销。
+        /**
+         * 从FTP服务器注销并断开连接
+         * @return true-成功，false-失败
+         */
         bool logout();
 
-        // 获取ftp服务器上文件的时间。
-        // remotefilename：待获取的文件名。
-        // 返回值：false-失败；true-成功，获取到的文件时间存放在m_mtime成员变量中。
+        /**
+         * 获取FTP服务器上文件的修改时间
+         * @param remotefilename 远程文件名
+         * @return true-成功（结果存于m_mtime），false-失败
+         */
         bool mtime(const std::string& remotefilename);
 
-        // 获取ftp服务器上文件的大小。
-        // remotefilename：待获取的文件名。
-        // 返回值：false-失败；true-成功，获取到的文件大小存放在m_size成员变量中。
+        /**
+         * 获取FTP服务器上文件的大小
+         * @param remotefilename 远程文件名
+         * @return true-成功（结果存于m_size），false-失败
+         */
         bool size(const std::string& remotefilename);
 
-        // 改变ftp服务器的当前工作目录。
-        // remotedir：ftp服务器上的目录名。
-        // 返回值：true-成功；false-失败。
+        /**
+         * 切换FTP服务器的当前工作目录
+         * @param remotedir 远程目录名
+         * @return true-成功，false-失败
+         */
         bool chdir(const std::string& remotedir);
 
-        // 在ftp服务器上创建目录。
-        // remotedir：ftp服务器上待创建的目录名。
-        // 返回值：true-成功；false-失败。
+        /**
+         * 在FTP服务器上创建目录
+         * @param remotedir 待创建的远程目录名
+         * @return true-成功，false-失败
+         */
         bool mkdir(const std::string& remotedir);
 
-        // 删除ftp服务器上的目录。
-        // remotedir：ftp服务器上待删除的目录名。
-        // 返回值：true-成功；如果权限不足、目录不存在或目录不为空会返回false。
+        /**
+         * 删除FTP服务器上的目录
+         * @param remotedir 待删除的远程目录名
+         * @return true-成功，false-失败（权限不足、目录不存在或非空）
+         */
         bool rmdir(const std::string& remotedir);
 
-        // 发送NLST命令列出ftp服务器目录中的子目录名和文件名。
-        // remotedir：ftp服务器的目录名。
-        // listfilename：用于保存从服务器返回的目录和文件名列表。
-        // 返回值：true-成功；false-失败。
-        // 注意：如果列出的是ftp服务器当前目录，remotedir用"","*","."都可以，但是，不规范的ftp服务器可能有差别。
+        /**
+         * 列出FTP服务器目录中的文件和子目录（发送NLST命令）
+         * @param remotedir 远程目录名（空串、"*"或"."表示当前目录）
+         * @param listfilename 本地文件路径，用于保存列表结果
+         * @return true-成功，false-失败
+         * @note 如果列出的是ftp服务器当前目录，remotedir用"","*","."都可以，但是，不规范的ftp服务器可能有差别
+         */
         bool nlist(const std::string& remotedir, const std::string& listfilename);
 
-        // 从ftp服务器上获取文件。
-        // remotefilename：待获取ftp服务器上的文件名。
-        // localfilename：保存到本地的文件名。
-        // bcheckmtime：文件传输完成后，是否核对远程文件传输前后的时间，保证文件的完整性。
-        // 返回值：true-成功；false-失败。
-        // 注意：文件在传输的过程中，采用临时文件命名的方法，即在localfilename后加".tmp"，在传输
-        // 完成后才正式改为localfilename。
+        /**
+         * 从FTP服务器下载文件
+         * @param remotefilename 远程文件名
+         * @param localfilename 本地保存路径
+         * @param bcheckmtime 是否校验文件修改时间（确保传输完整性，默认true）
+         * @return true-成功，false-失败
+         * @note 传输过程中使用临时文件（localfilename.tmp），完成后重命名
+         */
         bool get(const std::string& remotefilename, const std::string& localfilename, const bool bcheckmtime = true);
 
-        // 向ftp服务器发送文件。
-        // localfilename：本地待发送的文件名。
-        // remotefilename：发送到ftp服务器上的文件名。
-        // bchecksize：文件传输完成后，是否核对本地文件和远程文件的大小，保证文件的完整性。
-        // 返回值：true-成功；false-失败。
-        // 注意：文件在传输的过程中，采用临时文件命名的方法，即在remotefilename后加".tmp"，在传输
-        // 完成后才正式改为remotefilename。
+        /**
+         * 向FTP服务器上传文件
+         * @param localfilename 本地文件名
+         * @param remotefilename 远程保存路径
+         * @param bchecksize 是否校验文件大小（确保传输完整性，默认true）
+         * @return true-成功，false-失败
+         * @note 传输过程中使用临时文件（remotefilename.tmp），完成后重命名
+         */
         bool put(const std::string& localfilename, const std::string& remotefilename, const bool bchecksize = true);
 
-        // 删除ftp服务器上的文件。
-        // remotefilename：待删除的ftp服务器上的文件名。
-        // 返回值：true-成功；false-失败。
+        /**
+         * 删除FTP服务器上的文件
+         * @param remotefilename 待删除的远程文件名
+         * @return true-成功，false-失败
+         */
         bool ftpdelete(const std::string& remotefilename);
 
-        // 重命名ftp服务器上的文件。
-        // srcremotefilename：ftp服务器上的原文件名。
-        // dstremotefilename：ftp服务器上的目标文件名。
-        // 返回值：true-成功；false-失败。
+        /**
+         * 重命名FTP服务器上的文件
+         * @param srcremotefilename 远程原文件名
+         * @param dstremotefilename 远程目标文件名
+         * @return true-成功，false-失败
+         */
         bool ftprename(const std::string& srcremotefilename, const std::string& dstremotefilename);
 
-        // 向ftp服务器发送site命令。
-        // command：命令的内容。
-        // 返回值：true-成功；false-失败。
+        /**
+         * 向FTP服务器发送SITE命令（站点特定命令）
+         * @param command 命令内容
+         * @return true-成功，false-失败
+         */
         bool site(const std::string& command);
 
-        // 获取服务器最后一次接收响应的返回信息(return a pointer to the last response received)。
+        /**
+         * 获取服务器最后一次响应信息(return a pointer to the last response received)
+         * @return 响应信息字符串指针
+         */
         char* response();
     };
 

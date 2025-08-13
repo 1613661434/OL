@@ -1,11 +1,11 @@
-#include "../include/ol_string.h"
+#include "ol_string.h"
 #include <iostream>
 #include <string.h>
 
 namespace ol
 {
 
-    char* deletelchr(char* str, const int c)
+    char* deletelchr(char* str, const char c)
     {
         if (str == nullptr) return nullptr; // 如果传进来的是空地址，直接返回，防止程序崩溃。
 
@@ -17,7 +17,7 @@ namespace ol
         return str;
     }
 
-    std::string& deletelchr(std::string& str, const int c)
+    std::string& deletelchr(std::string& str, const char c)
     {
         auto pos = str.find_first_not_of(c); // 从字符串的左边查找第一个不是c的字符的位置。
 
@@ -26,7 +26,7 @@ namespace ol
         return str;
     }
 
-    char* deleterchr(char* str, const int c)
+    char* deleterchr(char* str, const char c)
     {
         if (str == nullptr) return nullptr; // 如果传进来的是空地址，直接返回，防止程序崩溃。
 
@@ -45,7 +45,7 @@ namespace ol
         return str;
     }
 
-    std::string& deleterchr(std::string& str, const int c)
+    std::string& deleterchr(std::string& str, const char c)
     {
         auto pos = str.find_last_not_of(c); // 从字符串的右边查找第一个不是c的字符的位置。
 
@@ -54,7 +54,7 @@ namespace ol
         return str;
     }
 
-    char* deletelrchr(char* str, const int c)
+    char* deletelrchr(char* str, const char c)
     {
         deletelchr(str, c);
         deleterchr(str, c);
@@ -62,7 +62,7 @@ namespace ol
         return str;
     }
 
-    std::string& deletelrchr(std::string& str, const int c)
+    std::string& deletelrchr(std::string& str, const char c)
     {
         deletelchr(str, c);
         deleterchr(str, c);
@@ -636,10 +636,10 @@ namespace ol
         return true;
     }
 
-    size_t skmp(const std::string& str, const std::string& substr)
+    size_t skmp(const std::string& str, const std::string& pattern)
     {
         const size_t n = str.size();
-        const size_t m = substr.size();
+        const size_t m = pattern.size();
         if (m == 0) return 0;
 
         // 动态next数组，初始化为未计算状态
@@ -651,7 +651,7 @@ namespace ol
 
         while (i < n)
         {
-            if (str[i] == substr[j])
+            if (str[i] == pattern[j])
             {
                 // 动态计算并缓存next值
                 if (j > 0 && next[j] == SIZE_MAX)
@@ -660,7 +660,7 @@ namespace ol
 
                     // 扩展计算后续可能需要的next值
                     size_t k = j, l = len;
-                    while (++k < m && substr[k] == substr[l])
+                    while (++k < m && pattern[k] == pattern[l])
                     {
                         next[k] = ++l;
                     }
