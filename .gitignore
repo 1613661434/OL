@@ -19,6 +19,7 @@ install_manifest.txt
 .DS_Store          # macOS
 .idea/             # IntelliJ/CLion
 .vscode/           # VS Code
+.vs/               # VS
 *.swp              # Vim临时文件
 *.swo
 *~
