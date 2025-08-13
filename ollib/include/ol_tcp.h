@@ -1,7 +1,20 @@
+/****************************************************************************************/
+/*
+ * ç¨‹åºåï¼šol_tcp.h
+ * åŠŸèƒ½æè¿°ï¼šTCPç½‘ç»œé€šä¿¡å·¥å…·ç±»ï¼Œæä¾›å®¢æˆ·ç«¯å’ŒæœåŠ¡ç«¯çš„ socket é€šä¿¡å®ç°ï¼Œæ”¯æŒä»¥ä¸‹ç‰¹æ€§ï¼š
+ *          - å®¢æˆ·ç«¯ç±»ï¼ˆctcpclientï¼‰ï¼šè´Ÿè´£ä¸æœåŠ¡ç«¯å»ºç«‹è¿æ¥ã€å‘é€/æ¥æ”¶æ•°æ®
+ *          - æœåŠ¡ç«¯ç±»ï¼ˆctcpserverï¼‰ï¼šè´Ÿè´£åˆå§‹åŒ–ç›‘å¬ã€æ¥æ”¶å®¢æˆ·ç«¯è¿æ¥ã€æ•°æ®äº¤äº’
+ *          - é€šç”¨ TCP è¯»å†™å‡½æ•°ï¼šæ”¯æŒæ–‡æœ¬/äºŒè¿›åˆ¶æ•°æ®ï¼Œå¸¦è¶…æ—¶æ§åˆ¶
+ *          - ä»…æ”¯æŒ Linux å¹³å°ï¼ˆä¾èµ– POSIX socket æ¥å£ï¼‰
+ * ä½œè€…ï¼šol
+ * é€‚ç”¨æ ‡å‡†ï¼šC++11åŠä»¥ä¸Šï¼ˆéœ€æ”¯æŒLinuxç³»ç»Ÿè°ƒç”¨ï¼‰
+ */
+/****************************************************************************************/
+
 #ifndef __OL_TCP_H
 #define __OL_TCP_H 1
 
-#include "../include/ol_fstream.h"
+#include "ol_fstream.h"
 #include <iostream>
 #include <signal.h>
 #include <string>
@@ -11,7 +24,7 @@
 #include <netdb.h>
 #include <netinet/in.h>
 #include <poll.h>
-#include <sys/sem.h> // ¶¨Òå SEM_UNDO ³£Á¿ºÍĞÅºÅÁ¿Ïà¹Øº¯Êı
+#include <sys/sem.h> // å®šä¹‰ SEM_UNDO å¸¸é‡å’Œä¿¡å·é‡ç›¸å…³å‡½æ•°
 #include <sys/shm.h>
 #include <sys/socket.h>
 #endif // __linux__
@@ -19,131 +32,164 @@
 namespace ol
 {
 
+    // socketé€šè®¯çš„å‡½æ•°å’Œç±»
     // ===========================================================================
-    // ======================
-    // socketÍ¨Ñ¶µÄº¯ÊıºÍÀà
-    // ======================
 #ifdef __linux__
-    // socketÍ¨Ñ¶µÄ¿Í»§¶ËÀà
+    // TCPå®¢æˆ·ç«¯ç±»ï¼Œç”¨äºä¸æœåŠ¡ç«¯å»ºç«‹è¿æ¥å¹¶è¿›è¡Œæ•°æ®é€šä¿¡
     class ctcpclient
     {
     private:
-        int m_connfd;     // ¿Í»§¶ËµÄsocket.
-        std::string m_ip; // ·şÎñ¶ËµÄipµØÖ·¡£
-        int m_port;       // ·şÎñ¶ËÍ¨Ñ¶µÄ¶Ë¿Ú¡£
+        int m_connfd;     // å®¢æˆ·ç«¯çš„socketæè¿°ç¬¦
+        std::string m_ip; // æœåŠ¡ç«¯çš„ipåœ°å€
+        int m_port;       // æœåŠ¡ç«¯é€šè®¯çš„ç«¯å£
     public:
+        // æ„é€ å‡½æ•°ï¼Œåˆå§‹åŒ–æˆå‘˜å˜é‡
         ctcpclient() : m_connfd(-1), m_port(0)
         {
-        } // ¹¹Ôìº¯Êı¡£
+        }
 
-        // Ïò·şÎñ¶Ë·¢ÆğÁ¬½ÓÇëÇó¡£
-        // ip£º·şÎñ¶ËµÄipµØÖ·¡£
-        // port£º·şÎñ¶ËÍ¨Ñ¶µÄ¶Ë¿Ú¡£
-        // ·µ»ØÖµ£ºtrue-³É¹¦£»false-Ê§°Ü¡£
+        /**
+         * å‘æœåŠ¡ç«¯å‘èµ·è¿æ¥è¯·æ±‚
+         * @param ip æœåŠ¡ç«¯IPåœ°å€ï¼ˆå¦‚"127.0.0.1"ï¼‰
+         * @param port æœåŠ¡ç«¯ç«¯å£å·ï¼ˆ1-65535ï¼‰
+         * @return true-è¿æ¥æˆåŠŸï¼Œfalse-è¿æ¥å¤±è´¥
+         */
         bool connect(const std::string& ip, const int port);
 
-        // ½ÓÊÕ¶Ô¶Ë·¢ËÍ¹ıÀ´µÄÊı¾İ¡£
-        // buffer£º´æ·Å½ÓÊÕÊı¾İ»º³åÇø¡£
-        // ibuflen: ´òËã½ÓÊÕÊı¾İµÄ´óĞ¡¡£
-        // itimeout£ºµÈ´ıÊı¾İµÄ³¬Ê±Ê±¼ä£¨Ãë£©£º-1-²»µÈ´ı£»0-ÎŞÏŞµÈ´ı£»>0-µÈ´ıµÄÃëÊı¡£
-        // ·µ»ØÖµ£ºtrue-³É¹¦£»false-Ê§°Ü£¬Ê§°ÜÓĞÁ½ÖÖÇé¿ö£º1£©µÈ´ı³¬Ê±£»2£©socketÁ¬½ÓÒÑ²»¿ÉÓÃ¡£
-        bool read(std::string& buffer, const int itimeout = 0);             // ½ÓÊÕÎÄ±¾Êı¾İ¡£
-        bool read(void* buffer, const int ibuflen, const int itimeout = 0); // ½ÓÊÕ¶ş½øÖÆÊı¾İ¡£
+        /**
+         * æ¥æ”¶æœåŠ¡ç«¯å‘é€çš„æ•°æ®
+         * @param buffer å­˜å‚¨æ¥æ”¶æ•°æ®çš„ç¼“å†²åŒºï¼ˆå­—ç¬¦ä¸²æˆ–äºŒè¿›åˆ¶æŒ‡é’ˆï¼‰
+         * @param ibuflen è®¡åˆ’æ¥æ”¶çš„å­—èŠ‚æ•°ï¼ˆä»…äºŒè¿›åˆ¶ç‰ˆæœ¬éœ€è¦ï¼‰
+         * @param itimeout è¶…æ—¶æ—¶é—´ï¼ˆç§’ï¼‰ï¼š-1-ä¸ç­‰å¾…ï¼Œ0-æ— é™ç­‰å¾…ï¼Œ>0-æŒ‡å®šç§’æ•°
+         * @return true-æ¥æ”¶æˆåŠŸï¼Œfalse-å¤±è´¥ï¼ˆè¶…æ—¶æˆ–è¿æ¥ä¸å¯ç”¨ï¼‰
+         */
+        bool read(std::string& buffer, const int itimeout = 0);             // æ–‡æœ¬æ•°æ®ç‰ˆæœ¬
+        bool read(void* buffer, const int ibuflen, const int itimeout = 0); // äºŒè¿›åˆ¶æ•°æ®ç‰ˆæœ¬
 
-        // Ïò¶Ô¶Ë·¢ËÍÊı¾İ¡£
-        // buffer£º´ı·¢ËÍÊı¾İ»º³åÇø¡£
-        // ibuflen£º´ı·¢ËÍÊı¾İµÄ´óĞ¡¡£
-        // ·µ»ØÖµ£ºtrue-³É¹¦£»false-Ê§°Ü£¬Èç¹ûÊ§°Ü£¬±íÊ¾socketÁ¬½ÓÒÑ²»¿ÉÓÃ¡£
-        bool write(const std::string& buffer);             // ·¢ËÍÎÄ±¾Êı¾İ¡£
-        bool write(const void* buffer, const int ibuflen); // ·¢ËÍ¶ş½øÖÆÊı¾İ¡£
+        /**
+         * å‘æœåŠ¡ç«¯å‘é€æ•°æ®
+         * @param buffer å¾…å‘é€æ•°æ®ï¼ˆå­—ç¬¦ä¸²æˆ–äºŒè¿›åˆ¶æŒ‡é’ˆï¼‰
+         * @param ibuflen å¾…å‘é€çš„å­—èŠ‚æ•°ï¼ˆä»…äºŒè¿›åˆ¶ç‰ˆæœ¬éœ€è¦ï¼‰
+         * @return true-å‘é€æˆåŠŸï¼Œfalse-å¤±è´¥ï¼ˆè¿æ¥ä¸å¯ç”¨ï¼‰
+         */
+        bool write(const std::string& buffer);             // æ–‡æœ¬æ•°æ®ç‰ˆæœ¬
+        bool write(const void* buffer, const int ibuflen); // äºŒè¿›åˆ¶æ•°æ®ç‰ˆæœ¬
 
-        // ¶Ï¿ªÓë·şÎñ¶ËµÄÁ¬½Ó
+        // æ–­å¼€ä¸æœåŠ¡ç«¯çš„è¿æ¥
         void close();
 
-        ~ctcpclient(); // Îö¹¹º¯Êı×Ô¶¯¹Ø±Õsocket£¬ÊÍ·Å×ÊÔ´¡£
+        // ææ„å‡½æ•°ï¼Œè‡ªåŠ¨å…³é—­socketé‡Šæ”¾èµ„æº
+        ~ctcpclient();
     };
 
-    // socketÍ¨Ñ¶µÄ·şÎñ¶ËÀà
+    // TCPæœåŠ¡ç«¯ç±»ï¼Œç”¨äºç›‘å¬ç«¯å£ã€æ¥æ”¶å®¢æˆ·ç«¯è¿æ¥å¹¶è¿›è¡Œæ•°æ®é€šä¿¡
     class ctcpserver
     {
     private:
-        int m_socklen;                   // ½á¹¹Ìåstruct sockaddr_inµÄ´óĞ¡¡£
-        struct sockaddr_in m_clientaddr; // ¿Í»§¶ËµÄµØÖ·ĞÅÏ¢¡£
-        struct sockaddr_in m_servaddr;   // ·şÎñ¶ËµÄµØÖ·ĞÅÏ¢¡£
-        int m_listenfd;                  // ·şÎñ¶ËÓÃÓÚ¼àÌıµÄsocket¡£
-        int m_connfd;                    // ¿Í»§¶ËÁ¬½ÓÉÏÀ´µÄsocket¡£
+        int m_socklen;                   // ç»“æ„ä½“struct sockaddr_inçš„å¤§å°
+        struct sockaddr_in m_clientaddr; // å®¢æˆ·ç«¯çš„åœ°å€ä¿¡æ¯
+        struct sockaddr_in m_servaddr;   // æœåŠ¡ç«¯çš„åœ°å€ä¿¡æ¯
+        int m_listenfd;                  // ç›‘å¬socketæè¿°ç¬¦
+        int m_connfd;                    // å®¢æˆ·ç«¯è¿æ¥socketæè¿°ç¬¦
     public:
+        // æ„é€ å‡½æ•°ï¼Œåˆå§‹åŒ–æˆå‘˜å˜é‡
         ctcpserver() : m_listenfd(-1), m_connfd(-1)
         {
-        } // ¹¹Ôìº¯Êı¡£
+        }
 
-        // ·şÎñ¶Ë³õÊ¼»¯¡£
-        // port£ºÖ¸¶¨·şÎñ¶ËÓÃÓÚ¼àÌıµÄ¶Ë¿Ú¡£
-        // backlog£ºÖ¸¶¨Î´Íê³ÉÁ¬½Ó¶ÓÁĞµÄ×î´ó³¤¶È£¬Ä¬ÈÏÎª5¡£
-        // ·µ»ØÖµ£ºtrue-³É¹¦£»false-Ê§°Ü£¬Ò»°ãÇé¿öÏÂ£¬Ö»ÒªportÉèÖÃÕıÈ·£¬Ã»ÓĞ±»Õ¼ÓÃ£¬³õÊ¼»¯¶¼»á³É¹¦¡£
+        /**
+         * åˆå§‹åŒ–æœåŠ¡ç«¯ï¼ˆåˆ›å»ºç›‘å¬socketå¹¶ç»‘å®šç«¯å£ï¼‰
+         * @param port æœåŠ¡ç«¯ç›‘å¬ç«¯å£ï¼ˆ1-65535ï¼‰
+         * @param backlog æœªå®Œæˆè¿æ¥é˜Ÿåˆ—çš„æœ€å¤§é•¿åº¦ï¼ˆé»˜è®¤5ï¼‰
+         * @return true-åˆå§‹åŒ–æˆåŠŸï¼Œfalse-å¤±è´¥ï¼ˆç«¯å£è¢«å ç”¨ç­‰ï¼‰
+         */
         bool initserver(const unsigned int port, const int backlog = 5);
 
-        // ´ÓÒÑÁ¬½Ó¶ÓÁĞÖĞ»ñÈ¡Ò»¸ö¿Í»§¶ËÁ¬½Ó£¬Èç¹ûÒÑÁ¬½Ó¶ÓÁĞÎª¿Õ£¬½«×èÈûµÈ´ı¡£
-        // ·µ»ØÖµ£ºtrue-³É¹¦µÄ»ñÈ¡ÁËÒ»¸ö¿Í»§¶ËÁ¬½Ó£¬false-Ê§°Ü£¬Èç¹ûacceptÊ§°Ü£¬¿ÉÒÔÖØĞÂaccept¡£
+        /**
+         * æ¥æ”¶å®¢æˆ·ç«¯è¿æ¥ï¼ˆä»è¿æ¥é˜Ÿåˆ—ä¸­è·å–ï¼‰
+         * @return true-è·å–è¿æ¥æˆåŠŸï¼Œfalse-å¤±è´¥ï¼ˆå¯é‡è¯•ï¼‰
+         * @note è‹¥è¿æ¥é˜Ÿåˆ—ä¸ºç©ºï¼Œå°†é˜»å¡ç­‰å¾…
+         */
         bool accept();
 
-        // »ñÈ¡¿Í»§¶ËµÄipµØÖ·¡£
-        // ·µ»ØÖµ£º¿Í»§¶ËµÄipµØÖ·£¬Èç"192.168.1.100"¡£
+        /**
+         * è·å–å½“å‰è¿æ¥çš„å®¢æˆ·ç«¯IPåœ°å€
+         * @return å®¢æˆ·ç«¯IPåœ°å€å­—ç¬¦ä¸²ï¼ˆå¦‚"192.168.1.100"ï¼‰
+         */
         char* getip();
 
-        // ½ÓÊÕ¶Ô¶Ë·¢ËÍ¹ıÀ´µÄÊı¾İ¡£
-        // buffer£º´æ·Å½ÓÊÕÊı¾İµÄ»º³åÇø¡£
-        // ibuflen: ´òËã½ÓÊÕÊı¾İµÄ´óĞ¡¡£
-        // itimeout£ºµÈ´ıÊı¾İµÄ³¬Ê±Ê±¼ä£¨Ãë£©£º-1-²»µÈ´ı£»0-ÎŞÏŞµÈ´ı£»>0-µÈ´ıµÄÃëÊı¡£
-        // ·µ»ØÖµ£ºtrue-³É¹¦£»false-Ê§°Ü£¬Ê§°ÜÓĞÁ½ÖÖÇé¿ö£º1£©µÈ´ı³¬Ê±£»2£©socketÁ¬½ÓÒÑ²»¿ÉÓÃ¡£
-        bool read(std::string& buffer, const int itimeout = 0);             // ½ÓÊÕÎÄ±¾Êı¾İ¡£
-        bool read(void* buffer, const int ibuflen, const int itimeout = 0); // ½ÓÊÕ¶ş½øÖÆÊı¾İ¡£
+        /**
+         * æ¥æ”¶å®¢æˆ·ç«¯å‘é€çš„æ•°æ®
+         * @param buffer å­˜å‚¨æ¥æ”¶æ•°æ®çš„ç¼“å†²åŒºï¼ˆå­—ç¬¦ä¸²æˆ–äºŒè¿›åˆ¶æŒ‡é’ˆï¼‰
+         * @param ibuflen è®¡åˆ’æ¥æ”¶çš„å­—èŠ‚æ•°ï¼ˆä»…äºŒè¿›åˆ¶ç‰ˆæœ¬éœ€è¦ï¼‰
+         * @param itimeout è¶…æ—¶æ—¶é—´ï¼ˆç§’ï¼‰ï¼š-1-ä¸ç­‰å¾…ï¼Œ0-æ— é™ç­‰å¾…ï¼Œ>0-æŒ‡å®šç§’æ•°
+         * @return true-æ¥æ”¶æˆåŠŸï¼Œfalse-å¤±è´¥ï¼ˆè¶…æ—¶æˆ–è¿æ¥ä¸å¯ç”¨ï¼‰
+         */
+        bool read(std::string& buffer, const int itimeout = 0);             // æ–‡æœ¬æ•°æ®ç‰ˆæœ¬
+        bool read(void* buffer, const int ibuflen, const int itimeout = 0); // äºŒè¿›åˆ¶æ•°æ®ç‰ˆæœ¬
 
-        // Ïò¶Ô¶Ë·¢ËÍÊı¾İ¡£
-        // buffer£º´ı·¢ËÍÊı¾İ»º³åÇø¡£
-        // ibuflen£º´ı·¢ËÍÊı¾İµÄ´óĞ¡¡£
-        // ·µ»ØÖµ£ºtrue-³É¹¦£»false-Ê§°Ü£¬Èç¹ûÊ§°Ü£¬±íÊ¾socketÁ¬½ÓÒÑ²»¿ÉÓÃ¡£
-        bool write(const std::string& buffer);             // ·¢ËÍÎÄ±¾Êı¾İ¡£
-        bool write(const void* buffer, const int ibuflen); // ·¢ËÍ¶ş½øÖÆÊı¾İ¡£
+        /**
+         * å‘å®¢æˆ·ç«¯å‘é€æ•°æ®
+         * @param buffer å¾…å‘é€æ•°æ®ï¼ˆå­—ç¬¦ä¸²æˆ–äºŒè¿›åˆ¶æŒ‡é’ˆï¼‰
+         * @param ibuflen å¾…å‘é€çš„å­—èŠ‚æ•°ï¼ˆä»…äºŒè¿›åˆ¶ç‰ˆæœ¬éœ€è¦ï¼‰
+         * @return true-å‘é€æˆåŠŸï¼Œfalse-å¤±è´¥ï¼ˆè¿æ¥ä¸å¯ç”¨ï¼‰
+         */
+        bool write(const std::string& buffer);             // æ–‡æœ¬æ•°æ®ç‰ˆæœ¬
+        bool write(const void* buffer, const int ibuflen); // äºŒè¿›åˆ¶æ•°æ®ç‰ˆæœ¬
 
-        // ¹Ø±Õ¼àÌıµÄsocket£¬¼´m_listenfd£¬³£ÓÃÓÚ¶à½ø³Ì·şÎñ³ÌĞòµÄ×Ó½ø³Ì´úÂëÖĞ¡£
+        /**
+         * å…³é—­ç›‘å¬socketï¼ˆm_listenfdï¼‰
+         * @note å¸¸ç”¨äºå¤šè¿›ç¨‹æœåŠ¡çš„å­è¿›ç¨‹ä¸­
+         */
         void closelisten();
 
-        // ¹Ø±Õ¿Í»§¶ËµÄsocket£¬¼´m_connfd£¬³£ÓÃÓÚ¶à½ø³Ì·şÎñ³ÌĞòµÄ¸¸½ø³Ì´úÂëÖĞ¡£
+        /**
+         * å…³é—­å®¢æˆ·ç«¯è¿æ¥socketï¼ˆm_connfdï¼‰
+         * @note å¸¸ç”¨äºå¤šè¿›ç¨‹æœåŠ¡çš„çˆ¶è¿›ç¨‹ä¸­
+         */
         void closeclient();
 
-        ~ctcpserver(); // Îö¹¹º¯Êı×Ô¶¯¹Ø±Õsocket£¬ÊÍ·Å×ÊÔ´¡£
+        // ææ„å‡½æ•°ï¼Œè‡ªåŠ¨å…³é—­socketé‡Šæ”¾èµ„æº
+        ~ctcpserver();
     };
 
-    // ½ÓÊÕsocketµÄ¶Ô¶Ë·¢ËÍ¹ıÀ´µÄÊı¾İ¡£
-    // sockfd£º¿ÉÓÃµÄsocketÁ¬½Ó¡£
-    // buffer£º½ÓÊÕÊı¾İ»º³åÇøµÄµØÖ·¡£
-    // ibuflen£º±¾´Î³É¹¦½ÓÊÕÊı¾İµÄ×Ö½ÚÊı¡£
-    // itimeout£º¶ÁÈ¡Êı¾İ³¬Ê±µÄÊ±¼ä£¬µ¥Î»£ºÃë£¬-1-²»µÈ´ı£»0-ÎŞÏŞµÈ´ı£»>0-µÈ´ıµÄÃëÊı¡£
-    // ·µ»ØÖµ£ºtrue-³É¹¦£»false-Ê§°Ü£¬Ê§°ÜÓĞÁ½ÖÖÇé¿ö£º1£©µÈ´ı³¬Ê±£»2£©socketÁ¬½ÓÒÑ²»¿ÉÓÃ¡£
-    bool tcpread(const int sockfd, std::string& buffer, const int itimeout = 0);             // ¶ÁÈ¡ÎÄ±¾Êı¾İ¡£
-    bool tcpread(const int sockfd, void* buffer, const int ibuflen, const int itimeout = 0); // ¶ÁÈ¡¶ş½øÖÆÊı¾İ¡£
+    /**
+     * ä»TCP socketè¯»å–æ•°æ®
+     * @param sockfd å·²è¿æ¥çš„socketæè¿°ç¬¦
+     * @param buffer å­˜å‚¨æ¥æ”¶æ•°æ®çš„ç¼“å†²åŒºï¼ˆå­—ç¬¦ä¸²æˆ–äºŒè¿›åˆ¶æŒ‡é’ˆï¼‰
+     * @param ibuflen è®¡åˆ’æ¥æ”¶çš„å­—èŠ‚æ•°ï¼ˆä»…äºŒè¿›åˆ¶ç‰ˆæœ¬éœ€è¦ï¼‰
+     * @param itimeout è¶…æ—¶æ—¶é—´ï¼ˆç§’ï¼‰
+     * @return true-æ¥æ”¶æˆåŠŸï¼Œfalse-å¤±è´¥ï¼ˆè¶…æ—¶æˆ–è¿æ¥ä¸å¯ç”¨ï¼‰
+     */
+    bool tcpread(const int sockfd, std::string& buffer, const int itimeout = 0);             // æ–‡æœ¬æ•°æ®ç‰ˆæœ¬
+    bool tcpread(const int sockfd, void* buffer, const int ibuflen, const int itimeout = 0); // äºŒè¿›åˆ¶æ•°æ®ç‰ˆæœ¬
 
-    // ÏòsocketµÄ¶Ô¶Ë·¢ËÍÊı¾İ¡£
-    // sockfd£º¿ÉÓÃµÄsocketÁ¬½Ó¡£
-    // buffer£º´ı·¢ËÍÊı¾İ»º³åÇøµÄµØÖ·¡£
-    // ibuflen£º´ı·¢ËÍÊı¾İµÄ×Ö½ÚÊı¡£
-    // ·µ»ØÖµ£ºtrue-³É¹¦£»false-Ê§°Ü£¬Èç¹ûÊ§°Ü£¬±íÊ¾socketÁ¬½ÓÒÑ²»¿ÉÓÃ¡£
-    bool tcpwrite(const int sockfd, const std::string& buffer);             // Ğ´ÈëÎÄ±¾Êı¾İ¡£
-    bool tcpwrite(const int sockfd, const void* buffer, const int ibuflen); // Ğ´Èë¶ş½øÖÆÊı¾İ¡£
+    /**
+     * å‘TCP socketå‘é€æ•°æ®
+     * @param sockfd å·²è¿æ¥çš„socketæè¿°ç¬¦
+     * @param buffer å¾…å‘é€æ•°æ®ï¼ˆå­—ç¬¦ä¸²æˆ–äºŒè¿›åˆ¶æŒ‡é’ˆï¼‰
+     * @param ibuflen å¾…å‘é€çš„å­—èŠ‚æ•°ï¼ˆä»…äºŒè¿›åˆ¶ç‰ˆæœ¬éœ€è¦ï¼‰
+     * @return true-å‘é€æˆåŠŸï¼Œfalse-å¤±è´¥ï¼ˆè¿æ¥ä¸å¯ç”¨ï¼‰
+     */
+    bool tcpwrite(const int sockfd, const std::string& buffer);             // æ–‡æœ¬æ•°æ®ç‰ˆæœ¬
+    bool tcpwrite(const int sockfd, const void* buffer, const int ibuflen); // äºŒè¿›åˆ¶æ•°æ®ç‰ˆæœ¬
 
-    // ´ÓÒÑ¾­×¼±¸ºÃµÄsocketÖĞ¶ÁÈ¡Êı¾İ¡£
-    // sockfd£ºÒÑ¾­×¼±¸ºÃµÄsocketÁ¬½Ó¡£
-    // buffer£º´æ·ÅÊı¾İµÄµØÖ·¡£
-    // n£º±¾´Î´òËã¶ÁÈ¡Êı¾İµÄ×Ö½ÚÊı¡£
-    // ·µ»ØÖµ£º³É¹¦½ÓÊÕµ½n×Ö½ÚµÄÊı¾İºó·µ»Øtrue£¬socketÁ¬½Ó²»¿ÉÓÃ·µ»Øfalse¡£
+    /**
+     * ä»å°±ç»ªçš„socketè¯»å–æŒ‡å®šé•¿åº¦çš„äºŒè¿›åˆ¶æ•°æ®
+     * @param sockfd å·²å°±ç»ªçš„socketæè¿°ç¬¦
+     * @param buffer å­˜å‚¨æ•°æ®çš„ç¼“å†²åŒº
+     * @param n è®¡åˆ’è¯»å–çš„å­—èŠ‚æ•°
+     * @return true-æˆåŠŸè¯»å–nå­—èŠ‚ï¼Œfalse-è¿æ¥ä¸å¯ç”¨
+     */
     bool readn(const int sockfd, char* buffer, const size_t n);
 
-    // ÏòÒÑ¾­×¼±¸ºÃµÄsocketÖĞĞ´ÈëÊı¾İ¡£
-    // sockfd£ºÒÑ¾­×¼±¸ºÃµÄsocketÁ¬½Ó¡£
-    // buffer£º´ıĞ´ÈëÊı¾İµÄµØÖ·¡£
-    // n£º´ıĞ´ÈëÊı¾İµÄ×Ö½ÚÊı¡£
-    // ·µ»ØÖµ£º³É¹¦Ğ´ÈëÍên×Ö½ÚµÄÊı¾İºó·µ»Øtrue£¬socketÁ¬½Ó²»¿ÉÓÃ·µ»Øfalse¡£
+    /**
+     * å‘å°±ç»ªçš„socketå†™å…¥æŒ‡å®šé•¿åº¦çš„äºŒè¿›åˆ¶æ•°æ®
+     * @param sockfd å·²å°±ç»ªçš„socketæè¿°ç¬¦
+     * @param buffer å¾…å†™å…¥çš„æ•°æ®ç¼“å†²åŒº
+     * @param n å¾…å†™å…¥çš„å­—èŠ‚æ•°
+     * @return true-æˆåŠŸå†™å…¥nå­—èŠ‚ï¼Œfalse-è¿æ¥ä¸å¯ç”¨
+     */
     bool writen(const int sockfd, const char* buffer, const size_t n);
     // ===========================================================================
 #endif // __linux__

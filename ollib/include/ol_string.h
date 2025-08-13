@@ -26,135 +26,74 @@ namespace ol
 
     // ===========================================================================
     /**
-     * 删除字符串左边指定字符（C字符串版本）
-     * @param str 待处理的C字符串（会被直接修改）
+     * 删除字符串左边指定字符
+     * @param str 待处理的字符串（C字符串会被直接修改，std::string为引用）
      * @param c 要删除的字符（默认空格' '）
-     * @return 修改后的字符串指针
+     * @return 修改后的字符串（C字符串返回指针，std::string返回引用）
      */
-    char* deletelchr(char* str, const char c = ' ');
+    char* deletelchr(char* str, const char c = ' ');               // C字符串版本
+    std::string& deletelchr(std::string& str, const char c = ' '); // std::string版本
 
     /**
-     * 删除字符串左边指定字符（std::string版本）
-     * @param str 待处理的字符串引用
+     * 删除字符串右边指定字符
+     * @param str 待处理的字符串（C字符串会被直接修改，std::string为引用）
      * @param c 要删除的字符（默认空格' '）
-     * @return 修改后的字符串引用
+     * @return 修改后的字符串（C字符串返回指针，std::string返回引用）
      */
-    std::string& deletelchr(std::string& str, const char c = ' ');
+    char* deleterchr(char* str, const char c = ' ');               // C字符串版本
+    std::string& deleterchr(std::string& str, const char c = ' '); // std::string版本
 
     /**
-     * 删除字符串右边指定字符（C字符串版本）
-     * @param str 待处理的C字符串（会被直接修改）
+     * 删除字符串左右两边指定字符
+     * @param str 待处理的字符串（C字符串会被直接修改，std::string为引用）
      * @param c 要删除的字符（默认空格' '）
-     * @return 修改后的字符串指针
+     * @return 修改后的字符串（C字符串返回指针，std::string返回引用）
      */
-    char* deleterchr(char* str, const char c = ' ');
+    char* deletelrchr(char* str, const char c = ' ');               // C字符串版本
+    std::string& deletelrchr(std::string& str, const char c = ' '); // std::string版本
 
     /**
-     * 删除字符串右边指定字符（std::string版本）
-     * @param str 待处理的字符串引用
-     * @param c 要删除的字符（默认空格' '）
-     * @return 修改后的字符串引用
+     * 将字符串中的小写字母转换为大写（非字母字符不变）
+     * @param str 待转换的字符串（C字符串会被直接修改，std::string为引用）
+     * @return 修改后的字符串（C字符串返回指针，std::string返回引用）
      */
-    std::string& deleterchr(std::string& str, const char c = ' ');
+    char* toupper(char* str);               // C字符串版本
+    std::string& toupper(std::string& str); // std::string版本
 
     /**
-     * 删除字符串左右两边指定字符（C字符串版本）
-     * @param str 待处理的C字符串（会被直接修改）
-     * @param c 要删除的字符（默认空格' '）
-     * @return 修改后的字符串指针
+     * 将字符串中的大写字母转换为小写（非字母字符不变）
+     * @param str 待转换的字符串（C字符串会被直接修改，std::string为引用）
+     * @return 修改后的字符串（C字符串返回指针，std::string返回引用）
      */
-    char* deletelrchr(char* str, const char c = ' ');
+    char* tolower(char* str);               // C字符串版本
+    std::string& tolower(std::string& str); // std::string版本
 
     /**
-     * 删除字符串左右两边指定字符（std::string版本）
-     * @param str 待处理的字符串引用
-     * @param c 要删除的字符（默认空格' '）
-     * @return 修改后的字符串引用
-     */
-    std::string& deletelrchr(std::string& str, const char c = ' ');
-
-    /**
-     * 将字符串中的小写字母转换为大写（C字符串版本）
-     * @param str 待转换的C字符串（会被直接修改）
-     * @return 修改后的字符串指针（非字母字符不变）
-     */
-    char* toupper(char* str);
-
-    /**
-     * 将字符串中的小写字母转换为大写（std::string版本）
-     * @param str 待转换的字符串引用
-     * @return 修改后的字符串引用（非字母字符不变）
-     */
-    std::string& toupper(std::string& str);
-
-    /**
-     * 将字符串中的大写字母转换为小写（C字符串版本）
-     * @param str 待转换的C字符串（会被直接修改）
-     * @return 修改后的字符串指针（非字母字符不变）
-     */
-    char* tolower(char* str);
-
-    /**
-     * 将字符串中的大写字母转换为小写（std::string版本）
-     * @param str 待转换的字符串引用
-     * @return 修改后的字符串引用（非字母字符不变）
-     */
-    std::string& tolower(std::string& str);
-
-    /**
-     * 字符串替换（C字符串版本）
-     * @param str 待处理的C字符串（会被直接修改）
+     * 字符串替换
+     * @param str 待处理的字符串（C字符串会被直接修改，std::string为引用）
      * @param str1 要替换的旧子串
      * @param str2 替换的新子串
      * @param bloop 是否循环替换（默认false）
      * @return true-替换成功，false-替换失败（如存在逻辑错误）
-     * @note 1、如果str2比str1要长，替换后str会变长，所以必须保证str有足够的空间，否则内存会溢出（C++风格字符串不存在这个问题）。
-     *       2、如果str2中包含了str1的内容，且bloop为true，这种做法存在逻辑错误，replacestr将什么也不做。
-     *       3、如果str2为空，表示删除str中str1的内容。
+     * @note 1、如果str2比str1要长，替换后str会变长，C字符串需保证足够空间（std::string无此问题）。
+     *       2、如果str2中包含str1且bloop为true，存在逻辑错误，函数将不执行操作。
+     *       3、如果str2为空，表示删除str中所有str1的内容。
      */
-    bool replacestr(char* str, const std::string& str1, const std::string& str2, const bool bloop = false);
+    bool replacestr(char* str, const std::string& str1, const std::string& str2, const bool bloop = false);        // C字符串版本
+    bool replacestr(std::string& str, const std::string& str1, const std::string& str2, const bool bloop = false); // std::string版本
 
     /**
-     * 字符串替换（std::string版本）
-     * @param str 待处理的字符串引用
-     * @param str1 要替换的旧子串
-     * @param str2 替换的新子串
-     * @param bloop 是否循环替换（默认false）
-     * @return true-替换成功，false-替换失败（如存在逻辑错误）
-     * @note 1、如果str2比str1要长，替换后str会变长，所以必须保证str有足够的空间，否则内存会溢出（C++风格字符串不存在这个问题）。
-     *       2、如果str2中包含了str1的内容，且bloop为true，这种做法存在逻辑错误，replacestr将什么也不做。
-     *       3、如果str2为空，表示删除str中str1的内容。
-     */
-    bool replacestr(std::string& str, const std::string& str1, const std::string& str2, const bool bloop = false);
-
-    /**
-     * 从字符串中提取数字相关字符（C字符串输出版本）
+     * 从字符串中提取数字相关字符
      * @param src 源字符串
-     * @param dest 目标C字符串（存储提取结果）
+     * @param dest 存储结果的目标变量（C字符串/ std::string引用，仅前两个版本需要）
      * @param bsigned 是否提取符号（+/-，默认false）
      * @param bdot 是否提取小数点（.，默认false）
-     * @return 目标字符串指针（src和dest可相同）
+     * @return 提取结果（C字符串返回指针，std::string返回引用或新字符串）
+     * @note src和dest可指向同一变量（前两个版本）
      */
-    char* picknumber(const std::string& src, char* dest, const bool bsigned = false, const bool bdot = false);
-
-    /**
-     * 从字符串中提取数字相关字符（std::string输出版本）
-     * @param src 源字符串
-     * @param dest 目标字符串引用（存储提取结果）
-     * @param bsigned 是否提取符号（+/-，默认false）
-     * @param bdot 是否提取小数点（.，默认false）
-     * @return 目标字符串引用
-     */
-    std::string& picknumber(const std::string& src, std::string& dest, const bool bsigned = false, const bool bdot = false);
-
-    /**
-     * 从字符串中提取数字相关字符（返回新字符串版本）
-     * @param src 源字符串
-     * @param bsigned 是否提取符号（+/-，默认false）
-     * @param bdot 是否提取小数点（.，默认false）
-     * @return 提取结果的新字符串
-     */
-    std::string picknumber(const std::string& src, const bool bsigned = false, const bool bdot = false);
+    char* picknumber(const std::string& src, char* dest, const bool bsigned = false, const bool bdot = false);               // C字符串输出版本
+    std::string& picknumber(const std::string& src, std::string& dest, const bool bsigned = false, const bool bdot = false); // std::string输出版本
+    std::string picknumber(const std::string& src, const bool bsigned = false, const bool bdot = false);                     // 返回新字符串版本
 
     /**
      * 正则匹配字符串（支持通配符*，匹配多个任意字符）
@@ -203,11 +142,6 @@ namespace ol
         {
             return m_cmdstr[i];
         }
-
-        // 把字符串拆分到m_cmdstr容器中，注意：空字符串也会存入，如：",asd"，分隔符为","，结果：[0]=""，[1]="asd"。
-        // buffer：待拆分的字符串。
-        // sepstr：buffer中采用的分隔符，注意，sepstr参数的数据类型不是字符，是字符串，如","、" "、"|"、"~!~"。
-        // bdelspace：拆分后是否删除字段内容前后的空格，true-删除；false-不删除，缺省不删除。
 
         /**
          * 拆分字符串并存储到内部容器
@@ -258,18 +192,6 @@ namespace ol
     // ===========================================================================
 
     // ===========================================================================
-    // 解析xml格式字符串的函数族。
-    // xml格式的字符串的内容如下：
-    // <filename>/tmp/_public.h</filename><mtime>2020-01-01 12:20:35</mtime><size>18348</size>
-    // <filename>/tmp/_public.cpp</filename><mtime>2020-01-01 10:10:15</mtime><size>50945</size>
-    // xmlbuffer：待解析的xml格式字符串。
-    // fieldname：字段的标签名。
-    // value：传入变量的地址，用于存放字段内容，支持bool、int、insigned int、long、
-    //       unsigned long、double和char[]。
-    // 注意：当value参数的数据类型为char []时，必须保证value数组的内存足够，否则可能发生内存溢出的问题，
-    //           也可以用len参数限定获取字段内容的长度，len的缺省值为0，表示不限长度。
-    // 返回值：true-成功；如果fieldname参数指定的标签名不存在，返回失败。
-
     /**
      * 解析XML格式字符串，提取指定标签的内容并转换为目标类型
      * @param xmlbuffer 待解析的XML格式字符串（如"<tag>value</tag>..."）
