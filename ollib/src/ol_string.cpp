@@ -480,9 +480,6 @@ namespace ol
         if (endp == std::string::npos) return false;
 
         // 从xml中截取数据项的内容。
-        // 视频中是以下代码：
-        // value=xmlbuffer.substr(startp+start.length(),endp-startp-start.length());
-        // 改为：
         size_t itmplen = endp - startp - start.length();
         if ((len > 0) && (len < itmplen)) itmplen = len;
         value = xmlbuffer.substr(startp + start.length(), itmplen);
