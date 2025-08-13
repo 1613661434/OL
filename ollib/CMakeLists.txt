@@ -74,4 +74,4 @@ set_target_properties(ol_shared PROPERTIES
 add_library(ol ALIAS ol_static)
 
 # 引入测试目录
-# add_subdirectory(test)
+add_subdirectory(test)

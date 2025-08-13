@@ -70,10 +70,10 @@ int main()
     for (const auto& key : match2) std::cout << key << " "; // banana
     std::cout << std::endl;
 
-    std::string pattern3 = "......."; // 7个字符（测试边界）
+    std::string pattern3 = "..........."; // 11个字符（测试边界）
     auto match3 = trie.keysByPattern(pattern3);
     std::cout << "Keys matching '" << pattern3 << "': ";
-    for (const auto& key : match3) std::cout << key << " "; // application（长度7）
+    for (const auto& key : match3) std::cout << key << " "; // application（长度11）
     std::cout << std::endl;
 
     return 0;
