@@ -1,8 +1,13 @@
 /*
  * 程序名：test_fifo_receiver.cpp，命名管道的接收端
  * 作者：ol
- * 功能：从命名管道读取数据并显示
+ * 功能：从命名管道读取数据并显示（仅支持Linux）
  */
+
+#if !defined(__linux__)
+#error "test_fifo_receiver.cpp 仅支持Linux平台，不支持当前系统！"
+#endif
+
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>

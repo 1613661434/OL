@@ -2,6 +2,11 @@
  *  程序名：test_ol_ipcANDol_cqueue-o-PCM_C.cpp，此程序演示生产者-消费者模型的消费者。
  *  作者：ol
  */
+
+#if !defined(__linux__)
+#error "test_fifo_receiver.cpp 仅支持Linux平台，不支持当前系统！"
+#endif
+
 #include "ol_public.h"
 #include <iostream>
 

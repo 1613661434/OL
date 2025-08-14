@@ -2,6 +2,11 @@
  *  程序名：test_ol_tcp_ctcpclient.cpp，此程序演示采用开发框架的ctcpclient类传输文本数据（网络通讯的客户端）
  *  作者：ol
  */
+
+#if !defined(__linux__)
+#error "test_fifo_receiver.cpp 仅支持Linux平台，不支持当前系统！"
+#endif
+
 #include "ol_tcp.h"
 
 using namespace ol;

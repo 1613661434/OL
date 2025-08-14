@@ -1,8 +1,13 @@
 /*
  * 程序名：test_fifo_sender.cpp，命名管道的发送端
  * 作者：ol
- * 功能：创建命名管道并向其写入数据
+ * 功能：创建命名管道并向其写入数据（仅支持Linux）
  */
+
+#if !defined(__linux__)
+#error "test_fifo_receiver.cpp 仅支持Linux平台，不支持当前系统！"
+#endif
+
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -75,3 +80,5 @@ int main()
 
     return 0;
 }
+
+#endif // __linux__

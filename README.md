@@ -33,7 +33,7 @@ std::string& deleteLRchr(std::string& str, const char c = ' ');
 
 ### 基础依赖
 - CMake 3.10+
-- C++17 兼容编译器（GCC 8+/Clang 7+/MSVC 2019+）
+- C++17 兼容编译器（GCC 8+/Clang 7+/MSVC 2019+/MinGW 8+）
 
 ### 模块特定依赖
 1. **`oldblib/oracle` 依赖**  
@@ -62,8 +62,9 @@ std::string& deleteLRchr(std::string& str, const char c = ' ');
 git clone https://github.com/1613661434/OL.git
 cd OL
 
-# 创建构建目录
-mkdir build && cd build
+# 创建构建目录并进入
+mkdir build
+cd build
 
 # 生成 Makefile（Oracle 路径通过 ORACLE_HOME 自动识别，ftplib 已内置）
 cmake ..
@@ -84,8 +85,9 @@ make -j4
 git clone https://github.com/1613661434/OL.git
 cd OL
 
-# 创建构建目录
-mkdir build && cd build
+# 创建构建目录并进入
+mkdir build
+cd build
 
 # 生成 Visual Studio 项目（以 VS2022 为例，Oracle 依赖通过 ORACLE_HOME 识别）
 cmake .. -G "Visual Studio 17 2022" -A x64
@@ -99,12 +101,42 @@ msbuild OL.sln /p:Configuration=Release /p:Platform=x64 /m
 # - 测试程序：各自 test/bin/ 目录下
 ```
 
-## 注意事项
+### Windows（MinGW）
 
-- 若仅需使用部分模块，可在 CMake 中通过选项关闭：  
-  ```bash
-  cmake .. -DBUILD_ORACLE_MODULE=OFF  # 关闭 Oracle 模块
-  cmake .. -DBUILD_FTP_MODULE=OFF     # 关闭 FTP 模块（含内置 ftplib）
+#### 前置条件
+- 安装 MinGW 编译器（推荐 MinGW-w64，支持 64 位系统，需包含 `g++`、`mingw32-make` 工具）
+- 确保 MinGW 的 `bin` 目录（如 `D:\MinGW\bin`）已添加到系统环境变量 `PATH`，可通过 `g++ --version` 验证是否安装成功
+
+#### 编译步骤
+```powershell
+# 克隆仓库
+git clone https://github.com/1613661434/OL.git
+cd OL
+
+# 创建构建目录并进入
+mkdir build
+cd build
+
+# 生成 MinGW Makefile（指定生成器为 MinGW Makefiles）
+cmake .. -G "MinGW Makefiles"
+
+# 编译（-j 指定并行任务数，加速编译）
+mingw32-make -j4
+
+# 输出路径
+# - 静态库：lib/win32/static/（扩展名为 .a，如 libol.a）
+# - 动态库：lib/win32/shared/（扩展名为 .dll，如 ol.dll）
+# - 测试程序：各自 test/bin/win32/ 目录下（仅包含 Windows 兼容的测试程序）
+```
+
+#### 注意事项
+- MinGW 编译的静态库默认以 `.a` 为扩展名（与 Linux 一致），动态库以 `.dll` 为扩展名（Windows 原生格式）
+- 若需关闭特定模块（如 FTP 或 Oracle），可在 cmake 命令中添加选项：
+  ```powershell
+  cmake .. -G "MinGW Makefiles" -DBUILD_FTP_MODULE=OFF  # 关闭 FTP 模块
   ```
+- 部分 Linux 特有测试程序（如基于命名管道的 `test_fifo_*`）会被自动过滤，不参与 Windows 平台编译
+
+## 注意事项
 - `third_party/ftplib` 为项目内置依赖，请勿随意修改目录结构，如需更新 ftplib 版本，建议直接替换该目录下的文件并保持路径一致。
 - 跨平台编译时，确保 Oracle 客户端的平台版本与目标平台一致（如 Windows 用 x64 库，Linux 用 x86_64 库）。

@@ -7,6 +7,7 @@
  *          - 支持目录创建、删除、切换及列表获取
  *          - 提供文件大小、修改时间获取及完整性校验功能
  *          - 记录操作失败原因（连接失败、登录失败、模式设置失败等）
+ *          - 仅支持 Linux 平台
  * 作者：ol
  * 适用标准：C++11及以上（需依赖ftplib库）
  */
@@ -15,13 +16,16 @@
 #ifndef __OL_FTP_H
 #define __OL_FTP_H 1
 
+#ifdef __linux__
 #include "ftplib.h"
 #include "ol_chrono.h"
 #include "ol_fstream.h"
+#endif // __linux__
 
 namespace ol
 {
 
+#ifdef __linux__
     // FTP客户端类，封装FTP服务器的连接及文件操作
     class cftpclient
     {
@@ -157,6 +161,7 @@ namespace ol
          */
         char* response();
     };
+#endif // __linux__
 
 } // namespace ol
 

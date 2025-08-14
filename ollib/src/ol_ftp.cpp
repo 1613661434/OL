@@ -8,6 +8,7 @@
 namespace ol
 {
 
+#ifdef __linux__
     cftpclient::cftpclient()
     {
         m_ftpconn = nullptr;
@@ -255,5 +256,6 @@ namespace ol
 
         return FtpLastResponse(m_ftpconn);
     }
+#endif // __linux__
 
 } // namespace ol

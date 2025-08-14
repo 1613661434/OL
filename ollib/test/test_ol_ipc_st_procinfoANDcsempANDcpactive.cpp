@@ -2,6 +2,11 @@
  *  程序名：test_ol_ipc_st_procinfoANDcsempANDcpactive.cpp，此程序演示进程的心跳，直接使用类cpactive。
  *  作者：ol
  */
+
+#if !defined(__linux__)
+#error "test_fifo_receiver.cpp 仅支持Linux平台，不支持当前系统！"
+#endif
+
 #include "ol_public.h"
 
 using namespace ol;

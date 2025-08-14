@@ -2,6 +2,11 @@
  *  程序名：test_ol_ftp_cftpclient_put.cpp，此程序演示采用开发框架的cftpclient类上传文件。
  *  作者：ol
  */
+
+#if !defined(__linux__)
+#error "test_fifo_receiver.cpp 仅支持Linux平台，不支持当前系统！"
+#endif
+
 #include "ol_ftp.h"
 #include <iostream>
 
