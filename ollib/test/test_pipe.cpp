@@ -3,6 +3,11 @@
  *  作者：ol
  *  功能：通过管道实现父子进程间的通信，父进程向子进程发送消息
  */
+
+#if !defined(__linux__)
+#error "test_fifo_receiver.cpp 仅支持Linux平台，不支持当前系统！"
+#endif
+
 #include <stdio.h>  // 标准输入输出库
 #include <string.h> // 字符串操作库
 #include <unistd.h> // 包含pipe、fork、read、write等系统调用

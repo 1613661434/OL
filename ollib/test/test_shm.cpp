@@ -3,6 +3,11 @@
  *  作者：ol
  *  功能：通过共享内存实现进程间数据共享，存储并更新一个包含编号和姓名的结构体数据
  */
+
+#if !defined(__linux__)
+#error "test_fifo_receiver.cpp 仅支持Linux平台，不支持当前系统！"
+#endif
+
 #include <cstdlib>   // 包含atoi等函数
 #include <cstring>   // 包含字符串操作函数（如strcpy）
 #include <iostream>  // 包含标准输入输出流库
