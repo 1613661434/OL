@@ -59,10 +59,8 @@ int main()
     // 6.上锁
     mutex.wait();
 
-    // 7.生产数据3
+    // 7.生产数据1
     CQptr->push(Sgirl(1, "西施"));
-    CQptr->push(Sgirl(2, "貂蝉"));
-    CQptr->push(Sgirl(3, "王昭君"));
 
     // 8.开锁
     mutex.post();
