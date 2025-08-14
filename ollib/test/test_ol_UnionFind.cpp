@@ -36,7 +36,7 @@ void testIntegerUnionFind()
     // 测试连接性
     std::cout << "0和1是否连通: " << (ufInt.connected(0, 1) ? "是" : "否") << " (预期: 是)" << std::endl;
     std::cout << "2和4是否连通: " << (ufInt.connected(2, 4) ? "是" : "否") << " (预期: 是)" << std::endl;
-    std::cout << "0和2是否连通: " << (ufInt.connected(0, 1) ? "是" : "否") << " (预期: 否)" << std::endl;
+    std::cout << "0和2是否连通: " << (ufInt.connected(0, 2) ? "是" : "否") << " (预期: 否)" << std::endl;
 
     // 进一步合并
     ufInt.unite(1, 4);
