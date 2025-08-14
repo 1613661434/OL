@@ -131,10 +131,6 @@ mingw32-make -j4
 
 #### 注意事项
 - MinGW 编译的静态库默认以 `.a` 为扩展名（与 Linux 一致），动态库以 `.dll` 为扩展名（Windows 原生格式）
-- 若需关闭特定模块（如 FTP 或 Oracle），可在 cmake 命令中添加选项：
-  ```powershell
-  cmake .. -G "MinGW Makefiles" -DBUILD_FTP_MODULE=OFF  # 关闭 FTP 模块
-  ```
 - 部分 Linux 特有测试程序（如基于命名管道的 `test_fifo_*`）会被自动过滤，不参与 Windows 平台编译
 
 ## 注意事项
