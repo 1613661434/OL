@@ -6,19 +6,19 @@
 using namespace ol;
 using namespace std;
 
-// Ô­º¯Êý f(x) = x^3 + 10x - 20
+// åŽŸå‡½æ•° f(x) = x^3 + 10x - 20
 double function(double x)
 {
     return pow(x, 3) + 10 * x - 20;
 }
 
-// µ¼º¯Êý f'(x) = 3 * x^2 + 10
+// å¯¼å‡½æ•° f'(x) = 3 * x^2 + 10
 double der_function(double x)
 {
     return 3 * pow(x, 2) + 10;
 }
 
-// µü´úº¯Êý g(x)=(x^3 - 20) / (-10)
+// è¿­ä»£å‡½æ•° g(x)=(x^3 - 20) / (-10)
 double iter_func(double x)
 {
     return (pow(x, 3) - 20) / (-10);
@@ -27,14 +27,14 @@ double iter_func(double x)
 int main()
 {
     const double tolerance = 1e-6;
-    cout << "Çó½â·½³Ì x^3 + 10x - 20 = 0 µÄ¸ù\n";
-    cout << "Ô­º¯Êý f(x) = x^3 + 10x - 20\n";
-    cout << "µ¼º¯Êý f'(x) = 3 * x^2 + 10\n";
-    cout << "¾«È·½â x* = 1.59456\n";
-    cout << "Îó²îÏÞ e* = " << tolerance << "\n";
+    cout << "æ±‚è§£æ–¹ç¨‹ x^3 + 10x - 20 = 0 çš„æ ¹\n";
+    cout << "åŽŸå‡½æ•° f(x) = x^3 + 10x - 20\n";
+    cout << "å¯¼å‡½æ•° f'(x) = 3 * x^2 + 10\n";
+    cout << "ç²¾ç¡®è§£ x* = 1.59456\n";
+    cout << "è¯¯å·®é™ e* = " << tolerance << "\n";
 
-    // ##Bisection_Method ¶þ·Öµü´ú·¨
-    cout << "\n----------- ¶þ·Öµü´ú·¨ -----------\n";
+    // ##Bisection_Method äºŒåˆ†è¿­ä»£æ³•
+    cout << "\n----------- äºŒåˆ†è¿­ä»£æ³• -----------\n";
     try
     {
         const double root = Bisection_Method(function, 1.0, 2.0, tolerance);
@@ -45,8 +45,8 @@ int main()
         cerr << "[Error] " << e.what() << endl;
     }
 
-    // ##Simple_Iteration_Method ÏÒ½Øµü´ú·¨
-    cout << "\n----------- ¼òµ¥µü´ú·¨ -----------\n";
+    // ##Simple_Iteration_Method å¼¦æˆªè¿­ä»£æ³•
+    cout << "\n----------- ç®€å•è¿­ä»£æ³• -----------\n";
     try
     {
         const double root = Simple_Iteration_Method(iter_func, 1.0, tolerance);
@@ -57,8 +57,8 @@ int main()
         cerr << "[Error] " << e.what() << endl;
     }
 
-    // ##Newton_Method Å£¶Ùµü´ú·¨
-    cout << "\n----------- Å£¶Ùµü´ú·¨ -----------\n";
+    // ##Newton_Method ç‰›é¡¿è¿­ä»£æ³•
+    cout << "\n----------- ç‰›é¡¿è¿­ä»£æ³• -----------\n";
     try
     {
         const double root = Newton_Method(function, der_function, 1.0, tolerance);
@@ -69,8 +69,8 @@ int main()
         cerr << "[Error] " << e.what() << endl;
     }
 
-    // ##Secant_Method ÏÒ½Øµü´ú·¨
-    cout << "\n----------- ÏÒ½Øµü´ú·¨ -----------\n";
+    // ##Secant_Method å¼¦æˆªè¿­ä»£æ³•
+    cout << "\n----------- å¼¦æˆªè¿­ä»£æ³• -----------\n";
     try
     {
         const double root = Secant_Method(function, 1.0, 2.0, tolerance);

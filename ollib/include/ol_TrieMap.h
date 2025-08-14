@@ -1,14 +1,14 @@
 /****************************************************************************************/
 /*
- * ³ÌĞòÃû£ºol_triemap.h
- * ¹¦ÄÜÃèÊö£ºTrieÊ÷£¨×ÖµäÊ÷£©µÄ¼üÖµ¶ÔÊµÏÖÀà£¬Ö§³ÖÒÔÏÂÌØĞÔ£º
- *          - ´æ´¢×Ö·û´®¼üÓëÈÎÒâÀàĞÍÖµµÄÓ³Éä¹ØÏµ
- *          - Ö§³Ö¼üµÄ²åÈë¡¢É¾³ı¡¢²éÑ¯¼°´æÔÚĞÔÅĞ¶Ï
- *          - Ìá¹©Ç°×ºÆ¥Åä¹¦ÄÜ£¨×î¶Ì/×î³¤Ç°×º¡¢Ç°×º¼üÁĞ±í£©
- *          - Ö§³ÖÍ¨Åä·û'.'µÄÄ£Ê½Æ¥Åä£¨Æ¥ÅäÈÎÒâµ¥¸ö×Ö·û£©
- *          - ÄÚ²¿Ê¹ÓÃshared_ptr¹ÜÀí½ÚµãÄÚ´æ£¬±ÜÃâÄÚ´æĞ¹Â©
- * ×÷Õß£ºol
- * ÊÊÓÃ±ê×¼£ºC++17¼°ÒÔÉÏ£¨ĞèÖ§³Östd::optional¡¢std::shared_ptrµÈÌØĞÔ£©
+ * ç¨‹åºåï¼šol_triemap.h
+ * åŠŸèƒ½æè¿°ï¼šTrieæ ‘ï¼ˆå­—å…¸æ ‘ï¼‰çš„é”®å€¼å¯¹å®ç°ç±»ï¼Œæ”¯æŒä»¥ä¸‹ç‰¹æ€§ï¼š
+ *          - å­˜å‚¨å­—ç¬¦ä¸²é”®ä¸ä»»æ„ç±»å‹å€¼çš„æ˜ å°„å…³ç³»
+ *          - æ”¯æŒé”®çš„æ’å…¥ã€åˆ é™¤ã€æŸ¥è¯¢åŠå­˜åœ¨æ€§åˆ¤æ–­
+ *          - æä¾›å‰ç¼€åŒ¹é…åŠŸèƒ½ï¼ˆæœ€çŸ­/æœ€é•¿å‰ç¼€ã€å‰ç¼€é”®åˆ—è¡¨ï¼‰
+ *          - æ”¯æŒé€šé…ç¬¦'.'çš„æ¨¡å¼åŒ¹é…ï¼ˆåŒ¹é…ä»»æ„å•ä¸ªå­—ç¬¦ï¼‰
+ *          - å†…éƒ¨ä½¿ç”¨shared_ptrç®¡ç†èŠ‚ç‚¹å†…å­˜ï¼Œé¿å…å†…å­˜æ³„æ¼
+ * ä½œè€…ï¼šol
+ * é€‚ç”¨æ ‡å‡†ï¼šC++17åŠä»¥ä¸Šï¼ˆéœ€æ”¯æŒstd::optionalã€std::shared_ptrç­‰ç‰¹æ€§ï¼‰
  */
 /****************************************************************************************/
 
@@ -25,45 +25,45 @@ namespace ol
 {
 
     /**
-     * TrieÊ÷µÄ½ÚµãÀà£¬´æ´¢µ¥¸ö×Ö·û¶ÔÓ¦µÄ×´Ì¬
-     * @tparam V ½Úµã´æ´¢µÄÖµÀàĞÍ
+     * Trieæ ‘çš„èŠ‚ç‚¹ç±»ï¼Œå­˜å‚¨å•ä¸ªå­—ç¬¦å¯¹åº”çš„çŠ¶æ€
+     * @tparam V èŠ‚ç‚¹å­˜å‚¨çš„å€¼ç±»å‹
      */
     template <typename V>
     class TrieNode
     {
     public:
-        V val = V();                                                              // ½Úµã´æ´¢µÄÖµ£¨Ä¬ÈÏ³õÊ¼»¯£©
-        bool isValid = false;                                                     // ±ê¼Ç¸Ã½ÚµãÊÇ·ñÎªÄ³¸ö¼üµÄÖÕµã£¨´æ´¢ÓĞĞ§Êı¾İ£©
-        std::unordered_map<unsigned char, std::shared_ptr<TrieNode<V>>> children; // ×Ó½ÚµãÓ³Éä£¨¼ü£º×Ö·û£¬Öµ£º×Ó½ÚµãÖ¸Õë£©
+        V val = V();                                                              // èŠ‚ç‚¹å­˜å‚¨çš„å€¼ï¼ˆé»˜è®¤åˆå§‹åŒ–ï¼‰
+        bool isValid = false;                                                     // æ ‡è®°è¯¥èŠ‚ç‚¹æ˜¯å¦ä¸ºæŸä¸ªé”®çš„ç»ˆç‚¹ï¼ˆå­˜å‚¨æœ‰æ•ˆæ•°æ®ï¼‰
+        std::unordered_map<unsigned char, std::shared_ptr<TrieNode<V>>> children; // å­èŠ‚ç‚¹æ˜ å°„ï¼ˆé”®ï¼šå­—ç¬¦ï¼Œå€¼ï¼šå­èŠ‚ç‚¹æŒ‡é’ˆï¼‰
 
-        // ¹¹Ôìº¯Êı£¨Ä¬ÈÏ³õÊ¼»¯£¬ÎŞĞèÔ¤·ÖÅä¿Õ¼ä£©
+        // æ„é€ å‡½æ•°ï¼ˆé»˜è®¤åˆå§‹åŒ–ï¼Œæ— éœ€é¢„åˆ†é…ç©ºé—´ï¼‰
         TrieNode()
         {
         }
     };
 
     /**
-     * TrieÊ÷¼üÖµ¶ÔÓ³ÉäÀà£¨TrieMap£©
-     * @tparam V ´æ´¢µÄÖµÀàĞÍ
+     * Trieæ ‘é”®å€¼å¯¹æ˜ å°„ç±»ï¼ˆTrieMapï¼‰
+     * @tparam V å­˜å‚¨çš„å€¼ç±»å‹
      */
     template <typename V>
     class TrieMap
     {
     private:
-        std::shared_ptr<TrieNode<V>> root; // Trie Ê÷µÄ¸ù½Úµã
-        size_t count;                      // µ±Ç°´æÔÚµÄ¼üÖµ¶Ô×ÜÊı
+        std::shared_ptr<TrieNode<V>> root; // Trie æ ‘çš„æ ¹èŠ‚ç‚¹
+        size_t count;                      // å½“å‰å­˜åœ¨çš„é”®å€¼å¯¹æ€»æ•°
 
         /**
-         * ±éÀúTrieÊ÷£¬ÊÕ¼¯ËùÓĞÓĞĞ§¼ü
-         * @param node ÆğÊ¼½Úµã
-         * @param path µ±Ç°Â·¾¶£¨ÒÑ±éÀúµÄ×Ö·û£©
-         * @param res ´æ´¢½á¹ûµÄÁĞ±í
+         * éå†Trieæ ‘ï¼Œæ”¶é›†æ‰€æœ‰æœ‰æ•ˆé”®
+         * @param node èµ·å§‹èŠ‚ç‚¹
+         * @param path å½“å‰è·¯å¾„ï¼ˆå·²éå†çš„å­—ç¬¦ï¼‰
+         * @param res å­˜å‚¨ç»“æœçš„åˆ—è¡¨
          */
         void traverse(std::shared_ptr<TrieNode<V>> node, std::string& path, std::list<std::string>& res)
         {
             if (!node) return;
 
-            if (node->isValid) // ÓÃ±ê¼ÇÎ»ÅĞ¶ÏÊÇ·ñÎªÓĞĞ§¼ü
+            if (node->isValid) // ç”¨æ ‡è®°ä½åˆ¤æ–­æ˜¯å¦ä¸ºæœ‰æ•ˆé”®
             {
                 res.push_back(path);
             }
@@ -77,22 +77,22 @@ namespace ol
         }
 
         /**
-         * °´Ä£Ê½Æ¥Åä±éÀúTrieÊ÷£¨Ö§³Ö'.'×÷ÎªÍ¨Åä·û£¬Æ¥Åäµ¥¸öÈÎÒâ×Ö·û£©
-         * @param node ÆğÊ¼½Úµã
-         * @param path µ±Ç°Æ¥ÅäÂ·¾¶
-         * @param pattern Ä£Ê½×Ö·û´®
-         * @param i µ±Ç°Æ¥ÅäÎ»ÖÃ
-         * @param res ´æ´¢Æ¥Åä½á¹ûµÄÁĞ±í
+         * æŒ‰æ¨¡å¼åŒ¹é…éå†Trieæ ‘ï¼ˆæ”¯æŒ'.'ä½œä¸ºé€šé…ç¬¦ï¼ŒåŒ¹é…å•ä¸ªä»»æ„å­—ç¬¦ï¼‰
+         * @param node èµ·å§‹èŠ‚ç‚¹
+         * @param path å½“å‰åŒ¹é…è·¯å¾„
+         * @param pattern æ¨¡å¼å­—ç¬¦ä¸²
+         * @param i å½“å‰åŒ¹é…ä½ç½®
+         * @param res å­˜å‚¨åŒ¹é…ç»“æœçš„åˆ—è¡¨
          */
         void traverseByPattern(std::shared_ptr<TrieNode<V>> node, std::string& path,
                                const std::string& pattern, size_t i, std::list<std::string>& res)
         {
-            if (!node) return; // ½Úµã²»´æÔÚ£¬Æ¥ÅäÊ§°Ü
+            if (!node) return; // èŠ‚ç‚¹ä¸å­˜åœ¨ï¼ŒåŒ¹é…å¤±è´¥
 
-            // Ä£Ê½Æ¥ÅäÍê³É
+            // æ¨¡å¼åŒ¹é…å®Œæˆ
             if (i == pattern.length())
             {
-                // Èç¹ûµ±Ç°½ÚµãÎªÓĞĞ§¼ü
+                // å¦‚æœå½“å‰èŠ‚ç‚¹ä¸ºæœ‰æ•ˆé”®
                 if (node->isValid)
                 {
                     res.push_back(path);
@@ -103,7 +103,7 @@ namespace ol
             unsigned char c = pattern[i];
             if (c == '.')
             {
-                // Í¨Åä·ûÆ¥ÅäÈÎÒâ×Ö·û£¬³¢ÊÔËùÓĞ¿ÉÄÜµÄ×Ó½Úµã
+                // é€šé…ç¬¦åŒ¹é…ä»»æ„å­—ç¬¦ï¼Œå°è¯•æ‰€æœ‰å¯èƒ½çš„å­èŠ‚ç‚¹
                 for (auto& [ch, child] : node->children)
                 {
                     path.push_back(ch);
@@ -113,7 +113,7 @@ namespace ol
             }
             else
             {
-                // ÆÕÍ¨×Ö·û£¬²éÕÒ¶ÔÓ¦µÄ×Ó½Úµã
+                // æ™®é€šå­—ç¬¦ï¼ŒæŸ¥æ‰¾å¯¹åº”çš„å­èŠ‚ç‚¹
                 auto it = node->children.find(c);
                 if (it != node->children.end())
                 {
@@ -125,12 +125,12 @@ namespace ol
         }
 
         /**
-         * µİ¹é²åÈë¼üÖµ¶Ô
-         * @param node µ±Ç°½Úµã
-         * @param key ²åÈëµÄ¼ü
-         * @param val ²åÈëµÄÖµ
-         * @param i µ±Ç°´¦ÀíÎ»ÖÃ
-         * @return ´¦ÀíºóµÄ½Úµã
+         * é€’å½’æ’å…¥é”®å€¼å¯¹
+         * @param node å½“å‰èŠ‚ç‚¹
+         * @param key æ’å…¥çš„é”®
+         * @param val æ’å…¥çš„å€¼
+         * @param i å½“å‰å¤„ç†ä½ç½®
+         * @return å¤„ç†åçš„èŠ‚ç‚¹
          */
         std::shared_ptr<TrieNode<V>> put(std::shared_ptr<TrieNode<V>> node, const std::string& key, V val, size_t i)
         {
@@ -142,7 +142,7 @@ namespace ol
             if (i == key.length())
             {
                 node->val = val;
-                node->isValid = true; // ±ê¼ÇÎªÓĞĞ§½Úµã£¨ÎŞÂÛvalÊÇ·ñÎªÄ¬ÈÏÖµ£©
+                node->isValid = true; // æ ‡è®°ä¸ºæœ‰æ•ˆèŠ‚ç‚¹ï¼ˆæ— è®ºvalæ˜¯å¦ä¸ºé»˜è®¤å€¼ï¼‰
                 return node;
             }
 
@@ -152,17 +152,17 @@ namespace ol
         }
 
         /**
-         * µİ¹éÉ¾³ı¼ü
-         * @param node µ±Ç°½Úµã
-         * @param key É¾³ıµÄ¼ü
-         * @param i µ±Ç°´¦ÀíÎ»ÖÃ
-         * @return ´¦ÀíºóµÄ½Úµã£¨¿ÉÄÜÎªnullptr£©
+         * é€’å½’åˆ é™¤é”®
+         * @param node å½“å‰èŠ‚ç‚¹
+         * @param key åˆ é™¤çš„é”®
+         * @param i å½“å‰å¤„ç†ä½ç½®
+         * @return å¤„ç†åçš„èŠ‚ç‚¹ï¼ˆå¯èƒ½ä¸ºnullptrï¼‰
          */
         std::shared_ptr<TrieNode<V>> remove(std::shared_ptr<TrieNode<V>> node, const std::string& key, size_t i)
         {
-            if (!node) return nullptr; // ½Úµã²»´æÔÚ£¬Ö±½Ó·µ»Ø
+            if (!node) return nullptr; // èŠ‚ç‚¹ä¸å­˜åœ¨ï¼Œç›´æ¥è¿”å›
 
-            // µ½´ï¼üµÄÄ©Î²£¬±ê¼ÇÎªÎŞĞ§
+            // åˆ°è¾¾é”®çš„æœ«å°¾ï¼Œæ ‡è®°ä¸ºæ— æ•ˆ
             if (i == key.length())
             {
                 node->isValid = false;
@@ -170,38 +170,38 @@ namespace ol
             else
             {
                 unsigned char c = key[i];
-                // µİ¹éÉ¾³ı×Ó½Úµã
+                // é€’å½’åˆ é™¤å­èŠ‚ç‚¹
                 node->children[c] = remove(node->children[c], key, i + 1);
             }
 
-            // ºóĞò´¦Àí£ºÈç¹û½ÚµãÓĞĞ§£¨isValid=true£©£¬±£Áô½Úµã
+            // ååºå¤„ç†ï¼šå¦‚æœèŠ‚ç‚¹æœ‰æ•ˆï¼ˆisValid=trueï¼‰ï¼Œä¿ç•™èŠ‚ç‚¹
             if (node->isValid)
             {
                 return node;
             }
 
-            // Èç¹ûÃ»ÓĞ×Ó½Úµã£¬É¾³ıµ±Ç°½Úµã
+            // å¦‚æœæ²¡æœ‰å­èŠ‚ç‚¹ï¼Œåˆ é™¤å½“å‰èŠ‚ç‚¹
             if (node->children.empty())
             {
                 return nullptr;
             }
 
-            // ÓĞ×Ó½Úµãµ«ÎŞÖµ£¬±£Áô½Úµã×÷ÎªÖĞ¼äÂ·¾¶
+            // æœ‰å­èŠ‚ç‚¹ä½†æ— å€¼ï¼Œä¿ç•™èŠ‚ç‚¹ä½œä¸ºä¸­é—´è·¯å¾„
             return node;
         }
 
         /**
-         * ¼ì²éÄ£Ê½ÊÇ·ñÆ¥Åä
-         * @param node µ±Ç°½Úµã
-         * @param pattern Ä£Ê½×Ö·û´®
-         * @param i µ±Ç°´¦ÀíÎ»ÖÃ
-         * @return ÊÇ·ñ´æÔÚÆ¥ÅäµÄ¼ü
+         * æ£€æŸ¥æ¨¡å¼æ˜¯å¦åŒ¹é…
+         * @param node å½“å‰èŠ‚ç‚¹
+         * @param pattern æ¨¡å¼å­—ç¬¦ä¸²
+         * @param i å½“å‰å¤„ç†ä½ç½®
+         * @return æ˜¯å¦å­˜åœ¨åŒ¹é…çš„é”®
          */
         bool hasPattern(std::shared_ptr<TrieNode<V>> node, const std::string& pattern, size_t i)
         {
-            if (!node) return false; // ½Úµã²»´æÔÚ£¬Æ¥ÅäÊ§°Ü
+            if (!node) return false; // èŠ‚ç‚¹ä¸å­˜åœ¨ï¼ŒåŒ¹é…å¤±è´¥
 
-            // Ä£Ê½´¦ÀíÍê±Ï£¬¼ì²éµ±Ç°½ÚµãÊÇ·ñÓĞÖµ
+            // æ¨¡å¼å¤„ç†å®Œæ¯•ï¼Œæ£€æŸ¥å½“å‰èŠ‚ç‚¹æ˜¯å¦æœ‰å€¼
             if (i == pattern.length())
             {
                 return node->isValid;
@@ -210,13 +210,13 @@ namespace ol
             unsigned char c = pattern[i];
             if (c != '.')
             {
-                // ÆÕÍ¨×Ö·û£¬²éÕÒ¶ÔÓ¦×Ó½Úµã²¢µİ¹éÆ¥Åä
+                // æ™®é€šå­—ç¬¦ï¼ŒæŸ¥æ‰¾å¯¹åº”å­èŠ‚ç‚¹å¹¶é€’å½’åŒ¹é…
                 auto it = node->children.find(c);
                 return (it != node->children.end()) && hasPattern(it->second, pattern, i + 1);
             }
             else
             {
-                // Í¨Åä·û£¬³¢ÊÔËùÓĞ×Ó½Úµã
+                // é€šé…ç¬¦ï¼Œå°è¯•æ‰€æœ‰å­èŠ‚ç‚¹
                 for (auto& [ch, child] : node->children)
                 {
                     if (hasPattern(child, pattern, i + 1))
@@ -229,44 +229,44 @@ namespace ol
         }
 
         /**
-         * ²éÕÒ¼ü¶ÔÓ¦µÄ½Úµã
-         * @param node ÆğÊ¼½Úµã
-         * @param key ²éÕÒµÄ¼ü
-         * @return ¼üÖÕµã¶ÔÓ¦µÄ½Úµã£¨²»´æÔÚÔò·µ»Ønullptr£©
+         * æŸ¥æ‰¾é”®å¯¹åº”çš„èŠ‚ç‚¹
+         * @param node èµ·å§‹èŠ‚ç‚¹
+         * @param key æŸ¥æ‰¾çš„é”®
+         * @return é”®ç»ˆç‚¹å¯¹åº”çš„èŠ‚ç‚¹ï¼ˆä¸å­˜åœ¨åˆ™è¿”å›nullptrï¼‰
          */
         std::shared_ptr<TrieNode<V>> findNode(std::shared_ptr<TrieNode<V>> node, const std::string& key)
         {
             auto current = node;
             for (size_t i = 0; i < key.length(); ++i)
             {
-                if (!current) return nullptr; // Â·¾¶ÖĞ¶Ï£¬·µ»Ønull
+                if (!current) return nullptr; // è·¯å¾„ä¸­æ–­ï¼Œè¿”å›null
 
-                // ²éÕÒÏÂÒ»¸ö×Ö·û¶ÔÓ¦µÄ×Ó½Úµã
+                // æŸ¥æ‰¾ä¸‹ä¸€ä¸ªå­—ç¬¦å¯¹åº”çš„å­èŠ‚ç‚¹
                 auto it = current->children.find(key[i]);
                 if (it == current->children.end())
                 {
-                    return nullptr; // ×Ó½Úµã²»´æÔÚ£¬·µ»Ønull
+                    return nullptr; // å­èŠ‚ç‚¹ä¸å­˜åœ¨ï¼Œè¿”å›null
                 }
 
                 current = it->second;
             }
-            return current; // ·µ»Ø¼üÄ©Î²¶ÔÓ¦µÄ½Úµã
+            return current; // è¿”å›é”®æœ«å°¾å¯¹åº”çš„èŠ‚ç‚¹
         }
 
     public:
-        // ¹¹Ôìº¯Êı£¬³õÊ¼»¯¸ù½ÚµãºÍ¼ÆÊı
+        // æ„é€ å‡½æ•°ï¼Œåˆå§‹åŒ–æ ¹èŠ‚ç‚¹å’Œè®¡æ•°
         TrieMap() : root(std::make_shared<TrieNode<V>>()), count(0)
         {
         }
 
         /**
-         * ²åÈë»ò¸üĞÂ¼üÖµ¶Ô
-         * @param key ¼ü×Ö·û´®
-         * @param val ¶ÔÓ¦µÄÖµ
+         * æ’å…¥æˆ–æ›´æ–°é”®å€¼å¯¹
+         * @param key é”®å­—ç¬¦ä¸²
+         * @param val å¯¹åº”çš„å€¼
          */
         void put(const std::string& key, V val)
         {
-            // Èç¹ûÊÇĞÂ¼ü£¬Ôö¼Ó¼ÆÊı
+            // å¦‚æœæ˜¯æ–°é”®ï¼Œå¢åŠ è®¡æ•°
             if (!has(key))
             {
                 ++count;
@@ -275,8 +275,8 @@ namespace ol
         }
 
         /**
-         * É¾³ı¼üÖµ¶Ô
-         * @param key ÒªÉ¾³ıµÄ¼ü
+         * åˆ é™¤é”®å€¼å¯¹
+         * @param key è¦åˆ é™¤çš„é”®
          */
         void remove(const std::string& key)
         {
@@ -284,16 +284,16 @@ namespace ol
             {
                 return;
             }
-            // µİ¹éÉ¾³ı²¢¸üĞÂ¸ù½Úµã
+            // é€’å½’åˆ é™¤å¹¶æ›´æ–°æ ¹èŠ‚ç‚¹
             root = remove(root, key, 0);
             --count;
         }
 
         /**
-         * »ñÈ¡¼ü¶ÔÓ¦µÄÖµ£¬Í¨¹ı std::optional Ã÷È·±íÊ¾ÖµÊÇ·ñ´æÔÚ
-         * @param key Òª²éÑ¯µÄ¼ü
-         * @return Èô¼ü´æÔÚ£¬·µ»Ø°üº¬¶ÔÓ¦ÖµµÄ std::optional<V>£»Èô¼ü²»´æÔÚ£¬·µ»Ø std::nullopt
-         * @note ¿ÉÍ¨¹ı has_value() ÅĞ¶Ï¼üÊÇ·ñ´æÔÚ£¬Í¨¹ı value() »ñÈ¡Öµ£¨¼ü´æÔÚÊ±£©
+         * è·å–é”®å¯¹åº”çš„å€¼ï¼Œé€šè¿‡ std::optional æ˜ç¡®è¡¨ç¤ºå€¼æ˜¯å¦å­˜åœ¨
+         * @param key è¦æŸ¥è¯¢çš„é”®
+         * @return è‹¥é”®å­˜åœ¨ï¼Œè¿”å›åŒ…å«å¯¹åº”å€¼çš„ std::optional<V>ï¼›è‹¥é”®ä¸å­˜åœ¨ï¼Œè¿”å› std::nullopt
+         * @note å¯é€šè¿‡ has_value() åˆ¤æ–­é”®æ˜¯å¦å­˜åœ¨ï¼Œé€šè¿‡ value() è·å–å€¼ï¼ˆé”®å­˜åœ¨æ—¶ï¼‰
          */
         std::optional<V> get(const std::string& key)
         {
@@ -306,9 +306,9 @@ namespace ol
         }
 
         /**
-         * ¼ì²é¼üÊÇ·ñ´æÔÚ
-         * @param key Òª¼ì²éµÄ¼ü
-         * @return ¼ü´æÔÚ·µ»Øtrue£¬·ñÔò·µ»Øfalse
+         * æ£€æŸ¥é”®æ˜¯å¦å­˜åœ¨
+         * @param key è¦æ£€æŸ¥çš„é”®
+         * @return é”®å­˜åœ¨è¿”å›trueï¼Œå¦åˆ™è¿”å›false
          */
         bool has(const std::string& key)
         {
@@ -317,9 +317,9 @@ namespace ol
         }
 
         /**
-         * ¼ì²éÊÇ·ñ´æÔÚÒÔÖ¸¶¨Ç°×º¿ªÍ·µÄ¼ü
-         * @param prefix Ç°×º×Ö·û´®
-         * @return ´æÔÚ·µ»Øtrue£¬·ñÔò·µ»Øfalse
+         * æ£€æŸ¥æ˜¯å¦å­˜åœ¨ä»¥æŒ‡å®šå‰ç¼€å¼€å¤´çš„é”®
+         * @param prefix å‰ç¼€å­—ç¬¦ä¸²
+         * @return å­˜åœ¨è¿”å›trueï¼Œå¦åˆ™è¿”å›false
          */
         bool hasPrefix(const std::string& prefix)
         {
@@ -327,9 +327,9 @@ namespace ol
         }
 
         /**
-         * ²éÕÒ²éÑ¯×Ö·û´®µÄ×î¶ÌÇ°×º¼ü
-         * @param query ²éÑ¯×Ö·û´®
-         * @return ×î¶ÌÇ°×º¼ü£¨²»´æÔÚ·µ»Ø¿Õ´®£©
+         * æŸ¥æ‰¾æŸ¥è¯¢å­—ç¬¦ä¸²çš„æœ€çŸ­å‰ç¼€é”®
+         * @param query æŸ¥è¯¢å­—ç¬¦ä¸²
+         * @return æœ€çŸ­å‰ç¼€é”®ï¼ˆä¸å­˜åœ¨è¿”å›ç©ºä¸²ï¼‰
          */
         std::string shortestPrefix(const std::string& query)
         {
@@ -338,7 +338,7 @@ namespace ol
             {
                 if (!current) break;
 
-                // »ùÓÚisValidÅĞ¶Ï£¬¶ø·ÇvalÊÇ·ñÎªÄ¬ÈÏÖµ
+                // åŸºäºisValidåˆ¤æ–­ï¼Œè€Œévalæ˜¯å¦ä¸ºé»˜è®¤å€¼
                 if (current->isValid)
                 {
                     return query.substr(0, i);
@@ -358,47 +358,47 @@ namespace ol
         }
 
         /**
-         * ²éÕÒ²éÑ¯×Ö·û´®µÄ×î³¤Ç°×º¼ü
-         * @param query ²éÑ¯×Ö·û´®
-         * @return ×î³¤Ç°×º¼ü£¨²»´æÔÚ·µ»Ø¿Õ´®£©
+         * æŸ¥æ‰¾æŸ¥è¯¢å­—ç¬¦ä¸²çš„æœ€é•¿å‰ç¼€é”®
+         * @param query æŸ¥è¯¢å­—ç¬¦ä¸²
+         * @return æœ€é•¿å‰ç¼€é”®ï¼ˆä¸å­˜åœ¨è¿”å›ç©ºä¸²ï¼‰
          */
         std::string longestPrefix(const std::string& query)
         {
             auto current = root;
-            size_t max_len = 0; // ¼ÇÂ¼×î³¤ÓĞĞ§Ç°×ºµÄ³¤¶È
-            size_t i;           // Ñ­»·±äÁ¿£¨ÔÚÑ­»·Íâ¶¨Òå£¬ÓÃÓÚÅĞ¶ÏÊÇ·ñ±éÀúÍêËùÓĞ×Ö·û£©
+            size_t max_len = 0; // è®°å½•æœ€é•¿æœ‰æ•ˆå‰ç¼€çš„é•¿åº¦
+            size_t i;           // å¾ªç¯å˜é‡ï¼ˆåœ¨å¾ªç¯å¤–å®šä¹‰ï¼Œç”¨äºåˆ¤æ–­æ˜¯å¦éå†å®Œæ‰€æœ‰å­—ç¬¦ï¼‰
 
             for (i = 0; i < query.length(); ++i)
             {
-                if (!current) break; // Â·¾¶ÖĞ¶Ï£¬ÍË³öÑ­»·
+                if (!current) break; // è·¯å¾„ä¸­æ–­ï¼Œé€€å‡ºå¾ªç¯
 
-                // Èç¹ûµ±Ç°½ÚµãÊÇÓĞĞ§¼ü£¬¸üĞÂ×î³¤Ç°×º³¤¶È
+                // å¦‚æœå½“å‰èŠ‚ç‚¹æ˜¯æœ‰æ•ˆé”®ï¼Œæ›´æ–°æœ€é•¿å‰ç¼€é•¿åº¦
                 if (current->isValid)
                 {
                     max_len = i;
                 }
 
-                // ²éÕÒÏÂÒ»¸ö×Ö·û¶ÔÓ¦µÄ×Ó½Úµã
+                // æŸ¥æ‰¾ä¸‹ä¸€ä¸ªå­—ç¬¦å¯¹åº”çš„å­èŠ‚ç‚¹
                 auto it = current->children.find(query[i]);
-                if (it == current->children.end()) break; // ×Ö·û²»Æ¥Åä£¬ÍË³öÑ­»·
-                current = it->second;                     // ÒÆ¶¯µ½×Ó½Úµã
+                if (it == current->children.end()) break; // å­—ç¬¦ä¸åŒ¹é…ï¼Œé€€å‡ºå¾ªç¯
+                current = it->second;                     // ç§»åŠ¨åˆ°å­èŠ‚ç‚¹
             }
 
-            // Ö»ÓĞµ±£º1. ±éÀúÍê²éÑ¯×Ö·û´®µÄËùÓĞ×Ö·û£»2. ×îÖÕ½ÚµãÊÇÓĞĞ§¼ü
-            // ²Å·µ»ØÕû¸ö²éÑ¯×Ö·û´®£¨ËµÃ÷²éÑ¯×Ö·û´®±¾Éí¾ÍÊÇÒÑ²åÈëµÄ¼ü£©
+            // åªæœ‰å½“ï¼š1. éå†å®ŒæŸ¥è¯¢å­—ç¬¦ä¸²çš„æ‰€æœ‰å­—ç¬¦ï¼›2. æœ€ç»ˆèŠ‚ç‚¹æ˜¯æœ‰æ•ˆé”®
+            // æ‰è¿”å›æ•´ä¸ªæŸ¥è¯¢å­—ç¬¦ä¸²ï¼ˆè¯´æ˜æŸ¥è¯¢å­—ç¬¦ä¸²æœ¬èº«å°±æ˜¯å·²æ’å…¥çš„é”®ï¼‰
             if (i == query.length() && current && current->isValid)
             {
                 return query;
             }
 
-            // ·ñÔò·µ»Ø×î³¤ÓĞĞ§Ç°×º
+            // å¦åˆ™è¿”å›æœ€é•¿æœ‰æ•ˆå‰ç¼€
             return query.substr(0, max_len);
         }
 
         /**
-         * »ñÈ¡ËùÓĞÒÔÖ¸¶¨Ç°×º¿ªÍ·µÄ¼ü
-         * @param prefix Ç°×º×Ö·û´®
-         * @return Æ¥ÅäµÄ¼üÁĞ±í
+         * è·å–æ‰€æœ‰ä»¥æŒ‡å®šå‰ç¼€å¼€å¤´çš„é”®
+         * @param prefix å‰ç¼€å­—ç¬¦ä¸²
+         * @return åŒ¹é…çš„é”®åˆ—è¡¨
          */
         std::list<std::string> keysByPrefix(const std::string& prefix)
         {
@@ -409,16 +409,16 @@ namespace ol
                 return res;
             }
 
-            // ´ÓÇ°×º½Úµã¿ªÊ¼±éÀúËùÓĞ×Ó½Úµã
+            // ä»å‰ç¼€èŠ‚ç‚¹å¼€å§‹éå†æ‰€æœ‰å­èŠ‚ç‚¹
             std::string path = prefix;
             traverse(node, path, res);
             return res;
         }
 
         /**
-         * »ñÈ¡ËùÓĞÆ¥ÅäÄ£Ê½µÄ¼ü£¨Ö§³Ö'.'×÷ÎªÍ¨Åä·û£¬Æ¥Åäµ¥¸öÈÎÒâ×Ö·û£©
-         * @param pattern Ä£Ê½×Ö·û´®£¬ÆäÖĞ'.'´ú±íÆ¥ÅäÈÎÒâµ¥¸ö×Ö·û
-         * @return Æ¥ÅäµÄ¼üÁĞ±í
+         * è·å–æ‰€æœ‰åŒ¹é…æ¨¡å¼çš„é”®ï¼ˆæ”¯æŒ'.'ä½œä¸ºé€šé…ç¬¦ï¼ŒåŒ¹é…å•ä¸ªä»»æ„å­—ç¬¦ï¼‰
+         * @param pattern æ¨¡å¼å­—ç¬¦ä¸²ï¼Œå…¶ä¸­'.'ä»£è¡¨åŒ¹é…ä»»æ„å•ä¸ªå­—ç¬¦
+         * @return åŒ¹é…çš„é”®åˆ—è¡¨
          */
         std::list<std::string> keysByPattern(const std::string& pattern)
         {
@@ -429,9 +429,9 @@ namespace ol
         }
 
         /**
-         * ¼ì²éÊÇ·ñ´æÔÚÆ¥ÅäÄ£Ê½µÄ¼ü£¨Ö§³Ö'.'×÷ÎªÍ¨Åä·û£¬Æ¥Åäµ¥¸öÈÎÒâ×Ö·û£©
-         * @param pattern Ä£Ê½×Ö·û´®
-         * @return ´æÔÚ·µ»Øtrue£¬·ñÔò·µ»Øfalse
+         * æ£€æŸ¥æ˜¯å¦å­˜åœ¨åŒ¹é…æ¨¡å¼çš„é”®ï¼ˆæ”¯æŒ'.'ä½œä¸ºé€šé…ç¬¦ï¼ŒåŒ¹é…å•ä¸ªä»»æ„å­—ç¬¦ï¼‰
+         * @param pattern æ¨¡å¼å­—ç¬¦ä¸²
+         * @return å­˜åœ¨è¿”å›trueï¼Œå¦åˆ™è¿”å›false
          */
         bool hasPattern(const std::string& pattern)
         {
@@ -439,8 +439,8 @@ namespace ol
         }
 
         /**
-         * »ñÈ¡µ±Ç°¼üÖµ¶ÔµÄÊıÁ¿
-         * @return ¼üÖµ¶ÔÊıÁ¿
+         * è·å–å½“å‰é”®å€¼å¯¹çš„æ•°é‡
+         * @return é”®å€¼å¯¹æ•°é‡
          */
         size_t size() const
         {

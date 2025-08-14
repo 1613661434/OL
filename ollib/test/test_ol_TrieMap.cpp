@@ -8,32 +8,32 @@ int main()
 {
     TrieMap<std::string> trie;
 
-    // 1. ²åÈë¼üÖµ¶Ô£¨°üº¬Ä¬ÈÏÖµ³¡¾°£©
+    // 1. æ’å…¥é”®å€¼å¯¹ï¼ˆåŒ…å«é»˜è®¤å€¼åœºæ™¯ï¼‰
     trie.put("apple", "A fruit");
     trie.put("app", "Short for application");
     trie.put("application", "A software program");
     trie.put("banana", "Another fruit");
-    trie.put("grape", ""); // ²åÈëÄ¬ÈÏÖµ£¨¿Õ×Ö·û´®£©
-    std::cout << "=== ²åÈëÍê³É ===" << std::endl;
+    trie.put("grape", ""); // æ’å…¥é»˜è®¤å€¼ï¼ˆç©ºå­—ç¬¦ä¸²ï¼‰
+    std::cout << "=== æ’å…¥å®Œæˆ ===" << std::endl;
 
-    // 2. ²âÊÔ get ·½·¨£¨std::optional ´¦Àí£©
+    // 2. æµ‹è¯• get æ–¹æ³•ï¼ˆstd::optional å¤„ç†ï¼‰
     auto getApple = trie.get("apple");
     std::cout << "Get 'apple': " << (getApple.has_value() ? getApple.value() : "null") << std::endl; // A fruit
 
     auto getGrape = trie.get("grape");
-    std::cout << "Get 'grape' (empty value): " << (getGrape.has_value() ? getGrape.value() : "null") << std::endl; // ¿Õ×Ö·û´®
+    std::cout << "Get 'grape' (empty value): " << (getGrape.has_value() ? getGrape.value() : "null") << std::endl; // ç©ºå­—ç¬¦ä¸²
 
     auto getOrange = trie.get("orange");
     std::cout << "Get 'orange' (not exists): " << (getOrange.has_value() ? getOrange.value() : "null") << std::endl; // null
     std::cout << std::endl;
 
-    // 3. ²âÊÔ has ·½·¨
+    // 3. æµ‹è¯• has æ–¹æ³•
     std::cout << "Has 'apple'? " << (trie.has("apple") ? "Yes" : "No") << std::endl;   // Yes
-    std::cout << "Has 'grape'? " << (trie.has("grape") ? "Yes" : "No") << std::endl;   // Yes£¨¼´Ê¹ÖµÎª¿Õ£©
+    std::cout << "Has 'grape'? " << (trie.has("grape") ? "Yes" : "No") << std::endl;   // Yesï¼ˆå³ä½¿å€¼ä¸ºç©ºï¼‰
     std::cout << "Has 'orange'? " << (trie.has("orange") ? "Yes" : "No") << std::endl; // No
     std::cout << std::endl;
 
-    // 4. Ç°×ºÆ¥Åä²âÊÔ
+    // 4. å‰ç¼€åŒ¹é…æµ‹è¯•
     std::string prefix = "app";
     auto appKeys = trie.keysByPrefix(prefix);
     std::cout << "Keys with prefix '" << prefix << "': ";
@@ -41,13 +41,13 @@ int main()
     std::cout << std::endl
               << std::endl;
 
-    // 5. ×î¶Ì/×î³¤Ç°×º²âÊÔ
+    // 5. æœ€çŸ­/æœ€é•¿å‰ç¼€æµ‹è¯•
     std::string query = "apparatus";
     std::cout << "Shortest prefix of '" << query << "': " << trie.shortestPrefix(query) << std::endl; // app
     std::cout << "Longest prefix of '" << query << "': " << trie.longestPrefix(query) << std::endl;   // app
     std::cout << std::endl;
 
-    // 6. É¾³ı²âÊÔ
+    // 6. åˆ é™¤æµ‹è¯•
     trie.remove("app");
     std::cout << "After remove 'app': " << std::endl;
     std::cout << "Has 'app'? " << (trie.has("app") ? "Yes" : "No") << std::endl; // No
@@ -57,23 +57,23 @@ int main()
     std::cout << std::endl
               << std::endl;
 
-    // 7. Ä£Ê½Æ¥Åä²âÊÔ£¨. Æ¥Åäµ¥¸ö×Ö·û£©
-    std::string pattern1 = "a..le"; // Æ¥Åä apple
+    // 7. æ¨¡å¼åŒ¹é…æµ‹è¯•ï¼ˆ. åŒ¹é…å•ä¸ªå­—ç¬¦ï¼‰
+    std::string pattern1 = "a..le"; // åŒ¹é… apple
     auto match1 = trie.keysByPattern(pattern1);
     std::cout << "Keys matching '" << pattern1 << "': ";
     for (const auto& key : match1) std::cout << key << " "; // apple
     std::cout << std::endl;
 
-    std::string pattern2 = "b.n.n."; // Æ¥Åä banana
+    std::string pattern2 = "b.n.n."; // åŒ¹é… banana
     auto match2 = trie.keysByPattern(pattern2);
     std::cout << "Keys matching '" << pattern2 << "': ";
     for (const auto& key : match2) std::cout << key << " "; // banana
     std::cout << std::endl;
 
-    std::string pattern3 = "..........."; // 11¸ö×Ö·û£¨²âÊÔ±ß½ç£©
+    std::string pattern3 = "..........."; // 11ä¸ªå­—ç¬¦ï¼ˆæµ‹è¯•è¾¹ç•Œï¼‰
     auto match3 = trie.keysByPattern(pattern3);
     std::cout << "Keys matching '" << pattern3 << "': ";
-    for (const auto& key : match3) std::cout << key << " "; // application£¨³¤¶È11£©
+    for (const auto& key : match3) std::cout << key << " "; // applicationï¼ˆé•¿åº¦11ï¼‰
     std::cout << std::endl;
 
     return 0;

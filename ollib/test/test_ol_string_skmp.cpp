@@ -1,6 +1,6 @@
 /*
- *  ³ÌĞòÃû£ºtest_ol_string_skmp.cpp£¬´Ë³ÌĞòÑİÊ¾skmpº¯Êı¡£
- *  ×÷Õß£ºol
+ *  ç¨‹åºåï¼štest_ol_string_skmp.cppï¼Œæ­¤ç¨‹åºæ¼”ç¤ºskmpå‡½æ•°ã€‚
+ *  ä½œè€…ï¼šol
  */
 
 #include "ol_string.h"
@@ -22,21 +22,21 @@ int main()
     cout << "--------------string--------------\n";
     if (pos1 == string::npos)
     {
-        cout << "Î´ÕÒµ½×Ó´®\n";
+        cout << "æœªæ‰¾åˆ°å­ä¸²\n";
     }
     else
     {
-        cout << "ÕÒµ½×Ó´®,Ë÷Òı: " << pos1 << "\n";
+        cout << "æ‰¾åˆ°å­ä¸²,ç´¢å¼•: " << pos1 << "\n";
     }
 
     cout << "--------------char*--------------\n";
     if (pos2 == string::npos)
     {
-        cout << "Î´ÕÒµ½×Ó´®\n";
+        cout << "æœªæ‰¾åˆ°å­ä¸²\n";
     }
     else
     {
-        cout << "ÕÒµ½×Ó´®,Ë÷Òı: " << pos2 << "\n";
+        cout << "æ‰¾åˆ°å­ä¸²,ç´¢å¼•: " << pos2 << "\n";
     }
 
     return 0;

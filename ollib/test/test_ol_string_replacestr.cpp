@@ -1,6 +1,6 @@
 /*
- *  ³ÌĞòÃû£ºtest_ol_string_replacestr.cpp£¬´Ë³ÌĞòÑİÊ¾¿ª·¢¿ò¼ÜÖĞ×Ö·û´®Ìæ»»replacestrº¯ÊıµÄÊ¹ÓÃ¡£
- *  ×÷Õß£ºol
+ *  ç¨‹åºåï¼štest_ol_string_replacestr.cppï¼Œæ­¤ç¨‹åºæ¼”ç¤ºå¼€å‘æ¡†æ¶ä¸­å­—ç¬¦ä¸²æ›¿æ¢replacestrå‡½æ•°çš„ä½¿ç”¨ã€‚
+ *  ä½œè€…ï¼šol
  */
 #include "ol_string.h"
 #include <iostream>
@@ -19,54 +19,54 @@ int main()
     char str1[301];
 
     strcpy(str1, "name:messi,no:10,job:striker.");
-    replacestr(str1, ":", "="); // °ÑÃ°ºÅÌæ»»³ÉµÈºÅ¡£
-    printf("str1=%s=\n", str1); // ³öÊä½á¹ûÊÇstr1=name=messi,no=10,job=striker.=
+    replacestr(str1, ":", "="); // æŠŠå†’å·æ›¿æ¢æˆç­‰å·ã€‚
+    printf("str1=%s=\n", str1); // å‡ºè¾“ç»“æœæ˜¯str1=name=messi,no=10,job=striker.=
 
     strcpy(str1, "name:messi,no:10,job:striker.");
-    replacestr(str1, "name:", ""); // °Ñ"name:"Ìæ»»³É""£¬Ïàµ±ÓÚÉ¾³ıÄÚÈİ"name:"¡£
-    printf("str1=%s=\n", str1);    // ³öÊä½á¹ûÊÇstr1=messi,no:10,job:striker.=
+    replacestr(str1, "name:", ""); // æŠŠ"name:"æ›¿æ¢æˆ""ï¼Œç›¸å½“äºåˆ é™¤å†…å®¹"name:"ã€‚
+    printf("str1=%s=\n", str1);    // å‡ºè¾“ç»“æœæ˜¯str1=messi,no:10,job:striker.=
 
     strcpy(str1, "messi----10----striker");
-    replacestr(str1, "--", "-", false); // °ÑÁ½¸ö"--"Ìæ»»³ÉÒ»¸ö"-"£¬bloop²ÎÊıÎªfalse¡£
-    printf("str1=%s=\n", str1);         // ³öÊä½á¹ûÊÇstr1=messi--10--striker=
+    replacestr(str1, "--", "-", false); // æŠŠä¸¤ä¸ª"--"æ›¿æ¢æˆä¸€ä¸ª"-"ï¼Œbloopå‚æ•°ä¸ºfalseã€‚
+    printf("str1=%s=\n", str1);         // å‡ºè¾“ç»“æœæ˜¯str1=messi--10--striker=
 
     strcpy(str1, "messi----10----striker");
-    replacestr(str1, "--", "-", true); // °ÑÁ½¸ö"--"Ìæ»»³ÉÒ»¸ö"-"£¬bloop²ÎÊıÎªtrue¡£
-    printf("str1=%s=\n", str1);        // ³öÊä½á¹ûÊÇstr1=messi-10-striker=
+    replacestr(str1, "--", "-", true); // æŠŠä¸¤ä¸ª"--"æ›¿æ¢æˆä¸€ä¸ª"-"ï¼Œbloopå‚æ•°ä¸ºtrueã€‚
+    printf("str1=%s=\n", str1);        // å‡ºè¾“ç»“æœæ˜¯str1=messi-10-striker=
 
     strcpy(str1, "messi-10-striker");
-    replacestr(str1, "-", "--", false); // °ÑÒ»¸ö"-"Ìæ»»³ÉÁ½¸ö"--"£¬bLoop²ÎÊıÎªfalse¡£
-    printf("str1=%s=\n", str1);         // ³öÊä½á¹ûÊÇstr1=messi--10--striker=
+    replacestr(str1, "-", "--", false); // æŠŠä¸€ä¸ª"-"æ›¿æ¢æˆä¸¤ä¸ª"--"ï¼ŒbLoopå‚æ•°ä¸ºfalseã€‚
+    printf("str1=%s=\n", str1);         // å‡ºè¾“ç»“æœæ˜¯str1=messi--10--striker=
 
-    // ÒÔÏÂ´úÂë°Ñ"-"Ìæ»»³É"--"£¬bloop²ÎÊıÎªtrue£¬´æÔÚÂß¼­´íÎó£¬replacestr½«²»Ö´ĞĞÌæ»»¡£
+    // ä»¥ä¸‹ä»£ç æŠŠ"-"æ›¿æ¢æˆ"--"ï¼Œbloopå‚æ•°ä¸ºtrueï¼Œå­˜åœ¨é€»è¾‘é”™è¯¯ï¼Œreplacestrå°†ä¸æ‰§è¡Œæ›¿æ¢ã€‚
     strcpy(str1, "messi-10-striker");
-    replacestr(str1, "-", "--", true); // °ÑÒ»¸ö"-"Ìæ»»³ÉÁ½¸ö"--"£¬bloop²ÎÊıÎªtrue¡£
-    printf("str1=%s=\n", str1);        // ³öÊä½á¹ûÊÇstr1=messi-10-striker=
+    replacestr(str1, "-", "--", true); // æŠŠä¸€ä¸ª"-"æ›¿æ¢æˆä¸¤ä¸ª"--"ï¼Œbloopå‚æ•°ä¸ºtrueã€‚
+    printf("str1=%s=\n", str1);        // å‡ºè¾“ç»“æœæ˜¯str1=messi-10-striker=
 
     // ////////////////////////////////////
     string str2;
     str2 = "name:messi,no:10,job:striker.";
-    replacestr(str2, ":", "=");       // °ÑÃ°ºÅÌæ»»³ÉµÈºÅ¡£
-    cout << "str2=" << str2 << "=\n"; // ³öÊä½á¹ûÊÇstr2=name=messi,no=10,job=striker.=
+    replacestr(str2, ":", "=");       // æŠŠå†’å·æ›¿æ¢æˆç­‰å·ã€‚
+    cout << "str2=" << str2 << "=\n"; // å‡ºè¾“ç»“æœæ˜¯str2=name=messi,no=10,job=striker.=
 
     str2 = "name:messi,no:10,job:striker.";
-    replacestr(str2, "name:", "");    // °Ñ"name:"Ìæ»»³É""£¬Ïàµ±ÓÚÉ¾³ıÄÚÈİ"name:"¡£
-    cout << "str2=" << str2 << "=\n"; // ³öÊä½á¹ûÊÇstr2=messi,no:10,job:striker.=
+    replacestr(str2, "name:", "");    // æŠŠ"name:"æ›¿æ¢æˆ""ï¼Œç›¸å½“äºåˆ é™¤å†…å®¹"name:"ã€‚
+    cout << "str2=" << str2 << "=\n"; // å‡ºè¾“ç»“æœæ˜¯str2=messi,no:10,job:striker.=
 
     str2 = "messi----10----striker";
-    replacestr(str2, "--", "-", false); // °ÑÁ½¸ö"--"Ìæ»»³ÉÒ»¸ö"-"£¬bLoop²ÎÊıÎªfalse¡£
-    cout << "str2=" << str2 << "=\n";   // ³öÊä½á¹ûÊÇstr2=messi--10--striker=
+    replacestr(str2, "--", "-", false); // æŠŠä¸¤ä¸ª"--"æ›¿æ¢æˆä¸€ä¸ª"-"ï¼ŒbLoopå‚æ•°ä¸ºfalseã€‚
+    cout << "str2=" << str2 << "=\n";   // å‡ºè¾“ç»“æœæ˜¯str2=messi--10--striker=
 
     str2 = "messi----10----striker";
-    replacestr(str2, "--", "-", true); // °ÑÁ½¸ö"--"Ìæ»»³ÉÒ»¸ö"-"£¬bLoop²ÎÊıÎªtrue¡£
-    cout << "str2=" << str2 << "=\n";  // ³öÊä½á¹ûÊÇstr2=messi-10-striker=
+    replacestr(str2, "--", "-", true); // æŠŠä¸¤ä¸ª"--"æ›¿æ¢æˆä¸€ä¸ª"-"ï¼ŒbLoopå‚æ•°ä¸ºtrueã€‚
+    cout << "str2=" << str2 << "=\n";  // å‡ºè¾“ç»“æœæ˜¯str2=messi-10-striker=
 
     str2 = "messi-10-striker";
-    replacestr(str2, "-", "--", false); // °ÑÒ»¸ö"-"Ìæ»»³ÉÁ½¸ö"--"£¬bLoop²ÎÊıÎªfalse¡£
-    cout << "str2=" << str2 << "=\n";   // ³öÊä½á¹ûÊÇstr2=messi--10--striker=
+    replacestr(str2, "-", "--", false); // æŠŠä¸€ä¸ª"-"æ›¿æ¢æˆä¸¤ä¸ª"--"ï¼ŒbLoopå‚æ•°ä¸ºfalseã€‚
+    cout << "str2=" << str2 << "=\n";   // å‡ºè¾“ç»“æœæ˜¯str2=messi--10--striker=
 
-    // ÒÔÏÂ´úÂë°Ñ"-"Ìæ»»³É"--"£¬bloop²ÎÊıÎªtrue£¬´æÔÚÂß¼­´íÎó£¬updatestr½«²»Ö´ĞĞÌæ»»¡£
+    // ä»¥ä¸‹ä»£ç æŠŠ"-"æ›¿æ¢æˆ"--"ï¼Œbloopå‚æ•°ä¸ºtrueï¼Œå­˜åœ¨é€»è¾‘é”™è¯¯ï¼Œupdatestrå°†ä¸æ‰§è¡Œæ›¿æ¢ã€‚
     str2 = "messi-10-striker";
-    replacestr(str2, "-", "--", true); // °ÑÒ»¸ö"-"Ìæ»»³ÉÁ½¸ö"--"£¬bloop²ÎÊıÎªtrue¡£
-    cout << "str2=" << str2 << "=\n";  // ³öÊä½á¹ûÊÇstr2=messi-10-striker=
+    replacestr(str2, "-", "--", true); // æŠŠä¸€ä¸ª"-"æ›¿æ¢æˆä¸¤ä¸ª"--"ï¼Œbloopå‚æ•°ä¸ºtrueã€‚
+    cout << "str2=" << str2 << "=\n";  // å‡ºè¾“ç»“æœæ˜¯str2=messi-10-striker=
 }

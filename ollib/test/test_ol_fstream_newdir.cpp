@@ -1,6 +1,6 @@
 /*
- *  ³ÌĞòÃû£ºtest_ol_fstream_newdir.cpp£¬´Ë³ÌĞòÑİÊ¾¿ª·¢¿ò¼ÜÖĞ²ÉÓÃnewdirº¯Êı¸ù¾İ¾ø¶ÔÂ·¾¶µÄÎÄ¼şÃû»òÄ¿Â¼ÃûÖğ¼¶µÄ´´½¨Ä¿Â¼¡£
- *  ×÷Õß£ºol
+ *  ç¨‹åºåï¼štest_ol_fstream_newdir.cppï¼Œæ­¤ç¨‹åºæ¼”ç¤ºå¼€å‘æ¡†æ¶ä¸­é‡‡ç”¨newdirå‡½æ•°æ ¹æ®ç»å¯¹è·¯å¾„çš„æ–‡ä»¶åæˆ–ç›®å½•åé€çº§çš„åˆ›å»ºç›®å½•ã€‚
+ *  ä½œè€…ï¼šol
  */
 #include "ol_fstream.h"
 
@@ -9,7 +9,7 @@ using namespace ol;
 int main()
 {
     // /tmp/aaa/bbb/ccc/ddd    /tmp    /tmp/aaa    /tmp/aaa/bbb    /tmp/aaa/bbb/ccc   /tmp/aaa/bbb/ccc/ddd
-    newdir("/tmp/aaa/bbb/ccc/ddd", false); // ´´½¨"/tmp/aaa/bbb/ccc/ddd"Ä¿Â¼¡£
+    newdir("/tmp/aaa/bbb/ccc/ddd", false); // åˆ›å»º"/tmp/aaa/bbb/ccc/ddd"ç›®å½•ã€‚
 
-    newdir("/tmp/111/222/333/444/data.xml", true); // ´´½¨"/tmp/111/222/333/444"Ä¿Â¼¡£
+    newdir("/tmp/111/222/333/444/data.xml", true); // åˆ›å»º"/tmp/111/222/333/444"ç›®å½•ã€‚
 }

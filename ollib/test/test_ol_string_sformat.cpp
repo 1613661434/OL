@@ -1,6 +1,6 @@
 /*
- *  ³ÌĞòÃû£ºtest_ol_string_sformat.cpp£¬´Ë³ÌĞòÑİÊ¾µ÷ÓÃ¿ª·¢¿ò¼ÜµÄ¸ñÊ½»¯Êä³ösformatº¯Êı¡£
- *  ×÷Õß£ºol
+ *  ç¨‹åºåï¼štest_ol_string_sformat.cppï¼Œæ­¤ç¨‹åºæ¼”ç¤ºè°ƒç”¨å¼€å‘æ¡†æ¶çš„æ ¼å¼åŒ–è¾“å‡ºsformatå‡½æ•°ã€‚
+ *  ä½œè€…ï¼šol
  */
 #include "ol_string.h"
 #include <iostream>

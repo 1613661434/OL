@@ -1,6 +1,6 @@
 /*
- *  ³ÌĞòÃû£ºtest_ol_chrono_ltime.cpp£¬´Ë³ÌĞòÑİÊ¾¿ª·¢¿ò¼ÜÖĞltimeÊ±¼äº¯ÊıµÄÊ¹ÓÃ£¨»ñÈ¡²Ù×÷ÏµÍ³Ê±¼ä£©¡£
- *  ×÷Õß£ºol
+ *  ç¨‹åºåï¼štest_ol_chrono_ltime.cppï¼Œæ­¤ç¨‹åºæ¼”ç¤ºå¼€å‘æ¡†æ¶ä¸­ltimeæ—¶é—´å‡½æ•°çš„ä½¿ç”¨ï¼ˆè·å–æ“ä½œç³»ç»Ÿæ—¶é—´ï¼‰ã€‚
+ *  ä½œè€…ï¼šol
  */
 #include "ol_chrono.h"
 #include <iostream>
@@ -11,28 +11,28 @@ using namespace std;
 
 int main()
 {
-    // C·ç¸ñµÄ×Ö·û´®¡£
-    char strtime1[20]; // ´æ·ÅÏµÍ³Ê±¼ä¡£
+    // Cé£æ ¼çš„å­—ç¬¦ä¸²ã€‚
+    char strtime1[20]; // å­˜æ”¾ç³»ç»Ÿæ—¶é—´ã€‚
     memset(strtime1, 0, sizeof(strtime1));
 
-    ltime(strtime1, "yyyy-mm-dd hh24:mi:ss"); // »ñÈ¡µ±Ç°Ê±¼ä¡£
+    ltime(strtime1, "yyyy-mm-dd hh24:mi:ss"); // è·å–å½“å‰æ—¶é—´ã€‚
     printf("strtime1=%s\n", strtime1);
 
-    ltime(strtime1, "yyyy-mm-dd hh24:mi:ss", -30); // »ñÈ¡30ÃëÇ°µÄÊ±¼ä¡£
+    ltime(strtime1, "yyyy-mm-dd hh24:mi:ss", -30); // è·å–30ç§’å‰çš„æ—¶é—´ã€‚
     printf("strtime1=%s\n", strtime1);
 
-    ltime(strtime1, "yyyy-mm-dd hh24:mi:ss", 30); // »ñÈ¡30ÃëºóµÄÊ±¼ä¡£
+    ltime(strtime1, "yyyy-mm-dd hh24:mi:ss", 30); // è·å–30ç§’åçš„æ—¶é—´ã€‚
     printf("strtime1=%s\n", strtime1);
 
-    // C++·ç¸ñµÄ×Ö·û´®¡£
+    // C++é£æ ¼çš„å­—ç¬¦ä¸²ã€‚
     string strtime2;
 
-    ltime(strtime2, "yyyy-mm-dd hh24:mi:ss"); // »ñÈ¡µ±Ç°Ê±¼ä¡£
+    ltime(strtime2, "yyyy-mm-dd hh24:mi:ss"); // è·å–å½“å‰æ—¶é—´ã€‚
     cout << "strtime2=" << strtime2 << "\n";
 
-    ltime(strtime2, "yyyy-mm-dd hh24:mi:ss", -30); // »ñÈ¡30ÃëÇ°µÄÊ±¼ä¡£
+    ltime(strtime2, "yyyy-mm-dd hh24:mi:ss", -30); // è·å–30ç§’å‰çš„æ—¶é—´ã€‚
     cout << "strtime2=" << strtime2 << "\n";
 
-    ltime(strtime2, "yyyy-mm-dd hh24:mi:ss", 30); // »ñÈ¡30ÃëºóµÄÊ±¼ä¡£
+    ltime(strtime2, "yyyy-mm-dd hh24:mi:ss", 30); // è·å–30ç§’åçš„æ—¶é—´ã€‚
     cout << "strtime2=" << strtime2 << "\n";
 }

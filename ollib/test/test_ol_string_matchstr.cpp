@@ -1,6 +1,6 @@
 /*
- *  ³ÌĞòÃû£ºtest_ol_string_matchstr.cpp£¬´Ë³ÌĞòÑİÊ¾¿ª·¢¿ò¼ÜÕıÔò±í´ïÊ¾matchstrº¯ÊıµÄÊ¹ÓÃ¡£
- *  ×÷Õß£ºol
+ *  ç¨‹åºåï¼štest_ol_string_matchstr.cppï¼Œæ­¤ç¨‹åºæ¼”ç¤ºå¼€å‘æ¡†æ¶æ­£åˆ™è¡¨è¾¾ç¤ºmatchstrå‡½æ•°çš„ä½¿ç”¨ã€‚
+ *  ä½œè€…ï¼šol
  */
 #include "ol_string.h"
 #include <iostream>
@@ -10,25 +10,25 @@ using namespace std;
 
 int main()
 {
-    // ÒÔÏÂ´úÂë½«Êä³öyes¡£
+    // ä»¥ä¸‹ä»£ç å°†è¾“å‡ºyesã€‚
     if (matchstr("_public.h", "*.h,*.cpp") == true)
         printf("yes\n");
     else
         printf("no\n");
 
-    // ÒÔÏÂ´úÂë½«Êä³öyes¡£
+    // ä»¥ä¸‹ä»£ç å°†è¾“å‡ºyesã€‚
     if (matchstr("_public.h", "*.H") == true)
         printf("yes\n");
     else
         printf("no\n");
 
-    // ÒÔÏÂ´úÂë½«Êä³öno¡£
+    // ä»¥ä¸‹ä»£ç å°†è¾“å‡ºnoã€‚
     if (matchstr("_public.h", "*p*k*.h") == true)
         printf("yes\n");
     else
         printf("no\n");
 
-    // ÒÔÏÂ´úÂë½«Êä³öyes¡£
+    // ä»¥ä¸‹ä»£ç å°†è¾“å‡ºyesã€‚
     if (matchstr("_public.h", "*") == true)
         printf("yes\n");
     else

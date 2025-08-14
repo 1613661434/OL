@@ -1,6 +1,6 @@
 /*
- *  ³ÌĞòÃû£ºtest_ol_string_picknumber.cpp£¬´Ë³ÌĞòÑİÊ¾¿ª·¢¿ò¼ÜÖĞpicknumberº¯ÊıµÄÊ¹ÓÃ¡£
- *  ×÷Õß£ºol
+ *  ç¨‹åºåï¼štest_ol_string_picknumber.cppï¼Œæ­¤ç¨‹åºæ¼”ç¤ºå¼€å‘æ¡†æ¶ä¸­picknumberå‡½æ•°çš„ä½¿ç”¨ã€‚
+ *  ä½œè€…ï¼šol
  */
 #include "ol_string.h"
 #include <iostream>
@@ -21,25 +21,25 @@ int main()
 
     strcpy(str1, "iab+12.3xy");
     picknumber(str1, str1, false, false);
-    printf("str1=%s=\n", str1); // ³öÊä½á¹ûÊÇstr1=123=
+    printf("str1=%s=\n", str1); // å‡ºè¾“ç»“æœæ˜¯str1=123=
 
     str2 = "iab+12.3xy";
     picknumber(str2, str2, false, false);
-    cout << "str2=" << str2 << "=\n"; // ³öÊä½á¹ûÊÇstr2=123=
+    cout << "str2=" << str2 << "=\n"; // å‡ºè¾“ç»“æœæ˜¯str2=123=
 
     strcpy(str1, "iab+12.3xy");
     picknumber(str1, str1, true, false);
-    printf("str1=%s=\n", str1); // ³öÊä½á¹ûÊÇstr1=+123=
+    printf("str1=%s=\n", str1); // å‡ºè¾“ç»“æœæ˜¯str1=+123=
 
     str2 = "iab+12.3xy";
     picknumber(str2, str2, true, false);
-    cout << "str2=" << str2 << "=\n"; // ³öÊä½á¹ûÊÇstr2=+123=
+    cout << "str2=" << str2 << "=\n"; // å‡ºè¾“ç»“æœæ˜¯str2=+123=
 
     strcpy(str1, "iab+12.3xy");
     picknumber(str1, str1, true, true);
-    printf("str1=%s=\n", str1); // ³öÊä½á¹ûÊÇstr1=+12.3=
+    printf("str1=%s=\n", str1); // å‡ºè¾“ç»“æœæ˜¯str1=+12.3=
 
     str2 = "iab+12.3xy";
     picknumber(str2, str2, true, true);
-    cout << "str2=" << str2 << "=\n"; // ³öÊä½á¹ûÊÇstr2=+12.3=
+    cout << "str2=" << str2 << "=\n"; // å‡ºè¾“ç»“æœæ˜¯str2=+12.3=
 }

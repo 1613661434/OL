@@ -1,24 +1,24 @@
 /****************************************************************************************/
 /*
- * ³ÌĞòÃû£ºol_fstream.h
- * ¹¦ÄÜÃèÊö£ºÎÄ¼şÏµÍ³²Ù×÷¹¤¾ßÀà¼°º¯Êı¼¯ºÏ£¬Ö§³Ö¿çÆ½Ì¨£¨Linux/Windows£©²Ù×÷£¬ÌØĞÔ°üÀ¨£º
- *          - Ä¿Â¼´´½¨¡¢ÎÄ¼şÖØÃüÃû¡¢¸´ÖÆ¡¢´óĞ¡/Ê±¼ä»ñÈ¡µÈ»ù´¡ÎÄ¼ş²Ù×÷
- *          - Ä¿Â¼±éÀúÀà£¨cdir£©£¬Ö§³Öµİ¹é»ñÈ¡ÎÄ¼şÁĞ±í¼°ÊôĞÔ
- *          - ÎÄ¼ş¶ÁĞ´Àà£¨cofile/cifile£©£¬Ö§³ÖÎÄ±¾/¶ş½øÖÆ²Ù×÷¼°ÁÙÊ±ÎÄ¼ş»úÖÆ
- *          - ÈÕÖ¾ÎÄ¼şÀà£¨clogfile£©£¬Ö§³Ö×Ô¶¯ÇĞ»»¡¢¶àÏß³Ì°²È«
- *          - ¸¨Öú¹¤¾ß£º×ÔĞıËø¡¢×Ô¶¨ÒåÊä³ö²Ù×÷·ûµÈ
- * ×÷Õß£ºol
- * ÊÊÓÃ±ê×¼£ºC++11¼°ÒÔÉÏ£¨ĞèÖ§³Öatomic¡¢fstream¡¢±ä²ÎÄ£°åµÈÌØĞÔ£©
+ * ç¨‹åºåï¼šol_fstream.h
+ * åŠŸèƒ½æè¿°ï¼šæ–‡ä»¶ç³»ç»Ÿæ“ä½œå·¥å…·ç±»åŠå‡½æ•°é›†åˆï¼Œæ”¯æŒè·¨å¹³å°ï¼ˆLinux/Windowsï¼‰æ“ä½œï¼Œç‰¹æ€§åŒ…æ‹¬ï¼š
+ *          - ç›®å½•åˆ›å»ºã€æ–‡ä»¶é‡å‘½åã€å¤åˆ¶ã€å¤§å°/æ—¶é—´è·å–ç­‰åŸºç¡€æ–‡ä»¶æ“ä½œ
+ *          - ç›®å½•éå†ç±»ï¼ˆcdirï¼‰ï¼Œæ”¯æŒé€’å½’è·å–æ–‡ä»¶åˆ—è¡¨åŠå±æ€§
+ *          - æ–‡ä»¶è¯»å†™ç±»ï¼ˆcofile/cifileï¼‰ï¼Œæ”¯æŒæ–‡æœ¬/äºŒè¿›åˆ¶æ“ä½œåŠä¸´æ—¶æ–‡ä»¶æœºåˆ¶
+ *          - æ—¥å¿—æ–‡ä»¶ç±»ï¼ˆclogfileï¼‰ï¼Œæ”¯æŒè‡ªåŠ¨åˆ‡æ¢ã€å¤šçº¿ç¨‹å®‰å…¨
+ *          - è¾…åŠ©å·¥å…·ï¼šè‡ªæ—‹é”ã€è‡ªå®šä¹‰è¾“å‡ºæ“ä½œç¬¦ç­‰
+ * ä½œè€…ï¼šol
+ * é€‚ç”¨æ ‡å‡†ï¼šC++11åŠä»¥ä¸Šï¼ˆéœ€æ”¯æŒatomicã€fstreamã€å˜å‚æ¨¡æ¿ç­‰ç‰¹æ€§ï¼‰
  */
 /****************************************************************************************/
 
 #ifndef __OL_FSTREAM_H
 #define __OL_FSTREAM_H 1
 
-// ½ûÓÃWindowsµÄmin/maxºê
+// ç¦ç”¨Windowsçš„min/maxå®
 #ifdef _WIN32
 #ifndef NOMINMAX
-#define NOMINMAX // ½öÔÚÎ´¶¨ÒåÊ±¶¨Òå
+#define NOMINMAX // ä»…åœ¨æœªå®šä¹‰æ—¶å®šä¹‰
 #endif
 #endif
 
@@ -37,11 +37,11 @@
 #include <dirent.h>
 #include <unistd.h>
 #include <utime.h>
-#elif defined(_WIN32)  // Windows Æ½Ì¨Í·ÎÄ¼ş
-#include <direct.h>    // Ä¿Â¼²Ù×÷
-#include <io.h>        // Ìæ´ú unistd.h
-#include <sys/utime.h> // Windows ÏÂµÄ utime ¶¨Òå
-#include <time.h>      // Ê±¼äº¯Êı
+#elif defined(_WIN32)  // Windows å¹³å°å¤´æ–‡ä»¶
+#include <direct.h>    // ç›®å½•æ“ä½œ
+#include <io.h>        // æ›¿ä»£ unistd.h
+#include <sys/utime.h> // Windows ä¸‹çš„ utime å®šä¹‰
+#include <time.h>      // æ—¶é—´å‡½æ•°
 #endif                 // _WIN32
 
 namespace ol
@@ -50,164 +50,164 @@ namespace ol
 #if defined(__linux__) || defined(_WIN32)
     // ===========================================================================
     /**
-     * ¸ù¾İ¾ø¶ÔÂ·¾¶Öğ¼¶´´½¨Ä¿Â¼
-     * @param pathorfilename ¾ø¶ÔÂ·¾¶µÄÎÄ¼şÃû»òÄ¿Â¼Ãû
-     * @param bisfilename Ö¸¶¨pathorfilenameÀàĞÍ£¨true-ÎÄ¼şÃû£¬false-Ä¿Â¼Ãû£¬Ä¬ÈÏtrue£©
-     * @return true-³É¹¦£¬false-Ê§°Ü£¨È¨ÏŞ²»×ã¡¢Â·¾¶·Ç·¨¡¢´ÅÅÌÂúµÈ£©
+     * æ ¹æ®ç»å¯¹è·¯å¾„é€çº§åˆ›å»ºç›®å½•
+     * @param pathorfilename ç»å¯¹è·¯å¾„çš„æ–‡ä»¶åæˆ–ç›®å½•å
+     * @param bisfilename æŒ‡å®špathorfilenameç±»å‹ï¼ˆtrue-æ–‡ä»¶åï¼Œfalse-ç›®å½•åï¼Œé»˜è®¤trueï¼‰
+     * @return true-æˆåŠŸï¼Œfalse-å¤±è´¥ï¼ˆæƒé™ä¸è¶³ã€è·¯å¾„éæ³•ã€ç£ç›˜æ»¡ç­‰ï¼‰
      */
     bool newdir(const std::string& pathorfilename, bool bisfilename = true);
     // ===========================================================================
 
-    // ÎÄ¼ş²Ù×÷Ïà¹ØµÄº¯Êı
+    // æ–‡ä»¶æ“ä½œç›¸å…³çš„å‡½æ•°
     // ===========================================================================
     /**
-     * ÖØÃüÃûÎÄ¼ş£¨ÀàËÆLinux mvÃüÁî£©
-     * @param srcfilename Ô­ÎÄ¼şÃû£¨½¨Òé¾ø¶ÔÂ·¾¶£©
-     * @param dstfilename Ä¿±êÎÄ¼şÃû£¨½¨Òé¾ø¶ÔÂ·¾¶£©
-     * @return true-³É¹¦£¬false-Ê§°Ü£¨È¨ÏŞ²»×ã¡¢¿ç·ÖÇø¡¢´ÅÅÌÂúµÈ£©
-     * @note ÔÚÖØÃüÃûÎÄ¼şÖ®Ç°£¬»á×Ô¶¯´´½¨dstfilename²ÎÊıÖĞ°üº¬µÄÄ¿Â¼£¬ÔÚÓ¦ÓÃ¿ª·¢ÖĞ£¬¿ÉÒÔÓÃrenamefile()º¯Êı´úÌærename()¿âº¯Êı
+     * é‡å‘½åæ–‡ä»¶ï¼ˆç±»ä¼¼Linux mvå‘½ä»¤ï¼‰
+     * @param srcfilename åŸæ–‡ä»¶åï¼ˆå»ºè®®ç»å¯¹è·¯å¾„ï¼‰
+     * @param dstfilename ç›®æ ‡æ–‡ä»¶åï¼ˆå»ºè®®ç»å¯¹è·¯å¾„ï¼‰
+     * @return true-æˆåŠŸï¼Œfalse-å¤±è´¥ï¼ˆæƒé™ä¸è¶³ã€è·¨åˆ†åŒºã€ç£ç›˜æ»¡ç­‰ï¼‰
+     * @note åœ¨é‡å‘½åæ–‡ä»¶ä¹‹å‰ï¼Œä¼šè‡ªåŠ¨åˆ›å»ºdstfilenameå‚æ•°ä¸­åŒ…å«çš„ç›®å½•ï¼Œåœ¨åº”ç”¨å¼€å‘ä¸­ï¼Œå¯ä»¥ç”¨renamefile()å‡½æ•°ä»£æ›¿rename()åº“å‡½æ•°
      */
     bool renamefile(const std::string& srcfilename, const std::string& dstfilename);
     // ===========================================================================
 
     // ===========================================================================
     /**
-     * ¸´ÖÆÎÄ¼ş£¨ÀàËÆLinux cpÃüÁî£©
-     * @param srcfilename Ô­ÎÄ¼şÃû£¨½¨Òé¾ø¶ÔÂ·¾¶£©
-     * @param dstfilename Ä¿±êÎÄ¼şÃû£¨½¨Òé¾ø¶ÔÂ·¾¶£©
-     * @return true-³É¹¦£¬false-Ê§°Ü£¨È¨ÏŞ²»×ã¡¢´ÅÅÌÂúµÈ£©
-     * @note 1. ×Ô¶¯´´½¨Ä¿±êÄ¿Â¼£»2. ²ÉÓÃÁÙÊ±ÎÄ¼ş»úÖÆ±ÜÃâÖĞ¼ä×´Ì¬£»3. ±£ÁôÔ­ÎÄ¼şÊ±¼äÊôĞÔ
+     * å¤åˆ¶æ–‡ä»¶ï¼ˆç±»ä¼¼Linux cpå‘½ä»¤ï¼‰
+     * @param srcfilename åŸæ–‡ä»¶åï¼ˆå»ºè®®ç»å¯¹è·¯å¾„ï¼‰
+     * @param dstfilename ç›®æ ‡æ–‡ä»¶åï¼ˆå»ºè®®ç»å¯¹è·¯å¾„ï¼‰
+     * @return true-æˆåŠŸï¼Œfalse-å¤±è´¥ï¼ˆæƒé™ä¸è¶³ã€ç£ç›˜æ»¡ç­‰ï¼‰
+     * @note 1. è‡ªåŠ¨åˆ›å»ºç›®æ ‡ç›®å½•ï¼›2. é‡‡ç”¨ä¸´æ—¶æ–‡ä»¶æœºåˆ¶é¿å…ä¸­é—´çŠ¶æ€ï¼›3. ä¿ç•™åŸæ–‡ä»¶æ—¶é—´å±æ€§
      */
     bool copyfile(const std::string& srcfilename, const std::string& dstfilename);
     // ===========================================================================
 
     /**
-     * »ñÈ¡ÎÄ¼ş´óĞ¡
-     * @param filename ÎÄ¼şÃû£¨½¨Òé¾ø¶ÔÂ·¾¶£©
-     * @return ÎÄ¼ş´óĞ¡£¨×Ö½Ú£©£¬Ê§°Ü·µ»Ø-1£¨ÎÄ¼ş²»´æÔÚ¡¢ÎŞÈ¨ÏŞµÈ£©
+     * è·å–æ–‡ä»¶å¤§å°
+     * @param filename æ–‡ä»¶åï¼ˆå»ºè®®ç»å¯¹è·¯å¾„ï¼‰
+     * @return æ–‡ä»¶å¤§å°ï¼ˆå­—èŠ‚ï¼‰ï¼Œå¤±è´¥è¿”å›-1ï¼ˆæ–‡ä»¶ä¸å­˜åœ¨ã€æ— æƒé™ç­‰ï¼‰
      */
     long filesize(const std::string& filename);
 
     /**
-     * »ñÈ¡ÎÄ¼şĞŞ¸ÄÊ±¼ä£¨C×Ö·û´®°æ±¾£©
-     * @param filename ÎÄ¼şÃû£¨½¨Òé¾ø¶ÔÂ·¾¶£©
-     * @param mtime ´æ´¢Ê±¼äµÄ×Ö·ûÊı×é
-     * @param fmt Ê±¼ä¸ñÊ½£¨Ä¬ÈÏ"yyyymmddhh24miss"£¬Ö§³Öltime¼æÈİ¸ñÊ½£©
-     * @return true-³É¹¦£¬false-Ê§°Ü£¨ÎÄ¼ş²»´æÔÚ¡¢ÎŞÈ¨ÏŞµÈ£©
+     * è·å–æ–‡ä»¶ä¿®æ”¹æ—¶é—´ï¼ˆCå­—ç¬¦ä¸²ç‰ˆæœ¬ï¼‰
+     * @param filename æ–‡ä»¶åï¼ˆå»ºè®®ç»å¯¹è·¯å¾„ï¼‰
+     * @param mtime å­˜å‚¨æ—¶é—´çš„å­—ç¬¦æ•°ç»„
+     * @param fmt æ—¶é—´æ ¼å¼ï¼ˆé»˜è®¤"yyyymmddhh24miss"ï¼Œæ”¯æŒltimeå…¼å®¹æ ¼å¼ï¼‰
+     * @return true-æˆåŠŸï¼Œfalse-å¤±è´¥ï¼ˆæ–‡ä»¶ä¸å­˜åœ¨ã€æ— æƒé™ç­‰ï¼‰
      */
     bool filemtime(const std::string& filename, char* mtime, const std::string& fmt = "yyyymmddhh24miss");
 
     /**
-     * »ñÈ¡ÎÄ¼şĞŞ¸ÄÊ±¼ä£¨std::string°æ±¾£©
-     * @param filename ÎÄ¼şÃû£¨½¨Òé¾ø¶ÔÂ·¾¶£©
-     * @param mtime ´æ´¢Ê±¼äµÄ×Ö·û´®ÒıÓÃ
-     * @param fmt Ê±¼ä¸ñÊ½£¨Ä¬ÈÏ"yyyymmddhh24miss"£©
-     * @return true-³É¹¦£¬false-Ê§°Ü
+     * è·å–æ–‡ä»¶ä¿®æ”¹æ—¶é—´ï¼ˆstd::stringç‰ˆæœ¬ï¼‰
+     * @param filename æ–‡ä»¶åï¼ˆå»ºè®®ç»å¯¹è·¯å¾„ï¼‰
+     * @param mtime å­˜å‚¨æ—¶é—´çš„å­—ç¬¦ä¸²å¼•ç”¨
+     * @param fmt æ—¶é—´æ ¼å¼ï¼ˆé»˜è®¤"yyyymmddhh24miss"ï¼‰
+     * @return true-æˆåŠŸï¼Œfalse-å¤±è´¥
      */
     bool filemtime(const std::string& filename, std::string& mtime, const std::string& fmt = "yyyymmddhh24miss");
 
     /**
-     * ÖØÖÃÎÄ¼şĞŞ¸ÄÊ±¼äÊôĞÔ
-     * @param filename ÎÄ¼şÃû£¨½¨Òé¾ø¶ÔÂ·¾¶£©
-     * @param mtime Ê±¼ä×Ö·û´®£¨Ğè°üº¬yyyymmddhh24miss£¬Ë³Ğò²»¿É±ä£©
-     * @return true-³É¹¦£¬false-Ê§°Ü£¨Ê§°ÜÔ­Òò¼ûerrno£©
+     * é‡ç½®æ–‡ä»¶ä¿®æ”¹æ—¶é—´å±æ€§
+     * @param filename æ–‡ä»¶åï¼ˆå»ºè®®ç»å¯¹è·¯å¾„ï¼‰
+     * @param mtime æ—¶é—´å­—ç¬¦ä¸²ï¼ˆéœ€åŒ…å«yyyymmddhh24missï¼Œé¡ºåºä¸å¯å˜ï¼‰
+     * @return true-æˆåŠŸï¼Œfalse-å¤±è´¥ï¼ˆå¤±è´¥åŸå› è§errnoï¼‰
      */
     bool setmtime(const std::string& filename, const std::string& mtime);
     // ===========================================================================
 
     // ===========================================================================
-    // »ñÈ¡Ä³Ä¿Â¼¼°Æä×ÓÄ¿Â¼ÖĞµÄÎÄ¼şÁĞ±íµÄÀà¡£
+    // è·å–æŸç›®å½•åŠå…¶å­ç›®å½•ä¸­çš„æ–‡ä»¶åˆ—è¡¨çš„ç±»ã€‚
     class cdir
     {
     private:
-        std::vector<std::string> m_filelist; // ´æ·ÅÎÄ¼şÁĞ±íµÄÈİÆ÷£¨¾ø¶ÔÂ·¾¶µÄÎÄ¼şÃû£©¡£
-        size_t m_pos;                        // ´ÓÎÄ¼şÁĞ±ím_filelistÖĞÒÑ¶ÁÈ¡ÎÄ¼şµÄÎ»ÖÃ¡£
-        std::string m_fmt;                   // ÎÄ¼şÊ±¼ä¸ñÊ½£¬È±Ê¡"yyyymmddhh24miss"¡£
+        std::vector<std::string> m_filelist; // å­˜æ”¾æ–‡ä»¶åˆ—è¡¨çš„å®¹å™¨ï¼ˆç»å¯¹è·¯å¾„çš„æ–‡ä»¶åï¼‰ã€‚
+        size_t m_pos;                        // ä»æ–‡ä»¶åˆ—è¡¨m_filelistä¸­å·²è¯»å–æ–‡ä»¶çš„ä½ç½®ã€‚
+        std::string m_fmt;                   // æ–‡ä»¶æ—¶é—´æ ¼å¼ï¼Œç¼ºçœ"yyyymmddhh24miss"ã€‚
 
-        cdir(const cdir&) = delete;            // ½ûÓÃ¿½±´¹¹Ôìº¯Êı¡£
-        cdir& operator=(const cdir&) = delete; // ½ûÓÃ¸³Öµº¯Êı¡£
+        cdir(const cdir&) = delete;            // ç¦ç”¨æ‹·è´æ„é€ å‡½æ•°ã€‚
+        cdir& operator=(const cdir&) = delete; // ç¦ç”¨èµ‹å€¼å‡½æ•°ã€‚
     public:
         // /project/public/_public.h
-        std::string m_dirname;   // Ä¿Â¼Ãû£¬ÀıÈç£º/project/public
-        std::string m_filename;  // ÎÄ¼şÃû£¬²»°üÀ¨Ä¿Â¼Ãû£¬ÀıÈç£º_public.h
-        std::string m_ffilename; // ¾ø¶ÔÂ·¾¶µÄÎÄ¼ş£¬ÀıÈç£º/project/public/_public.h
-        size_t m_filesize;       // ÎÄ¼şµÄ´óĞ¡£¬µ¥Î»£º×Ö½Ú¡£
-        std::string m_mtime;     // ÎÄ¼ş×îºóÒ»´Î±»ĞŞ¸ÄµÄÊ±¼ä£¬¼´stat½á¹¹ÌåµÄst_mtime³ÉÔ±¡£
-        std::string m_ctime;     // ÎÄ¼şÉú³ÉµÄÊ±¼ä£¬¼´stat½á¹¹ÌåµÄst_ctime³ÉÔ±¡£
-        std::string m_atime;     // ÎÄ¼ş×îºóÒ»´Î±»·ÃÎÊµÄÊ±¼ä£¬¼´stat½á¹¹ÌåµÄst_atime³ÉÔ±¡£
+        std::string m_dirname;   // ç›®å½•åï¼Œä¾‹å¦‚ï¼š/project/public
+        std::string m_filename;  // æ–‡ä»¶åï¼Œä¸åŒ…æ‹¬ç›®å½•åï¼Œä¾‹å¦‚ï¼š_public.h
+        std::string m_ffilename; // ç»å¯¹è·¯å¾„çš„æ–‡ä»¶ï¼Œä¾‹å¦‚ï¼š/project/public/_public.h
+        size_t m_filesize;       // æ–‡ä»¶çš„å¤§å°ï¼Œå•ä½ï¼šå­—èŠ‚ã€‚
+        std::string m_mtime;     // æ–‡ä»¶æœ€åä¸€æ¬¡è¢«ä¿®æ”¹çš„æ—¶é—´ï¼Œå³statç»“æ„ä½“çš„st_mtimeæˆå‘˜ã€‚
+        std::string m_ctime;     // æ–‡ä»¶ç”Ÿæˆçš„æ—¶é—´ï¼Œå³statç»“æ„ä½“çš„st_ctimeæˆå‘˜ã€‚
+        std::string m_atime;     // æ–‡ä»¶æœ€åä¸€æ¬¡è¢«è®¿é—®çš„æ—¶é—´ï¼Œå³statç»“æ„ä½“çš„st_atimeæˆå‘˜ã€‚
 
-        // ¹¹Ôìº¯Êı¡£
+        // æ„é€ å‡½æ•°ã€‚
         cdir() : m_pos(0), m_fmt("yyyymmddhh24miss"), m_filesize(0)
         {
         }
 
         /**
-         * ÉèÖÃÎÄ¼şÊ±¼ä¸ñÊ½
-         * @param fmt Ö§³Ö"yyyy-mm-dd hh24:mi:ss"ºÍ"yyyymmddhh24miss"£¨Ä¬ÈÏºóÕß£©
+         * è®¾ç½®æ–‡ä»¶æ—¶é—´æ ¼å¼
+         * @param fmt æ”¯æŒ"yyyy-mm-dd hh24:mi:ss"å’Œ"yyyymmddhh24miss"ï¼ˆé»˜è®¤åè€…ï¼‰
          */
         void setfmt(const std::string& fmt);
 
         /**
-         * ´ò¿ªÄ¿Â¼²¢»ñÈ¡ÎÄ¼şÁĞ±í£¬´æ·ÅÔÚm_filelistÈİÆ÷ÖĞ
-         * @param dirname Ä¿Â¼Ãû£¨¾ø¶ÔÂ·¾¶£¬Èç/tmp/root£©
-         * @param rules ÎÄ¼şÃûÆ¥Åä¹æÔò£¨²»Æ¥ÅäµÄÎÄ¼ş½«±»ºöÂÔ£©
-         * @param maxfiles ×î´óÎÄ¼şÊıÁ¿£¨Ä¬ÈÏ10000£¬Èç¹ûÎÄ¼şÌ«¶à£¬¿ÉÄÜÏûºÄÌ«¶àµÄÄÚ´æ£©
-         * @param bandchild ÊÇ·ñµİ¹é×ÓÄ¿Â¼£¨Ä¬ÈÏfalse£©
-         * @param bsort ÊÇ·ñ°´ÎÄ¼şÃûÅÅĞò£¨Ä¬ÈÏfalse£©
-         * @return true-³É¹¦£¬false-Ê§°Ü
+         * æ‰“å¼€ç›®å½•å¹¶è·å–æ–‡ä»¶åˆ—è¡¨ï¼Œå­˜æ”¾åœ¨m_filelistå®¹å™¨ä¸­
+         * @param dirname ç›®å½•åï¼ˆç»å¯¹è·¯å¾„ï¼Œå¦‚/tmp/rootï¼‰
+         * @param rules æ–‡ä»¶ååŒ¹é…è§„åˆ™ï¼ˆä¸åŒ¹é…çš„æ–‡ä»¶å°†è¢«å¿½ç•¥ï¼‰
+         * @param maxfiles æœ€å¤§æ–‡ä»¶æ•°é‡ï¼ˆé»˜è®¤10000ï¼Œå¦‚æœæ–‡ä»¶å¤ªå¤šï¼Œå¯èƒ½æ¶ˆè€—å¤ªå¤šçš„å†…å­˜ï¼‰
+         * @param bandchild æ˜¯å¦é€’å½’å­ç›®å½•ï¼ˆé»˜è®¤falseï¼‰
+         * @param bsort æ˜¯å¦æŒ‰æ–‡ä»¶åæ’åºï¼ˆé»˜è®¤falseï¼‰
+         * @return true-æˆåŠŸï¼Œfalse-å¤±è´¥
          */
         bool opendir(const std::string& dirname, const std::string& rules, const size_t maxfiles = 10000, const bool bandchild = false, bool bsort = false);
 
     private:
         /**
-         * µİ¹é±éÀúÄ¿Â¼µÄÄÚ²¿ÊµÏÖ£¨±»opendirµ÷ÓÃ£©
-         * @param dirname Ä¿Â¼Ãû
-         * @param rules ÎÄ¼şÃûÆ¥Åä¹æÔò
-         * @param maxfiles ×î´óÎÄ¼şÊıÁ¿
-         * @param bandchild ÊÇ·ñµİ¹é×ÓÄ¿Â¼
-         * @return true-³É¹¦£¬false-Ê§°Ü
+         * é€’å½’éå†ç›®å½•çš„å†…éƒ¨å®ç°ï¼ˆè¢«opendirè°ƒç”¨ï¼‰
+         * @param dirname ç›®å½•å
+         * @param rules æ–‡ä»¶ååŒ¹é…è§„åˆ™
+         * @param maxfiles æœ€å¤§æ–‡ä»¶æ•°é‡
+         * @param bandchild æ˜¯å¦é€’å½’å­ç›®å½•
+         * @return true-æˆåŠŸï¼Œfalse-å¤±è´¥
          */
         bool _opendir(const std::string& dirname, const std::string& rules, const size_t maxfiles, const bool bandchild);
 
     public:
         /**
-         * ¶ÁÈ¡ÏÂÒ»¸öÎÄ¼şĞÅÏ¢£¨´Óm_filelistÈİÆ÷ÖĞ»ñÈ¡Ò»Ìõ¼ÇÂ¼£¨ÎÄ¼şÃû£©£¬Í¬Ê±»ñÈ¡¸ÃÎÄ¼şµÄ´óĞ¡¡¢ĞŞ¸ÄÊ±¼äµÈĞÅÏ¢¡££©
-         * @return true-³É¹¦£¨Êı¾İ´æÈë³ÉÔ±±äÁ¿£©£¬false-ÒÑÎŞ¸ü¶àÎÄ¼ş
-         * @note µ÷ÓÃopendir·½·¨Ê±£¬m_filelistÈİÆ÷±»Çå¿Õ£¬m_pos¹éÁã£¬Ã¿µ÷ÓÃÒ»´Îreaddir·½·¨m_pos¼Ó1¡£
+         * è¯»å–ä¸‹ä¸€ä¸ªæ–‡ä»¶ä¿¡æ¯ï¼ˆä»m_filelistå®¹å™¨ä¸­è·å–ä¸€æ¡è®°å½•ï¼ˆæ–‡ä»¶åï¼‰ï¼ŒåŒæ—¶è·å–è¯¥æ–‡ä»¶çš„å¤§å°ã€ä¿®æ”¹æ—¶é—´ç­‰ä¿¡æ¯ã€‚ï¼‰
+         * @return true-æˆåŠŸï¼ˆæ•°æ®å­˜å…¥æˆå‘˜å˜é‡ï¼‰ï¼Œfalse-å·²æ— æ›´å¤šæ–‡ä»¶
+         * @note è°ƒç”¨opendiræ–¹æ³•æ—¶ï¼Œm_filelistå®¹å™¨è¢«æ¸…ç©ºï¼Œm_poså½’é›¶ï¼Œæ¯è°ƒç”¨ä¸€æ¬¡readdiræ–¹æ³•m_posåŠ 1ã€‚
          */
         bool readdir();
 
         /**
-         * »ñÈ¡ÎÄ¼şÁĞ±í×ÜÊı
-         * @return ÎÄ¼şÊıÁ¿
+         * è·å–æ–‡ä»¶åˆ—è¡¨æ€»æ•°
+         * @return æ–‡ä»¶æ•°é‡
          */
         size_t size()
         {
             return m_filelist.size();
         }
 
-        // Îö¹¹º¯Êı¡£
+        // ææ„å‡½æ•°ã€‚
         ~cdir();
     };
     // ===========================================================================
 
     // ===========================================================================
-    // ÎÄ¼şĞ´ÈëÀà£¬Ö§³ÖÎÄ±¾/¶ş½øÖÆ¼°ÁÙÊ±ÎÄ¼ş»úÖÆ
+    // æ–‡ä»¶å†™å…¥ç±»ï¼Œæ”¯æŒæ–‡æœ¬/äºŒè¿›åˆ¶åŠä¸´æ—¶æ–‡ä»¶æœºåˆ¶
     class cofile // class out file
     {
     private:
-        std::ofstream fout;        // Ğ´ÈëÎÄ¼şµÄ¶ÔÏó¡£
-        std::string m_filename;    // ÎÄ¼şÃû£¬½¨Òé²ÉÓÃ¾ø¶ÔÂ·¾¶¡£
-        std::string m_filenametmp; // ÁÙÊ±ÎÄ¼şÃû£¬ÔÚm_filenameºóÃæ¼Ó".tmp"¡£
+        std::ofstream fout;        // å†™å…¥æ–‡ä»¶çš„å¯¹è±¡ã€‚
+        std::string m_filename;    // æ–‡ä»¶åï¼Œå»ºè®®é‡‡ç”¨ç»å¯¹è·¯å¾„ã€‚
+        std::string m_filenametmp; // ä¸´æ—¶æ–‡ä»¶åï¼Œåœ¨m_filenameåé¢åŠ ".tmp"ã€‚
     public:
-        // ¹¹Ôìº¯Êı
+        // æ„é€ å‡½æ•°
         cofile()
         {
         }
 
         /**
-         * ÅĞ¶ÏÎÄ¼şÊÇ·ñÒÑ´ò¿ª
-         * @return true-ÒÑ´ò¿ª£¬false-Î´´ò¿ª
+         * åˆ¤æ–­æ–‡ä»¶æ˜¯å¦å·²æ‰“å¼€
+         * @return true-å·²æ‰“å¼€ï¼Œfalse-æœªæ‰“å¼€
          */
         bool isopen() const
         {
@@ -215,21 +215,21 @@ namespace ol
         }
 
         /**
-         * ´ò¿ªÎÄ¼ş
-         * @param filename Ä¿±êÎÄ¼şÃû
-         * @param btmp ÊÇ·ñÊ¹ÓÃÁÙÊ±ÎÄ¼ş£¨Ä¬ÈÏtrue£¬Íê³ÉºóÖØÃüÃû£©
-         * @param mode ´ò¿ªÄ£Ê½£¨Ä¬ÈÏstd::ios::out£©
-         * @param benbuffer ÊÇ·ñÆôÓÃ»º³åÇø£¨Ä¬ÈÏtrue£©
-         * @return true-³É¹¦£¬false-Ê§°Ü
+         * æ‰“å¼€æ–‡ä»¶
+         * @param filename ç›®æ ‡æ–‡ä»¶å
+         * @param btmp æ˜¯å¦ä½¿ç”¨ä¸´æ—¶æ–‡ä»¶ï¼ˆé»˜è®¤trueï¼Œå®Œæˆåé‡å‘½åï¼‰
+         * @param mode æ‰“å¼€æ¨¡å¼ï¼ˆé»˜è®¤std::ios::outï¼‰
+         * @param benbuffer æ˜¯å¦å¯ç”¨ç¼“å†²åŒºï¼ˆé»˜è®¤trueï¼‰
+         * @return true-æˆåŠŸï¼Œfalse-å¤±è´¥
          */
         bool open(const std::string& filename, const bool btmp = true, const std::ios::openmode mode = std::ios::out, const bool benbuffer = true);
 
         /**
-         * ¸ñÊ½»¯Ğ´ÈëÎÄ±¾Êı¾İ
-         * @tparam Types ¿É±ä²ÎÊıÀàĞÍ
-         * @param fmt ¸ñÊ½×Ö·û´®
-         * @param args ´ı¸ñÊ½»¯µÄ²ÎÊı
-         * @return true-³É¹¦£¬false-Ê§°Ü
+         * æ ¼å¼åŒ–å†™å…¥æ–‡æœ¬æ•°æ®
+         * @tparam Types å¯å˜å‚æ•°ç±»å‹
+         * @param fmt æ ¼å¼å­—ç¬¦ä¸²
+         * @param args å¾…æ ¼å¼åŒ–çš„å‚æ•°
+         * @return true-æˆåŠŸï¼Œfalse-å¤±è´¥
          */
         template <typename... Types>
         bool writeline(const char* fmt, Types... args)
@@ -242,11 +242,11 @@ namespace ol
         }
 
         /**
-         * ÖØÔØ<<ÔËËã·û£¬Ğ´ÈëÎÄ±¾Êı¾İ
-         * @tparam T Êı¾İÀàĞÍ
-         * @param value ´ıĞ´ÈëµÄÊı¾İ
-         * @return ×ÔÉíÒıÓÃ£¨Ö§³ÖÁ´Ê½µ÷ÓÃ£©
-         * @note »»ĞĞĞèÓÃ\n£¬²»¿ÉÓÃendl
+         * é‡è½½<<è¿ç®—ç¬¦ï¼Œå†™å…¥æ–‡æœ¬æ•°æ®
+         * @tparam T æ•°æ®ç±»å‹
+         * @param value å¾…å†™å…¥çš„æ•°æ®
+         * @return è‡ªèº«å¼•ç”¨ï¼ˆæ”¯æŒé“¾å¼è°ƒç”¨ï¼‰
+         * @note æ¢è¡Œéœ€ç”¨\nï¼Œä¸å¯ç”¨endl
          */
         template <typename T>
         cofile& operator<<(const T& value)
@@ -256,23 +256,23 @@ namespace ol
         }
 
         /**
-         * Ğ´Èë¶ş½øÖÆÊı¾İ
-         * @param buf Êı¾İ»º³åÇø
-         * @param bufsize Êı¾İ´óĞ¡£¨×Ö½Ú£©
-         * @return true-³É¹¦£¬false-Ê§°Ü
+         * å†™å…¥äºŒè¿›åˆ¶æ•°æ®
+         * @param buf æ•°æ®ç¼“å†²åŒº
+         * @param bufsize æ•°æ®å¤§å°ï¼ˆå­—èŠ‚ï¼‰
+         * @return true-æˆåŠŸï¼Œfalse-å¤±è´¥
          */
         bool write(void* buf, int bufsize);
 
         /**
-         * ¹Ø±ÕÎÄ¼ş²¢½«ÁÙÊ±ÎÄ¼şÖØÃüÃûÎªÄ¿±êÎÄ¼ş
-         * @return true-³É¹¦£¬false-Ê§°Ü
+         * å…³é—­æ–‡ä»¶å¹¶å°†ä¸´æ—¶æ–‡ä»¶é‡å‘½åä¸ºç›®æ ‡æ–‡ä»¶
+         * @return true-æˆåŠŸï¼Œfalse-å¤±è´¥
          */
         bool closeandrename();
 
-        // ¹Ø±ÕÎÄ¼ş£¨ÈôÓĞÁÙÊ±ÎÄ¼şÔòÉ¾³ı£©
+        // å…³é—­æ–‡ä»¶ï¼ˆè‹¥æœ‰ä¸´æ—¶æ–‡ä»¶åˆ™åˆ é™¤ï¼‰
         void close();
 
-        // Îö¹¹º¯Êı£¬×Ô¶¯¹Ø±ÕÎÄ¼ş
+        // ææ„å‡½æ•°ï¼Œè‡ªåŠ¨å…³é—­æ–‡ä»¶
         ~cofile()
         {
             close();
@@ -281,21 +281,21 @@ namespace ol
     // ===========================================================================
 
     // ===========================================================================
-    // ÎÄ¼ş¶ÁÈ¡Àà£¬Ö§³ÖÎÄ±¾/¶ş½øÖÆ¶ÁÈ¡
+    // æ–‡ä»¶è¯»å–ç±»ï¼Œæ”¯æŒæ–‡æœ¬/äºŒè¿›åˆ¶è¯»å–
     class cifile // class in file
     {
     private:
-        std::ifstream fin;      // ¶ÁÈ¡ÎÄ¼şµÄ¶ÔÏó¡£
-        std::string m_filename; // ÎÄ¼şÃû£¬½¨Òé²ÉÓÃ¾ø¶ÔÂ·¾¶¡£
+        std::ifstream fin;      // è¯»å–æ–‡ä»¶çš„å¯¹è±¡ã€‚
+        std::string m_filename; // æ–‡ä»¶åï¼Œå»ºè®®é‡‡ç”¨ç»å¯¹è·¯å¾„ã€‚
     public:
-        // ¹¹Ôìº¯Êı
+        // æ„é€ å‡½æ•°
         cifile()
         {
         }
 
         /**
-         * ÅĞ¶ÏÎÄ¼şÊÇ·ñÒÑ´ò¿ª
-         * @return true-ÒÑ´ò¿ª£¬false-Î´´ò¿ª
+         * åˆ¤æ–­æ–‡ä»¶æ˜¯å¦å·²æ‰“å¼€
+         * @return true-å·²æ‰“å¼€ï¼Œfalse-æœªæ‰“å¼€
          */
         bool isopen() const
         {
@@ -303,39 +303,39 @@ namespace ol
         }
 
         /**
-         * ´ò¿ªÎÄ¼ş
-         * @param filename ÎÄ¼şÃû
-         * @param mode ´ò¿ªÄ£Ê½£¨Ä¬ÈÏstd::ios::in£©
-         * @return true-³É¹¦£¬false-Ê§°Ü
+         * æ‰“å¼€æ–‡ä»¶
+         * @param filename æ–‡ä»¶å
+         * @param mode æ‰“å¼€æ¨¡å¼ï¼ˆé»˜è®¤std::ios::inï¼‰
+         * @return true-æˆåŠŸï¼Œfalse-å¤±è´¥
          */
         bool open(const std::string& filename, const std::ios::openmode mode = std::ios::in);
 
         /**
-         * °´ĞĞ¶ÁÈ¡ÎÄ±¾ÎÄ¼ş
-         * @param buf ´æ´¢¶ÁÈ¡½á¹ûµÄ×Ö·û´®
-         * @param endbz ĞĞ½áÊø±êÖ¾£¨Ä¬ÈÏ¿Õ£¬¼´»»ĞĞ£©
-         * @return true-³É¹¦£¬false-Ê§°Ü£¨ÈçÒÑµ½ÎÄ¼şÎ²£©
+         * æŒ‰è¡Œè¯»å–æ–‡æœ¬æ–‡ä»¶
+         * @param buf å­˜å‚¨è¯»å–ç»“æœçš„å­—ç¬¦ä¸²
+         * @param endbz è¡Œç»“æŸæ ‡å¿—ï¼ˆé»˜è®¤ç©ºï¼Œå³æ¢è¡Œï¼‰
+         * @return true-æˆåŠŸï¼Œfalse-å¤±è´¥ï¼ˆå¦‚å·²åˆ°æ–‡ä»¶å°¾ï¼‰
          */
         bool readline(std::string& buf, const std::string& endbz = "");
 
         /**
-         * ¶ÁÈ¡¶ş½øÖÆÊı¾İ
-         * @param buf ½ÓÊÕÊı¾İµÄ»º³åÇø
-         * @param bufsize »º³åÇø´óĞ¡£¨×Ö½Ú£©
-         * @return Êµ¼Ê¶ÁÈ¡µÄ×Ö½ÚÊı
+         * è¯»å–äºŒè¿›åˆ¶æ•°æ®
+         * @param buf æ¥æ”¶æ•°æ®çš„ç¼“å†²åŒº
+         * @param bufsize ç¼“å†²åŒºå¤§å°ï¼ˆå­—èŠ‚ï¼‰
+         * @return å®é™…è¯»å–çš„å­—èŠ‚æ•°
          */
         size_t read(void* buf, const size_t bufsize);
 
         /**
-         * ¹Ø±Õ²¢É¾³ıÎÄ¼ş
-         * @return true-³É¹¦£¬false-Ê§°Ü
+         * å…³é—­å¹¶åˆ é™¤æ–‡ä»¶
+         * @return true-æˆåŠŸï¼Œfalse-å¤±è´¥
          */
         bool closeandremove();
 
-        // Ö»¹Ø±ÕÎÄ¼ş¡£
+        // åªå…³é—­æ–‡ä»¶ã€‚
         void close();
 
-        // Îö¹¹º¯Êı£¬×Ô¶¯¹Ø±ÕÎÄ¼ş
+        // ææ„å‡½æ•°ï¼Œè‡ªåŠ¨å…³é—­æ–‡ä»¶
         ~cifile()
         {
             close();
@@ -344,7 +344,7 @@ namespace ol
     // ===========================================================================
 
     // ===========================================================================
-    // ×ÔĞıËøÀà£¬ÓÃÓÚ¶àÏß³ÌÍ¬²½
+    // è‡ªæ—‹é”ç±»ï¼Œç”¨äºå¤šçº¿ç¨‹åŒæ­¥
     class spinlock_mutex
     {
     private:
@@ -354,19 +354,19 @@ namespace ol
         spinlock_mutex& operator=(const spinlock_mutex) = delete;
 
     public:
-        // ¹¹Ôìº¯Êı£¬³õÊ¼»¯Ô­×Ó±êÖ¾
+        // æ„é€ å‡½æ•°ï¼Œåˆå§‹åŒ–åŸå­æ ‡å¿—
         spinlock_mutex()
         {
             flag.clear();
         }
 
-        // ¼ÓËø£¨×ÔĞıµÈ´ıÖ±µ½»ñÈ¡Ëø£©
+        // åŠ é”ï¼ˆè‡ªæ—‹ç­‰å¾…ç›´åˆ°è·å–é”ï¼‰
         void lock()
         {
             while (flag.test_and_set());
         }
 
-        // ½âËø
+        // è§£é”
         void unlock()
         {
             flag.clear();
@@ -375,67 +375,67 @@ namespace ol
     // ===========================================================================
 
     // ===========================================================================
-    // ÈÕÖ¾ÎÄ¼şÀà£¬Ö§³Ö×Ô¶¯ÇĞ»»ºÍ¶àÏß³Ì°²È«
+    // æ—¥å¿—æ–‡ä»¶ç±»ï¼Œæ”¯æŒè‡ªåŠ¨åˆ‡æ¢å’Œå¤šçº¿ç¨‹å®‰å…¨
     class clogfile
     {
-        std::ofstream fout;        // ÈÕÖ¾ÎÄ¼ş¶ÔÏó¡£
-        std::string m_filename;    // ÈÕÖ¾ÎÄ¼şÃû£¬½¨Òé²ÉÓÃ¾ø¶ÔÂ·¾¶¡£
-        std::ios::openmode m_mode; // ÈÕÖ¾ÎÄ¼şµÄ´ò¿ªÄ£Ê½¡£
-        bool m_backup;             // ÊÇ·ñ×Ô¶¯ÇĞ»»ÈÕÖ¾¡£
-        size_t m_maxsize;          // µ±ÈÕÖ¾ÎÄ¼şµÄ´óĞ¡³¬¹ı±¾²ÎÊıÊ±£¬×Ô¶¯ÇĞ»»ÈÕÖ¾¡£
-        bool m_enbuffer;           // ÊÇ·ñÆôÓÃÎÄ¼ş»º³åÇø¡£
-        spinlock_mutex m_splock;   // ×ÔĞıËø£¬ÓÃÓÚ¶àÏß³Ì³ÌĞòÖĞ¸øĞ´ÈÕÖ¾µÄ²Ù×÷¼ÓËø¡£
+        std::ofstream fout;        // æ—¥å¿—æ–‡ä»¶å¯¹è±¡ã€‚
+        std::string m_filename;    // æ—¥å¿—æ–‡ä»¶åï¼Œå»ºè®®é‡‡ç”¨ç»å¯¹è·¯å¾„ã€‚
+        std::ios::openmode m_mode; // æ—¥å¿—æ–‡ä»¶çš„æ‰“å¼€æ¨¡å¼ã€‚
+        bool m_backup;             // æ˜¯å¦è‡ªåŠ¨åˆ‡æ¢æ—¥å¿—ã€‚
+        size_t m_maxsize;          // å½“æ—¥å¿—æ–‡ä»¶çš„å¤§å°è¶…è¿‡æœ¬å‚æ•°æ—¶ï¼Œè‡ªåŠ¨åˆ‡æ¢æ—¥å¿—ã€‚
+        bool m_enbuffer;           // æ˜¯å¦å¯ç”¨æ–‡ä»¶ç¼“å†²åŒºã€‚
+        spinlock_mutex m_splock;   // è‡ªæ—‹é”ï¼Œç”¨äºå¤šçº¿ç¨‹ç¨‹åºä¸­ç»™å†™æ—¥å¿—çš„æ“ä½œåŠ é”ã€‚
 
     public:
         /**
-         * ¹¹Ôìº¯Êı
-         * @param maxsize ÈÕÖ¾×î´ó´óĞ¡£¨MB£¬Ä¬ÈÏ100£©
+         * æ„é€ å‡½æ•°
+         * @param maxsize æ—¥å¿—æœ€å¤§å¤§å°ï¼ˆMBï¼Œé»˜è®¤100ï¼‰
          */
         clogfile(size_t maxsize = 100) : m_mode(std::ios::app), m_backup(true), m_maxsize(maxsize), m_enbuffer(false)
         {
         }
 
         /**
-         * ´ò¿ªÈÕÖ¾ÎÄ¼ş
-         * @param filename ÈÕÖ¾ÎÄ¼şÃû£¨½¨Òé²ÉÓÃ¾ø¶ÔÂ·¾¶£¬Ä¿Â¼²»´æÔÚ»á×Ô¶¯´´½¨£©
-         * @param mode ´ò¿ªÄ£Ê½£¨Ä¬ÈÏstd::ios::app£©
-         * @param bbackup ÊÇ·ñ×Ô¶¯±¸·İ£¨Ä¬ÈÏtrue£¬¶à½ø³ÌĞèÉèÎªfalse£©
-         * @param benbuffer ÊÇ·ñÆôÓÃ»º³åÇø£¨Ä¬ÈÏfalse£¬Á¢¼´Ğ´Èë£©
-         * @return true-³É¹¦£¬false-Ê§°Ü
-         * @note ÔÚ¶à½ø³ÌµÄ³ÌĞòÖĞ£¬¶à¸ö½ø³ÌÍùÍ¬Ò»ÈÕÖ¾ÎÄ¼şĞ´Èë´óÁ¿µÄÈÕÖ¾Ê±£¬¿ÉÄÜ»á³öÏÖĞ¡»ìÂÒ£¬µ«ÊÇ£¬¶àÏß³Ì²»»á¡£
-         * 1£©¶à¸ö½ø³ÌÍùÍ¬Ò»ÈÕÖ¾ÎÄ¼şĞ´Èë´óÁ¿µÄÈÕÖ¾Ê±£¬¿ÉÄÜ»á³öÏÖĞ¡»ìÂÒ£¬Õâ¸öÎÊÌâ²¢²»ÑÏÖØ£¬¿ÉÒÔÈİÈÌ£»
-         * 2£©Ö»ÓĞÍ¬Ê±Ğ´´óÁ¿ÈÕÖ¾Ê±²Å»á³öÏÖ»ìÂÒ£¬ÔÚÊµ¼Ê¿ª·¢ÖĞ£¬ÕâÖÖÇé¿ö²»¶à¼û¡£
-         * 3£©Èç¹ûÒµÎñÎŞ·¨ÈİÈÌ£¬¿ÉÒÔÓÃĞÅºÅÁ¿¼ÓËø¡£
+         * æ‰“å¼€æ—¥å¿—æ–‡ä»¶
+         * @param filename æ—¥å¿—æ–‡ä»¶åï¼ˆå»ºè®®é‡‡ç”¨ç»å¯¹è·¯å¾„ï¼Œç›®å½•ä¸å­˜åœ¨ä¼šè‡ªåŠ¨åˆ›å»ºï¼‰
+         * @param mode æ‰“å¼€æ¨¡å¼ï¼ˆé»˜è®¤std::ios::appï¼‰
+         * @param bbackup æ˜¯å¦è‡ªåŠ¨å¤‡ä»½ï¼ˆé»˜è®¤trueï¼Œå¤šè¿›ç¨‹éœ€è®¾ä¸ºfalseï¼‰
+         * @param benbuffer æ˜¯å¦å¯ç”¨ç¼“å†²åŒºï¼ˆé»˜è®¤falseï¼Œç«‹å³å†™å…¥ï¼‰
+         * @return true-æˆåŠŸï¼Œfalse-å¤±è´¥
+         * @note åœ¨å¤šè¿›ç¨‹çš„ç¨‹åºä¸­ï¼Œå¤šä¸ªè¿›ç¨‹å¾€åŒä¸€æ—¥å¿—æ–‡ä»¶å†™å…¥å¤§é‡çš„æ—¥å¿—æ—¶ï¼Œå¯èƒ½ä¼šå‡ºç°å°æ··ä¹±ï¼Œä½†æ˜¯ï¼Œå¤šçº¿ç¨‹ä¸ä¼šã€‚
+         * 1ï¼‰å¤šä¸ªè¿›ç¨‹å¾€åŒä¸€æ—¥å¿—æ–‡ä»¶å†™å…¥å¤§é‡çš„æ—¥å¿—æ—¶ï¼Œå¯èƒ½ä¼šå‡ºç°å°æ··ä¹±ï¼Œè¿™ä¸ªé—®é¢˜å¹¶ä¸ä¸¥é‡ï¼Œå¯ä»¥å®¹å¿ï¼›
+         * 2ï¼‰åªæœ‰åŒæ—¶å†™å¤§é‡æ—¥å¿—æ—¶æ‰ä¼šå‡ºç°æ··ä¹±ï¼Œåœ¨å®é™…å¼€å‘ä¸­ï¼Œè¿™ç§æƒ…å†µä¸å¤šè§ã€‚
+         * 3ï¼‰å¦‚æœä¸šåŠ¡æ— æ³•å®¹å¿ï¼Œå¯ä»¥ç”¨ä¿¡å·é‡åŠ é”ã€‚
          */
         bool open(const std::string& filename, const std::ios::openmode mode = std::ios::app, const bool bbackup = true, const bool benbuffer = false);
 
         /**
-         * ¸ñÊ½»¯Ğ´ÈëÈÕÖ¾£¨´øÊ±¼äÇ°×º£©
-         * @tparam Types ¿É±ä²ÎÊıÀàĞÍ
-         * @param fmt ¸ñÊ½×Ö·û´®
-         * @param args ´ı¸ñÊ½»¯µÄ²ÎÊı
-         * @return true-³É¹¦£¬false-Ê§°Ü
+         * æ ¼å¼åŒ–å†™å…¥æ—¥å¿—ï¼ˆå¸¦æ—¶é—´å‰ç¼€ï¼‰
+         * @tparam Types å¯å˜å‚æ•°ç±»å‹
+         * @param fmt æ ¼å¼å­—ç¬¦ä¸²
+         * @param args å¾…æ ¼å¼åŒ–çš„å‚æ•°
+         * @return true-æˆåŠŸï¼Œfalse-å¤±è´¥
          */
         template <typename... Types>
         bool write(const char* fmt, Types... args)
         {
             if (fout.is_open() == false) return false;
 
-            backup(); // ÅĞ¶ÏÊÇ·ñĞèÒªÇĞ»»ÈÕÖ¾ÎÄ¼ş¡£
+            backup(); // åˆ¤æ–­æ˜¯å¦éœ€è¦åˆ‡æ¢æ—¥å¿—æ–‡ä»¶ã€‚
 
-            m_splock.lock();                                  // ¼ÓËø¡£
-            fout << ltime1() << " " << sformat(fmt, args...); // °Ñµ±Ç°Ê±¼äºÍÈÕÖ¾ÄÚÈİĞ´ÈëÈÕÖ¾ÎÄ¼ş¡£
-            m_splock.unlock();                                // ½âËø¡£
+            m_splock.lock();                                  // åŠ é”ã€‚
+            fout << ltime1() << " " << sformat(fmt, args...); // æŠŠå½“å‰æ—¶é—´å’Œæ—¥å¿—å†…å®¹å†™å…¥æ—¥å¿—æ–‡ä»¶ã€‚
+            m_splock.unlock();                                // è§£é”ã€‚
 
             return fout.good();
         }
 
         /**
-         * ÖØÔØ<<ÔËËã·û£¬Ğ´ÈëÈÕÖ¾ÄÚÈİ£¨ÎŞÊ±¼äÇ°×º£©
-         * @tparam T Êı¾İÀàĞÍ
-         * @param value ´ıĞ´ÈëµÄÄÚÈİ
-         * @return ×ÔÉíÒıÓÃ£¨Ö§³ÖÁ´Ê½µ÷ÓÃ£©
-         * @note »»ĞĞÓÃ\n£¬²»¿ÉÓÃendl
+         * é‡è½½<<è¿ç®—ç¬¦ï¼Œå†™å…¥æ—¥å¿—å†…å®¹ï¼ˆæ— æ—¶é—´å‰ç¼€ï¼‰
+         * @tparam T æ•°æ®ç±»å‹
+         * @param value å¾…å†™å…¥çš„å†…å®¹
+         * @return è‡ªèº«å¼•ç”¨ï¼ˆæ”¯æŒé“¾å¼è°ƒç”¨ï¼‰
+         * @note æ¢è¡Œç”¨\nï¼Œä¸å¯ç”¨endl
          */
         template <typename T>
         clogfile& operator<<(const T& value)
@@ -449,20 +449,20 @@ namespace ol
 
     private:
         /**
-         * ×Ô¶¯±¸·İÈÕÖ¾£¨Èç¹ûÈÕÖ¾ÎÄ¼şµÄ´óĞ¡³¬¹ım_maxsizeµÄÖµ£¬¾Í°Ñµ±Ç°µÄÈÕÖ¾ÎÄ¼şÃû¸ÄÎªÀúÊ·ÈÕÖ¾ÎÄ¼şÃû£¬ÔÙ´´½¨ĞÂµÄµ±Ç°ÈÕÖ¾ÎÄ¼ş£©
-         * @return true-³É¹¦£¬false-Ê§°Ü
-         * @note ±¸·İÎÄ¼şÃûÎªÔ­ÎÄ¼şÃû+Ê±¼ä´Á£¨Èç/tmp/log/filetodb.log.20200101123025£©
+         * è‡ªåŠ¨å¤‡ä»½æ—¥å¿—ï¼ˆå¦‚æœæ—¥å¿—æ–‡ä»¶çš„å¤§å°è¶…è¿‡m_maxsizeçš„å€¼ï¼Œå°±æŠŠå½“å‰çš„æ—¥å¿—æ–‡ä»¶åæ”¹ä¸ºå†å²æ—¥å¿—æ–‡ä»¶åï¼Œå†åˆ›å»ºæ–°çš„å½“å‰æ—¥å¿—æ–‡ä»¶ï¼‰
+         * @return true-æˆåŠŸï¼Œfalse-å¤±è´¥
+         * @note å¤‡ä»½æ–‡ä»¶åä¸ºåŸæ–‡ä»¶å+æ—¶é—´æˆ³ï¼ˆå¦‚/tmp/log/filetodb.log.20200101123025ï¼‰
          */
         bool backup();
 
     public:
-        // ¹Ø±ÕÈÕÖ¾ÎÄ¼ş
+        // å…³é—­æ—¥å¿—æ–‡ä»¶
         void close()
         {
             fout.close();
         }
 
-        // Îö¹¹º¯Êı£¬×Ô¶¯¹Ø±ÕÎÄ¼ş
+        // ææ„å‡½æ•°ï¼Œè‡ªåŠ¨å…³é—­æ–‡ä»¶
         ~clogfile()
         {
             close();
@@ -471,26 +471,26 @@ namespace ol
     // ===========================================================================
 #endif // defined(__linux__) || defined(_WIN32)
 
-    // ×Ô¶¨Òå²Ù×÷·û
+    // è‡ªå®šä¹‰æ“ä½œç¬¦
     // ===========================================================================
     /**
-     * ×Ô¶¨Òå»»ĞĞ²Ù×İ·û£¨Ìæ´úendl£¬²»Ë¢ĞÂ»º³åÇø£©
-     * @param os Êä³öÁ÷
-     * @return Êä³öÁ÷ÒıÓÃ
+     * è‡ªå®šä¹‰æ¢è¡Œæ“çºµç¬¦ï¼ˆæ›¿ä»£endlï¼Œä¸åˆ·æ–°ç¼“å†²åŒºï¼‰
+     * @param os è¾“å‡ºæµ
+     * @return è¾“å‡ºæµå¼•ç”¨
      */
     std::ostream& nl(std::ostream& os);
 
     /**
-     * ¶ş½øÖÆÊä³ö¸¨Öú½á¹¹Ìå
+     * äºŒè¿›åˆ¶è¾“å‡ºè¾…åŠ©ç»“æ„ä½“
      */
     struct binary_t
     {
-        // ´ıÊä³öµÄÕûÊıÖµ
+        // å¾…è¾“å‡ºçš„æ•´æ•°å€¼
         unsigned long value;
 
         /**
-         * ¹¹Ôìº¯Êı
-         * @param v ´ı×ª»»Îª¶ş½øÖÆÊä³öµÄÕûÊı
+         * æ„é€ å‡½æ•°
+         * @param v å¾…è½¬æ¢ä¸ºäºŒè¿›åˆ¶è¾“å‡ºçš„æ•´æ•°
          */
         explicit binary_t(unsigned long v) : value(v)
         {
@@ -498,10 +498,10 @@ namespace ol
     };
 
     /**
-     * ¶ş½øÖÆÊä³ö¸¨Öúº¯Êı
-     * @tparam T ÕûÊıÀàĞÍ
-     * @param value ´ıÊä³öµÄÕûÊı
-     * @return binary_t½á¹¹Ìå
+     * äºŒè¿›åˆ¶è¾“å‡ºè¾…åŠ©å‡½æ•°
+     * @tparam T æ•´æ•°ç±»å‹
+     * @param value å¾…è¾“å‡ºçš„æ•´æ•°
+     * @return binary_tç»“æ„ä½“
      */
     template <typename T>
     binary_t binary(T value)
@@ -512,9 +512,9 @@ namespace ol
     std::ostream& operator<<(std::ostream& os, const binary_t& b);
 
     /**
-     * Çå¿ÕÊäÈë»º³åÇø£¨ºöÂÔÊ£Óà×Ö·ûÖ±µ½»»ĞĞ£©
-     * @param is ÊäÈëÁ÷
-     * @return ÊäÈëÁ÷ÒıÓÃ
+     * æ¸…ç©ºè¾“å…¥ç¼“å†²åŒºï¼ˆå¿½ç•¥å‰©ä½™å­—ç¬¦ç›´åˆ°æ¢è¡Œï¼‰
+     * @param is è¾“å…¥æµ
+     * @return è¾“å…¥æµå¼•ç”¨
      */
     std::istream& clearbuf(std::istream& is);
     // ===========================================================================

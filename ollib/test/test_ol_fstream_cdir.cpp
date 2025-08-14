@@ -1,6 +1,6 @@
 /*
- * ³ÌĞòÃû£ºtest_ol_fstream_cdir.cpp£¬´Ë³ÌĞòÑİÊ¾¿ª·¢¿ò¼ÜÖĞ²ÉÓÃcdirÀà»ñÈ¡Ä³Ä¿Â¼¼°Æä×ÓÄ¿Â¼ÖĞµÄÎÄ¼şÁĞ±íĞÅÏ¢
- * ×÷Õß£ºol
+ * ç¨‹åºåï¼štest_ol_fstream_cdir.cppï¼Œæ­¤ç¨‹åºæ¼”ç¤ºå¼€å‘æ¡†æ¶ä¸­é‡‡ç”¨cdirç±»è·å–æŸç›®å½•åŠå…¶å­ç›®å½•ä¸­çš„æ–‡ä»¶åˆ—è¡¨ä¿¡æ¯
+ * ä½œè€…ï¼šol
  */
 
 #include "ol_fstream.h"
@@ -24,43 +24,43 @@ int main()
     const bool recursive = true;
     const bool sort_files = true;
 
-    cout << "===== ¿ªÊ¼²âÊÔÄ¿Â¼±éÀú =====" << "\n";
-    cout << "²âÊÔÄ¿Â¼: " << test_dir << "\n";
-    cout << "Æ¥Åä¹æÔò: " << match_rule << "\n";
-    cout << "ÊÇ·ñµİ¹é×ÓÄ¿Â¼: " << (recursive ? "ÊÇ" : "·ñ") << "\n";
-    cout << "×î´óÎÄ¼şÊı: " << max_files << "\n";
+    cout << "===== å¼€å§‹æµ‹è¯•ç›®å½•éå† =====" << "\n";
+    cout << "æµ‹è¯•ç›®å½•: " << test_dir << "\n";
+    cout << "åŒ¹é…è§„åˆ™: " << match_rule << "\n";
+    cout << "æ˜¯å¦é€’å½’å­ç›®å½•: " << (recursive ? "æ˜¯" : "å¦") << "\n";
+    cout << "æœ€å¤§æ–‡ä»¶æ•°: " << max_files << "\n";
     cout << "===========================" << "\n";
 
-    // ´ò¿ªÄ¿Â¼
+    // æ‰“å¼€ç›®å½•
     if (dir.opendir(test_dir, match_rule, max_files, recursive, sort_files) == false)
     {
 #ifdef _WIN32
-        // Ê¹ÓÃVSÍÆ¼öµÄstrerror_sÌæ´ústrerror£¬±ÜÃâ°²È«¾¯¸æ
-        char err_msg[256];                           // ´æ´¢´íÎóĞÅÏ¢µÄ»º³åÇø
-        strerror_s(err_msg, sizeof(err_msg), errno); // °²È«°æ±¾µÄ´íÎóĞÅÏ¢º¯Êı
+        // ä½¿ç”¨VSæ¨èçš„strerror_sæ›¿ä»£strerrorï¼Œé¿å…å®‰å…¨è­¦å‘Š
+        char err_msg[256];                           // å­˜å‚¨é”™è¯¯ä¿¡æ¯çš„ç¼“å†²åŒº
+        strerror_s(err_msg, sizeof(err_msg), errno); // å®‰å…¨ç‰ˆæœ¬çš„é”™è¯¯ä¿¡æ¯å‡½æ•°
 #elif defined(__linux__)
-        perror("´íÎó£ºopendir() Ê§°Ü£¡Ô­Òò£º\n");
+        perror("é”™è¯¯ï¼šopendir() å¤±è´¥ï¼åŸå› ï¼š\n");
 #endif
         return -1;
     }
 
     if (dir.size() == 0)
     {
-        cout << "ÌáÊ¾£ºÎ´ÕÒµ½·ûºÏÌõ¼şµÄÎÄ¼ş¡£" << "\n";
+        cout << "æç¤ºï¼šæœªæ‰¾åˆ°ç¬¦åˆæ¡ä»¶çš„æ–‡ä»¶ã€‚" << "\n";
         return 0;
     }
 
-    cout << "\n===== ÕÒµ½ " << dir.size() << " ¸öÎÄ¼ş =====" << "\n";
+    cout << "\n===== æ‰¾åˆ° " << dir.size() << " ä¸ªæ–‡ä»¶ =====" << "\n";
     size_t count = 0;
     while (dir.readdir())
     {
         ++count;
         cout << "[" << count << "] "
-             << "È«Â·¾¶: " << dir.m_ffilename << "\n"
-             << "ÎÄ¼şÃû: " << dir.m_filename << "\n"
-             << "´óĞ¡: " << dir.m_filesize << "×Ö½Ú" << "\n";
+             << "å…¨è·¯å¾„: " << dir.m_ffilename << "\n"
+             << "æ–‡ä»¶å: " << dir.m_filename << "\n"
+             << "å¤§å°: " << dir.m_filesize << "å­—èŠ‚" << "\n";
     }
 
-    cout << "\n===== ±éÀúÍê³É =====" << "\n";
+    cout << "\n===== éå†å®Œæˆ =====" << "\n";
     return 0;
 }

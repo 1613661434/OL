@@ -10,7 +10,7 @@
 
 namespace ol
 {
-    // ¿çÆ½Ì¨¼æÈİ
+    // è·¨å¹³å°å…¼å®¹
     inline void localtime_now(struct tm* tm_out, const time_t* t)
     {
 #ifdef _WIN32
@@ -20,37 +20,37 @@ namespace ol
 #endif
     }
 
-    // WindowsÏÂÊµÏÖgettimeofday()º¯Êı
+    // Windowsä¸‹å®ç°gettimeofday()å‡½æ•°
 #ifdef _WIN32
 #include <stdint.h>
 #include <windows.h>
 
-    // 1601-01-01µ½1970-01-01µÄ100ns¼ä¸ôÊı
+    // 1601-01-01åˆ°1970-01-01çš„100nsé—´éš”æ•°
 #define UNIX_EPOCH_DIFF 116444736000000000ULL
 
     int gettimeofday(struct timeval* tp, void* tzp)
     {
-        (void)tzp; // ºöÂÔÊ±Çø²ÎÊı
+        (void)tzp; // å¿½ç•¥æ—¶åŒºå‚æ•°
 
         static int initialized = 0;
         static uint64_t ticks_per_sec = 0;
 
-        // 1. »ñÈ¡µ±Ç°ÏµÍ³Ê±¼ä£¨¸ß¾«¶È£©
+        // 1. è·å–å½“å‰ç³»ç»Ÿæ—¶é—´ï¼ˆé«˜ç²¾åº¦ï¼‰
         FILETIME ft;
         GetSystemTimePreciseAsFileTime(&ft); // Windows 8+
 
-        // 2. ×ª»»Îª64Î»ÕûÊı
+        // 2. è½¬æ¢ä¸º64ä½æ•´æ•°
         ULARGE_INTEGER uli;
         uli.LowPart = ft.dwLowDateTime;
         uli.HighPart = ft.dwHighDateTime;
         uint64_t time_in_100ns = uli.QuadPart;
 
-        // 3. ×ª»»ÎªUnix¼ÍÔªÊ±¼ä£¨1970-01-01 UTC£©
+        // 3. è½¬æ¢ä¸ºUnixçºªå…ƒæ—¶é—´ï¼ˆ1970-01-01 UTCï¼‰
         time_in_100ns -= UNIX_EPOCH_DIFF;
 
-        // 4. ×ª»»ÎªÃëºÍÎ¢Ãë
-        tp->tv_sec = (long)(time_in_100ns / 10000000);         // 100ns -> Ãë
-        tp->tv_usec = (long)((time_in_100ns % 10000000) / 10); // 100ns -> Î¢Ãë
+        // 4. è½¬æ¢ä¸ºç§’å’Œå¾®ç§’
+        tp->tv_sec = (long)(time_in_100ns / 10000000);         // 100ns -> ç§’
+        tp->tv_usec = (long)((time_in_100ns % 10000000) / 10); // 100ns -> å¾®ç§’
 
         return 0;
     }
@@ -59,14 +59,14 @@ namespace ol
     // ===========================================================================
     char* ltime(char* strtime, const std::string& fmt, const int timetvl)
     {
-        if (strtime == nullptr) return nullptr; // ÅĞ¶Ï¿ÕÖ¸Õë¡£
+        if (strtime == nullptr) return nullptr; // åˆ¤æ–­ç©ºæŒ‡é’ˆã€‚
 
         time_t timer;
-        time(&timer); // »ñÈ¡ÏµÍ³µ±Ç°Ê±¼ä¡£
+        time(&timer); // è·å–ç³»ç»Ÿå½“å‰æ—¶é—´ã€‚
 
-        timer = timer + timetvl; // ¼ÓÉÏÊ±¼äµÄÆ«ÒÆÁ¿¡£
+        timer = timer + timetvl; // åŠ ä¸Šæ—¶é—´çš„åç§»é‡ã€‚
 
-        timetostr(timer, strtime, fmt); // °ÑÕûÊı±íÊ¾µÄÊ±¼ä×ª»»Îª×Ö·û´®±íÊ¾µÄÊ±¼ä¡£
+        timetostr(timer, strtime, fmt); // æŠŠæ•´æ•°è¡¨ç¤ºçš„æ—¶é—´è½¬æ¢ä¸ºå­—ç¬¦ä¸²è¡¨ç¤ºçš„æ—¶é—´ã€‚
 
         return strtime;
     }
@@ -74,11 +74,11 @@ namespace ol
     std::string& ltime(std::string& strtime, const std::string& fmt, const int timetvl)
     {
         time_t timer;
-        time(&timer); // »ñÈ¡ÏµÍ³µ±Ç°Ê±¼ä¡£
+        time(&timer); // è·å–ç³»ç»Ÿå½“å‰æ—¶é—´ã€‚
 
-        timer = timer + timetvl; // ¼ÓÉÏÊ±¼äµÄÆ«ÒÆÁ¿¡£
+        timer = timer + timetvl; // åŠ ä¸Šæ—¶é—´çš„åç§»é‡ã€‚
 
-        timetostr(timer, strtime, fmt); // °ÑÕûÊı±íÊ¾µÄÊ±¼ä×ª»»Îª×Ö·û´®±íÊ¾µÄÊ±¼ä¡£
+        timetostr(timer, strtime, fmt); // æŠŠæ•´æ•°è¡¨ç¤ºçš„æ—¶é—´è½¬æ¢ä¸ºå­—ç¬¦ä¸²è¡¨ç¤ºçš„æ—¶é—´ã€‚
 
         return strtime;
     }
@@ -87,26 +87,26 @@ namespace ol
     {
         std::string strtime;
 
-        ltime(strtime, fmt, timetvl); // Ö±½Óµ÷ÓÃstd::string& ltime(std::string &strtime,const std::string &fmt="",const int timetvl=0);
+        ltime(strtime, fmt, timetvl); // ç›´æ¥è°ƒç”¨std::string& ltime(std::string &strtime,const std::string &fmt="",const int timetvl=0);
 
         return strtime;
     }
     // ===========================================================================
 
     // ===========================================================================
-    // °ÑÕûÊı±íÊ¾µÄÊ±¼ä×ª»»Îª×Ö·û´®±íÊ¾µÄÊ±¼ä¡£
-    // ttime£ºÕûÊı±íÊ¾µÄÊ±¼ä¡£
-    // strtime£º×Ö·û´®±íÊ¾µÄÊ±¼ä¡£
-    // fmt£ºÊä³ö×Ö·û´®Ê±¼ästrtimeµÄ¸ñÊ½£¬Óëttimeº¯ÊıµÄfmt²ÎÊıÏàÍ¬£¬Èç¹ûfmtµÄ¸ñÊ½²»ÕıÈ·£¬strtime½«Îª¿Õ¡£
+    // æŠŠæ•´æ•°è¡¨ç¤ºçš„æ—¶é—´è½¬æ¢ä¸ºå­—ç¬¦ä¸²è¡¨ç¤ºçš„æ—¶é—´ã€‚
+    // ttimeï¼šæ•´æ•°è¡¨ç¤ºçš„æ—¶é—´ã€‚
+    // strtimeï¼šå­—ç¬¦ä¸²è¡¨ç¤ºçš„æ—¶é—´ã€‚
+    // fmtï¼šè¾“å‡ºå­—ç¬¦ä¸²æ—¶é—´strtimeçš„æ ¼å¼ï¼Œä¸ttimeå‡½æ•°çš„fmtå‚æ•°ç›¸åŒï¼Œå¦‚æœfmtçš„æ ¼å¼ä¸æ­£ç¡®ï¼Œstrtimeå°†ä¸ºç©ºã€‚
     std::string& timetostr(const time_t ttime, std::string& strtime, const std::string& fmt)
     {
-        // struct tm sttm = *localtime ( &ttime );        // ·ÇÏß³Ì°²È«¡£
+        // struct tm sttm = *localtime ( &ttime );        // éçº¿ç¨‹å®‰å…¨ã€‚
         struct tm sttm;
-        localtime_now(&sttm, &ttime);       // Ïß³Ì°²È«¡£
-        sttm.tm_year = sttm.tm_year + 1900; // tm.tm_year³ÉÔ±Òª¼ÓÉÏ1900¡£
-        ++sttm.tm_mon;                      // sttm.tm_mon³ÉÔ±ÊÇ´Ó0¿ªÊ¼µÄ£¬Òª¼Ó1¡£
+        localtime_now(&sttm, &ttime);       // çº¿ç¨‹å®‰å…¨ã€‚
+        sttm.tm_year = sttm.tm_year + 1900; // tm.tm_yearæˆå‘˜è¦åŠ ä¸Š1900ã€‚
+        ++sttm.tm_mon;                      // sttm.tm_monæˆå‘˜æ˜¯ä»0å¼€å§‹çš„ï¼Œè¦åŠ 1ã€‚
 
-        // È±Ê¡µÄÊ±¼ä¸ñÊ½¡£
+        // ç¼ºçœçš„æ—¶é—´æ ¼å¼ã€‚
         if ((fmt == "") || (fmt == "yyyy-mm-dd hh24:mi:ss"))
         {
             strtime = sformat("%04u-%02u-%02u %02u:%02u:%02u", sttm.tm_year, sttm.tm_mon, sttm.tm_mday,
@@ -194,12 +194,12 @@ namespace ol
 
     char* timetostr(const time_t ttime, char* strtime, const std::string& fmt)
     {
-        if (strtime == nullptr) return nullptr; // ÅĞ¶Ï¿ÕÖ¸Õë¡£
+        if (strtime == nullptr) return nullptr; // åˆ¤æ–­ç©ºæŒ‡é’ˆã€‚
 
         std::string str;
-        timetostr(ttime, str, fmt); // Ö±½Óµ÷ÓÃstd::string& timetostr(const time_t ttime,std::string &strtime,const std::string &fmt="");
+        timetostr(ttime, str, fmt); // ç›´æ¥è°ƒç”¨std::string& timetostr(const time_t ttime,std::string &strtime,const std::string &fmt="");
         str.copy(strtime, str.length());
-        strtime[str.length()] = '\0'; // std::stringµÄcopyº¯Êı²»»á¸øC·ç¸ñ×Ö·û´®µÄ½áÎ²¼Ó0¡£
+        strtime[str.length()] = '\0'; // std::stringçš„copyå‡½æ•°ä¸ä¼šç»™Cé£æ ¼å­—ç¬¦ä¸²çš„ç»“å°¾åŠ 0ã€‚
 
         return strtime;
     }
@@ -207,7 +207,7 @@ namespace ol
     std::string timetostr1(const time_t ttime, const std::string& fmt)
     {
         std::string str;
-        timetostr(ttime, str, fmt); // Ö±½Óµ÷ÓÃstd::string& timetostr(const time_t ttime,std::string &strtime,const std::string &fmt="");
+        timetostr(ttime, str, fmt); // ç›´æ¥è°ƒç”¨std::string& timetostr(const time_t ttime,std::string &strtime,const std::string &fmt="");
         return str;
     }
 
@@ -215,12 +215,12 @@ namespace ol
     {
         std::string strtmp, yyyy, mm, dd, hh, mi, ss;
 
-        picknumber(strtime, strtmp, false, false); // °Ñ×Ö·û´®ÖĞµÄÊı×ÖÈ«²¿ÌáÈ¡³öÀ´¡£
+        picknumber(strtime, strtmp, false, false); // æŠŠå­—ç¬¦ä¸²ä¸­çš„æ•°å­—å…¨éƒ¨æå–å‡ºæ¥ã€‚
         // 2021-12-05 08:30:45
         // 2021/12/05 08:30:45
         // 20211205083045
 
-        if (strtmp.length() != 14) return -1; // Èç¹ûÊ±¼ä¸ñÊ½²»ÊÇyyyymmddhh24miss£¬ËµÃ÷Ê±¼ä¸ñÊ½²»ÕıÈ·¡£
+        if (strtmp.length() != 14) return -1; // å¦‚æœæ—¶é—´æ ¼å¼ä¸æ˜¯yyyymmddhh24missï¼Œè¯´æ˜æ—¶é—´æ ¼å¼ä¸æ­£ç¡®ã€‚
 
         yyyy = strtmp.substr(0, 4);
         mm = strtmp.substr(4, 2);
@@ -233,13 +233,13 @@ namespace ol
 
         try
         {
-            sttm.tm_year = stoi(yyyy) - 1900; // ĞèÒª¼õÈ¥ 1900 ÊÇÒòÎª tm_year ´æ´¢µÄÊÇ ×Ô 1900 ÄêÆğµÄÄêÊı¡£ÀúÊ·Ô­Òò£ºC ÓïÑÔµÄÊ±¼ä¿â£¨C++ ¼Ì³Ğ×Ô C£©Éè¼ÆÓÚ 1970 Äê´ú£¬µ±Ê±ÓÃ 1900 ×÷Îª»ù×¼µã¿ÉÒÔ½ÚÊ¡ÄÚ´æ£¨Ö»ĞèÒ»¸öÕûÊı±íÊ¾Äê·İÆ«ÒÆ£©¡£
-            sttm.tm_mon = stoi(mm) - 1;       // ĞèÒª¼õÈ¥ 1 ÊÇÒòÎªÔÂ·İ·¶Î§ÊÇ 0¨C11£¨¶ø·Ç 1¨C12£©
+            sttm.tm_year = stoi(yyyy) - 1900; // éœ€è¦å‡å» 1900 æ˜¯å› ä¸º tm_year å­˜å‚¨çš„æ˜¯ è‡ª 1900 å¹´èµ·çš„å¹´æ•°ã€‚å†å²åŸå› ï¼šC è¯­è¨€çš„æ—¶é—´åº“ï¼ˆC++ ç»§æ‰¿è‡ª Cï¼‰è®¾è®¡äº 1970 å¹´ä»£ï¼Œå½“æ—¶ç”¨ 1900 ä½œä¸ºåŸºå‡†ç‚¹å¯ä»¥èŠ‚çœå†…å­˜ï¼ˆåªéœ€ä¸€ä¸ªæ•´æ•°è¡¨ç¤ºå¹´ä»½åç§»ï¼‰ã€‚
+            sttm.tm_mon = stoi(mm) - 1;       // éœ€è¦å‡å» 1 æ˜¯å› ä¸ºæœˆä»½èŒƒå›´æ˜¯ 0â€“11ï¼ˆè€Œé 1â€“12ï¼‰
             sttm.tm_mday = stoi(dd);
             sttm.tm_hour = stoi(hh);
             sttm.tm_min = stoi(mi);
             sttm.tm_sec = stoi(ss);
-            sttm.tm_isdst = 0; // ÏÄÁîÊ± (tm_isdst)£º0 = ²»ÆôÓÃÏÄÁîÊ±£¬ÕıÊı = ÆôÓÃÏÄÁîÊ±£¬¸ºÊı = ĞÅÏ¢²»¿ÉÓÃ¡£
+            sttm.tm_isdst = 0; // å¤ä»¤æ—¶ (tm_isdst)ï¼š0 = ä¸å¯ç”¨å¤ä»¤æ—¶ï¼Œæ­£æ•° = å¯ç”¨å¤ä»¤æ—¶ï¼Œè´Ÿæ•° = ä¿¡æ¯ä¸å¯ç”¨ã€‚
         }
         catch (const std::exception&)
         {
@@ -255,16 +255,16 @@ namespace ol
     {
         time_t timer;
 
-        // °Ñ×Ö·û´®±íÊ¾µÄÊ±¼ä×ª»»ÎªÕûÊı±íÊ¾µÄÊ±¼ä£¬·½±ãÔËËã¡£
+        // æŠŠå­—ç¬¦ä¸²è¡¨ç¤ºçš„æ—¶é—´è½¬æ¢ä¸ºæ•´æ•°è¡¨ç¤ºçš„æ—¶é—´ï¼Œæ–¹ä¾¿è¿ç®—ã€‚
         if ((timer = strtotime(in_stime)) == -1)
         {
             out_stime = "";
             return false;
         }
 
-        timer = timer + timetvl; // Ê±¼äÔËËã¡£
+        timer = timer + timetvl; // æ—¶é—´è¿ç®—ã€‚
 
-        // °ÑÕûÊı±íÊ¾µÄÊ±¼ä×ª»»Îª×Ö·û´®±íÊ¾µÄÊ±¼ä¡£
+        // æŠŠæ•´æ•°è¡¨ç¤ºçš„æ—¶é—´è½¬æ¢ä¸ºå­—ç¬¦ä¸²è¡¨ç¤ºçš„æ—¶é—´ã€‚
         timetostr(timer, out_stime, fmt);
 
         return true;
@@ -272,20 +272,20 @@ namespace ol
 
     bool addtime(const std::string& in_stime, char* out_stime, const int timetvl, const std::string& fmt)
     {
-        if (out_stime == nullptr) return false; // ÅĞ¶Ï¿ÕÖ¸Õë¡£
+        if (out_stime == nullptr) return false; // åˆ¤æ–­ç©ºæŒ‡é’ˆã€‚
 
         time_t timer;
 
-        // °Ñ×Ö·û´®±íÊ¾µÄÊ±¼ä×ª»»ÎªÕûÊı±íÊ¾µÄÊ±¼ä£¬·½±ãÔËËã¡£
+        // æŠŠå­—ç¬¦ä¸²è¡¨ç¤ºçš„æ—¶é—´è½¬æ¢ä¸ºæ•´æ•°è¡¨ç¤ºçš„æ—¶é—´ï¼Œæ–¹ä¾¿è¿ç®—ã€‚
         if ((timer = strtotime(in_stime)) == -1)
         {
             strcpy(out_stime, "");
             return false;
         }
 
-        timer = timer + timetvl; // Ê±¼äÔËËã¡£
+        timer = timer + timetvl; // æ—¶é—´è¿ç®—ã€‚
 
-        // °ÑÕûÊı±íÊ¾µÄÊ±¼ä×ª»»Îª×Ö·û´®±íÊ¾µÄÊ±¼ä¡£
+        // æŠŠæ•´æ•°è¡¨ç¤ºçš„æ—¶é—´è½¬æ¢ä¸ºå­—ç¬¦ä¸²è¡¨ç¤ºçš„æ—¶é—´ã€‚
         timetostr(timer, out_stime, fmt);
 
         return true;
@@ -295,32 +295,32 @@ namespace ol
     // ===========================================================================
     ctimer::ctimer()
     {
-        start(); // ¼ÆÊ±¿ªÊ¼¡£
+        start(); // è®¡æ—¶å¼€å§‹ã€‚
     }
 
-    // ¼ÆÊ±¿ªÊ¼¡£
+    // è®¡æ—¶å¼€å§‹ã€‚
     void ctimer::start()
     {
         memset(&m_start, 0, sizeof(struct timeval));
         memset(&m_end, 0, sizeof(struct timeval));
 
-        gettimeofday(&m_start, 0); // »ñÈ¡µ±Ç°Ê±¼ä£¬¾«È·µ½Î¢Ãë¡£
+        gettimeofday(&m_start, 0); // è·å–å½“å‰æ—¶é—´ï¼Œç²¾ç¡®åˆ°å¾®ç§’ã€‚
     }
 
-    // ¼ÆËãÒÑÊÅÈ¥µÄÊ±¼ä£¬µ¥Î»£ºÃë£¬Ğ¡ÊıµãºóÃæÊÇÎ¢Ãë
-    // Ã¿µ÷ÓÃÒ»´Î±¾·½·¨Ö®ºó£¬×Ô¶¯µ÷ÓÃStart·½·¨ÖØĞÂ¿ªÊ¼¼ÆÊ±¡£
+    // è®¡ç®—å·²é€å»çš„æ—¶é—´ï¼Œå•ä½ï¼šç§’ï¼Œå°æ•°ç‚¹åé¢æ˜¯å¾®ç§’
+    // æ¯è°ƒç”¨ä¸€æ¬¡æœ¬æ–¹æ³•ä¹‹åï¼Œè‡ªåŠ¨è°ƒç”¨Startæ–¹æ³•é‡æ–°å¼€å§‹è®¡æ—¶ã€‚
     double ctimer::elapsed()
     {
-        gettimeofday(&m_end, 0); // »ñÈ¡µ±Ç°Ê±¼ä×÷Îª¼ÆÊ±½áÊøµÄÊ±¼ä£¬¾«È·µ½Î¢Ãë¡£
+        gettimeofday(&m_end, 0); // è·å–å½“å‰æ—¶é—´ä½œä¸ºè®¡æ—¶ç»“æŸçš„æ—¶é—´ï¼Œç²¾ç¡®åˆ°å¾®ç§’ã€‚
 
         std::string str;
         str = sformat("%ld.%06ld", m_start.tv_sec, m_start.tv_usec);
-        double dstart = stod(str); // °Ñ¼ÆÊ±¿ªÊ¼µÄÊ±¼äµã×ª»»Îªdouble¡£
+        double dstart = stod(str); // æŠŠè®¡æ—¶å¼€å§‹çš„æ—¶é—´ç‚¹è½¬æ¢ä¸ºdoubleã€‚
 
         str = sformat("%ld.%06ld", m_end.tv_sec, m_end.tv_usec);
-        double dend = stod(str); // °Ñ¼ÆÊ±½áÊøµÄÊ±¼äµã×ª»»Îªdouble¡£
+        double dend = stod(str); // æŠŠè®¡æ—¶ç»“æŸçš„æ—¶é—´ç‚¹è½¬æ¢ä¸ºdoubleã€‚
 
-        start(); // ÖØĞÂ¿ªÊ¼¼ÆÊ±¡£
+        start(); // é‡æ–°å¼€å§‹è®¡æ—¶ã€‚
 
         return dend - dstart;
     }

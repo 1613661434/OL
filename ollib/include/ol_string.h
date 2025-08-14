@@ -1,15 +1,15 @@
 /****************************************************************************************/
 /*
- * ³ÌĞòÃû£ºol_string.h
- * ¹¦ÄÜÃèÊö£º×Ö·û´®´¦Àí¹¤¾ßÀà¼°º¯Êı¼¯ºÏ£¬Ìá¹©·á¸»µÄ×Ö·û´®²Ù×÷¹¦ÄÜ£¬ÌØĞÔ°üÀ¨£º
- *          - ×Ö·û´®ĞŞÕû£¨É¾³ıÊ×Î²Ö¸¶¨×Ö·û¡¢´óĞ¡Ğ´×ª»»µÈ£©
- *          - ×Ö·û´®Ìæ»»¡¢ÌáÈ¡Êı×Ö¡¢ÕıÔòÆ¥ÅäµÈ»ù´¡²Ù×÷
- *          - ÃüÁîĞĞ×Ö·û´®²ğ·ÖÀà£¨ccmdstr£©£¬Ö§³Ö¶à·Ö¸ô·ûºÍÀàĞÍ×ª»»
- *          - XML¸ñÊ½×Ö·û´®½âÎöº¯Êı£¬Ö§³Ö¶àÖÖÊı¾İÀàĞÍÌáÈ¡
- *          - ¸ñÊ½»¯Êä³öº¯Êı£¨sformat£©£¬¼æÈİC·ç¸ñ¸ñÊ½·û²¢Ö§³Östd::string
- *          - KMPËã·¨ÊµÏÖµÄ¸ßĞ§×Ó´®²éÕÒ
- * ×÷Õß£ºol
- * ÊÊÓÃ±ê×¼£ºC++11¼°ÒÔÉÏ£¨ĞèÖ§³Ö±ä²ÎÄ£°å¡¢ÀàĞÍİÍÈ¡µÈÌØĞÔ£©
+ * ç¨‹åºåï¼šol_string.h
+ * åŠŸèƒ½æè¿°ï¼šå­—ç¬¦ä¸²å¤„ç†å·¥å…·ç±»åŠå‡½æ•°é›†åˆï¼Œæä¾›ä¸°å¯Œçš„å­—ç¬¦ä¸²æ“ä½œåŠŸèƒ½ï¼Œç‰¹æ€§åŒ…æ‹¬ï¼š
+ *          - å­—ç¬¦ä¸²ä¿®æ•´ï¼ˆåˆ é™¤é¦–å°¾æŒ‡å®šå­—ç¬¦ã€å¤§å°å†™è½¬æ¢ç­‰ï¼‰
+ *          - å­—ç¬¦ä¸²æ›¿æ¢ã€æå–æ•°å­—ã€æ­£åˆ™åŒ¹é…ç­‰åŸºç¡€æ“ä½œ
+ *          - å‘½ä»¤è¡Œå­—ç¬¦ä¸²æ‹†åˆ†ç±»ï¼ˆccmdstrï¼‰ï¼Œæ”¯æŒå¤šåˆ†éš”ç¬¦å’Œç±»å‹è½¬æ¢
+ *          - XMLæ ¼å¼å­—ç¬¦ä¸²è§£æå‡½æ•°ï¼Œæ”¯æŒå¤šç§æ•°æ®ç±»å‹æå–
+ *          - æ ¼å¼åŒ–è¾“å‡ºå‡½æ•°ï¼ˆsformatï¼‰ï¼Œå…¼å®¹Cé£æ ¼æ ¼å¼ç¬¦å¹¶æ”¯æŒstd::string
+ *          - KMPç®—æ³•å®ç°çš„é«˜æ•ˆå­ä¸²æŸ¥æ‰¾
+ * ä½œè€…ï¼šol
+ * é€‚ç”¨æ ‡å‡†ï¼šC++11åŠä»¥ä¸Šï¼ˆéœ€æ”¯æŒå˜å‚æ¨¡æ¿ã€ç±»å‹èƒå–ç­‰ç‰¹æ€§ï¼‰
  */
 /****************************************************************************************/
 
@@ -26,117 +26,117 @@ namespace ol
 
     // ===========================================================================
     /**
-     * É¾³ı×Ö·û´®×ó±ßÖ¸¶¨×Ö·û
-     * @param str ´ı´¦ÀíµÄ×Ö·û´®£¨C×Ö·û´®»á±»Ö±½ÓĞŞ¸Ä£¬std::stringÎªÒıÓÃ£©
-     * @param c ÒªÉ¾³ıµÄ×Ö·û£¨Ä¬ÈÏ¿Õ¸ñ' '£©
-     * @return ĞŞ¸ÄºóµÄ×Ö·û´®£¨C×Ö·û´®·µ»ØÖ¸Õë£¬std::string·µ»ØÒıÓÃ£©
+     * åˆ é™¤å­—ç¬¦ä¸²å·¦è¾¹æŒ‡å®šå­—ç¬¦
+     * @param str å¾…å¤„ç†çš„å­—ç¬¦ä¸²ï¼ˆCå­—ç¬¦ä¸²ä¼šè¢«ç›´æ¥ä¿®æ”¹ï¼Œstd::stringä¸ºå¼•ç”¨ï¼‰
+     * @param c è¦åˆ é™¤çš„å­—ç¬¦ï¼ˆé»˜è®¤ç©ºæ ¼' 'ï¼‰
+     * @return ä¿®æ”¹åçš„å­—ç¬¦ä¸²ï¼ˆCå­—ç¬¦ä¸²è¿”å›æŒ‡é’ˆï¼Œstd::stringè¿”å›å¼•ç”¨ï¼‰
      */
-    char* deletelchr(char* str, const char c = ' ');               // C×Ö·û´®°æ±¾
-    std::string& deletelchr(std::string& str, const char c = ' '); // std::string°æ±¾
+    char* deletelchr(char* str, const char c = ' ');               // Cå­—ç¬¦ä¸²ç‰ˆæœ¬
+    std::string& deletelchr(std::string& str, const char c = ' '); // std::stringç‰ˆæœ¬
 
     /**
-     * É¾³ı×Ö·û´®ÓÒ±ßÖ¸¶¨×Ö·û
-     * @param str ´ı´¦ÀíµÄ×Ö·û´®£¨C×Ö·û´®»á±»Ö±½ÓĞŞ¸Ä£¬std::stringÎªÒıÓÃ£©
-     * @param c ÒªÉ¾³ıµÄ×Ö·û£¨Ä¬ÈÏ¿Õ¸ñ' '£©
-     * @return ĞŞ¸ÄºóµÄ×Ö·û´®£¨C×Ö·û´®·µ»ØÖ¸Õë£¬std::string·µ»ØÒıÓÃ£©
+     * åˆ é™¤å­—ç¬¦ä¸²å³è¾¹æŒ‡å®šå­—ç¬¦
+     * @param str å¾…å¤„ç†çš„å­—ç¬¦ä¸²ï¼ˆCå­—ç¬¦ä¸²ä¼šè¢«ç›´æ¥ä¿®æ”¹ï¼Œstd::stringä¸ºå¼•ç”¨ï¼‰
+     * @param c è¦åˆ é™¤çš„å­—ç¬¦ï¼ˆé»˜è®¤ç©ºæ ¼' 'ï¼‰
+     * @return ä¿®æ”¹åçš„å­—ç¬¦ä¸²ï¼ˆCå­—ç¬¦ä¸²è¿”å›æŒ‡é’ˆï¼Œstd::stringè¿”å›å¼•ç”¨ï¼‰
      */
-    char* deleterchr(char* str, const char c = ' ');               // C×Ö·û´®°æ±¾
-    std::string& deleterchr(std::string& str, const char c = ' '); // std::string°æ±¾
+    char* deleterchr(char* str, const char c = ' ');               // Cå­—ç¬¦ä¸²ç‰ˆæœ¬
+    std::string& deleterchr(std::string& str, const char c = ' '); // std::stringç‰ˆæœ¬
 
     /**
-     * É¾³ı×Ö·û´®×óÓÒÁ½±ßÖ¸¶¨×Ö·û
-     * @param str ´ı´¦ÀíµÄ×Ö·û´®£¨C×Ö·û´®»á±»Ö±½ÓĞŞ¸Ä£¬std::stringÎªÒıÓÃ£©
-     * @param c ÒªÉ¾³ıµÄ×Ö·û£¨Ä¬ÈÏ¿Õ¸ñ' '£©
-     * @return ĞŞ¸ÄºóµÄ×Ö·û´®£¨C×Ö·û´®·µ»ØÖ¸Õë£¬std::string·µ»ØÒıÓÃ£©
+     * åˆ é™¤å­—ç¬¦ä¸²å·¦å³ä¸¤è¾¹æŒ‡å®šå­—ç¬¦
+     * @param str å¾…å¤„ç†çš„å­—ç¬¦ä¸²ï¼ˆCå­—ç¬¦ä¸²ä¼šè¢«ç›´æ¥ä¿®æ”¹ï¼Œstd::stringä¸ºå¼•ç”¨ï¼‰
+     * @param c è¦åˆ é™¤çš„å­—ç¬¦ï¼ˆé»˜è®¤ç©ºæ ¼' 'ï¼‰
+     * @return ä¿®æ”¹åçš„å­—ç¬¦ä¸²ï¼ˆCå­—ç¬¦ä¸²è¿”å›æŒ‡é’ˆï¼Œstd::stringè¿”å›å¼•ç”¨ï¼‰
      */
-    char* deletelrchr(char* str, const char c = ' ');               // C×Ö·û´®°æ±¾
-    std::string& deletelrchr(std::string& str, const char c = ' '); // std::string°æ±¾
+    char* deletelrchr(char* str, const char c = ' ');               // Cå­—ç¬¦ä¸²ç‰ˆæœ¬
+    std::string& deletelrchr(std::string& str, const char c = ' '); // std::stringç‰ˆæœ¬
 
     /**
-     * ½«×Ö·û´®ÖĞµÄĞ¡Ğ´×ÖÄ¸×ª»»Îª´óĞ´£¨·Ç×ÖÄ¸×Ö·û²»±ä£©
-     * @param str ´ı×ª»»µÄ×Ö·û´®£¨C×Ö·û´®»á±»Ö±½ÓĞŞ¸Ä£¬std::stringÎªÒıÓÃ£©
-     * @return ĞŞ¸ÄºóµÄ×Ö·û´®£¨C×Ö·û´®·µ»ØÖ¸Õë£¬std::string·µ»ØÒıÓÃ£©
+     * å°†å­—ç¬¦ä¸²ä¸­çš„å°å†™å­—æ¯è½¬æ¢ä¸ºå¤§å†™ï¼ˆéå­—æ¯å­—ç¬¦ä¸å˜ï¼‰
+     * @param str å¾…è½¬æ¢çš„å­—ç¬¦ä¸²ï¼ˆCå­—ç¬¦ä¸²ä¼šè¢«ç›´æ¥ä¿®æ”¹ï¼Œstd::stringä¸ºå¼•ç”¨ï¼‰
+     * @return ä¿®æ”¹åçš„å­—ç¬¦ä¸²ï¼ˆCå­—ç¬¦ä¸²è¿”å›æŒ‡é’ˆï¼Œstd::stringè¿”å›å¼•ç”¨ï¼‰
      */
-    char* toupper(char* str);               // C×Ö·û´®°æ±¾
-    std::string& toupper(std::string& str); // std::string°æ±¾
+    char* toupper(char* str);               // Cå­—ç¬¦ä¸²ç‰ˆæœ¬
+    std::string& toupper(std::string& str); // std::stringç‰ˆæœ¬
 
     /**
-     * ½«×Ö·û´®ÖĞµÄ´óĞ´×ÖÄ¸×ª»»ÎªĞ¡Ğ´£¨·Ç×ÖÄ¸×Ö·û²»±ä£©
-     * @param str ´ı×ª»»µÄ×Ö·û´®£¨C×Ö·û´®»á±»Ö±½ÓĞŞ¸Ä£¬std::stringÎªÒıÓÃ£©
-     * @return ĞŞ¸ÄºóµÄ×Ö·û´®£¨C×Ö·û´®·µ»ØÖ¸Õë£¬std::string·µ»ØÒıÓÃ£©
+     * å°†å­—ç¬¦ä¸²ä¸­çš„å¤§å†™å­—æ¯è½¬æ¢ä¸ºå°å†™ï¼ˆéå­—æ¯å­—ç¬¦ä¸å˜ï¼‰
+     * @param str å¾…è½¬æ¢çš„å­—ç¬¦ä¸²ï¼ˆCå­—ç¬¦ä¸²ä¼šè¢«ç›´æ¥ä¿®æ”¹ï¼Œstd::stringä¸ºå¼•ç”¨ï¼‰
+     * @return ä¿®æ”¹åçš„å­—ç¬¦ä¸²ï¼ˆCå­—ç¬¦ä¸²è¿”å›æŒ‡é’ˆï¼Œstd::stringè¿”å›å¼•ç”¨ï¼‰
      */
-    char* tolower(char* str);               // C×Ö·û´®°æ±¾
-    std::string& tolower(std::string& str); // std::string°æ±¾
+    char* tolower(char* str);               // Cå­—ç¬¦ä¸²ç‰ˆæœ¬
+    std::string& tolower(std::string& str); // std::stringç‰ˆæœ¬
 
     /**
-     * ×Ö·û´®Ìæ»»
-     * @param str ´ı´¦ÀíµÄ×Ö·û´®£¨C×Ö·û´®»á±»Ö±½ÓĞŞ¸Ä£¬std::stringÎªÒıÓÃ£©
-     * @param str1 ÒªÌæ»»µÄ¾É×Ó´®
-     * @param str2 Ìæ»»µÄĞÂ×Ó´®
-     * @param bloop ÊÇ·ñÑ­»·Ìæ»»£¨Ä¬ÈÏfalse£©
-     * @return true-Ìæ»»³É¹¦£¬false-Ìæ»»Ê§°Ü£¨Èç´æÔÚÂß¼­´íÎó£©
-     * @note 1¡¢Èç¹ûstr2±Èstr1Òª³¤£¬Ìæ»»ºóstr»á±ä³¤£¬C×Ö·û´®Ğè±£Ö¤×ã¹»¿Õ¼ä£¨std::stringÎŞ´ËÎÊÌâ£©¡£
-     *       2¡¢Èç¹ûstr2ÖĞ°üº¬str1ÇÒbloopÎªtrue£¬´æÔÚÂß¼­´íÎó£¬º¯Êı½«²»Ö´ĞĞ²Ù×÷¡£
-     *       3¡¢Èç¹ûstr2Îª¿Õ£¬±íÊ¾É¾³ıstrÖĞËùÓĞstr1µÄÄÚÈİ¡£
+     * å­—ç¬¦ä¸²æ›¿æ¢
+     * @param str å¾…å¤„ç†çš„å­—ç¬¦ä¸²ï¼ˆCå­—ç¬¦ä¸²ä¼šè¢«ç›´æ¥ä¿®æ”¹ï¼Œstd::stringä¸ºå¼•ç”¨ï¼‰
+     * @param str1 è¦æ›¿æ¢çš„æ—§å­ä¸²
+     * @param str2 æ›¿æ¢çš„æ–°å­ä¸²
+     * @param bloop æ˜¯å¦å¾ªç¯æ›¿æ¢ï¼ˆé»˜è®¤falseï¼‰
+     * @return true-æ›¿æ¢æˆåŠŸï¼Œfalse-æ›¿æ¢å¤±è´¥ï¼ˆå¦‚å­˜åœ¨é€»è¾‘é”™è¯¯ï¼‰
+     * @note 1ã€å¦‚æœstr2æ¯”str1è¦é•¿ï¼Œæ›¿æ¢åsträ¼šå˜é•¿ï¼ŒCå­—ç¬¦ä¸²éœ€ä¿è¯è¶³å¤Ÿç©ºé—´ï¼ˆstd::stringæ— æ­¤é—®é¢˜ï¼‰ã€‚
+     *       2ã€å¦‚æœstr2ä¸­åŒ…å«str1ä¸”bloopä¸ºtrueï¼Œå­˜åœ¨é€»è¾‘é”™è¯¯ï¼Œå‡½æ•°å°†ä¸æ‰§è¡Œæ“ä½œã€‚
+     *       3ã€å¦‚æœstr2ä¸ºç©ºï¼Œè¡¨ç¤ºåˆ é™¤strä¸­æ‰€æœ‰str1çš„å†…å®¹ã€‚
      */
-    bool replacestr(char* str, const std::string& str1, const std::string& str2, const bool bloop = false);        // C×Ö·û´®°æ±¾
-    bool replacestr(std::string& str, const std::string& str1, const std::string& str2, const bool bloop = false); // std::string°æ±¾
+    bool replacestr(char* str, const std::string& str1, const std::string& str2, const bool bloop = false);        // Cå­—ç¬¦ä¸²ç‰ˆæœ¬
+    bool replacestr(std::string& str, const std::string& str1, const std::string& str2, const bool bloop = false); // std::stringç‰ˆæœ¬
 
     /**
-     * ´Ó×Ö·û´®ÖĞÌáÈ¡Êı×ÖÏà¹Ø×Ö·û
-     * @param src Ô´×Ö·û´®
-     * @param dest ´æ´¢½á¹ûµÄÄ¿±ê±äÁ¿£¨C×Ö·û´®/ std::stringÒıÓÃ£¬½öÇ°Á½¸ö°æ±¾ĞèÒª£©
-     * @param bsigned ÊÇ·ñÌáÈ¡·ûºÅ£¨+/-£¬Ä¬ÈÏfalse£©
-     * @param bdot ÊÇ·ñÌáÈ¡Ğ¡Êıµã£¨.£¬Ä¬ÈÏfalse£©
-     * @return ÌáÈ¡½á¹û£¨C×Ö·û´®·µ»ØÖ¸Õë£¬std::string·µ»ØÒıÓÃ»òĞÂ×Ö·û´®£©
-     * @note srcºÍdest¿ÉÖ¸ÏòÍ¬Ò»±äÁ¿£¨Ç°Á½¸ö°æ±¾£©
+     * ä»å­—ç¬¦ä¸²ä¸­æå–æ•°å­—ç›¸å…³å­—ç¬¦
+     * @param src æºå­—ç¬¦ä¸²
+     * @param dest å­˜å‚¨ç»“æœçš„ç›®æ ‡å˜é‡ï¼ˆCå­—ç¬¦ä¸²/ std::stringå¼•ç”¨ï¼Œä»…å‰ä¸¤ä¸ªç‰ˆæœ¬éœ€è¦ï¼‰
+     * @param bsigned æ˜¯å¦æå–ç¬¦å·ï¼ˆ+/-ï¼Œé»˜è®¤falseï¼‰
+     * @param bdot æ˜¯å¦æå–å°æ•°ç‚¹ï¼ˆ.ï¼Œé»˜è®¤falseï¼‰
+     * @return æå–ç»“æœï¼ˆCå­—ç¬¦ä¸²è¿”å›æŒ‡é’ˆï¼Œstd::stringè¿”å›å¼•ç”¨æˆ–æ–°å­—ç¬¦ä¸²ï¼‰
+     * @note srcå’Œdestå¯æŒ‡å‘åŒä¸€å˜é‡ï¼ˆå‰ä¸¤ä¸ªç‰ˆæœ¬ï¼‰
      */
-    char* picknumber(const std::string& src, char* dest, const bool bsigned = false, const bool bdot = false);               // C×Ö·û´®Êä³ö°æ±¾
-    std::string& picknumber(const std::string& src, std::string& dest, const bool bsigned = false, const bool bdot = false); // std::stringÊä³ö°æ±¾
-    std::string picknumber(const std::string& src, const bool bsigned = false, const bool bdot = false);                     // ·µ»ØĞÂ×Ö·û´®°æ±¾
+    char* picknumber(const std::string& src, char* dest, const bool bsigned = false, const bool bdot = false);               // Cå­—ç¬¦ä¸²è¾“å‡ºç‰ˆæœ¬
+    std::string& picknumber(const std::string& src, std::string& dest, const bool bsigned = false, const bool bdot = false); // std::stringè¾“å‡ºç‰ˆæœ¬
+    std::string picknumber(const std::string& src, const bool bsigned = false, const bool bdot = false);                     // è¿”å›æ–°å­—ç¬¦ä¸²ç‰ˆæœ¬
 
     /**
-     * ÕıÔòÆ¥Åä×Ö·û´®£¨Ö§³ÖÍ¨Åä·û*£¬Æ¥Åä¶à¸öÈÎÒâ×Ö·û£©
-     * @param str ´ıÆ¥ÅäµÄ×Ö·û´®£¨¾«È·ÄÚÈİ£©
-     * @param rules Æ¥Åä¹æÔò£¨ÓÃ*±íÊ¾¶à¸öÈÎÒâ×Ö·û£¬¶à¹æÔòÓÃ°ë½ÇµÄ¶ººÅ·Ö¸ô£¬Èç"*.h,*.cpp"£©
-     * @return true-Æ¥Åä³É¹¦£¬false-Æ¥ÅäÊ§°Ü
-     * @note 1£©str²ÎÊı²»ĞèÒªÖ§³Ö"*"£¬rules²ÎÊıÖ§³Ö"*"£»
-     *       2£©º¯ÊıÔÚÅĞ¶ÏstrÊÇ·ñÆ¥ÅärulesµÄÊ±ºò£¬»áºöÂÔ×ÖÄ¸µÄ´óĞ¡Ğ´¡£
+     * æ­£åˆ™åŒ¹é…å­—ç¬¦ä¸²ï¼ˆæ”¯æŒé€šé…ç¬¦*ï¼ŒåŒ¹é…å¤šä¸ªä»»æ„å­—ç¬¦ï¼‰
+     * @param str å¾…åŒ¹é…çš„å­—ç¬¦ä¸²ï¼ˆç²¾ç¡®å†…å®¹ï¼‰
+     * @param rules åŒ¹é…è§„åˆ™ï¼ˆç”¨*è¡¨ç¤ºå¤šä¸ªä»»æ„å­—ç¬¦ï¼Œå¤šè§„åˆ™ç”¨åŠè§’çš„é€—å·åˆ†éš”ï¼Œå¦‚"*.h,*.cpp"ï¼‰
+     * @return true-åŒ¹é…æˆåŠŸï¼Œfalse-åŒ¹é…å¤±è´¥
+     * @note 1ï¼‰strå‚æ•°ä¸éœ€è¦æ”¯æŒ"*"ï¼Œruleså‚æ•°æ”¯æŒ"*"ï¼›
+     *       2ï¼‰å‡½æ•°åœ¨åˆ¤æ–­stræ˜¯å¦åŒ¹é…rulesçš„æ—¶å€™ï¼Œä¼šå¿½ç•¥å­—æ¯çš„å¤§å°å†™ã€‚
      */
     bool matchstr(const std::string& str, const std::string& rules);
     // ===========================================================================
 
     // ===========================================================================
-    // ccmdstrÀà£¬ÃüÁîĞĞ×Ö·û´®²ğ·ÖÀà£¬ÓÃÓÚ½âÎö´ø·Ö¸ô·ûµÄ½á¹¹»¯×Ö·û´®¡£
-    // ×Ö·û´®µÄ¸ñÊ½Îª£º×Ö¶ÎÄÚÈİ1+·Ö¸ô·û+×Ö¶ÎÄÚÈİ2+·Ö¸ô·û+×Ö¶ÎÄÚÈİ3+·Ö¸ô·û+...+×Ö¶ÎÄÚÈİn¡£
-    // ÀıÈç£º"messi,10,striker,30,1.72,68.5,Barcelona"£¬ÕâÊÇ×ãÇòÔË¶¯Ô±Ã·Î÷µÄ×ÊÁÏ¡£
-    // °üÀ¨£ºĞÕÃû¡¢ÇòÒÂºÅÂë¡¢³¡ÉÏÎ»ÖÃ¡¢ÄêÁä¡¢Éí¸ß¡¢ÌåÖØºÍĞ§Á¦µÄ¾ãÀÖ²¿£¬×Ö¶ÎÖ®¼äÓÃ°ë½ÇµÄ¶ººÅ·Ö¸ô¡£
+    // ccmdstrç±»ï¼Œå‘½ä»¤è¡Œå­—ç¬¦ä¸²æ‹†åˆ†ç±»ï¼Œç”¨äºè§£æå¸¦åˆ†éš”ç¬¦çš„ç»“æ„åŒ–å­—ç¬¦ä¸²ã€‚
+    // å­—ç¬¦ä¸²çš„æ ¼å¼ä¸ºï¼šå­—æ®µå†…å®¹1+åˆ†éš”ç¬¦+å­—æ®µå†…å®¹2+åˆ†éš”ç¬¦+å­—æ®µå†…å®¹3+åˆ†éš”ç¬¦+...+å­—æ®µå†…å®¹nã€‚
+    // ä¾‹å¦‚ï¼š"messi,10,striker,30,1.72,68.5,Barcelona"ï¼Œè¿™æ˜¯è¶³çƒè¿åŠ¨å‘˜æ¢…è¥¿çš„èµ„æ–™ã€‚
+    // åŒ…æ‹¬ï¼šå§“åã€çƒè¡£å·ç ã€åœºä¸Šä½ç½®ã€å¹´é¾„ã€èº«é«˜ã€ä½“é‡å’Œæ•ˆåŠ›çš„ä¿±ä¹éƒ¨ï¼Œå­—æ®µä¹‹é—´ç”¨åŠè§’çš„é€—å·åˆ†éš”ã€‚
     class ccmdstr
     {
     private:
-        std::vector<std::string> m_cmdstr; // ²ğ·ÖºóµÄ×Ö¶ÎÈİÆ÷
+        std::vector<std::string> m_cmdstr; // æ‹†åˆ†åçš„å­—æ®µå®¹å™¨
 
-        ccmdstr(const ccmdstr&) = delete;            // ½ûÓÃ¿½±´¹¹Ôìº¯Êı
-        ccmdstr& operator=(const ccmdstr&) = delete; // ½ûÓÃ¸³Öµº¯Êı
+        ccmdstr(const ccmdstr&) = delete;            // ç¦ç”¨æ‹·è´æ„é€ å‡½æ•°
+        ccmdstr& operator=(const ccmdstr&) = delete; // ç¦ç”¨èµ‹å€¼å‡½æ•°
     public:
-        // Ä¬ÈÏ¹¹Ôìº¯Êı
+        // é»˜è®¤æ„é€ å‡½æ•°
         ccmdstr()
         {
         }
 
         /**
-         * ´ø²Î¹¹Ôìº¯Êı£¬Ö±½Ó²ğ·Ö×Ö·û´®
-         * @param buffer ´ı²ğ·ÖµÄ×Ö·û´®
-         * @param sepstr ·Ö¸ô·û£¨Ö§³Ö¶à×Ö·û£¬Èç",,"¡¢" | "£©
-         * @param bdelspace ÊÇ·ñÉ¾³ı×Ö¶ÎÇ°ºó¿Õ¸ñ£¨Ä¬ÈÏfalse£©
+         * å¸¦å‚æ„é€ å‡½æ•°ï¼Œç›´æ¥æ‹†åˆ†å­—ç¬¦ä¸²
+         * @param buffer å¾…æ‹†åˆ†çš„å­—ç¬¦ä¸²
+         * @param sepstr åˆ†éš”ç¬¦ï¼ˆæ”¯æŒå¤šå­—ç¬¦ï¼Œå¦‚",,"ã€" | "ï¼‰
+         * @param bdelspace æ˜¯å¦åˆ é™¤å­—æ®µå‰åç©ºæ ¼ï¼ˆé»˜è®¤falseï¼‰
          */
         ccmdstr(const std::string& buffer, const std::string& sepstr, const bool bdelspace = false);
 
         /**
-         * ÖØÔØ[]ÔËËã·û£¬·ÃÎÊ²ğ·ÖºóµÄ×Ö¶Î(m_cmdstr³ÉÔ±)
-         * @param i ×Ö¶ÎË÷Òı£¨´Ó0¿ªÊ¼£©
-         * @return ×Ö¶ÎÄÚÈİµÄ³£Á¿ÒıÓÃ
-         * @note Ë÷ÒıÔ½½ç»áÅ×³öÒì³£
+         * é‡è½½[]è¿ç®—ç¬¦ï¼Œè®¿é—®æ‹†åˆ†åçš„å­—æ®µ(m_cmdstræˆå‘˜)
+         * @param i å­—æ®µç´¢å¼•ï¼ˆä»0å¼€å§‹ï¼‰
+         * @return å­—æ®µå†…å®¹çš„å¸¸é‡å¼•ç”¨
+         * @note ç´¢å¼•è¶Šç•Œä¼šæŠ›å‡ºå¼‚å¸¸
          */
         const std::string& operator[](int i) const
         {
@@ -144,17 +144,17 @@ namespace ol
         }
 
         /**
-         * ²ğ·Ö×Ö·û´®²¢´æ´¢µ½ÄÚ²¿ÈİÆ÷
-         * @param buffer ´ı²ğ·ÖµÄ×Ö·û´®
-         * @param sepstr ·Ö¸ô·û£¨Ö§³Ö¶à×Ö·û£¬×¢Òâ£¬sepstr²ÎÊıµÄÊı¾İÀàĞÍ²»ÊÇ×Ö·û£¬ÊÇ×Ö·û´®£¬Èç","¡¢" "¡¢"|"¡¢"~!~"£©
-         * @param bdelspace ÊÇ·ñÉ¾³ı×Ö¶ÎÇ°ºó¿Õ¸ñ£¨Ä¬ÈÏfalse£©
-         * @note ¿Õ×Ö¶Î»á±»±£Áô£¨Èç",test"²ğ·ÖÎª["", "test"]£©
+         * æ‹†åˆ†å­—ç¬¦ä¸²å¹¶å­˜å‚¨åˆ°å†…éƒ¨å®¹å™¨
+         * @param buffer å¾…æ‹†åˆ†çš„å­—ç¬¦ä¸²
+         * @param sepstr åˆ†éš”ç¬¦ï¼ˆæ”¯æŒå¤šå­—ç¬¦ï¼Œæ³¨æ„ï¼Œsepstrå‚æ•°çš„æ•°æ®ç±»å‹ä¸æ˜¯å­—ç¬¦ï¼Œæ˜¯å­—ç¬¦ä¸²ï¼Œå¦‚","ã€" "ã€"|"ã€"~!~"ï¼‰
+         * @param bdelspace æ˜¯å¦åˆ é™¤å­—æ®µå‰åç©ºæ ¼ï¼ˆé»˜è®¤falseï¼‰
+         * @note ç©ºå­—æ®µä¼šè¢«ä¿ç•™ï¼ˆå¦‚",test"æ‹†åˆ†ä¸º["", "test"]ï¼‰
          */
         void splittocmd(const std::string& buffer, const std::string& sepstr, const bool bdelspace = false);
 
         /**
-         * »ñÈ¡²ğ·ÖºóµÄ×Ö¶ÎÊıÁ¿
-         * @return ×Ö¶Î×ÜÊı£¨m_cmdstrµÄ´óĞ¡£©
+         * è·å–æ‹†åˆ†åçš„å­—æ®µæ•°é‡
+         * @return å­—æ®µæ€»æ•°ï¼ˆm_cmdstrçš„å¤§å°ï¼‰
          */
         size_t size() const
         {
@@ -162,67 +162,67 @@ namespace ol
         }
 
         /**
-         * ´Ó×Ö¶ÎÈİÆ÷£¨m_cmdstr£©ÖĞ»ñÈ¡Ö¸¶¨Ë÷ÒıµÄ×Ö¶ÎÄÚÈİ²¢×ª»»ÎªÄ¿±êÀàĞÍ
-         * @param i ×Ö¶ÎË÷Òı£¨´Ó0¿ªÊ¼£©
-         * @param value ´æ´¢½á¹ûµÄ±äÁ¿ÒıÓÃ
-         * @param len ½ö×Ö·û´®ÀàĞÍÓĞĞ§£¬Ö¸¶¨½ØÈ¡³¤¶È£¨Ä¬ÈÏ0±íÊ¾²»½ØÈ¡£©
-         * @return true-³É¹¦£¨Ë÷ÒıÓĞĞ§ÇÒ×ª»»³É¹¦£©£¬false-Ê§°Ü£¨Ë÷ÒıÔ½½ç»ò×ª»»Ê§°Ü£©
+         * ä»å­—æ®µå®¹å™¨ï¼ˆm_cmdstrï¼‰ä¸­è·å–æŒ‡å®šç´¢å¼•çš„å­—æ®µå†…å®¹å¹¶è½¬æ¢ä¸ºç›®æ ‡ç±»å‹
+         * @param i å­—æ®µç´¢å¼•ï¼ˆä»0å¼€å§‹ï¼‰
+         * @param value å­˜å‚¨ç»“æœçš„å˜é‡å¼•ç”¨
+         * @param len ä»…å­—ç¬¦ä¸²ç±»å‹æœ‰æ•ˆï¼ŒæŒ‡å®šæˆªå–é•¿åº¦ï¼ˆé»˜è®¤0è¡¨ç¤ºä¸æˆªå–ï¼‰
+         * @return true-æˆåŠŸï¼ˆç´¢å¼•æœ‰æ•ˆä¸”è½¬æ¢æˆåŠŸï¼‰ï¼Œfalse-å¤±è´¥ï¼ˆç´¢å¼•è¶Šç•Œæˆ–è½¬æ¢å¤±è´¥ï¼‰
          */
-        bool getvalue(const size_t i, std::string& value, const size_t len = 0) const; // std::string°æ±¾
-        bool getvalue(const size_t i, char* value, const size_t len = 0) const;        // C×Ö·û´®°æ±¾£¨×Ô¶¯Ìí¼Ó'\0'£©
-        bool getvalue(const size_t i, int& value) const;                               // ×ª»»Îªint
-        bool getvalue(const size_t i, unsigned int& value) const;                      // ×ª»»Îªunsigned int
-        bool getvalue(const size_t i, long& value) const;                              // ×ª»»Îªlong
-        bool getvalue(const size_t i, unsigned long& value) const;                     // ×ª»»Îªunsigned long
-        bool getvalue(const size_t i, double& value) const;                            // ×ª»»Îªdouble
-        bool getvalue(const size_t i, float& value) const;                             // ×ª»»Îªfloat
-        bool getvalue(const size_t i, bool& value) const;                              // ×ª»»Îªbool£¨"true"/"1"Îªtrue£©
+        bool getvalue(const size_t i, std::string& value, const size_t len = 0) const; // std::stringç‰ˆæœ¬
+        bool getvalue(const size_t i, char* value, const size_t len = 0) const;        // Cå­—ç¬¦ä¸²ç‰ˆæœ¬ï¼ˆè‡ªåŠ¨æ·»åŠ '\0'ï¼‰
+        bool getvalue(const size_t i, int& value) const;                               // è½¬æ¢ä¸ºint
+        bool getvalue(const size_t i, unsigned int& value) const;                      // è½¬æ¢ä¸ºunsigned int
+        bool getvalue(const size_t i, long& value) const;                              // è½¬æ¢ä¸ºlong
+        bool getvalue(const size_t i, unsigned long& value) const;                     // è½¬æ¢ä¸ºunsigned long
+        bool getvalue(const size_t i, double& value) const;                            // è½¬æ¢ä¸ºdouble
+        bool getvalue(const size_t i, float& value) const;                             // è½¬æ¢ä¸ºfloat
+        bool getvalue(const size_t i, bool& value) const;                              // è½¬æ¢ä¸ºboolï¼ˆ"true"/"1"ä¸ºtrueï¼‰
 
-        // Îö¹¹º¯Êı
+        // ææ„å‡½æ•°
         ~ccmdstr();
     };
 
     /**
-     * ÖØÔØ<<ÔËËã·û£¬Êä³öccmdstrµÄ×Ö¶ÎÄÚÈİ£¨µ÷ÊÔÓÃ£©
-     * @param out Êä³öÁ÷
-     * @param cmdstr ccmdstr¶ÔÏó
-     * @return Êä³öÁ÷ÒıÓÃ
+     * é‡è½½<<è¿ç®—ç¬¦ï¼Œè¾“å‡ºccmdstrçš„å­—æ®µå†…å®¹ï¼ˆè°ƒè¯•ç”¨ï¼‰
+     * @param out è¾“å‡ºæµ
+     * @param cmdstr ccmdstrå¯¹è±¡
+     * @return è¾“å‡ºæµå¼•ç”¨
      */
     std::ostream& operator<<(std::ostream& out, const ccmdstr& cmdstr);
     // ===========================================================================
 
     // ===========================================================================
     /**
-     * ½âÎöXML¸ñÊ½×Ö·û´®£¬ÌáÈ¡Ö¸¶¨±êÇ©µÄÄÚÈİ²¢×ª»»ÎªÄ¿±êÀàĞÍ
-     * @param xmlbuffer ´ı½âÎöµÄXML¸ñÊ½×Ö·û´®£¨Èç"<tag>value</tag>..."£©
-     * @param fieldname ÒªÌáÈ¡µÄ×Ö¶Î±êÇ©Ãû£¨Èç"filename"¶ÔÓ¦<filename>±êÇ©£©
-     * @param value ´æ´¢½á¹ûµÄ±äÁ¿ÒıÓÃ/Ö¸Õë
-     * @param len ½ö×Ö·û´®ÀàĞÍÓĞĞ§£¬Ö¸¶¨ÄÚÈİ×î´ó³¤¶È£¨Ä¬ÈÏ0±íÊ¾²»ÏŞ³¤¶È£©
-     * @return true-³É¹¦£¨±êÇ©´æÔÚÇÒ×ª»»³É¹¦£©£¬false-Ê§°Ü£¨±êÇ©²»´æÔÚ»ò×ª»»Ê§°Ü£©
-     * @note µ±valueÎªchar[]Ê±£¬Ğè±£Ö¤Êı×éÄÚ´æ³ä×ã£¬±ÜÃâÒç³ö
+     * è§£æXMLæ ¼å¼å­—ç¬¦ä¸²ï¼Œæå–æŒ‡å®šæ ‡ç­¾çš„å†…å®¹å¹¶è½¬æ¢ä¸ºç›®æ ‡ç±»å‹
+     * @param xmlbuffer å¾…è§£æçš„XMLæ ¼å¼å­—ç¬¦ä¸²ï¼ˆå¦‚"<tag>value</tag>..."ï¼‰
+     * @param fieldname è¦æå–çš„å­—æ®µæ ‡ç­¾åï¼ˆå¦‚"filename"å¯¹åº”<filename>æ ‡ç­¾ï¼‰
+     * @param value å­˜å‚¨ç»“æœçš„å˜é‡å¼•ç”¨/æŒ‡é’ˆ
+     * @param len ä»…å­—ç¬¦ä¸²ç±»å‹æœ‰æ•ˆï¼ŒæŒ‡å®šå†…å®¹æœ€å¤§é•¿åº¦ï¼ˆé»˜è®¤0è¡¨ç¤ºä¸é™é•¿åº¦ï¼‰
+     * @return true-æˆåŠŸï¼ˆæ ‡ç­¾å­˜åœ¨ä¸”è½¬æ¢æˆåŠŸï¼‰ï¼Œfalse-å¤±è´¥ï¼ˆæ ‡ç­¾ä¸å­˜åœ¨æˆ–è½¬æ¢å¤±è´¥ï¼‰
+     * @note å½“valueä¸ºchar[]æ—¶ï¼Œéœ€ä¿è¯æ•°ç»„å†…å­˜å……è¶³ï¼Œé¿å…æº¢å‡º
      * @example <filename>/tmp/_public.h</filename><mtime>2020-01-01 12:20:35</mtime><size>18348</size>
      */
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, std::string& value, const size_t len = 0); // ÌáÈ¡Îªstd::string
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, char* value, const size_t len = 0);        // ÌáÈ¡ÎªC×Ö·û´®£¨×Ô¶¯Ìí¼Ó'\0'£©
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, bool& value);                              // ×ª»»Îªbool
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, int& value);                               // ×ª»»Îªint
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, unsigned int& value);                      // ×ª»»Îªunsigned int
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, long& value);                              // ×ª»»Îªlong
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, unsigned long& value);                     // ×ª»»Îªunsigned long
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, double& value);                            // ×ª»»Îªdouble
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, float& value);                             // ×ª»»Îªfloat
+    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, std::string& value, const size_t len = 0); // æå–ä¸ºstd::string
+    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, char* value, const size_t len = 0);        // æå–ä¸ºCå­—ç¬¦ä¸²ï¼ˆè‡ªåŠ¨æ·»åŠ '\0'ï¼‰
+    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, bool& value);                              // è½¬æ¢ä¸ºbool
+    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, int& value);                               // è½¬æ¢ä¸ºint
+    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, unsigned int& value);                      // è½¬æ¢ä¸ºunsigned int
+    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, long& value);                              // è½¬æ¢ä¸ºlong
+    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, unsigned long& value);                     // è½¬æ¢ä¸ºunsigned long
+    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, double& value);                            // è½¬æ¢ä¸ºdouble
+    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, float& value);                             // è½¬æ¢ä¸ºfloat
     // ===========================================================================
 
     // ===========================================================================
-    // C++¸ñÊ½»¯Êä³öº¯ÊıÄ£°å¡£
-    // ¸¨Öúº¯Êı£º×Ô¶¯×ª»» std::string µ½ const char*
+    // C++æ ¼å¼åŒ–è¾“å‡ºå‡½æ•°æ¨¡æ¿ã€‚
+    // è¾…åŠ©å‡½æ•°ï¼šè‡ªåŠ¨è½¬æ¢ std::string åˆ° const char*
     namespace detail
     {
         /**
-         * ¸ñÊ½»¯²ÎÊı¸¨Öúº¯Êı£¬×Ô¶¯½«std::string×ª»»Îªconst char*
-         * @tparam T ²ÎÊıÀàĞÍ
-         * @param arg ´ı×ª»»µÄ²ÎÊı
-         * @return ×ª»»ºóµÄ²ÎÊı£¨const char*»òÔ­ÀàĞÍ£©
+         * æ ¼å¼åŒ–å‚æ•°è¾…åŠ©å‡½æ•°ï¼Œè‡ªåŠ¨å°†std::stringè½¬æ¢ä¸ºconst char*
+         * @tparam T å‚æ•°ç±»å‹
+         * @param arg å¾…è½¬æ¢çš„å‚æ•°
+         * @return è½¬æ¢åçš„å‚æ•°ï¼ˆconst char*æˆ–åŸç±»å‹ï¼‰
          */
         template <typename T>
         auto format_arg(T&& arg) -> decltype(auto)
@@ -239,17 +239,17 @@ namespace ol
     } // namespace detail
 
     /**
-     * ¸ñÊ½»¯Êä³öº¯Êı£¨Ğ´ÈëÒÑÓĞ×Ö·û´®£©
-     * @tparam Types ¿É±ä²ÎÊıÀàĞÍÁĞ±í
-     * @param str ´æ´¢½á¹ûµÄ×Ö·û´®ÒıÓÃ
-     * @param fmt ¸ñÊ½×Ö·û´®£¨C·ç¸ñ£©
-     * @param args ´ı¸ñÊ½»¯µÄ²ÎÊı
-     * @return true-¸ñÊ½»¯³É¹¦£¬false-Ê§°Ü
+     * æ ¼å¼åŒ–è¾“å‡ºå‡½æ•°ï¼ˆå†™å…¥å·²æœ‰å­—ç¬¦ä¸²ï¼‰
+     * @tparam Types å¯å˜å‚æ•°ç±»å‹åˆ—è¡¨
+     * @param str å­˜å‚¨ç»“æœçš„å­—ç¬¦ä¸²å¼•ç”¨
+     * @param fmt æ ¼å¼å­—ç¬¦ä¸²ï¼ˆCé£æ ¼ï¼‰
+     * @param args å¾…æ ¼å¼åŒ–çš„å‚æ•°
+     * @return true-æ ¼å¼åŒ–æˆåŠŸï¼Œfalse-å¤±è´¥
      */
     template <typename... Types>
     bool sformat(std::string& str, const char* fmt, Types&&... args)
     {
-        // ¼ÆËã³¤¶È
+        // è®¡ç®—é•¿åº¦
         int len = std::snprintf(nullptr, 0, fmt, detail::format_arg(std::forward<Types>(args))...);
         if (len < 0) return false;
 
@@ -259,18 +259,18 @@ namespace ol
             return true;
         }
 
-        // Ö´ĞĞ¸ñÊ½»¯
+        // æ‰§è¡Œæ ¼å¼åŒ–
         str.resize(len);
         std::snprintf(&str[0], len + 1, fmt, detail::format_arg(std::forward<Types>(args))...);
         return true;
     }
 
     /**
-     * ¸ñÊ½»¯Êä³öº¯Êı£¨·µ»ØĞÂ×Ö·û´®£©
-     * @tparam Types ¿É±ä²ÎÊıÀàĞÍÁĞ±í
-     * @param fmt ¸ñÊ½×Ö·û´®£¨C·ç¸ñ£©
-     * @param args ´ı¸ñÊ½»¯µÄ²ÎÊı
-     * @return ¸ñÊ½»¯ºóµÄĞÂ×Ö·û´®
+     * æ ¼å¼åŒ–è¾“å‡ºå‡½æ•°ï¼ˆè¿”å›æ–°å­—ç¬¦ä¸²ï¼‰
+     * @tparam Types å¯å˜å‚æ•°ç±»å‹åˆ—è¡¨
+     * @param fmt æ ¼å¼å­—ç¬¦ä¸²ï¼ˆCé£æ ¼ï¼‰
+     * @param args å¾…æ ¼å¼åŒ–çš„å‚æ•°
+     * @return æ ¼å¼åŒ–åçš„æ–°å­—ç¬¦ä¸²
      */
     template <typename... Types>
     std::string sformat(const char* fmt, Types&&... args)
@@ -287,10 +287,10 @@ namespace ol
 
     // ===========================================================================
     /**
-     * KMPËã·¨²éÕÒ×Ó´®
-     * @param str Ö÷×Ö·û´®
-     * @param pattern ´ı²éÕÒµÄ×Ó´®£¨Ä£Ê½´®£©
-     * @return ×Ó´®ÔÚÖ÷´®ÖĞÊ×´Î³öÏÖµÄÎ»ÖÃ£¨´Ó0¿ªÊ¼£©£¬Î´ÕÒµ½·µ»Østd::string::npos
+     * KMPç®—æ³•æŸ¥æ‰¾å­ä¸²
+     * @param str ä¸»å­—ç¬¦ä¸²
+     * @param pattern å¾…æŸ¥æ‰¾çš„å­ä¸²ï¼ˆæ¨¡å¼ä¸²ï¼‰
+     * @return å­ä¸²åœ¨ä¸»ä¸²ä¸­é¦–æ¬¡å‡ºç°çš„ä½ç½®ï¼ˆä»0å¼€å§‹ï¼‰ï¼Œæœªæ‰¾åˆ°è¿”å›std::string::npos
      */
     size_t skmp(const std::string& str, const std::string& pattern);
     // ===========================================================================

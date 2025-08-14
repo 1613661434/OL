@@ -1,6 +1,6 @@
 /*
- *  ³ÌĞòÃû£ºtest_ol_chrono_ctimer&sleep_%.cpp£¬´Ë³ÌĞòÑİÊ¾¿ª·¢¿ò¼ÜÖĞµÄctimerÀà£¨¼ÆÊ±Æ÷£©µÄÓÃ·¨¡£
- *  ×÷Õß£ºol
+ *  ç¨‹åºåï¼štest_ol_chrono_ctimer&sleep_%.cppï¼Œæ­¤ç¨‹åºæ¼”ç¤ºå¼€å‘æ¡†æ¶ä¸­çš„ctimerç±»ï¼ˆè®¡æ—¶å™¨ï¼‰çš„ç”¨æ³•ã€‚
+ *  ä½œè€…ï¼šol
  */
 #include "ol_chrono.h"
 #include <iostream>
@@ -24,15 +24,15 @@ int main()
     sleep_sec(10);
     printf("elapsed=%lf\n", timer.elapsed());
 
-    // Ê¹ÓÃÍ¨ÓÃÄ£°å£¨ĞèÒªÏÔÊ½Ö¸¶¨Ê±¼äµ¥Î»£©
-    sleep(std::chrono::seconds(2));        // ĞİÃß2Ãë
-    sleep(std::chrono::milliseconds(100)); // ĞİÃß100ºÁÃë
+    // ä½¿ç”¨é€šç”¨æ¨¡æ¿ï¼ˆéœ€è¦æ˜¾å¼æŒ‡å®šæ—¶é—´å•ä½ï¼‰
+    sleep(std::chrono::seconds(2));        // ä¼‘çœ 2ç§’
+    sleep(std::chrono::milliseconds(100)); // ä¼‘çœ 100æ¯«ç§’
 
-    // Ê¹ÓÃÖØÔØº¯Êı£¨Ö±½Ó´«ÊıÖµ£©
-    sleep_sec(1);      // ĞİÃß1Ãë
-    sleep_ms(250);     // ĞİÃß250ºÁÃë
-    sleep_us(500000);  // ĞİÃß500000Î¢Ãë£¨0.5Ãë£©
-    sleep_ns(1000000); // ĞİÃß1000000ÄÉÃë£¨1ºÁÃë£©
+    // ä½¿ç”¨é‡è½½å‡½æ•°ï¼ˆç›´æ¥ä¼ æ•°å€¼ï¼‰
+    sleep_sec(1);      // ä¼‘çœ 1ç§’
+    sleep_ms(250);     // ä¼‘çœ 250æ¯«ç§’
+    sleep_us(500000);  // ä¼‘çœ 500000å¾®ç§’ï¼ˆ0.5ç§’ï¼‰
+    sleep_ns(1000000); // ä¼‘çœ 1000000çº³ç§’ï¼ˆ1æ¯«ç§’ï¼‰
 
     printf("elapsed=%lf\n", timer.elapsed());
 }

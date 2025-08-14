@@ -1,6 +1,6 @@
 /*
- *  ³ÌĞòÃû£ºtest_ol_string_delete%chr.cpp£¬´Ë³ÌĞòÑİÊ¾¿ª·¢¿ò¼ÜÖĞÉ¾³ı×Ö·û´®×ó¡¢ÓÒ¡¢Á½±ßÖ¸¶¨×Ö·ûµÄÊ¹ÓÃ·½·¨¡£
- *  ×÷Õß£ºol
+ *  ç¨‹åºåï¼štest_ol_string_delete%chr.cppï¼Œæ­¤ç¨‹åºæ¼”ç¤ºå¼€å‘æ¡†æ¶ä¸­åˆ é™¤å­—ç¬¦ä¸²å·¦ã€å³ã€ä¸¤è¾¹æŒ‡å®šå­—ç¬¦çš„ä½¿ç”¨æ–¹æ³•ã€‚
+ *  ä½œè€…ï¼šol
  */
 #include "ol_string.h"
 #include <iostream>
@@ -16,30 +16,30 @@ using namespace std;
 
 int main()
 {
-    char str1[31]; // C·ç¸ñµÄ×Ö·û´®¡£
-    string str2;   // C++·ç¸ñµÄ×Ö·û´®¡£
+    char str1[31]; // Cé£æ ¼çš„å­—ç¬¦ä¸²ã€‚
+    string str2;   // C++é£æ ¼çš„å­—ç¬¦ä¸²ã€‚
 
-    strcpy(str1, "  Î÷Ê©  ");
-    deletelchr(str1, ' ');      // É¾³ıstr1×ó±ßµÄ¿Õ¸ñ
-    printf("str1=%s=\n", str1); // ³öÊä½á¹ûÊÇstr1=Î÷Ê©  =
+    strcpy(str1, "  è¥¿æ–½  ");
+    deletelchr(str1, ' ');      // åˆ é™¤str1å·¦è¾¹çš„ç©ºæ ¼
+    printf("str1=%s=\n", str1); // å‡ºè¾“ç»“æœæ˜¯str1=è¥¿æ–½  =
 
-    str2 = "  Î÷Ê©  ";
+    str2 = "  è¥¿æ–½  ";
     deletelchr(str2, ' ');
     cout << "str2=" << str2 << "=\n";
 
-    strcpy(str1, "  Î÷Ê©  ");
-    deleterchr(str1, ' ');      // É¾³ıstr1ÓÒ±ßµÄ¿Õ¸ñ
-    printf("str1=%s=\n", str1); // ³öÊä½á¹ûÊÇstr1=  Î÷Ê©=
+    strcpy(str1, "  è¥¿æ–½  ");
+    deleterchr(str1, ' ');      // åˆ é™¤str1å³è¾¹çš„ç©ºæ ¼
+    printf("str1=%s=\n", str1); // å‡ºè¾“ç»“æœæ˜¯str1=  è¥¿æ–½=
 
-    str2 = "  Î÷Ê©  ";
+    str2 = "  è¥¿æ–½  ";
     deleterchr(str2, ' ');
     cout << "str2=" << str2 << "=\n";
 
-    strcpy(str1, "  Î÷Ê©  ");
-    deletelrchr(str1, ' ');     // É¾³ıstr1Á½±ßµÄ¿Õ¸ñ
-    printf("str1=%s=\n", str1); // ³öÊä½á¹ûÊÇstr1=Î÷Ê©=
+    strcpy(str1, "  è¥¿æ–½  ");
+    deletelrchr(str1, ' ');     // åˆ é™¤str1ä¸¤è¾¹çš„ç©ºæ ¼
+    printf("str1=%s=\n", str1); // å‡ºè¾“ç»“æœæ˜¯str1=è¥¿æ–½=
 
-    str2 = "  Î÷Ê©  ";
+    str2 = "  è¥¿æ–½  ";
     deletelrchr(str2, ' ');
     cout << "str2=" << str2 << "=\n";
 }

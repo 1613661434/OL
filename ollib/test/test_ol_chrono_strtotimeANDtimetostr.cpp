@@ -1,6 +1,6 @@
 /*
- *  ³ÌĞòÃû£ºtest_ol_chrono_strtotime&timetostr.cpp£¬´Ë³ÌĞòÑİÊ¾¿ª·¢¿ò¼ÜÖĞÕûÊı±íÊ¾µÄÊ±¼äºÍ×Ö·û´®±íÊ¾µÄÊ±¼äÖ®¼äµÄ×ª»»¡£
- *  ×÷Õß£ºol
+ *  ç¨‹åºåï¼štest_ol_chrono_strtotime&timetostr.cppï¼Œæ­¤ç¨‹åºæ¼”ç¤ºå¼€å‘æ¡†æ¶ä¸­æ•´æ•°è¡¨ç¤ºçš„æ—¶é—´å’Œå­—ç¬¦ä¸²è¡¨ç¤ºçš„æ—¶é—´ä¹‹é—´çš„è½¬æ¢ã€‚
+ *  ä½œè€…ï¼šol
  */
 #include "ol_chrono.h"
 #include <iostream>
@@ -14,14 +14,14 @@ int main()
     strtime = "2020-01-01 12:35:22";
 
     time_t ttime;
-    ttime = strtotime(strtime);    // ×ª»»ÎªÕûÊıµÄÊ±¼ä
-    printf("ttime=%lld\n", ttime); // Êä³öttime=1577853322
+    ttime = strtotime(strtime);    // è½¬æ¢ä¸ºæ•´æ•°çš„æ—¶é—´
+    printf("ttime=%lld\n", ttime); // è¾“å‡ºttime=1577853322
 
-    char s1[20];                                   // C·ç¸ñµÄ×Ö·û´®¡£
-    timetostr(ttime, s1, "yyyy-mm-dd hh24:mi:ss"); // ×ª»»Îª×Ö·û´®µÄÊ±¼ä
+    char s1[20];                                   // Cé£æ ¼çš„å­—ç¬¦ä¸²ã€‚
+    timetostr(ttime, s1, "yyyy-mm-dd hh24:mi:ss"); // è½¬æ¢ä¸ºå­—ç¬¦ä¸²çš„æ—¶é—´
     cout << "s1=" << s1 << endl;
 
-    string s2;                                     // C++·ç¸ñµÄ×Ö·û´®¡£
-    timetostr(ttime, s2, "yyyy-mm-dd hh24:mi:ss"); // ×ª»»Îª×Ö·û´®µÄÊ±¼ä
+    string s2;                                     // C++é£æ ¼çš„å­—ç¬¦ä¸²ã€‚
+    timetostr(ttime, s2, "yyyy-mm-dd hh24:mi:ss"); // è½¬æ¢ä¸ºå­—ç¬¦ä¸²çš„æ—¶é—´
     cout << "s2=" << s2 << endl;
 }

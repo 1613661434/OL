@@ -1,6 +1,6 @@
 /*
- *  ³ÌĞòÃû£ºtest_ol_chrono_addtime.cpp£¬´Ë³ÌĞòÑİÊ¾¿ª·¢¿ò¼ÜÖĞ²ÉÓÃaddtimeº¯Êı½øĞĞÊ±¼äµÄÔËËã¡£
- *  ×÷Õß£ºol
+ *  ç¨‹åºåï¼štest_ol_chrono_addtime.cppï¼Œæ­¤ç¨‹åºæ¼”ç¤ºå¼€å‘æ¡†æ¶ä¸­é‡‡ç”¨addtimeå‡½æ•°è¿›è¡Œæ—¶é—´çš„è¿ç®—ã€‚
+ *  ä½œè€…ï¼šol
  */
 #include "ol_chrono.h"
 #include <iostream>
@@ -21,11 +21,11 @@ int main()
     memset(strtime, 0, sizeof(strtime));
     strcpy(strtime, "2020-01-20 12:35:22");
 
-    char s1[20];                                // C·ç¸ñµÄ×Ö·û´®¡£
-    addtime(strtime, s1, 0 - 1 * 24 * 60 * 60); // ¼õÒ»Ìì¡£
-    printf("s1=%s\n", s1);                      // Êä³ös1=2020-01-19 12:35:22
+    char s1[20];                                // Cé£æ ¼çš„å­—ç¬¦ä¸²ã€‚
+    addtime(strtime, s1, 0 - 1 * 24 * 60 * 60); // å‡ä¸€å¤©ã€‚
+    printf("s1=%s\n", s1);                      // è¾“å‡ºs1=2020-01-19 12:35:22
 
-    string s2;                              // C++·ç¸ñµÄ×Ö·û´®¡£
-    addtime(strtime, s2, 2 * 24 * 60 * 60); // ¼ÓÁ½Ìì¡£  172800
-    cout << "s2=" << s2 << endl;            // Êä³ös2=2020-01-22 12:35:22
+    string s2;                              // C++é£æ ¼çš„å­—ç¬¦ä¸²ã€‚
+    addtime(strtime, s2, 2 * 24 * 60 * 60); // åŠ ä¸¤å¤©ã€‚  172800
+    cout << "s2=" << s2 << endl;            // è¾“å‡ºs2=2020-01-22 12:35:22
 }

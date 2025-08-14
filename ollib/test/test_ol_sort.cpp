@@ -7,77 +7,77 @@ using namespace std;
 
 int main()
 {
-    // ²âÊÔÔ­ÉúÊı×é - ¿ìËÙÅÅĞò
+    // æµ‹è¯•åŸç”Ÿæ•°ç»„ - å¿«é€Ÿæ’åº
     int arr[] = {5, 2, 8, 1, 9, 3, 7, 4, 6};
     cout << "int arr[] Original array: ";
     print_container(arr);
-    quick_sort(arr); // Ö±½Óµ÷ÓÃ¿ìËÙÅÅĞò
+    quick_sort(arr); // ç›´æ¥è°ƒç”¨å¿«é€Ÿæ’åº
     cout << "Quick sorted array: ";
     print_container(arr);
     cout << "\n";
 
-    // ²âÊÔÔ­ÉúÊı×é - ²åÈëÅÅĞò
+    // æµ‹è¯•åŸç”Ÿæ•°ç»„ - æ’å…¥æ’åº
     int arr2[] = {9, 3, 7, 5, 1, 8, 2, 6, 4};
     cout << "int arr2[] Original array: ";
     print_container(arr2);
-    insertion_sort(arr2); // Ö±½Óµ÷ÓÃ²åÈëÅÅĞò
+    insertion_sort(arr2); // ç›´æ¥è°ƒç”¨æ’å…¥æ’åº
     cout << "Insertion sorted array: ";
     print_container(arr2);
     cout << "\n";
 
-    // ²âÊÔvector - ¿ìËÙÅÅĞò
+    // æµ‹è¯•vector - å¿«é€Ÿæ’åº
     vector<double> vec = {3.14, 2.71, 1.618, 0.577, 4.669, 2.718};
     cout << "vector<double> vec Original vector: ";
     print_container(vec);
-    quick_sort(vec); // Ö±½Óµ÷ÓÃ¿ìËÙÅÅĞò
+    quick_sort(vec); // ç›´æ¥è°ƒç”¨å¿«é€Ÿæ’åº
     cout << "Quick sorted vector: ";
     print_container(vec);
     cout << "\n";
 
-    // ²âÊÔvector - ²åÈëÅÅĞò
+    // æµ‹è¯•vector - æ’å…¥æ’åº
     vector<int> vec2 = {10, 5, 8, 3, 1, 9, 2, 7, 4, 6};
     cout << "vector<int> vec2 Original vector: ";
     print_container(vec2);
-    insertion_sort(vec2); // Ö±½Óµ÷ÓÃ²åÈëÅÅĞò
+    insertion_sort(vec2); // ç›´æ¥è°ƒç”¨æ’å…¥æ’åº
     cout << "Insertion sorted vector: ";
     print_container(vec2);
     cout << "\n";
 
-    // ²âÊÔlist - ²åÈëÅÅĞò
+    // æµ‹è¯•list - æ’å…¥æ’åº
     list<int> lst = {15, 12, 18, 11, 19, 13, 17, 14, 16};
     cout << "list<int> lst Original list: ";
     print_container(lst);
-    insertion_sort(lst); // Á´±íÊ¹ÓÃ²åÈëÅÅĞò
+    insertion_sort(lst); // é“¾è¡¨ä½¿ç”¨æ’å…¥æ’åº
     cout << "Insertion sorted list: ";
     print_container(lst);
     cout << "\n";
 
-    // »á±¨´í
-    //  ²âÊÔlist - ¿ìËÙÅÅĞò
+    // ä¼šæŠ¥é”™
+    //  æµ‹è¯•list - å¿«é€Ÿæ’åº
     /*
     list<int> lst2 = { 14, 2, 6, 11, 9, 13, 22, 33, 16 };
     cout << "list<int> lst2 Original list: ";
     print_container(lst2);
-    quick_sort(lst2); // Á´±íÊ¹ÓÃ²åÈëÅÅĞò
+    quick_sort(lst2); // é“¾è¡¨ä½¿ç”¨æ’å…¥æ’åº
     cout << "Insertion sorted list: ";
     print_container(lst2);
     cout << "\n";
     */
 
-    // ²âÊÔ²¿·Ö·¶Î§ÅÅĞò - ¿ìËÙÅÅĞò
+    // æµ‹è¯•éƒ¨åˆ†èŒƒå›´æ’åº - å¿«é€Ÿæ’åº
     vector<int> numbers = {10, 5, 8, 3, 1, 9, 2, 7, 4, 6};
     cout << "vector<int> numbers Original numbers: ";
     print_container(numbers);
-    quick_sort(numbers.begin() + 2, numbers.end() - 2); // ÅÅĞò²¿·Ö·¶Î§
+    quick_sort(numbers.begin() + 2, numbers.end() - 2); // æ’åºéƒ¨åˆ†èŒƒå›´
     cout << "Partially quick sorted: ";
     print_container(numbers);
     cout << "\n";
 
-    // ²âÊÔ²¿·Ö·¶Î§ÅÅĞò - ²åÈëÅÅĞò
+    // æµ‹è¯•éƒ¨åˆ†èŒƒå›´æ’åº - æ’å…¥æ’åº
     vector<int> numbers2 = {10, 5, 8, 3, 1, 9, 2, 7, 4, 6};
     cout << "vector<int> numbers2 Original numbers: ";
     print_container(numbers2);
-    insertion_sort(numbers2.begin() + 1, numbers2.end() - 1); // ÅÅĞò²¿·Ö·¶Î§
+    insertion_sort(numbers2.begin() + 1, numbers2.end() - 1); // æ’åºéƒ¨åˆ†èŒƒå›´
     cout << "Partially insertion sorted: ";
     print_container(numbers2);
 

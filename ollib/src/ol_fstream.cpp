@@ -4,8 +4,8 @@
 namespace ol
 {
     // ===========================================================================
-    // ¿çÆ½Ì¨ ACCESS º¯Êı£¨¼ì²éÎÄ¼ş/Ä¿Â¼´æÔÚĞÔ»òÈ¨ÏŞ£©
-    // mode: 0=¼ì²é´æÔÚ, 2=Ğ´È¨ÏŞ, 4=¶ÁÈ¨ÏŞ, 6=¶ÁĞ´È¨ÏŞ
+    // è·¨å¹³å° ACCESS å‡½æ•°ï¼ˆæ£€æŸ¥æ–‡ä»¶/ç›®å½•å­˜åœ¨æ€§æˆ–æƒé™ï¼‰
+    // mode: 0=æ£€æŸ¥å­˜åœ¨, 2=å†™æƒé™, 4=è¯»æƒé™, 6=è¯»å†™æƒé™
     inline int ACCESS(const char* _FileName, int _AccessMode)
     {
 #ifdef __linux__
@@ -15,57 +15,57 @@ namespace ol
 #endif
     }
 
-    // ¿çÆ½Ì¨ MKDIR º¯Êı£¨´´½¨Ä¿Â¼£©
-    // Linux ĞèÖ¸¶¨È¨ÏŞ£¨Èç 0755£©£¬Windows ºöÂÔÈ¨ÏŞ²ÎÊı
+    // è·¨å¹³å° MKDIR å‡½æ•°ï¼ˆåˆ›å»ºç›®å½•ï¼‰
+    // Linux éœ€æŒ‡å®šæƒé™ï¼ˆå¦‚ 0755ï¼‰ï¼ŒWindows å¿½ç•¥æƒé™å‚æ•°
     inline int MKDIR(const char* _Path, unsigned int _Mode)
     {
 #ifdef __linux__
         return mkdir(_Path, _Mode);
 #elif defined(_WIN32)
-        // Windows ²»Ö§³ÖÈ¨ÏŞ²ÎÊı£¬Ö±½Óµ÷ÓÃ _mkdir
+        // Windows ä¸æ”¯æŒæƒé™å‚æ•°ï¼Œç›´æ¥è°ƒç”¨ _mkdir
         return _mkdir(_Path);
 #endif
     }
     // ===========================================================================
 
     // ===========================================================================
-    // ¹¦ÄÜ£º¸ù¾İ¾ø¶ÔÂ·¾¶Öğ¼¶´´½¨Ä¿Â¼£¨Ö§³Ö Windows ´øÅÌ·ûÂ·¾¶£©
-    // ²ÎÊı£º
-    //   pathorfilename - ¾ø¶ÔÂ·¾¶£¨LinuxÈç \tmp»ò\tmp\a.txt£»WindowsÈç D:\a\b\c »ò D:\a\b\file.txt£©
-    //   bisfilename    - true ±íÊ¾Â·¾¶°üº¬ÎÄ¼şÃû£¬false ±íÊ¾´¿Ä¿Â¼Â·¾¶
-    // ·µ»ØÖµ£ºtrue ³É¹¦£¬false Ê§°Ü
+    // åŠŸèƒ½ï¼šæ ¹æ®ç»å¯¹è·¯å¾„é€çº§åˆ›å»ºç›®å½•ï¼ˆæ”¯æŒ Windows å¸¦ç›˜ç¬¦è·¯å¾„ï¼‰
+    // å‚æ•°ï¼š
+    //   pathorfilename - ç»å¯¹è·¯å¾„ï¼ˆLinuxå¦‚ \tmpæˆ–\tmp\a.txtï¼›Windowså¦‚ D:\a\b\c æˆ– D:\a\b\file.txtï¼‰
+    //   bisfilename    - true è¡¨ç¤ºè·¯å¾„åŒ…å«æ–‡ä»¶åï¼Œfalse è¡¨ç¤ºçº¯ç›®å½•è·¯å¾„
+    // è¿”å›å€¼ï¼štrue æˆåŠŸï¼Œfalse å¤±è´¥
     bool newdir(const std::string& pathorfilename, bool bisfilename)
     {
         std::string path = pathorfilename;
 
 #ifdef __linux__
-        // ¼ì²éÄ¿Â¼ÊÇ·ñ´æÔÚ£¬Èç¹û²»´æÔÚ£¬Öğ¼¶´´½¨×ÓÄ¿Â¼
-        size_t pos = 1; // ²»Òª´Ó0¿ªÊ¼£¬0ÊÇ¸ùÄ¿Â¼/¡£
+        // æ£€æŸ¥ç›®å½•æ˜¯å¦å­˜åœ¨ï¼Œå¦‚æœä¸å­˜åœ¨ï¼Œé€çº§åˆ›å»ºå­ç›®å½•
+        size_t pos = 1; // ä¸è¦ä»0å¼€å§‹ï¼Œ0æ˜¯æ ¹ç›®å½•/ã€‚
 #elif defined(_WIN32)
-        // 1. Í³Ò»Â·¾¶·Ö¸ô·û£¨½«Windows ·ç¸ñµÄ \ ×ªÎª  /£©
+        // 1. ç»Ÿä¸€è·¯å¾„åˆ†éš”ç¬¦ï¼ˆå°†Windows é£æ ¼çš„ \ è½¬ä¸º  /ï¼‰
         std::replace(path.begin(), path.end(), '\\', '/');
 
         size_t pos = 0;
 
-        // ¼ì²éÅÌ·û£¨Èç D:£©ÊÇ·ñÓĞĞ§
+        // æ£€æŸ¥ç›˜ç¬¦ï¼ˆå¦‚ D:ï¼‰æ˜¯å¦æœ‰æ•ˆ
         size_t colon_pos = path.find(':');
-        if (colon_pos == 1) // ÅÌ·û¸ñÊ½Ó¦Îª "X:"£¨×ÖÄ¸+Ã°ºÅ£¬Î»ÖÃ1ÊÇÃ°ºÅ£©
+        if (colon_pos == 1) // ç›˜ç¬¦æ ¼å¼åº”ä¸º "X:"ï¼ˆå­—æ¯+å†’å·ï¼Œä½ç½®1æ˜¯å†’å·ï¼‰
         {
             if (ACCESS(path.substr(0, 2).c_str(), 0) != 0)
-            {                   // ¼ì²éÅÌ·ûÊÇ·ñ´æÔÚ
-                errno = ENOENT; // ±ê¼ÇÎªÂ·¾¶²»´æÔÚ
+            {                   // æ£€æŸ¥ç›˜ç¬¦æ˜¯å¦å­˜åœ¨
+                errno = ENOENT; // æ ‡è®°ä¸ºè·¯å¾„ä¸å­˜åœ¨
                 return false;
             }
 
-            // ´¿ÅÌ·û·µ»Øtrue
+            // çº¯ç›˜ç¬¦è¿”å›true
             if (path.size() == 2) return true;
 
-            // Ìø¹ıÅÌ·û£¬´ÓD:\ÏÂÒ»¸ö×Ö·û¿ªÊ¼
+            // è·³è¿‡ç›˜ç¬¦ï¼Œä»D:\ä¸‹ä¸€ä¸ªå­—ç¬¦å¼€å§‹
             pos = 3;
         }
-        else // Windows ¾ø¶ÔÂ·¾¶±ØĞë´øÅÌ·û£¨Èç D:/£©£¬·ñÔòÊÓÎªÎŞĞ§
+        else // Windows ç»å¯¹è·¯å¾„å¿…é¡»å¸¦ç›˜ç¬¦ï¼ˆå¦‚ D:/ï¼‰ï¼Œå¦åˆ™è§†ä¸ºæ— æ•ˆ
         {
-            errno = EINVAL; // ±ê¼ÇÎªÎŞĞ§²ÎÊı
+            errno = EINVAL; // æ ‡è®°ä¸ºæ— æ•ˆå‚æ•°
             return false;
         }
 #endif
@@ -75,17 +75,17 @@ namespace ol
             size_t pos1 = path.find('/', pos);
             if (pos1 == std::string::npos) break;
 
-            std::string strpathname = path.substr(0, pos1); // ½ØÈ¡Ä¿Â¼¡£
+            std::string strpathname = path.substr(0, pos1); // æˆªå–ç›®å½•ã€‚
 
-            pos = pos1 + 1;                          // Î»ÖÃºóÒÆ¡£
-            if (ACCESS(strpathname.c_str(), 0) != 0) // Èç¹ûÄ¿Â¼²»´æÔÚ£¬´´½¨Ëü£¬µÚ¶ş¸ö²ÎÊı¼´ÊÇF_OK¡£
+            pos = pos1 + 1;                          // ä½ç½®åç§»ã€‚
+            if (ACCESS(strpathname.c_str(), 0) != 0) // å¦‚æœç›®å½•ä¸å­˜åœ¨ï¼Œåˆ›å»ºå®ƒï¼Œç¬¬äºŒä¸ªå‚æ•°å³æ˜¯F_OKã€‚
             {
-                // 0755ÊÇ°Ë½øÖÆ£¬²»ÒªĞ´³É755¡£
-                if (MKDIR(strpathname.c_str(), 0755) != 0) return false; // Èç¹ûÄ¿Â¼²»´æÔÚ£¬´´½¨Ëü¡£
+                // 0755æ˜¯å…«è¿›åˆ¶ï¼Œä¸è¦å†™æˆ755ã€‚
+                if (MKDIR(strpathname.c_str(), 0755) != 0) return false; // å¦‚æœç›®å½•ä¸å­˜åœ¨ï¼Œåˆ›å»ºå®ƒã€‚
             }
         }
 
-        // Èç¹ûpath²»ÊÇÎÄ¼ş£¬ÊÇÄ¿Â¼£¬»¹ĞèÒª´´½¨×îºóÒ»¼¶×ÓÄ¿Â¼¡£
+        // å¦‚æœpathä¸æ˜¯æ–‡ä»¶ï¼Œæ˜¯ç›®å½•ï¼Œè¿˜éœ€è¦åˆ›å»ºæœ€åä¸€çº§å­ç›®å½•ã€‚
         if (bisfilename == false)
         {
             if (ACCESS(path.c_str(), 0) != 0)
@@ -101,22 +101,22 @@ namespace ol
     // ===========================================================================
     bool renamefile(const std::string& srcfilename, const std::string& dstfilename)
     {
-        // ¼ì²éÔ­ÎÄ¼şÊÇ·ñ´æÔÚÇÒ¿É¶Á£¨LinuxÓÃR_OK£¬WindowsÓÃ_accessµÄ4£©
+        // æ£€æŸ¥åŸæ–‡ä»¶æ˜¯å¦å­˜åœ¨ä¸”å¯è¯»ï¼ˆLinuxç”¨R_OKï¼ŒWindowsç”¨_accessçš„4ï¼‰
 #ifdef __linux__
         if (access(srcfilename.c_str(), R_OK) != 0) return false;
 #elif defined(_WIN32)
-        // WindowsÖĞ_accessµÄµÚ¶ş¸ö²ÎÊı£º4±íÊ¾¼ì²é¿É¶ÁĞÔ£¨¶ÔÓ¦LinuxµÄR_OK£©
+        // Windowsä¸­_accessçš„ç¬¬äºŒä¸ªå‚æ•°ï¼š4è¡¨ç¤ºæ£€æŸ¥å¯è¯»æ€§ï¼ˆå¯¹åº”Linuxçš„R_OKï¼‰
         if (_access(srcfilename.c_str(), 4) != 0) return false;
 #endif
 
-        // ´´½¨Ä¿±êÎÄ¼şµÄÄ¿Â¼¡£
+        // åˆ›å»ºç›®æ ‡æ–‡ä»¶çš„ç›®å½•ã€‚
         if (newdir(dstfilename, true) == false) return false;
 
-        // µ÷ÓÃ²Ù×÷ÏµÍ³µÄ¿âº¯ÊırenameÖØÃüÃûÎÄ¼ş¡£
+        // è°ƒç”¨æ“ä½œç³»ç»Ÿçš„åº“å‡½æ•°renameé‡å‘½åæ–‡ä»¶ã€‚
 #ifdef __linux__
         if (rename(srcfilename.c_str(), dstfilename.c_str()) == 0) return true;
 #elif defined(_WIN32)
-        // WindowsµÄrenameº¯ÊıÓëLinuxÓÃ·¨ÏàÍ¬£¬µ«ĞèÈ·±£Â·¾¶ÕıÈ·
+        // Windowsçš„renameå‡½æ•°ä¸Linuxç”¨æ³•ç›¸åŒï¼Œä½†éœ€ç¡®ä¿è·¯å¾„æ­£ç¡®
         if (rename(srcfilename.c_str(), dstfilename.c_str()) == 0) return true;
 #endif
 
@@ -127,7 +127,7 @@ namespace ol
     // ===========================================================================
     bool copyfile(const std::string& srcfilename, const std::string& dstfilename)
     {
-        // ´´½¨Ä¿±êÎÄ¼şµÄÄ¿Â¼¡£
+        // åˆ›å»ºç›®æ ‡æ–‡ä»¶çš„ç›®å½•ã€‚
         if (newdir(dstfilename, true) == false) return false;
 
         cifile ifile;
@@ -161,7 +161,7 @@ namespace ol
         ifile.close();
         ofile.closeandrename();
 
-        // ¸ü¸ÄÎÄ¼şµÄĞŞ¸ÄÊ±¼äÊôĞÔ
+        // æ›´æ”¹æ–‡ä»¶çš„ä¿®æ”¹æ—¶é—´å±æ€§
         std::string strmtime;
         filemtime(srcfilename, strmtime);
         setmtime(dstfilename, strmtime);
@@ -177,8 +177,8 @@ namespace ol
         struct stat st_filestat;
         if (stat(filename.c_str(), &st_filestat) < 0) return -1;
 #elif defined(_WIN32)
-        struct _stat st_filestat;                                 // WindowsÓÃ_stat½á¹¹Ìå
-        if (_stat(filename.c_str(), &st_filestat) < 0) return -1; // WindowsÓÃ_statº¯Êı
+        struct _stat st_filestat;                                 // Windowsç”¨_statç»“æ„ä½“
+        if (_stat(filename.c_str(), &st_filestat) < 0) return -1; // Windowsç”¨_statå‡½æ•°
 #endif
         return st_filestat.st_size;
     }
@@ -212,15 +212,15 @@ namespace ol
     bool setmtime(const std::string& filename, const std::string& mtime)
     {
 #ifdef __linux__
-        // Linux Æ½Ì¨Ê¹ÓÃ utimbuf
+        // Linux å¹³å°ä½¿ç”¨ utimbuf
         struct utimbuf stutimbuf;
         stutimbuf.actime = stutimbuf.modtime = strtotime(mtime);
         if (utime(filename.c_str(), &stutimbuf) != 0) return false;
 #elif defined(_WIN32)
-        // Windows Æ½Ì¨Ê¹ÓÃ _utimbuf£¨´øÏÂ»®Ïß£©
-        struct _utimbuf stutimbuf; // ĞŞÕı½á¹¹ÌåÃû³Æ
+        // Windows å¹³å°ä½¿ç”¨ _utimbufï¼ˆå¸¦ä¸‹åˆ’çº¿ï¼‰
+        struct _utimbuf stutimbuf; // ä¿®æ­£ç»“æ„ä½“åç§°
         stutimbuf.actime = stutimbuf.modtime = strtotime(mtime);
-        if (_utime(filename.c_str(), &stutimbuf) != 0) return false; // Æ¥Åä Windows º¯Êı
+        if (_utime(filename.c_str(), &stutimbuf) != 0) return false; // åŒ¹é… Windows å‡½æ•°
 #endif
         return true;
     }
@@ -232,37 +232,37 @@ namespace ol
         m_fmt = fmt;
     }
 
-    // ÕâÊÇÒ»¸öµİ¹éº¯Êı£¬ÔÚopendir()ÖĞµ÷ÓÃ£¬cdirÀàµÄÍâ²¿²»ĞèÒªµ÷ÓÃËü¡£
+    // è¿™æ˜¯ä¸€ä¸ªé€’å½’å‡½æ•°ï¼Œåœ¨opendir()ä¸­è°ƒç”¨ï¼Œcdirç±»çš„å¤–éƒ¨ä¸éœ€è¦è°ƒç”¨å®ƒã€‚
 #ifdef __linux__
-    // LinuxµÄ_opendir£¨µİ¹é±éÀúÄ¿Â¼£©
+    // Linuxçš„_opendirï¼ˆé€’å½’éå†ç›®å½•ï¼‰
     bool cdir::_opendir(const std::string& dirname, const std::string& rules, const size_t maxfiles, const bool bandchild)
     {
-        DIR* dir; // Ä¿Â¼Ö¸Õë¡£
+        DIR* dir; // ç›®å½•æŒ‡é’ˆã€‚
 
-        // ´ò¿ªÄ¿Â¼¡£
-        if ((dir = ::opendir(dirname.c_str())) == nullptr) return false; // opendirÓë¿âº¯ÊıÖØÃû£¬ĞèÒª¼Ó::
+        // æ‰“å¼€ç›®å½•ã€‚
+        if ((dir = ::opendir(dirname.c_str())) == nullptr) return false; // opendirä¸åº“å‡½æ•°é‡åï¼Œéœ€è¦åŠ ::
 
-        std::string strffilename; // È«Â·¾¶µÄÎÄ¼şÃû¡£
-        struct dirent* stdir;     // ´æ·Å´ÓÄ¿Â¼ÖĞ¶ÁÈ¡µÄÄÚÈİ¡£
+        std::string strffilename; // å…¨è·¯å¾„çš„æ–‡ä»¶åã€‚
+        struct dirent* stdir;     // å­˜æ”¾ä»ç›®å½•ä¸­è¯»å–çš„å†…å®¹ã€‚
 
-        // ÓÃÑ­»·¶ÁÈ¡Ä¿Â¼µÄÄÚÈİ£¬½«µÃµ½Ä¿Â¼ÖĞµÄÎÄ¼şÃûºÍ×ÓÄ¿Â¼¡£
-        while ((stdir = ::readdir(dir)) != 0) // readdirÓë¿âº¯ÊıÖØÃû£¬ĞèÒª¼Ó::
+        // ç”¨å¾ªç¯è¯»å–ç›®å½•çš„å†…å®¹ï¼Œå°†å¾—åˆ°ç›®å½•ä¸­çš„æ–‡ä»¶åå’Œå­ç›®å½•ã€‚
+        while ((stdir = ::readdir(dir)) != 0) // readdirä¸åº“å‡½æ•°é‡åï¼Œéœ€è¦åŠ ::
         {
-            // ÅĞ¶ÏÈİÆ÷ÖĞµÄÎÄ¼şÊıÁ¿ÊÇ·ñ³¬³ömaxfiles²ÎÊı¡£
+            // åˆ¤æ–­å®¹å™¨ä¸­çš„æ–‡ä»¶æ•°é‡æ˜¯å¦è¶…å‡ºmaxfileså‚æ•°ã€‚
             if (m_filelist.size() >= maxfiles) break;
 
-            // ÎÄ¼şÃûÒÔ"."´òÍ·µÄÎÄ¼ş²»´¦Àí¡£.ÊÇµ±Ç°Ä¿Â¼£¬..ÊÇÉÏÒ»¼¶Ä¿Â¼£¬ÆäËüÒÔ.´òÍ·µÄ¶¼ÊÇÌØÊâÄ¿Â¼ºÍÎÄ¼ş¡£
+            // æ–‡ä»¶åä»¥"."æ‰“å¤´çš„æ–‡ä»¶ä¸å¤„ç†ã€‚.æ˜¯å½“å‰ç›®å½•ï¼Œ..æ˜¯ä¸Šä¸€çº§ç›®å½•ï¼Œå…¶å®ƒä»¥.æ‰“å¤´çš„éƒ½æ˜¯ç‰¹æ®Šç›®å½•å’Œæ–‡ä»¶ã€‚
             if (stdir->d_name[0] == '.') continue;
 
-            // Æ´½ÓÈ«Â·¾¶µÄÎÄ¼şÃû¡£
+            // æ‹¼æ¥å…¨è·¯å¾„çš„æ–‡ä»¶åã€‚
             strffilename = dirname + '/' + stdir->d_name;
 
-            // Èç¹ûÊÇÄ¿Â¼£¬´¦Àí¸÷¼¶×ÓÄ¿Â¼¡£
+            // å¦‚æœæ˜¯ç›®å½•ï¼Œå¤„ç†å„çº§å­ç›®å½•ã€‚
             if (stdir->d_type == 4)
             {
-                if (bandchild == true) // ´ò¿ª¸÷¼¶×ÓÄ¿Â¼¡£
+                if (bandchild == true) // æ‰“å¼€å„çº§å­ç›®å½•ã€‚
                 {
-                    if (_opendir(strffilename, rules, maxfiles, bandchild) == false) // µİ¹éµ÷ÓÃ_opendirº¯Êı¡£
+                    if (_opendir(strffilename, rules, maxfiles, bandchild) == false) // é€’å½’è°ƒç”¨_opendirå‡½æ•°ã€‚
                     {
                         closedir(dir);
                         return false;
@@ -270,63 +270,63 @@ namespace ol
                 }
             }
 
-            // Èç¹ûÊÇÆÕÍ¨ÎÄ¼ş£¬·ÅÈëÈİÆ÷ÖĞ¡£
+            // å¦‚æœæ˜¯æ™®é€šæ–‡ä»¶ï¼Œæ”¾å…¥å®¹å™¨ä¸­ã€‚
             if (stdir->d_type == 8)
             {
-                // °ÑÄÜÆ¥ÅäÉÏµÄÎÄ¼ş·ÅÈëm_filelistÈİÆ÷ÖĞ¡£
+                // æŠŠèƒ½åŒ¹é…ä¸Šçš„æ–‡ä»¶æ”¾å…¥m_filelistå®¹å™¨ä¸­ã€‚
                 if (matchstr(stdir->d_name, rules) == false) continue;
 
                 m_filelist.push_back(std::move(strffilename));
             }
         }
 
-        closedir(dir); // ¹Ø±ÕÄ¿Â¼¡£
+        closedir(dir); // å…³é—­ç›®å½•ã€‚
 
         return true;
     }
 #elif defined(_WIN32)
-    // WindowsµÄ_opendir£¨µİ¹é±éÀúÄ¿Â¼£©
+    // Windowsçš„_opendirï¼ˆé€’å½’éå†ç›®å½•ï¼‰
     bool cdir::_opendir(const std::string& dirname, const std::string& rules, const size_t maxfiles, const bool bandchild)
     {
-        // ¹¹½¨ËÑË÷Â·¾¶£¨Windows APIĞèÒª\£¬µ«×îÖÕ´æ´¢ÓÃ/£©
+        // æ„å»ºæœç´¢è·¯å¾„ï¼ˆWindows APIéœ€è¦\ï¼Œä½†æœ€ç»ˆå­˜å‚¨ç”¨/ï¼‰
         std::string search_path = dirname;
         std::replace(search_path.begin(), search_path.end(), '/', '\\');
-        search_path += "\\*"; // WindowsËÑË÷Í¨Åä·û
+        search_path += "\\*"; // Windowsæœç´¢é€šé…ç¬¦
 
         struct _finddata_t fileinfo;
         intptr_t handle = _findfirst(search_path.c_str(), &fileinfo);
         if (handle == -1)
         {
-            return false; // Ä¿Â¼²»´æÔÚ£¨Windows API·µ»Ø-1±íÊ¾Ê§°Ü£©
+            return false; // ç›®å½•ä¸å­˜åœ¨ï¼ˆWindows APIè¿”å›-1è¡¨ç¤ºå¤±è´¥ï¼‰
         }
 
-        std::string strffilename; // È«Â·¾¶µÄÎÄ¼şÃû
+        std::string strffilename; // å…¨è·¯å¾„çš„æ–‡ä»¶å
         do {
-            // Ìø¹ı.ºÍ..
+            // è·³è¿‡.å’Œ..
             if (strcmp(fileinfo.name, ".") == 0 || strcmp(fileinfo.name, "..") == 0)
             {
                 continue;
             }
 
-            // Æ´½ÓÈ«Â·¾¶
+            // æ‹¼æ¥å…¨è·¯å¾„
             strffilename = dirname + '\\' + fileinfo.name;
 
-            // ÅĞ¶ÏÊÇ·ñÎªÄ¿Â¼£¨WindowsÊôĞÔ_A_SUBDIR¶ÔÓ¦Ä¿Â¼£©
+            // åˆ¤æ–­æ˜¯å¦ä¸ºç›®å½•ï¼ˆWindowså±æ€§_A_SUBDIRå¯¹åº”ç›®å½•ï¼‰
             bool is_dir = (fileinfo.attrib & _A_SUBDIR) != 0;
 
-            // Èç¹ûÊÇÄ¿Â¼ÇÒĞèÒªµİ¹é×ÓÄ¿Â¼
+            // å¦‚æœæ˜¯ç›®å½•ä¸”éœ€è¦é€’å½’å­ç›®å½•
             if (is_dir)
             {
                 if (bandchild)
                 {
                     if (_opendir(strffilename, rules, maxfiles, bandchild) == false)
                     {
-                        _findclose(handle); // ¹Ø±ÕWindowsÄ¿Â¼¾ä±ú
+                        _findclose(handle); // å…³é—­Windowsç›®å½•å¥æŸ„
                         return false;
                     }
                 }
             }
-            // Èç¹ûÊÇÆÕÍ¨ÎÄ¼ş£¬·ÅÈëÈİÆ÷ÖĞ
+            // å¦‚æœæ˜¯æ™®é€šæ–‡ä»¶ï¼Œæ”¾å…¥å®¹å™¨ä¸­
             else
             {
                 if (m_filelist.size() >= maxfiles) break;
@@ -336,25 +336,25 @@ namespace ol
                     m_filelist.push_back(std::move(strffilename));
                 }
             }
-        } while (_findnext(handle, &fileinfo) == 0); // Windows API±éÀúÏÂÒ»¸öÎÄ¼ş
+        } while (_findnext(handle, &fileinfo) == 0); // Windows APIéå†ä¸‹ä¸€ä¸ªæ–‡ä»¶
 
-        _findclose(handle); // ¹Ø±ÕWindowsÄ¿Â¼¾ä±ú
+        _findclose(handle); // å…³é—­Windowsç›®å½•å¥æŸ„
         return true;
     }
 #endif
 
     bool cdir::opendir(const std::string& dirname, const std::string& rules, const size_t maxfiles, const bool bandchild, bool bsort)
     {
-        m_filelist.clear(); // Çå¿ÕÎÄ¼şÁĞ±íÈİÆ÷¡£
-        m_pos = 0;          // ´ÓÎÄ¼şÁĞ±íÖĞÒÑ¶ÁÈ¡ÎÄ¼şµÄÎ»ÖÃ¹é0¡£
+        m_filelist.clear(); // æ¸…ç©ºæ–‡ä»¶åˆ—è¡¨å®¹å™¨ã€‚
+        m_pos = 0;          // ä»æ–‡ä»¶åˆ—è¡¨ä¸­å·²è¯»å–æ–‡ä»¶çš„ä½ç½®å½’0ã€‚
 
-        // Èç¹ûÄ¿Â¼²»´æÔÚ£¬´´½¨Ëü¡£
+        // å¦‚æœç›®å½•ä¸å­˜åœ¨ï¼Œåˆ›å»ºå®ƒã€‚
         if (newdir(dirname, false) == false) return false;
 
-        // ´ò¿ªÄ¿Â¼£¬»ñÈ¡Ä¿Â¼ÖĞµÄÎÄ¼şÁĞ±í£¬´æ·ÅÔÚm_filelistÈİÆ÷ÖĞ¡£
+        // æ‰“å¼€ç›®å½•ï¼Œè·å–ç›®å½•ä¸­çš„æ–‡ä»¶åˆ—è¡¨ï¼Œå­˜æ”¾åœ¨m_filelistå®¹å™¨ä¸­ã€‚
         bool ret = _opendir(dirname, rules, maxfiles, bandchild);
 
-        if (bsort == true) // ¶ÔÎÄ¼şÁĞ±íÅÅĞò¡£
+        if (bsort == true) // å¯¹æ–‡ä»¶åˆ—è¡¨æ’åºã€‚
         {
             sort(m_filelist.begin(), m_filelist.end());
         }
@@ -364,7 +364,7 @@ namespace ol
 
     bool cdir::readdir()
     {
-        // Èç¹ûÒÑ¶ÁÍê£¬Çå¿ÕÈİÆ÷
+        // å¦‚æœå·²è¯»å®Œï¼Œæ¸…ç©ºå®¹å™¨
         if (m_pos >= m_filelist.size())
         {
             m_pos = 0;
@@ -372,18 +372,18 @@ namespace ol
             return false;
         }
 
-        // ÎÄ¼şÈ«Ãû£¬°üÀ¨Â·¾¶
+        // æ–‡ä»¶å…¨åï¼ŒåŒ…æ‹¬è·¯å¾„
         m_ffilename = m_filelist[m_pos];
 
-        // ´Ó¾ø¶ÔÂ·¾¶µÄÎÄ¼şÃûÖĞ½âÎö³öÄ¿Â¼ÃûºÍÎÄ¼şÃû¡£
-        // Í¬Ê±´¦ÀíWindowsµÄ\ºÍLinuxµÄ/·Ö¸ô·û
-        size_t pp = m_ffilename.find_last_of("/\\"); // Í¬Ê±²éÕÒ/ºÍ\
+        // ä»ç»å¯¹è·¯å¾„çš„æ–‡ä»¶åä¸­è§£æå‡ºç›®å½•åå’Œæ–‡ä»¶åã€‚
+        // åŒæ—¶å¤„ç†Windowsçš„\å’ŒLinuxçš„/åˆ†éš”ç¬¦
+        size_t pp = m_ffilename.find_last_of("/\\"); // åŒæ—¶æŸ¥æ‰¾/å’Œ\
 
-        // ´¦Àí¸ùÄ¿Â¼ÏÂµÄÎÄ¼ş£¨ÈçD:/file.txt»òD:\file.txt£©
+        // å¤„ç†æ ¹ç›®å½•ä¸‹çš„æ–‡ä»¶ï¼ˆå¦‚D:/file.txtæˆ–D:\file.txtï¼‰
         if (pp == std::string::npos)
         {
-            m_dirname = "";           // Ã»ÓĞÄ¿Â¼£¬Îª¿Õ
-            m_filename = m_ffilename; // Õû¸öÂ·¾¶¾ÍÊÇÎÄ¼şÃû
+            m_dirname = "";           // æ²¡æœ‰ç›®å½•ï¼Œä¸ºç©º
+            m_filename = m_ffilename; // æ•´ä¸ªè·¯å¾„å°±æ˜¯æ–‡ä»¶å
         }
         else
         {
@@ -391,10 +391,10 @@ namespace ol
             m_filename = m_ffilename.substr(pp + 1);
         }
 
-        // »ñÈ¡ÎÄ¼şĞÅÏ¢£¨Çø·ÖÆ½Ì¨£©
+        // è·å–æ–‡ä»¶ä¿¡æ¯ï¼ˆåŒºåˆ†å¹³å°ï¼‰
 #ifdef __linux__
         struct stat st_filestat;
-        if (stat(m_ffilename.c_str(), &st_filestat) != 0) // ¼ì²éstatµ÷ÓÃÊÇ·ñ³É¹¦
+        if (stat(m_ffilename.c_str(), &st_filestat) != 0) // æ£€æŸ¥statè°ƒç”¨æ˜¯å¦æˆåŠŸ
         {
             m_filesize = 0;
             m_mtime = m_ctime = m_atime = "";
@@ -402,7 +402,7 @@ namespace ol
         }
 #elif defined(_WIN32)
         struct _stat st_filestat;
-        // WindowsÏÂÂ·¾¶¿ÉÄÜ°üº¬\£¬ĞèÒªÈ·±£_statÄÜÊ¶±ğ
+        // Windowsä¸‹è·¯å¾„å¯èƒ½åŒ…å«\ï¼Œéœ€è¦ç¡®ä¿_statèƒ½è¯†åˆ«
         if (_stat(m_ffilename.c_str(), &st_filestat) != 0)
         {
             m_filesize = 0;
@@ -411,12 +411,12 @@ namespace ol
         }
 #endif
 
-        m_filesize = st_filestat.st_size;                  // ÎÄ¼ş´óĞ¡¡£
-        m_mtime = timetostr1(st_filestat.st_mtime, m_fmt); // ÎÄ¼ş×îºóÒ»´Î±»ĞŞ¸ÄµÄÊ±¼ä¡£
-        m_ctime = timetostr1(st_filestat.st_ctime, m_fmt); // ÎÄ¼şÉú³ÉµÄÊ±¼ä¡£
-        m_atime = timetostr1(st_filestat.st_atime, m_fmt); // ÎÄ¼ş×îºóÒ»´Î±»·ÃÎÊµÄÊ±¼ä¡£
+        m_filesize = st_filestat.st_size;                  // æ–‡ä»¶å¤§å°ã€‚
+        m_mtime = timetostr1(st_filestat.st_mtime, m_fmt); // æ–‡ä»¶æœ€åä¸€æ¬¡è¢«ä¿®æ”¹çš„æ—¶é—´ã€‚
+        m_ctime = timetostr1(st_filestat.st_ctime, m_fmt); // æ–‡ä»¶ç”Ÿæˆçš„æ—¶é—´ã€‚
+        m_atime = timetostr1(st_filestat.st_atime, m_fmt); // æ–‡ä»¶æœ€åä¸€æ¬¡è¢«è®¿é—®çš„æ—¶é—´ã€‚
 
-        ++m_pos; // ÒÑ¶ÁÈ¡ÎÄ¼şµÄÎ»ÖÃºóÒÆ¡£
+        ++m_pos; // å·²è¯»å–æ–‡ä»¶çš„ä½ç½®åç§»ã€‚
 
         return true;
     }
@@ -430,25 +430,25 @@ namespace ol
     // ===========================================================================
     bool cofile::open(const std::string& filename, const bool btmp, const std::ios::openmode mode, const bool benbuffer)
     {
-        // Èç¹ûÎÄ¼şÊÇ´ò¿ªµÄ×´Ì¬£¬ÏÈ¹Ø±ÕËü¡£
+        // å¦‚æœæ–‡ä»¶æ˜¯æ‰“å¼€çš„çŠ¶æ€ï¼Œå…ˆå…³é—­å®ƒã€‚
         if (fout.is_open()) fout.close();
 
         m_filename = filename;
 
-        newdir(m_filename, true); // Èç¹ûÎÄ¼şµÄÄ¿Â¼²»´æÔÚ£¬´´½¨Ä¿Â¼¡£
+        newdir(m_filename, true); // å¦‚æœæ–‡ä»¶çš„ç›®å½•ä¸å­˜åœ¨ï¼Œåˆ›å»ºç›®å½•ã€‚
 
         if (btmp == true)
-        { // ²ÉÓÃÁÙÊ±ÎÄ¼şµÄ·½°¸¡£
+        { // é‡‡ç”¨ä¸´æ—¶æ–‡ä»¶çš„æ–¹æ¡ˆã€‚
             m_filenametmp = m_filename + ".tmp";
             fout.open(m_filenametmp, mode);
         }
         else
-        { // ²»²ÉÓÃÁÙÊ±ÎÄ¼şµÄ·½°¸¡£
+        { // ä¸é‡‡ç”¨ä¸´æ—¶æ–‡ä»¶çš„æ–¹æ¡ˆã€‚
             m_filenametmp.clear();
             fout.open(m_filename, mode);
         }
 
-        // ²»ÆôÓÃÎÄ¼ş»º³åÇø¡£
+        // ä¸å¯ç”¨æ–‡ä»¶ç¼“å†²åŒºã€‚
         if (benbuffer == false) fout << std::unitbuf;
 
         return fout.is_open();
@@ -464,28 +464,28 @@ namespace ol
         return fout.good();
     }
 
-    // ¹Ø±ÕÎÄ¼ş£¬²¢ÇÒ°ÑÁÙÊ±ÎÄ¼şÃû¸ÄÎªÕıÊ½ÎÄ¼şÃû¡£
+    // å…³é—­æ–‡ä»¶ï¼Œå¹¶ä¸”æŠŠä¸´æ—¶æ–‡ä»¶åæ”¹ä¸ºæ­£å¼æ–‡ä»¶åã€‚
     bool cofile::closeandrename()
     {
         if (fout.is_open() == false) return false;
 
         fout.close();
 
-        //  Èç¹û²ÉÓÃÁËÁÙÊ±ÎÄ¼şµÄ·½°¸¡£
+        //  å¦‚æœé‡‡ç”¨äº†ä¸´æ—¶æ–‡ä»¶çš„æ–¹æ¡ˆã€‚
         if (m_filenametmp.empty() == false)
             if (rename(m_filenametmp.c_str(), m_filename.c_str()) != 0) return false;
 
         return true;
     }
 
-    // ¹Ø±ÕÎÄ¼ş£¬É¾³ıÁÙÊ±ÎÄ¼ş¡£
+    // å…³é—­æ–‡ä»¶ï¼Œåˆ é™¤ä¸´æ—¶æ–‡ä»¶ã€‚
     void cofile::close()
     {
         if (fout.is_open() == false) return;
 
         fout.close();
 
-        //  Èç¹û²ÉÓÃÁËÁÙÊ±ÎÄ¼şµÄ·½°¸¡£
+        //  å¦‚æœé‡‡ç”¨äº†ä¸´æ—¶æ–‡ä»¶çš„æ–¹æ¡ˆã€‚
         if (m_filenametmp.empty() == false)
             remove(m_filenametmp.c_str());
     }
@@ -494,7 +494,7 @@ namespace ol
     // ===========================================================================
     bool cifile::open(const std::string& filename, const std::ios::openmode mode)
     {
-        // Èç¹ûÎÄ¼şÊÇ´ò¿ªµÄ×´Ì¬£¬ÏÈ¹Ø±ÕËü¡£
+        // å¦‚æœæ–‡ä»¶æ˜¯æ‰“å¼€çš„çŠ¶æ€ï¼Œå…ˆå…³é—­å®ƒã€‚
         if (fin.is_open()) fin.close();
 
         m_filename = filename;
@@ -506,23 +506,23 @@ namespace ol
 
     bool cifile::readline(std::string& buf, const std::string& endbz)
     {
-        buf.clear(); // Çå¿Õbuf¡£
+        buf.clear(); // æ¸…ç©ºbufã€‚
 
-        std::string strline; // ´æ·Å´ÓÎÄ¼şÖĞ¶ÁÈ¡µÄÒ»ĞĞ¡£
+        std::string strline; // å­˜æ”¾ä»æ–‡ä»¶ä¸­è¯»å–çš„ä¸€è¡Œã€‚
 
-        while (getline(fin, strline)) // ´ÓÎÄ¼şÖĞ¶ÁÈ¡Ò»ĞĞ¡£
+        while (getline(fin, strline)) // ä»æ–‡ä»¶ä¸­è¯»å–ä¸€è¡Œã€‚
         {
-            buf += strline; // °Ñ¶ÁÈ¡µÄÄÚÈİÆ´½Óµ½bufÖĞ¡£
+            buf += strline; // æŠŠè¯»å–çš„å†…å®¹æ‹¼æ¥åˆ°bufä¸­ã€‚
 
-            // ¼ì²éÊÇ·ñ´ïµ½½áÎ²±êÖ¾
+            // æ£€æŸ¥æ˜¯å¦è¾¾åˆ°ç»“å°¾æ ‡å¿—
             if (endbz == "")
-                return true; // Èç¹ûĞĞÃ»ÓĞ½áÎ²±êÖ¾¡£
-            else             // Èç¹ûĞĞÓĞ½áÎ²±êÖ¾£¬ÅĞ¶Ï±¾´ÎÊÇ·ñ¶Áµ½ÁË½áÎ²±êÖ¾£¬Èç¹ûÃ»ÓĞ£¬¼ÌĞø¶Á£»Èç¹ûÓĞ£¬·µ»Ø¡£
+                return true; // å¦‚æœè¡Œæ²¡æœ‰ç»“å°¾æ ‡å¿—ã€‚
+            else             // å¦‚æœè¡Œæœ‰ç»“å°¾æ ‡å¿—ï¼Œåˆ¤æ–­æœ¬æ¬¡æ˜¯å¦è¯»åˆ°äº†ç»“å°¾æ ‡å¿—ï¼Œå¦‚æœæ²¡æœ‰ï¼Œç»§ç»­è¯»ï¼›å¦‚æœæœ‰ï¼Œè¿”å›ã€‚
             {
                 if (buf.find(endbz, buf.length() - endbz.length()) != std::string::npos) return true;
             }
 
-            buf += "\n"; // getline´ÓÎÄ¼şÖĞ¶ÁÈ¡Ò»ĞĞµÄÊ±ºò£¬»áÉ¾³ı\n£¬ËùÒÔ£¬ÕâÀïÒª²¹ÉÏ\n£¬ÒòÎªÕâ¸ö\n²»Ó¦¸Ã±»É¾³ı¡£
+            buf += "\n"; // getlineä»æ–‡ä»¶ä¸­è¯»å–ä¸€è¡Œçš„æ—¶å€™ï¼Œä¼šåˆ é™¤\nï¼Œæ‰€ä»¥ï¼Œè¿™é‡Œè¦è¡¥ä¸Š\nï¼Œå› ä¸ºè¿™ä¸ª\nä¸åº”è¯¥è¢«åˆ é™¤ã€‚
         }
 
         return false;
@@ -533,7 +533,7 @@ namespace ol
         // fin.read((char *)buf,bufsize);
         fin.read(static_cast<char*>(buf), bufsize);
 
-        return fin.gcount(); // ·µ»Ø¶ÁÈ¡µÄ×Ö½ÚÊı¡£
+        return fin.gcount(); // è¿”å›è¯»å–çš„å­—èŠ‚æ•°ã€‚
     }
 
     bool cifile::closeandremove()
@@ -558,52 +558,52 @@ namespace ol
     // ===========================================================================
     bool clogfile::open(const std::string& filename, const std::ios::openmode mode, const bool bbackup, const bool benbuffer)
     {
-        // Èç¹ûÈÕÖ¾ÎÄ¼şÊÇ´ò¿ªµÄ×´Ì¬£¬ÏÈ¹Ø±ÕËü¡£
+        // å¦‚æœæ—¥å¿—æ–‡ä»¶æ˜¯æ‰“å¼€çš„çŠ¶æ€ï¼Œå…ˆå…³é—­å®ƒã€‚
         if (fout.is_open()) fout.close();
 
-        m_filename = filename;  // ÈÕÖ¾ÎÄ¼şÃû¡£
-        m_mode = mode;          // ´ò¿ªÄ£Ê½¡£
-        m_backup = bbackup;     // ÊÇ·ñ×Ô¶¯±¸·İ¡£
-        m_enbuffer = benbuffer; // ÊÇ·ñÆôÓÃÎÄ¼ş»º³åÇø¡£
+        m_filename = filename;  // æ—¥å¿—æ–‡ä»¶åã€‚
+        m_mode = mode;          // æ‰“å¼€æ¨¡å¼ã€‚
+        m_backup = bbackup;     // æ˜¯å¦è‡ªåŠ¨å¤‡ä»½ã€‚
+        m_enbuffer = benbuffer; // æ˜¯å¦å¯ç”¨æ–‡ä»¶ç¼“å†²åŒºã€‚
 
-        newdir(m_filename, true); // Èç¹ûÈÕÖ¾ÎÄ¼şµÄÄ¿Â¼²»´æÔÚ£¬´´½¨Ëü¡£
+        newdir(m_filename, true); // å¦‚æœæ—¥å¿—æ–‡ä»¶çš„ç›®å½•ä¸å­˜åœ¨ï¼Œåˆ›å»ºå®ƒã€‚
 
-        fout.open(m_filename, m_mode); // ´ò¿ªÈÕÖ¾ÎÄ¼ş¡£
+        fout.open(m_filename, m_mode); // æ‰“å¼€æ—¥å¿—æ–‡ä»¶ã€‚
 
-        if (m_enbuffer == false) fout << std::unitbuf; // ÊÇ·ñÆôÓÃÎÄ¼ş»º³åÇø¡£
+        if (m_enbuffer == false) fout << std::unitbuf; // æ˜¯å¦å¯ç”¨æ–‡ä»¶ç¼“å†²åŒºã€‚
 
         return fout.is_open();
     }
 
     bool clogfile::backup()
     {
-        // ²»±¸·İ
+        // ä¸å¤‡ä»½
         if (m_backup == false) return true;
 
         if (fout.is_open() == false) return false;
 
         const std::streamoff current_pos = fout.tellp();
 
-        // Èç¹ûµ÷ÓÃ³öÏÖ´íÎó
+        // å¦‚æœè°ƒç”¨å‡ºç°é”™è¯¯
         if (current_pos == -1) return false;
 
-        // Èç¹ûµ±Ç°ÈÕÖ¾ÎÄ¼şµÄ´óĞ¡³¬¹ım_maxsize£¬±¸·İÈÕÖ¾¡£
+        // å¦‚æœå½“å‰æ—¥å¿—æ–‡ä»¶çš„å¤§å°è¶…è¿‡m_maxsizeï¼Œå¤‡ä»½æ—¥å¿—ã€‚
         if ((size_t)current_pos > m_maxsize * 1024 * 1024)
         {
-            m_splock.lock(); // ¼ÓËø¡£
+            m_splock.lock(); // åŠ é”ã€‚
 
-            fout.close(); // ¹Ø±Õµ±Ç°ÈÕÖ¾ÎÄ¼ş¡£
+            fout.close(); // å…³é—­å½“å‰æ—¥å¿—æ–‡ä»¶ã€‚
 
-            // Æ´½Ó±¸·İÈÕÖ¾ÎÄ¼şÃû¡£
+            // æ‹¼æ¥å¤‡ä»½æ—¥å¿—æ–‡ä»¶åã€‚
             std::string bak_filename = m_filename + "." + ltime1("yyyymmddhh24miss");
 
-            rename(m_filename.c_str(), bak_filename.c_str()); // °Ñµ±Ç°ÈÕÖ¾ÎÄ¼ş¸ÄÃûÎª±¸·İÈÕÖ¾ÎÄ¼ş¡£
+            rename(m_filename.c_str(), bak_filename.c_str()); // æŠŠå½“å‰æ—¥å¿—æ–‡ä»¶æ”¹åä¸ºå¤‡ä»½æ—¥å¿—æ–‡ä»¶ã€‚
 
-            fout.open(m_filename, m_mode); // ÖØĞÂ´ò¿ªµ±Ç°ÈÕÖ¾ÎÄ¼ş¡£
+            fout.open(m_filename, m_mode); // é‡æ–°æ‰“å¼€å½“å‰æ—¥å¿—æ–‡ä»¶ã€‚
 
-            if (m_enbuffer == false) fout << std::unitbuf; // ÅĞ¶ÏÊÇ·ñÆô¶¯ÎÄ¼ş»º³åÇø¡£
+            if (m_enbuffer == false) fout << std::unitbuf; // åˆ¤æ–­æ˜¯å¦å¯åŠ¨æ–‡ä»¶ç¼“å†²åŒºã€‚
 
-            m_splock.unlock(); // ½âËø¡£
+            m_splock.unlock(); // è§£é”ã€‚
 
             return fout.is_open();
         }

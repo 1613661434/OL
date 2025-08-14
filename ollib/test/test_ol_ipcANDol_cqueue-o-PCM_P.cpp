@@ -53,8 +53,8 @@ int main()
     csemp hav_emp; // 空位数
     hav_emp.init(0x5003, 5, 0);
 
-    // 5.空位数-3
-    hav_emp.wait(-3);
+    // 5.空位数-1
+    hav_emp.wait();
 
     // 6.上锁
     mutex.wait();
@@ -67,8 +67,8 @@ int main()
     // 8.开锁
     mutex.post();
 
-    // 9.资源数+3
-    hav_ele.post(3);
+    // 9.资源数+1
+    hav_ele.post();
 
     // 10.脱离共享内存
     shmdt(CQptr);

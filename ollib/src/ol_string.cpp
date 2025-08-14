@@ -7,49 +7,49 @@ namespace ol
 
     char* deletelchr(char* str, const char c)
     {
-        if (str == nullptr) return nullptr; // Èç¹û´«½øÀ´µÄÊÇ¿ÕµØÖ·£¬Ö±½Ó·µ»Ø£¬·ÀÖ¹³ÌĞò±ÀÀ£¡£
+        if (str == nullptr) return nullptr; // å¦‚æœä¼ è¿›æ¥çš„æ˜¯ç©ºåœ°å€ï¼Œç›´æ¥è¿”å›ï¼Œé˜²æ­¢ç¨‹åºå´©æºƒã€‚
 
-        char* p = str;       // Ö¸Ïò×Ö·û´®µÄÊ×µØÖ·¡£
-        while (*p == c) ++p; // ±éÀú×Ö·û´®£¬p½«Ö¸Ïò×ó±ßµÚÒ»¸ö²»ÊÇcµÄ×Ö·û¡£
+        char* p = str;       // æŒ‡å‘å­—ç¬¦ä¸²çš„é¦–åœ°å€ã€‚
+        while (*p == c) ++p; // éå†å­—ç¬¦ä¸²ï¼Œpå°†æŒ‡å‘å·¦è¾¹ç¬¬ä¸€ä¸ªä¸æ˜¯cçš„å­—ç¬¦ã€‚
 
-        memmove(str, p, strlen(str) - (p - str) + 1); // °Ñ½áÎ²±êÖ¾0Ò²¿½¹ıÀ´¡£
+        memmove(str, p, strlen(str) - (p - str) + 1); // æŠŠç»“å°¾æ ‡å¿—0ä¹Ÿæ‹·è¿‡æ¥ã€‚
 
         return str;
     }
 
     std::string& deletelchr(std::string& str, const char c)
     {
-        auto pos = str.find_first_not_of(c); // ´Ó×Ö·û´®µÄ×ó±ß²éÕÒµÚÒ»¸ö²»ÊÇcµÄ×Ö·ûµÄÎ»ÖÃ¡£
+        auto pos = str.find_first_not_of(c); // ä»å­—ç¬¦ä¸²çš„å·¦è¾¹æŸ¥æ‰¾ç¬¬ä¸€ä¸ªä¸æ˜¯cçš„å­—ç¬¦çš„ä½ç½®ã€‚
 
-        if (pos != 0) str.replace(0, pos, ""); // °Ñ0-posÖ®¼äµÄ×Ö·û´®Ìæ»»³É¿Õ¡£
+        if (pos != 0) str.replace(0, pos, ""); // æŠŠ0-posä¹‹é—´çš„å­—ç¬¦ä¸²æ›¿æ¢æˆç©ºã€‚
 
         return str;
     }
 
     char* deleterchr(char* str, const char c)
     {
-        if (str == nullptr) return nullptr; // Èç¹û´«½øÀ´µÄÊÇ¿ÕµØÖ·£¬Ö±½Ó·µ»Ø£¬·ÀÖ¹³ÌĞò±ÀÀ£¡£
+        if (str == nullptr) return nullptr; // å¦‚æœä¼ è¿›æ¥çš„æ˜¯ç©ºåœ°å€ï¼Œç›´æ¥è¿”å›ï¼Œé˜²æ­¢ç¨‹åºå´©æºƒã€‚
 
-        char* p = str;   // Ö¸Ïò×Ö·û´®µÄÊ×µØÖ·¡£
-        char* piscc = 0; // ÓÒ±ßÈ«ÊÇ×Ö·ûcµÄµÚÒ»¸öÎ»ÖÃ¡£
+        char* p = str;   // æŒ‡å‘å­—ç¬¦ä¸²çš„é¦–åœ°å€ã€‚
+        char* piscc = 0; // å³è¾¹å…¨æ˜¯å­—ç¬¦cçš„ç¬¬ä¸€ä¸ªä½ç½®ã€‚
 
-        while (*p != 0) // ±éÀú×Ö·û´®¡£
+        while (*p != 0) // éå†å­—ç¬¦ä¸²ã€‚
         {
-            if (*p == c && piscc == 0) piscc = p; // ¼ÇÏÂ×Ö·ûcµÄµÚÒ»¸öÎ»ÖÃ¡£
-            if (*p != c) piscc = 0;               // Ö»Òªµ±Ç°×Ö·û²»ÊÇc£¬Çå¿Õpiscc¡£
+            if (*p == c && piscc == 0) piscc = p; // è®°ä¸‹å­—ç¬¦cçš„ç¬¬ä¸€ä¸ªä½ç½®ã€‚
+            if (*p != c) piscc = 0;               // åªè¦å½“å‰å­—ç¬¦ä¸æ˜¯cï¼Œæ¸…ç©ºpisccã€‚
             ++p;
         }
 
-        if (piscc != 0) *piscc = 0; // °ÑpisccÎ»ÖÃµÄ×Ö·ûÖÃÎª0£¬±íÊ¾×Ö·û´®ÒÑ½áÊø¡£
+        if (piscc != 0) *piscc = 0; // æŠŠpisccä½ç½®çš„å­—ç¬¦ç½®ä¸º0ï¼Œè¡¨ç¤ºå­—ç¬¦ä¸²å·²ç»“æŸã€‚
 
         return str;
     }
 
     std::string& deleterchr(std::string& str, const char c)
     {
-        auto pos = str.find_last_not_of(c); // ´Ó×Ö·û´®µÄÓÒ±ß²éÕÒµÚÒ»¸ö²»ÊÇcµÄ×Ö·ûµÄÎ»ÖÃ¡£
+        auto pos = str.find_last_not_of(c); // ä»å­—ç¬¦ä¸²çš„å³è¾¹æŸ¥æ‰¾ç¬¬ä¸€ä¸ªä¸æ˜¯cçš„å­—ç¬¦çš„ä½ç½®ã€‚
 
-        if (pos != 0) str.erase(pos + 1); // °ÑposÖ®ºóµÄ×Ö·ûÉ¾µô¡£
+        if (pos != 0) str.erase(pos + 1); // æŠŠposä¹‹åçš„å­—ç¬¦åˆ æ‰ã€‚
 
         return str;
     }
@@ -74,8 +74,8 @@ namespace ol
     {
         if (str == nullptr) return nullptr;
 
-        char* p = str;  // Ö¸Ïò×Ö·û´®µÄÊ×µØÖ·¡£
-        while (*p != 0) // ±éÀú×Ö·û´®¡£
+        char* p = str;  // æŒ‡å‘å­—ç¬¦ä¸²çš„é¦–åœ°å€ã€‚
+        while (*p != 0) // éå†å­—ç¬¦ä¸²ã€‚
         {
             if ((*p >= 'a') && (*p <= 'z')) *p = *p - 32;
             ++p;
@@ -98,8 +98,8 @@ namespace ol
     {
         if (str == nullptr) return nullptr;
 
-        char* p = str;  // Ö¸Ïò×Ö·û´®µÄÊ×µØÖ·¡£
-        while (*p != 0) // ±éÀú×Ö·û´®¡£
+        char* p = str;  // æŒ‡å‘å­—ç¬¦ä¸²çš„é¦–åœ°å€ã€‚
+        while (*p != 0) // éå†å­—ç¬¦ä¸²ã€‚
         {
             if ((*p >= 'A') && (*p <= 'Z')) *p = *p + 32;
             ++p;
@@ -120,27 +120,27 @@ namespace ol
 
     bool replacestr(std::string& str, const std::string& str1, const std::string& str2, bool bloop)
     {
-        // Èç¹ûÔ­×Ö·û´®str»ò¾ÉµÄÄÚÈİstr1Îª¿Õ£¬Ã»ÓĞÒâÒå£¬²»Ö´ĞĞÌæ»»¡£
+        // å¦‚æœåŸå­—ç¬¦ä¸²stræˆ–æ—§çš„å†…å®¹str1ä¸ºç©ºï¼Œæ²¡æœ‰æ„ä¹‰ï¼Œä¸æ‰§è¡Œæ›¿æ¢ã€‚
         if ((str.length() == 0) || (str1.length() == 0)) return false;
 
-        // Èç¹ûbloopÎªtrue²¢ÇÒstr2ÖĞ°üº¯ÁËstr1µÄÄÚÈİ£¬Ö±½Ó·µ»Ø£¬ÒòÎª»á½øÈëËÀÑ­»·£¬×îÖÕµ¼ÖÂÄÚ´æÒç³ö¡£
+        // å¦‚æœbloopä¸ºtrueå¹¶ä¸”str2ä¸­åŒ…å‡½äº†str1çš„å†…å®¹ï¼Œç›´æ¥è¿”å›ï¼Œå› ä¸ºä¼šè¿›å…¥æ­»å¾ªç¯ï¼Œæœ€ç»ˆå¯¼è‡´å†…å­˜æº¢å‡ºã€‚
         if ((bloop == true) && (str2.find(str1) != std::string::npos)) return false;
 
-        size_t pstart = 0; // Èç¹ûbloop==false£¬ÏÂÒ»´ÎÖ´ĞĞÌæ»»µÄ¿ªÊ¼Î»ÖÃ¡£
-        size_t ppos = 0;   // ±¾´ÎĞèÒªÌæ»»µÄÎ»ÖÃ¡£
+        size_t pstart = 0; // å¦‚æœbloop==falseï¼Œä¸‹ä¸€æ¬¡æ‰§è¡Œæ›¿æ¢çš„å¼€å§‹ä½ç½®ã€‚
+        size_t ppos = 0;   // æœ¬æ¬¡éœ€è¦æ›¿æ¢çš„ä½ç½®ã€‚
 
         while (true)
         {
             if (bloop == true)
-                ppos = str.find(str1); // Ã¿´Î´Ó×Ö·û´®µÄ×î×ó±ß¿ªÊ¼²éÕÒ×Ó´®str1¡£
+                ppos = str.find(str1); // æ¯æ¬¡ä»å­—ç¬¦ä¸²çš„æœ€å·¦è¾¹å¼€å§‹æŸ¥æ‰¾å­ä¸²str1ã€‚
             else
-                ppos = str.find(str1, pstart); // ´ÓÉÏ´ÎÖ´ĞĞÌæ»»µÄÎ»ÖÃºó¿ªÊ¼²éÕÒ×Ó´®str1¡£
+                ppos = str.find(str1, pstart); // ä»ä¸Šæ¬¡æ‰§è¡Œæ›¿æ¢çš„ä½ç½®åå¼€å§‹æŸ¥æ‰¾å­ä¸²str1ã€‚
 
-            if (ppos == std::string::npos) break; // Èç¹ûÃ»ÓĞÕÒµ½×Ó´®str1¡£
+            if (ppos == std::string::npos) break; // å¦‚æœæ²¡æœ‰æ‰¾åˆ°å­ä¸²str1ã€‚
 
-            str.replace(ppos, str1.length(), str2); // °Ñstr1Ìæ»»³Éstr2¡£
+            str.replace(ppos, str1.length(), str2); // æŠŠstr1æ›¿æ¢æˆstr2ã€‚
 
-            if (bloop == false) pstart = ppos + str2.length(); // ÏÂÒ»´ÎÖ´ĞĞÌæ»»µÄ¿ªÊ¼Î»ÖÃÍùÓÒÒÆ¶¯¡£
+            if (bloop == false) pstart = ppos + str2.length(); // ä¸‹ä¸€æ¬¡æ‰§è¡Œæ›¿æ¢çš„å¼€å§‹ä½ç½®å¾€å³ç§»åŠ¨ã€‚
         }
 
         return true;
@@ -155,44 +155,44 @@ namespace ol
         replacestr(strtemp, str1, str2, bloop);
 
         strtemp.copy(str, strtemp.length());
-        str[strtemp.length()] = 0; // std::stringµÄcopyº¯Êı²»»á¸øC·ç¸ñ×Ö·û´®µÄ½áÎ²¼Ó0¡£
+        str[strtemp.length()] = 0; // std::stringçš„copyå‡½æ•°ä¸ä¼šç»™Cé£æ ¼å­—ç¬¦ä¸²çš„ç»“å°¾åŠ 0ã€‚
 
         return true;
     }
 
     char* picknumber(const std::string& src, char* dest, const bool bsigned, const bool bdot)
     {
-        if (dest == nullptr) return nullptr; // ÅĞ¶Ï¿ÕÖ¸Õë¡£
+        if (dest == nullptr) return nullptr; // åˆ¤æ–­ç©ºæŒ‡é’ˆã€‚
 
         std::string strtemp = picknumber(src, bsigned, bdot);
         strtemp.copy(dest, strtemp.length());
-        dest[strtemp.length()] = 0; // std::stringµÄcopyº¯Êı²»»á¸øC·ç¸ñ×Ö·û´®µÄ½áÎ²¼Ó0¡£
+        dest[strtemp.length()] = 0; // std::stringçš„copyå‡½æ•°ä¸ä¼šç»™Cé£æ ¼å­—ç¬¦ä¸²çš„ç»“å°¾åŠ 0ã€‚
 
         return dest;
     }
 
     std::string& picknumber(const std::string& src, std::string& dest, const bool bsigned, const bool bdot)
     {
-        // ÎªÁËÖ§³ÖsrcºÍdestÊÇÍ¬Ò»±äÁ¿µÄÇé¿ö£¬¶¨ÒåstrÁÙÊ±±äÁ¿¡£
+        // ä¸ºäº†æ”¯æŒsrcå’Œdestæ˜¯åŒä¸€å˜é‡çš„æƒ…å†µï¼Œå®šä¹‰strä¸´æ—¶å˜é‡ã€‚
         std::string str;
 
         for (char c : src)
         {
-            // ÅĞ¶ÏÊÇ·ñÌáÈ¡·ûºÅ¡£
+            // åˆ¤æ–­æ˜¯å¦æå–ç¬¦å·ã€‚
             if ((bsigned == true) && ((c == '+') || (c == '-')))
             {
                 str.append(1, c);
                 continue;
             }
 
-            // ÅĞ¶ÏÊÇ·ñÌáÈ¡Ğ¡Êıµã¡£
+            // åˆ¤æ–­æ˜¯å¦æå–å°æ•°ç‚¹ã€‚
             if ((bdot == true) && (c == '.'))
             {
                 str.append(1, c);
                 continue;
             }
 
-            // ÌáÈ¡Êı×Ö¡£
+            // æå–æ•°å­—ã€‚
             if (isdigit(c)) str.append(1, c);
         }
 
@@ -210,10 +210,10 @@ namespace ol
 
     bool matchstr(const std::string& str, const std::string& rules)
     {
-        // Èç¹ûÆ¥Åä¹æÔò±í´ïÊ½µÄÄÚÈİÊÇ¿ÕµÄ£¬·µ»Øfalse¡£
+        // å¦‚æœåŒ¹é…è§„åˆ™è¡¨è¾¾å¼çš„å†…å®¹æ˜¯ç©ºçš„ï¼Œè¿”å›falseã€‚
         if (rules.length() == 0) return false;
 
-        // Èç¹ûÈç¹ûÆ¥Åä¹æÔò±í´ïÊ½µÄÄÚÈİÊÇ"*"£¬Ö±½Ó·µ»Øtrue¡£
+        // å¦‚æœå¦‚æœåŒ¹é…è§„åˆ™è¡¨è¾¾å¼çš„å†…å®¹æ˜¯"*"ï¼Œç›´æ¥è¿”å›trueã€‚
         if (rules == "*") return true;
 
         size_t pos1, pos2;
@@ -222,7 +222,7 @@ namespace ol
         std::string filename = str;
         std::string matchstr = rules;
 
-        // °Ñ×Ö·û´®¶¼×ª»»³É´óĞ´ºóÔÙÀ´±È½Ï
+        // æŠŠå­—ç¬¦ä¸²éƒ½è½¬æ¢æˆå¤§å†™åå†æ¥æ¯”è¾ƒ
         toupper(filename);
         toupper(matchstr);
 
@@ -230,7 +230,7 @@ namespace ol
 
         for (size_t i = 0, cmdstr_size = cmdstr.size(); i < cmdstr_size; ++i)
         {
-            // Èç¹ûÎª¿Õ£¬¾ÍÒ»¶¨ÒªÌø¹ı£¬·ñÔò¾Í»á±»Æ¥ÅäÉÏ¡£
+            // å¦‚æœä¸ºç©ºï¼Œå°±ä¸€å®šè¦è·³è¿‡ï¼Œå¦åˆ™å°±ä¼šè¢«åŒ¹é…ä¸Šã€‚
             if (cmdstr[i].empty() == true) continue;
 
             pos1 = pos2 = 0;
@@ -239,11 +239,11 @@ namespace ol
             size_t j, cmdsubstr_size = cmdsubstr.size();
             for (j = 0; j < cmdsubstr_size; ++j)
             {
-                // Èç¹ûÊÇÎÄ¼şÃûµÄÊ×²¿
+                // å¦‚æœæ˜¯æ–‡ä»¶åçš„é¦–éƒ¨
                 if (j == 0)
                     if (filename.substr(0, cmdsubstr[j].length()) != cmdsubstr[j]) break;
 
-                // Èç¹ûÊÇÎÄ¼şÃûµÄÎ²²¿
+                // å¦‚æœæ˜¯æ–‡ä»¶åçš„å°¾éƒ¨
                 if (j == cmdsubstr_size - 1)
                     if (filename.find(cmdsubstr[j], filename.length() - cmdsubstr[j].length()) == std::string::npos) break;
 
@@ -265,47 +265,47 @@ namespace ol
         splittocmd(buffer, sepstr, bdelspace);
     }
 
-    // °Ñ×Ö·û´®²ğ·Öµ½m_cmdstrÈİÆ÷ÖĞ¡£
-    // buffer£º´ı²ğ·ÖµÄ×Ö·û´®¡£
-    // sepstr£ºbuffer×Ö·û´®ÖĞ×Ö¶ÎÄÚÈİµÄ·Ö¸ô·û£¬×¢Òâ£¬·Ö¸ô·ûÊÇ×Ö·û´®£¬Èç","¡¢" "¡¢"|"¡¢"~!~"¡£
-    // bdelspace£ºÊÇ·ñÉ¾³ı²ğ·ÖºóµÄ×Ö¶ÎÄÚÈİÇ°ºóµÄ¿Õ¸ñ£¬true-É¾³ı£»false-²»É¾³ı£¬È±Ê¡²»É¾³ı¡£
+    // æŠŠå­—ç¬¦ä¸²æ‹†åˆ†åˆ°m_cmdstrå®¹å™¨ä¸­ã€‚
+    // bufferï¼šå¾…æ‹†åˆ†çš„å­—ç¬¦ä¸²ã€‚
+    // sepstrï¼šbufferå­—ç¬¦ä¸²ä¸­å­—æ®µå†…å®¹çš„åˆ†éš”ç¬¦ï¼Œæ³¨æ„ï¼Œåˆ†éš”ç¬¦æ˜¯å­—ç¬¦ä¸²ï¼Œå¦‚","ã€" "ã€"|"ã€"~!~"ã€‚
+    // bdelspaceï¼šæ˜¯å¦åˆ é™¤æ‹†åˆ†åçš„å­—æ®µå†…å®¹å‰åçš„ç©ºæ ¼ï¼Œtrue-åˆ é™¤ï¼›false-ä¸åˆ é™¤ï¼Œç¼ºçœä¸åˆ é™¤ã€‚
     void ccmdstr::splittocmd(const std::string& buffer, const std::string& sepstr, const bool bdelspace)
     {
-        // Çå³ıËùÓĞµÄ¾ÉÊı¾İ
+        // æ¸…é™¤æ‰€æœ‰çš„æ—§æ•°æ®
         m_cmdstr.clear();
 
-        // ±ß½çÌõ¼ş1£º¿ÕÊäÈëÖ±½Ó·µ»Ø
+        // è¾¹ç•Œæ¡ä»¶1ï¼šç©ºè¾“å…¥ç›´æ¥è¿”å›
         if (buffer.empty()) return;
 
-        // ±ß½çÌõ¼ş2£º¿Õ·Ö¸ô·û£¨Õû¸ö×Ö·û´®×÷ÎªÒ»¸ö×Ö¶Î£©
+        // è¾¹ç•Œæ¡ä»¶2ï¼šç©ºåˆ†éš”ç¬¦ï¼ˆæ•´ä¸ªå­—ç¬¦ä¸²ä½œä¸ºä¸€ä¸ªå­—æ®µï¼‰
         if (sepstr.empty())
         {
-            std::string temp = buffer;        // ¸´ÖÆÔ­Ê¼×Ö·û´®
-            if (bdelspace) deletelrchr(temp); // ÈçĞèÈ¥¿Õ¸ñÔò´¦Àí
+            std::string temp = buffer;        // å¤åˆ¶åŸå§‹å­—ç¬¦ä¸²
+            if (bdelspace) deletelrchr(temp); // å¦‚éœ€å»ç©ºæ ¼åˆ™å¤„ç†
             m_cmdstr.push_back(std::move(temp));
             return;
         }
 
         const size_t sepLen = sepstr.length();
-        size_t pos = 0;     // Ã¿´Î´ÓbufferÖĞ²éÕÒ·Ö¸ô·ûµÄÆğÊ¼Î»ÖÃ¡£
-        size_t next = 0;    // ´ÓposµÄÎ»ÖÃ¿ªÊ¼£¬²éÕÒÏÂÒ»¸ö·Ö¸ô·ûµÄÎ»ÖÃ¡£
-        std::string substr; // ´æ·ÅÃ¿´Î²ğ·Ö³öÀ´µÄ×Ó´®¡£
+        size_t pos = 0;     // æ¯æ¬¡ä»bufferä¸­æŸ¥æ‰¾åˆ†éš”ç¬¦çš„èµ·å§‹ä½ç½®ã€‚
+        size_t next = 0;    // ä»posçš„ä½ç½®å¼€å§‹ï¼ŒæŸ¥æ‰¾ä¸‹ä¸€ä¸ªåˆ†éš”ç¬¦çš„ä½ç½®ã€‚
+        std::string substr; // å­˜æ”¾æ¯æ¬¡æ‹†åˆ†å‡ºæ¥çš„å­ä¸²ã€‚
 
-        // Ô¤·ÖÅäÄÚ´æ£º¼õÉÙ¶¯Ì¬À©Èİ£¨Ô¤¹À×Ö¶ÎÊı£¬×î¶àÔ¤·ÖÅä32¸ö±ÜÃâ¹ı¶ÈÏûºÄ£©
+        // é¢„åˆ†é…å†…å­˜ï¼šå‡å°‘åŠ¨æ€æ‰©å®¹ï¼ˆé¢„ä¼°å­—æ®µæ•°ï¼Œæœ€å¤šé¢„åˆ†é…32ä¸ªé¿å…è¿‡åº¦æ¶ˆè€—ï¼‰
         m_cmdstr.reserve(std::min(static_cast<size_t>(32), static_cast<size_t>(buffer.size() / sepLen + 2)));
 
-        while ((next = buffer.find(sepstr, pos)) != std::string::npos) // ´ÓposµÄÎ»ÖÃ¿ªÊ¼£¬²éÕÒÏÂÒ»¸ö·Ö¸ô·ûµÄÎ»ÖÃ¡£
+        while ((next = buffer.find(sepstr, pos)) != std::string::npos) // ä»posçš„ä½ç½®å¼€å§‹ï¼ŒæŸ¥æ‰¾ä¸‹ä¸€ä¸ªåˆ†éš”ç¬¦çš„ä½ç½®ã€‚
         {
-            substr = buffer.substr(pos, next - pos); // ´ÓbufferÖĞ½ØÈ¡×Ó´®¡£
+            substr = buffer.substr(pos, next - pos); // ä»bufferä¸­æˆªå–å­ä¸²ã€‚
 
-            if (bdelspace == true) deletelrchr(substr); // É¾³ı×Ó´®Ç°ºóµÄ¿Õ¸ñ¡£
+            if (bdelspace == true) deletelrchr(substr); // åˆ é™¤å­ä¸²å‰åçš„ç©ºæ ¼ã€‚
 
-            m_cmdstr.push_back(std::move(substr)); // °Ñ×Ó´®·ÅÈëm_cmdstrÈİÆ÷ÖĞ£¬µ÷ÓÃstd::stringÀàµÄÒÆ¶¯¹¹Ôìº¯Êı¡£
+            m_cmdstr.push_back(std::move(substr)); // æŠŠå­ä¸²æ”¾å…¥m_cmdstrå®¹å™¨ä¸­ï¼Œè°ƒç”¨std::stringç±»çš„ç§»åŠ¨æ„é€ å‡½æ•°ã€‚
 
-            pos = next + sepLen; // ÏÂ´Î´ÓbufferÖĞ²éÕÒ·Ö¸ô·ûµÄÆğÊ¼Î»ÖÃºóÒÆ¡£
+            pos = next + sepLen; // ä¸‹æ¬¡ä»bufferä¸­æŸ¥æ‰¾åˆ†éš”ç¬¦çš„èµ·å§‹ä½ç½®åç§»ã€‚
         }
 
-        // ´¦Àí×îºóÒ»¸ö×Ö¶Î£¨×îºóÒ»¸ö·Ö¸ô·ûÖ®ºóµÄÄÚÈİ£©¡£
+        // å¤„ç†æœ€åä¸€ä¸ªå­—æ®µï¼ˆæœ€åä¸€ä¸ªåˆ†éš”ç¬¦ä¹‹åçš„å†…å®¹ï¼‰ã€‚
         substr = buffer.substr(pos);
 
         if (bdelspace == true) deletelrchr(substr);
@@ -328,12 +328,12 @@ namespace ol
     {
         if ((i >= m_cmdstr.size()) || (value == nullptr)) return false;
 
-        if (len > 0) memset(value, 0, len + 1); // µ÷ÓÃÕß±ØĞë±£Ö¤valueµÄ¿Õ¼ä×ã¹»£¬·ñÔòÕâÀï»áÄÚ´æÒç³ö¡£
+        if (len > 0) memset(value, 0, len + 1); // è°ƒç”¨è€…å¿…é¡»ä¿è¯valueçš„ç©ºé—´è¶³å¤Ÿï¼Œå¦åˆ™è¿™é‡Œä¼šå†…å­˜æº¢å‡ºã€‚
 
         if ((m_cmdstr[i].length() <= len) || (len == 0))
         {
             m_cmdstr[i].copy(value, m_cmdstr[i].length());
-            value[m_cmdstr[i].length()] = '\0'; // std::stringµÄcopyº¯Êı²»»á¸øC·ç¸ñ×Ö·û´®µÄ½áÎ²¼Ó'\0'¡£
+            value[m_cmdstr[i].length()] = '\0'; // std::stringçš„copyå‡½æ•°ä¸ä¼šç»™Cé£æ ¼å­—ç¬¦ä¸²çš„ç»“å°¾åŠ '\0'ã€‚
         }
         else
         {
@@ -350,7 +350,7 @@ namespace ol
 
         try
         {
-            value = stoi(picknumber(m_cmdstr[i], true)); // stoiÓĞÒì³££¬ĞèÒª´¦ÀíÒì³£¡£
+            value = stoi(picknumber(m_cmdstr[i], true)); // stoiæœ‰å¼‚å¸¸ï¼Œéœ€è¦å¤„ç†å¼‚å¸¸ã€‚
         }
         catch (const std::exception&)
         {
@@ -366,7 +366,7 @@ namespace ol
 
         try
         {
-            value = stoi(picknumber(m_cmdstr[i])); // stoiÓĞÒì³££¬ĞèÒª´¦ÀíÒì³£¡£²»ÌáÈ¡·ûºÅ + -
+            value = stoi(picknumber(m_cmdstr[i])); // stoiæœ‰å¼‚å¸¸ï¼Œéœ€è¦å¤„ç†å¼‚å¸¸ã€‚ä¸æå–ç¬¦å· + -
         }
         catch (const std::exception&)
         {
@@ -382,7 +382,7 @@ namespace ol
 
         try
         {
-            value = stol(picknumber(m_cmdstr[i], true)); // stolÓĞÒì³££¬ĞèÒª´¦ÀíÒì³£¡£
+            value = stol(picknumber(m_cmdstr[i], true)); // stolæœ‰å¼‚å¸¸ï¼Œéœ€è¦å¤„ç†å¼‚å¸¸ã€‚
         }
         catch (const std::exception&)
         {
@@ -398,7 +398,7 @@ namespace ol
 
         try
         {
-            value = stoul(picknumber(m_cmdstr[i])); // stoulÓĞÒì³££¬ĞèÒª´¦ÀíÒì³£¡£²»ÌáÈ¡·ûºÅ + -
+            value = stoul(picknumber(m_cmdstr[i])); // stoulæœ‰å¼‚å¸¸ï¼Œéœ€è¦å¤„ç†å¼‚å¸¸ã€‚ä¸æå–ç¬¦å· + -
         }
         catch (const std::exception&)
         {
@@ -414,7 +414,7 @@ namespace ol
 
         try
         {
-            value = stod(picknumber(m_cmdstr[i], true, true)); // stodÓĞÒì³££¬ĞèÒª´¦ÀíÒì³£¡£ÌáÈ¡·ûºÅºÍĞ¡Êıµã¡£
+            value = stod(picknumber(m_cmdstr[i], true, true)); // stodæœ‰å¼‚å¸¸ï¼Œéœ€è¦å¤„ç†å¼‚å¸¸ã€‚æå–ç¬¦å·å’Œå°æ•°ç‚¹ã€‚
         }
         catch (const std::exception&)
         {
@@ -430,7 +430,7 @@ namespace ol
 
         try
         {
-            value = stof(picknumber(m_cmdstr[i], true, true)); // stofÓĞÒì³££¬ĞèÒª´¦ÀíÒì³£¡£ÌáÈ¡·ûºÅºÍĞ¡Êıµã¡£
+            value = stof(picknumber(m_cmdstr[i], true, true)); // stofæœ‰å¼‚å¸¸ï¼Œéœ€è¦å¤„ç†å¼‚å¸¸ã€‚æå–ç¬¦å·å’Œå°æ•°ç‚¹ã€‚
         }
         catch (const std::exception&)
         {
@@ -445,7 +445,7 @@ namespace ol
         if (i >= m_cmdstr.size()) return false;
 
         std::string str = m_cmdstr[i];
-        toupper(str); // ×ª»»Îª´óĞ´À´ÅĞ¶Ï¡£
+        toupper(str); // è½¬æ¢ä¸ºå¤§å†™æ¥åˆ¤æ–­ã€‚
 
         if (str == "TRUE")
             value = true;
@@ -470,16 +470,16 @@ namespace ol
 
     bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, std::string& value, const size_t len)
     {
-        std::string start = "<" + fieldname + ">"; // Êı¾İÏî¿ªÊ¼µÄ±êÇ©¡£
-        std::string end = "</" + fieldname + ">";  // Êı¾İÏî½áÊøµÄ±êÇ©¡£
+        std::string start = "<" + fieldname + ">"; // æ•°æ®é¡¹å¼€å§‹çš„æ ‡ç­¾ã€‚
+        std::string end = "</" + fieldname + ">";  // æ•°æ®é¡¹ç»“æŸçš„æ ‡ç­¾ã€‚
 
-        size_t startp = xmlbuffer.find(start); // ÔÚxmlÖĞ²éÕÒÊı¾İÏî¿ªÊ¼µÄ±êÇ©µÄÎ»ÖÃ¡£
+        size_t startp = xmlbuffer.find(start); // åœ¨xmlä¸­æŸ¥æ‰¾æ•°æ®é¡¹å¼€å§‹çš„æ ‡ç­¾çš„ä½ç½®ã€‚
         if (startp == std::string::npos) return false;
 
-        size_t endp = xmlbuffer.find(end); // ÔÚxmlÖĞ²éÕÒÊı¾İÏî½áÊøµÄ±êÇ©µÄÎ»ÖÃ¡£
+        size_t endp = xmlbuffer.find(end); // åœ¨xmlä¸­æŸ¥æ‰¾æ•°æ®é¡¹ç»“æŸçš„æ ‡ç­¾çš„ä½ç½®ã€‚
         if (endp == std::string::npos) return false;
 
-        // ´ÓxmlÖĞ½ØÈ¡Êı¾İÏîµÄÄÚÈİ¡£
+        // ä»xmlä¸­æˆªå–æ•°æ®é¡¹çš„å†…å®¹ã€‚
         size_t itmplen = endp - startp - start.length();
         if ((len > 0) && (len < itmplen)) itmplen = len;
         value = xmlbuffer.substr(startp + start.length(), itmplen);
@@ -491,7 +491,7 @@ namespace ol
     {
         if (value == nullptr) return false;
 
-        if (len > 0) memset(value, 0, len + 1); // µ÷ÓÃÕß±ØĞë±£Ö¤valueµÄ¿Õ¼ä×ã¹»£¬·ñÔòÕâÀï»áÄÚ´æÒç³ö¡£
+        if (len > 0) memset(value, 0, len + 1); // è°ƒç”¨è€…å¿…é¡»ä¿è¯valueçš„ç©ºé—´è¶³å¤Ÿï¼Œå¦åˆ™è¿™é‡Œä¼šå†…å­˜æº¢å‡ºã€‚
 
         std::string str;
         getxmlbuffer(xmlbuffer, fieldname, str);
@@ -499,7 +499,7 @@ namespace ol
         if ((str.length() <= len) || (len == 0))
         {
             str.copy(value, str.length());
-            value[str.length()] = '\0'; // std::stringµÄcopyº¯Êı²»»á¸øC·ç¸ñ×Ö·û´®µÄ½áÎ²¼Ó0¡£
+            value[str.length()] = '\0'; // std::stringçš„copyå‡½æ•°ä¸ä¼šç»™Cé£æ ¼å­—ç¬¦ä¸²çš„ç»“å°¾åŠ 0ã€‚
         }
         else
         {
@@ -515,7 +515,7 @@ namespace ol
         std::string str;
         if (getxmlbuffer(xmlbuffer, fieldname, str) == false) return false;
 
-        toupper(str); // ×ª»»Îª´óĞ´À´ÅĞ¶Ï£¨Ò²¿ÉÒÔ×ª»»ÎªĞ¡Ğ´£¬Ğ§¹ûÏàÍ¬£©¡£
+        toupper(str); // è½¬æ¢ä¸ºå¤§å†™æ¥åˆ¤æ–­ï¼ˆä¹Ÿå¯ä»¥è½¬æ¢ä¸ºå°å†™ï¼Œæ•ˆæœç›¸åŒï¼‰ã€‚
 
         if (str == "TRUE")
             value = true;
@@ -533,7 +533,7 @@ namespace ol
 
         try
         {
-            value = stoi(picknumber(str, true)); // stoiÓĞÒì³££¬ĞèÒª´¦ÀíÒì³£¡£
+            value = stoi(picknumber(str, true)); // stoiæœ‰å¼‚å¸¸ï¼Œéœ€è¦å¤„ç†å¼‚å¸¸ã€‚
         }
         catch (const std::exception&)
         {
@@ -551,7 +551,7 @@ namespace ol
 
         try
         {
-            value = stoi(picknumber(str)); // stoiÓĞÒì³££¬ĞèÒª´¦ÀíÒì³£¡£²»ÌáÈ¡·ûºÅ + -
+            value = stoi(picknumber(str)); // stoiæœ‰å¼‚å¸¸ï¼Œéœ€è¦å¤„ç†å¼‚å¸¸ã€‚ä¸æå–ç¬¦å· + -
         }
         catch (const std::exception&)
         {
@@ -569,7 +569,7 @@ namespace ol
 
         try
         {
-            value = stol(picknumber(str, true)); // stolÓĞÒì³££¬ĞèÒª´¦ÀíÒì³£¡£
+            value = stol(picknumber(str, true)); // stolæœ‰å¼‚å¸¸ï¼Œéœ€è¦å¤„ç†å¼‚å¸¸ã€‚
         }
         catch (const std::exception&)
         {
@@ -587,7 +587,7 @@ namespace ol
 
         try
         {
-            value = stoul(picknumber(str)); // stoulÓĞÒì³££¬ĞèÒª´¦ÀíÒì³£¡£²»ÌáÈ¡·ûºÅ + -
+            value = stoul(picknumber(str)); // stoulæœ‰å¼‚å¸¸ï¼Œéœ€è¦å¤„ç†å¼‚å¸¸ã€‚ä¸æå–ç¬¦å· + -
         }
         catch (const std::exception&)
         {
@@ -605,7 +605,7 @@ namespace ol
 
         try
         {
-            value = stod(picknumber(str, true, true)); // stodÓĞÒì³££¬ĞèÒª´¦ÀíÒì³£¡£ÌáÈ¡·ûºÅºÍĞ¡Êıµã¡£
+            value = stod(picknumber(str, true, true)); // stodæœ‰å¼‚å¸¸ï¼Œéœ€è¦å¤„ç†å¼‚å¸¸ã€‚æå–ç¬¦å·å’Œå°æ•°ç‚¹ã€‚
         }
         catch (const std::exception&)
         {
@@ -623,7 +623,7 @@ namespace ol
 
         try
         {
-            value = stof(picknumber(str, true, true)); // stofÓĞÒì³££¬ĞèÒª´¦ÀíÒì³£¡£ÌáÈ¡·ûºÅºÍĞ¡Êıµã¡£
+            value = stof(picknumber(str, true, true)); // stofæœ‰å¼‚å¸¸ï¼Œéœ€è¦å¤„ç†å¼‚å¸¸ã€‚æå–ç¬¦å·å’Œå°æ•°ç‚¹ã€‚
         }
         catch (const std::exception&)
         {
@@ -639,23 +639,23 @@ namespace ol
         const size_t m = pattern.size();
         if (m == 0) return 0;
 
-        // ¶¯Ì¬nextÊı×é£¬³õÊ¼»¯ÎªÎ´¼ÆËã×´Ì¬
+        // åŠ¨æ€nextæ•°ç»„ï¼Œåˆå§‹åŒ–ä¸ºæœªè®¡ç®—çŠ¶æ€
         std::vector<size_t> next(m, SIZE_MAX);
-        next[0] = 0; // Ê×Î»¹Ì¶¨Îª0
+        next[0] = 0; // é¦–ä½å›ºå®šä¸º0
 
-        size_t len = 0; // µ±Ç°×î³¤Æ¥ÅäÇ°ºó×º³¤¶È
+        size_t len = 0; // å½“å‰æœ€é•¿åŒ¹é…å‰åç¼€é•¿åº¦
         size_t i = 0, j = 0;
 
         while (i < n)
         {
             if (str[i] == pattern[j])
             {
-                // ¶¯Ì¬¼ÆËã²¢»º´ænextÖµ
+                // åŠ¨æ€è®¡ç®—å¹¶ç¼“å­˜nextå€¼
                 if (j > 0 && next[j] == SIZE_MAX)
                 {
-                    next[j] = len; // »º´æµ±Ç°³¤¶È
+                    next[j] = len; // ç¼“å­˜å½“å‰é•¿åº¦
 
-                    // À©Õ¹¼ÆËãºóĞø¿ÉÄÜĞèÒªµÄnextÖµ
+                    // æ‰©å±•è®¡ç®—åç»­å¯èƒ½éœ€è¦çš„nextå€¼
                     size_t k = j, l = len;
                     while (++k < m && pattern[k] == pattern[l])
                     {
@@ -664,13 +664,13 @@ namespace ol
                 }
 
                 ++i;
-                if (++j == m) return i - m; // Æ¥Åä³É¹¦
+                if (++j == m) return i - m; // åŒ¹é…æˆåŠŸ
             }
             else
             {
                 if (j > 0)
                 {
-                    // Ê¹ÓÃÒÑ¼ÆËãµÄnextÖµ»ØËİ
+                    // ä½¿ç”¨å·²è®¡ç®—çš„nextå€¼å›æº¯
                     len = next[j - 1];
                     j = (len != SIZE_MAX) ? len : 0;
                 }
@@ -678,7 +678,7 @@ namespace ol
                 {
                     ++i;
                 }
-                len = j; // ÖØÖÃµ±Ç°Æ¥Åä³¤¶È
+                len = j; // é‡ç½®å½“å‰åŒ¹é…é•¿åº¦
             }
         }
         return std::string::npos;

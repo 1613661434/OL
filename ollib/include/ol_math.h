@@ -1,13 +1,13 @@
 /****************************************************************************************/
 /*
- * ³ÌÐòÃû£ºol_math.h
- * ¹¦ÄÜÃèÊö£ºÊýÖµ¼ÆËã¹¤¾ßÀà£¬Ìá¹©·ÇÏßÐÔ·½³ÌÇó½âµÄ³£ÓÃµü´úËã·¨£¬Ö§³ÖÒÔÏÂÌØÐÔ£º
- *          - ¶þ·Öµü´ú·¨£¨Bisection Method£©£ºÊÕÁ²½×P=1
- *          - ¼òµ¥µü´ú·¨£¨Simple Iteration Method£©£ºÊÕÁ²½×P=1
- *          - Å£¶Ùµü´ú·¨£¨Newton Method£©£ºÊÕÁ²½×P=2
- *          - ÏÒ½Øµü´ú·¨£¨Secant Method£©£ºÊÕÁ²½×P=1.618£¬Ö§³Ö¹Ì¶¨¶ËµãºÍ±ä¶ËµãÄ£Ê½
- * ×÷Õß£ºol
- * ÊÊÓÃ±ê×¼£ºC++11¼°ÒÔÉÏ
+ * ç¨‹åºåï¼šol_math.h
+ * åŠŸèƒ½æè¿°ï¼šæ•°å€¼è®¡ç®—å·¥å…·ç±»ï¼Œæä¾›éžçº¿æ€§æ–¹ç¨‹æ±‚è§£çš„å¸¸ç”¨è¿­ä»£ç®—æ³•ï¼Œæ”¯æŒä»¥ä¸‹ç‰¹æ€§ï¼š
+ *          - äºŒåˆ†è¿­ä»£æ³•ï¼ˆBisection Methodï¼‰ï¼šæ”¶æ•›é˜¶P=1
+ *          - ç®€å•è¿­ä»£æ³•ï¼ˆSimple Iteration Methodï¼‰ï¼šæ”¶æ•›é˜¶P=1
+ *          - ç‰›é¡¿è¿­ä»£æ³•ï¼ˆNewton Methodï¼‰ï¼šæ”¶æ•›é˜¶P=2
+ *          - å¼¦æˆªè¿­ä»£æ³•ï¼ˆSecant Methodï¼‰ï¼šæ”¶æ•›é˜¶P=1.618ï¼Œæ”¯æŒå›ºå®šç«¯ç‚¹å’Œå˜ç«¯ç‚¹æ¨¡å¼
+ * ä½œè€…ï¼šol
+ * é€‚ç”¨æ ‡å‡†ï¼šC++11åŠä»¥ä¸Š
  */
 /****************************************************************************************/
 
@@ -20,53 +20,53 @@ namespace ol
 {
 
     /**
-     * ¶þ·Öµü´ú·¨Çó½â·ÇÏßÐÔ·½³Ì£¨ÊÕÁ²½×P=1£©
-     * @param func Ä¿±êº¯Êý£¨f(x)=0£©
-     * @param low Çø¼ä×ó¶Ëµã
-     * @param high Çø¼äÓÒ¶Ëµã£¨ÐèÂú×ãf(low)Óëf(high)ÒìºÅ£©
-     * @param tolerance Îó²îÏÞ£¨µü´úÖÕÖ¹Ìõ¼þ£©
-     * @param max_iterations ×î´óµü´ú´ÎÊý£¨Ä¬ÈÏ1000£¬·ÀÖ¹ÎÞÏÞÑ­»·£©
-     * @return ·½³ÌµÄ½üËÆ½â
-     * @note ÒªÇóº¯ÊýÔÚ[low, high]ÉÏÁ¬ÐøÇÒf(low)*f(high) < 0
+     * äºŒåˆ†è¿­ä»£æ³•æ±‚è§£éžçº¿æ€§æ–¹ç¨‹ï¼ˆæ”¶æ•›é˜¶P=1ï¼‰
+     * @param func ç›®æ ‡å‡½æ•°ï¼ˆf(x)=0ï¼‰
+     * @param low åŒºé—´å·¦ç«¯ç‚¹
+     * @param high åŒºé—´å³ç«¯ç‚¹ï¼ˆéœ€æ»¡è¶³f(low)ä¸Žf(high)å¼‚å·ï¼‰
+     * @param tolerance è¯¯å·®é™ï¼ˆè¿­ä»£ç»ˆæ­¢æ¡ä»¶ï¼‰
+     * @param max_iterations æœ€å¤§è¿­ä»£æ¬¡æ•°ï¼ˆé»˜è®¤1000ï¼Œé˜²æ­¢æ— é™å¾ªçŽ¯ï¼‰
+     * @return æ–¹ç¨‹çš„è¿‘ä¼¼è§£
+     * @note è¦æ±‚å‡½æ•°åœ¨[low, high]ä¸Šè¿žç»­ä¸”f(low)*f(high) < 0
      */
     double Bisection_Method(double (*func)(double), double low, double high, double tolerance, const size_t max_iterations = 1000);
 
     /**
-     * ¼òµ¥µü´ú·¨Çó½â·ÇÏßÐÔ·½³Ì£¨ÊÕÁ²½×P=1£©
-     * @param iter_func µü´úº¯Êý£¨x_{n+1} = iter_func(x_n)£©
-     * @param initial_value ³õÊ¼µü´úÖµ
-     * @param tolerance Îó²îÏÞ£¨|x_{n+1}-x_n| < toleranceÊ±ÖÕÖ¹£©
-     * @param max_iterations ×î´óµü´ú´ÎÊý£¨Ä¬ÈÏ1000£©
-     * @return ·½³ÌµÄ½üËÆ½â
-     * @note ÒªÇóµü´úº¯ÊýÔÚµü´úÇø¼äÄÚÂú×ãÊÕÁ²Ìõ¼þ£¨µ¼Êý¾ø¶ÔÖµÐ¡ÓÚ1£©
+     * ç®€å•è¿­ä»£æ³•æ±‚è§£éžçº¿æ€§æ–¹ç¨‹ï¼ˆæ”¶æ•›é˜¶P=1ï¼‰
+     * @param iter_func è¿­ä»£å‡½æ•°ï¼ˆx_{n+1} = iter_func(x_n)ï¼‰
+     * @param initial_value åˆå§‹è¿­ä»£å€¼
+     * @param tolerance è¯¯å·®é™ï¼ˆ|x_{n+1}-x_n| < toleranceæ—¶ç»ˆæ­¢ï¼‰
+     * @param max_iterations æœ€å¤§è¿­ä»£æ¬¡æ•°ï¼ˆé»˜è®¤1000ï¼‰
+     * @return æ–¹ç¨‹çš„è¿‘ä¼¼è§£
+     * @note è¦æ±‚è¿­ä»£å‡½æ•°åœ¨è¿­ä»£åŒºé—´å†…æ»¡è¶³æ”¶æ•›æ¡ä»¶ï¼ˆå¯¼æ•°ç»å¯¹å€¼å°äºŽ1ï¼‰
      */
     double Simple_Iteration_Method(double (*iter_func)(double), double initial_value, double tolerance, const size_t max_iterations = 1000);
 
     /**
-     * Å£¶Ùµü´ú·¨Çó½â·ÇÏßÐÔ·½³Ì£¨ÊÕÁ²½×P=2£©
-     * @param func Ä¿±êº¯Êý£¨f(x)=0£©
-     * @param der_func Ä¿±êº¯ÊýµÄµ¼º¯Êý£¨f¡¯(x)£©
-     * @param initial_value ³õÊ¼µü´úÖµ
-     * @param tolerance Îó²îÏÞ£¨|x_{n+1}-x_n| < toleranceÊ±ÖÕÖ¹£©
-     * @param max_iterations ×î´óµü´ú´ÎÊý£¨Ä¬ÈÏ1000£©
-     * @return ·½³ÌµÄ½üËÆ½â
-     * @note ÒªÇó³õÊ¼Öµ¸½½üf¡¯(x)¡Ù0ÇÒº¯Êý×ã¹»¹â»¬
+     * ç‰›é¡¿è¿­ä»£æ³•æ±‚è§£éžçº¿æ€§æ–¹ç¨‹ï¼ˆæ”¶æ•›é˜¶P=2ï¼‰
+     * @param func ç›®æ ‡å‡½æ•°ï¼ˆf(x)=0ï¼‰
+     * @param der_func ç›®æ ‡å‡½æ•°çš„å¯¼å‡½æ•°ï¼ˆfâ€™(x)ï¼‰
+     * @param initial_value åˆå§‹è¿­ä»£å€¼
+     * @param tolerance è¯¯å·®é™ï¼ˆ|x_{n+1}-x_n| < toleranceæ—¶ç»ˆæ­¢ï¼‰
+     * @param max_iterations æœ€å¤§è¿­ä»£æ¬¡æ•°ï¼ˆé»˜è®¤1000ï¼‰
+     * @return æ–¹ç¨‹çš„è¿‘ä¼¼è§£
+     * @note è¦æ±‚åˆå§‹å€¼é™„è¿‘fâ€™(x)â‰ 0ä¸”å‡½æ•°è¶³å¤Ÿå…‰æ»‘
      */
     double Newton_Method(double (*func)(double), double (*der_func)(double), double initial_value, double tolerance, const size_t max_iterations = 1000);
 
-    // ÊýÖµ¼ÆËã-·ÇÏßÐÔ·½³ÌÇó½â·¨-ÏÒ½Øµü´ú·¨-ÊÕÁ²½×P=1.618
-    // Secant_Method(»Øµ÷º¯Êý,³õÖµ0,³õÖµ1,Îó²îÏÞ,×î´óµü´ú´ÎÊý|Ä¬ÈÏ1000,ÊÇ·ñÎª¶¨¶ËµãÏÒ½Ø·¨|¹Ì¶¨µã0|Ä¬ÈÏ±ä¶Ëµã)
+    // æ•°å€¼è®¡ç®—-éžçº¿æ€§æ–¹ç¨‹æ±‚è§£æ³•-å¼¦æˆªè¿­ä»£æ³•-æ”¶æ•›é˜¶P=1.618
+    // Secant_Method(å›žè°ƒå‡½æ•°,åˆå€¼0,åˆå€¼1,è¯¯å·®é™,æœ€å¤§è¿­ä»£æ¬¡æ•°|é»˜è®¤1000,æ˜¯å¦ä¸ºå®šç«¯ç‚¹å¼¦æˆªæ³•|å›ºå®šç‚¹0|é»˜è®¤å˜ç«¯ç‚¹)
 
     /**
-     * ÏÒ½Øµü´ú·¨Çó½â·ÇÏßÐÔ·½³Ì£¨ÊÕÁ²½×P=1.618£©
-     * @param func Ä¿±êº¯Êý£¨f(x)=0£©
-     * @param initial_value_0 ³õÊ¼µü´úÖµ0
-     * @param initial_value_1 ³õÊ¼µü´úÖµ1
-     * @param tolerance Îó²îÏÞ£¨|x_{n+1}-x_n| < toleranceÊ±ÖÕÖ¹£©
-     * @param max_iterations ×î´óµü´ú´ÎÊý£¨Ä¬ÈÏ1000£©
-     * @param isFixedPoint_0 ÊÇ·ñÊ¹ÓÃ¹Ì¶¨¶ËµãÄ£Ê½£¨¹Ì¶¨initial_value_0£¬Ä¬ÈÏfalseÎª±ä¶ËµãÄ£Ê½£©
-     * @return ·½³ÌµÄ½üËÆ½â
-     * @note ÎÞÐè¼ÆËãµ¼Êý£¬ÊÕÁ²ËÙ¶È¿ìÓÚ¶þ·Ö·¨£¬ÂýÓÚÅ£¶Ù·¨
+     * å¼¦æˆªè¿­ä»£æ³•æ±‚è§£éžçº¿æ€§æ–¹ç¨‹ï¼ˆæ”¶æ•›é˜¶P=1.618ï¼‰
+     * @param func ç›®æ ‡å‡½æ•°ï¼ˆf(x)=0ï¼‰
+     * @param initial_value_0 åˆå§‹è¿­ä»£å€¼0
+     * @param initial_value_1 åˆå§‹è¿­ä»£å€¼1
+     * @param tolerance è¯¯å·®é™ï¼ˆ|x_{n+1}-x_n| < toleranceæ—¶ç»ˆæ­¢ï¼‰
+     * @param max_iterations æœ€å¤§è¿­ä»£æ¬¡æ•°ï¼ˆé»˜è®¤1000ï¼‰
+     * @param isFixedPoint_0 æ˜¯å¦ä½¿ç”¨å›ºå®šç«¯ç‚¹æ¨¡å¼ï¼ˆå›ºå®šinitial_value_0ï¼Œé»˜è®¤falseä¸ºå˜ç«¯ç‚¹æ¨¡å¼ï¼‰
+     * @return æ–¹ç¨‹çš„è¿‘ä¼¼è§£
+     * @note æ— éœ€è®¡ç®—å¯¼æ•°ï¼Œæ”¶æ•›é€Ÿåº¦å¿«äºŽäºŒåˆ†æ³•ï¼Œæ…¢äºŽç‰›é¡¿æ³•
      */
     double Secant_Method(double (*func)(double), double initial_value_0, double initial_value_1, double tolerance, const size_t max_iterations = 1000, bool isFixedPoint_0 = false);
 

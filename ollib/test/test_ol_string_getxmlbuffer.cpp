@@ -1,6 +1,6 @@
 /*
- *  ³ÌĞòÃû£ºtest_ol_getxmlbuffer.cpp£¬´Ë³ÌĞòÑİÊ¾µ÷ÓÃ¿ª·¢¿ò¼ÜµÄgetxmlbufferº¯Êı½âÎöxml×Ö·û´®¡£
- *  ×÷Õß£ºol
+ *  ç¨‹åºåï¼štest_ol_getxmlbuffer.cppï¼Œæ­¤ç¨‹åºæ¼”ç¤ºè°ƒç”¨å¼€å‘æ¡†æ¶çš„getxmlbufferå‡½æ•°è§£æxmlå­—ç¬¦ä¸²ã€‚
+ *  ä½œè€…ï¼šol
  */
 #include "ol_string.h"
 #include <iostream>
@@ -10,19 +10,19 @@ using namespace std;
 
 int main()
 {
-    // ÇòÔ±Ã·Î÷µÄ×ÊÁÏ´æ·ÅÔÚxmlÖĞ¡£
-    string buffer = "<name>Ã·Î÷</name><no>10</no><striker>true</striker><age>30</age><weight>68.5</weight><sal>21000000</sal><club>Barcelona</club>";
+    // çƒå‘˜æ¢…è¥¿çš„èµ„æ–™å­˜æ”¾åœ¨xmlä¸­ã€‚
+    string buffer = "<name>æ¢…è¥¿</name><no>10</no><striker>true</striker><age>30</age><weight>68.5</weight><sal>21000000</sal><club>Barcelona</club>";
 
-    // ÓÃÓÚ´æ·Å×ãÇòÔË¶¯Ô±×ÊÁÏµÄ½á¹¹Ìå¡£
+    // ç”¨äºå­˜æ”¾è¶³çƒè¿åŠ¨å‘˜èµ„æ–™çš„ç»“æ„ä½“ã€‚
     struct st_player
     {
-        string name;   // ĞÕÃû
-        char no[6];    // ÇòÒÂºÅÂë
-        bool striker;  // ³¡ÉÏÎ»ÖÃÊÇ·ñÊÇÇ°·æ£¬true-ÊÇ£»false-²»ÊÇ¡£
-        int age;       // ÄêÁä
-        double weight; // ÌåÖØ£¬kg¡£
-        long sal;      // ÄêĞ½£¬Å·Ôª¡£
-        char club[51]; // Ğ§Á¦µÄ¾ãÀÖ²¿
+        string name;   // å§“å
+        char no[6];    // çƒè¡£å·ç 
+        bool striker;  // åœºä¸Šä½ç½®æ˜¯å¦æ˜¯å‰é”‹ï¼Œtrue-æ˜¯ï¼›false-ä¸æ˜¯ã€‚
+        int age;       // å¹´é¾„
+        double weight; // ä½“é‡ï¼Œkgã€‚
+        long sal;      // å¹´è–ªï¼Œæ¬§å…ƒã€‚
+        char club[51]; // æ•ˆåŠ›çš„ä¿±ä¹éƒ¨
     } stplayer;
 
     getxmlbuffer(buffer, "name", stplayer.name);

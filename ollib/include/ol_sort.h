@@ -1,13 +1,13 @@
 /****************************************************************************************/
 /*
- * ³ÌĞòÃû£ºol_sort.h
- * ¹¦ÄÜÃèÊö£ºÅÅĞòËã·¨¹¤¾ßÀà£¬Ìá¹©¸ßĞ§µÄÅÅĞòÊµÏÖ£¬Ö§³Ö¶àÖÖÈİÆ÷ÀàĞÍ£¬ÌØĞÔ°üÀ¨£º
- *          - ÈİÆ÷ÌØĞÔİÍÈ¡£ºÊÊÅäSTLÈİÆ÷ºÍÔ­ÉúÊı×é£¬Í³Ò»µü´úÆ÷²Ù×÷
- *          - ²åÈëÅÅĞò£ºÖ§³ÖË«Ïòµü´úÆ÷ºÍËæ»ú·ÃÎÊµü´úÆ÷£¬×Ô¶¯ÊÊÅäÈİÆ÷ÀàĞÍ
- *          - ¿ìËÙÅÅĞò£º»ùÓÚËæ»ú·ÃÎÊµü´úÆ÷£¬½áºÏÈıÊıÈ¡ÖĞ·¨Ñ¡ÔñÊàÅ¦£¬Ğ¡Êı×é×Ô¶¯ÇĞ»»²åÈëÅÅĞò
- *          - Ìá¹©ÈİÆ÷´òÓ¡¹¦ÄÜ£¨µ÷ÊÔÓÃ£©
- * ×÷Õß£ºol
- * ÊÊÓÃ±ê×¼£ºC++11¼°ÒÔÉÏ£¨ĞèÖ§³Öµü´úÆ÷ÌØĞÔ¡¢ÀàĞÍİÍÈ¡µÈ£©
+ * ç¨‹åºåï¼šol_sort.h
+ * åŠŸèƒ½æè¿°ï¼šæ’åºç®—æ³•å·¥å…·ç±»ï¼Œæä¾›é«˜æ•ˆçš„æ’åºå®ç°ï¼Œæ”¯æŒå¤šç§å®¹å™¨ç±»å‹ï¼Œç‰¹æ€§åŒ…æ‹¬ï¼š
+ *          - å®¹å™¨ç‰¹æ€§èƒå–ï¼šé€‚é…STLå®¹å™¨å’ŒåŸç”Ÿæ•°ç»„ï¼Œç»Ÿä¸€è¿­ä»£å™¨æ“ä½œ
+ *          - æ’å…¥æ’åºï¼šæ”¯æŒåŒå‘è¿­ä»£å™¨å’Œéšæœºè®¿é—®è¿­ä»£å™¨ï¼Œè‡ªåŠ¨é€‚é…å®¹å™¨ç±»å‹
+ *          - å¿«é€Ÿæ’åºï¼šåŸºäºéšæœºè®¿é—®è¿­ä»£å™¨ï¼Œç»“åˆä¸‰æ•°å–ä¸­æ³•é€‰æ‹©æ¢çº½ï¼Œå°æ•°ç»„è‡ªåŠ¨åˆ‡æ¢æ’å…¥æ’åº
+ *          - æä¾›å®¹å™¨æ‰“å°åŠŸèƒ½ï¼ˆè°ƒè¯•ç”¨ï¼‰
+ * ä½œè€…ï¼šol
+ * é€‚ç”¨æ ‡å‡†ï¼šC++11åŠä»¥ä¸Šï¼ˆéœ€æ”¯æŒè¿­ä»£å™¨ç‰¹æ€§ã€ç±»å‹èƒå–ç­‰ï¼‰
  */
 /****************************************************************************************/
 
@@ -26,24 +26,24 @@
 
 namespace ol
 {
-    // ÈİÆ÷ÌØĞÔİÍÈ¡
+    // å®¹å™¨ç‰¹æ€§èƒå–
     // ===========================================================================
     /**
-     * ÈİÆ÷ÌØĞÔİÍÈ¡Ä£°å£¬Í³Ò»STLÈİÆ÷ºÍÔ­ÉúÊı×éµÄ²Ù×÷½Ó¿Ú
-     * @tparam Container ÈİÆ÷ÀàĞÍ£¨STLÈİÆ÷»òÔ­ÉúÊı×é£©
+     * å®¹å™¨ç‰¹æ€§èƒå–æ¨¡æ¿ï¼Œç»Ÿä¸€STLå®¹å™¨å’ŒåŸç”Ÿæ•°ç»„çš„æ“ä½œæ¥å£
+     * @tparam Container å®¹å™¨ç±»å‹ï¼ˆSTLå®¹å™¨æˆ–åŸç”Ÿæ•°ç»„ï¼‰
      */
     template <typename Container>
     struct container_traits
     {
-        using iterator = typename Container::iterator;             // ÈİÆ÷µü´úÆ÷ÀàĞÍ
-        using const_iterator = typename Container::const_iterator; // ³£Á¿µü´úÆ÷ÀàĞÍ
-        using value_type = typename Container::value_type;         // ÔªËØÀàĞÍ
-        using size_type = typename Container::size_type;           // ´óĞ¡ÀàĞÍ
+        using iterator = typename Container::iterator;             // å®¹å™¨è¿­ä»£å™¨ç±»å‹
+        using const_iterator = typename Container::const_iterator; // å¸¸é‡è¿­ä»£å™¨ç±»å‹
+        using value_type = typename Container::value_type;         // å…ƒç´ ç±»å‹
+        using size_type = typename Container::size_type;           // å¤§å°ç±»å‹
 
         /**
-         * »ñÈ¡ÈİÆ÷ÆğÊ¼µü´úÆ÷
-         * @param c ÈİÆ÷ÒıÓÃ
-         * @return ÆğÊ¼µü´úÆ÷
+         * è·å–å®¹å™¨èµ·å§‹è¿­ä»£å™¨
+         * @param c å®¹å™¨å¼•ç”¨
+         * @return èµ·å§‹è¿­ä»£å™¨
          */
         static iterator begin(Container& c)
         {
@@ -51,9 +51,9 @@ namespace ol
         }
 
         /**
-         * »ñÈ¡ÈİÆ÷½áÊøµü´úÆ÷
-         * @param c ÈİÆ÷ÒıÓÃ
-         * @return ½áÊøµü´úÆ÷
+         * è·å–å®¹å™¨ç»“æŸè¿­ä»£å™¨
+         * @param c å®¹å™¨å¼•ç”¨
+         * @return ç»“æŸè¿­ä»£å™¨
          */
         static iterator end(Container& c)
         {
@@ -61,9 +61,9 @@ namespace ol
         }
 
         /**
-         * »ñÈ¡ÈİÆ÷´óĞ¡
-         * @param c ÈİÆ÷ÒıÓÃ
-         * @return ÈİÆ÷ÔªËØÊıÁ¿
+         * è·å–å®¹å™¨å¤§å°
+         * @param c å®¹å™¨å¼•ç”¨
+         * @return å®¹å™¨å…ƒç´ æ•°é‡
          */
         static size_type size(Container& c)
         {
@@ -72,22 +72,22 @@ namespace ol
     };
 
     /**
-     * ÈİÆ÷ÌØĞÔİÍÈ¡Ä£°åÌØ»¯£¨Ô­ÉúÊı×é£©
-     * @tparam T Êı×éÔªËØÀàĞÍ
-     * @tparam N Êı×é´óĞ¡
+     * å®¹å™¨ç‰¹æ€§èƒå–æ¨¡æ¿ç‰¹åŒ–ï¼ˆåŸç”Ÿæ•°ç»„ï¼‰
+     * @tparam T æ•°ç»„å…ƒç´ ç±»å‹
+     * @tparam N æ•°ç»„å¤§å°
      */
     template <typename T, size_t N>
     struct container_traits<T[N]>
     {
-        using iterator = T*;             // Êı×éµü´úÆ÷£¨Ö¸Õë£©
-        using const_iterator = const T*; // ³£Á¿µü´úÆ÷£¨³£Á¿Ö¸Õë£©
-        using value_type = T;            // ÔªËØÀàĞÍ
-        using size_type = size_t;        // ´óĞ¡ÀàĞÍ
+        using iterator = T*;             // æ•°ç»„è¿­ä»£å™¨ï¼ˆæŒ‡é’ˆï¼‰
+        using const_iterator = const T*; // å¸¸é‡è¿­ä»£å™¨ï¼ˆå¸¸é‡æŒ‡é’ˆï¼‰
+        using value_type = T;            // å…ƒç´ ç±»å‹
+        using size_type = size_t;        // å¤§å°ç±»å‹
 
         /**
-         * »ñÈ¡Êı×éÆğÊ¼Ö¸Õë
-         * @param arr Ô­ÉúÊı×éÒıÓÃ
-         * @return Êı×éÊ×ÔªËØÖ¸Õë
+         * è·å–æ•°ç»„èµ·å§‹æŒ‡é’ˆ
+         * @param arr åŸç”Ÿæ•°ç»„å¼•ç”¨
+         * @return æ•°ç»„é¦–å…ƒç´ æŒ‡é’ˆ
          */
         static iterator begin(T (&arr)[N])
         {
@@ -95,9 +95,9 @@ namespace ol
         }
 
         /**
-         * »ñÈ¡Êı×é½áÊøÖ¸Õë
-         * @param arr Ô­ÉúÊı×éÒıÓÃ
-         * @return Êı×éÎ²ºóÖ¸Õë
+         * è·å–æ•°ç»„ç»“æŸæŒ‡é’ˆ
+         * @param arr åŸç”Ÿæ•°ç»„å¼•ç”¨
+         * @return æ•°ç»„å°¾åæŒ‡é’ˆ
          */
         static iterator end(T (&arr)[N])
         {
@@ -105,8 +105,8 @@ namespace ol
         }
 
         /**
-         * »ñÈ¡Êı×é´óĞ¡
-         * @return Êı×éÔªËØÊıÁ¿£¨N£©
+         * è·å–æ•°ç»„å¤§å°
+         * @return æ•°ç»„å…ƒç´ æ•°é‡ï¼ˆNï¼‰
          */
         static size_type size(T (&)[N])
         {
@@ -115,16 +115,16 @@ namespace ol
     };
     // ===========================================================================
 
-    // ÅÅĞòËã·¨ÊµÏÖ (ÄÚ²¿ÊµÏÖ)
+    // æ’åºç®—æ³•å®ç° (å†…éƒ¨å®ç°)
     // ===========================================================================
     namespace detail
     {
 
         /**
-         * ²åÈëÅÅĞòÊµÏÖ£¨Ë«Ïòµü´úÆ÷°æ±¾£©
-         * @tparam Iterator Ë«Ïòµü´úÆ÷ÀàĞÍ
-         * @param first ÆğÊ¼µü´úÆ÷
-         * @param last ½áÊøµü´úÆ÷
+         * æ’å…¥æ’åºå®ç°ï¼ˆåŒå‘è¿­ä»£å™¨ç‰ˆæœ¬ï¼‰
+         * @tparam Iterator åŒå‘è¿­ä»£å™¨ç±»å‹
+         * @param first èµ·å§‹è¿­ä»£å™¨
+         * @param last ç»“æŸè¿­ä»£å™¨
          */
         template <typename Iterator>
         void insertion_sort_impl(Iterator first, Iterator last,
@@ -159,10 +159,10 @@ namespace ol
         }
 
         /**
-         * ²åÈëÅÅĞòÊµÏÖ£¨Ëæ»ú·ÃÎÊµü´úÆ÷°æ±¾£©
-         * @tparam RandomIt Ëæ»ú·ÃÎÊµü´úÆ÷ÀàĞÍ
-         * @param first ÆğÊ¼µü´úÆ÷
-         * @param last ½áÊøµü´úÆ÷
+         * æ’å…¥æ’åºå®ç°ï¼ˆéšæœºè®¿é—®è¿­ä»£å™¨ç‰ˆæœ¬ï¼‰
+         * @tparam RandomIt éšæœºè®¿é—®è¿­ä»£å™¨ç±»å‹
+         * @param first èµ·å§‹è¿­ä»£å™¨
+         * @param last ç»“æŸè¿­ä»£å™¨
          */
         template <typename RandomIt>
         void insertion_sort_impl(RandomIt first, RandomIt last,
@@ -175,7 +175,7 @@ namespace ol
                 auto key = *i;
                 RandomIt j = i;
 
-                // ÒÆ¶¯ÔªËØÕÒµ½²åÈëÎ»ÖÃ
+                // ç§»åŠ¨å…ƒç´ æ‰¾åˆ°æ’å…¥ä½ç½®
                 while (j > first && *(j - 1) > key)
                 {
                     *j = *(j - 1);
@@ -187,10 +187,10 @@ namespace ol
         }
 
         /**
-         * ²åÈëÅÅĞòÍ³Ò»½Ó¿Ú£¨×Ô¶¯ÅĞ¶Ïµü´úÆ÷ÀàĞÍ£©
-         * @tparam Iterator µü´úÆ÷ÀàĞÍ
-         * @param first ÆğÊ¼µü´úÆ÷
-         * @param last ½áÊøµü´úÆ÷
+         * æ’å…¥æ’åºç»Ÿä¸€æ¥å£ï¼ˆè‡ªåŠ¨åˆ¤æ–­è¿­ä»£å™¨ç±»å‹ï¼‰
+         * @tparam Iterator è¿­ä»£å™¨ç±»å‹
+         * @param first èµ·å§‹è¿­ä»£å™¨
+         * @param last ç»“æŸè¿­ä»£å™¨
          */
         template <typename Iterator>
         void insertion_sort_impl(Iterator first, Iterator last)
@@ -200,41 +200,41 @@ namespace ol
         }
 
         /**
-         * ÈıÊıÈ¡ÖĞ·¨Ñ¡ÔñÊàÅ¦ÔªËØ£¨¿ìËÙÅÅĞò¸¨Öúº¯Êı£©
-         * @tparam RandomIt Ëæ»ú·ÃÎÊµü´úÆ÷ÀàĞÍ
-         * @param low ÆğÊ¼µü´úÆ÷
-         * @param high ½áÊøµü´úÆ÷£¨×îºóÒ»¸öÔªËØ£©
-         * @return Ñ¡ÖĞµÄÊàÅ¦ÔªËØÖµ
+         * ä¸‰æ•°å–ä¸­æ³•é€‰æ‹©æ¢çº½å…ƒç´ ï¼ˆå¿«é€Ÿæ’åºè¾…åŠ©å‡½æ•°ï¼‰
+         * @tparam RandomIt éšæœºè®¿é—®è¿­ä»£å™¨ç±»å‹
+         * @param low èµ·å§‹è¿­ä»£å™¨
+         * @param high ç»“æŸè¿­ä»£å™¨ï¼ˆæœ€åä¸€ä¸ªå…ƒç´ ï¼‰
+         * @return é€‰ä¸­çš„æ¢çº½å…ƒç´ å€¼
          */
         template <typename RandomIt>
         auto median_of_three(RandomIt low, RandomIt high)
         {
             RandomIt mid = low + (high - low) / 2;
 
-            // ¶ÔÈı¸öÔªËØÅÅĞò
+            // å¯¹ä¸‰ä¸ªå…ƒç´ æ’åº
             if (*low > *mid) std::iter_swap(low, mid);
             if (*low > *high) std::iter_swap(low, high);
             if (*mid > *high) std::iter_swap(mid, high);
 
-            // ½«ÖĞÖµ·Åµ½lowÎ»ÖÃ×÷ÎªÊàÅ¦
+            // å°†ä¸­å€¼æ”¾åˆ°lowä½ç½®ä½œä¸ºæ¢çº½
             std::iter_swap(low, mid);
             return *low;
         }
 
         /**
-         * ¿ìËÙÅÅĞòÊµÏÖ£¨Ëæ»ú·ÃÎÊµü´úÆ÷£©
-         * @tparam RandomIt Ëæ»ú·ÃÎÊµü´úÆ÷ÀàĞÍ
-         * @param first ÆğÊ¼µü´úÆ÷
-         * @param last ½áÊøµü´úÆ÷
-         * @note ÔªËØÊıÁ¿<=16Ê±×Ô¶¯ÇĞ»»Îª²åÈëÅÅĞò
+         * å¿«é€Ÿæ’åºå®ç°ï¼ˆéšæœºè®¿é—®è¿­ä»£å™¨ï¼‰
+         * @tparam RandomIt éšæœºè®¿é—®è¿­ä»£å™¨ç±»å‹
+         * @param first èµ·å§‹è¿­ä»£å™¨
+         * @param last ç»“æŸè¿­ä»£å™¨
+         * @note å…ƒç´ æ•°é‡<=16æ—¶è‡ªåŠ¨åˆ‡æ¢ä¸ºæ’å…¥æ’åº
          */
         template <typename RandomIt>
         void quick_sort_impl(RandomIt first, RandomIt last)
         {
-            // ¼ÆËãÔªËØÊıÁ¿
+            // è®¡ç®—å…ƒç´ æ•°é‡
             auto size = last - first;
 
-            // Ğ¡Êı×éÊ¹ÓÃ²åÈëÅÅĞò
+            // å°æ•°ç»„ä½¿ç”¨æ’å…¥æ’åº
             if (size <= 16)
             {
                 insertion_sort_impl(first, last,
@@ -242,33 +242,33 @@ namespace ol
                 return;
             }
 
-            // Ñ¡ÔñÊàÅ¦ÔªËØ
+            // é€‰æ‹©æ¢çº½å…ƒç´ 
             auto pivot = median_of_three(first, last - 1);
 
             RandomIt low = first;
             RandomIt high = last - 1;
 
-            // ·ÖÇø²Ù×÷
+            // åˆ†åŒºæ“ä½œ
             while (low < high)
             {
                 while (low < high && *high >= pivot)
                 {
-                    if (*high == pivot) break; // ´¦ÀíÏàÍ¬ÔªËØ
+                    if (*high == pivot) break; // å¤„ç†ç›¸åŒå…ƒç´ 
                     --high;
                 }
                 *low = *high;
 
                 while (low < high && *low <= pivot)
                 {
-                    if (*low == pivot) break; // ´¦ÀíÏàÍ¬ÔªËØ
+                    if (*low == pivot) break; // å¤„ç†ç›¸åŒå…ƒç´ 
                     ++low;
                 }
                 *high = *low;
             }
 
-            *low = pivot; // ÊàÅ¦¹éÎ»
+            *low = pivot; // æ¢çº½å½’ä½
 
-            // µİ¹éÅÅĞò×ÓĞòÁĞ
+            // é€’å½’æ’åºå­åºåˆ—
             quick_sort_impl(first, low);
             quick_sort_impl(low + 1, last);
         }
@@ -276,13 +276,13 @@ namespace ol
     } // namespace detail
     // ===========================================================================
 
-    // ÓÃ»§½Ó¿Ú - ²åÈëÅÅĞò
+    // ç”¨æˆ·æ¥å£ - æ’å…¥æ’åº
     // ===========================================================================
     /**
-     * ²åÈëÅÅĞò£¨ÈİÆ÷°æ±¾£©
-     * @tparam Container ÈİÆ÷ÀàĞÍ£¨Ö§³Öµü´úÆ÷£©
-     * @param c ´ıÅÅĞòµÄÈİÆ÷
-     * @note ×Ô¶¯ÊÊÅäË«Ïòµü´úÆ÷ºÍËæ»ú·ÃÎÊµü´úÆ÷
+     * æ’å…¥æ’åºï¼ˆå®¹å™¨ç‰ˆæœ¬ï¼‰
+     * @tparam Container å®¹å™¨ç±»å‹ï¼ˆæ”¯æŒè¿­ä»£å™¨ï¼‰
+     * @param c å¾…æ’åºçš„å®¹å™¨
+     * @note è‡ªåŠ¨é€‚é…åŒå‘è¿­ä»£å™¨å’Œéšæœºè®¿é—®è¿­ä»£å™¨
      */
     template <typename Container>
     void insertion_sort(Container& c)
@@ -295,10 +295,10 @@ namespace ol
     }
 
     /**
-     * ²åÈëÅÅĞò£¨µü´úÆ÷°æ±¾£©
-     * @tparam Iterator µü´úÆ÷ÀàĞÍ£¨Ë«Ïò»òËæ»ú·ÃÎÊ£©
-     * @param first ÆğÊ¼µü´úÆ÷
-     * @param last ½áÊøµü´úÆ÷
+     * æ’å…¥æ’åºï¼ˆè¿­ä»£å™¨ç‰ˆæœ¬ï¼‰
+     * @tparam Iterator è¿­ä»£å™¨ç±»å‹ï¼ˆåŒå‘æˆ–éšæœºè®¿é—®ï¼‰
+     * @param first èµ·å§‹è¿­ä»£å™¨
+     * @param last ç»“æŸè¿­ä»£å™¨
      */
     template <typename Iterator>
     void insertion_sort(Iterator first, Iterator last)
@@ -307,20 +307,20 @@ namespace ol
     }
     // ===========================================================================
 
-    // ÓÃ»§½Ó¿Ú - ¿ìËÙÅÅĞò
+    // ç”¨æˆ·æ¥å£ - å¿«é€Ÿæ’åº
     // ===========================================================================
     /**
-     * ¿ìËÙÅÅĞò£¨ÈİÆ÷°æ±¾£©
-     * @tparam Container ÈİÆ÷ÀàĞÍ£¨ĞèÖ§³ÖËæ»ú·ÃÎÊµü´úÆ÷£©
-     * @param c ´ıÅÅĞòµÄÈİÆ÷
-     * @note ÔªËØÊıÁ¿<=16Ê±×Ô¶¯ÇĞ»»Îª²åÈëÅÅĞò£¬Ìá¸ßĞ§ÂÊ
+     * å¿«é€Ÿæ’åºï¼ˆå®¹å™¨ç‰ˆæœ¬ï¼‰
+     * @tparam Container å®¹å™¨ç±»å‹ï¼ˆéœ€æ”¯æŒéšæœºè®¿é—®è¿­ä»£å™¨ï¼‰
+     * @param c å¾…æ’åºçš„å®¹å™¨
+     * @note å…ƒç´ æ•°é‡<=16æ—¶è‡ªåŠ¨åˆ‡æ¢ä¸ºæ’å…¥æ’åºï¼Œæé«˜æ•ˆç‡
      */
     template <typename Container>
     void quick_sort(Container& c)
     {
         using traits = container_traits<Container>;
         using iterator = typename traits::iterator;
-        // È·±£ÊÇËæ»ú·ÃÎÊµü´úÆ÷
+        // ç¡®ä¿æ˜¯éšæœºè®¿é—®è¿­ä»£å™¨
         static_assert(
             std::is_same_v<
                 typename std::iterator_traits<iterator>::iterator_category,
@@ -330,15 +330,15 @@ namespace ol
     }
 
     /**
-     * ¿ìËÙÅÅĞò£¨µü´úÆ÷°æ±¾£©
-     * @tparam RandomIt Ëæ»ú·ÃÎÊµü´úÆ÷ÀàĞÍ
-     * @param first ÆğÊ¼µü´úÆ÷
-     * @param last ½áÊøµü´úÆ÷
+     * å¿«é€Ÿæ’åºï¼ˆè¿­ä»£å™¨ç‰ˆæœ¬ï¼‰
+     * @tparam RandomIt éšæœºè®¿é—®è¿­ä»£å™¨ç±»å‹
+     * @param first èµ·å§‹è¿­ä»£å™¨
+     * @param last ç»“æŸè¿­ä»£å™¨
      */
     template <typename RandomIt>
     void quick_sort(RandomIt first, RandomIt last)
     {
-        // È·±£ÊÇËæ»ú·ÃÎÊµü´úÆ÷
+        // ç¡®ä¿æ˜¯éšæœºè®¿é—®è¿­ä»£å™¨
         static_assert(
             std::is_same_v<
                 typename std::iterator_traits<RandomIt>::iterator_category,
@@ -350,10 +350,10 @@ namespace ol
 
     // ===========================================================================
     /**
-     * ´òÓ¡ÈİÆ÷ÔªËØ£¨µ÷ÊÔÓÃ£©
-     * @tparam Container ÈİÆ÷ÀàĞÍ£¨Ö§³Ö·¶Î§forÑ­»·£©
-     * @param c ´ı´òÓ¡µÄÈİÆ÷
-     * @note ÔªËØÀàĞÍĞèÖ§³Östd::coutÊä³ö
+     * æ‰“å°å®¹å™¨å…ƒç´ ï¼ˆè°ƒè¯•ç”¨ï¼‰
+     * @tparam Container å®¹å™¨ç±»å‹ï¼ˆæ”¯æŒèŒƒå›´forå¾ªç¯ï¼‰
+     * @param c å¾…æ‰“å°çš„å®¹å™¨
+     * @note å…ƒç´ ç±»å‹éœ€æ”¯æŒstd::coutè¾“å‡º
      */
     template <typename Container>
     void print_container(const Container& c)

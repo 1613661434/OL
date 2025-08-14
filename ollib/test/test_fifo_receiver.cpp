@@ -1,5 +1,5 @@
 /*
- * 程序名：fifo_receiver.cpp，命名管道的接收端
+ * 程序名：test_fifo_receiver.cpp，命名管道的接收端
  * 作者：ol
  * 功能：从命名管道读取数据并显示
  */

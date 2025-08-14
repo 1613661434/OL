@@ -6,17 +6,17 @@ namespace ol
 #ifdef __linux__
     bool ctcpclient::connect(const std::string& ip, const int port)
     {
-        // Èç¹ûÒÑÁ¬½Óµ½·þÎñ¶Ë£¬Ôò¶Ï¿ª£¬ÕâÖÖ´¦Àí·½·¨Ã»ÓÐÌØ±ðµÄÔ­Òò£¬²»Òª¾À½á¡£
+        // å¦‚æžœå·²è¿žæŽ¥åˆ°æœåŠ¡ç«¯ï¼Œåˆ™æ–­å¼€ï¼Œè¿™ç§å¤„ç†æ–¹æ³•æ²¡æœ‰ç‰¹åˆ«çš„åŽŸå› ï¼Œä¸è¦çº ç»“ã€‚
         if (m_connfd != -1)
         {
             ::close(m_connfd);
             m_connfd = -1;
         }
 
-        // ºöÂÔSIGPIPEÐÅºÅ£¬·ÀÖ¹³ÌÐòÒì³£ÍË³ö¡£
-        // Èç¹ûsendµ½Ò»¸ödisconnected socketÉÏ£¬ÄÚºË¾Í»á·¢³öSIGPIPEÐÅºÅ¡£Õâ¸öÐÅºÅ
-        // µÄÈ±Ê¡´¦Àí·½·¨ÊÇÖÕÖ¹½ø³Ì£¬´ó¶àÊýÊ±ºòÕâ¶¼²»ÊÇÎÒÃÇÆÚÍûµÄ¡£ÎÒÃÇÖØÐÂ¶¨ÒåÕâ
-        // ¸öÐÅºÅµÄ´¦Àí·½·¨£¬´ó¶àÊýÇé¿öÊÇÖ±½ÓÆÁ±ÎËü¡£
+        // å¿½ç•¥SIGPIPEä¿¡å·ï¼Œé˜²æ­¢ç¨‹åºå¼‚å¸¸é€€å‡ºã€‚
+        // å¦‚æžœsendåˆ°ä¸€ä¸ªdisconnected socketä¸Šï¼Œå†…æ ¸å°±ä¼šå‘å‡ºSIGPIPEä¿¡å·ã€‚è¿™ä¸ªä¿¡å·
+        // çš„ç¼ºçœå¤„ç†æ–¹æ³•æ˜¯ç»ˆæ­¢è¿›ç¨‹ï¼Œå¤§å¤šæ•°æ—¶å€™è¿™éƒ½ä¸æ˜¯æˆ‘ä»¬æœŸæœ›çš„ã€‚æˆ‘ä»¬é‡æ–°å®šä¹‰è¿™
+        // ä¸ªä¿¡å·çš„å¤„ç†æ–¹æ³•ï¼Œå¤§å¤šæ•°æƒ…å†µæ˜¯ç›´æŽ¥å±è”½å®ƒã€‚
         signal(SIGPIPE, SIG_IGN);
 
         m_ip = ip;
@@ -36,7 +36,7 @@ namespace ol
 
         memset(&servaddr, 0, sizeof(servaddr));
         servaddr.sin_family = AF_INET;
-        servaddr.sin_port = htons(m_port); // Ö¸¶¨·þÎñ¶ËµÄÍ¨Ñ¶¶Ë¿Ú
+        servaddr.sin_port = htons(m_port); // æŒ‡å®šæœåŠ¡ç«¯çš„é€šè®¯ç«¯å£
         memcpy(&servaddr.sin_addr, h->h_addr, h->h_length);
 
         if (::connect(m_connfd, (struct sockaddr*)&servaddr, sizeof(servaddr)) != 0)
@@ -64,7 +64,7 @@ namespace ol
 
     bool ctcpserver::initserver(const unsigned int port, const int backlog)
     {
-        // Èç¹û·þÎñ¶ËµÄsocket>0£¬¹ØµôËü£¬ÕâÖÖ´¦Àí·½·¨Ã»ÓÐÌØ±ðµÄÔ­Òò£¬²»Òª¾À½á¡£
+        // å¦‚æžœæœåŠ¡ç«¯çš„socket>0ï¼Œå…³æŽ‰å®ƒï¼Œè¿™ç§å¤„ç†æ–¹æ³•æ²¡æœ‰ç‰¹åˆ«çš„åŽŸå› ï¼Œä¸è¦çº ç»“ã€‚
         if (m_listenfd > 0)
         {
             ::close(m_listenfd);
@@ -73,18 +73,18 @@ namespace ol
 
         if ((m_listenfd = socket(AF_INET, SOCK_STREAM, 0)) <= 0) return false;
 
-        // ºöÂÔSIGPIPEÐÅºÅ£¬·ÀÖ¹³ÌÐòÒì³£ÍË³ö¡£
-        // Èç¹ûÍùÒÑ¹Ø±ÕµÄsocket¼ÌÐøÐ´Êý¾Ý£¬»á²úÉúSIGPIPEÐÅºÅ£¬ËüµÄÈ±Ê¡ÐÐÎªÊÇÖÕÖ¹³ÌÐò£¬ËùÒÔÒªºöÂÔËü¡£
+        // å¿½ç•¥SIGPIPEä¿¡å·ï¼Œé˜²æ­¢ç¨‹åºå¼‚å¸¸é€€å‡ºã€‚
+        // å¦‚æžœå¾€å·²å…³é—­çš„socketç»§ç»­å†™æ•°æ®ï¼Œä¼šäº§ç”ŸSIGPIPEä¿¡å·ï¼Œå®ƒçš„ç¼ºçœè¡Œä¸ºæ˜¯ç»ˆæ­¢ç¨‹åºï¼Œæ‰€ä»¥è¦å¿½ç•¥å®ƒã€‚
         signal(SIGPIPE, SIG_IGN);
 
-        // ´ò¿ªSO_REUSEADDRÑ¡Ïî£¬µ±·þÎñ¶ËÁ¬½Ó´¦ÓÚTIME_WAIT×´Ì¬Ê±¿ÉÒÔÔÙ´ÎÆô¶¯·þÎñÆ÷£¬
-        // ·ñÔòbind()¿ÉÄÜ»á²»³É¹¦£¬±¨£ºAddress already in use¡£
+        // æ‰“å¼€SO_REUSEADDRé€‰é¡¹ï¼Œå½“æœåŠ¡ç«¯è¿žæŽ¥å¤„äºŽTIME_WAITçŠ¶æ€æ—¶å¯ä»¥å†æ¬¡å¯åŠ¨æœåŠ¡å™¨ï¼Œ
+        // å¦åˆ™bind()å¯èƒ½ä¼šä¸æˆåŠŸï¼ŒæŠ¥ï¼šAddress already in useã€‚
         int opt = 1;
         setsockopt(m_listenfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 
         memset(&m_servaddr, 0, sizeof(m_servaddr));
         m_servaddr.sin_family = AF_INET;
-        m_servaddr.sin_addr.s_addr = htonl(INADDR_ANY); // ÈÎÒâipµØÖ·¡£
+        m_servaddr.sin_addr.s_addr = htonl(INADDR_ANY); // ä»»æ„ipåœ°å€ã€‚
         m_servaddr.sin_port = htons(port);
         if (bind(m_listenfd, (struct sockaddr*)&m_servaddr, sizeof(m_servaddr)) != 0)
         {
@@ -117,35 +117,35 @@ namespace ol
         return (inet_ntoa(m_clientaddr.sin_addr));
     }
 
-    bool ctcpserver::read(void* buffer, const int ibuflen, const int itimeout) // ½ÓÊÕ¶þ½øÖÆÊý¾Ý¡£
+    bool ctcpserver::read(void* buffer, const int ibuflen, const int itimeout) // æŽ¥æ”¶äºŒè¿›åˆ¶æ•°æ®ã€‚
     {
         if (m_connfd == -1) return false;
 
         return (tcpread(m_connfd, buffer, ibuflen, itimeout));
     }
 
-    bool ctcpserver::read(std::string& buffer, const int itimeout) // ½ÓÊÕÎÄ±¾Êý¾Ý¡£
+    bool ctcpserver::read(std::string& buffer, const int itimeout) // æŽ¥æ”¶æ–‡æœ¬æ•°æ®ã€‚
     {
         if (m_connfd == -1) return false;
 
         return (tcpread(m_connfd, buffer, itimeout));
     }
 
-    bool ctcpclient::read(void* buffer, const int ibuflen, const int itimeout) // ½ÓÊÕ¶þ½øÖÆÊý¾Ý¡£
+    bool ctcpclient::read(void* buffer, const int ibuflen, const int itimeout) // æŽ¥æ”¶äºŒè¿›åˆ¶æ•°æ®ã€‚
     {
         if (m_connfd == -1) return false;
 
         return (tcpread(m_connfd, buffer, ibuflen, itimeout));
     }
 
-    bool ctcpclient::read(std::string& buffer, const int itimeout) // ½ÓÊÕÎÄ±¾Êý¾Ý¡£
+    bool ctcpclient::read(std::string& buffer, const int itimeout) // æŽ¥æ”¶æ–‡æœ¬æ•°æ®ã€‚
     {
         if (m_connfd == -1) return false;
 
         return (tcpread(m_connfd, buffer, itimeout));
     }
 
-    bool ctcpserver::write(const void* buffer, const int ibuflen) // ·¢ËÍ¶þ½øÖÆÊý¾Ý¡£
+    bool ctcpserver::write(const void* buffer, const int ibuflen) // å‘é€äºŒè¿›åˆ¶æ•°æ®ã€‚
     {
         if (m_connfd == -1) return false;
 
@@ -197,11 +197,11 @@ namespace ol
         closeclient();
     }
 
-    bool tcpread(const int sockfd, void* buffer, const int ibuflen, const int itimeout) // ½ÓÊÕ¶þ½øÖÆÊý¾Ý¡£
+    bool tcpread(const int sockfd, void* buffer, const int ibuflen, const int itimeout) // æŽ¥æ”¶äºŒè¿›åˆ¶æ•°æ®ã€‚
     {
         if (sockfd == -1) return false;
 
-        // Èç¹ûitimeout>0£¬±íÊ¾ÐèÒªµÈ´ýitimeoutÃë£¬Èç¹ûitimeoutÃëºó»¹Ã»ÓÐÊý¾Ýµ½´ï£¬·µ»Øfalse¡£
+        // å¦‚æžœitimeout>0ï¼Œè¡¨ç¤ºéœ€è¦ç­‰å¾…itimeoutç§’ï¼Œå¦‚æžœitimeoutç§’åŽè¿˜æ²¡æœ‰æ•°æ®åˆ°è¾¾ï¼Œè¿”å›žfalseã€‚
         if (itimeout > 0)
         {
             struct pollfd fds;
@@ -210,7 +210,7 @@ namespace ol
             if (poll(&fds, 1, itimeout * 1000) <= 0) return false;
         }
 
-        // Èç¹ûitimeout==-1£¬±íÊ¾²»µÈ´ý£¬Á¢¼´ÅÐ¶ÏsocketµÄ»º³åÇøÖÐÊÇ·ñÓÐÊý¾Ý£¬Èç¹ûÃ»ÓÐ£¬·µ»Øfalse¡£
+        // å¦‚æžœitimeout==-1ï¼Œè¡¨ç¤ºä¸ç­‰å¾…ï¼Œç«‹å³åˆ¤æ–­socketçš„ç¼“å†²åŒºä¸­æ˜¯å¦æœ‰æ•°æ®ï¼Œå¦‚æžœæ²¡æœ‰ï¼Œè¿”å›žfalseã€‚
         if (itimeout == -1)
         {
             struct pollfd fds;
@@ -219,17 +219,17 @@ namespace ol
             if (poll(&fds, 1, 0) <= 0) return false;
         }
 
-        // ¶ÁÈ¡±¨ÎÄÄÚÈÝ¡£
+        // è¯»å–æŠ¥æ–‡å†…å®¹ã€‚
         if (readn(sockfd, (char*)buffer, ibuflen) == false) return false;
 
         return true;
     }
 
-    bool tcpread(const int sockfd, std::string& buffer, const int itimeout) // ½ÓÊÕÎÄ±¾Êý¾Ý¡£
+    bool tcpread(const int sockfd, std::string& buffer, const int itimeout) // æŽ¥æ”¶æ–‡æœ¬æ•°æ®ã€‚
     {
         if (sockfd == -1) return false;
 
-        // Èç¹ûitimeout>0£¬±íÊ¾µÈ´ýitimeoutÃë£¬Èç¹ûitimeoutÃëºó½ÓÊÕ»º³åÇøÖÐ»¹Ã»ÓÐÊý¾Ý£¬·µ»Øfalse¡£
+        // å¦‚æžœitimeout>0ï¼Œè¡¨ç¤ºç­‰å¾…itimeoutç§’ï¼Œå¦‚æžœitimeoutç§’åŽæŽ¥æ”¶ç¼“å†²åŒºä¸­è¿˜æ²¡æœ‰æ•°æ®ï¼Œè¿”å›žfalseã€‚
         if (itimeout > 0)
         {
             struct pollfd fds;
@@ -238,7 +238,7 @@ namespace ol
             if (poll(&fds, 1, itimeout * 1000) <= 0) return false;
         }
 
-        // Èç¹ûitimeout==-1£¬±íÊ¾²»µÈ´ý£¬Á¢¼´ÅÐ¶ÏsocketµÄ½ÓÊÕ»º³åÇøÖÐÊÇ·ñÓÐÊý¾Ý£¬Èç¹ûÃ»ÓÐ£¬·µ»Øfalse¡£
+        // å¦‚æžœitimeout==-1ï¼Œè¡¨ç¤ºä¸ç­‰å¾…ï¼Œç«‹å³åˆ¤æ–­socketçš„æŽ¥æ”¶ç¼“å†²åŒºä¸­æ˜¯å¦æœ‰æ•°æ®ï¼Œå¦‚æžœæ²¡æœ‰ï¼Œè¿”å›žfalseã€‚
         if (itimeout == -1)
         {
             struct pollfd fds;
@@ -249,18 +249,18 @@ namespace ol
 
         int buflen = 0;
 
-        // ÏÈ¶ÁÈ¡±¨ÎÄ³¤¶È£¬4¸ö×Ö½Ú¡£
+        // å…ˆè¯»å–æŠ¥æ–‡é•¿åº¦ï¼Œ4ä¸ªå­—èŠ‚ã€‚
         if (readn(sockfd, (char*)&buflen, 4) == false) return false;
 
-        buffer.resize(buflen); // ÉèÖÃbufferµÄ´óÐ¡¡£
+        buffer.resize(buflen); // è®¾ç½®bufferçš„å¤§å°ã€‚
 
-        // ÔÙ¶ÁÈ¡±¨ÎÄÄÚÈÝ¡£
+        // å†è¯»å–æŠ¥æ–‡å†…å®¹ã€‚
         if (readn(sockfd, &buffer[0], buflen) == false) return false;
 
         return true;
     }
 
-    bool tcpwrite(const int sockfd, const void* buffer, const int ibuflen) // ·¢ËÍ¶þ½øÖÆÊý¾Ý¡£
+    bool tcpwrite(const int sockfd, const void* buffer, const int ibuflen) // å‘é€äºŒè¿›åˆ¶æ•°æ®ã€‚
     {
         if (sockfd == -1) return false;
 
@@ -269,31 +269,31 @@ namespace ol
         return true;
     }
 
-    bool tcpwrite(const int sockfd, const std::string& buffer) // ·¢ËÍÎÄ±¾Êý¾Ý¡£
+    bool tcpwrite(const int sockfd, const std::string& buffer) // å‘é€æ–‡æœ¬æ•°æ®ã€‚
     {
         if (sockfd == -1) return false;
 
         int buflen = buffer.size();
 
-        // ÏÈ·¢ËÍ±¨Í·¡£
+        // å…ˆå‘é€æŠ¥å¤´ã€‚
         if (writen(sockfd, (char*)&buflen, 4) == false) return false;
 
-        // ÔÙ·¢ËÍ±¨ÎÄÌå¡£
+        // å†å‘é€æŠ¥æ–‡ä½“ã€‚
         if (writen(sockfd, buffer.c_str(), buflen) == false) return false;
 
         return true;
     }
 
-    // ´ÓÒÑ¾­×¼±¸ºÃµÄsocketÖÐ¶ÁÈ¡Êý¾Ý¡£
-    // sockfd£ºÒÑ¾­×¼±¸ºÃµÄsocketÁ¬½Ó¡£
-    // buffer£º½ÓÊÕÊý¾Ý»º³åÇøµÄµØÖ·¡£
-    // n£º±¾´Î½ÓÊÕÊý¾ÝµÄ×Ö½ÚÊý¡£
-    // ·µ»ØÖµ£º³É¹¦½ÓÊÕµ½n×Ö½ÚµÄÊý¾Ýºó·µ»Øtrue£¬socketÁ¬½Ó²»¿ÉÓÃ·µ»Øfalse¡£
+    // ä»Žå·²ç»å‡†å¤‡å¥½çš„socketä¸­è¯»å–æ•°æ®ã€‚
+    // sockfdï¼šå·²ç»å‡†å¤‡å¥½çš„socketè¿žæŽ¥ã€‚
+    // bufferï¼šæŽ¥æ”¶æ•°æ®ç¼“å†²åŒºçš„åœ°å€ã€‚
+    // nï¼šæœ¬æ¬¡æŽ¥æ”¶æ•°æ®çš„å­—èŠ‚æ•°ã€‚
+    // è¿”å›žå€¼ï¼šæˆåŠŸæŽ¥æ”¶åˆ°nå­—èŠ‚çš„æ•°æ®åŽè¿”å›žtrueï¼Œsocketè¿žæŽ¥ä¸å¯ç”¨è¿”å›žfalseã€‚
     bool readn(const int sockfd, char* buffer, const size_t n)
     {
-        int nleft = n; // Ê£ÓàÐèÒª¶ÁÈ¡µÄ×Ö½ÚÊý¡£
-        int idx = 0;   // ÒÑ³É¹¦¶ÁÈ¡µÄ×Ö½ÚÊý¡£
-        int nread;     // Ã¿´Îµ÷ÓÃrecv()º¯Êý¶Áµ½µÄ×Ö½ÚÊý¡£
+        int nleft = n; // å‰©ä½™éœ€è¦è¯»å–çš„å­—èŠ‚æ•°ã€‚
+        int idx = 0;   // å·²æˆåŠŸè¯»å–çš„å­—èŠ‚æ•°ã€‚
+        int nread;     // æ¯æ¬¡è°ƒç”¨recv()å‡½æ•°è¯»åˆ°çš„å­—èŠ‚æ•°ã€‚
 
         while (nleft > 0)
         {
@@ -306,16 +306,16 @@ namespace ol
         return true;
     }
 
-    // ÏòÒÑ¾­×¼±¸ºÃµÄsocketÖÐÐ´ÈëÊý¾Ý¡£
-    // sockfd£ºÒÑ¾­×¼±¸ºÃµÄsocketÁ¬½Ó¡£
-    // buffer£º´ý·¢ËÍÊý¾Ý»º³åÇøµÄµØÖ·¡£
-    // n£º´ý·¢ËÍÊý¾ÝµÄ×Ö½ÚÊý¡£
-    // ·µ»ØÖµ£º³É¹¦·¢ËÍÍên×Ö½ÚµÄÊý¾Ýºó·µ»Øtrue£¬socketÁ¬½Ó²»¿ÉÓÃ·µ»Øfalse¡£
+    // å‘å·²ç»å‡†å¤‡å¥½çš„socketä¸­å†™å…¥æ•°æ®ã€‚
+    // sockfdï¼šå·²ç»å‡†å¤‡å¥½çš„socketè¿žæŽ¥ã€‚
+    // bufferï¼šå¾…å‘é€æ•°æ®ç¼“å†²åŒºçš„åœ°å€ã€‚
+    // nï¼šå¾…å‘é€æ•°æ®çš„å­—èŠ‚æ•°ã€‚
+    // è¿”å›žå€¼ï¼šæˆåŠŸå‘é€å®Œnå­—èŠ‚çš„æ•°æ®åŽè¿”å›žtrueï¼Œsocketè¿žæŽ¥ä¸å¯ç”¨è¿”å›žfalseã€‚
     bool writen(const int sockfd, const char* buffer, const size_t n)
     {
-        int nleft = n; // Ê£ÓàÐèÒªÐ´ÈëµÄ×Ö½ÚÊý¡£
-        int idx = 0;   // ÒÑ³É¹¦Ð´ÈëµÄ×Ö½ÚÊý¡£
-        int nwritten;  // Ã¿´Îµ÷ÓÃsend()º¯ÊýÐ´ÈëµÄ×Ö½ÚÊý¡£
+        int nleft = n; // å‰©ä½™éœ€è¦å†™å…¥çš„å­—èŠ‚æ•°ã€‚
+        int idx = 0;   // å·²æˆåŠŸå†™å…¥çš„å­—èŠ‚æ•°ã€‚
+        int nwritten;  // æ¯æ¬¡è°ƒç”¨send()å‡½æ•°å†™å…¥çš„å­—èŠ‚æ•°ã€‚
 
         while (nleft > 0)
         {

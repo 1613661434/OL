@@ -1,15 +1,15 @@
 #include "ol_math.h"
 #include <cmath>
 #include <iostream>
-#include <limits>    // ÓÃÓÚnumeric_limits
-#include <stdexcept> // Ìí¼ÓÒì³£´¦ÀíÖ§³Ö
+#include <limits>    // ç”¨äºnumeric_limits
+#include <stdexcept> // æ·»åŠ å¼‚å¸¸å¤„ç†æ”¯æŒ
 
 using namespace std;
 
 namespace ol
 {
-    // ÊıÖµ¼ÆËã-·ÇÏßĞÔ·½³ÌÇó½â·¨-¶ş·Öµü´ú·¨-ÊÕÁ²½×P=1
-    // Bisection_Method(»Øµ÷º¯Êı,×óÇø¼ä,ÓÒÇø¼ä,Îó²îÏŞ,×î´óµü´ú´ÎÊı|Ä¬ÈÏ1000)
+    // æ•°å€¼è®¡ç®—-éçº¿æ€§æ–¹ç¨‹æ±‚è§£æ³•-äºŒåˆ†è¿­ä»£æ³•-æ”¶æ•›é˜¶P=1
+    // Bisection_Method(å›è°ƒå‡½æ•°,å·¦åŒºé—´,å³åŒºé—´,è¯¯å·®é™,æœ€å¤§è¿­ä»£æ¬¡æ•°|é»˜è®¤1000)
     double Bisection_Method(double (*func)(double), double low, double high, double tolerance, const size_t max_iterations)
     {
         double f_low = func(low);
@@ -20,7 +20,7 @@ namespace ol
             throw invalid_argument("Function has same sign at both endpoints. Bisection requires a sign change in initial interval.");
         }
 
-        size_t loop_count = ceil(log2((high - low) / tolerance) - 1); // ÊÂÇ°¹À¼Æ£º¶ş·Ö·¨ºÃ´¦¿ÉÒÔÔÚ¼ÆËãÖ®Ç°ÖªµÀµü´ú´ÎÊı
+        size_t loop_count = ceil(log2((high - low) / tolerance) - 1); // äº‹å‰ä¼°è®¡ï¼šäºŒåˆ†æ³•å¥½å¤„å¯ä»¥åœ¨è®¡ç®—ä¹‹å‰çŸ¥é“è¿­ä»£æ¬¡æ•°
         if (loop_count > max_iterations)
         {
             throw runtime_error("Exceeded maximum iterations without convergence.");
@@ -36,7 +36,7 @@ namespace ol
             if (f_mid * f_low > 0)
             {
                 low = mid;
-                f_low = f_mid; // ¸üĞÂ f_low£¬±ÜÃâÖØ¸´¼ÆËã
+                f_low = f_mid; // æ›´æ–° f_lowï¼Œé¿å…é‡å¤è®¡ç®—
             }
             else
             {
@@ -47,8 +47,8 @@ namespace ol
         return mid;
     }
 
-    // ÊıÖµ¼ÆËã-·ÇÏßĞÔ·½³ÌÇó½â·¨-¼òµ¥µü´ú·¨-ÊÕÁ²½×P=1
-    // Simple_Iteration_Method(»Øµ÷µü´úº¯Êı,³õÖµ,Îó²îÏŞ,×î´óµü´ú´ÎÊı|Ä¬ÈÏ1000)
+    // æ•°å€¼è®¡ç®—-éçº¿æ€§æ–¹ç¨‹æ±‚è§£æ³•-ç®€å•è¿­ä»£æ³•-æ”¶æ•›é˜¶P=1
+    // Simple_Iteration_Method(å›è°ƒè¿­ä»£å‡½æ•°,åˆå€¼,è¯¯å·®é™,æœ€å¤§è¿­ä»£æ¬¡æ•°|é»˜è®¤1000)
     double Simple_Iteration_Method(double (*iter_func)(double), double initial_value, double tolerance, const size_t max_iterations)
     {
         double Xi = initial_value; // Xi
@@ -63,11 +63,11 @@ namespace ol
         throw runtime_error("Exceeded maximum iterations without convergence.");
     }
 
-    // ÊıÖµ¼ÆËã-·ÇÏßĞÔ·½³ÌÇó½â·¨-Å£¶Ùµü´ú·¨-ÊÕÁ²½×P=2
-    // Newton_Method(»Øµ÷º¯Êı,»Øµ÷µ¼º¯Êı,³õÖµ,Îó²îÏŞ,×î´óµü´ú´ÎÊı|Ä¬ÈÏ1000)
+    // æ•°å€¼è®¡ç®—-éçº¿æ€§æ–¹ç¨‹æ±‚è§£æ³•-ç‰›é¡¿è¿­ä»£æ³•-æ”¶æ•›é˜¶P=2
+    // Newton_Method(å›è°ƒå‡½æ•°,å›è°ƒå¯¼å‡½æ•°,åˆå€¼,è¯¯å·®é™,æœ€å¤§è¿­ä»£æ¬¡æ•°|é»˜è®¤1000)
     double Newton_Method(double (*func)(double), double (*der_func)(double), double initial_value, double tolerance, const size_t max_iterations)
     {
-        constexpr double ZERO_DERIV_THRESHOLD = 1e-12; // ÁãÅĞ¶ÏãĞÖµ
+        constexpr double ZERO_DERIV_THRESHOLD = 1e-12; // é›¶åˆ¤æ–­é˜ˆå€¼
 
         auto loop_func = [&func, &der_func](double x) -> double
         {
@@ -78,7 +78,7 @@ namespace ol
 
         double Xi;                        // Xi
         double Xi_plus_1 = initial_value; // Xi+1
-        size_t iter = 0;                  // µü´ú´ÎÊı
+        size_t iter = 0;                  // è¿­ä»£æ¬¡æ•°
 
         do
         {
@@ -91,11 +91,11 @@ namespace ol
         throw runtime_error("Exceeded maximum iterations without convergence.");
     }
 
-    // ÊıÖµ¼ÆËã-·ÇÏßĞÔ·½³ÌÇó½â·¨-ÏÒ½Øµü´ú·¨-ÊÕÁ²½×P=1.618
-    // Secant_Method(»Øµ÷º¯Êı,³õÖµ0,³õÖµ1,Îó²îÏŞ,×î´óµü´ú´ÎÊı|Ä¬ÈÏ1000,ÊÇ·ñÎª¶¨¶ËµãÏÒ½Ø·¨|¹Ì¶¨µã0|Ä¬ÈÏ±ä¶Ëµã)
+    // æ•°å€¼è®¡ç®—-éçº¿æ€§æ–¹ç¨‹æ±‚è§£æ³•-å¼¦æˆªè¿­ä»£æ³•-æ”¶æ•›é˜¶P=1.618
+    // Secant_Method(å›è°ƒå‡½æ•°,åˆå€¼0,åˆå€¼1,è¯¯å·®é™,æœ€å¤§è¿­ä»£æ¬¡æ•°|é»˜è®¤1000,æ˜¯å¦ä¸ºå®šç«¯ç‚¹å¼¦æˆªæ³•|å›ºå®šç‚¹0|é»˜è®¤å˜ç«¯ç‚¹)
     double Secant_Method(double (*func)(double), double initial_value_0, double initial_value_1, double tolerance, const size_t max_iterations, bool isFixedPoint_0)
     {
-        constexpr double ZERO_DERIV_THRESHOLD = 1e-12; // ÁãÅĞ¶ÏãĞÖµ
+        constexpr double ZERO_DERIV_THRESHOLD = 1e-12; // é›¶åˆ¤æ–­é˜ˆå€¼
 
         auto loop_func = [&func](double x0, double x1) -> double
         {

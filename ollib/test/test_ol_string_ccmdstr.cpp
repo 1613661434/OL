@@ -1,6 +1,6 @@
 /*
- *  ³ÌĞòÃû£ºtest_ol_string_ccmdstr.cpp£¬´Ë³ÌĞòÑİÊ¾¿ª·¢¿ò¼Ü²ğ·Ö×Ö·û´®ccmdstrÀàµÄÊ¹ÓÃ¡£
- *  ×÷Õß£ºol
+ *  ç¨‹åºåï¼štest_ol_string_ccmdstr.cppï¼Œæ­¤ç¨‹åºæ¼”ç¤ºå¼€å‘æ¡†æ¶æ‹†åˆ†å­—ç¬¦ä¸²ccmdstrç±»çš„ä½¿ç”¨ã€‚
+ *  ä½œè€…ï¼šol
  */
 #include "ol_string.h"
 #include <iostream>
@@ -9,48 +9,48 @@
 using namespace ol;
 using namespace std;
 
-// ÓÃÓÚ´æ·Å×ãÇòÔË¶¯Ô±×ÊÁÏµÄ½á¹¹Ìå¡£
+// ç”¨äºå­˜æ”¾è¶³çƒè¿åŠ¨å‘˜èµ„æ–™çš„ç»“æ„ä½“ã€‚
 struct st_player
 {
-    char name[51]; // ĞÕÃû
-    char no[6];    // ÇòÒÂºÅÂë
-    bool striker;  // ³¡ÉÏÎ»ÖÃÊÇ·ñÊÇÇ°·æ£¬true-ÊÇ£»false-²»ÊÇ¡£
-    int age;       // ÄêÁä
-    double weight; // ÌåÖØ£¬kg¡£
-    long sal;      // ÄêĞ½£¬Å·Ôª¡£
-    char club[51]; // Ğ§Á¦µÄ¾ãÀÖ²¿
+    char name[51]; // å§“å
+    char no[6];    // çƒè¡£å·ç 
+    bool striker;  // åœºä¸Šä½ç½®æ˜¯å¦æ˜¯å‰é”‹ï¼Œtrue-æ˜¯ï¼›false-ä¸æ˜¯ã€‚
+    int age;       // å¹´é¾„
+    double weight; // ä½“é‡ï¼Œkgã€‚
+    long sal;      // å¹´è–ªï¼Œæ¬§å…ƒã€‚
+    char club[51]; // æ•ˆåŠ›çš„ä¿±ä¹éƒ¨
 } stplayer;
 
 int main()
 {
     memset(&stplayer, 0, sizeof(struct st_player));
 
-    string buffer = "messi~!~10~!~true~!~a30~!~68.5~!~2100000~!~Barc,elona"; // Ã·Î÷µÄ×ÊÁÏ¡£
+    string buffer = "messi~!~10~!~true~!~a30~!~68.5~!~2100000~!~Barc,elona"; // æ¢…è¥¿çš„èµ„æ–™ã€‚
 
-    // ccmdstr cmdstr;                               // ¶¨Òå²ğ·Ö×Ö·û´®µÄ¶ÔÏó¡£
-    // cmdstr.splittocmd(buffer,"~!~");           // ²ğ·Öbuffer¡£
-    ccmdstr cmdstr(buffer, "~!~"); // ¶¨Òå²ğ·Ö×Ö·û´®µÄ¶ÔÏó²¢²ğ·Ö×Ö·û´®¡£
+    // ccmdstr cmdstr;                               // å®šä¹‰æ‹†åˆ†å­—ç¬¦ä¸²çš„å¯¹è±¡ã€‚
+    // cmdstr.splittocmd(buffer,"~!~");           // æ‹†åˆ†bufferã€‚
+    ccmdstr cmdstr(buffer, "~!~"); // å®šä¹‰æ‹†åˆ†å­—ç¬¦ä¸²çš„å¯¹è±¡å¹¶æ‹†åˆ†å­—ç¬¦ä¸²ã€‚
 
-    // Ïñ·ÃÎÊÊı×éÒ»Ñù·ÃÎÊ²ğ·ÖºóµÄÔªËØ¡£
+    // åƒè®¿é—®æ•°ç»„ä¸€æ ·è®¿é—®æ‹†åˆ†åçš„å…ƒç´ ã€‚
     for (size_t ii = 0; ii < cmdstr.size(); ++ii)
     {
         cout << "cmdstr[" << ii << "]=" << cmdstr[ii] << endl;
     }
 
-    // Êä³ö²ğ·ÖºóµÄÔªËØ£¬Ò»°ãÓÃÓÚµ÷ÊÔ¡£
+    // è¾“å‡ºæ‹†åˆ†åçš„å…ƒç´ ï¼Œä¸€èˆ¬ç”¨äºè°ƒè¯•ã€‚
     cout << cmdstr;
 
-    // »ñÈ¡²ğ·ÖºóÔªËØµÄÄÚÈİ¡£
-    cmdstr.getvalue(0, stplayer.name, 50); // »ñÈ¡ĞÕÃû
-    cmdstr.getvalue(1, stplayer.no, 5);    // »ñÈ¡ÇòÒÂºÅÂë
-    cmdstr.getvalue(2, stplayer.striker);  // ³¡ÉÏÎ»ÖÃ
-    cmdstr.getvalue(3, stplayer.age);      // »ñÈ¡ÄêÁä
-    cmdstr.getvalue(4, stplayer.weight);   // »ñÈ¡ÌåÖØ
-    cmdstr.getvalue(5, stplayer.sal);      // »ñÈ¡ÄêĞ½£¬Å·Ôª¡£
-    cmdstr.getvalue(6, stplayer.club, 50); // »ñÈ¡Ğ§Á¦µÄ¾ãÀÖ²¿
+    // è·å–æ‹†åˆ†åå…ƒç´ çš„å†…å®¹ã€‚
+    cmdstr.getvalue(0, stplayer.name, 50); // è·å–å§“å
+    cmdstr.getvalue(1, stplayer.no, 5);    // è·å–çƒè¡£å·ç 
+    cmdstr.getvalue(2, stplayer.striker);  // åœºä¸Šä½ç½®
+    cmdstr.getvalue(3, stplayer.age);      // è·å–å¹´é¾„
+    cmdstr.getvalue(4, stplayer.weight);   // è·å–ä½“é‡
+    cmdstr.getvalue(5, stplayer.sal);      // è·å–å¹´è–ªï¼Œæ¬§å…ƒã€‚
+    cmdstr.getvalue(6, stplayer.club, 50); // è·å–æ•ˆåŠ›çš„ä¿±ä¹éƒ¨
 
     printf("name=%s,no=%s,striker=%d,age=%d,weight=%.1f,sal=%ld,club=%s\n",
            stplayer.name, stplayer.no, stplayer.striker, stplayer.age,
            stplayer.weight, stplayer.sal, stplayer.club);
-    // Êä³ö½á¹û:name=messi,no=10,striker=1,age=30,weight=68.5,sal=21000000,club=Barcelona
+    // è¾“å‡ºç»“æœ:name=messi,no=10,striker=1,age=30,weight=68.5,sal=21000000,club=Barcelona
 }

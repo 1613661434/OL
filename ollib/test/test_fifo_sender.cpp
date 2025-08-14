@@ -1,5 +1,5 @@
 /*
- * 程序名：fifo_sender.cpp，命名管道的发送端
+ * 程序名：test_fifo_sender.cpp，命名管道的发送端
  * 作者：ol
  * 功能：创建命名管道并向其写入数据
  */

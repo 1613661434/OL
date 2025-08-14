@@ -1,6 +1,6 @@
 /*
- *  ³ÌĞòÃû£ºtest_ol_string_tolower&toupper.cpp£¬´Ë³ÌĞòÑİÊ¾¿ª·¢¿ò¼ÜÖĞ×Ö·û´®´óĞ¡Ğ´×ª»»º¯ÊıµÄÊ¹ÓÃ¡£
- *  ×÷Õß£ºol
+ *  ç¨‹åºåï¼štest_ol_string_tolower&toupper.cppï¼Œæ­¤ç¨‹åºæ¼”ç¤ºå¼€å‘æ¡†æ¶ä¸­å­—ç¬¦ä¸²å¤§å°å†™è½¬æ¢å‡½æ•°çš„ä½¿ç”¨ã€‚
+ *  ä½œè€…ï¼šol
  */
 #include "ol_string.h"
 #include <iostream>
@@ -16,23 +16,23 @@ using namespace std;
 
 int main()
 {
-    char str1[31]; // C·ç¸ñµÄ×Ö·û´®¡£
+    char str1[31]; // Cé£æ ¼çš„å­—ç¬¦ä¸²ã€‚
 
-    strcpy(str1, "12abz45ABz8Î÷Ê©¡£");
-    toupper(str1);              // °Ñstr1ÖĞµÄĞ¡Ğ´×ÖÄ¸×ª»»Îª´óĞ´¡£
-    printf("str1=%s=\n", str1); // ³öÊä½á¹ûÊÇstr1=12ABZ45ABZ8Î÷Ê©¡£=
+    strcpy(str1, "12abz45ABz8è¥¿æ–½ã€‚");
+    toupper(str1);              // æŠŠstr1ä¸­çš„å°å†™å­—æ¯è½¬æ¢ä¸ºå¤§å†™ã€‚
+    printf("str1=%s=\n", str1); // å‡ºè¾“ç»“æœæ˜¯str1=12ABZ45ABZ8è¥¿æ–½ã€‚=
 
-    strcpy(str1, "12abz45ABz8Î÷Ê©¡£");
-    tolower(str1);              // °Ñstr1ÖĞµÄ´óĞ´×ÖÄ¸×ª»»ÎªĞ¡Ğ´¡£
-    printf("str1=%s=\n", str1); // ³öÊä½á¹ûÊÇstr1=12abz45abz8Î÷Ê©¡£=
+    strcpy(str1, "12abz45ABz8è¥¿æ–½ã€‚");
+    tolower(str1);              // æŠŠstr1ä¸­çš„å¤§å†™å­—æ¯è½¬æ¢ä¸ºå°å†™ã€‚
+    printf("str1=%s=\n", str1); // å‡ºè¾“ç»“æœæ˜¯str1=12abz45abz8è¥¿æ–½ã€‚=
 
-    string str2; // C++·ç¸ñµÄ×Ö·û´®¡£
+    string str2; // C++é£æ ¼çš„å­—ç¬¦ä¸²ã€‚
 
-    str2 = "12abz45ABz8Î÷Ê©¡£";
-    toupper(str2);                    // °Ñstr2ÖĞµÄĞ¡Ğ´×ÖÄ¸×ª»»Îª´óĞ´¡£
-    cout << "str2=" << str2 << "=\n"; // ³öÊä½á¹ûÊÇstr2=12ABZ45ABZ8Î÷Ê©¡£=
+    str2 = "12abz45ABz8è¥¿æ–½ã€‚";
+    toupper(str2);                    // æŠŠstr2ä¸­çš„å°å†™å­—æ¯è½¬æ¢ä¸ºå¤§å†™ã€‚
+    cout << "str2=" << str2 << "=\n"; // å‡ºè¾“ç»“æœæ˜¯str2=12ABZ45ABZ8è¥¿æ–½ã€‚=
 
-    str2 = "12abz45ABz8Î÷Ê©¡£";
-    tolower(str2);                    // °Ñstr2ÖĞµÄ´óĞ´×ÖÄ¸×ª»»ÎªĞ¡Ğ´¡£
-    cout << "str2=" << str2 << "=\n"; // ³öÊä½á¹ûÊÇstr1=12abz45abz8Î÷Ê©¡£=
+    str2 = "12abz45ABz8è¥¿æ–½ã€‚";
+    tolower(str2);                    // æŠŠstr2ä¸­çš„å¤§å†™å­—æ¯è½¬æ¢ä¸ºå°å†™ã€‚
+    cout << "str2=" << str2 << "=\n"; // å‡ºè¾“ç»“æœæ˜¯str1=12abz45abz8è¥¿æ–½ã€‚=
 }
