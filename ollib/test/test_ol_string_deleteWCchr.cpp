@@ -20,26 +20,26 @@ int main()
     string str2;   // C++风格的字符串。
 
     strcpy(str1, "  西施  ");
-    deletelchr(str1, ' ');      // 删除str1左边的空格
+    deleteLchr(str1, ' ');      // 删除str1左边的空格
     printf("str1=%s=\n", str1); // 出输结果是str1=西施  =
 
     str2 = "  西施  ";
-    deletelchr(str2, ' ');
+    deleteLchr(str2, ' ');
     cout << "str2=" << str2 << "=\n";
 
     strcpy(str1, "  西施  ");
-    deleterchr(str1, ' ');      // 删除str1右边的空格
+    deleteRchr(str1, ' ');      // 删除str1右边的空格
     printf("str1=%s=\n", str1); // 出输结果是str1=  西施=
 
     str2 = "  西施  ";
-    deleterchr(str2, ' ');
+    deleteRchr(str2, ' ');
     cout << "str2=" << str2 << "=\n";
 
     strcpy(str1, "  西施  ");
-    deletelrchr(str1, ' ');     // 删除str1两边的空格
+    deleteLRchr(str1, ' ');     // 删除str1两边的空格
     printf("str1=%s=\n", str1); // 出输结果是str1=西施=
 
     str2 = "  西施  ";
-    deletelrchr(str2, ' ');
+    deleteLRchr(str2, ' ');
     cout << "str2=" << str2 << "=\n";
 }

@@ -31,8 +31,8 @@ namespace ol
      * @param c 要删除的字符（默认空格' '）
      * @return 修改后的字符串（C字符串返回指针，std::string返回引用）
      */
-    char* deletelchr(char* str, const char c = ' ');               // C字符串版本
-    std::string& deletelchr(std::string& str, const char c = ' '); // std::string版本
+    char* deleteLchr(char* str, const char c = ' ');               // C字符串版本
+    std::string& deleteLchr(std::string& str, const char c = ' '); // std::string版本
 
     /**
      * 删除字符串右边指定字符
@@ -40,8 +40,8 @@ namespace ol
      * @param c 要删除的字符（默认空格' '）
      * @return 修改后的字符串（C字符串返回指针，std::string返回引用）
      */
-    char* deleterchr(char* str, const char c = ' ');               // C字符串版本
-    std::string& deleterchr(std::string& str, const char c = ' '); // std::string版本
+    char* deleteRchr(char* str, const char c = ' ');               // C字符串版本
+    std::string& deleteRchr(std::string& str, const char c = ' '); // std::string版本
 
     /**
      * 删除字符串左右两边指定字符
@@ -49,8 +49,8 @@ namespace ol
      * @param c 要删除的字符（默认空格' '）
      * @return 修改后的字符串（C字符串返回指针，std::string返回引用）
      */
-    char* deletelrchr(char* str, const char c = ' ');               // C字符串版本
-    std::string& deletelrchr(std::string& str, const char c = ' '); // std::string版本
+    char* deleteLRchr(char* str, const char c = ' ');               // C字符串版本
+    std::string& deleteLRchr(std::string& str, const char c = ' '); // std::string版本
 
     /**
      * 将字符串中的小写字母转换为大写（非字母字符不变）
@@ -150,7 +150,7 @@ namespace ol
          * @param bdelspace 是否删除字段前后空格（默认false）
          * @note 空字段会被保留（如",test"拆分为["", "test"]）
          */
-        void splittocmd(const std::string& buffer, const std::string& sepstr, const bool bdelspace = false);
+        void split(const std::string& buffer, const std::string& sepstr, const bool bdelspace = false);
 
         /**
          * 获取拆分后的字段数量
@@ -202,15 +202,15 @@ namespace ol
      * @note 当value为char[]时，需保证数组内存充足，避免溢出
      * @example <filename>/tmp/_public.h</filename><mtime>2020-01-01 12:20:35</mtime><size>18348</size>
      */
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, std::string& value, const size_t len = 0); // 提取为std::string
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, char* value, const size_t len = 0);        // 提取为C字符串（自动添加'\0'）
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, bool& value);                              // 转换为bool
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, int& value);                               // 转换为int
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, unsigned int& value);                      // 转换为unsigned int
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, long& value);                              // 转换为long
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, unsigned long& value);                     // 转换为unsigned long
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, double& value);                            // 转换为double
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, float& value);                             // 转换为float
+    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, std::string& value, const size_t len = 0); // 提取为std::string
+    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, char* value, const size_t len = 0);        // 提取为C字符串（自动添加'\0'）
+    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, bool& value);                              // 转换为bool
+    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, int& value);                               // 转换为int
+    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, unsigned int& value);                      // 转换为unsigned int
+    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, long& value);                              // 转换为long
+    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, unsigned long& value);                     // 转换为unsigned long
+    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, double& value);                            // 转换为double
+    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, float& value);                             // 转换为float
     // ===========================================================================
 
     // ===========================================================================

@@ -5,7 +5,7 @@
 namespace ol
 {
 
-    char* deletelchr(char* str, const char c)
+    char* deleteLchr(char* str, const char c)
     {
         if (str == nullptr) return nullptr; // 如果传进来的是空地址，直接返回，防止程序崩溃。
 
@@ -17,7 +17,7 @@ namespace ol
         return str;
     }
 
-    std::string& deletelchr(std::string& str, const char c)
+    std::string& deleteLchr(std::string& str, const char c)
     {
         auto pos = str.find_first_not_of(c); // 从字符串的左边查找第一个不是c的字符的位置。
 
@@ -26,7 +26,7 @@ namespace ol
         return str;
     }
 
-    char* deleterchr(char* str, const char c)
+    char* deleteRchr(char* str, const char c)
     {
         if (str == nullptr) return nullptr; // 如果传进来的是空地址，直接返回，防止程序崩溃。
 
@@ -45,7 +45,7 @@ namespace ol
         return str;
     }
 
-    std::string& deleterchr(std::string& str, const char c)
+    std::string& deleteRchr(std::string& str, const char c)
     {
         auto pos = str.find_last_not_of(c); // 从字符串的右边查找第一个不是c的字符的位置。
 
@@ -54,18 +54,18 @@ namespace ol
         return str;
     }
 
-    char* deletelrchr(char* str, const char c)
+    char* deleteLRchr(char* str, const char c)
     {
-        deletelchr(str, c);
-        deleterchr(str, c);
+        deleteLchr(str, c);
+        deleteRchr(str, c);
 
         return str;
     }
 
-    std::string& deletelrchr(std::string& str, const char c)
+    std::string& deleteLRchr(std::string& str, const char c)
     {
-        deletelchr(str, c);
-        deleterchr(str, c);
+        deleteLchr(str, c);
+        deleteRchr(str, c);
 
         return str;
     }
@@ -226,7 +226,7 @@ namespace ol
         toupper(filename);
         toupper(matchstr);
 
-        cmdstr.splittocmd(matchstr, ",");
+        cmdstr.split(matchstr, ",");
 
         for (size_t i = 0, cmdstr_size = cmdstr.size(); i < cmdstr_size; ++i)
         {
@@ -234,7 +234,7 @@ namespace ol
             if (cmdstr[i].empty() == true) continue;
 
             pos1 = pos2 = 0;
-            cmdsubstr.splittocmd(cmdstr[i], "*");
+            cmdsubstr.split(cmdstr[i], "*");
 
             size_t j, cmdsubstr_size = cmdsubstr.size();
             for (j = 0; j < cmdsubstr_size; ++j)
@@ -262,14 +262,14 @@ namespace ol
 
     ccmdstr::ccmdstr(const std::string& buffer, const std::string& sepstr, const bool bdelspace)
     {
-        splittocmd(buffer, sepstr, bdelspace);
+        split(buffer, sepstr, bdelspace);
     }
 
     // 把字符串拆分到m_cmdstr容器中。
     // buffer：待拆分的字符串。
     // sepstr：buffer字符串中字段内容的分隔符，注意，分隔符是字符串，如","、" "、"|"、"~!~"。
     // bdelspace：是否删除拆分后的字段内容前后的空格，true-删除；false-不删除，缺省不删除。
-    void ccmdstr::splittocmd(const std::string& buffer, const std::string& sepstr, const bool bdelspace)
+    void ccmdstr::split(const std::string& buffer, const std::string& sepstr, const bool bdelspace)
     {
         // 清除所有的旧数据
         m_cmdstr.clear();
@@ -281,7 +281,7 @@ namespace ol
         if (sepstr.empty())
         {
             std::string temp = buffer;        // 复制原始字符串
-            if (bdelspace) deletelrchr(temp); // 如需去空格则处理
+            if (bdelspace) deleteLRchr(temp); // 如需去空格则处理
             m_cmdstr.push_back(std::move(temp));
             return;
         }
@@ -298,7 +298,7 @@ namespace ol
         {
             substr = buffer.substr(pos, next - pos); // 从buffer中截取子串。
 
-            if (bdelspace == true) deletelrchr(substr); // 删除子串前后的空格。
+            if (bdelspace == true) deleteLRchr(substr); // 删除子串前后的空格。
 
             m_cmdstr.push_back(std::move(substr)); // 把子串放入m_cmdstr容器中，调用std::string类的移动构造函数。
 
@@ -308,7 +308,7 @@ namespace ol
         // 处理最后一个字段（最后一个分隔符之后的内容）。
         substr = buffer.substr(pos);
 
-        if (bdelspace == true) deletelrchr(substr);
+        if (bdelspace == true) deleteLRchr(substr);
 
         m_cmdstr.push_back(std::move(substr));
     }
@@ -468,7 +468,7 @@ namespace ol
         return out;
     }
 
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, std::string& value, const size_t len)
+    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, std::string& value, const size_t len)
     {
         std::string start = "<" + fieldname + ">"; // 数据项开始的标签。
         std::string end = "</" + fieldname + ">";  // 数据项结束的标签。
@@ -487,14 +487,14 @@ namespace ol
         return true;
     }
 
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, char* value, const size_t len)
+    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, char* value, const size_t len)
     {
         if (value == nullptr) return false;
 
         if (len > 0) memset(value, 0, len + 1); // 调用者必须保证value的空间足够，否则这里会内存溢出。
 
         std::string str;
-        getxmlbuffer(xmlbuffer, fieldname, str);
+        getByXml(xmlbuffer, fieldname, str);
 
         if ((str.length() <= len) || (len == 0))
         {
@@ -510,10 +510,10 @@ namespace ol
         return true;
     }
 
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, bool& value)
+    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, bool& value)
     {
         std::string str;
-        if (getxmlbuffer(xmlbuffer, fieldname, str) == false) return false;
+        if (getByXml(xmlbuffer, fieldname, str) == false) return false;
 
         toupper(str); // 转换为大写来判断（也可以转换为小写，效果相同）。
 
@@ -525,11 +525,11 @@ namespace ol
         return true;
     }
 
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, int& value)
+    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, int& value)
     {
         std::string str;
 
-        if (getxmlbuffer(xmlbuffer, fieldname, str) == false) return false;
+        if (getByXml(xmlbuffer, fieldname, str) == false) return false;
 
         try
         {
@@ -543,11 +543,11 @@ namespace ol
         return true;
     }
 
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, unsigned int& value)
+    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, unsigned int& value)
     {
         std::string str;
 
-        if (getxmlbuffer(xmlbuffer, fieldname, str) == false) return false;
+        if (getByXml(xmlbuffer, fieldname, str) == false) return false;
 
         try
         {
@@ -561,11 +561,11 @@ namespace ol
         return true;
     }
 
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, long& value)
+    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, long& value)
     {
         std::string str;
 
-        if (getxmlbuffer(xmlbuffer, fieldname, str) == false) return false;
+        if (getByXml(xmlbuffer, fieldname, str) == false) return false;
 
         try
         {
@@ -579,11 +579,11 @@ namespace ol
         return true;
     }
 
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, unsigned long& value)
+    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, unsigned long& value)
     {
         std::string str;
 
-        if (getxmlbuffer(xmlbuffer, fieldname, str) == false) return false;
+        if (getByXml(xmlbuffer, fieldname, str) == false) return false;
 
         try
         {
@@ -597,11 +597,11 @@ namespace ol
         return true;
     }
 
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, double& value)
+    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, double& value)
     {
         std::string str;
 
-        if (getxmlbuffer(xmlbuffer, fieldname, str) == false) return false;
+        if (getByXml(xmlbuffer, fieldname, str) == false) return false;
 
         try
         {
@@ -615,11 +615,11 @@ namespace ol
         return true;
     }
 
-    bool getxmlbuffer(const std::string& xmlbuffer, const std::string& fieldname, float& value)
+    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, float& value)
     {
         std::string str;
 
-        if (getxmlbuffer(xmlbuffer, fieldname, str) == false) return false;
+        if (getByXml(xmlbuffer, fieldname, str) == false) return false;
 
         try
         {

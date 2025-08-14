@@ -7,7 +7,7 @@ using namespace std;
 int main()
 {
     ccmdstr cstr;
-    cstr.splittocmd("asdasd,asd213,43435123,32432", ",");
+    cstr.split("asdasd,asd213,43435123,32432", ",");
     cout << cstr;
 
     return 0;

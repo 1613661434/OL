@@ -1,5 +1,5 @@
 /*
- *  程序名：test_ol_getxmlbuffer.cpp，此程序演示调用开发框架的getxmlbuffer函数解析xml字符串。
+ *  程序名：test_ol_getByXml.cpp，此程序演示调用开发框架的getByXml函数解析xml字符串。
  *  作者：ol
  */
 #include "ol_string.h"
@@ -25,24 +25,24 @@ int main()
         char club[51]; // 效力的俱乐部
     } stplayer;
 
-    getxmlbuffer(buffer, "name", stplayer.name);
+    getByXml(buffer, "name", stplayer.name);
     cout << "name=" << stplayer.name << endl;
 
-    getxmlbuffer(buffer, "no", stplayer.no, 5);
+    getByXml(buffer, "no", stplayer.no, 5);
     cout << "no=" << stplayer.no << endl;
 
-    getxmlbuffer(buffer, "striker", stplayer.striker);
+    getByXml(buffer, "striker", stplayer.striker);
     cout << "striker=" << stplayer.striker << endl;
 
-    getxmlbuffer(buffer, "age", stplayer.age);
+    getByXml(buffer, "age", stplayer.age);
     cout << "age=" << stplayer.age << endl;
 
-    getxmlbuffer(buffer, "weight", stplayer.weight);
+    getByXml(buffer, "weight", stplayer.weight);
     cout << "weight=" << stplayer.weight << endl;
 
-    getxmlbuffer(buffer, "sal", stplayer.sal);
+    getByXml(buffer, "sal", stplayer.sal);
     cout << "sal=" << stplayer.sal << endl;
 
-    getxmlbuffer(buffer, "club", stplayer.club, 50);
+    getByXml(buffer, "club", stplayer.club, 50);
     cout << "club=" << stplayer.club << endl;
 }
