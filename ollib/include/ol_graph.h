@@ -24,7 +24,7 @@
 namespace ol
 {
     /**
-     * 边结构，根据图的配置动态调整是否包含权重
+     * @brief 边结构，根据图的配置动态调整是否包含权重
      * 模板参数：
      * @param NodeType 节点数据类型
      * @param IsWeighted 是否包含权重（由外部图类控制）
@@ -52,7 +52,7 @@ namespace ol
     };
 
     /**
-     * 通用图模板类，支持有向/无向、有权/无权配置
+     * @brief 通用图模板类，支持有向/无向、有权/无权配置
      * 模板参数：
      * @param IsDirected 是否为有向图（默认 false）
      * @param IsWeighted 是否为有权图（默认 false）
@@ -76,7 +76,7 @@ namespace ol
         }
 
         /**
-         * 添加节点（若节点已存在则不操作）
+         * @brief 添加节点（若节点已存在则不操作）
          * @param node 要添加的节点
          */
         void addNode(NodeType node)
@@ -89,7 +89,7 @@ namespace ol
         }
 
         /**
-         * 添加一条边（支持有权/无权、有向/无向图的适配）
+         * @brief 添加一条边（支持有权/无权、有向/无向图的适配）
          * @param from 边的起点节点
          * @param to 边的终点节点
          * @param args 可变参数，仅有权图（IsWeighted=true）时需要传入权重值（类型为WeightType）
@@ -128,7 +128,7 @@ namespace ol
         }
 
         /**
-         * 删除指定边（无向图会同时删除反向边）
+         * @brief 删除指定边（无向图会同时删除反向边）
          * @param from 起点节点
          * @param to 终点节点
          * @note 若边不存在则不操作
@@ -168,7 +168,7 @@ namespace ol
         }
 
         /**
-         * 判断边是否存在
+         * @brief 判断边是否存在
          * @param from 起点节点
          * @param to 终点节点
          * @return 存在返回 true，否则返回 false（节点不存在时也返回 false）
@@ -186,7 +186,7 @@ namespace ol
         }
 
         /**
-         * 获取边的权重（仅适用于有权图）
+         * @brief 获取边的权重（仅适用于有权图）
          * @param from 起点节点
          * @param to 终点节点
          * @return 边的权重值
@@ -209,7 +209,7 @@ namespace ol
         }
 
         /**
-         * 获取节点的所有邻居边（包含目标节点及权重信息）
+         * @brief 获取节点的所有邻居边（包含目标节点及权重信息）
          * @param node 要查询的节点
          * @return 邻居边的常量引用（若节点不存在，返回空vector）
          * @note 每条边包含目标节点（to），有权图还包含权重（weight）
@@ -226,7 +226,7 @@ namespace ol
         }
 
         /**
-         * 获取图中节点的总数
+         * @brief 获取图中节点的总数
          * @return 节点数量（size_t类型，>=0）
          */
         size_t size() const
@@ -235,7 +235,7 @@ namespace ol
         }
 
         /**
-         * 打印图的邻接表结构（调试用）
+         * @brief 打印图的邻接表结构（调试用）
          * @note 输出格式为 "节点 -> 邻居1(权重) 邻居2(权重) ..."，无权图不显示权重
          */
         void print() const

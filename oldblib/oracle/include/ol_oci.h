@@ -107,7 +107,7 @@ namespace ol
         ~connection();
 
         /**
-         * 登录数据库
+         * @brief 登录数据库
          * @param connstr 连接字符串，格式："username/password@tnsname"
          * @param charset 客户端字符集（需与数据库一致，避免乱码）
          * @param autocommitopt 自动提交开关（默认false-关闭）
@@ -117,31 +117,31 @@ namespace ol
         int connecttodb(const std::string& connstr, const std::string& charset, bool autocommitopt = false);
 
         /**
-         * 判断数据库是否已连接
+         * @brief 判断数据库是否已连接
          * @return 已连接返回true，否则false
          */
         bool isopen();
 
         /**
-         * 提交事务
+         * @brief 提交事务
          * @return 0-成功，其他-失败（程序中一般不必关心返回值）
          */
         int commit();
 
         /**
-         * 回滚事务
+         * @brief 回滚事务
          * @return 0-成功，其他-失败（程序中一般不必关心返回值）
          */
         int rollback();
 
         /**
-         * 断开数据库连接（未提交事务自动回滚）
+         * @brief 断开数据库连接（未提交事务自动回滚）
          * @return 0-成功，其他-失败（程序中一般不必关心返回值）
          */
         int disconnect();
 
         /**
-         * 执行静态SQL语句（无绑定变量的非查询语句）
+         * @brief 执行静态SQL语句（无绑定变量的非查询语句）
          * @param fmt 格式化SQL字符串（支持可变参数，同printf）
          * @return 0-成功，其他-失败（失败的代码在m_cda.rc中，失败的描述在m_cda.message中）
          * @note 如果成功的执行了非查询语句，在m_cda.rpc中保存了本次执行SQL影响记录的行数。
@@ -151,7 +151,7 @@ namespace ol
         int execute(const char* fmt, ...);
 
         /**
-         * 获取错误代码
+         * @brief 获取错误代码
          * @return 0-成功，其它值-失败
          */
         int rc()
@@ -160,7 +160,7 @@ namespace ol
         }
 
         /**
-         * 获取影响数据的行数
+         * @brief 获取影响数据的行数
          * @return 对于insert/update/delete返回影响记录数，对于select返回结果集行数
          */
         unsigned long rpc()
@@ -169,7 +169,7 @@ namespace ol
         }
 
         /**
-         * 获取错误描述信息
+         * @brief 获取错误描述信息
          * @return 错误描述字符串（失败时有效，成功时为空）
          */
         const char* message()
@@ -220,7 +220,7 @@ namespace ol
         ~sqlstatement();
 
         /**
-         * 关联数据库连接
+         * @brief 关联数据库连接
          * @param conn 数据库连接对象指针
          * @return 0-成功，其他-失败（只要conn参数是有效的，并且数据库的游标资源足够，connect方法不会返回失败）
          * @note 程序中一般不必关心connect方法的返回值
@@ -229,19 +229,19 @@ namespace ol
         int connect(connection* conn);
 
         /**
-         * 判断是否已关联数据库连接
+         * @brief 判断是否已关联数据库连接
          * @return 已关联返回true，否则false
          */
         bool isopen();
 
         /**
-         * 解除与数据库连接的关联
+         * @brief 解除与数据库连接的关联
          * @return 0-成功，其他-失败（程序中一般不必关心返回值）
          */
         int disconnect();
 
         /**
-         * 准备SQL语句（支持格式化字符串）
+         * @brief 准备SQL语句（支持格式化字符串）
          * @param strsql SQL字符串
          * @return 0-成功，其他-失败（程序中一般不必关心返回值）
          * @note 如果SQL语句没有改变，只需要prepare一次就可以了
@@ -252,7 +252,7 @@ namespace ol
         }
 
         /**
-         * 准备SQL语句（支持可变参数，同printf）
+         * @brief 准备SQL语句（支持可变参数，同printf）
          * @param fmt 格式化SQL字符串
          * @return 0-成功，其他-失败（程序中一般不必关心返回值）
          * @note 如果SQL语句没有改变，只需要prepare一次就可以了
@@ -260,7 +260,7 @@ namespace ol
         int prepare(const char* fmt, ...);
 
         /**
-         * 绑定输入变量（将SQL中的占位符与变量关联）
+         * @brief 绑定输入变量（将SQL中的占位符与变量关联）
          * @param position 占位符位置（从1开始，必须与prepare方法中的SQL的序号一一对应）
          * @param value 输入变量地址（如果是字符串，内存大小应该是表对应的字段长度加1）
          * @param len 字符串类型的长度（不含终止符，默认2000）
@@ -281,7 +281,7 @@ namespace ol
         int bindin1(const unsigned int position, std::string& value);                         // 绑定std::string（不分配内存）
 
         /**
-         * 绑定输出变量（将查询结果字段与变量关联）
+         * @brief 绑定输出变量（将查询结果字段与变量关联）
          * @param position 结果集字段位置（从1开始，与SQL的结果集一一对应）
          * @param value 输出变量地址（如果是字符串，内存大小应该是表对应的字段长度加1）
          * @param len 字符串类型的最大长度（不含终止符，默认2000）
@@ -301,7 +301,7 @@ namespace ol
         int bindout(const unsigned int position, std::string& value, unsigned int len = 2000); // 绑定std::string类型
 
         /**
-         * 执行已准备的（静态或动态）SQL语句
+         * @brief 执行已准备的（静态或动态）SQL语句
          * @return 0-成功，其他-失败（失败的代码在m_cda.rc中，失败的描述在m_cda.message中）
          * @note 如果成功的执行了非查询语句，在m_cda.rpc中保存了本次执行SQL影响记录的行数。
          *       程序中必须检查execute方法的返回值。
@@ -309,7 +309,7 @@ namespace ol
         int execute();
 
         /**
-         * 直接执行静态SQL语句（无绑定变量，非查询语句）
+         * @brief 直接执行静态SQL语句（无绑定变量，非查询语句）
          * @param fmt 格式化SQL字符串（支持可变参数，同printf）
          * @return 0-成功，其他-失败（失败的代码在m_cda.rc中，失败的描述在m_cda.message中）
          * @note 如果成功的执行了非查询语句，在m_cda.rpc中保存了本次执行SQL影响记录的行数。
@@ -318,7 +318,7 @@ namespace ol
         int execute(const char* fmt, ...);
 
         /**
-         * 从结果集中获取下一条记录（仅查询语句有效）
+         * @brief 从结果集中获取下一条记录（仅查询语句有效）
          * @return 0-成功，1403-无更多记录，其他-失败（失败的代码在m_cda.rc中，失败的描述在m_cda.message中）
          * @note 返回失败的原因主要有两个：1）与数据库的连接已断开；2）绑定输出变量的内存太小。
          *       每执行一次next方法，m_cda.rpc的值加1。
@@ -327,33 +327,33 @@ namespace ol
         int next();
 
         /**
-         * 绑定BLOB字段（用于插入/读取二进制大对象）
+         * @brief 绑定BLOB字段（用于插入/读取二进制大对象）
          * @return 0-成功，其他-失败（程序中一般不必关心返回值）
          */
         int bindblob();
 
         /**
-         * 绑定CLOB字段（用于插入/读取字符大对象）
+         * @brief 绑定CLOB字段（用于插入/读取字符大对象）
          * @return 0-成功，其他-失败（程序中一般不必关心返回值）
          */
         int bindclob();
 
         /**
-         * 将文件内容导入到LOB字段
+         * @brief 将文件内容导入到LOB字段
          * @param filename 待导入文件的路径（建议绝对路径）
          * @return 0-成功，其他-失败（程序中一般不必关心返回值）
          */
         int filetolob(const std::string& filename);
 
         /**
-         * 将LOB字段内容导出到文件
+         * @brief 将LOB字段内容导出到文件
          * @param filename 导出文件的路径（建议绝对路径）
          * @return 0-成功，其他-失败（程序中一般不必关心返回值）
          */
         int lobtofile(const std::string& filename);
 
         /**
-         * 获取SQL语句的文本
+         * @brief 获取SQL语句的文本
          * @return SQL语句字符串的常量指针
          */
         const char* sql()
@@ -362,7 +362,7 @@ namespace ol
         }
 
         /**
-         * 获取错误代码（Return Code）
+         * @brief 获取错误代码（Return Code）
          * @return 0-成功，其它值-失败
          */
         int rc()
@@ -371,7 +371,7 @@ namespace ol
         }
 
         /**
-         * 获取影响数据的行数（Rows Processed Count）
+         * @brief 获取影响数据的行数（Rows Processed Count）
          * @return 对于insert/update/delete返回影响记录数，对于select返回结果集行数
          */
         unsigned long rpc()
@@ -380,7 +380,7 @@ namespace ol
         }
 
         /**
-         * 获取错误描述信息
+         * @brief 获取错误描述信息
          * @return 错误描述字符串（失败时有效）
          */
         const char* message()

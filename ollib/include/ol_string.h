@@ -26,7 +26,7 @@ namespace ol
 
     // ===========================================================================
     /**
-     * 删除字符串左边指定字符
+     * @brief 删除字符串左边指定字符
      * @param str 待处理的字符串（C字符串会被直接修改，std::string为引用）
      * @param c 要删除的字符（默认空格' '）
      * @return 修改后的字符串（C字符串返回指针，std::string返回引用）
@@ -35,7 +35,7 @@ namespace ol
     std::string& deleteLchr(std::string& str, const char c = ' '); // std::string版本
 
     /**
-     * 删除字符串右边指定字符
+     * @brief 删除字符串右边指定字符
      * @param str 待处理的字符串（C字符串会被直接修改，std::string为引用）
      * @param c 要删除的字符（默认空格' '）
      * @return 修改后的字符串（C字符串返回指针，std::string返回引用）
@@ -44,7 +44,7 @@ namespace ol
     std::string& deleteRchr(std::string& str, const char c = ' '); // std::string版本
 
     /**
-     * 删除字符串左右两边指定字符
+     * @brief 删除字符串左右两边指定字符
      * @param str 待处理的字符串（C字符串会被直接修改，std::string为引用）
      * @param c 要删除的字符（默认空格' '）
      * @return 修改后的字符串（C字符串返回指针，std::string返回引用）
@@ -53,7 +53,7 @@ namespace ol
     std::string& deleteLRchr(std::string& str, const char c = ' '); // std::string版本
 
     /**
-     * 将字符串中的小写字母转换为大写（非字母字符不变）
+     * @brief 将字符串中的小写字母转换为大写（非字母字符不变）
      * @param str 待转换的字符串（C字符串会被直接修改，std::string为引用）
      * @return 修改后的字符串（C字符串返回指针，std::string返回引用）
      */
@@ -61,7 +61,7 @@ namespace ol
     std::string& toupper(std::string& str); // std::string版本
 
     /**
-     * 将字符串中的大写字母转换为小写（非字母字符不变）
+     * @brief 将字符串中的大写字母转换为小写（非字母字符不变）
      * @param str 待转换的字符串（C字符串会被直接修改，std::string为引用）
      * @return 修改后的字符串（C字符串返回指针，std::string返回引用）
      */
@@ -69,7 +69,7 @@ namespace ol
     std::string& tolower(std::string& str); // std::string版本
 
     /**
-     * 字符串替换
+     * @brief 字符串替换
      * @param str 待处理的字符串（C字符串会被直接修改，std::string为引用）
      * @param str1 要替换的旧子串
      * @param str2 替换的新子串
@@ -83,7 +83,7 @@ namespace ol
     bool replacestr(std::string& str, const std::string& str1, const std::string& str2, const bool bloop = false); // std::string版本
 
     /**
-     * 从字符串中提取数字相关字符
+     * @brief 从字符串中提取数字相关字符
      * @param src 源字符串
      * @param dest 存储结果的目标变量（C字符串/ std::string引用，仅前两个版本需要）
      * @param bsigned 是否提取符号（+/-，默认false）
@@ -96,7 +96,7 @@ namespace ol
     std::string picknumber(const std::string& src, const bool bsigned = false, const bool bdot = false);                     // 返回新字符串版本
 
     /**
-     * 正则匹配字符串（支持通配符*，匹配多个任意字符）
+     * @brief 正则匹配字符串（支持通配符*，匹配多个任意字符）
      * @param str 待匹配的字符串（精确内容）
      * @param rules 匹配规则（用*表示多个任意字符，多规则用半角的逗号分隔，如"*.h,*.cpp"）
      * @return true-匹配成功，false-匹配失败
@@ -125,7 +125,7 @@ namespace ol
         }
 
         /**
-         * 带参构造函数，直接拆分字符串
+         * @brief 带参构造函数，直接拆分字符串
          * @param buffer 待拆分的字符串
          * @param sepstr 分隔符（支持多字符，如",,"、" | "）
          * @param bdelspace 是否删除字段前后空格（默认false）
@@ -133,7 +133,7 @@ namespace ol
         ccmdstr(const std::string& buffer, const std::string& sepstr, const bool bdelspace = false);
 
         /**
-         * 重载[]运算符，访问拆分后的字段(m_cmdstr成员)
+         * @brief 重载[]运算符，访问拆分后的字段(m_cmdstr成员)
          * @param i 字段索引（从0开始）
          * @return 字段内容的常量引用
          * @note 索引越界会抛出异常
@@ -144,7 +144,7 @@ namespace ol
         }
 
         /**
-         * 拆分字符串并存储到内部容器
+         * @brief 拆分字符串并存储到内部容器
          * @param buffer 待拆分的字符串
          * @param sepstr 分隔符（支持多字符，注意，sepstr参数的数据类型不是字符，是字符串，如","、" "、"|"、"~!~"）
          * @param bdelspace 是否删除字段前后空格（默认false）
@@ -153,7 +153,7 @@ namespace ol
         void split(const std::string& buffer, const std::string& sepstr, const bool bdelspace = false);
 
         /**
-         * 获取拆分后的字段数量
+         * @brief 获取拆分后的字段数量
          * @return 字段总数（m_cmdstr的大小）
          */
         size_t size() const
@@ -162,7 +162,7 @@ namespace ol
         }
 
         /**
-         * 从字段容器（m_cmdstr）中获取指定索引的字段内容并转换为目标类型
+         * @brief 从字段容器（m_cmdstr）中获取指定索引的字段内容并转换为目标类型
          * @param i 字段索引（从0开始）
          * @param value 存储结果的变量引用
          * @param len 仅字符串类型有效，指定截取长度（默认0表示不截取）
@@ -183,7 +183,7 @@ namespace ol
     };
 
     /**
-     * 重载<<运算符，输出ccmdstr的字段内容（调试用）
+     * @brief 重载<<运算符，输出ccmdstr的字段内容（调试用）
      * @param out 输出流
      * @param cmdstr ccmdstr对象
      * @return 输出流引用
@@ -193,7 +193,7 @@ namespace ol
 
     // ===========================================================================
     /**
-     * 解析XML格式字符串，提取指定标签的内容并转换为目标类型
+     * @brief 解析XML格式字符串，提取指定标签的内容并转换为目标类型
      * @param xmlbuffer 待解析的XML格式字符串（如"<tag>value</tag>..."）
      * @param fieldname 要提取的字段标签名（如"filename"对应<filename>标签）
      * @param value 存储结果的变量引用/指针
@@ -219,7 +219,7 @@ namespace ol
     namespace detail
     {
         /**
-         * 格式化参数辅助函数，自动将std::string转换为const char*
+         * @brief 格式化参数辅助函数，自动将std::string转换为const char*
          * @tparam T 参数类型
          * @param arg 待转换的参数
          * @return 转换后的参数（const char*或原类型）
@@ -239,7 +239,7 @@ namespace ol
     } // namespace detail
 
     /**
-     * 格式化输出函数（写入已有字符串）
+     * @brief 格式化输出函数（写入已有字符串）
      * @tparam Types 可变参数类型列表
      * @param str 存储结果的字符串引用
      * @param fmt 格式字符串（C风格）
@@ -266,7 +266,7 @@ namespace ol
     }
 
     /**
-     * 格式化输出函数（返回新字符串）
+     * @brief 格式化输出函数（返回新字符串）
      * @tparam Types 可变参数类型列表
      * @param fmt 格式字符串（C风格）
      * @param args 待格式化的参数
@@ -287,7 +287,7 @@ namespace ol
 
     // ===========================================================================
     /**
-     * KMP算法查找子串
+     * @brief KMP算法查找子串
      * @param str 主字符串
      * @param pattern 待查找的子串（模式串）
      * @return 子串在主串中首次出现的位置（从0开始），未找到返回std::string::npos

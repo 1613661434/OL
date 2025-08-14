@@ -55,7 +55,7 @@ namespace ol
     */
 
     /**
-     * 获取操作系统时间并格式化为字符串
+     * @brief 获取操作系统时间并格式化为字符串
      * @param strtime 用于存放结果的字符串引用
      * @param fmt 输出格式（默认"yyyy-mm-dd hh24:mi:ss"），支持格式见备注
      * @param timetvl 时间偏移量（秒），正数为未来，负数为过去，0为当前时间
@@ -65,7 +65,7 @@ namespace ol
     std::string& ltime(std::string& strtime, const std::string& fmt = "", const int timetvl = 0);
 
     /**
-     * 获取操作系统时间并格式化为C字符串
+     * @brief 获取操作系统时间并格式化为C字符串
      * @param strtime 用于存放结果的字符数组指针（需确保足够空间）
      * @param fmt 输出格式（默认"yyyy-mm-dd hh24:mi:ss"）
      * @param timetvl 时间偏移量（秒）
@@ -74,7 +74,7 @@ namespace ol
     char* ltime(char* strtime, const std::string& fmt = "", const int timetvl = 0);
 
     /**
-     * 获取操作系统时间并格式化为字符串（无参数重载，避免歧义）
+     * @brief 获取操作系统时间并格式化为字符串（无参数重载，避免歧义）
      * @param fmt 输出格式
      * @param timetvl 时间偏移量（秒）
      * @return 格式化后的时间字符串
@@ -84,7 +84,7 @@ namespace ol
 
     // ===========================================================================
     /**
-     * 将时间戳转换为指定格式的字符串
+     * @brief 将时间戳转换为指定格式的字符串
      * @param ttime 时间戳（time_t类型）
      * @param strtime 用于存放结果的字符串引用
      * @param fmt 输出格式（默认"yyyy-mm-dd hh24:mi:ss"）
@@ -94,7 +94,7 @@ namespace ol
     std::string& timetostr(const time_t ttime, std::string& strtime, const std::string& fmt = "");
 
     /**
-     * 将时间戳转换为指定格式的C字符串
+     * @brief 将时间戳转换为指定格式的C字符串
      * @param ttime 时间戳（time_t类型）
      * @param strtime 用于存放结果的字符数组指针
      * @param fmt 输出格式
@@ -104,7 +104,7 @@ namespace ol
     char* timetostr(const time_t ttime, char* strtime, const std::string& fmt = "");
 
     /**
-     * 将时间戳转换为指定格式的字符串（无参数重载，避免歧义）
+     * @brief 将时间戳转换为指定格式的字符串（无参数重载，避免歧义）
      * @param ttime 时间戳（time_t类型）
      * @param fmt 输出格式
      * @return 格式化后的时间字符串
@@ -112,7 +112,7 @@ namespace ol
     std::string timetostr1(const time_t ttime, const std::string& fmt = "");
 
     /**
-     * 将字符串转换为时间戳
+     * @brief 将字符串转换为时间戳
      * @param strtime 包含完整时间信息的字符串（需包含yyyymmddhh24miss）
      * @return 对应的时间戳，格式错误时返回-1
      */
@@ -121,7 +121,7 @@ namespace ol
 
     // ===========================================================================
     /**
-     * 对时间字符串进行偏移计算（C字符串版本）
+     * @brief 对时间字符串进行偏移计算（C字符串版本）
      * @param in_stime 输入时间字符串（格式不限，但一定要包括yyyymmddhh24miss，一个都不能少，顺序也不能变）
      * @param out_stime 输出偏移后的时间字符串
      * @param timetvl 偏移秒数（正数为未来，负数为过去）
@@ -132,7 +132,7 @@ namespace ol
     bool addtime(const std::string& in_stime, char* out_stime, const int timetvl, const std::string& fmt = "");
 
     /**
-     * 对时间字符串进行偏移计算（std::string版本）
+     * @brief 对时间字符串进行偏移计算（std::string版本）
      * @param in_stime 输入时间字符串（格式不限，但一定要包括yyyymmddhh24miss，一个都不能少，顺序也不能变）
      * @param out_stime 输出偏移后的时间字符串引用
      * @param timetvl 偏移秒数
@@ -144,9 +144,7 @@ namespace ol
     // ===========================================================================
 
     // ===========================================================================
-    /**
-     * 高精度计时器类（微秒级）
-     */
+    // 高精度计时器类（微秒级）
     class ctimer
     {
     private:
@@ -160,7 +158,7 @@ namespace ol
         void start();
 
         /**
-         * 计算从上次start()到当前的逝去时间
+         * @brief 计算从上次start()到当前的逝去时间
          * @return 逝去时间（秒），小数点后为微秒
          * @note 调用后会自动重新开始计时
          */
@@ -170,7 +168,7 @@ namespace ol
 
     // ===========================================================================
     /**
-     * 通用休眠函数（支持任意时间单位）
+     * @brief 通用休眠函数（支持任意时间单位）
      * @param duration 休眠时长（std::chrono::duration类型）
      */
     template <typename Rep, typename Period>
@@ -180,7 +178,7 @@ namespace ol
     }
 
     /**
-     * 纳秒级休眠
+     * @brief 纳秒级休眠
      * @param nanoseconds 休眠时长（纳秒）
      */
     inline void sleep_ns(long long nanoseconds)
@@ -189,7 +187,7 @@ namespace ol
     }
 
     /**
-     * 微秒级休眠
+     * @brief 微秒级休眠
      * @param microseconds 休眠时长（微秒）
      */
     inline void sleep_us(long long microseconds)
@@ -198,7 +196,7 @@ namespace ol
     }
 
     /**
-     * 毫秒级休眠
+     * @brief 毫秒级休眠
      * @param milliseconds 休眠时长（毫秒）
      */
     inline void sleep_ms(long long milliseconds)
@@ -207,7 +205,7 @@ namespace ol
     }
 
     /**
-     * 秒级休眠
+     * @brief 秒级休眠
      * @param seconds 休眠时长（秒）
      */
     inline void sleep_sec(long long seconds)

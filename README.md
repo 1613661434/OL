@@ -8,6 +8,27 @@
 - `oldblib/oracle`：Oracle 数据库交互模块（基于 OCI，提供连接管理、SQL 执行等功能）
 - `ol_ftp`：FTP 客户端模块（基于内置的 ftplib，支持文件上传、下载、目录操作等）
 
+## 代码文档规范
+
+本项目所有头文件（`.h`）均遵循 **Doxygen 注释规范**，便于开发者快速理解接口功能和使用方式，主要特点包括：
+
+- 函数/类/结构体均包含完整注释，包括功能描述（`@brief`）、参数说明（`@param`）、返回值（`@return`）及注意事项（`@note` 可选）
+- 支持通过 Doxygen 工具自动生成 HTML/PDF 格式的 API 文档
+- 主流 IDE（VS Code、CLion 等）可识别注释并提供智能提示（鼠标悬停显示详细说明）
+
+示例注释风格：
+```cpp
+/**
+ * @brief 删除字符串左右两边指定字符
+ *        支持 C 字符串和 std::string 两种类型
+ * @param str 待处理的字符串（C字符串直接修改，std::string为引用）
+ * @param c 要删除的字符（默认空格' '）
+ * @return 修改后的字符串（C字符串返回指针，std::string返回引用）
+ */
+char* deleteLRchr(char* str, const char c = ' ');
+std::string& deleteLRchr(std::string& str, const char c = ' ');
+```
+
 ## 环境依赖
 
 ### 基础依赖

@@ -50,7 +50,7 @@ namespace ol
 #if defined(__linux__) || defined(_WIN32)
     // ===========================================================================
     /**
-     * 根据绝对路径逐级创建目录
+     * @brief 根据绝对路径逐级创建目录
      * @param pathorfilename 绝对路径的文件名或目录名
      * @param bisfilename 指定pathorfilename类型（true-文件名，false-目录名，默认true）
      * @return true-成功，false-失败（权限不足、路径非法、磁盘满等）
@@ -61,7 +61,7 @@ namespace ol
     // 文件操作相关的函数
     // ===========================================================================
     /**
-     * 重命名文件（类似Linux mv命令）
+     * @brief 重命名文件（类似Linux mv命令）
      * @param srcfilename 原文件名（建议绝对路径）
      * @param dstfilename 目标文件名（建议绝对路径）
      * @return true-成功，false-失败（权限不足、跨分区、磁盘满等）
@@ -72,7 +72,7 @@ namespace ol
 
     // ===========================================================================
     /**
-     * 复制文件（类似Linux cp命令）
+     * @brief 复制文件（类似Linux cp命令）
      * @param srcfilename 原文件名（建议绝对路径）
      * @param dstfilename 目标文件名（建议绝对路径）
      * @return true-成功，false-失败（权限不足、磁盘满等）
@@ -82,14 +82,14 @@ namespace ol
     // ===========================================================================
 
     /**
-     * 获取文件大小
+     * @brief 获取文件大小
      * @param filename 文件名（建议绝对路径）
      * @return 文件大小（字节），失败返回-1（文件不存在、无权限等）
      */
     long filesize(const std::string& filename);
 
     /**
-     * 获取文件修改时间（C字符串版本）
+     * @brief 获取文件修改时间（C字符串版本）
      * @param filename 文件名（建议绝对路径）
      * @param mtime 存储时间的字符数组
      * @param fmt 时间格式（默认"yyyymmddhh24miss"，支持ltime兼容格式）
@@ -98,7 +98,7 @@ namespace ol
     bool filemtime(const std::string& filename, char* mtime, const std::string& fmt = "yyyymmddhh24miss");
 
     /**
-     * 获取文件修改时间（std::string版本）
+     * @brief 获取文件修改时间（std::string版本）
      * @param filename 文件名（建议绝对路径）
      * @param mtime 存储时间的字符串引用
      * @param fmt 时间格式（默认"yyyymmddhh24miss"）
@@ -107,7 +107,7 @@ namespace ol
     bool filemtime(const std::string& filename, std::string& mtime, const std::string& fmt = "yyyymmddhh24miss");
 
     /**
-     * 重置文件修改时间属性
+     * @brief 重置文件修改时间属性
      * @param filename 文件名（建议绝对路径）
      * @param mtime 时间字符串（需包含yyyymmddhh24miss，顺序不可变）
      * @return true-成功，false-失败（失败原因见errno）
@@ -142,13 +142,13 @@ namespace ol
         }
 
         /**
-         * 设置文件时间格式
+         * @brief 设置文件时间格式
          * @param fmt 支持"yyyy-mm-dd hh24:mi:ss"和"yyyymmddhh24miss"（默认后者）
          */
         void setfmt(const std::string& fmt);
 
         /**
-         * 打开目录并获取文件列表，存放在m_filelist容器中
+         * @brief 打开目录并获取文件列表，存放在m_filelist容器中
          * @param dirname 目录名（绝对路径，如/tmp/root）
          * @param rules 文件名匹配规则（不匹配的文件将被忽略）
          * @param maxfiles 最大文件数量（默认10000，如果文件太多，可能消耗太多的内存）
@@ -160,7 +160,7 @@ namespace ol
 
     private:
         /**
-         * 递归遍历目录的内部实现（被opendir调用）
+         * @brief 递归遍历目录的内部实现（被opendir调用）
          * @param dirname 目录名
          * @param rules 文件名匹配规则
          * @param maxfiles 最大文件数量
@@ -171,14 +171,14 @@ namespace ol
 
     public:
         /**
-         * 读取下一个文件信息（从m_filelist容器中获取一条记录（文件名），同时获取该文件的大小、修改时间等信息。）
+         * @brief 读取下一个文件信息（从m_filelist容器中获取一条记录（文件名），同时获取该文件的大小、修改时间等信息。）
          * @return true-成功（数据存入成员变量），false-已无更多文件
          * @note 调用opendir方法时，m_filelist容器被清空，m_pos归零，每调用一次readdir方法m_pos加1。
          */
         bool readdir();
 
         /**
-         * 获取文件列表总数
+         * @brief 获取文件列表总数
          * @return 文件数量
          */
         size_t size()
@@ -206,7 +206,7 @@ namespace ol
         }
 
         /**
-         * 判断文件是否已打开
+         * @brief 判断文件是否已打开
          * @return true-已打开，false-未打开
          */
         bool isopen() const
@@ -215,7 +215,7 @@ namespace ol
         }
 
         /**
-         * 打开文件
+         * @brief 打开文件
          * @param filename 目标文件名
          * @param btmp 是否使用临时文件（默认true，完成后重命名）
          * @param mode 打开模式（默认std::ios::out）
@@ -225,7 +225,7 @@ namespace ol
         bool open(const std::string& filename, const bool btmp = true, const std::ios::openmode mode = std::ios::out, const bool benbuffer = true);
 
         /**
-         * 格式化写入文本数据
+         * @brief 格式化写入文本数据
          * @tparam Types 可变参数类型
          * @param fmt 格式字符串
          * @param args 待格式化的参数
@@ -242,7 +242,7 @@ namespace ol
         }
 
         /**
-         * 重载<<运算符，写入文本数据
+         * @brief 重载<<运算符，写入文本数据
          * @tparam T 数据类型
          * @param value 待写入的数据
          * @return 自身引用（支持链式调用）
@@ -256,7 +256,7 @@ namespace ol
         }
 
         /**
-         * 写入二进制数据
+         * @brief 写入二进制数据
          * @param buf 数据缓冲区
          * @param bufsize 数据大小（字节）
          * @return true-成功，false-失败
@@ -264,7 +264,7 @@ namespace ol
         bool write(void* buf, int bufsize);
 
         /**
-         * 关闭文件并将临时文件重命名为目标文件
+         * @brief 关闭文件并将临时文件重命名为目标文件
          * @return true-成功，false-失败
          */
         bool closeandrename();
@@ -294,7 +294,7 @@ namespace ol
         }
 
         /**
-         * 判断文件是否已打开
+         * @brief 判断文件是否已打开
          * @return true-已打开，false-未打开
          */
         bool isopen() const
@@ -303,7 +303,7 @@ namespace ol
         }
 
         /**
-         * 打开文件
+         * @brief 打开文件
          * @param filename 文件名
          * @param mode 打开模式（默认std::ios::in）
          * @return true-成功，false-失败
@@ -311,7 +311,7 @@ namespace ol
         bool open(const std::string& filename, const std::ios::openmode mode = std::ios::in);
 
         /**
-         * 按行读取文本文件
+         * @brief 按行读取文本文件
          * @param buf 存储读取结果的字符串
          * @param endbz 行结束标志（默认空，即换行）
          * @return true-成功，false-失败（如已到文件尾）
@@ -319,7 +319,7 @@ namespace ol
         bool readline(std::string& buf, const std::string& endbz = "");
 
         /**
-         * 读取二进制数据
+         * @brief 读取二进制数据
          * @param buf 接收数据的缓冲区
          * @param bufsize 缓冲区大小（字节）
          * @return 实际读取的字节数
@@ -327,7 +327,7 @@ namespace ol
         size_t read(void* buf, const size_t bufsize);
 
         /**
-         * 关闭并删除文件
+         * @brief 关闭并删除文件
          * @return true-成功，false-失败
          */
         bool closeandremove();
@@ -388,7 +388,7 @@ namespace ol
 
     public:
         /**
-         * 构造函数
+         * @brief 构造函数
          * @param maxsize 日志最大大小（MB，默认100）
          */
         clogfile(size_t maxsize = 100) : m_mode(std::ios::app), m_backup(true), m_maxsize(maxsize), m_enbuffer(false)
@@ -396,7 +396,7 @@ namespace ol
         }
 
         /**
-         * 打开日志文件
+         * @brief 打开日志文件
          * @param filename 日志文件名（建议采用绝对路径，目录不存在会自动创建）
          * @param mode 打开模式（默认std::ios::app）
          * @param bbackup 是否自动备份（默认true，多进程需设为false）
@@ -410,7 +410,7 @@ namespace ol
         bool open(const std::string& filename, const std::ios::openmode mode = std::ios::app, const bool bbackup = true, const bool benbuffer = false);
 
         /**
-         * 格式化写入日志（带时间前缀）
+         * @brief 格式化写入日志（带时间前缀）
          * @tparam Types 可变参数类型
          * @param fmt 格式字符串
          * @param args 待格式化的参数
@@ -431,7 +431,7 @@ namespace ol
         }
 
         /**
-         * 重载<<运算符，写入日志内容（无时间前缀）
+         * @brief 重载<<运算符，写入日志内容（无时间前缀）
          * @tparam T 数据类型
          * @param value 待写入的内容
          * @return 自身引用（支持链式调用）
@@ -449,7 +449,7 @@ namespace ol
 
     private:
         /**
-         * 自动备份日志（如果日志文件的大小超过m_maxsize的值，就把当前的日志文件名改为历史日志文件名，再创建新的当前日志文件）
+         * @brief 自动备份日志（如果日志文件的大小超过m_maxsize的值，就把当前的日志文件名改为历史日志文件名，再创建新的当前日志文件）
          * @return true-成功，false-失败
          * @note 备份文件名为原文件名+时间戳（如/tmp/log/filetodb.log.20200101123025）
          */
@@ -474,22 +474,20 @@ namespace ol
     // 自定义操作符
     // ===========================================================================
     /**
-     * 自定义换行操纵符（替代endl，不刷新缓冲区）
+     * @brief 自定义换行操纵符（替代endl，不刷新缓冲区）
      * @param os 输出流
      * @return 输出流引用
      */
     std::ostream& nl(std::ostream& os);
 
-    /**
-     * 二进制输出辅助结构体
-     */
+    // 二进制输出辅助结构体
     struct binary_t
     {
         // 待输出的整数值
         unsigned long value;
 
         /**
-         * 构造函数
+         * @brief 构造函数
          * @param v 待转换为二进制输出的整数
          */
         explicit binary_t(unsigned long v) : value(v)
@@ -498,7 +496,7 @@ namespace ol
     };
 
     /**
-     * 二进制输出辅助函数
+     * @brief 二进制输出辅助函数
      * @tparam T 整数类型
      * @param value 待输出的整数
      * @return binary_t结构体
@@ -512,7 +510,7 @@ namespace ol
     std::ostream& operator<<(std::ostream& os, const binary_t& b);
 
     /**
-     * 清空输入缓冲区（忽略剩余字符直到换行）
+     * @brief 清空输入缓冲区（忽略剩余字符直到换行）
      * @param is 输入流
      * @return 输入流引用
      */

@@ -50,7 +50,7 @@ namespace ol
         void initdata();
 
         /**
-         * 登录FTP服务器
+         * @brief 登录FTP服务器
          * @param host FTP服务器地址和端口（格式："ip:port"，如"192.168.1.1:21"）
          * @param username 登录用户名
          * @param password 登录密码
@@ -60,48 +60,48 @@ namespace ol
         bool login(const std::string& host, const std::string& username, const std::string& password, const int imode = FTPLIB_PASSIVE);
 
         /**
-         * 从FTP服务器注销并断开连接
+         * @brief 从FTP服务器注销并断开连接
          * @return true-成功，false-失败
          */
         bool logout();
 
         /**
-         * 获取FTP服务器上文件的修改时间
+         * @brief 获取FTP服务器上文件的修改时间
          * @param remotefilename 远程文件名
          * @return true-成功（结果存于m_mtime），false-失败
          */
         bool mtime(const std::string& remotefilename);
 
         /**
-         * 获取FTP服务器上文件的大小
+         * @brief 获取FTP服务器上文件的大小
          * @param remotefilename 远程文件名
          * @return true-成功（结果存于m_size），false-失败
          */
         bool size(const std::string& remotefilename);
 
         /**
-         * 切换FTP服务器的当前工作目录
+         * @brief 切换FTP服务器的当前工作目录
          * @param remotedir 远程目录名
          * @return true-成功，false-失败
          */
         bool chdir(const std::string& remotedir);
 
         /**
-         * 在FTP服务器上创建目录
+         * @brief 在FTP服务器上创建目录
          * @param remotedir 待创建的远程目录名
          * @return true-成功，false-失败
          */
         bool mkdir(const std::string& remotedir);
 
         /**
-         * 删除FTP服务器上的目录
+         * @brief 删除FTP服务器上的目录
          * @param remotedir 待删除的远程目录名
          * @return true-成功，false-失败（权限不足、目录不存在或非空）
          */
         bool rmdir(const std::string& remotedir);
 
         /**
-         * 列出FTP服务器目录中的文件和子目录（发送NLST命令）
+         * @brief 列出FTP服务器目录中的文件和子目录（发送NLST命令）
          * @param remotedir 远程目录名（空串、"*"或"."表示当前目录）
          * @param listfilename 本地文件路径，用于保存列表结果
          * @return true-成功，false-失败
@@ -110,7 +110,7 @@ namespace ol
         bool nlist(const std::string& remotedir, const std::string& listfilename);
 
         /**
-         * 从FTP服务器下载文件
+         * @brief 从FTP服务器下载文件
          * @param remotefilename 远程文件名
          * @param localfilename 本地保存路径
          * @param bcheckmtime 是否校验文件修改时间（确保传输完整性，默认true）
@@ -120,7 +120,7 @@ namespace ol
         bool get(const std::string& remotefilename, const std::string& localfilename, const bool bcheckmtime = true);
 
         /**
-         * 向FTP服务器上传文件
+         * @brief 向FTP服务器上传文件
          * @param localfilename 本地文件名
          * @param remotefilename 远程保存路径
          * @param bchecksize 是否校验文件大小（确保传输完整性，默认true）
@@ -130,14 +130,14 @@ namespace ol
         bool put(const std::string& localfilename, const std::string& remotefilename, const bool bchecksize = true);
 
         /**
-         * 删除FTP服务器上的文件
+         * @brief 删除FTP服务器上的文件
          * @param remotefilename 待删除的远程文件名
          * @return true-成功，false-失败
          */
         bool ftpdelete(const std::string& remotefilename);
 
         /**
-         * 重命名FTP服务器上的文件
+         * @brief 重命名FTP服务器上的文件
          * @param srcremotefilename 远程原文件名
          * @param dstremotefilename 远程目标文件名
          * @return true-成功，false-失败
@@ -145,14 +145,14 @@ namespace ol
         bool ftprename(const std::string& srcremotefilename, const std::string& dstremotefilename);
 
         /**
-         * 向FTP服务器发送SITE命令（站点特定命令）
+         * @brief 向FTP服务器发送SITE命令（站点特定命令）
          * @param command 命令内容
          * @return true-成功，false-失败
          */
         bool site(const std::string& command);
 
         /**
-         * 获取服务器最后一次响应信息(return a pointer to the last response received)
+         * @brief 获取服务器最后一次响应信息(return a pointer to the last response received)
          * @return 响应信息字符串指针
          */
         char* response();

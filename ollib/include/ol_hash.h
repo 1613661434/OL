@@ -19,7 +19,7 @@ namespace ol
 {
 
     /**
-     * 哈希组合函数：将单个值的哈希值合并到种子中
+     * @brief 哈希组合函数：将单个值的哈希值合并到种子中
      * @tparam T 待哈希的值类型
      * @param seed 哈希种子（会被修改）
      * @param val 待合并的数值
@@ -32,7 +32,7 @@ namespace ol
     }
 
     /**
-     * 可变参数哈希计算：单参数版本（递归终止函数）
+     * @brief 可变参数哈希计算：单参数版本（递归终止函数）
      * @tparam T 待哈希的值类型
      * @param seed 哈希种子（会被修改）
      * @param val 待哈希的数值
@@ -44,7 +44,7 @@ namespace ol
     }
 
     /**
-     * 可变参数哈希计算：多参数递归版本
+     * @brief 可变参数哈希计算：多参数递归版本
      * @tparam T 第一个待哈希的值类型
      * @tparam Types 剩余待哈希的值类型列表
      * @param seed 哈希种子（会被修改）
@@ -60,7 +60,7 @@ namespace ol
     }
 
     /**
-     * 可变参数哈希计算：入口函数
+     * @brief 可变参数哈希计算：入口函数
      * @tparam Types 待哈希的所有值类型列表
      * @param args 待计算哈希的所有数值
      * @return 组合后的哈希值（std::size_t类型）

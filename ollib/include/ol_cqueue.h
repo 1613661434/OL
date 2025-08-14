@@ -24,8 +24,8 @@ namespace ol
 {
 
     /**
-     * 循环队列模板类
-     * 基于静态数组实现，大小固定，支持高效的FIFO（先进先出）操作
+     * @brief 循环队列模板类
+     *        基于静态数组实现，大小固定，支持高效的FIFO（先进先出）操作
      * @tparam T 队列中元素的数据类型
      * @tparam MAX_SIZE 队列的最大容量（必须大于0）
      */
@@ -68,7 +68,7 @@ namespace ol
         }
 
         /**
-         * 移动构造函数
+         * @brief 移动构造函数
          * @param other 待移动的队列对象
          */
         cqueue(cqueue&& other) noexcept
@@ -101,7 +101,7 @@ namespace ol
         }
 
         /**
-         * 移动赋值运算符
+         * @brief 移动赋值运算符
          * @param other 待移动的队列对象
          * @return 当前队列对象的引用
          */
@@ -160,8 +160,8 @@ namespace ol
         }
 
         /**
-         * 初始化队列（仅未初始化时有效）
-         * 用于共享内存场景（不自动调用构造函数时）
+         * @brief 初始化队列（仅未初始化时有效）
+         *        用于共享内存场景（不自动调用构造函数时）
          * @note 如果用于共享内存的队列，不会调用构造函数，必须调用此函数初始化。
          */
         void init()
@@ -187,7 +187,7 @@ namespace ol
         }
 
         /**
-         * 判断队列是否已满
+         * @brief 判断队列是否已满
          * @return true-队列已满，false-队列未满
          */
         bool full() const
@@ -196,7 +196,7 @@ namespace ol
         }
 
         /**
-         * 判断队列是否为空
+         * @brief 判断队列是否为空
          * @return true-队列为空，false-队列非空
          */
         bool empty() const
@@ -205,7 +205,7 @@ namespace ol
         }
 
         /**
-         * 元素入队（拷贝版本）
+         * @brief 元素入队（拷贝版本）
          * @param e 待入队的元素（常量引用）
          * @return true-入队成功，false-队列已满入队失败
          */
@@ -226,7 +226,7 @@ namespace ol
         }
 
         /**
-         * 元素入队（移动版本）
+         * @brief 元素入队（移动版本）
          * @param e 待入队的元素（右值引用）
          * @return true-入队成功，false-队列已满入队失败
          */
@@ -244,7 +244,7 @@ namespace ol
         }
 
         /**
-         * 元素出队
+         * @brief 元素出队
          * @return true-出队成功，false-队列为空出队失败
          */
         bool pop()
@@ -258,7 +258,7 @@ namespace ol
         }
 
         /**
-         * 获取队列当前元素数量
+         * @brief 获取队列当前元素数量
          * @return 队列长度（>=0）
          */
         size_t size() const
@@ -267,7 +267,7 @@ namespace ol
         }
 
         /**
-         * 获取队头元素（非const版本）
+         * @brief 获取队头元素（非const版本）
          * @return 队头元素的引用
          * @throws std::out_of_range 当队列为空时
          */
@@ -278,7 +278,7 @@ namespace ol
         }
 
         /**
-         * 获取队头元素（const版本）
+         * @brief 获取队头元素（const版本）
          * @return 队头元素的常量引用
          * @throws std::out_of_range 当队列为空时
          */
@@ -289,7 +289,7 @@ namespace ol
         }
 
         /**
-         * 原地构造元素入队（直接在队列内存中构造对象）
+         * @brief 原地构造元素入队（直接在队列内存中构造对象）
          * @tparam Args 构造函数参数类型列表
          * @param args 构造函数参数（转发引用）
          * @return true-入队成功，false-队列已满入队失败
@@ -309,8 +309,8 @@ namespace ol
         }
 
         /**
-         * 打印队列中所有元素（调试用）
-         * 要求元素类型支持std::cout输出
+         * @brief 打印队列中所有元素（调试用）
+         *        要求元素类型支持std::cout输出
          */
         void printqueue() const
         {

@@ -33,7 +33,7 @@ namespace ol
     // 删除信号量：    ipcrm sem semid
 
     /**
-     * 信号量操作类，用于进程间同步与互斥
+     * @brief 信号量操作类，用于进程间同步与互斥
      * @note 仅支持Linux平台
      */
     class csemp
@@ -65,7 +65,7 @@ namespace ol
         }
 
         /**
-         * 初始化信号量（创建或获取已存在的信号量）
+         * @brief 初始化信号量（创建或获取已存在的信号量）
          * @param key 信号量键值（通过ftok生成）
          * @param value 初始值（互斥锁填1，生产消费者模型填0）
          * @param sem_flg 操作标志（SEM_UNDO-自动恢复，0-不自动恢复）
@@ -76,7 +76,7 @@ namespace ol
         bool init(key_t key, unsigned short value = 1, short sem_flg = SEM_UNDO);
 
         /**
-         * 信号量P操作（等待资源，将信号量值减value）
+         * @brief 信号量P操作（等待资源，将信号量值减value）
          * @param value 要减去的值（默认-1）
          * @return true-成功，false-失败
          * @note 若信号量值为0，调用进程将阻塞等待
@@ -84,27 +84,27 @@ namespace ol
         bool wait(short value = -1);
 
         /**
-         * 信号量V操作（释放资源，将信号量值加value）
+         * @brief 信号量V操作（释放资源，将信号量值加value）
          * @param value 要加上的值（默认1）
          * @return true-成功，false-失败
          */
         bool post(short value = 1);
 
         /**
-         * 获取当前信号量的值
+         * @brief 获取当前信号量的值
          * @param value 用于存储信号量值的引用
          * @return true-成功，false-失败
          */
         bool getvalue(int& value);
 
         /**
-         * 判断信号量是否有效（已初始化）
+         * @brief 判断信号量是否有效（已初始化）
          * @return true-有效，false-无效
          */
         bool isValid() const;
 
         /**
-         * 销毁信号量（从系统中删除）
+         * @brief 销毁信号量（从系统中删除）
          * @return true-成功，false-失败
          */
         bool destroy();
@@ -131,7 +131,7 @@ namespace ol
         st_procinfo() = default; // 默认构造函数
 
         /**
-         * 带参构造函数
+         * @brief 带参构造函数
          * @param pid 进程ID
          * @param pname 进程名称
          * @param timeout 超时时间（秒）
@@ -145,7 +145,7 @@ namespace ol
     };
 
     /**
-     * 进程心跳管理类，基于共享内存和信号量实现进程存活监控
+     * @brief 进程心跳管理类，基于共享内存和信号量实现进程存活监控
      * @note 仅支持Linux平台
      */
     class cpactive
@@ -160,7 +160,7 @@ namespace ol
         cpactive();
 
         /**
-         * 将当前进程信息加入共享内存进程组
+         * @brief 将当前进程信息加入共享内存进程组
          * @param timeout 超时时间（秒，超过此时长未更新心跳视为进程异常）
          * @param pname 进程名称（可选）
          * @param logfile 日志文件指针（用于输出调试信息，可选）

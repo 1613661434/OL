@@ -25,7 +25,7 @@ namespace ol
 {
 
     /**
-     * Trie树的节点类，存储单个字符对应的状态
+     * @brief Trie树的节点类，存储单个字符对应的状态
      * @tparam V 节点存储的值类型
      */
     template <typename V>
@@ -43,7 +43,7 @@ namespace ol
     };
 
     /**
-     * Trie树键值对映射类（TrieMap）
+     * @brief Trie树键值对映射类（TrieMap）
      * @tparam V 存储的值类型
      */
     template <typename V>
@@ -54,7 +54,7 @@ namespace ol
         size_t count;                      // 当前存在的键值对总数
 
         /**
-         * 遍历Trie树，收集所有有效键
+         * @brief 遍历Trie树，收集所有有效键
          * @param node 起始节点
          * @param path 当前路径（已遍历的字符）
          * @param res 存储结果的列表
@@ -77,7 +77,7 @@ namespace ol
         }
 
         /**
-         * 按模式匹配遍历Trie树（支持'.'作为通配符，匹配单个任意字符）
+         * @brief 按模式匹配遍历Trie树（支持'.'作为通配符，匹配单个任意字符）
          * @param node 起始节点
          * @param path 当前匹配路径
          * @param pattern 模式字符串
@@ -125,7 +125,7 @@ namespace ol
         }
 
         /**
-         * 递归插入键值对
+         * @brief 递归插入键值对
          * @param node 当前节点
          * @param key 插入的键
          * @param val 插入的值
@@ -152,7 +152,7 @@ namespace ol
         }
 
         /**
-         * 递归删除键
+         * @brief 递归删除键
          * @param node 当前节点
          * @param key 删除的键
          * @param i 当前处理位置
@@ -191,7 +191,7 @@ namespace ol
         }
 
         /**
-         * 检查模式是否匹配
+         * @brief 检查模式是否匹配
          * @param node 当前节点
          * @param pattern 模式字符串
          * @param i 当前处理位置
@@ -229,7 +229,7 @@ namespace ol
         }
 
         /**
-         * 查找键对应的节点
+         * @brief 查找键对应的节点
          * @param node 起始节点
          * @param key 查找的键
          * @return 键终点对应的节点（不存在则返回nullptr）
@@ -260,7 +260,7 @@ namespace ol
         }
 
         /**
-         * 插入或更新键值对
+         * @brief 插入或更新键值对
          * @param key 键字符串
          * @param val 对应的值
          */
@@ -275,7 +275,7 @@ namespace ol
         }
 
         /**
-         * 删除键值对
+         * @brief 删除键值对
          * @param key 要删除的键
          */
         void remove(const std::string& key)
@@ -290,7 +290,7 @@ namespace ol
         }
 
         /**
-         * 获取键对应的值，通过 std::optional 明确表示值是否存在
+         * @brief 获取键对应的值，通过 std::optional 明确表示值是否存在
          * @param key 要查询的键
          * @return 若键存在，返回包含对应值的 std::optional<V>；若键不存在，返回 std::nullopt
          * @note 可通过 has_value() 判断键是否存在，通过 value() 获取值（键存在时）
@@ -306,7 +306,7 @@ namespace ol
         }
 
         /**
-         * 检查键是否存在
+         * @brief 检查键是否存在
          * @param key 要检查的键
          * @return 键存在返回true，否则返回false
          */
@@ -317,7 +317,7 @@ namespace ol
         }
 
         /**
-         * 检查是否存在以指定前缀开头的键
+         * @brief 检查是否存在以指定前缀开头的键
          * @param prefix 前缀字符串
          * @return 存在返回true，否则返回false
          */
@@ -327,7 +327,7 @@ namespace ol
         }
 
         /**
-         * 查找查询字符串的最短前缀键
+         * @brief 查找查询字符串的最短前缀键
          * @param query 查询字符串
          * @return 最短前缀键（不存在返回空串）
          */
@@ -358,7 +358,7 @@ namespace ol
         }
 
         /**
-         * 查找查询字符串的最长前缀键
+         * @brief 查找查询字符串的最长前缀键
          * @param query 查询字符串
          * @return 最长前缀键（不存在返回空串）
          */
@@ -396,7 +396,7 @@ namespace ol
         }
 
         /**
-         * 获取所有以指定前缀开头的键
+         * @brief 获取所有以指定前缀开头的键
          * @param prefix 前缀字符串
          * @return 匹配的键列表
          */
@@ -416,7 +416,7 @@ namespace ol
         }
 
         /**
-         * 获取所有匹配模式的键（支持'.'作为通配符，匹配单个任意字符）
+         * @brief 获取所有匹配模式的键（支持'.'作为通配符，匹配单个任意字符）
          * @param pattern 模式字符串，其中'.'代表匹配任意单个字符
          * @return 匹配的键列表
          */
@@ -429,7 +429,7 @@ namespace ol
         }
 
         /**
-         * 检查是否存在匹配模式的键（支持'.'作为通配符，匹配单个任意字符）
+         * @brief 检查是否存在匹配模式的键（支持'.'作为通配符，匹配单个任意字符）
          * @param pattern 模式字符串
          * @return 存在返回true，否则返回false
          */
@@ -439,7 +439,7 @@ namespace ol
         }
 
         /**
-         * 获取当前键值对的数量
+         * @brief 获取当前键值对的数量
          * @return 键值对数量
          */
         size_t size() const

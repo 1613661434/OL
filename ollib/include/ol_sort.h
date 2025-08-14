@@ -29,7 +29,7 @@ namespace ol
     // 容器特性萃取
     // ===========================================================================
     /**
-     * 容器特性萃取模板，统一STL容器和原生数组的操作接口
+     * @brief 容器特性萃取模板，统一STL容器和原生数组的操作接口
      * @tparam Container 容器类型（STL容器或原生数组）
      */
     template <typename Container>
@@ -41,7 +41,7 @@ namespace ol
         using size_type = typename Container::size_type;           // 大小类型
 
         /**
-         * 获取容器起始迭代器
+         * @brief 获取容器起始迭代器
          * @param c 容器引用
          * @return 起始迭代器
          */
@@ -51,7 +51,7 @@ namespace ol
         }
 
         /**
-         * 获取容器结束迭代器
+         * @brief 获取容器结束迭代器
          * @param c 容器引用
          * @return 结束迭代器
          */
@@ -61,7 +61,7 @@ namespace ol
         }
 
         /**
-         * 获取容器大小
+         * @brief 获取容器大小
          * @param c 容器引用
          * @return 容器元素数量
          */
@@ -72,7 +72,7 @@ namespace ol
     };
 
     /**
-     * 容器特性萃取模板特化（原生数组）
+     * @brief 容器特性萃取模板特化（原生数组）
      * @tparam T 数组元素类型
      * @tparam N 数组大小
      */
@@ -85,7 +85,7 @@ namespace ol
         using size_type = size_t;        // 大小类型
 
         /**
-         * 获取数组起始指针
+         * @brief 获取数组起始指针
          * @param arr 原生数组引用
          * @return 数组首元素指针
          */
@@ -95,7 +95,7 @@ namespace ol
         }
 
         /**
-         * 获取数组结束指针
+         * @brief 获取数组结束指针
          * @param arr 原生数组引用
          * @return 数组尾后指针
          */
@@ -105,7 +105,7 @@ namespace ol
         }
 
         /**
-         * 获取数组大小
+         * @brief 获取数组大小
          * @return 数组元素数量（N）
          */
         static size_type size(T (&)[N])
@@ -121,7 +121,7 @@ namespace ol
     {
 
         /**
-         * 插入排序实现（双向迭代器版本）
+         * @brief 插入排序实现（双向迭代器版本）
          * @tparam Iterator 双向迭代器类型
          * @param first 起始迭代器
          * @param last 结束迭代器
@@ -159,7 +159,7 @@ namespace ol
         }
 
         /**
-         * 插入排序实现（随机访问迭代器版本）
+         * @brief 插入排序实现（随机访问迭代器版本）
          * @tparam RandomIt 随机访问迭代器类型
          * @param first 起始迭代器
          * @param last 结束迭代器
@@ -187,7 +187,7 @@ namespace ol
         }
 
         /**
-         * 插入排序统一接口（自动判断迭代器类型）
+         * @brief 插入排序统一接口（自动判断迭代器类型）
          * @tparam Iterator 迭代器类型
          * @param first 起始迭代器
          * @param last 结束迭代器
@@ -200,7 +200,7 @@ namespace ol
         }
 
         /**
-         * 三数取中法选择枢纽元素（快速排序辅助函数）
+         * @brief 三数取中法选择枢纽元素（快速排序辅助函数）
          * @tparam RandomIt 随机访问迭代器类型
          * @param low 起始迭代器
          * @param high 结束迭代器（最后一个元素）
@@ -222,7 +222,7 @@ namespace ol
         }
 
         /**
-         * 快速排序实现（随机访问迭代器）
+         * @brief 快速排序实现（随机访问迭代器）
          * @tparam RandomIt 随机访问迭代器类型
          * @param first 起始迭代器
          * @param last 结束迭代器
@@ -279,7 +279,7 @@ namespace ol
     // 用户接口 - 插入排序
     // ===========================================================================
     /**
-     * 插入排序（容器版本）
+     * @brief 插入排序（容器版本）
      * @tparam Container 容器类型（支持迭代器）
      * @param c 待排序的容器
      * @note 自动适配双向迭代器和随机访问迭代器
@@ -295,7 +295,7 @@ namespace ol
     }
 
     /**
-     * 插入排序（迭代器版本）
+     * @brief 插入排序（迭代器版本）
      * @tparam Iterator 迭代器类型（双向或随机访问）
      * @param first 起始迭代器
      * @param last 结束迭代器
@@ -310,7 +310,7 @@ namespace ol
     // 用户接口 - 快速排序
     // ===========================================================================
     /**
-     * 快速排序（容器版本）
+     * @brief 快速排序（容器版本）
      * @tparam Container 容器类型（需支持随机访问迭代器）
      * @param c 待排序的容器
      * @note 元素数量<=16时自动切换为插入排序，提高效率
@@ -330,7 +330,7 @@ namespace ol
     }
 
     /**
-     * 快速排序（迭代器版本）
+     * @brief 快速排序（迭代器版本）
      * @tparam RandomIt 随机访问迭代器类型
      * @param first 起始迭代器
      * @param last 结束迭代器
@@ -350,7 +350,7 @@ namespace ol
 
     // ===========================================================================
     /**
-     * 打印容器元素（调试用）
+     * @brief 打印容器元素（调试用）
      * @tparam Container 容器类型（支持范围for循环）
      * @param c 待打印的容器
      * @note 元素类型需支持std::cout输出

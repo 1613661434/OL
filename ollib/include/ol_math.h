@@ -20,7 +20,7 @@ namespace ol
 {
 
     /**
-     * 二分迭代法求解非线性方程（收敛阶P=1）
+     * @brief 二分迭代法求解非线性方程（收敛阶P=1）
      * @param func 目标函数（f(x)=0）
      * @param low 区间左端点
      * @param high 区间右端点（需满足f(low)与f(high)异号）
@@ -32,7 +32,7 @@ namespace ol
     double Bisection_Method(double (*func)(double), double low, double high, double tolerance, const size_t max_iterations = 1000);
 
     /**
-     * 简单迭代法求解非线性方程（收敛阶P=1）
+     * @brief 简单迭代法求解非线性方程（收敛阶P=1）
      * @param iter_func 迭代函数（x_{n+1} = iter_func(x_n)）
      * @param initial_value 初始迭代值
      * @param tolerance 误差限（|x_{n+1}-x_n| < tolerance时终止）
@@ -43,7 +43,7 @@ namespace ol
     double Simple_Iteration_Method(double (*iter_func)(double), double initial_value, double tolerance, const size_t max_iterations = 1000);
 
     /**
-     * 牛顿迭代法求解非线性方程（收敛阶P=2）
+     * @brief 牛顿迭代法求解非线性方程（收敛阶P=2）
      * @param func 目标函数（f(x)=0）
      * @param der_func 目标函数的导函数（f’(x)）
      * @param initial_value 初始迭代值
@@ -54,11 +54,8 @@ namespace ol
      */
     double Newton_Method(double (*func)(double), double (*der_func)(double), double initial_value, double tolerance, const size_t max_iterations = 1000);
 
-    // 数值计算-非线性方程求解法-弦截迭代法-收敛阶P=1.618
-    // Secant_Method(回调函数,初值0,初值1,误差限,最大迭代次数|默认1000,是否为定端点弦截法|固定点0|默认变端点)
-
     /**
-     * 弦截迭代法求解非线性方程（收敛阶P=1.618）
+     * @brief 弦截迭代法求解非线性方程（收敛阶P=1.618）
      * @param func 目标函数（f(x)=0）
      * @param initial_value_0 初始迭代值0
      * @param initial_value_1 初始迭代值1

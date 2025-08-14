@@ -49,7 +49,7 @@ namespace ol
         }
 
         /**
-         * 向服务端发起连接请求
+         * @brief 向服务端发起连接请求
          * @param ip 服务端IP地址（如"127.0.0.1"）
          * @param port 服务端端口号（1-65535）
          * @return true-连接成功，false-连接失败
@@ -57,7 +57,7 @@ namespace ol
         bool connect(const std::string& ip, const int port);
 
         /**
-         * 接收服务端发送的数据
+         * @brief 接收服务端发送的数据
          * @param buffer 存储接收数据的缓冲区（字符串或二进制指针）
          * @param ibuflen 计划接收的字节数（仅二进制版本需要）
          * @param itimeout 超时时间（秒）：-1-不等待，0-无限等待，>0-指定秒数
@@ -67,7 +67,7 @@ namespace ol
         bool read(void* buffer, const int ibuflen, const int itimeout = 0); // 二进制数据版本
 
         /**
-         * 向服务端发送数据
+         * @brief 向服务端发送数据
          * @param buffer 待发送数据（字符串或二进制指针）
          * @param ibuflen 待发送的字节数（仅二进制版本需要）
          * @return true-发送成功，false-失败（连接不可用）
@@ -98,7 +98,7 @@ namespace ol
         }
 
         /**
-         * 初始化服务端（创建监听socket并绑定端口）
+         * @brief 初始化服务端（创建监听socket并绑定端口）
          * @param port 服务端监听端口（1-65535）
          * @param backlog 未完成连接队列的最大长度（默认5）
          * @return true-初始化成功，false-失败（端口被占用等）
@@ -106,20 +106,20 @@ namespace ol
         bool initserver(const unsigned int port, const int backlog = 5);
 
         /**
-         * 接收客户端连接（从连接队列中获取）
+         * @brief 接收客户端连接（从连接队列中获取）
          * @return true-获取连接成功，false-失败（可重试）
          * @note 若连接队列为空，将阻塞等待
          */
         bool accept();
 
         /**
-         * 获取当前连接的客户端IP地址
+         * @brief 获取当前连接的客户端IP地址
          * @return 客户端IP地址字符串（如"192.168.1.100"）
          */
         char* getip();
 
         /**
-         * 接收客户端发送的数据
+         * @brief 接收客户端发送的数据
          * @param buffer 存储接收数据的缓冲区（字符串或二进制指针）
          * @param ibuflen 计划接收的字节数（仅二进制版本需要）
          * @param itimeout 超时时间（秒）：-1-不等待，0-无限等待，>0-指定秒数
@@ -129,7 +129,7 @@ namespace ol
         bool read(void* buffer, const int ibuflen, const int itimeout = 0); // 二进制数据版本
 
         /**
-         * 向客户端发送数据
+         * @brief 向客户端发送数据
          * @param buffer 待发送数据（字符串或二进制指针）
          * @param ibuflen 待发送的字节数（仅二进制版本需要）
          * @return true-发送成功，false-失败（连接不可用）
@@ -138,13 +138,13 @@ namespace ol
         bool write(const void* buffer, const int ibuflen); // 二进制数据版本
 
         /**
-         * 关闭监听socket（m_listenfd）
+         * @brief 关闭监听socket（m_listenfd）
          * @note 常用于多进程服务的子进程中
          */
         void closelisten();
 
         /**
-         * 关闭客户端连接socket（m_connfd）
+         * @brief 关闭客户端连接socket（m_connfd）
          * @note 常用于多进程服务的父进程中
          */
         void closeclient();
@@ -154,7 +154,7 @@ namespace ol
     };
 
     /**
-     * 从TCP socket读取数据
+     * @brief 从TCP socket读取数据
      * @param sockfd 已连接的socket描述符
      * @param buffer 存储接收数据的缓冲区（字符串或二进制指针）
      * @param ibuflen 计划接收的字节数（仅二进制版本需要）
@@ -165,7 +165,7 @@ namespace ol
     bool tcpread(const int sockfd, void* buffer, const int ibuflen, const int itimeout = 0); // 二进制数据版本
 
     /**
-     * 向TCP socket发送数据
+     * @brief 向TCP socket发送数据
      * @param sockfd 已连接的socket描述符
      * @param buffer 待发送数据（字符串或二进制指针）
      * @param ibuflen 待发送的字节数（仅二进制版本需要）
@@ -175,7 +175,7 @@ namespace ol
     bool tcpwrite(const int sockfd, const void* buffer, const int ibuflen); // 二进制数据版本
 
     /**
-     * 从就绪的socket读取指定长度的二进制数据
+     * @brief 从就绪的socket读取指定长度的二进制数据
      * @param sockfd 已就绪的socket描述符
      * @param buffer 存储数据的缓冲区
      * @param n 计划读取的字节数
@@ -184,7 +184,7 @@ namespace ol
     bool readn(const int sockfd, char* buffer, const size_t n);
 
     /**
-     * 向就绪的socket写入指定长度的二进制数据
+     * @brief 向就绪的socket写入指定长度的二进制数据
      * @param sockfd 已就绪的socket描述符
      * @param buffer 待写入的数据缓冲区
      * @param n 待写入的字节数

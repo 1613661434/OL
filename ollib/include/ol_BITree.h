@@ -22,8 +22,8 @@ namespace ol
 {
 
     /**
-     * 树状数组|二叉索引树（Binary Indexed Tree，BIT）模板类
-     * 适用于高效的点更新和前缀和查询操作，时间复杂度均为O(log n)
+     * @brief 树状数组|二叉索引树（Binary Indexed Tree，BIT）模板类
+     *        适用于高效的点更新和前缀和查询操作，时间复杂度均为O(log n)
      * @tparam T 存储的数据类型（需支持加法运算）
      */
     template <typename T>
@@ -34,7 +34,7 @@ namespace ol
 
     private:
         /**
-         * 计算lowbit值（二进制表示中最低位的1所对应的值）
+         * @brief 计算lowbit值（二进制表示中最低位的1所对应的值）
          * @param i 输入整数（需为非负数）
          * @return 最低位1对应的数值
          */
@@ -45,7 +45,7 @@ namespace ol
 
     public:
         /**
-         * 从向量构造BITree并初始化
+         * @brief 从向量构造BITree并初始化
          * @param arr 初始数据向量
          */
         BITree(const std::vector<T>& arr) : b(arr)
@@ -54,7 +54,7 @@ namespace ol
         }
 
         /**
-         * 从初始化列表构造BITree并初始化
+         * @brief 从初始化列表构造BITree并初始化
          * @param list 初始化列表
          */
         BITree(std::initializer_list<T> list) : b(list)
@@ -63,8 +63,8 @@ namespace ol
         }
 
         /**
-         * 初始化树结构（构建BIT）
-         * 对原始数组进行预处理，生成符合BIT规则的存储结构
+         * @brief 初始化树结构（构建BIT）
+         *        对原始数组进行预处理，生成符合BIT规则的存储结构
          */
         void init()
         {
@@ -76,7 +76,7 @@ namespace ol
         }
 
         /**
-         * 点更新：为指定索引的元素增加一个值
+         * @brief 点更新：为指定索引的元素增加一个值
          * @param idx 要更新的元素索引（从0开始）
          * @param x 要增加的值（可正可负）
          */
@@ -91,7 +91,7 @@ namespace ol
         }
 
         /**
-         * 前缀和查询：计算[0, idx]的元素和
+         * @brief 前缀和查询：计算[0, idx]的元素和
          * @param idx 前缀的结束索引（从0开始）
          * @return 前缀和结果（若idx超出范围，自动截断到有效范围）
          */
@@ -109,7 +109,7 @@ namespace ol
         }
 
         /**
-         * 区间和查询：计算[left, right]的元素和
+         * @brief 区间和查询：计算[left, right]的元素和
          * @param left 区间起始索引（从0开始）
          * @param right 区间结束索引（从0开始）
          * @return 区间和结果（若区间无效，返回0）
@@ -130,7 +130,7 @@ namespace ol
         }
 
         /**
-         * 重置BITree为新的向量数据
+         * @brief 重置BITree为新的向量数据
          * @param arr 新的数据源向量
          */
         void reset(const std::vector<T>& arr)
@@ -140,7 +140,7 @@ namespace ol
         }
 
         /**
-         * 重置BITree为初始化列表数据
+         * @brief 重置BITree为初始化列表数据
          * @param list 新的数据源初始化列表
          */
         void reset(std::initializer_list<T> list)
@@ -150,8 +150,8 @@ namespace ol
         }
 
         /**
-         * 打印当前BITree的内部存储结构
-         * 用于调试，输出向量b中的所有元素
+         * @brief 打印当前BITree的内部存储结构
+         *        用于调试，输出向量b中的所有元素
          */
         void print() const
         {
@@ -164,7 +164,7 @@ namespace ol
         }
 
         /**
-         * 获取BITree的大小（元素个数）
+         * @brief 获取BITree的大小（元素个数）
          * @return 向量b的大小
          */
         size_t size() const
@@ -173,7 +173,7 @@ namespace ol
         }
 
         /**
-         * 重载[]运算符，访问内部存储的元素
+         * @brief 重载[]运算符，访问内部存储的元素
          * @param idx 元素索引（从0开始）
          * @return 索引对应的元素值（若超出范围，返回T的默认值）
          */
@@ -184,7 +184,7 @@ namespace ol
         }
 
         /**
-         * 重载=运算符，从初始化列表赋值并重新初始化
+         * @brief 重载=运算符，从初始化列表赋值并重新初始化
          * @param list 赋值的初始化列表
          * @return 当前BITree对象的引用
          */
@@ -196,7 +196,7 @@ namespace ol
         }
 
         /**
-         * 重载=运算符，从向量赋值并重新初始化
+         * @brief 重载=运算符，从向量赋值并重新初始化
          * @param arr 赋值的向量
          * @return 当前BITree对象的引用
          */

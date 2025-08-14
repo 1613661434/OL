@@ -25,7 +25,7 @@ namespace ol
 
 #ifdef __linux__
     /**
-     * 忽略常见信号并可选关闭标准I/O流
+     * @brief 忽略常见信号并可选关闭标准I/O流
      * @param bcloseio 是否关闭标准输入输出错误流（默认false-不关闭）
      * @note 1. 忽略的信号包括SIGINT、SIGTERM、SIGHUP等常见终止信号
      *       2. 若bcloseio为true，将关闭stdin、stdout、stderr（文件描述符0、1、2）
