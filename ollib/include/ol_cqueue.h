@@ -258,6 +258,30 @@ namespace ol
         }
 
         /**
+         * @brief 清空队列所有元素（重置队列状态）
+         *        对于非平凡析构类型，会显式调用元素的析构函数
+         */
+        void clear()
+        {
+            if (!m_inited || empty()) return; // 未初始化或已空则直接返回
+
+            // 处理非平凡析构类型：需要显式调用每个元素的析构函数
+            if constexpr (!std::is_trivially_destructible_v<T>)
+            {
+                for (size_t i = 0; i < m_size; ++i)
+                {
+                    size_t index = (m_front + i) % MAX_SIZE;
+                    m_data[index].~T(); // 显式析构元素
+                }
+            }
+
+            // 重置队列状态（无需清空数组内存，后续操作会覆盖）
+            m_front = 0;
+            m_rear = MAX_SIZE - 1;
+            m_size = 0;
+        }
+
+        /**
          * @brief 获取队列当前元素数量
          * @return 队列长度（>=0）
          */

@@ -1,15 +1,10 @@
-/*
- *  程序名：test_ol_cqueue.cpp，此程序演示循环队列的用法。
- *  作者：ol
- */
-
 #include "ol_cqueue.h"
 #include <string>
 
 using namespace ol;
 using namespace std;
 
-// 自定义测试类，用于验证复杂类型的处理
+// 自定义测试类，用于验证复杂类型的处理（含资源管理，便于观察clear时的析构）
 class TestClass
 {
 private:
@@ -41,10 +36,10 @@ public:
         cout << "Move constructor: " << m_name << endl;
     }
 
-    // 析构函数
+    // 析构函数（非平凡析构，clear时需显式调用，此处打印以验证）
     ~TestClass()
     {
-        cout << "Destructor: " << m_name << endl;
+        cout << "Destructor: " << m_name << " (资源释放)" << endl;
     }
 
     // 拷贝赋值运算符
@@ -212,6 +207,54 @@ int main()
         cout << "出队元素..." << endl;
         queue.pop();
         cout << "队列是否为空: " << (queue.empty() ? "是" : "否") << endl;
+    }
+
+    printSeparator("测试clear()函数");
+    {
+        // 1. 测试POD类型（int）的clear：仅重置状态，无需析构
+        printSeparator("1. POD类型（int）的clear");
+        cqueue<int, 3> podQueue;
+        podQueue.push(10);
+        podQueue.push(20);
+        podQueue.push(30);
+
+        cout << "clear前 - 队列长度: " << podQueue.size() << ", 元素: ";
+        podQueue.printqueue();
+
+        cout << "调用clear()..." << endl;
+        podQueue.clear();
+
+        cout << "clear后 - 队列长度: " << podQueue.size() << ", 是否为空: " << (podQueue.empty() ? "是" : "否") << endl;
+        cout << "clear后重新入队元素（验证复用）:" << endl;
+        podQueue.push(100);
+        podQueue.push(200);
+        podQueue.printqueue();
+
+        // 2. 测试非POD类型（TestClass）的clear：需显式析构元素（观察Destructor打印）
+        printSeparator("2. 非POD类型（TestClass）的clear");
+        cqueue<TestClass, 2> nonPodQueue;
+        nonPodQueue.emplace(1, "ClearTest1"); // 原地构造
+        nonPodQueue.emplace(2, "ClearTest2");
+
+        cout << "clear前 - 队列长度: " << nonPodQueue.size() << ", 元素信息:" << endl;
+        cout << nonPodQueue.front().info() << endl;
+        nonPodQueue.pop(); // 先弹出第一个，留一个在队列中便于观察clear的析构
+        cout << "弹出一个元素后，剩余队列长度: " << nonPodQueue.size() << endl;
+
+        cout << "调用clear()（观察下方'资源释放'打印，验证析构）..." << endl;
+        nonPodQueue.clear();
+
+        cout << "clear后 - 队列长度: " << nonPodQueue.size() << ", 是否为空: " << (nonPodQueue.empty() ? "是" : "否") << endl;
+        cout << "clear后重新入队（验证复用）:" << endl;
+        nonPodQueue.emplace(3, "ClearTest3"); // 重新构造元素
+        cout << "复用后队列元素: " << nonPodQueue.front().info() << endl;
+
+        // 3. 测试空队列调用clear：无操作（边界场景）
+        printSeparator("3. 空队列调用clear（边界场景）");
+        cqueue<string, 2> emptyQueue;
+        cout << "空队列调用clear()前 - 是否为空: " << (emptyQueue.empty() ? "是" : "否") << endl;
+        emptyQueue.clear(); // 调用无副作用
+        cout << "空队列调用clear()后 - 是否为空: " << (emptyQueue.empty() ? "是" : "否") << endl;
     }
 
     return 0;
