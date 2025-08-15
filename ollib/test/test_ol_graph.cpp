@@ -83,9 +83,9 @@ int main()
     std::cout << "图结构:" << std::endl;
     intNodeGraph.print();
 
-    // 测试removeEdge
+    // 测试rmEdge
     std::cout << "删除边1-2后:" << std::endl;
-    intNodeGraph.removeEdge(1, 2);
+    intNodeGraph.rmEdge(1, 2);
     intNodeGraph.print();
 
     // 测试hasEdge和weight
@@ -118,8 +118,8 @@ int main()
     }
     std::cout << std::endl;
 
-    // 测试removeEdge
-    enumNodeGraph.removeEdge(CustomNode::A, CustomNode::B);
+    // 测试rmEdge
+    enumNodeGraph.rmEdge(CustomNode::A, CustomNode::B);
     std::cout << "删除边A-B后B的邻居: ";
     for (const auto& edge : enumNodeGraph.neighbors(CustomNode::B))
     {

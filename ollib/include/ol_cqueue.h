@@ -336,12 +336,12 @@ namespace ol
          * @brief 打印队列中所有元素（调试用）
          *        要求元素类型支持std::cout输出
          */
-        void printqueue() const
+        void print() const
         {
             for (size_t i = 0; i < size(); ++i)
             {
                 std::cout << "m_data[" << (m_front + i) % MAX_SIZE << "],value="
-                          << m_data[(m_front + i) % MAX_SIZE] << std::endl;
+                          << m_data[(m_front + i) % MAX_SIZE] << '\n';
             }
         }
     };

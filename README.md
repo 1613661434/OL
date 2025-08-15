@@ -6,7 +6,7 @@
 
 - `ollib`：基础工具库（如网络、文件操作、时间处理等）
 - `oldblib/oracle`：Oracle 数据库交互模块（基于 OCI，提供连接管理、SQL 执行等功能）
-- `ol_ftp`：FTP 客户端模块（基于内置的 ftplib，支持文件上传、下载、目录操作等）
+- `ol_ftp`：FTP 客户端模块（基于第三方库`(已内置)`的 [ftplib](https://github.com/codebrainz/ftplib)，支持文件上传、下载、目录操作等）
 
 ## 代码文档规范
 
@@ -132,7 +132,23 @@ mingw32-make -j4
 #### 注意事项
 - MinGW 编译的静态库默认以 `.a` 为扩展名（与 Linux 一致），动态库以 `.dll` 为扩展名（Windows 原生格式）
 - 部分 Linux 特有测试程序（如基于命名管道的 `test_fifo_*`）会被自动过滤，不参与 Windows 平台编译
+- 如果 Windows 终端（PowerShell）出现乱码，可以临时设置UTF8字符集
+```powershell
+# 1. 设置代码页为 UTF-8（65001，Windows 终端通用标识）
+chcp 65001 | Out-Null
+
+# 2. 强制将输入/输出/管道编码全部设为 UTF-8
+$OutputEncoding = [Console]::InputEncoding = [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding
+
+# 3. 验证结果（此时应显示 BodyName 为 utf-8，CodePage 为 65001）
+$OutputEncoding
+[Console]::InputEncoding
+[Console]::OutputEncoding
+```
 
 ## 注意事项
 - `third_party/ftplib` 为项目内置依赖，请勿随意修改目录结构，如需更新 ftplib 版本，建议直接替换该目录下的文件并保持路径一致。
 - 跨平台编译时，确保 Oracle 客户端的平台版本与目标平台一致（如 Windows 用 x64 库，Linux 用 x86_64 库）。
+
+## 详细功能介绍
+...请等待作者更新

@@ -98,7 +98,7 @@ int main()
         cout << "\n队列状态:" << endl;
         cout << "队列长度: " << intQueue.size() << endl;
         cout << "队列元素:" << endl;
-        intQueue.printqueue();
+        intQueue.print();
 
         cout << "\n出队操作测试:" << endl;
         while (!intQueue.empty())
@@ -163,14 +163,14 @@ int main()
         strQueue.push(string("World"));
 
         cout << "\n队列元素:" << endl;
-        strQueue.printqueue();
+        strQueue.print();
 
         cout << "\n移动构造新队列:" << endl;
         cqueue<string, 2> movedQueue(move(strQueue));
         cout << "移动后原队列状态:" << endl;
         cout << "原队列是否为空: " << (strQueue.empty() ? "是" : "否") << endl;
         cout << "移动后新队列元素:" << endl;
-        movedQueue.printqueue();
+        movedQueue.print();
     }
 
     printSeparator("测试init()方法");
@@ -187,7 +187,7 @@ int main()
         cout << "重新入队元素..." << endl;
         queue.push(100);
         queue.push(200);
-        queue.printqueue();
+        queue.print();
     }
 
     printSeparator("测试队列满和空的边界条件");
@@ -219,7 +219,7 @@ int main()
         podQueue.push(30);
 
         cout << "clear前 - 队列长度: " << podQueue.size() << ", 元素: ";
-        podQueue.printqueue();
+        podQueue.print();
 
         cout << "调用clear()..." << endl;
         podQueue.clear();
@@ -228,7 +228,7 @@ int main()
         cout << "clear后重新入队元素（验证复用）:" << endl;
         podQueue.push(100);
         podQueue.push(200);
-        podQueue.printqueue();
+        podQueue.print();
 
         // 2. 测试非POD类型（TestClass）的clear：需显式析构元素（观察Destructor打印）
         printSeparator("2. 非POD类型（TestClass）的clear");

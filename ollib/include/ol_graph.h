@@ -133,7 +133,7 @@ namespace ol
          * @param to 终点节点
          * @note 若边不存在则不操作
          */
-        void removeEdge(NodeType from, NodeType to)
+        void rmEdge(NodeType from, NodeType to)
         {
             // 先处理正向边
             if (adjList.find(from) != adjList.end())
