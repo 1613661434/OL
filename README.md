@@ -2,6 +2,11 @@
 
 一个包含 `ollib`、`oldblib/oracle` 及 FTP 功能的 C++ 工具库，提供基础功能、Oracle 数据库交互及 FTP 客户端支持。
 
+## 🍀 项目衍生说明  
+OL 库 **fork 自 freecplus 库**，感谢原作者贡献！在其基础上扩展功能并实现跨平台适配，核心协议遵循：  
+- [freecplus 开源许可协议](https://blog.csdn.net/wucz122140729/article/details/105167157)（需保留版权声明与许可协议）  
+- 原文遵循 [CC 4.0 BY-SA 协议](https://creativecommons.org/licenses/by-sa/4.0/)，转载/修改需保留原文链接与声明  
+
 ## 功能
 
 - `ollib`：基础工具库（如网络、文件操作、时间处理等）

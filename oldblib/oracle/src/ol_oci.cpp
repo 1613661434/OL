@@ -17,6 +17,7 @@ namespace ol
 {
 
     /*
+    // OCI 返回状态码
     OCI_SUCCESS                0  // maps to SQL_SUCCESS of SAG CLI  函数执行成功
     OCI_SUCCESS_WITH_INFO      1  // maps to SQL_SUCCESS_WITH_INFO   执行成功，但有诊断消息返回，
                                   // 可能是警告信息，但是，在测试的时候，我还从未见
@@ -187,16 +188,16 @@ namespace ol
     {
         if (charset == NULL) return;
 
+#ifdef __linux__
         // UNIX平台是采用setenv函数
         setenv("NLS_LANG", charset, 1);
-
+#elif defined(_WIN32)
         // windows是采用putenv，如下
-        /*
         char str[100];
-        memset(str,0,sizeof(str));
-        _snprintf(str,50,"NLS_LANG=%s",charset);
+        memset(str, 0, sizeof(str));
+        _snprintf(str, 50, "NLS_LANG=%s", charset);
         putenv(str);
-        */
+#endif
     }
 
     int connection::connecttodb(const std::string& connstr, const std::string& charset, bool autocommitopt)
@@ -210,12 +211,13 @@ namespace ol
 
         // 设置日期字段的输出格式
 
+#ifdef __linux__
         // UNIX平台是采用setenv函数
         setenv("NLS_DATE_FORMAT", "yyyy-mm-dd hh24:mi:ss", 1);
-
+#elif defined(_WIN32)
         // windows是采用putenv，如下
-        // putenv("NLS_DATE_FORMAT=yyyy-mm-dd hh24:mi:ss");
-
+        putenv("NLS_DATE_FORMAT=yyyy-mm-dd hh24:mi:ss");
+#endif
         // 从connstr中解析username,password,tnsname
         setdbopt(connstr.c_str());
 
