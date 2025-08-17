@@ -16,6 +16,7 @@
 #define __OL_CQUEUE_H 1
 
 #include <iostream>
+#include <stdexcept>   // 用于std::out_of_range
 #include <string.h>    // 用于memset
 #include <type_traits> // 用于std::is_pod
 #include <utility>     // 用于std::move、std::forward
@@ -174,13 +175,15 @@ namespace ol
 
             // 数组元素初始化。
             if constexpr (std::is_trivially_copyable_v<T>)
-            { // 可平凡复制类型专用初始化（效率优先）
+            {
+                // 可平凡复制类型专用初始化（效率优先）
                 memset(m_data, 0, sizeof(m_data));
             }
             else
             {
                 for (size_t i = 0; i < MAX_SIZE; ++i)
-                {                    // 非可平凡复制类型通用初始化
+                {
+                    // 非可平凡复制类型通用初始化
                     m_data[i] = T(); // 调用默认构造函数
                 }
             }
@@ -213,7 +216,7 @@ namespace ol
         {
             if (full())
             {
-                std::cerr << "循环队列已满，入队失败。\n";
+                std::cerr << "Circular queue is full, enqueue failed.\n";
                 return false;
             }
 
@@ -234,7 +237,7 @@ namespace ol
         {
             if (full())
             {
-                std::cerr << "循环队列已满，入队失败。\n";
+                std::cerr << "Circular queue is full, enqueue failed.\n";
                 return false;
             }
             m_rear = (m_rear + 1) % MAX_SIZE;
@@ -297,7 +300,7 @@ namespace ol
          */
         T& front()
         {
-            if (empty()) throw std::out_of_range("队列为空");
+            if (empty()) throw std::out_of_range("Circular queue is empty");
             return m_data[m_front];
         }
 
@@ -308,7 +311,7 @@ namespace ol
          */
         const T& front() const
         {
-            if (empty()) throw std::out_of_range("队列为空");
+            if (empty()) throw std::out_of_range("Circular queue is empty");
             return m_data[m_front];
         }
 
@@ -323,7 +326,7 @@ namespace ol
         {
             if (full())
             {
-                std::cerr << "循环队列已满，入队失败。\n";
+                std::cerr << "Circular queue is full, enqueue failed.\n";
                 return false;
             }
             m_rear = (m_rear + 1) % MAX_SIZE;
