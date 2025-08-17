@@ -88,11 +88,6 @@ set_target_properties(ol_shared PROPERTIES
     WINDOWS_EXPORT_ALL_SYMBOLS ON  # Windows自动导出符号
 )
 
-# 非Windows平台可能需要链接的额外库（如系统ftp库）
-if(NOT WIN32)
-    target_link_libraries(ol_shared PRIVATE ftp)
-endif()
-
 # 静态库别名
 add_library(ol ALIAS ol_static)
 
