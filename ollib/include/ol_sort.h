@@ -351,7 +351,7 @@ namespace ol
         {
             if (first == last) return;
 
-            bool swapped;
+            bool swapped; // 记录是否进行过交换操作
             Iterator end = last;
 
             do
@@ -372,7 +372,7 @@ namespace ol
                     ++next;
                 }
                 --end; // 每轮结束后，最大元素已"冒泡"到末尾
-            } while (swapped);
+            } while (swapped); // 一轮内，如果一次交换操作都没有进行，说明数组已经有序，可以提前终止算法
         }
 
         // 选择排序相关实现
