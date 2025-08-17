@@ -1,0 +1,46 @@
+# 确保所有文本文件使用UTF-8编码（无BOM）
+* text=auto encoding=utf-8
+
+# 所有文本文件强制使用LF换行符
+* text eol=lf
+
+# 二进制文件不进行换行符转换（保持原始格式）
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.zip binary
+*.tar.gz binary
+*.exe binary
+*.dll binary
+*.lib binary
+*.a binary
+*.so binary
+*.dylib binary
+*.pdf binary
+*.docx binary
+*.xlsx binary
+
+# 特定文本文件类型的额外配置（确保覆盖所有可能的文本文件）
+*.c text eol=lf encoding=utf-8
+*.cpp text eol=lf encoding=utf-8
+*.h text eol=lf encoding=utf-8
+*.hpp text eol=lf encoding=utf-8
+*.cc text eol=lf encoding=utf-8
+*.cxx text eol=lf encoding=utf-8
+*.txt text eol=lf encoding=utf-8
+*.md text eol=lf encoding=utf-8
+*.xml text eol=lf encoding=utf-8
+*.ini text eol=lf encoding=utf-8
+*.sql text eol=lf encoding=utf-8
+*.sh text eol=lf encoding=utf-8
+*.bash text eol=lf encoding=utf-8
+*.cmake text eol=lf encoding=utf-8
+*.cmake.in text eol=lf encoding=utf-8
+*.makefile text eol=lf encoding=utf-8
+*.mk text eol=lf encoding=utf-8
+*.html text eol=lf encoding=utf-8
+*.css text eol=lf encoding=utf-8
+*.js text eol=lf encoding=utf-8
+*.json text eol=lf encoding=utf-8
+*.csv text eol=lf encoding=utf-8
