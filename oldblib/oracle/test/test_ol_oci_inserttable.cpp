@@ -1,5 +1,5 @@
 /*
- *  程序名：test_ol_ooci_inserttable.cpp，此程序演示开发框架操作Oracle数据库（向表中插入数据）。
+ *  程序名：test_ol_oci_inserttable.cpp，此程序演示开发框架操作Oracle数据库（向表中插入数据）。
  *  作者：ol
  */
 #include "ol_oci.h" // 开发框架操作Oracle的头文件。

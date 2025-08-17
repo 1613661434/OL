@@ -1,5 +1,5 @@
 /*
- *  程序名：test_ol_ooci_filetoblob.cpp，此程序演示开发框架操作Oracle数据库（把二进制文件存入数据库的BLOB字段中）。
+ *  程序名：test_ol_oci_filetoblob.cpp，此程序演示开发框架操作Oracle数据库（把二进制文件存入数据库的BLOB字段中）。
  *  作者：ol
  */
 #include "ol_oci.h" // 开发框架操作Oracle的头文件。

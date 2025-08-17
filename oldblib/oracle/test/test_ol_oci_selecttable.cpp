@@ -1,5 +1,5 @@
 /*
- *  程序名：test_ol_ooci_selecttable.cpp，此程序演示开发框架操作Oracle数据库（查询表中的数据）。
+ *  程序名：test_ol_oci_selecttable.cpp，此程序演示开发框架操作Oracle数据库（查询表中的数据）。
  *  作者：ol
  */
 #include "ol_oci.h" // 开发框架操作Oracle的头文件。

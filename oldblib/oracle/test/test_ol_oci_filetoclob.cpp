@@ -1,5 +1,5 @@
 /*
- *  程序名：test_ol_ooci_filetoclob.cpp，此程序演示开发框架操作Oracle数据库（把文本文件存入数据库表的CLOB字段中）。
+ *  程序名：test_ol_oci_filetoclob.cpp，此程序演示开发框架操作Oracle数据库（把文本文件存入数据库表的CLOB字段中）。
  *  作者：ol
  */
 #include "ol_oci.h" // 开发框架操作Oracle的头文件。
