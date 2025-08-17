@@ -139,7 +139,7 @@ namespace ol
          */
         template <typename Iterator, typename Compare>
         void insertion_sort_impl(Iterator first, Iterator last,
-                                 std::bidirectional_iterator_tag, Compare comp)
+                                 std::bidirectional_iterator_tag, const Compare& comp)
         {
             if (first == last) return;
 
@@ -178,7 +178,7 @@ namespace ol
          */
         template <typename RandomIt, typename Compare>
         void insertion_sort_impl(RandomIt first, RandomIt last,
-                                 std::random_access_iterator_tag, Compare comp)
+                                 std::random_access_iterator_tag, const Compare& comp)
         {
             if (first == last) return;
 
@@ -206,7 +206,7 @@ namespace ol
          * @param comp 比较函数对象，返回true表示第一个参数应排在前面
          */
         template <typename Iterator, typename Compare>
-        void insertion_sort_impl(Iterator first, Iterator last, Compare comp)
+        void insertion_sort_impl(Iterator first, Iterator last, const Compare& comp)
         {
             using category = typename std::iterator_traits<Iterator>::iterator_category;
             insertion_sort_impl(first, last, category(), comp);
@@ -226,7 +226,7 @@ namespace ol
          */
         template <typename RandomIt, typename ValueType, typename Compare>
         RandomIt binary_search_impl(RandomIt first, RandomIt last,
-                                    const ValueType& value, Compare comp)
+                                    const ValueType& value, const Compare& comp)
         {
             while (first < last)
             {
@@ -252,7 +252,7 @@ namespace ol
          * @param comp 比较函数对象
          */
         template <typename RandomIt, typename Compare>
-        void binary_insertion_sort_impl(RandomIt first, RandomIt last, Compare comp)
+        void binary_insertion_sort_impl(RandomIt first, RandomIt last, const Compare& comp)
         {
             if (first == last) return;
 
@@ -285,7 +285,7 @@ namespace ol
          */
         template <typename RandomIt, typename Compare>
         void shell_group_sort(RandomIt first, RandomIt last,
-                              size_t start, size_t step, Compare comp)
+                              size_t start, size_t step, const Compare& comp)
         {
             size_t n = last - first;
 
@@ -313,7 +313,7 @@ namespace ol
          * @param comp 比较函数对象
          */
         template <typename RandomIt, typename Compare>
-        void shell_sort_impl(RandomIt first, RandomIt last, Compare comp)
+        void shell_sort_impl(RandomIt first, RandomIt last, const Compare& comp)
         {
             size_t n = last - first;
             if (n <= 1) return;
@@ -347,7 +347,7 @@ namespace ol
          * @param comp 比较函数对象
          */
         template <typename Iterator, typename Compare>
-        void bubble_sort_impl(Iterator first, Iterator last, Compare comp)
+        void bubble_sort_impl(Iterator first, Iterator last, const Compare& comp)
         {
             if (first == last) return;
 
@@ -386,7 +386,7 @@ namespace ol
          * @param comp 比较函数对象
          */
         template <typename Iterator, typename Compare>
-        void selection_sort_impl(Iterator first, Iterator last, Compare comp)
+        void selection_sort_impl(Iterator first, Iterator last, const Compare& comp)
         {
             if (first == last) return;
 
@@ -416,7 +416,7 @@ namespace ol
          * @param comp 比较函数对象
          */
         template <typename RandomIt, typename Compare>
-        void heapify_impl(RandomIt first, size_t size, size_t index, Compare comp)
+        void heapify_impl(RandomIt first, size_t size, size_t index, const Compare& comp)
         {
             while (true)
             {
@@ -452,7 +452,7 @@ namespace ol
          * @param comp 比较函数对象
          */
         template <typename RandomIt, typename Compare>
-        void heap_sort_impl(RandomIt first, RandomIt last, Compare comp)
+        void heap_sort_impl(RandomIt first, RandomIt last, const Compare& comp)
         {
             size_t n = last - first;
             if (n <= 1) return;
@@ -486,7 +486,7 @@ namespace ol
          */
         template <typename RandomIt, typename TempIt, typename Compare>
         void merge_impl(RandomIt first, RandomIt mid, RandomIt last,
-                        TempIt temp, Compare comp)
+                        TempIt temp, const Compare& comp)
         {
             RandomIt i = first, j = mid;
             TempIt k = temp;
@@ -529,7 +529,7 @@ namespace ol
          */
         template <typename RandomIt, typename TempIt, typename Compare>
         void merge_sort_impl(RandomIt first, RandomIt last,
-                             TempIt temp, Compare comp)
+                             TempIt temp, const Compare& comp)
         {
             if (last - first > 1)
             {
@@ -551,7 +551,7 @@ namespace ol
          * @param comp 比较函数对象
          */
         template <typename RandomIt, typename Compare>
-        void merge_sort(RandomIt first, RandomIt last, Compare comp)
+        void merge_sort(RandomIt first, RandomIt last, const Compare& comp)
         {
             size_t n = last - first;
             if (n <= 1) return;
@@ -572,7 +572,7 @@ namespace ol
          */
         template <typename RandomIt, typename Compare>
         typename std::enable_if<std::is_integral<typename std::iterator_traits<RandomIt>::value_type>::value, void>::type
-        counting_sort_impl(RandomIt first, RandomIt last, Compare comp)
+        counting_sort_impl(RandomIt first, RandomIt last, const Compare& comp)
         {
             using ValueType = typename std::iterator_traits<RandomIt>::value_type;
             size_t n = last - first;
@@ -596,13 +596,13 @@ namespace ol
                 ++count[*it - min_val];
             }
 
-            // 计算前缀和
+            // 计算前缀和，得到的是在排序后数组的结束位置
             for (size_t i = 1; i < range; ++i)
             {
                 count[i] += count[i - 1];
             }
 
-            // 放置元素
+            // 放置元素，从后往前遍历是为了保证排序的稳定性
             std::vector<ValueType> output(n);
             for (auto it = last - 1; it >= first; --it)
             {
@@ -668,7 +668,7 @@ namespace ol
             while (max_num > 0)
             {
                 max_num /= radix;
-                digits++;
+                ++digits;
             }
             return digits;
         }
@@ -736,72 +736,82 @@ namespace ol
         // 快速排序相关实现
         // -----------------------------------------------------------------------
         /**
-         * @brief 三数取中法选择枢纽元素（快速排序辅助函数）
-         * @tparam RandomIt 随机访问迭代器类型
-         * @tparam Compare 比较函数类型
-         * @param low 起始迭代器
-         * @param high 结束迭代器（最后一个元素）
-         * @param comp 比较函数对象
-         * @return 选中的枢纽元素值
+         * @brief 三数取中法选择基准元素
+         * 从区间的首、中、尾三个位置选择中间值作为基准，减少最坏情况
          */
         template <typename RandomIt, typename Compare>
-        auto median_of_three(RandomIt low, RandomIt high, Compare comp)
+        auto median_of_three(RandomIt low, RandomIt high, const Compare& comp)
         {
             RandomIt mid = low + (high - low) / 2;
 
+            // 对三个位置的元素进行排序
             if (comp(*mid, *low)) std::iter_swap(low, mid);
             if (comp(*high, *low)) std::iter_swap(low, high);
             if (comp(*high, *mid)) std::iter_swap(mid, high);
 
-            std::iter_swap(low, mid);
+            // 返回基准值（此时已位于low位置）
             return *low;
         }
 
         /**
-         * @brief 快速排序实现（随机访问迭代器）
-         * @tparam RandomIt 随机访问迭代器类型
-         * @tparam Compare 比较函数类型
-         * @param first 起始迭代器
-         * @param last 结束迭代器
-         * @param comp 比较函数对象
+         * @brief 快速排序内部实现函数（挖坑填数版）
+         * 包含小规模数据优化：当区间长度≤16时使用插入排序
          */
         template <typename RandomIt, typename Compare>
-        void quick_sort_impl(RandomIt first, RandomIt last, Compare comp)
+        void quick_sort_impl(RandomIt first, RandomIt last, const Compare& comp)
         {
             auto size = last - first;
 
+            // 优化点：小规模数据（≤16个元素）使用插入排序
             if (size <= 16)
             {
                 insertion_sort_impl(first, last, comp);
                 return;
             }
 
-            auto pivot = median_of_three(first, last - 1, comp);
-
+            // 初始化指针，high指向最后一个元素
             RandomIt low = first;
             RandomIt high = last - 1;
 
+            // 三数取中法选择基准值，同时调整high指针
+            auto pivot = median_of_three(low, high--, comp); // high--因为三数取中已处理最后一个元素
+
+            // 挖坑填数核心逻辑
             while (low < high)
             {
-                while (low < high && !comp(*high, pivot))
+                // 从右向左找小于等于基准的元素，填入左边的坑
+                while (low < high && !comp(*high, pivot)) // *high >= pivot
                 {
-                    if (!comp(pivot, *high)) break;
+                    // 遇到与基准相等的元素，提前退出以平衡分区
+                    if (!comp(pivot, *high)) // *high == pivot
+                    {
+                        --high;
+                        break;
+                    }
                     --high;
                 }
                 *low = *high;
 
-                while (low < high && !comp(pivot, *low))
+                // 从左向右找大于等于基准的元素，填入右边的坑
+                while (low < high && comp(*low, pivot)) // *low < pivot
                 {
-                    if (!comp(*low, pivot)) break;
+                    // 遇到与基准相等的元素，提前退出以平衡分区
+                    if (!comp(pivot, *low)) // *low == pivot
+                    {
+                        ++low;
+                        break;
+                    }
                     ++low;
                 }
                 *high = *low;
             }
 
+            // 将基准值填入最后一个坑
             *low = pivot;
 
-            quick_sort_impl(first, low, comp);
-            quick_sort_impl(low + 1, last, comp);
+            // 递归排序左右子区间
+            quick_sort_impl(first, low, comp);    // 左区间：[first, low)
+            quick_sort_impl(low + 1, last, comp); // 右区间：[low+1, last)
         }
 
     } // namespace detail
@@ -823,7 +833,7 @@ namespace ol
      * - 适用场景：小规模数据或接近有序的数据
      */
     template <typename Container, typename Compare = std::less<typename container_traits<Container>::value_type>>
-    void insertion_sort(Container& container, Compare comp = Compare())
+    void insertion_sort(Container& container, const Compare& comp = Compare())
     {
         using traits = container_traits<Container>;
         detail::insertion_sort_impl(traits::begin(container), traits::end(container), comp);
@@ -844,7 +854,7 @@ namespace ol
      * - 适用场景：小规模数据或接近有序的数据
      */
     template <typename Iterator, typename Compare = std::less<typename std::iterator_traits<Iterator>::value_type>>
-    void insertion_sort(Iterator first, Iterator last, Compare comp = Compare())
+    void insertion_sort(Iterator first, Iterator last, const Compare& comp = Compare())
     {
         detail::insertion_sort_impl(first, last, comp);
     }
@@ -866,7 +876,7 @@ namespace ol
      * - 适用场景：中等规模数据，相比普通插入排序减少了比较次数
      */
     template <typename Container, typename Compare = std::less<typename container_traits<Container>::value_type>>
-    void binary_insertion_sort(Container& container, Compare comp = Compare())
+    void binary_insertion_sort(Container& container, const Compare& comp = Compare())
     {
         using traits = container_traits<Container>;
         using iterator = typename traits::iterator;
@@ -895,7 +905,7 @@ namespace ol
      * - 适用场景：中等规模数据，相比普通插入排序减少了比较次数
      */
     template <typename RandomIt, typename Compare = std::less<typename std::iterator_traits<RandomIt>::value_type>>
-    void binary_insertion_sort(RandomIt first, RandomIt last, Compare comp = Compare())
+    void binary_insertion_sort(RandomIt first, RandomIt last, const Compare& comp = Compare())
     {
         static_assert(
             std::is_same_v<
@@ -923,7 +933,7 @@ namespace ol
      * - 适用场景：中等规模数据，比普通插入排序效率高
      */
     template <typename Container, typename Compare = std::less<typename container_traits<Container>::value_type>>
-    void shell_sort(Container& container, Compare comp = Compare())
+    void shell_sort(Container& container, const Compare& comp = Compare())
     {
         using traits = container_traits<Container>;
         using iterator = typename traits::iterator;
@@ -952,7 +962,7 @@ namespace ol
      * - 适用场景：中等规模数据，比普通插入排序效率高
      */
     template <typename RandomIt, typename Compare = std::less<typename std::iterator_traits<RandomIt>::value_type>>
-    void shell_sort(RandomIt first, RandomIt last, Compare comp = Compare())
+    void shell_sort(RandomIt first, RandomIt last, const Compare& comp = Compare())
     {
         static_assert(
             std::is_same_v<
@@ -980,7 +990,7 @@ namespace ol
      * - 适用场景：小规模数据或教学演示，实际应用中效率较低
      */
     template <typename Container, typename Compare = std::less<typename container_traits<Container>::value_type>>
-    void bubble_sort(Container& container, Compare comp = Compare())
+    void bubble_sort(Container& container, const Compare& comp = Compare())
     {
         using traits = container_traits<Container>;
         detail::bubble_sort_impl(traits::begin(container), traits::end(container), comp);
@@ -1001,7 +1011,7 @@ namespace ol
      * - 适用场景：小规模数据或教学演示，实际应用中效率较低
      */
     template <typename Iterator, typename Compare = std::less<typename std::iterator_traits<Iterator>::value_type>>
-    void bubble_sort(Iterator first, Iterator last, Compare comp = Compare())
+    void bubble_sort(Iterator first, Iterator last, const Compare& comp = Compare())
     {
         detail::bubble_sort_impl(first, last, comp);
     }
@@ -1023,7 +1033,7 @@ namespace ol
      * - 适用场景：小规模数据，交换操作成本较高的场景
      */
     template <typename Container, typename Compare = std::less<typename container_traits<Container>::value_type>>
-    void selection_sort(Container& container, Compare comp = Compare())
+    void selection_sort(Container& container, const Compare& comp = Compare())
     {
         using traits = container_traits<Container>;
         detail::selection_sort_impl(traits::begin(container), traits::end(container), comp);
@@ -1044,7 +1054,7 @@ namespace ol
      * - 适用场景：小规模数据，交换操作成本较高的场景
      */
     template <typename Iterator, typename Compare = std::less<typename std::iterator_traits<Iterator>::value_type>>
-    void selection_sort(Iterator first, Iterator last, Compare comp = Compare())
+    void selection_sort(Iterator first, Iterator last, const Compare& comp = Compare())
     {
         detail::selection_sort_impl(first, last, comp);
     }
@@ -1066,7 +1076,7 @@ namespace ol
      * - 适用场景：中等至大规模数据，对空间使用有严格限制的场景
      */
     template <typename Container, typename Compare = std::less<typename container_traits<Container>::value_type>>
-    void heap_sort(Container& container, Compare comp = Compare())
+    void heap_sort(Container& container, const Compare& comp = Compare())
     {
         using traits = container_traits<Container>;
         using iterator = typename traits::iterator;
@@ -1095,7 +1105,7 @@ namespace ol
      * - 适用场景：中等至大规模数据，对空间使用有严格限制的场景
      */
     template <typename RandomIt, typename Compare = std::less<typename std::iterator_traits<RandomIt>::value_type>>
-    void heap_sort(RandomIt first, RandomIt last, Compare comp = Compare())
+    void heap_sort(RandomIt first, RandomIt last, const Compare& comp = Compare())
     {
         static_assert(
             std::is_same_v<
@@ -1123,7 +1133,7 @@ namespace ol
      * - 适用场景：中等至大规模数据，需要稳定排序的场景
      */
     template <typename Container, typename Compare = std::less<typename container_traits<Container>::value_type>>
-    void merge_sort(Container& container, Compare comp = Compare())
+    void merge_sort(Container& container, const Compare& comp = Compare())
     {
         using traits = container_traits<Container>;
         using iterator = typename traits::iterator;
@@ -1152,7 +1162,7 @@ namespace ol
      * - 适用场景：中等至大规模数据，需要稳定排序的场景
      */
     template <typename RandomIt, typename Compare = std::less<typename std::iterator_traits<RandomIt>::value_type>>
-    void merge_sort(RandomIt first, RandomIt last, Compare comp = Compare())
+    void merge_sort(RandomIt first, RandomIt last, const Compare& comp = Compare())
     {
         static_assert(
             std::is_same_v<
@@ -1181,7 +1191,7 @@ namespace ol
      */
     template <typename Container, typename Compare = std::less<typename container_traits<Container>::value_type>>
     typename std::enable_if<std::is_integral<typename container_traits<Container>::value_type>::value, void>::type
-    counting_sort(Container& container, Compare comp = Compare())
+    counting_sort(Container& container, const Compare& comp = Compare())
     {
         using traits = container_traits<Container>;
         using iterator = typename traits::iterator;
@@ -1211,7 +1221,7 @@ namespace ol
      */
     template <typename RandomIt, typename Compare = std::less<typename std::iterator_traits<RandomIt>::value_type>>
     typename std::enable_if<std::is_integral<typename std::iterator_traits<RandomIt>::value_type>::value, void>::type
-    counting_sort(RandomIt first, RandomIt last, Compare comp = Compare())
+    counting_sort(RandomIt first, RandomIt last, const Compare& comp = Compare())
     {
         static_assert(
             std::is_same_v<
@@ -1289,7 +1299,7 @@ namespace ol
     // 用户接口 - 快速排序
     // ===========================================================================
     /**
-     * @brief 快速排序（容器版本，支持默认比较器）
+     * @brief 快速排序（容器版本）
      * @tparam Container 容器类型（需支持随机访问迭代器）
      * @tparam Compare 比较函数类型，需满足严格弱序，默认使用std::less
      * @param container 待排序的容器
@@ -1300,9 +1310,15 @@ namespace ol
      * - 时间复杂度：O(n log n)，与初始有序度有关但影响程度取决于基准选择策略
      * - 空间复杂度：O(log n)，主要用于递归调用栈
      * - 适用场景：大多数通用排序场景，平均性能优异
+     *
+     * 实现优化：
+     * - 采用三数取中法选择基准元素，减少最坏情况出现概率
+     * - 引入阈值优化：当待排序区间长度小于等于16时，自动切换为插入排序
+     * - 挖坑填数法替代传统交换，减少元素交换次数
+     * - 对相等元素进行特殊处理，平衡左右分区
      */
     template <typename Container, typename Compare = std::less<typename container_traits<Container>::value_type>>
-    void quick_sort(Container& container, Compare comp = Compare())
+    void quick_sort(Container& container, const Compare& comp = Compare())
     {
         using traits = container_traits<Container>;
         using iterator = typename traits::iterator;
@@ -1317,7 +1333,7 @@ namespace ol
     }
 
     /**
-     * @brief 快速排序（迭代器版本，支持默认比较器）
+     * @brief 快速排序（迭代器版本）
      * @tparam RandomIt 随机访问迭代器类型
      * @tparam Compare 比较函数类型，需满足严格弱序，默认使用std::less
      * @param first 起始迭代器
@@ -1329,9 +1345,15 @@ namespace ol
      * - 时间复杂度：O(n log n)，与初始有序度有关但影响程度取决于基准选择策略
      * - 空间复杂度：O(log n)，主要用于递归调用栈
      * - 适用场景：大多数通用排序场景，平均性能优异
+     *
+     * 实现优化：
+     * - 采用三数取中法选择基准元素，减少最坏情况出现概率
+     * - 引入阈值优化：当待排序区间长度小于等于16时，自动切换为插入排序
+     * - 挖坑填数法替代传统交换，减少元素交换次数
+     * - 对相等元素进行特殊处理，平衡左右分区
      */
     template <typename RandomIt, typename Compare = std::less<typename std::iterator_traits<RandomIt>::value_type>>
-    void quick_sort(RandomIt first, RandomIt last, Compare comp = Compare())
+    void quick_sort(RandomIt first, RandomIt last, const Compare& comp = Compare())
     {
         static_assert(
             std::is_same_v<
