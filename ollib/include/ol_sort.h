@@ -240,9 +240,11 @@ namespace ol
             for (size_t i = start + step; i < n; i += step)
             {
                 auto key = *(first + i);
-                size_t j = i - step;
+                // 将 j 改为有符号类型（ptrdiff_t），避免下溢
+                ptrdiff_t j = static_cast<ptrdiff_t>(i - step);
 
-                while (j >= start && comp(key, *(first + j)))
+                // 有符号比较，避免 j 下溢后仍满足 j >= start
+                while (j >= static_cast<ptrdiff_t>(start) && comp(key, *(first + j)))
                 {
                     *(first + j + step) = *(first + j);
                     j -= step;
@@ -775,6 +777,95 @@ namespace ol
             quick_sort_impl(low + 1, last, comp); // 右区间：[low+1, last)
         }
 
+        // 桶排序相关实现
+        // -----------------------------------------------------------------------
+        /**
+         * @brief 桶排序核心实现（适用于浮点数）
+         *
+         * 算法逻辑：
+         * 1. 根据数值范围划分桶（桶的划分基于数值大小，与比较器无关）
+         * 2. 将元素分配到对应桶中
+         * 3. 对每个桶内元素使用自定义比较器进行排序
+         * 4. 合并所有桶的结果
+         */
+        template <typename RandomIt, typename Compare>
+        void bucket_sort_float_impl(RandomIt first, RandomIt last,
+                                    size_t num_buckets,
+                                    double min_val, double max_val,
+                                    const Compare& comp)
+        {
+            using ValueType = typename std::iterator_traits<RandomIt>::value_type;
+            const size_t n = std::distance(first, last);
+            if (n <= 1) return;
+
+            // 创建桶容器
+            std::vector<std::vector<ValueType>> buckets(num_buckets);
+            const double range = max_val - min_val;
+
+            // 分配元素到对应桶（桶的划分基于数值范围）
+            for (RandomIt it = first; it != last; ++it)
+            {
+                size_t idx = static_cast<size_t>(((*it - min_val) / range) * num_buckets);
+                if (idx >= num_buckets) idx = num_buckets - 1;
+                buckets[idx].push_back(*it);
+            }
+
+            // 桶内排序：使用自定义比较器
+            for (auto& bucket : buckets)
+                insertion_sort_impl(bucket.begin(), bucket.end(), comp);
+
+            // 合并所有桶的结果
+            auto dest_it = first;
+            for (const auto& bucket : buckets)
+                dest_it = std::copy(bucket.begin(), bucket.end(), dest_it);
+        }
+
+        /**
+         * @brief 桶排序核心实现（适用于整数）
+         *
+         * 与浮点数版本的区别：
+         * - 自动计算数据范围（无需手动指定min_val和max_val）
+         * - 使用比较器确定最值和桶内排序规则
+         */
+        template <typename RandomIt, typename Compare>
+        void bucket_sort_int_impl(RandomIt first, RandomIt last,
+                                  size_t num_buckets,
+                                  const Compare& comp)
+        {
+            using ValueType = typename std::iterator_traits<RandomIt>::value_type;
+            const size_t n = std::distance(first, last);
+            if (n <= 1) return;
+
+            // 使用比较器计算数据范围（找最值）
+            ValueType min_val = *first, max_val = *first;
+            for (RandomIt it = std::next(first); it != last; ++it)
+            {
+                if (comp(*it, min_val)) min_val = *it;
+                if (comp(max_val, *it)) max_val = *it;
+            }
+
+            // 创建桶并分配元素
+            std::vector<std::vector<ValueType>> buckets(num_buckets);
+            const ValueType range = max_val - min_val + 1;                         // +1 避免除零
+            const ValueType bucket_size = (range + num_buckets - 1) / num_buckets; // 向上取整
+
+            for (RandomIt it = first; it != last; ++it)
+            {
+                size_t idx = static_cast<size_t>((*it - min_val) / bucket_size);
+                if (idx >= num_buckets) idx = num_buckets - 1;
+                buckets[idx].push_back(*it);
+            }
+
+            // 桶内排序：使用自定义比较器
+            for (auto& bucket : buckets)
+                insertion_sort_impl(bucket.begin(), bucket.end(), comp);
+
+            // 合并所有桶的结果
+            auto dest_it = first;
+            for (const auto& bucket : buckets)
+                dest_it = std::copy(bucket.begin(), bucket.end(), dest_it);
+        }
+
     } // namespace detail
     // ===========================================================================
 
@@ -786,7 +877,7 @@ namespace ol
      * @tparam Compare 比较函数类型，需满足严格弱序，默认使用std::less
      * @param container 待排序的容器
      * @param comp 比较函数对象，返回true表示第一个参数应排在前面
-     *
+     * @note
      * 算法特性：
      * - 稳定性：稳定排序（相等元素保持原有顺序）
      * - 时间复杂度：O(n²)，与初始有序度密切相关（接近有序时效率高）
@@ -807,7 +898,7 @@ namespace ol
      * @param first 起始迭代器
      * @param last 结束迭代器
      * @param comp 比较函数对象，返回true表示第一个参数应排在前面
-     *
+     * @note
      * 算法特性：
      * - 稳定性：稳定排序（相等元素保持原有顺序）
      * - 时间复杂度：O(n²)，与初始有序度密切相关（接近有序时效率高）
@@ -829,7 +920,7 @@ namespace ol
      * @tparam Compare 比较函数类型，需满足严格弱序，默认使用std::less
      * @param container 待排序的容器
      * @param comp 比较函数对象，返回true表示第一个参数应排在前面
-     *
+     * @note
      * 算法特性：
      * - 稳定性：稳定排序（相等元素保持原有顺序）
      * - 时间复杂度：O(n²)，与初始有序度有关（减少了比较次数但仍需移动元素）
@@ -858,7 +949,7 @@ namespace ol
      * @param first 起始迭代器
      * @param last 结束迭代器
      * @param comp 比较函数对象，返回true表示第一个参数应排在前面
-     *
+     * @note
      * 算法特性：
      * - 稳定性：稳定排序（相等元素保持原有顺序）
      * - 时间复杂度：O(n²)，与初始有序度有关（减少了比较次数但仍需移动元素）
@@ -886,7 +977,7 @@ namespace ol
      * @tparam Compare 比较函数类型，需满足严格弱序，默认使用std::less
      * @param container 待排序的容器
      * @param comp 比较函数对象，返回true表示第一个参数应排在前面
-     *
+     * @note
      * 算法特性：
      * - 稳定性：不稳定排序（相等元素可能改变相对顺序）
      * - 时间复杂度：O(n^1.3)~O(n²)，与初始有序度和步长序列有关
@@ -915,7 +1006,7 @@ namespace ol
      * @param first 起始迭代器
      * @param last 结束迭代器
      * @param comp 比较函数对象，返回true表示第一个参数应排在前面
-     *
+     * @note
      * 算法特性：
      * - 稳定性：不稳定排序（相等元素可能改变相对顺序）
      * - 时间复杂度：O(n^1.3)~O(n²)，与初始有序度和步长序列有关
@@ -943,7 +1034,7 @@ namespace ol
      * @tparam Compare 比较函数类型，需满足严格弱序，默认使用std::less
      * @param container 待排序的容器
      * @param comp 比较函数对象，返回true表示第一个参数应排在前面
-     *
+     * @note
      * 算法特性：
      * - 稳定性：稳定排序（相等元素保持原有顺序）
      * - 时间复杂度：O(n²)，与初始有序度有关（可通过优化提前终止）
@@ -964,7 +1055,7 @@ namespace ol
      * @param first 起始迭代器
      * @param last 结束迭代器
      * @param comp 比较函数对象，返回true表示第一个参数应排在前面
-     *
+     * @note
      * 算法特性：
      * - 稳定性：稳定排序（相等元素保持原有顺序）
      * - 时间复杂度：O(n²)，与初始有序度有关（可通过优化提前终止）
@@ -986,7 +1077,7 @@ namespace ol
      * @tparam Compare 比较函数类型，需满足严格弱序，默认使用std::less
      * @param container 待排序的容器
      * @param comp 比较函数对象，返回true表示第一个参数应排在前面
-     *
+     * @note
      * 算法特性：
      * - 稳定性：不稳定排序（相等元素可能改变相对顺序）
      * - 时间复杂度：O(n²)，与初始有序度无关
@@ -1007,7 +1098,7 @@ namespace ol
      * @param first 起始迭代器
      * @param last 结束迭代器
      * @param comp 比较函数对象，返回true表示第一个参数应排在前面
-     *
+     * @note
      * 算法特性：
      * - 稳定性：不稳定排序（相等元素可能改变相对顺序）
      * - 时间复杂度：O(n²)，与初始有序度无关
@@ -1029,7 +1120,7 @@ namespace ol
      * @tparam Compare 比较函数类型，需满足严格弱序，默认使用std::less
      * @param container 待排序的容器
      * @param comp 比较函数对象，返回true表示第一个参数应排在前面
-     *
+     * @note
      * 算法特性：
      * - 稳定性：不稳定排序（相等元素可能改变相对顺序）
      * - 时间复杂度：O(n log n)，与初始有序度无关
@@ -1058,7 +1149,7 @@ namespace ol
      * @param first 起始迭代器
      * @param last 结束迭代器
      * @param comp 比较函数对象，返回true表示第一个参数应排在前面
-     *
+     * @note
      * 算法特性：
      * - 稳定性：不稳定排序（相等元素可能改变相对顺序）
      * - 时间复杂度：O(n log n)，与初始有序度无关
@@ -1086,7 +1177,7 @@ namespace ol
      * @tparam Compare 比较函数类型，需满足严格弱序，默认使用std::less
      * @param container 待排序的容器
      * @param comp 比较函数对象，返回true表示第一个参数应排在前面
-     *
+     * @note
      * 算法特性：
      * - 稳定性：稳定排序（相等元素保持原有顺序）
      * - 时间复杂度：O(n log n)，与初始有序度无关
@@ -1115,7 +1206,7 @@ namespace ol
      * @param first 起始迭代器
      * @param last 结束迭代器
      * @param comp 比较函数对象，返回true表示第一个参数应排在前面
-     *
+     * @note
      * 算法特性：
      * - 稳定性：稳定排序（相等元素保持原有顺序）
      * - 时间复杂度：O(n log n)，与初始有序度无关
@@ -1143,7 +1234,7 @@ namespace ol
      * @tparam Compare 比较函数类型，需满足严格弱序，默认使用std::less
      * @param container 待排序的容器
      * @param comp 比较函数对象，返回true表示第一个参数应排在前面
-     *
+     * @note
      * 算法特性：
      * - 稳定性：稳定排序（相等元素保持原有顺序）
      * - 时间复杂度：O(n + k)，n为元素个数，k为数值范围，与初始有序度无关
@@ -1173,7 +1264,7 @@ namespace ol
      * @param first 起始迭代器
      * @param last 结束迭代器
      * @param comp 比较函数对象，返回true表示第一个参数应排在前面
-     *
+     * @note
      * 算法特性：
      * - 稳定性：稳定排序（相等元素保持原有顺序）
      * - 时间复杂度：O(n + k)，n为元素个数，k为数值范围，与初始有序度无关
@@ -1199,66 +1290,65 @@ namespace ol
     /**
      * @brief 基数排序（容器版本，LSD策略，适用于整数类型）
      * @tparam Container 容器类型（需支持随机访问迭代器，元素为整数）
+     * @tparam Compare 比较器类型，仅支持std::less（升序）和std::greater（降序）
      * @param container 待排序的容器
      * @param radix 基数，默认为10（十进制）
-     *
+     * @param comp 比较器，std::less为升序，std::greater为降序
+     * @note
      * 算法特性：
+     * - 非比较型排序，基于数字位数特性实现
      * - 稳定性：稳定排序（相等元素保持原始相对顺序）
      * - 时间复杂度：O(d*(n+r))，d为最大位数，n为元素数，r为基数
-     * - 空间复杂度：O(n+r)，需额外存储计数数组和临时排序结果
-     * - 负数处理：通过偏移量将所有数转为非负数，排序后还原，确保负数正确排序
+     * - 支持升序（默认，使用std::less）和降序（使用std::greater）
+     * - 降序通过"先升序排序，再反转结果"实现
      */
-    template <typename Container>
+    template <typename Container, typename Compare = std::less<typename container_traits<Container>::value_type>>
     typename std::enable_if<std::is_integral<typename container_traits<Container>::value_type>::value, void>::type
-    radix_sort(Container& container, int radix = 10)
+    radix_sort(Container& container, int radix = 10, const Compare& comp = Compare())
     {
         if (radix < 2)
-        {
             throw std::invalid_argument("Radix must be greater than or equal to 2");
-        }
 
         using traits = container_traits<Container>;
-        using iterator = typename traits::iterator;
+        auto first = traits::begin(container);
+        auto last = traits::end(container);
 
-        static_assert(
-            std::is_same_v<
-                typename std::iterator_traits<iterator>::iterator_category,
-                std::random_access_iterator_tag>,
-            "Radix sort requires random access iterators");
+        // 基数排序默认按升序执行
+        detail::radix_sort_impl(first, last, radix);
 
-        detail::radix_sort_impl(traits::begin(container), traits::end(container), radix);
+        // 判断是否需要降序（通过比较器类型）
+        if constexpr (std::is_same_v<Compare, std::greater<typename container_traits<Container>::value_type>>)
+            std::reverse(first, last); // 降序处理：反转升序结果
     }
 
     /**
      * @brief 基数排序（迭代器版本，LSD策略，适用于整数类型）
      * @tparam RandomIt 随机访问迭代器类型
-     * @tparam Compare 比较函数类型（默认使用std::less）
+     * @tparam Compare 比较器类型，仅支持std::less（升序）和std::greater（降序）
      * @param first 排序区间的起始迭代器（包含）
      * @param last 排序区间的结束迭代器（不包含）
      * @param radix 基数，默认为10（十进制）
-     *
+     * @note
      * 算法特性：
+     * - 非比较型排序，基于数字位数特性实现
      * - 稳定性：稳定排序（相等元素保持原始相对顺序）
      * - 时间复杂度：O(d*(n+r))，d为最大位数，n为元素数，r为基数
-     * - 空间复杂度：O(n+r)，需额外存储计数数组和临时排序结果
-     * - 负数处理：通过偏移量将所有数转为非负数，排序后还原
+     * - 支持升序（默认，使用std::less）和降序（使用std::greater）
+     * - 降序通过"先升序排序，再反转结果"实现
      */
-    template <typename RandomIt>
+    template <typename RandomIt, typename Compare = std::less<typename std::iterator_traits<RandomIt>::value_type>>
     typename std::enable_if<std::is_integral<typename std::iterator_traits<RandomIt>::value_type>::value, void>::type
-    radix_sort(RandomIt first, RandomIt last, int radix = 10)
+    radix_sort(RandomIt first, RandomIt last, int radix = 10, const Compare& comp = Compare())
     {
         if (radix < 2)
-        {
             throw std::invalid_argument("Radix must be greater than or equal to 2");
-        }
 
-        static_assert(
-            std::is_same_v<
-                typename std::iterator_traits<RandomIt>::iterator_category,
-                std::random_access_iterator_tag>,
-            "Radix sort requires random access iterators");
-
+        // 基数排序默认按升序执行
         detail::radix_sort_impl(first, last, radix);
+
+        // 判断是否需要降序（通过比较器类型）
+        if constexpr (std::is_same_v<Compare, std::greater<typename std::iterator_traits<RandomIt>::value_type>>)
+            std::reverse(first, last); // 降序处理：反转升序结果
     }
     // ===========================================================================
 
@@ -1270,7 +1360,7 @@ namespace ol
      * @tparam Compare 比较函数类型，需满足严格弱序，默认使用std::less
      * @param container 待排序的容器
      * @param comp 比较函数对象，返回true表示第一个参数应排在前面
-     *
+     * @note
      * 算法特性：
      * - 稳定性：不稳定排序（相等元素可能改变相对顺序）
      * - 时间复杂度：O(n log n)，与初始有序度有关但影响程度取决于基准选择策略
@@ -1305,7 +1395,7 @@ namespace ol
      * @param first 起始迭代器
      * @param last 结束迭代器
      * @param comp 比较函数对象，返回true表示第一个参数应排在前面
-     *
+     * @note
      * 算法特性：
      * - 稳定性：不稳定排序（相等元素可能改变相对顺序）
      * - 时间复杂度：O(n log n)，与初始有序度有关但影响程度取决于基准选择策略
@@ -1331,6 +1421,163 @@ namespace ol
     }
     // ===========================================================================
 
+    // 用户接口 - 桶排序
+    // ===========================================================================
+    /**
+     * @brief 桶排序（容器版本，适用于浮点数）
+     * @tparam Container 容器类型（需支持随机访问迭代器，元素为浮点数）
+     * @tparam Compare 比较函数类型，需满足严格弱序，默认使用std::less
+     * @param container 待排序的容器
+     * @param num_buckets 桶数量（默认10，建议设为接近元素数量的平方根）
+     * @param min_val 数据最小值（必须小于max_val）
+     * @param max_val 数据最大值（必须大于min_val）
+     * @param comp 比较函数对象，决定桶内元素的排序规则
+     * @throw std::invalid_argument 当桶数量小于1或min_val >= max_val时抛出
+     * @note
+     * 算法特性：
+     * - 混合排序：桶划分基于数值范围，桶内使用插入排序（支持比较器）
+     * - 稳定性：稳定排序（相等元素保持原始相对顺序）
+     * - 时间复杂度：平均O(n + k)，最坏O(n²)（k为桶数量）
+     *   - 性能与数据分布和初始有序度密切相关：
+     *     1. 数据分布均匀时，各桶元素数量均衡，整体效率接近线性
+     *     2. 初始有序度高时，桶内元素已有序，插入排序效率显著提升（接近O(m)）
+     *     3. 数据分布不均时，元素集中在少数桶中，退化为桶内插入排序的O(m²)
+     * - 空间复杂度：O(n + k)，需额外存储k个桶及所有元素
+     * - 适用场景：数据分布均匀且范围已知的浮点数排序，尤其适合初始有序度较高的数据集
+     */
+    template <typename Container, typename Compare = std::less<typename Container::value_type>>
+    typename std::enable_if<
+        std::is_floating_point<typename Container::value_type>::value,
+        void>::type
+    bucket_sort(Container& container,
+                size_t num_buckets = 10,
+                double min_val = 0.0, double max_val = 1.0,
+                const Compare& comp = Compare())
+    {
+        using traits = container_traits<Container>;
+        using iterator = typename traits::iterator;
+
+        static_assert(
+            std::is_same_v<
+                typename std::iterator_traits<iterator>::iterator_category,
+                std::random_access_iterator_tag>,
+            "bucket_sort requires random access iterators");
+
+        if (num_buckets < 1)
+            throw std::invalid_argument("Number of buckets must be at least 1");
+        if (min_val >= max_val)
+            throw std::invalid_argument("min_val must be less than max_val");
+
+        detail::bucket_sort_float_impl(
+            traits::begin(container),
+            traits::end(container),
+            num_buckets,
+            min_val,
+            max_val,
+            comp);
+    }
+
+    /**
+     * @brief 桶排序（容器版本，适用于整数）
+     * @tparam Container 容器类型（需支持随机访问迭代器，元素为整数）
+     * @tparam Compare 比较函数类型，需满足严格弱序，默认使用std::less
+     * @param container 待排序的容器
+     * @param num_buckets 桶数量（默认10，建议设为接近元素数量的平方根）
+     * @param comp 比较函数对象，决定排序规则
+     * @throw std::invalid_argument 当桶数量小于1时抛出
+     * @note
+     * 算法特性：
+     * - 混合排序：自动划分桶，桶内使用插入排序（支持比较器）
+     * - 稳定性：稳定排序（相等元素保持原始相对顺序）
+     * - 时间复杂度：平均O(n + k)，最坏O(n²)（k为桶数量）
+     *   - 性能与数据分布和初始有序度均相关：
+     *     1. 当数据分布均匀时，各桶元素数量均衡，桶内插入排序效率高
+     *     2. 初始有序度高时，桶内元素已有序，插入排序退化到O(m)（m为桶内元素数）
+     *     3. 若数据集中在少数桶中，会退化为桶内插入排序的O(m²)，整体接近O(n²)
+     * - 空间复杂度：O(n + k)，需要额外空间存储k个桶及n个元素
+     * - 适用场景：数据分布均匀且范围已知的整数排序，尤其适合初始有序度较高的数据集
+     */
+    template <typename Container, typename Compare = std::less<typename Container::value_type>>
+    typename std::enable_if<
+        std::is_integral<typename Container::value_type>::value,
+        void>::type
+    bucket_sort(Container& container, size_t num_buckets = 10, const Compare& comp = Compare())
+    {
+        using traits = container_traits<Container>;
+        using iterator = typename traits::iterator;
+
+        static_assert(
+            std::is_same_v<
+                typename std::iterator_traits<iterator>::iterator_category,
+                std::random_access_iterator_tag>,
+            "bucket_sort requires random access iterators");
+
+        if (num_buckets < 1)
+            throw std::invalid_argument("Number of buckets must be at least 1");
+
+        detail::bucket_sort_int_impl(
+            traits::begin(container),
+            traits::end(container),
+            num_buckets,
+            comp);
+    }
+
+    /**
+     * @brief 桶排序（迭代器版本，适用于浮点数）
+     *
+     * 与容器版本特性一致，支持自定义比较器，适用于浮点数范围排序。
+     */
+    template <typename RandomIt, typename Compare = std::less<typename std::iterator_traits<RandomIt>::value_type>>
+    typename std::enable_if<
+        std::is_floating_point<typename std::iterator_traits<RandomIt>::value_type>::value,
+        void>::type
+    bucket_sort(RandomIt first, RandomIt last,
+                size_t num_buckets = 10,
+                double min_val = 0.0, double max_val = 1.0,
+                const Compare& comp = Compare())
+    {
+        static_assert(
+            std::is_same_v<
+                typename std::iterator_traits<RandomIt>::iterator_category,
+                std::random_access_iterator_tag>,
+            "bucket_sort requires random access iterators");
+
+        if (num_buckets < 1)
+            throw std::invalid_argument("Number of buckets must be at least 1");
+        if (min_val >= max_val)
+            throw std::invalid_argument("min_val must be less than max_val");
+
+        detail::bucket_sort_float_impl(first, last, num_buckets, min_val, max_val, comp);
+    }
+
+    /**
+     * @brief 桶排序（迭代器版本，适用于整数）
+     *
+     * 与容器版本特性一致，支持自定义比较器，自动计算数据范围。
+     */
+    template <typename RandomIt, typename Compare = std::less<typename std::iterator_traits<RandomIt>::value_type>>
+    typename std::enable_if<
+        std::is_integral<typename std::iterator_traits<RandomIt>::value_type>::value,
+        void>::type
+    bucket_sort(RandomIt first, RandomIt last,
+                size_t num_buckets = 10,
+                const Compare& comp = Compare())
+    {
+        static_assert(
+            std::is_same_v<
+                typename std::iterator_traits<RandomIt>::iterator_category,
+                std::random_access_iterator_tag>,
+            "bucket_sort requires random access iterators");
+
+        if (num_buckets < 1)
+            throw std::invalid_argument("Number of buckets must be at least 1");
+
+        detail::bucket_sort_int_impl(first, last, num_buckets, comp);
+    }
+    // ===========================================================================
+
+    // 打印容器（调试用）
+    // ===========================================================================
     /**
      * @brief 打印容器元素（调试用）
      * @tparam Container 容器类型（支持范围for循环）
