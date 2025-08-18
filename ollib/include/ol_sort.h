@@ -565,120 +565,133 @@ namespace ol
         // 基数排序相关实现
         // -----------------------------------------------------------------------
         /**
-         * @brief 获取数字的指定位值（从0开始，0为最低位）
-         *
-         * 负数处理逻辑：
-         * 将负数映射到[radix, 2*radix-1]范围的桶，正数映射到[0, radix-1]范围的桶
-         * 确保所有负数整体排在正数之前，同时保持负数内部和正数内部的正确排序
+         * @brief 快速幂算法（二进制 exponentiation）
+         * 计算 base^exponent，时间复杂度 O(log exponent)
          */
         template <typename T>
-        int get_digit(T num, int digit, int radix)
+        T fast_pow(T base, int exponent)
         {
-            // 处理负数：通过偏移量将负数映射到更高范围的桶，保证负数排在正数前
-            bool is_negative = false;
-            if (num < 0)
+            T result = 1;
+            while (exponent > 0)
             {
-                is_negative = true;
-                num = -num; // 转为正数处理其位值
-            }
-
-            for (int i = 0; i < digit; ++i)
-            {
-                num /= radix;
-            }
-
-            int result = num % radix;
-            // 负数偏移radix个位置，确保负数桶与正数桶分离
-            return is_negative ? radix + result : result;
-        }
-
-        /**
-         * @brief 计算数字的最大位数
-         */
-        template <typename T>
-        int get_max_digits(const std::vector<T>& nums, int radix)
-        {
-            if (nums.empty()) return 0;
-
-            T max_num = std::abs(nums[0]);
-            for (const auto& num : nums)
-            {
-                T abs_num = std::abs(num);
-                if (abs_num > max_num)
+                // 如果当前指数为奇数，乘上当前基数
+                if (exponent % 2 == 1)
                 {
-                    max_num = abs_num;
+                    result *= base;
                 }
+                // 基数平方，指数折半
+                base *= base;
+                exponent /= 2;
             }
-
-            if (max_num == 0) return 1;
-
-            int digits = 0;
-            while (max_num > 0)
-            {
-                max_num /= radix;
-                ++digits;
-            }
-            return digits;
+            return result;
         }
 
         /**
-         * @brief 基数排序实现（适用于整数类型）
+         * @brief 基数排序的计数排序子过程
+         * @tparam ValueType 元素类型（整数）
+         * @param nums 待排序的临时数组（已通过偏移量转为非负数）
+         * @param k 当前排序的位数（0为最低位）
+         * @param radix 基数（默认为10）
          */
-        template <typename RandomIt>
-        typename std::enable_if<std::is_integral<typename std::iterator_traits<RandomIt>::value_type>::value, void>::type
-        radix_sort_impl(RandomIt first, RandomIt last, int radix = 10)
+        template <typename ValueType>
+        void radix_count_sort(std::vector<ValueType>& nums, int k, int radix)
         {
-            using ValueType = typename std::iterator_traits<RandomIt>::value_type;
-            size_t n = last - first;
+            const size_t n = nums.size();
             if (n <= 1) return;
 
-            // 将基数转换为无符号类型，避免比较时的类型不匹配
-            const size_t radix_unsigned = static_cast<size_t>(radix);
+            // 计数数组：存储每个digit的出现次数
+            std::vector<int> count(radix, 0);
 
-            // 将数据复制到临时容器
-            std::vector<ValueType> nums(first, last);
-            int max_digits = get_max_digits(nums, radix);
+            // 使用快速幂计算除数（radix^k）
+            ValueType divisor = fast_pow(static_cast<ValueType>(radix), k);
 
-            // 由于要处理负数，需要2*radix个桶（radix个正数桶，radix个负数桶）
-            std::vector<std::vector<ValueType>> buckets(2 * radix_unsigned);
-
-            for (int digit = 0; digit < max_digits; ++digit)
+            // 1. 统计当前位的数字出现次数
+            for (ValueType num : nums)
             {
-                // 清空桶
-                for (auto& bucket : buckets)
-                {
-                    bucket.clear();
-                }
-
-                // 分配：将元素放入对应的桶
-                for (const auto& num : nums)
-                {
-                    int d = get_digit(num, digit, radix);
-                    buckets[static_cast<size_t>(d)].push_back(num);
-                }
-
-                // 收集：先处理负数桶，再处理正数桶，确保负数排在前面
-                size_t index = 0;
-                // 先处理负数桶 (radix 到 2*radix-1) - 使用无符号类型比较
-                for (size_t i = radix_unsigned; i < 2 * radix_unsigned; ++i)
-                {
-                    for (const auto& num : buckets[i])
-                    {
-                        nums[index++] = num;
-                    }
-                }
-                // 再处理正数桶 (0 到 radix-1) - 使用无符号类型比较
-                for (size_t i = 0; i < radix_unsigned; ++i)
-                {
-                    for (const auto& num : buckets[i])
-                    {
-                        nums[index++] = num;
-                    }
-                }
+                int digit = static_cast<int>((num / divisor) % radix);
+                ++count[digit];
             }
 
-            // 将排序结果复制回原容器
-            std::copy(nums.begin(), nums.end(), first);
+            // 2. 计算前缀和，确定每个数字在结果中的位置
+            for (int i = 1; i < radix; ++i)
+            {
+                count[i] += count[i - 1];
+            }
+
+            // 3. 从后往前遍历，按当前位排序（保证稳定性）
+            std::vector<ValueType> sorted(n);
+            for (int i = static_cast<int>(n) - 1; i >= 0; --i)
+            {
+                ValueType num = nums[i];
+                int digit = static_cast<int>((num / divisor) % radix);
+                sorted[count[digit] - 1] = num;
+                --count[digit];
+            }
+
+            // 4. 复制回原数组
+            nums.swap(sorted);
+        }
+
+        /**
+         * @brief 基数排序核心实现（LSD策略）
+         * @tparam RandomIt 随机访问迭代器类型
+         * @param first 起始迭代器
+         * @param last 结束迭代器
+         * @param radix 基数
+         */
+        template <typename RandomIt>
+        void radix_sort_impl(RandomIt first, RandomIt last, int radix)
+        {
+            using ValueType = typename std::iterator_traits<RandomIt>::value_type;
+            const size_t n = std::distance(first, last);
+            if (n <= 1) return;
+
+            // 一次循环同时找到最大和最小元素（从第二个元素开始比较）
+            ValueType min_val = *first;
+            ValueType max_val = *first;
+            for (RandomIt it = std::next(first); it != last; ++it)
+            {
+                if (*it < min_val)
+                    min_val = *it;
+                if (*it > max_val)
+                    max_val = *it;
+            }
+
+            // 处理负数：计算偏移量将所有数转为非负数
+            const ValueType offset = (min_val < 0) ? -min_val : 0;
+
+            // 复制数据并应用偏移量
+            std::vector<ValueType> nums;
+            nums.reserve(n);
+            for (RandomIt it = first; it != last; ++it)
+            {
+                nums.push_back(*it + offset);
+            }
+
+            // 调整最大值（加上偏移量）
+            max_val += offset;
+
+            // 计算最大元素的位数（使用do-while确保0也能正确得到位数1）
+            int max_digits = 0;
+            ValueType temp = max_val;
+            do
+            {
+                ++max_digits;
+                temp /= radix;
+            } while (temp > 0);
+
+            // 从低位到高位，依次对每一位进行计数排序
+            for (int k = 0; k < max_digits; ++k)
+            {
+                radix_count_sort(nums, k, radix);
+            }
+
+            // 将所有元素转回原始值（减去偏移量）并写回原容器
+            auto dest_it = first;
+            for (ValueType num : nums)
+            {
+                *dest_it++ = num - offset;
+            }
         }
 
         // 快速排序相关实现
@@ -1184,25 +1197,24 @@ namespace ol
     // 用户接口 - 基数排序
     // ===========================================================================
     /**
-     * @brief 基数排序（容器版本，适用于整数类型）
-     * @tparam Container 容器类型（需支持随机访问迭代器，元素类型为整数）
+     * @brief 基数排序（容器版本，LSD策略，适用于整数类型）
+     * @tparam Container 容器类型（需支持随机访问迭代器，元素为整数）
      * @param container 待排序的容器
      * @param radix 基数，默认为10（十进制）
      *
      * 算法特性：
-     * - 稳定性：稳定排序（相等元素保持原有顺序）
-     * - 时间复杂度：O(d*(n+r))，d为最大位数，n为元素个数，r为基数
-     * - 空间复杂度：O(n+r)，需要额外的存储空间
-     * - 适用场景：整数类型数据，支持正数和负数排序
+     * - 稳定性：稳定排序（相等元素保持原始相对顺序）
+     * - 时间复杂度：O(d*(n+r))，d为最大位数，n为元素数，r为基数
+     * - 空间复杂度：O(n+r)，需额外存储计数数组和临时排序结果
+     * - 负数处理：通过偏移量将所有数转为非负数，排序后还原，确保负数正确排序
      */
     template <typename Container>
     typename std::enable_if<std::is_integral<typename container_traits<Container>::value_type>::value, void>::type
     radix_sort(Container& container, int radix = 10)
     {
-        // 验证基数有效性
         if (radix < 2)
         {
-            throw std::invalid_argument("radix must be greater than or equal to 2");
+            throw std::invalid_argument("Radix must be greater than or equal to 2");
         }
 
         using traits = container_traits<Container>;
@@ -1212,33 +1224,39 @@ namespace ol
             std::is_same_v<
                 typename std::iterator_traits<iterator>::iterator_category,
                 std::random_access_iterator_tag>,
-            "radix_sort requires random access iterators");
+            "Radix sort requires random access iterators");
 
         detail::radix_sort_impl(traits::begin(container), traits::end(container), radix);
     }
 
     /**
-     * @brief 基数排序（迭代器版本，适用于整数类型）
-     * @tparam RandomIt 随机访问迭代器类型（元素类型为整数）
-     * @param first 起始迭代器
-     * @param last 结束迭代器
+     * @brief 基数排序（迭代器版本，LSD策略，适用于整数类型）
+     * @tparam RandomIt 随机访问迭代器类型
+     * @tparam Compare 比较函数类型（默认使用std::less）
+     * @param first 排序区间的起始迭代器（包含）
+     * @param last 排序区间的结束迭代器（不包含）
      * @param radix 基数，默认为10（十进制）
+     *
+     * 算法特性：
+     * - 稳定性：稳定排序（相等元素保持原始相对顺序）
+     * - 时间复杂度：O(d*(n+r))，d为最大位数，n为元素数，r为基数
+     * - 空间复杂度：O(n+r)，需额外存储计数数组和临时排序结果
+     * - 负数处理：通过偏移量将所有数转为非负数，排序后还原
      */
     template <typename RandomIt>
     typename std::enable_if<std::is_integral<typename std::iterator_traits<RandomIt>::value_type>::value, void>::type
     radix_sort(RandomIt first, RandomIt last, int radix = 10)
     {
-        // 验证基数有效性
         if (radix < 2)
         {
-            throw std::invalid_argument("radix must be greater than or equal to 2");
+            throw std::invalid_argument("Radix must be greater than or equal to 2");
         }
 
         static_assert(
             std::is_same_v<
                 typename std::iterator_traits<RandomIt>::iterator_category,
                 std::random_access_iterator_tag>,
-            "radix_sort requires random access iterators");
+            "Radix sort requires random access iterators");
 
         detail::radix_sort_impl(first, last, radix);
     }
