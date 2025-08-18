@@ -130,76 +130,8 @@ namespace ol
         // 插入排序相关实现
         // -----------------------------------------------------------------------
         /**
-         * @brief 插入排序实现（双向迭代器版本）
-         * @tparam Iterator 双向迭代器类型
-         * @tparam Compare 比较函数类型，需满足严格弱序（Strict Weak Ordering）
-         * @param first 起始迭代器
-         * @param last 结束迭代器
-         * @param comp 比较函数对象，返回true表示第一个参数应排在前面
-         */
-        template <typename Iterator, typename Compare>
-        void insertion_sort_impl(Iterator first, Iterator last,
-                                 std::bidirectional_iterator_tag, const Compare& comp)
-        {
-            if (first == last) return;
-
-            for (Iterator i = first; i != last; ++i)
-            {
-                auto key = *i;
-                Iterator j = i;
-
-                if (j != first)
-                {
-                    Iterator prev = j;
-                    --prev;
-
-                    while (j != first && comp(key, *prev))
-                    {
-                        *j = *prev;
-                        --j;
-                        if (j != first)
-                        {
-                            --prev;
-                        }
-                    }
-                }
-
-                *j = key;
-            }
-        }
-
-        /**
-         * @brief 插入排序实现（随机访问迭代器版本）
-         * @tparam RandomIt 随机访问迭代器类型
-         * @tparam Compare 比较函数类型，需满足严格弱序（Strict Weak Ordering）
-         * @param first 起始迭代器
-         * @param last 结束迭代器
-         * @param comp 比较函数对象，返回true表示第一个参数应排在前面
-         */
-        template <typename RandomIt, typename Compare>
-        void insertion_sort_impl(RandomIt first, RandomIt last,
-                                 std::random_access_iterator_tag, const Compare& comp)
-        {
-            if (first == last) return;
-
-            for (RandomIt i = first + 1; i != last; ++i)
-            {
-                auto key = *i;
-                RandomIt j = i;
-
-                while (j > first && comp(key, *(j - 1)))
-                {
-                    *j = *(j - 1);
-                    --j;
-                }
-
-                *j = key;
-            }
-        }
-
-        /**
-         * @brief 插入排序统一接口（自动判断迭代器类型）
-         * @tparam Iterator 迭代器类型
+         * @brief 插入排序实现
+         * @tparam Iterator 迭代器类型（双向迭代器类型）
          * @tparam Compare 比较函数类型，需满足严格弱序（Strict Weak Ordering）
          * @param first 起始迭代器
          * @param last 结束迭代器
@@ -208,8 +140,24 @@ namespace ol
         template <typename Iterator, typename Compare>
         void insertion_sort_impl(Iterator first, Iterator last, const Compare& comp)
         {
-            using category = typename std::iterator_traits<Iterator>::iterator_category;
-            insertion_sort_impl(first, last, category(), comp);
+            if (first == last) return;
+
+            // 从第二个元素开始迭代（第一个元素已"有序"）
+            for (Iterator i = std::next(first); i != last; ++i)
+            {
+                auto key = *i;  // 保存当前待插入的元素
+                Iterator j = i; // 从当前位置向前查找插入点
+
+                // 向前查找：只要没到起始位置，且key应排在前一个元素前面
+                // std::prev(j)对双向迭代器等价于--j的临时值，对随机访问迭代器等价于j-1
+                while (j != first && comp(key, *std::prev(j)))
+                {
+                    *j = *std::prev(j); // 前一个元素后移
+                    --j;                // 指针前移（双向/随机访问迭代器均支持）
+                }
+
+                *j = key; // 将key插入到正确位置
+            }
         }
 
         // 折半插入排序相关实现
@@ -841,7 +789,7 @@ namespace ol
 
     /**
      * @brief 插入排序（迭代器版本，支持默认比较器）
-     * @tparam Iterator 迭代器类型（双向或随机访问）
+     * @tparam Iterator 迭代器类型（支持双向迭代器）
      * @tparam Compare 比较函数类型，需满足严格弱序，默认使用std::less
      * @param first 起始迭代器
      * @param last 结束迭代器
