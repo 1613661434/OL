@@ -127,7 +127,6 @@ namespace ol
         cdir(const cdir&) = delete;            // 禁用拷贝构造函数。
         cdir& operator=(const cdir&) = delete; // 禁用赋值函数。
     public:
-        // /project/public/_public.h
         std::string m_dirname;   // 目录名，例如：/project/public
         std::string m_filename;  // 文件名，不包括目录名，例如：_public.h
         std::string m_ffilename; // 绝对路径的文件，例如：/project/public/_public.h

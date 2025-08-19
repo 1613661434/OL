@@ -288,7 +288,7 @@ namespace ol
     // Windows的_opendir（递归遍历目录）
     bool cdir::_opendir(const std::string& dirname, const std::string& rules, const size_t maxfiles, const bool bandchild)
     {
-        // 构建搜索路径（Windows API需要\，但最终存储用/）
+        // 构建搜索路径
         std::string search_path = dirname;
         std::replace(search_path.begin(), search_path.end(), '/', '\\');
         search_path += "\\*"; // Windows搜索通配符
@@ -331,10 +331,10 @@ namespace ol
             {
                 if (m_filelist.size() >= maxfiles) break;
 
-                if (true)
-                {
-                    m_filelist.push_back(std::move(strffilename));
-                }
+                // 把能匹配上的文件放入m_filelist容器中
+                if (matchstr(fileinfo.name, rules) == false) continue;
+
+                m_filelist.push_back(std::move(strffilename));
             }
         } while (_findnext(handle, &fileinfo) == 0); // Windows API遍历下一个文件
 
@@ -377,7 +377,7 @@ namespace ol
 
         // 从绝对路径的文件名中解析出目录名和文件名。
         // 同时处理Windows的\和Linux的/分隔符
-        size_t pp = m_ffilename.find_last_of("/\\"); // 同时查找/和\
+        size_t pp = m_ffilename.find_last_of("/\\"); // 同时查找'/'和'\'
 
         // 处理根目录下的文件（如D:/file.txt或D:\file.txt）
         if (pp == std::string::npos)
@@ -522,7 +522,7 @@ namespace ol
                 if (buf.find(endbz, buf.length() - endbz.length()) != std::string::npos) return true;
             }
 
-            buf += "\n"; // getline从文件中读取一行的时候，会删除\n，所以，这里要补上\n，因为这个\n不应该被删除。
+            buf += '\n'; // getline从文件中读取一行的时候，会删除\n，所以，这里要补上\n，因为这个\n不应该被删除。
         }
 
         return false;

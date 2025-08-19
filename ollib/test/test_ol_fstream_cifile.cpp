@@ -14,20 +14,26 @@ using namespace std;
 // 创建测试文件
 void createTestFile(const std::string& filename, const std::string& content)
 {
-    std::ofstream file(filename);
-    file << content;
-    file.close();
+    cofile ofile;
+
+    if (ofile.open(filename, false) == false)
+    {
+        printf("ofile.open(%s) failed.\n", filename.c_str());
+        exit(-1);
+    }
+
+    ofile.writeline("%s", content);
 }
 
-bool Test(const std::string& filename)
+void Test(const std::string& filename)
 {
     cifile ifile;
 
     // 打开文件。
     if (ifile.open(filename) == false)
     {
-        printf("ofile.open(%s) failed.\n", filename.c_str());
-        return false;
+        printf("ifile.open(%s) failed.\n", filename.c_str());
+        exit(-1);
     }
 
     string strline; // 存放从文本文件中读取的一行。
@@ -42,12 +48,16 @@ bool Test(const std::string& filename)
 
     // ifile.closeandremove();     // 关闭并删除文件。
     ifile.close(); // 关闭文件。
-    return true;
 }
 
 int main()
 {
-    const std::string filename = "/tmp/data/ol.txt";
+    std::string filename;
+#ifdef __linux__
+    filename = "/tmp/test_ol/ol.txt";
+#elif defined(_WIN32)
+    filename = R"(C:\test_ol\ol.txt)";
+#endif
 
     // 测试场景1: 文件以换行符结尾
     std::cout << "=== 场景1: 文件以换行符结尾 ===\n";

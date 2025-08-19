@@ -9,11 +9,11 @@ using namespace ol;
 int main()
 {
 #ifdef __linux__
-    // 创建"/tmp/aaa/bbb/ccc/ddd"目录。
-    newdir("/tmp/aaa/bbb/ccc/ddd", false);
+    // 创建"/tmp/test_ol/bbb/ccc/ddd"目录。
+    newdir("/tmp/test_ol/bbb/ccc/ddd", false);
 
-    // 创建"/tmp/111/222/333/444"目录。
-    newdir("/tmp/111/222/333/444/data.xml", true);
+    // 创建"/tmp/test_ol/222/333/444"目录。
+    newdir("/tmp/test_ol/222/333/444/data.xml", true);
 #elif defined(_WIN32)
     // 创建"C:\test_ol\aaa\bbb"目录。
     newdir(R"(C:\test_ol\aaa\bbb)", false);

@@ -19,7 +19,7 @@ int main()
     const string test_dir = R"(/PROJECT/)";
 #endif
 
-    const string match_rule = "*";
+    const string match_rule = "*.cpp";
     const size_t max_files = 1000;
     const bool recursive = true;
     const bool sort_files = true;
