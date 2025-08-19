@@ -16,13 +16,14 @@ int main()
 #ifdef _WIN32
     const string test_dir = R"(D:\Visual Studio)";
 #elif defined(__linux__)
-    const string test_dir = R"(/PROJECT/)";
+    const string test_dir = R"(/home/mysql/test_ol)";
 #endif
 
-    const string match_rule = "*.cpp";
+    const string match_rule = "*";
     const size_t max_files = 1000;
     const bool recursive = true;
     const bool sort_files = true;
+    const bool withDotFiles = false;
 
     cout << "===== 开始测试目录遍历 =====" << "\n";
     cout << "测试目录: " << test_dir << "\n";
@@ -32,7 +33,7 @@ int main()
     cout << "===========================" << "\n";
 
     // 打开目录
-    if (dir.opendir(test_dir, match_rule, max_files, recursive, sort_files) == false)
+    if (dir.opendir(test_dir, match_rule, max_files, recursive, sort_files, withDotFiles) == false)
     {
 #ifdef _WIN32
         // 使用VS推荐的strerror_s替代strerror，避免安全警告

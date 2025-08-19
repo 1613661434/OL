@@ -235,7 +235,7 @@ namespace ol
     // 这是一个递归函数，在opendir()中调用，cdir类的外部不需要调用它。
 #ifdef __linux__
     // Linux的_opendir（递归遍历目录）
-    bool cdir::_opendir(const std::string& dirname, const std::string& rules, const size_t maxfiles, const bool bandchild)
+    bool cdir::_opendir(const std::string& dirname, const std::string& rules, const size_t maxfiles, const bool bandchild, const bool bwithDotFiles)
     {
         DIR* dir; // 目录指针。
 
@@ -251,8 +251,11 @@ namespace ol
             // 判断容器中的文件数量是否超出maxfiles参数。
             if (m_filelist.size() >= maxfiles) break;
 
-            // 文件名以"."打头的文件不处理。.是当前目录，..是上一级目录，其它以.打头的都是特殊目录和文件。
-            if (stdir->d_name[0] == '.') continue;
+            // 跳过.和..（.是当前目录，..是上一级目录）
+            if (strcmp(stdir->d_name, ".") == 0 || strcmp(stdir->d_name, "..") == 0) continue;
+
+            // .开头的特殊目录和文件。
+            if (!bwithDotFiles && stdir->d_name[0] == '.') continue;
 
             // 拼接全路径的文件名。
             strffilename = dirname + '/' + stdir->d_name;
@@ -262,7 +265,7 @@ namespace ol
             {
                 if (bandchild == true) // 打开各级子目录。
                 {
-                    if (_opendir(strffilename, rules, maxfiles, bandchild) == false) // 递归调用_opendir函数。
+                    if (_opendir(strffilename, rules, maxfiles, bandchild, bwithDotFiles) == false) // 递归调用_opendir函数。
                     {
                         closedir(dir);
                         return false;
@@ -286,7 +289,7 @@ namespace ol
     }
 #elif defined(_WIN32)
     // Windows的_opendir（递归遍历目录）
-    bool cdir::_opendir(const std::string& dirname, const std::string& rules, const size_t maxfiles, const bool bandchild)
+    bool cdir::_opendir(const std::string& dirname, const std::string& rules, const size_t maxfiles, const bool bandchild, const bool bwithDotFiles)
     {
         // 构建搜索路径
         std::string search_path = dirname;
@@ -302,11 +305,11 @@ namespace ol
 
         std::string strffilename; // 全路径的文件名
         do {
-            // 跳过.和..
-            if (strcmp(fileinfo.name, ".") == 0 || strcmp(fileinfo.name, "..") == 0)
-            {
-                continue;
-            }
+            // 跳过.和..（.是当前目录，..是上一级目录）
+            if (strcmp(fileinfo.name, ".") == 0 || strcmp(fileinfo.name, "..") == 0) continue;
+
+            // .开头的特殊目录和文件。
+            if (!bwithDotFiles && fileinfo.name[0] == '.') continue;
 
             // 拼接全路径
             strffilename = dirname + '\\' + fileinfo.name;
@@ -319,7 +322,7 @@ namespace ol
             {
                 if (bandchild)
                 {
-                    if (_opendir(strffilename, rules, maxfiles, bandchild) == false)
+                    if (_opendir(strffilename, rules, maxfiles, bandchild, bwithDotFiles) == false)
                     {
                         _findclose(handle); // 关闭Windows目录句柄
                         return false;
@@ -343,7 +346,7 @@ namespace ol
     }
 #endif
 
-    bool cdir::opendir(const std::string& dirname, const std::string& rules, const size_t maxfiles, const bool bandchild, bool bsort)
+    bool cdir::opendir(const std::string& dirname, const std::string& rules, const size_t maxfiles, const bool bandchild, bool bsort, const bool bwithDotFiles)
     {
         m_filelist.clear(); // 清空文件列表容器。
         m_pos = 0;          // 从文件列表中已读取文件的位置归0。
@@ -352,7 +355,7 @@ namespace ol
         if (newdir(dirname, false) == false) return false;
 
         // 打开目录，获取目录中的文件列表，存放在m_filelist容器中。
-        bool ret = _opendir(dirname, rules, maxfiles, bandchild);
+        bool ret = _opendir(dirname, rules, maxfiles, bandchild, bwithDotFiles);
 
         if (bsort == true) // 对文件列表排序。
         {

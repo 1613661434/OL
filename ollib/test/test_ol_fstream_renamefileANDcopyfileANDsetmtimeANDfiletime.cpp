@@ -23,7 +23,7 @@ int main()
     }
 
     // 获取文件的大小。
-    printf("size=%d\n", filesize("/project/public/_public.h"));
+    printf("size=%ld\n", filesize("/project/public/_public.h"));
 
     // 重置文件的时间。
     setmtime("/project/public/_public.h", "2020-01-05 13:37:29");

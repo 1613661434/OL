@@ -153,9 +153,10 @@ namespace ol
          * @param maxfiles 最大文件数量（默认10000，如果文件太多，可能消耗太多的内存）
          * @param bandchild 是否递归子目录（默认false）
          * @param bsort 是否按文件名排序（默认false）
+         * @param bwithDotFiles 是否包含.开头的特殊目录和文件（默认false）
          * @return true-成功，false-失败
          */
-        bool opendir(const std::string& dirname, const std::string& rules, const size_t maxfiles = 10000, const bool bandchild = false, bool bsort = false);
+        bool opendir(const std::string& dirname, const std::string& rules, const size_t maxfiles = 10000, const bool bandchild = false, bool bsort = false, const bool bwithDotFiles = false);
 
     private:
         /**
@@ -164,9 +165,10 @@ namespace ol
          * @param rules 文件名匹配规则
          * @param maxfiles 最大文件数量
          * @param bandchild 是否递归子目录
+         * @param bwithDotFiles 是否包含.开头的特殊目录和文件
          * @return true-成功，false-失败
          */
-        bool _opendir(const std::string& dirname, const std::string& rules, const size_t maxfiles, const bool bandchild);
+        bool _opendir(const std::string& dirname, const std::string& rules, const size_t maxfiles, const bool bandchild, const bool bwithDotFiles);
 
     public:
         /**
