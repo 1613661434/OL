@@ -1,34 +1,32 @@
-# Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
-This is a human-readable summary of (and not a substitute for) the [full legal code](https://creativecommons.org/licenses/by-sa/4.0/legalcode).
+# Creative Commons Attribution 4.0 International (CC BY 4.0)
+This is a human-readable summary of (and not a substitute for) the [full legal code](https://creativecommons.org/licenses/by/4.0/legalcode).
 
 
 ## You are free to:
-- **Share** — Copy and redistribute the material in any medium or format, without restrictions on purpose (including commercial use).
-- **Adapt** — Remix, transform, and build upon the material for any purpose, even commercially.
+- **Share** — Copy and redistribute the material in any medium or format, without restrictions on purpose (including commercial use).  
+- **Adapt** — Remix, transform, and build upon the material for any purpose, even commercially.  
 
 The licensor cannot revoke these freedoms as long as you follow the license terms.
 
 
 ## Under the following terms:
-1. **Attribution**  
-   You must give appropriate credit to the licensor, provide a link to this license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.  
-   *Suggested attribution format: "Derived from the OL library developed by ol木子李lo, based on the freecplus library"*
+### 1. Attribution  
+You must give appropriate credit to the licensor (ol木子李lo), provide a link to this license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.  
+*Suggested attribution format: "Based on the OL library developed by ol木子李lo"*  
 
-2. **ShareAlike**  
-   If you remix, transform, or build upon the material (including adding new features, modifying existing code, or integrating with other projects), you must distribute your derivative work under the **same Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License** as the original.
 
-3. **No Additional Restrictions**  
-   You may not apply legal terms, technological measures (such as DRM), or other restrictions that legally prevent others from exercising any rights granted by this license.
+### 2. No Additional Restrictions  
+You may not apply legal terms, technological measures (such as DRM), or other restrictions that legally prevent others from exercising any rights granted by this license.  
 
 
 ## Notices:
-- You are not required to comply with this license for elements of the material that are in the public domain, or where your use is permitted by an applicable exception or limitation (e.g., fair use under copyright law).
-- This license does not provide warranties of any kind, including but not limited to warranties of merchantability, fitness for a particular purpose, or non-infringement. It may not cover all rights needed for your intended use (e.g., publicity, privacy, or moral rights may further limit your use of the material).
+- You are not required to comply with this license for elements of the material that are in the public domain, or where your use is permitted by an applicable exception or limitation (e.g., fair use under copyright law).  
+- This license does not provide warranties of any kind, including but not limited to warranties of merchantability, fitness for a particular purpose, or non-infringement. It may not cover all rights needed for your intended use (e.g., publicity, privacy, or moral rights may further limit your use of the material).  
 
 
-## Copyright & Derivation Statement
-1. **Original Project Source**  
-   This project ("OL library") is forked from the [freecplus library](https://blog.csdn.net/wucz122140729/article/details/105167157). The freecplus library is licensed under the freecplus Open Source License and the Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License.
+## Copyright Statement
+### 1. Copyright of the OL Library  
+© 2025 ol木子李lo (licensor of the OL library). All content of the OL library — including core modules (`ollib`, `oldblib/oracle`, `ol_ftp`), built-in dependencies (e.g., `third_party/ftplib`), and associated documentation — is released under the **Creative Commons Attribution 4.0 International (CC BY 4.0) License**.  
 
-2. **Copyright of This Project**  
-   © 2025 ol木子李lo (licensor of the OL library). All modifications, extensions, and new features added to the original freecplus library (collectively "derivative content of the OL library") are released under the Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License. This project complies with the obligations of the freecplus Open Source License, including retaining the original copyright notice and license statement.
+### 2. Compliance Obligations  
+Users who share, adapt, or distribute the OL library or its derivative works must comply with the "Attribution" term of CC BY 4.0 (see Section "Under the following terms: 1. Attribution") and may not impose additional restrictions on the exercise of rights granted by this license.
