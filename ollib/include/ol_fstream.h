@@ -262,7 +262,7 @@ namespace ol
          * @param bufsize 数据大小（字节）
          * @return true-成功，false-失败
          */
-        bool write(void* buf, int bufsize);
+        bool write(void* buf, size_t bufsize);
 
         /**
          * @brief 关闭文件并将临时文件重命名为目标文件

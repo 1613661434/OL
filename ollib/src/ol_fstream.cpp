@@ -457,11 +457,10 @@ namespace ol
         return fout.is_open();
     }
 
-    bool cofile::write(void* buf, int bufsize)
+    bool cofile::write(void* buf, size_t bufsize)
     {
         if (fout.is_open() == false) return false;
 
-        // fout.write((char *)buf,bufsize);
         fout.write(static_cast<char*>(buf), bufsize);
 
         return fout.good();
@@ -533,7 +532,6 @@ namespace ol
 
     size_t cifile::read(void* buf, const size_t bufsize)
     {
-        // fin.read((char *)buf,bufsize);
         fin.read(static_cast<char*>(buf), bufsize);
 
         return fin.gcount(); // 返回读取的字节数。
