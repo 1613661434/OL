@@ -4,7 +4,7 @@
  */
 
 #if !defined(__linux__)
-#error "test_fifo_receiver.cpp 仅支持Linux平台，不支持当前系统！"
+#error "仅支持Linux平台，不支持当前系统！"
 #endif
 
 #include "ol_tcp.h"

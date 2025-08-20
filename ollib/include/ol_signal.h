@@ -31,7 +31,7 @@ namespace ol
      *       2. 若bcloseio为true，将关闭stdin、stdout、stderr（文件描述符0、1、2）
      *       3. 适用于后台服务程序，防止意外终止或输出干扰
      */
-    void closeioandsignal(bool bcloseio = false);
+    void ignoreSignalsCloseIO(bool bcloseio = false);
 #endif // __linux__
 
 } // namespace ol
