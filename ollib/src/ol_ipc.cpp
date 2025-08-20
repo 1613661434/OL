@@ -264,7 +264,7 @@ namespace ol
     cpactive::~cpactive()
     {
         // 把当前进程从共享内存的进程组中移去。
-        if (m_pos != -1) memset(m_shm + m_pos, 0, sizeof(struct st_procinfo));
+        if (m_pos != -1) *reinterpret_cast<struct st_procinfo*>(m_shm + m_pos) = st_procinfo();
 
         // 把共享内存从当前进程中分离。
         if (m_shm != nullptr) shmdt(m_shm);
