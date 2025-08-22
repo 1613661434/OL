@@ -85,6 +85,22 @@ namespace test_utils
     }
 } // namespace test_utils
 
+// 日期相关辅助函数
+namespace date_utils
+{
+    // 移除日期中的连字符，便于排序
+    string normalize_date(const string& date)
+    {
+        string result;
+        for (char c : date)
+        {
+            if (c != '-')
+                result += c;
+        }
+        return result;
+    }
+} // namespace date_utils
+
 int main()
 {
     // 1. 基础排序算法测试（原生数组）
@@ -149,7 +165,7 @@ int main()
     test_utils::print_container(lst2);
 
     // 4. 自定义排序规则测试（快速排序）
-    print_separator("4. 自定义排序规则测试（快速排序）");
+    print_separator("4. 自定义排序规则测试（多种排序算法）");
 
     // 4.1 降序排序
     vector<int> vec_desc_int = {5, 2, 8, 1, 9};
@@ -184,25 +200,85 @@ int main()
     cout << "计数排序后: ";
     test_utils::print_container(vec_count);
 
-    // 6. 基数排序测试（整数，增加升序/降序测试）
-    print_separator("6. 基数排序测试（整数）");
+    // 6. 基数排序LSD测试（整数，增加升序/降序测试）
+    print_separator("6. 基数排序LSD测试（整数）");
     vector<int> vec_radix_asc = {170, 45, 75, 90, 802, 24, 2, 66, -12, -56};
     cout << "原始vector: ";
     test_utils::print_container(vec_radix_asc);
 
-    radix_sort(vec_radix_asc); // 默认升序（std::less）
-    cout << "基数排序(升序): ";
+    radix_sort_lsd(vec_radix_asc); // 默认升序（std::less）
+    cout << "基数排序LSD(升序): ";
     test_utils::print_container(vec_radix_asc);
 
     vector<int> vec_radix_desc = {170, 45, 75, 90, 802, 24, 2, 66, -12, -56};
-    radix_sort(vec_radix_desc, 10, greater<int>()); // 降序测试
-    cout << "基数排序(降序): ";
+    radix_sort_lsd(vec_radix_desc, 10, greater<int>()); // 降序测试
+    cout << "基数排序LSD(降序): ";
     test_utils::print_container(vec_radix_desc);
 
-    // 7. 桶排序测试（增加自定义比较器测试）
-    print_separator("7. 桶排序测试（整数、浮点数及自定义比较器）");
+    // 7. 基数排序MSD测试（字符串和日期）
+    print_separator("7. 基数排序MSD测试（字符串和日期）");
+    vector<string> vec_radix_str = {"banana", "apple", "cherry", "date", "elderberry", "fig"};
+    cout << "原始vector<string>: ";
+    test_utils::print_container(vec_radix_str);
 
-    // 7.1 整数桶排序（降序）
+    radix_sort_msd(vec_radix_str);
+    cout << "基数排序MSD后:     ";
+    test_utils::print_container(vec_radix_str);
+
+    // 日期排序测试（YYYY-MM-DD格式）- 使用字符串处理
+    vector<string> date_strings = {
+        "2023-10-05", "2021-12-25", "2022-03-15",
+        "2023-01-01", "2022-11-30", "2024-02-29", "2021-05-10"};
+
+    // 创建标准化日期（无连字符）用于排序
+    vector<string> normalized_dates;
+    for (const auto& date : date_strings)
+    {
+        normalized_dates.push_back(date_utils::normalize_date(date));
+    }
+
+    cout << "\n原始日期: ";
+    test_utils::print_container(date_strings);
+
+    // 对标准化日期进行排序
+    radix_sort_msd(normalized_dates);
+
+    // 创建排序后的原始日期向量
+    vector<string> sorted_dates;
+    for (const auto& norm_date : normalized_dates)
+    {
+        // 找到对应的原始日期
+        for (const auto& orig_date : date_strings)
+        {
+            if (date_utils::normalize_date(orig_date) == norm_date &&
+                find(sorted_dates.begin(), sorted_dates.end(), orig_date) == sorted_dates.end())
+            {
+                sorted_dates.push_back(orig_date);
+                break;
+            }
+        }
+    }
+
+    cout << "MSD基数排序后(按日期升序): ";
+    test_utils::print_container(sorted_dates);
+
+    // 字符串前缀分组测试
+    vector<string> vec_group = {"apple", "app", "application", "banana", "band", "bank", "cat", "car"};
+    cout << "\n原始分组vector: ";
+    test_utils::print_container(vec_group);
+
+    auto groups = radix_group_by_prefix(vec_group, 2); // 按前2个字符分组
+    cout << "按前2个字符分组结果:" << endl;
+    for (size_t i = 0; i < groups.size(); ++i)
+    {
+        cout << "  分组 " << i << ": ";
+        test_utils::print_container(groups[i]);
+    }
+
+    // 8. 桶排序测试（增加自定义比较器测试）
+    print_separator("8. 桶排序测试（整数、浮点数及自定义比较器）");
+
+    // 8.1 整数桶排序（降序）
     vector<int> vec_bucket_int = {42, 32, 33, 52, 37, 47, 51};
     cout << "原始整数vector: ";
     test_utils::print_container(vec_bucket_int);
@@ -210,7 +286,7 @@ int main()
     cout << "整数桶排序(降序): ";
     test_utils::print_container(vec_bucket_int);
 
-    // 7.2 浮点数桶排序（默认升序）
+    // 8.2 浮点数桶排序（默认升序）
     vector<double> vec_bucket_float = {0.42, 0.32, 0.33, 0.52, 0.37, 0.47, 0.51};
     cout << "\n原始浮点数vector: ";
     test_utils::print_container(vec_bucket_float);
@@ -218,7 +294,7 @@ int main()
     cout << "浮点数桶排序(升序): ";
     test_utils::print_container(vec_bucket_float);
 
-    // 7.3 浮点数桶排序（按小数部分降序，自定义比较器）
+    // 8.3 浮点数桶排序（按小数部分降序，自定义比较器）
     vector<double> vec_bucket_float_custom = {3.14, 2.71, 1.618, 0.577, 4.669, 2.718};
     cout << "\n原始浮点数vector: ";
     test_utils::print_container(vec_bucket_float_custom);
@@ -226,7 +302,7 @@ int main()
     cout << "浮点数桶排序(按小数部分降序): ";
     test_utils::print_container(vec_bucket_float_custom);
 
-    // 7.4 整数桶排序（按绝对值升序，自定义比较器）
+    // 8.4 整数桶排序（按绝对值升序，自定义比较器）
     vector<int> vec_bucket_abs = {-5, 3, -2, 4, -1, 6, -3};
     cout << "\n原始整数vector: ";
     test_utils::print_container(vec_bucket_abs);
@@ -234,8 +310,8 @@ int main()
     cout << "整数桶排序(按绝对值升序): ";
     test_utils::print_container(vec_bucket_abs);
 
-    // 8. 部分范围排序测试
-    print_separator("8. 部分范围排序测试（快速排序）");
+    // 9. 部分范围排序测试
+    print_separator("9. 部分范围排序测试（迭代器版本）");
     vector<int> vec_part = {10, 5, 8, 3, 1, 9, 2, 7, 4, 6};
     cout << "原始vector:          ";
     test_utils::print_container(vec_part);
@@ -244,8 +320,8 @@ int main()
     cout << "部分排序后 [2, end-2): ";
     test_utils::print_container(vec_part);
 
-    // 9. Lambda函数自定义排序测试
-    print_separator("9. Lambda函数自定义排序测试（快速排序）");
+    // 10. Lambda函数自定义排序测试
+    print_separator("10. Lambda函数自定义排序测试");
     vector<pair<int, int>> vec_desc_pair = {{5, 3}, {8, 5}, {8, 20}, {2, 2}, {8, 4}, {1, 5}, {9, 6}, {5, 98}};
     cout << "原始vector: ";
     test_utils::print_container(vec_desc_pair);
@@ -253,6 +329,25 @@ int main()
                { return a.first != b.first ? a.first > b.first : a.second < b.second; });
     cout << "快速排序(按key降序，key相同按value升序): ";
     test_utils::print_container(vec_desc_pair);
+
+    // 11. 更多排序算法补充测试
+    print_separator("11. 补充排序算法测试");
+
+    // 折半插入排序
+    vector<int> vec_binary_insert = {9, 5, 1, 3, 7, 2, 8, 6, 4};
+    cout << "原始vector (折半插入排序): ";
+    test_utils::print_container(vec_binary_insert);
+    binary_insertion_sort(vec_binary_insert);
+    cout << "折半插入排序后: ";
+    test_utils::print_container(vec_binary_insert);
+
+    // 归并排序（字符串）
+    vector<string> vec_merge_str = {"dog", "apple", "cat", "banana", "elephant"};
+    cout << "\n原始vector<string> (归并排序): ";
+    test_utils::print_container(vec_merge_str);
+    merge_sort(vec_merge_str);
+    cout << "归并排序后: ";
+    test_utils::print_container(vec_merge_str);
 
     print_separator("所有排序测试完成");
     return 0;
