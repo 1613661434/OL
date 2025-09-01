@@ -5,6 +5,7 @@
 #include <functional>
 #include <iostream>
 #include <list>
+#include <random>
 #include <string>
 #include <vector>
 
@@ -43,10 +44,15 @@ struct FloatFractionGreater
 vector<int> generate_random_ints(size_t size, int min_val, int max_val)
 {
     vector<int> result(size);
-    srand(time(nullptr));
+
+    // 使用随机数引擎和均匀分布生成更均匀的随机数
+    random_device rd;                                     // 用于获取种子
+    mt19937 gen(rd());                                    // 梅森旋转算法随机数生成器
+    uniform_int_distribution<int> dist(min_val, max_val); // 均匀整数分布
+
     for (size_t i = 0; i < size; ++i)
     {
-        result[i] = min_val + rand() % (max_val - min_val + 1);
+        result[i] = dist(gen);
     }
     return result;
 }
@@ -54,10 +60,15 @@ vector<int> generate_random_ints(size_t size, int min_val, int max_val)
 vector<double> generate_random_floats(size_t size, double min_val, double max_val)
 {
     vector<double> result(size);
-    srand(time(nullptr));
+
+    // 使用随机数引擎和均匀分布生成更均匀的随机数
+    random_device rd;                                         // 用于获取种子
+    mt19937 gen(rd());                                        // 梅森旋转算法随机数生成器
+    uniform_real_distribution<double> dist(min_val, max_val); // 定义浮点数分布
+
     for (size_t i = 0; i < size; ++i)
     {
-        result[i] = min_val + (max_val - min_val) * (rand() / (RAND_MAX + 1.0));
+        result[i] = dist(gen);
     }
     return result;
 }
