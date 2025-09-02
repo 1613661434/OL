@@ -65,6 +65,47 @@ void print_performance_table(const vector<pair<string, double>>& performance_dat
     cout << "============================================================\n";
 }
 
+// 比较所有排序结果文件
+void compare_sorted_files()
+{
+    cout << "\n============================================================\n";
+    cout << "                  排序结果文件比较\n";
+    cout << "============================================================\n";
+    
+    // 所有排序结果文件列表
+    vector<string> filenames = {
+        "bubble_sort_sorted_result.txt",
+        "heap_sort_sorted_result.txt",
+        "insertion_sort_sorted_result.txt",
+        "merge_sort_sorted_result.txt",
+        "quick_sort_sorted_result.txt",
+        "selection_sort_sorted_result.txt",
+        "shell_sort_sorted_result.txt"
+    };
+    
+    // 以第一个文件为基准，与其他所有文件进行比较
+    if (filenames.empty()) return;
+    string base_file = filenames[0];
+    
+    for (size_t i = 1; i < filenames.size(); ++i)
+    {
+        cout << "\n比较 " << base_file << " 和 " << filenames[i] << "：\n";
+        string command = "fc /n " + base_file + " " + filenames[i];
+        int result = system(command.c_str());
+        
+        if (result == 0)
+        {
+            cout << "结论：两个文件内容完全相同\n";
+        }
+        else
+        {
+            cout << "结论：两个文件内容存在差异\n";
+        }
+    }
+    
+    cout << "\n============================================================\n";
+}
+
 int main()
 {
     // 生成原始随机数据
@@ -169,6 +210,9 @@ int main()
     cout << "\n最快的两种算法：\n";
     cout << "1. " << performance_data[0].first << "：" << fixed << setprecision(6) << performance_data[0].second << " 秒\n";
     cout << "2. " << performance_data[1].first << "：" << fixed << setprecision(6) << performance_data[1].second << " 秒\n";
+
+    // 比较所有排序结果文件
+    compare_sorted_files();
 
     cout << "\n所有排序测试已完成\n";
     return 0;

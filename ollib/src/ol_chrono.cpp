@@ -32,9 +32,6 @@ namespace ol
     {
         (void)tzp; // 忽略时区参数
 
-        static int initialized = 0;
-        static uint64_t ticks_per_sec = 0;
-
         // 1. 获取当前系统时间（高精度）
         FILETIME ft;
         GetSystemTimePreciseAsFileTime(&ft); // Windows 8+
@@ -313,16 +310,13 @@ namespace ol
     {
         gettimeofday(&m_end, 0); // 获取当前时间作为计时结束的时间，精确到微秒。
 
-        std::string str;
-        str = sformat("%ld.%06ld", m_start.tv_sec, m_start.tv_usec);
-        double dstart = stod(str); // 把计时开始的时间点转换为double。
-
-        str = sformat("%ld.%06ld", m_end.tv_sec, m_end.tv_usec);
-        double dend = stod(str); // 把计时结束的时间点转换为double。
+        // 秒差 + 微秒差（转成秒）
+        double diff = (m_end.tv_sec - m_start.tv_sec) +
+                      (m_end.tv_usec - m_start.tv_usec) / 1e6;
 
         start(); // 重新开始计时。
 
-        return dend - dstart;
+        return diff;
     }
     // ===========================================================================
 } // namespace ol
