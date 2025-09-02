@@ -19,8 +19,8 @@
 #include <string>
 
 #ifdef __linux__
-#include <netinet/in.h>
 #include <arpa/inet.h>
+#include <netinet/in.h>
 #endif // __linux__
 
 namespace ol
@@ -160,6 +160,36 @@ namespace ol
          * @return 格式化的地址字符串（如"192.168.1.1:8080"或"[::1]:80"）
          */
         std::string toString() const;
+
+        /**
+         * @brief 修改IP地址（保持端口不变）
+         * @param ip 新的IP地址字符串
+         * @throw std::invalid_argument 无效IP或地址族不匹配时抛出
+         */
+        void setIp(const std::string& ip);
+
+        /**
+         * @brief 修改端口号（保持IP不变）
+         * @param port 新的端口号（主机字节序）
+         * @throw std::runtime_error 不支持的地址族时抛出
+         */
+        void setPort(uint16_t port);
+
+        /**
+         * @brief 同时修改IP和端口
+         * @param ip 新的IP地址字符串
+         * @param port 新的端口号（主机字节序）
+         * @throw std::invalid_argument 无效IP时抛出
+         */
+        void setAddr(const std::string& ip, uint16_t port);
+
+        /**
+         * @brief 从原生sockaddr修改地址
+         * @param addr 原生套接字地址指针
+         * @param addrLen 地址长度
+         * @throw std::invalid_argument 地址长度超限时抛出
+         */
+        void setAddr(const sockaddr* addr, socklen_t addrLen);
     };
 #endif // __linux__
 

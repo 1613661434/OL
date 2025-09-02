@@ -154,6 +154,58 @@ void test_copy()
          << endl;
 }
 
+// 测试修改IP和端口的功能
+void test_modify()
+{
+    cout << "=== 测试修改IP和端口功能 ===" << endl;
+
+    // 测试IPv4修改
+    inetAddr addr4("192.168.1.1", 8080);
+    addr4.setIp("10.0.0.1"); // 修改IP
+    assert(strcmp(addr4.ip(), "10.0.0.1") == 0);
+    assert(addr4.port() == 8080); // 端口应保持不变
+
+    addr4.setPort(9090); // 修改端口
+    assert(addr4.port() == 9090);
+    assert(strcmp(addr4.ip(), "10.0.0.1") == 0); // IP应保持不变
+
+    addr4.setAddr("172.16.0.1", 7070); // 同时修改IP和端口
+    assert(strcmp(addr4.ip(), "172.16.0.1") == 0);
+    assert(addr4.port() == 7070);
+    cout << "IPv4修改测试: " << addr4.toString() << " [OK]" << endl;
+
+    // 测试IPv6修改
+    inetAddr addr6("2001:db8::1", 8080);
+    addr6.setIp("fe80::1"); // 修改IP
+    assert(strcmp(addr6.ip(), "fe80::1") == 0);
+    assert(addr6.port() == 8080);
+
+    addr6.setPort(9090); // 修改端口
+    assert(addr6.port() == 9090);
+    assert(strcmp(addr6.ip(), "fe80::1") == 0);
+
+    addr6.setAddr("::1", 7070); // 同时修改IP和端口
+    assert(strcmp(addr6.ip(), "::1") == 0);
+    assert(addr6.port() == 7070);
+    cout << "IPv6修改测试: " << addr6.toString() << " [OK]" << endl;
+
+    // 测试修改异常（IPv4地址赋给IPv6对象）
+    bool typeMismatchCaught = false;
+    try
+    {
+        addr6.setIp("192.168.1.1"); // IPv6对象不能设置IPv4地址
+    }
+    catch (const invalid_argument& e)
+    {
+        typeMismatchCaught = true;
+        cout << "捕获预期异常: " << e.what() << " [OK]" << endl;
+    }
+    assert(typeMismatchCaught == true);
+
+    cout << "修改功能测试通过" << endl
+         << endl;
+}
+
 int main()
 {
     try
@@ -162,6 +214,7 @@ int main()
         test_ipv6();
         test_exceptions();
         test_copy();
+        test_modify();
         cout << "所有测试通过！" << endl;
     }
     catch (const exception& e)

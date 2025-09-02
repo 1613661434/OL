@@ -147,6 +147,93 @@ namespace ol
         res += ":" + std::to_string(port());
         return res;
     }
+
+    /**
+     * 修改IP地址
+     */
+    void inetAddr::setIp(const std::string& ip)
+    {
+        // 1. 先保存当前地址族
+        sa_family_t originalFamily = family();
+        if (originalFamily != AF_INET && originalFamily != AF_INET6)
+        {
+            throw std::runtime_error("Unsupported address family for setIp");
+        }
+
+        // 2. 保存当前端口
+        uint16_t currentPort = port();
+
+        // 3. 清空地址缓冲区
+        std::memset(&m_addr, 0, sizeof(m_addr));
+        m_addrLen = sizeof(m_addr);
+
+        // 4. 根据原地址族解析新IP（使用保存的originalFamily，而非清空后的m_addr）
+        if (originalFamily == AF_INET)
+        {
+            if (inet_pton(AF_INET, ip.c_str(), &(reinterpret_cast<sockaddr_in*>(&m_addr)->sin_addr)) == 1)
+            {
+                m_addr.ss_family = AF_INET;
+                reinterpret_cast<sockaddr_in*>(&m_addr)->sin_port = htons(currentPort);
+                m_addrLen = sizeof(sockaddr_in);
+                return;
+            }
+        }
+        else if (originalFamily == AF_INET6)
+        {
+            if (inet_pton(AF_INET6, ip.c_str(), &(reinterpret_cast<sockaddr_in6*>(&m_addr)->sin6_addr)) == 1)
+            {
+                m_addr.ss_family = AF_INET6;
+                reinterpret_cast<sockaddr_in6*>(&m_addr)->sin6_port = htons(currentPort);
+                m_addrLen = sizeof(sockaddr_in6);
+                return;
+            }
+        }
+
+        // 解析失败或地址族不匹配
+        throw std::invalid_argument("Invalid IP address for current address family: " + ip);
+    }
+
+    /**
+     * 修改端口号
+     */
+    void inetAddr::setPort(uint16_t port)
+    {
+        if (isIpv4())
+        {
+            reinterpret_cast<sockaddr_in*>(&m_addr)->sin_port = htons(port);
+        }
+        else if (isIpv6())
+        {
+            reinterpret_cast<sockaddr_in6*>(&m_addr)->sin6_port = htons(port);
+        }
+        else
+        {
+            throw std::runtime_error("Unsupported address family");
+        }
+    }
+
+    /**
+     * 修改IP和端口
+     */
+    void inetAddr::setAddr(const std::string& ip, uint16_t port)
+    {
+        // 复用构造函数的逻辑，直接重新初始化
+        *this = inetAddr(ip, port);
+    }
+
+    /**
+     * 从原生sockaddr修改地址
+     */
+    void inetAddr::setAddr(const sockaddr* addr, socklen_t addrLen)
+    {
+        std::memset(&m_addr, 0, sizeof(m_addr));
+        if (addrLen > sizeof(m_addr))
+        {
+            throw std::invalid_argument("Address length too large");
+        }
+        std::memcpy(&m_addr, addr, addrLen);
+        m_addrLen = addrLen;
+    }
 #endif // __linux__
 
 } // namespace ol
