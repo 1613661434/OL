@@ -4,6 +4,7 @@
  */
 #include "ol_chrono.h"
 #include <iostream>
+#include <stdint.h>
 
 using namespace ol;
 using namespace std;
@@ -14,8 +15,8 @@ int main()
     strtime = "2020-01-01 12:35:22";
 
     time_t ttime;
-    ttime = strtotime(strtime);    // 转换为整数的时间
-    printf("ttime=%lld\n", ttime); // 输出ttime=1577853322
+    ttime = strtotime(strtime);   // 转换为整数的时间
+    printf("ttime=%jd\n", ttime); // 输出ttime=1577853322
 
     char s1[20];                                   // C风格的字符串。
     timetostr(ttime, s1, "yyyy-mm-dd hh24:mi:ss"); // 转换为字符串的时间

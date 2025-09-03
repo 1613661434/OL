@@ -1,6 +1,6 @@
 /****************************************************************************************/
 /*
- * 程序名：ol_inetAddr.h
+ * 程序名：ol_InetAddr.h
  * 功能描述：套接字地址封装类，提供网络地址的统一管理，支持以下特性：
  *          - 兼容IPv4（sockaddr_in）和IPv6（sockaddr_in6）地址存储
  *          - 线程安全的IP地址与端口转换（避免静态缓冲区竞争）
@@ -27,7 +27,7 @@ namespace ol
 {
 
 #ifdef __linux__
-    class inetAddr
+    class InetAddr
     {
     private:
         /**
@@ -52,7 +52,7 @@ namespace ol
         /**
          * @brief 默认构造函数：初始化空地址
          */
-        inetAddr();
+        InetAddr();
 
         /**
          * @brief 从IP字符串和端口构造（自动识别IPv4/IPv6）
@@ -60,7 +60,7 @@ namespace ol
          * @param port 主机字节序的端口号（如80、8080）
          * @throw std::invalid_argument 当IP地址格式无效时抛出
          */
-        inetAddr(const std::string& ip, uint16_t port);
+        InetAddr(const std::string& ip, uint16_t port);
 
         /**
          * @brief 仅从端口构造（绑定到所有接口）
@@ -68,7 +68,7 @@ namespace ol
          * @param isIpv6 是否使用IPv6（默认false，即IPv4）
          * @note IPv4绑定到INADDR_ANY（0.0.0.0），IPv6绑定到in6addr_any（::）
          */
-        explicit inetAddr(uint16_t port, bool isIpv6 = false);
+        explicit InetAddr(uint16_t port, bool isIpv6 = false);
 
         /**
          * @brief 从原生sockaddr构造（用于accept等场景）
@@ -76,25 +76,25 @@ namespace ol
          * @param addrLen 地址长度
          * @throw std::invalid_argument 当地址长度超出范围时抛出
          */
-        inetAddr(const sockaddr* addr, socklen_t addrLen);
+        InetAddr(const sockaddr* addr, socklen_t addrLen);
 
         /**
          * @brief 复制构造函数
-         * @param other 待复制的inetAddr对象
+         * @param other 待复制的InetAddr对象
          */
-        inetAddr(const inetAddr& other);
+        InetAddr(const InetAddr& other);
 
         /**
          * @brief 赋值运算符
-         * @param other 待赋值的inetAddr对象
+         * @param other 待赋值的InetAddr对象
          * @return 自身引用
          */
-        inetAddr& operator=(const inetAddr& other);
+        InetAddr& operator=(const InetAddr& other);
 
         /**
          * @brief 析构函数（默认即可，无动态资源）
          */
-        ~inetAddr() = default;
+        ~InetAddr() = default;
 
         /**
          * @brief 获取IP地址字符串（线程安全）

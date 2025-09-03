@@ -1,18 +1,18 @@
-#include "ol_inetAddr.h"
+#include "ol_InetAddr.h"
 
 namespace ol
 {
 
 #ifdef __linux__
     // 默认构造函数：初始化空地址
-    inetAddr::inetAddr()
+    InetAddr::InetAddr()
     {
         std::memset(&m_addr, 0, sizeof(m_addr));
         m_addrLen = sizeof(m_addr);
     }
 
     // 从IP字符串和端口构造（自动识别IPv4/IPv6）
-    inetAddr::inetAddr(const std::string& ip, uint16_t port)
+    InetAddr::InetAddr(const std::string& ip, uint16_t port)
     {
         std::memset(&m_addr, 0, sizeof(m_addr));
         m_addrLen = sizeof(m_addr);
@@ -40,7 +40,7 @@ namespace ol
     }
 
     // 仅从端口构造（绑定到所有接口）
-    inetAddr::inetAddr(uint16_t port, bool isIpv6)
+    InetAddr::InetAddr(uint16_t port, bool isIpv6)
     {
         std::memset(&m_addr, 0, sizeof(m_addr));
         if (isIpv6)
@@ -62,7 +62,7 @@ namespace ol
     }
 
     // 从原生sockaddr构造
-    inetAddr::inetAddr(const sockaddr* addr, socklen_t addrLen)
+    InetAddr::InetAddr(const sockaddr* addr, socklen_t addrLen)
     {
         std::memset(&m_addr, 0, sizeof(m_addr));
         if (addrLen > sizeof(m_addr))
@@ -74,7 +74,7 @@ namespace ol
     }
 
     // 复制构造函数
-    inetAddr::inetAddr(const inetAddr& other)
+    InetAddr::InetAddr(const InetAddr& other)
     {
         std::memcpy(&m_addr, &other.m_addr, sizeof(m_addr));
         m_addrLen = other.m_addrLen;
@@ -82,7 +82,7 @@ namespace ol
     }
 
     // 赋值运算符
-    inetAddr& inetAddr::operator=(const inetAddr& other)
+    InetAddr& InetAddr::operator=(const InetAddr& other)
     {
         if (this != &other)
         {
@@ -94,7 +94,7 @@ namespace ol
     }
 
     // 获取IP地址字符串（线程安全）
-    const char* inetAddr::ip() const
+    const char* InetAddr::ip() const
     {
         const void* addrPtr = nullptr;
         if (isIpv4())
@@ -118,7 +118,7 @@ namespace ol
     }
 
     // 获取端口号（主机字节序）
-    uint16_t inetAddr::port() const
+    uint16_t InetAddr::port() const
     {
         if (isIpv4())
         {
@@ -132,7 +132,7 @@ namespace ol
     }
 
     // 生成"IP:端口"格式的字符串
-    std::string inetAddr::toString() const
+    std::string InetAddr::toString() const
     {
         std::string res;
         if (isIpv6())
@@ -151,7 +151,7 @@ namespace ol
     /**
      * 修改IP地址
      */
-    void inetAddr::setIp(const std::string& ip)
+    void InetAddr::setIp(const std::string& ip)
     {
         // 1. 先保存当前地址族
         sa_family_t originalFamily = family();
@@ -196,7 +196,7 @@ namespace ol
     /**
      * 修改端口号
      */
-    void inetAddr::setPort(uint16_t port)
+    void InetAddr::setPort(uint16_t port)
     {
         if (isIpv4())
         {
@@ -215,16 +215,16 @@ namespace ol
     /**
      * 修改IP和端口
      */
-    void inetAddr::setAddr(const std::string& ip, uint16_t port)
+    void InetAddr::setAddr(const std::string& ip, uint16_t port)
     {
         // 复用构造函数的逻辑，直接重新初始化
-        *this = inetAddr(ip, port);
+        *this = InetAddr(ip, port);
     }
 
     /**
      * 从原生sockaddr修改地址
      */
-    void inetAddr::setAddr(const sockaddr* addr, socklen_t addrLen)
+    void InetAddr::setAddr(const sockaddr* addr, socklen_t addrLen)
     {
         std::memset(&m_addr, 0, sizeof(m_addr));
         if (addrLen > sizeof(m_addr))
