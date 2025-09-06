@@ -860,7 +860,7 @@ namespace ol
                 while (low < high && !comp(*high, pivot)) // *high >= pivot
                 {
                     // 遇到与基准相等的元素，提前退出以平衡分区
-                    if (!comp(pivot, *high)) // *high == pivot
+                    if (!comp(pivot, *high)) // *high == pivot（严格弱序下：!comp(pivot, *high) && !comp(*high, pivot)）
                     {
                         --high;
                         break;
@@ -872,8 +872,9 @@ namespace ol
                 // 从左向右找大于等于基准的元素，填入右边的坑
                 while (low < high && comp(*low, pivot)) // *low < pivot
                 {
-                    // 遇到与基准相等的元素，提前退出以平衡分区
-                    if (!comp(pivot, *low)) // *low == pivot
+                    // 遇到与基准等价的元素，提前退出以平衡分区
+                    // 保留此判断以增强对不规范比较器的容错性
+                    if (comp(pivot, *low)) // *low == pivot（非严格弱序下：comp(pivot, *low) && comp(*low, pivot)）
                     {
                         ++low;
                         break;
