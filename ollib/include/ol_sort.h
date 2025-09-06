@@ -814,7 +814,7 @@ namespace ol
         // -----------------------------------------------------------------------
         /**
          * @brief 三数取中法选择基准元素
-         * 从区间的首、中、尾三个位置选择中间值作为基准，减少最坏情况
+         * 从区间的首、中、尾三个位置选择中间值放到low位置作为基准且high位置返回时已经排序好，减少最坏情况
          */
         template <typename RandomIt, typename Compare>
         auto median_of_three(RandomIt low, RandomIt high, const Compare& comp)
