@@ -22,7 +22,7 @@ int main()
     // 打开日志文件。
     if (logfile.open(filePath, ios::out, false) == false)
     {
-        printf("logfile.open(/tmp/log/demo42.log) failed.\n");
+        printf("logfile.open(%s) failed.\n", filePath.c_str());
         return -1;
     }
 
