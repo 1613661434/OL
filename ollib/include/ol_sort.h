@@ -822,9 +822,9 @@ namespace ol
             RandomIt mid = low + (high - low) / 2;
 
             // 对三个位置的元素进行排序
-            if (comp(*mid, *low)) std::iter_swap(low, mid);
-            if (comp(*high, *low)) std::iter_swap(low, high);
-            if (comp(*high, *mid)) std::iter_swap(mid, high);
+            if (comp(*high, *mid)) std::iter_swap(high, mid);
+            if (comp(*high, *low)) std::iter_swap(high, low);
+            if (comp(*low, *mid)) std::iter_swap(low, mid);
 
             // 返回基准值（此时已位于low位置）
             return *low;
