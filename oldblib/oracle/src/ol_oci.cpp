@@ -36,6 +36,7 @@ namespace ol
     OCI_ROWCBK_DONE       -24201  // done with user row callback
     */
 
+    // ===========================================================================
     int oci_init(LOGINENV* env)
     {
         // 初始化Oracle 环境变量
@@ -133,7 +134,10 @@ namespace ol
 
         return oci_ret;
     }
+    // ===========================================================================
 
+    // connection类实现
+    // ===========================================================================
     connection::connection()
     {
         m_state = disconnected;
@@ -367,7 +371,10 @@ namespace ol
             }
         }
     }
+    // ===========================================================================
 
+    // sqlstatement类实现
+    // ===========================================================================
     sqlstatement::sqlstatement()
     {
         m_state = disconnected;
@@ -485,9 +492,9 @@ namespace ol
 
         int istrlen = strlen(str);
 
-        for (int ii = 0; ii < istrlen; ii++)
+        for (int i = 0; i < istrlen; ++i)
         {
-            if ((str[ii] >= 'a') && (str[ii] <= 'z')) str[ii] = str[ii] - 32;
+            if ((str[i] >= 'a') && (str[i] <= 'z')) str[i] = str[i] - 32;
         }
     }
 
@@ -505,7 +512,7 @@ namespace ol
         memset(strTemp, 0, sizeof(strTemp));
         strcpy(strTemp, str);
 
-        while (strTemp[iTemp] == chr) iTemp++;
+        while (strTemp[iTemp] == chr) ++iTemp;
 
         memset(str, 0, strlen(str) + 1);
 
@@ -1040,5 +1047,6 @@ namespace ol
 
         return 0;
     }
+    // ===========================================================================
 
-} // end namespace ol
+} // namespace ol
