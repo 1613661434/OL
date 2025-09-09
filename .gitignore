@@ -18,7 +18,7 @@ install_manifest.txt
 # 系统/IDE文件
 .DS_Store
 .idea/
-.vscode/
+# .vscode/
 .vs/
 *.swp
 *.swo

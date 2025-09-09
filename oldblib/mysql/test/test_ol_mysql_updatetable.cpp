@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
 
     // 为变量赋值
     memset(&stgirl, 0, sizeof(struct st_girl));
-    stgirl.id = 11;               // 超女编号
+    stgirl.id = 14;               // 超女编号
     sprintf(stgirl.name, "幂幂"); // 超女姓名
     stgirl.weight = 43.85;        // 超女体重
     strcpy(stgirl.btime, "2021-08-25 10:33:35");

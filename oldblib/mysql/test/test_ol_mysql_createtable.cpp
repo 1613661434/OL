@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
                                         name  varchar(30),\
                                         weight   decimal(8,2),\
                                         btime datetime,\
-                                        memo  varchar(300),\
+                                        memo  text,\
                                         pic   blob,\
                                         primary key (id))");
 
