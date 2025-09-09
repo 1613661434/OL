@@ -10,8 +10,6 @@
 
 #include "ol_mysql.h"
 
-#define DEBUG
-
 namespace ol
 {
     void MY__ToUpper(char* str)
@@ -55,12 +53,77 @@ namespace ol
         disconnect();
     }
 
+    /**
+     * @brief 重新连接数据库
+     *
+     * 该方法执行以下操作：
+     * 1. 关闭当前可能存在的旧连接
+     * 2. 重新初始化MySQL连接对象
+     * 3. 使用上次成功连接的参数（主机、用户名、密码等）重新连接
+     * 4. 恢复连接的字符集和自动提交设置
+     * 5. 更新连接状态
+     *
+     * @return int 0表示重连成功，-1表示重连失败
+     * @note 失败信息可通过message()方法获取
+     * @warning 重连成功后，之前的预处理语句（sqlstatement）可能需要重新准备
+     */
+    int connection::reconnect()
+    {
+        // 关闭旧连接
+        if (m_mysql)
+        {
+            mysql_close(m_mysql);
+            m_mysql = nullptr;
+        }
+
+        // 重新初始化连接对象
+        m_mysql = mysql_init(nullptr);
+        if (!m_mysql)
+        {
+            m_cda.rc = -1;
+            m_cda.message = "mysql_init failed during reconnect";
+            return -1;
+        }
+
+        // 使用保存的连接参数重新连接
+        if (!mysql_real_connect(m_mysql, m_host.c_str(), m_user.c_str(), m_pass.c_str(),
+                                m_dbname.c_str(), m_port,
+                                m_unix_socket.empty() ? nullptr : m_unix_socket.c_str(), 0))
+        {
+            m_cda.rc = mysql_errno(m_mysql);
+            m_cda.message = mysql_error(m_mysql);
+            mysql_close(m_mysql);
+            m_mysql = nullptr;
+            return -1;
+        }
+
+        // 恢复字符集设置
+        if (mysql_set_character_set(m_mysql, m_charset.c_str()) != 0)
+        {
+            m_cda.rc = mysql_errno(m_mysql);
+            m_cda.message = "failed to set charset during reconnect: " + std::string(mysql_error(m_mysql));
+            mysql_close(m_mysql);
+            m_mysql = nullptr;
+            return -1;
+        }
+
+        // 恢复自动提交设置
+        mysql_autocommit(m_mysql, m_autocommitopt);
+
+        // 更新连接状态
+        m_state = connected;
+        m_cda.rc = 0;
+        m_cda.message.clear();
+
+        return 0;
+    }
+
     int connection::connecttodb(const std::string& connstr, const std::string& charset, bool autocommitopt)
     {
         if (m_state == connected) return 0;
 
         m_cda.init();
-        setdbopt(connstr.c_str());
+        setdbopt(connstr.c_str()); // 解析连接字符串（不含字符集）
 
         m_mysql = mysql_init(nullptr);
         if (m_mysql == nullptr)
@@ -69,10 +132,6 @@ namespace ol
             m_cda.message = "mysql_init failed.";
             return -1;
         }
-
-        // 关键修复：添加MYSQL_OPT_RECONNECT选项，确保连接稳定性
-        bool reconnect = 1;
-        mysql_options(m_mysql, MYSQL_OPT_RECONNECT, &reconnect);
 
         if (!mysql_real_connect(m_mysql, m_host.c_str(), m_user.c_str(), m_pass.c_str(),
                                 m_dbname.c_str(), m_port, m_unix_socket.empty() ? nullptr : m_unix_socket.c_str(), 0))
@@ -84,17 +143,21 @@ namespace ol
             return -1;
         }
 
-        // 对于二进制数据，强制使用binary字符集
+        // 字符集仅通过函数参数设置，为空时使用默认binary
         std::string use_charset = charset.empty() ? "binary" : charset;
         if (mysql_set_character_set(m_mysql, use_charset.c_str()) != 0)
         {
             m_cda.rc = mysql_errno(m_mysql);
-            m_cda.message = mysql_error(m_mysql);
+            m_cda.message = "Failed to set character set: " + std::string(mysql_error(m_mysql));
             mysql_close(m_mysql);
             m_mysql = nullptr;
             return -1;
         }
 
+        // 保存字符集到成员变量（供重连时使用）
+        m_charset = use_charset;
+
+        // 设置自动提交
         m_autocommitopt = autocommitopt ? 1 : 0;
         mysql_autocommit(m_mysql, m_autocommitopt);
 
@@ -268,9 +331,9 @@ namespace ol
                                    m_bindin(nullptr), m_bindout(nullptr),
                                    m_param_count(0), m_field_count(0),
                                    m_out_lengths(nullptr), m_out_is_null(nullptr),
-                                   m_blob_lengths(nullptr), // 初始化新增成员
-                                   m_conn(nullptr), m_sqltype(true),
-                                   m_autocommitopt(false), m_state(disconnected)
+                                   m_blob_lengths(nullptr), m_conn(nullptr),
+                                   m_sqltype(true), m_autocommitopt(false),
+                                   m_state(disconnected)
     {
         m_cda.init();
         m_cda.rc = -1;
@@ -281,9 +344,9 @@ namespace ol
                                                    m_bindin(nullptr), m_bindout(nullptr),
                                                    m_param_count(0), m_field_count(0),
                                                    m_out_lengths(nullptr), m_out_is_null(nullptr),
-                                                   m_blob_lengths(nullptr), // 初始化新增成员
-                                                   m_conn(nullptr), m_sqltype(true),
-                                                   m_autocommitopt(false), m_state(disconnected)
+                                                   m_blob_lengths(nullptr), m_conn(nullptr),
+                                                   m_sqltype(true), m_autocommitopt(false),
+                                                   m_state(disconnected)
     {
         m_cda.init();
         m_cda.rc = -1;
@@ -431,7 +494,7 @@ namespace ol
         MY__DeleteLChar(strtemp, ' ');
         if (strncmp(strtemp, "SELECT", 6) == 0 ||
             strncmp(strtemp, "SHOW", 4) == 0 ||
-            strncmp(strtemp, "DESC", 3) == 0 || // 修复：DESCRIBE简化为DESC判断
+            strncmp(strtemp, "DESC", 3) == 0 || // DESCRIBE简化为DESC判断
             strncmp(strtemp, "EXPLA", 5) == 0)  // EXPLAIN简化判断
         {
             m_sqltype = false;
@@ -948,14 +1011,26 @@ namespace ol
             return -1;
         }
 
+        // 检查连接状态，尝试重连一次
         if (mysql_ping(m_mysql) != 0)
         {
             m_cda.rc = mysql_errno(m_mysql);
             m_cda.message = mysql_error(m_mysql);
+            m_state = disconnected;
 #ifdef DEBUG
-            printf("[execute] MySQL连接已断开：%s\n", m_cda.message.c_str());
+            printf("[execute] MySQL连接已断开：%s，尝试重连...\n", m_cda.message.c_str());
 #endif
-            return -1;
+
+            // 尝试重新连接
+            if (m_conn->reconnect() != 0) // 假设connection类有reconnect方法
+            {
+                m_cda.rc = -1;
+                m_cda.message = "连接已断开且重连失败: " + m_cda.message;
+                return -1;
+            }
+#ifdef DEBUG
+            printf("[execute] 重连成功\n");
+#endif
         }
 
         // 绑定输入参数
@@ -1209,7 +1284,6 @@ namespace ol
         return 0;
     }
 
-    // 修复filetoblob：添加position参数，支持多参数绑定
     int sqlstatement::filetoblob(const unsigned int position, const std::string& filename)
     {
         FILE* fp = fopen(filename.c_str(), "rb");
@@ -1278,7 +1352,6 @@ namespace ol
         return ret;
     }
 
-    // 修复blobtofile：完善文件操作逻辑，确保文件正确生成
     int sqlstatement::blobtofile(const unsigned int position, const std::string& filename)
     {
         // 基础状态校验
@@ -1350,7 +1423,7 @@ namespace ol
         printf("\n");
 #endif
 
-        // 检查目录是否存在，不存在则创建（关键修复：避免路径错误导致文件无法生成）
+        // 检查目录是否存在，不存在则创建
         size_t last_slash = filename.find_last_of("/\\");
         if (last_slash != std::string::npos)
         {
@@ -1398,7 +1471,7 @@ namespace ol
         return 0;
     }
 
-    // TEXT相关函数修复（支持输入/输出参数绑定）
+    // TEXT相关函数（支持输入/输出参数绑定）
     int sqlstatement::bindtext(const unsigned int position, char* buffer, unsigned long length)
     {
         // 基础参数校验（通用检查）
@@ -1545,7 +1618,7 @@ namespace ol
             return -1;
         }
 
-        // 关键修复：正确绑定TEXT参数类型
+        // 绑定TEXT参数类型
         if (m_param_count > 0 && m_bindin)
         {
             MYSQL_BIND* bind = &m_bindin[position - 1];

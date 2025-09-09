@@ -73,12 +73,25 @@ namespace ol
         std::string m_dbname;
         unsigned int m_port;
         std::string m_unix_socket;
+        std::string m_charset;
 
     public:
         // 构造函数，初始化成员变量
         connection();
         // 析构函数，自动断开连接
         ~connection();
+
+        /**
+         * @brief 重新连接数据库
+         *
+         * 当数据库连接断开时，关闭旧连接并尝试使用已保存的连接参数重新建立连接。
+         * 重连成功后会自动恢复字符集和自动提交模式等连接属性。
+         *
+         * @return int 0表示重连成功，-1表示重连失败
+         * @note 调用前应确保已通过connecttodb()成功连接过数据库（保存了连接参数）
+         * @see connecttodb()
+         */
+        int reconnect();
 
         /**
          * @brief 登录数据库
