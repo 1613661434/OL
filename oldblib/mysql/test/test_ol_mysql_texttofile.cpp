@@ -25,10 +25,10 @@ int main(int argc, char* argv[])
     // 准备查询语句，获取memo1字段
     stmt.prepare("select memo1 from girls where id=1");
 
-    // 绑定TEXT字段（位置从0开始，提供缓冲区和长度）
+    // 绑定TEXT字段（提供缓冲区和长度）
     const unsigned long TEXT_BUFFER_SIZE = 1024 * 1024;       // 1MB缓冲区
     string text_buffer;                                       // 使用string作为文本缓冲区
-    if (stmt.bindtext(0, text_buffer, TEXT_BUFFER_SIZE) != 0) // 0对应第一个字段memo1
+    if (stmt.bindtext(1, text_buffer, TEXT_BUFFER_SIZE) != 0) // 1对应第一个字段memo1
     {
         printf("stmt.bindtext() failed.\n%s\n", stmt.message().c_str());
         return -1;
@@ -54,9 +54,9 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    // 把TEXT字段内容写入磁盘文件（参数：字段位置和文件名）
-    const string filename = R"(C:\test\data\memo_out.txt)";
-    if (stmt.texttofile(0, filename) != 0) // 0对应memo1字段
+    // 把TEXT字段内容写入磁盘文件
+    const string filename = R"(D:\Visual Studio Code\VScode\OL\oldblib\mysql\test\data\memo_out.txt)";
+    if (stmt.texttofile(1, filename) != 0) // 1对应memo1字段
     {
         printf("stmt.texttofile() failed.\n%s\n", stmt.message().c_str());
         return -1;

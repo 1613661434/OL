@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
     // 定义结构体存储数据
     struct st_girl
     {
-        long id;        // 超女编号
+        int id;         // 超女编号
         char name[31];  // 姓名
         double weight;  // 体重
         char btime[20]; // 时间

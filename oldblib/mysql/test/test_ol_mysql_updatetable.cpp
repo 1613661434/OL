@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
     // 定义结构体
     struct st_girl
     {
-        long id;        // 超女编号
+        int id;         // 超女编号
         char name[31];  // 超女姓名
         double weight;  // 超女体重
         char btime[20]; // 报名时间
@@ -34,6 +34,7 @@ int main(int argc, char* argv[])
 
     // 动态SQL语句（MySQL使用?作为占位符）
     stmt.prepare("update girls set name=?,weight=?,btime=? where id=?");
+
     stmt.bindin(1, stgirl.name, 30);
     stmt.bindin(2, stgirl.weight);
     stmt.bindin(3, stgirl.btime, 19);

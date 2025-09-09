@@ -1,18 +1,33 @@
 /*
- *  程序名：test_ol_mysql_filetotext.cpp，此程序演示开发框架操作MySQL数据库（把文本文件存入数据库表的TEXT字段中）。
+ *  程序名：test_ol_mysql_filetotext.cpp，演示文本文件存入数据库TEXT字段（分块传输）
  *  作者：ol
  */
-#include "ol_mysql.h" // 开发框架操作MySQL的头文件。
+#include "ol_mysql.h"
+#include <cstdio>
 #include <string>
+#include <sys/stat.h>
 
 using namespace std;
 using namespace ol;
 
+// 获取文件大小
+long get_file_size(const string& filename)
+{
+#ifdef _WIN32
+    struct _stat file_info;
+    if (_stat(filename.c_str(), &file_info) != 0) return -1;
+#else
+    struct stat file_info;
+    if (stat(filename.c_str(), &file_info) != 0) return -1;
+#endif
+    return file_info.st_size;
+}
+
 int main(int argc, char* argv[])
 {
-    connection conn; // 创建数据库连接类的对象。
+    connection conn;
 
-    // 登录数据库（注意连接字符串格式："username:password@host:port/dbname"）
+    // 登录数据库
     if (conn.connecttodb("root:0088@127.0.0.1:3306/testdb", "utf8mb4") != 0)
     {
         printf("connect database failed.\n%s\n", conn.message().c_str());
@@ -21,53 +36,56 @@ int main(int argc, char* argv[])
 
     printf("connect database ok.\n");
 
-    // 确保表有text类型字段：alter table girls add memo1 text;
+    // 检查max_allowed_packet
+    sqlstatement stmt_check(&conn);
+    stmt_check.prepare("show variables like 'max_allowed_packet'");
+    stmt_check.execute();
+    char var[256], val[256];
+    stmt_check.bindout(1, var, 255);
+    stmt_check.bindout(2, val, 255);
+    stmt_check.next();
+    printf("当前max_allowed_packet: %s字节\n", val);
+
+    // 准备SQL语句（使用memo字段）
     sqlstatement stmt(&conn);
-    // 插入记录，为TEXT字段预留位置
-    stmt.prepare("insert into girls(id,name,memo1) values(1,'冰冰',NULL)");
+    stmt.prepare("update girls set memo=? where id=1");
+
+    // 检查记录是否存在，不存在则插入
+    sqlstatement stmt_check_rec(&conn);
+    stmt_check_rec.prepare("select id from girls where id=1");
+    stmt_check_rec.execute();
+    if (stmt_check_rec.next() == 100)
+    {
+        stmt.prepare("insert into girls(id,name,memo) values(1,'冰冰',?)");
+    }
+
+    // 检查文件
+    const string filename = R"(D:\Visual Studio Code\VScode\OL\oldblib\mysql\test\data\memo_in.txt)";
+    long file_size = get_file_size(filename);
+    if (file_size <= 0)
+    {
+        printf("文件不存在或为空: %s\n", filename.c_str());
+        return -1;
+    }
+    printf("待写入文件大小: %ld字节\n", file_size);
+
+    // 关键：调用修复后的分块传输接口，指定分块大小（建议小于max_allowed_packet）
+    unsigned int chunk_size = 4 * 1024 * 1024; // 4MB分块
+    if (stmt.filetotext(1, filename, chunk_size) != 0)
+    {
+        printf("filetotext failed: %s\n", stmt.message().c_str());
+        return -1;
+    }
+
+    // 执行SQL
     if (stmt.execute() != 0)
     {
-        printf("stmt.execute() failed.\n%s\n%s\n", stmt.sql(), stmt.message().c_str());
+        printf("execute failed: %s\nSQL: %s\n", stmt.message().c_str(), stmt.sql());
         return -1;
     }
 
-    // 准备更新TEXT字段（使用FOR UPDATE锁定记录）
-    stmt.prepare("select memo1 from girls where id=1 for update");
-
-    // 绑定TEXT字段（位置从0开始，提供缓冲区和长度）
-    const unsigned long TEXT_BUFFER_SIZE = 1024 * 1024;       // 1MB缓冲区
-    string text_buffer;                                       // 使用string作为缓冲区
-    if (stmt.bindtext(0, text_buffer, TEXT_BUFFER_SIZE) != 0) // 位置0对应第一个字段
-    {
-        printf("stmt.bindtext() failed.\n%s\n", stmt.message().c_str());
-        return -1;
-    }
-
-    // 执行查询获取记录
-    if (stmt.execute() != 0)
-    {
-        printf("stmt.execute() failed.\n%s\n%s\n", stmt.sql(), stmt.message().c_str());
-        return -1;
-    }
-
-    // 获取记录（为TEXT字段准备写入）
-    if (stmt.next() != 0)
-    {
-        printf("没有找到id=1的记录。\n");
-        return 0;
-    }
-
-    // 把文件内容写入TEXT字段（参数：位置和文件名）
-    const string filename = R"(C:\test\data\memo_in.txt)";
-    if (stmt.filetotext(0, filename) != 0) // 位置0对应memo1字段
-    {
-        printf("stmt.filetotext() failed.\n%s\n", stmt.message().c_str());
-        return -1;
-    }
-
-    printf("文本文件已成功存入数据库的TEXT字段中。\n");
-
-    conn.commit(); // 提交事务
+    printf("文本文件已通过分块传输成功存入memo字段\n");
+    conn.commit();
 
     return 0;
 }

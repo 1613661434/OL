@@ -10,6 +10,8 @@
 
 #include "ol_mysql.h"
 
+#define DEBUG
+
 namespace ol
 {
     void MY__ToUpper(char* str)
@@ -27,7 +29,7 @@ namespace ol
         if (str == nullptr || *str == '\0') return;
 
         size_t i = 0;
-        while (str[i] == chr) i++;
+        while (str[i] == chr) ++i;
 
         if (i > 0) memmove(str, str + i, strlen(str) - i + 1);
     }
@@ -68,6 +70,10 @@ namespace ol
             return -1;
         }
 
+        // 关键修复：添加MYSQL_OPT_RECONNECT选项，确保连接稳定性
+        bool reconnect = 1;
+        mysql_options(m_mysql, MYSQL_OPT_RECONNECT, &reconnect);
+
         if (!mysql_real_connect(m_mysql, m_host.c_str(), m_user.c_str(), m_pass.c_str(),
                                 m_dbname.c_str(), m_port, m_unix_socket.empty() ? nullptr : m_unix_socket.c_str(), 0))
         {
@@ -78,7 +84,9 @@ namespace ol
             return -1;
         }
 
-        if (!charset.empty() && mysql_set_character_set(m_mysql, charset.c_str()) != 0)
+        // 对于二进制数据，强制使用binary字符集
+        std::string use_charset = charset.empty() ? "binary" : charset;
+        if (mysql_set_character_set(m_mysql, use_charset.c_str()) != 0)
         {
             m_cda.rc = mysql_errno(m_mysql);
             m_cda.message = mysql_error(m_mysql);
@@ -259,10 +267,10 @@ namespace ol
     sqlstatement::sqlstatement() : m_mysql(nullptr), m_stmt(nullptr), m_result(nullptr),
                                    m_bindin(nullptr), m_bindout(nullptr),
                                    m_param_count(0), m_field_count(0),
-                                   m_out_lengths(nullptr), m_out_is_null(nullptr), // 初始化新增成员
+                                   m_out_lengths(nullptr), m_out_is_null(nullptr),
+                                   m_blob_lengths(nullptr), // 初始化新增成员
                                    m_conn(nullptr), m_sqltype(true),
-                                   m_autocommitopt(false), m_blob_buffer(nullptr),
-                                   m_blob_length(0), m_state(disconnected)
+                                   m_autocommitopt(false), m_state(disconnected)
     {
         m_cda.init();
         m_cda.rc = -1;
@@ -272,10 +280,10 @@ namespace ol
     sqlstatement::sqlstatement(connection* conn) : m_mysql(nullptr), m_stmt(nullptr), m_result(nullptr),
                                                    m_bindin(nullptr), m_bindout(nullptr),
                                                    m_param_count(0), m_field_count(0),
-                                                   m_out_lengths(nullptr), m_out_is_null(nullptr), // 初始化新增成员
+                                                   m_out_lengths(nullptr), m_out_is_null(nullptr),
+                                                   m_blob_lengths(nullptr), // 初始化新增成员
                                                    m_conn(nullptr), m_sqltype(true),
-                                                   m_autocommitopt(false), m_blob_buffer(nullptr),
-                                                   m_blob_length(0), m_state(disconnected)
+                                                   m_autocommitopt(false), m_state(disconnected)
     {
         m_cda.init();
         m_cda.rc = -1;
@@ -287,11 +295,6 @@ namespace ol
     {
         disconnect();
         free_bind();
-        if (m_blob_buffer)
-        {
-            delete[] m_blob_buffer;
-            m_blob_buffer = nullptr;
-        }
     }
 
     int sqlstatement::connect(connection* conn)
@@ -413,6 +416,10 @@ namespace ol
         {
             m_bindin = new MYSQL_BIND[m_param_count];
             memset(m_bindin, 0, sizeof(MYSQL_BIND) * m_param_count);
+
+            // 为BLOB字段长度分配内存
+            m_blob_lengths = new unsigned long[m_param_count];
+            memset(m_blob_lengths, 0, sizeof(unsigned long) * m_param_count);
         }
 
         // 判断SQL类型
@@ -617,7 +624,7 @@ namespace ol
         return bindin(position, &value[0], value.size());
     }
 
-    // 输出参数绑定方法实现 - 关键修复部分
+    // 输出参数绑定方法实现
     int sqlstatement::bindout(const unsigned int position, int& value)
     {
         if (m_field_count == 0)
@@ -1125,26 +1132,85 @@ namespace ol
         }
     }
 
+    // BLOB相关函数实现（支持输入/输出参数绑定）
     int sqlstatement::bindblob(const unsigned int position, char* buffer, unsigned long length)
     {
-        if (position == 0 || position > m_param_count || !m_bindin || !buffer || length == 0)
+        // 基础参数校验
+        if (position == 0 || !buffer || length == 0)
+        {
+            m_cda.rc = -1;
+            m_cda.message = "invalid parameters for bindblob (position=0 or buffer=null or length=0)";
             return -1;
+        }
 
-        m_blob_buffer = buffer;
-        m_blob_length = length;
+        // 区分输入参数（INSERT/UPDATE）和输出参数（SELECT）
+        if (m_sqltype)
+        {
+            // 输入参数绑定（SQL是INSERT/UPDATE，有?占位符）
+            if (position > m_param_count || !m_bindin)
+            {
+                m_cda.rc = -1;
+                m_cda.message = "invalid position for bindblob (input parameter)";
+                return -1;
+            }
 
-        MYSQL_BIND* bind = &m_bindin[position - 1];
-        memset(bind, 0, sizeof(MYSQL_BIND));
-        bind->buffer_type = MYSQL_TYPE_BLOB;
-        bind->buffer = buffer;
-        bind->buffer_length = length;
-        bind->length = &m_blob_length;
-        bind->is_null = nullptr;
+            // 存储BLOB长度，绑定输入参数
+            m_blob_lengths[position - 1] = length;
+            MYSQL_BIND* bind = &m_bindin[position - 1];
+            memset(bind, 0, sizeof(MYSQL_BIND));
+            bind->buffer_type = MYSQL_TYPE_BLOB;
+            bind->buffer = buffer;
+            bind->buffer_length = length;
+            bind->length = &m_blob_lengths[position - 1];
+            bind->is_null = nullptr;
+        }
+        else
+        {
+            // 输出参数绑定（SQL是SELECT，无输入参数，校验结果字段数量）
+            if (m_field_count == 0)
+            {
+                m_field_count = mysql_stmt_field_count(m_stmt); // 获取结果字段总数
+            }
 
+            // 初始化输出绑定数组（首次绑定输出参数时）
+            if (!m_bindout)
+            {
+                m_bindout = new MYSQL_BIND[m_field_count];
+                memset(m_bindout, 0, sizeof(MYSQL_BIND) * m_field_count);
+
+                m_out_lengths = new unsigned long[m_field_count];
+                memset(m_out_lengths, 0, sizeof(unsigned long) * m_field_count);
+
+                m_out_is_null = new bool[m_field_count];
+                memset(m_out_is_null, 0, sizeof(bool) * m_field_count);
+            }
+
+            if (position > m_field_count)
+            {
+                m_cda.rc = -1;
+                m_cda.message = "invalid position for bindblob (output parameter)";
+                return -1;
+            }
+
+            // 绑定输出参数（SELECT的结果字段）
+            MYSQL_BIND* bind = &m_bindout[position - 1];
+            memset(bind, 0, sizeof(MYSQL_BIND));
+            bind->buffer_type = MYSQL_TYPE_BLOB;
+            bind->buffer = buffer;
+            bind->buffer_length = length;
+            bind->length = &m_out_lengths[position - 1]; // 使用输出长度数组
+            bind->is_null = &m_out_is_null[position - 1];
+        }
+
+#ifdef DEBUG
+        printf("[bindblob] 绑定BLOB %s参数%d：长度=%lu字节\n",
+               m_sqltype ? "输入" : "输出", position, length);
+#endif
         return 0;
     }
 
-    int sqlstatement::filetoblob(const std::string& filename)
+    // 修复filetoblob：添加position参数，支持多参数绑定
+    int sqlstatement::filetoblob(const unsigned int position, const std::string& filename)
     {
         FILE* fp = fopen(filename.c_str(), "rb");
         if (!fp)
@@ -1154,6 +1220,7 @@ namespace ol
             return -1;
         }
 
+        // 获取文件大小
         fseek(fp, 0, SEEK_END);
         long file_size = ftell(fp);
         fseek(fp, 0, SEEK_SET);
@@ -1161,9 +1228,11 @@ namespace ol
         if (file_size <= 0)
         {
             fclose(fp);
+            m_cda.rc = 0; // 空文件视为成功
             return 0;
         }
 
+        // 分配缓冲区
         char* buffer = new char[file_size];
         if (!buffer)
         {
@@ -1173,6 +1242,7 @@ namespace ol
             return -1;
         }
 
+        // 读取文件内容
         size_t bytes_read = fread(buffer, 1, file_size, fp);
         fclose(fp);
 
@@ -1184,79 +1254,173 @@ namespace ol
             return -1;
         }
 
-        int ret = bindblob(1, buffer, file_size);
+#ifdef DEBUG
+        printf("[filetoblob] 读取文件成功：%s，大小=%ld字节\n", filename.c_str(), file_size);
+        printf("[filetoblob] 前16字节: ");
+        for (int i = 0; i < 16 && i < file_size; i++)
+        {
+            printf("%02X ", (unsigned char)buffer[i]);
+        }
+        printf("\n");
+#endif
+
+        // 绑定BLOB数据
+        int ret = bindblob(position, buffer, file_size);
         if (ret != 0)
         {
             delete[] buffer;
             return ret;
         }
 
+        // 执行SQL
         ret = execute();
-        delete[] buffer;
+        delete[] buffer; // 执行完成后释放内存
         return ret;
     }
 
-    int sqlstatement::blobtofile(const std::string& filename)
+    // 修复blobtofile：完善文件操作逻辑，确保文件正确生成
+    int sqlstatement::blobtofile(const unsigned int position, const std::string& filename)
     {
-        if (m_sqltype || !m_result)
+        // 基础状态校验
+        if (m_sqltype || m_state != connected)
         {
             m_cda.rc = -1;
-            m_cda.message = "no blob data available.";
+            m_cda.message = "no blob data available or not connected.";
             return -1;
         }
 
-        MYSQL_FIELD* fields = mysql_fetch_fields(m_result);
-        if (!fields || fields[0].type != MYSQL_TYPE_BLOB)
+        // 获取结果集元数据
+        MYSQL_RES* meta_result = mysql_stmt_result_metadata(m_stmt);
+        if (!meta_result)
         {
+            err_report();
+            return m_cda.rc;
+        }
+
+        // 校验字段位置合法性
+        unsigned int num_fields = mysql_num_fields(meta_result);
+        if (position < 1 || position > num_fields)
+        {
+            mysql_free_result(meta_result);
             m_cda.rc = -1;
-            m_cda.message = "no blob field found.";
+            m_cda.message = "invalid BLOB field position.";
             return -1;
         }
 
-        MYSQL_ROW row = mysql_fetch_row(m_result);
-        if (!row)
+        // 校验字段类型是否为BLOB
+        MYSQL_FIELD* fields = mysql_fetch_fields(meta_result);
+        if (!fields || (fields[position - 1].type != MYSQL_TYPE_BLOB &&
+                        fields[position - 1].type != MYSQL_TYPE_LONG_BLOB))
         {
+            mysql_free_result(meta_result);
             m_cda.rc = -1;
-            m_cda.message = "no data found.";
+            m_cda.message = "specified field is not a BLOB type.";
             return -1;
         }
 
-        unsigned long* lengths = mysql_fetch_lengths(m_result);
-        if (!lengths || lengths[0] == 0)
-            return 0;
+        // 绑定结果集（使用已初始化的m_bindout，而非重新创建bind）
+        if (!m_bindout)
+        {
+            mysql_free_result(meta_result);
+            m_cda.rc = -1;
+            m_cda.message = "BLOB output buffer not initialized (call bindblob first).";
+            return -1;
+        }
 
+        // 从绑定的缓冲区中获取数据（复用bindblob的结果）
+        MYSQL_BIND* bind = &m_bindout[position - 1];
+        unsigned long blob_length = *bind->length; // 实际BLOB数据长度（从bindblob的输出长度获取）
+        char* buffer = (char*)bind->buffer;        // 从bindblob绑定的缓冲区获取数据
+
+        if (blob_length == 0 || !buffer)
+        {
+            mysql_free_result(meta_result);
+            m_cda.rc = -1;
+            m_cda.message = "BLOB data is empty or buffer not allocated.";
+            return -1;
+        }
+
+#ifdef DEBUG
+        printf("[blobtofile] 准备写入文件：%s，实际数据大小=%lu字节\n", filename.c_str(), blob_length);
+        printf("[blobtofile] 前16字节: ");
+        for (int i = 0; i < 16 && i < blob_length; i++)
+        {
+            printf("%02X ", (unsigned char)buffer[i]);
+        }
+        printf("\n");
+#endif
+
+        // 检查目录是否存在，不存在则创建（关键修复：避免路径错误导致文件无法生成）
+        size_t last_slash = filename.find_last_of("/\\");
+        if (last_slash != std::string::npos)
+        {
+            std::string dir = filename.substr(0, last_slash);
+// Windows下创建目录（需要包含<direct.h>）
+#ifdef _WIN32
+            if (_mkdir(dir.c_str()) == -1 && errno != EEXIST)
+#else
+            // Linux/Mac下创建目录（需要包含<sys/stat.h>）
+            if (mkdir(dir.c_str(), 0755) == -1 && errno != EEXIST)
+#endif
+            {
+                mysql_free_result(meta_result);
+                m_cda.rc = -1;
+                m_cda.message = "create directory failed: " + std::string(strerror(errno)) + " (" + dir + ")";
+                return -1;
+            }
+        }
+
+        // 打开文件（二进制写入）
         FILE* fp = fopen(filename.c_str(), "wb");
         if (!fp)
         {
+            mysql_free_result(meta_result);
             m_cda.rc = -1;
-            m_cda.message = "fopen failed: " + std::string(strerror(errno));
+            m_cda.message = "fopen failed: " + std::string(strerror(errno)) + " (" + filename + ")";
             return -1;
         }
 
-        size_t bytes_written = fwrite(row[0], 1, lengths[0], fp);
-        fclose(fp);
-
-        if (bytes_written != lengths[0])
+        // 写入文件（使用实际BLOB长度，而非缓冲区大小）
+        size_t bytes_written = fwrite(buffer, 1, blob_length, fp);
+        if (bytes_written != blob_length)
         {
+            fclose(fp);
+            mysql_free_result(meta_result);
             m_cda.rc = -1;
-            m_cda.message = "fwrite failed: " + std::string(strerror(errno));
-            remove(filename.c_str());
+            m_cda.message = "fwrite failed: written " + std::to_string(bytes_written) +
+                            " of " + std::to_string(blob_length) + " bytes (" + filename + ")";
+            remove(filename.c_str()); // 删除不完整文件
             return -1;
         }
 
+        fclose(fp);
+        mysql_free_result(meta_result);
         return 0;
     }
 
+    // TEXT相关函数修复
     int sqlstatement::bindtext(const unsigned int position, char* buffer, unsigned long length)
     {
         if (position == 0 || position > m_param_count || !m_bindin || !buffer || length == 0)
+        {
+            m_cda.rc = -1;
+            m_cda.message = "invalid parameters for bindtext";
             return -1;
+        }
+
+        // 检查长度是否超过unsigned int的最大值
+        if (length > UINT_MAX)
+        {
+            m_cda.rc = -1;
+            m_cda.message = "text length exceeds maximum allowed value.";
+            return -1;
+        }
 
         MYSQL_BIND* bind = &m_bindin[position - 1];
         memset(bind, 0, sizeof(MYSQL_BIND));
         bind->buffer_type = MYSQL_TYPE_STRING;
         bind->buffer = buffer;
-        bind->buffer_length = length;
+        bind->buffer_length = static_cast<unsigned int>(length);
         bind->length = &length;
         bind->is_null = nullptr;
 
@@ -1265,6 +1429,14 @@ namespace ol
 
     int sqlstatement::bindtext(const unsigned int position, std::string& buffer, unsigned long length)
     {
+        // 检查长度是否超过unsigned int的最大值
+        if (length > UINT_MAX)
+        {
+            m_cda.rc = -1;
+            m_cda.message = "text length exceeds maximum allowed value.";
+            return -1;
+        }
+
         if (length == 0)
         {
             m_cda.rc = -1;
@@ -1275,9 +1447,19 @@ namespace ol
         return bindtext(position, &buffer[0], length);
     }
 
-    int sqlstatement::filetotext(const unsigned int position, const std::string& filename)
+    // 1. 首先修复filetotext函数（与filetoblob保持完全一致）
+    int sqlstatement::filetotext(const unsigned int position, const std::string& filename, unsigned int chunk_size)
     {
-        FILE* fp = fopen(filename.c_str(), "r");
+        // 基础校验（与filetoblob完全一致）
+        if (position == 0 || position > m_param_count || !m_stmt)
+        {
+            m_cda.rc = -1;
+            m_cda.message = "invalid position for filetotext (position out of range)";
+            return -1;
+        }
+
+        // 二进制打开文件（与filetoblob一致）
+        FILE* fp = fopen(filename.c_str(), "rb");
         if (!fp)
         {
             m_cda.rc = -1;
@@ -1285,47 +1467,93 @@ namespace ol
             return -1;
         }
 
+        // 获取文件大小（与filetoblob一致）
         fseek(fp, 0, SEEK_END);
         long file_size = ftell(fp);
         fseek(fp, 0, SEEK_SET);
 
-        if (file_size <= 0)
+        if (file_size < 0)
         {
             fclose(fp);
-            return 0;
+            m_cda.rc = -1;
+            m_cda.message = "ftell failed for " + filename;
+            return -1;
         }
 
-        char* buffer = new char[file_size + 1];
+        // 初始化缓冲区（与filetoblob一致）
+        if (chunk_size < 1024) chunk_size = 1024;
+        if (chunk_size > 8 * 1024 * 1024) chunk_size = 8 * 1024 * 1024;
+        char* buffer = new (std::nothrow) char[chunk_size];
         if (!buffer)
         {
             fclose(fp);
             m_cda.rc = -1;
-            m_cda.message = "memory allocation failed.";
+            m_cda.message = "memory allocation failed for buffer";
             return -1;
         }
 
-        size_t bytes_read = fread(buffer, 1, file_size, fp);
+        // 关键：复用BLOB的参数绑定逻辑（只绑定一次，且存入m_bindin）
+        if (m_param_count > 0 && m_bindin)
+        {
+            MYSQL_BIND* bind = &m_bindin[position - 1];
+            memset(bind, 0, sizeof(MYSQL_BIND));
+            bind->buffer_type = MYSQL_TYPE_BLOB; // 与BLOB完全一致
+            bind->is_null = nullptr;
+            bind->length = nullptr;
+            bind->buffer = nullptr; // 分块传输不需要设置buffer
+        }
+        else
+        {
+            delete[] buffer;
+            fclose(fp);
+            m_cda.rc = -1;
+            m_cda.message = "m_bindin is null or m_param_count is 0";
+            return -1;
+        }
+
+        // 分块传输（与filetoblob完全一致）
+        unsigned int param_index = position - 1;
+        size_t total_sent = 0;
+        bool has_error = false;
+
+        while (total_sent < (size_t)file_size)
+        {
+            size_t read_size = (file_size - total_sent) < chunk_size ? (file_size - total_sent) : chunk_size;
+
+            size_t bytes_read = fread(buffer, 1, read_size, fp);
+            if (bytes_read != read_size)
+            {
+                m_cda.rc = -1;
+                m_cda.message = "fread failed at offset " + std::to_string(total_sent) +
+                                ": " + std::string(strerror(errno));
+                has_error = true;
+                break;
+            }
+
+            if (mysql_stmt_send_long_data(m_stmt, param_index, buffer, bytes_read) != 0)
+            {
+                err_report();
+                m_cda.message = "send chunk failed (offset " + std::to_string(total_sent) +
+                                "): " + m_cda.message;
+                has_error = true;
+                break;
+            }
+
+            total_sent += bytes_read;
+        }
+
+        // 清理资源（与filetoblob一致）
+        delete[] buffer;
         fclose(fp);
 
-        if (bytes_read != (size_t)file_size)
+        if (has_error)
         {
-            delete[] buffer;
-            m_cda.rc = -1;
-            m_cda.message = "fread failed.";
             return -1;
         }
-        buffer[file_size] = '\0';
 
-        int ret = bindtext(position, buffer, file_size);
-        if (ret != 0)
-        {
-            delete[] buffer;
-            return ret;
-        }
-
-        ret = execute();
-        delete[] buffer;
-        return ret;
+        printf("[filetotext] 复刻BLOB传输完成：总大小=%ld字节，分块数=%d\n",
+               file_size, (int)((total_sent + chunk_size - 1) / chunk_size));
+        return 0;
     }
 
     int sqlstatement::texttofile(const unsigned int position, const std::string& filename)
@@ -1344,7 +1572,8 @@ namespace ol
             return m_cda.rc;
         }
 
-        if (position >= mysql_num_fields(meta_result))
+        unsigned int num_fields = mysql_num_fields(meta_result);
+        if (position < 1 || position > num_fields)
         {
             mysql_free_result(meta_result);
             m_cda.rc = -1;
@@ -1353,17 +1582,17 @@ namespace ol
         }
 
         MYSQL_FIELD* fields = mysql_fetch_fields(meta_result);
-        if (fields[position].type != MYSQL_TYPE_STRING &&
-            fields[position].type != MYSQL_TYPE_VAR_STRING &&
-            fields[position].type != MYSQL_TYPE_BLOB)
+        if (fields[position - 1].type != MYSQL_TYPE_STRING &&
+            fields[position - 1].type != MYSQL_TYPE_VAR_STRING &&
+            fields[position - 1].type != MYSQL_TYPE_BLOB)
         {
             mysql_free_result(meta_result);
             m_cda.rc = -1;
             m_cda.message = "field is not a TEXT type.";
             return -1;
         }
-        mysql_free_result(meta_result);
 
+        // 正确的顺序：先绑定缓冲区，再获取数据
         char* buffer = nullptr;
         unsigned long text_length = 0;
         MYSQL_BIND bind;
@@ -1371,38 +1600,65 @@ namespace ol
         bind.buffer_type = MYSQL_TYPE_STRING;
         bind.length = &text_length;
 
-        if (mysql_stmt_fetch(m_stmt) != 0)
+        // 先获取长度
+        if (mysql_stmt_bind_result(m_stmt, &bind) != 0)
         {
             err_report();
+            mysql_free_result(meta_result);
             return m_cda.rc;
         }
 
+        if (mysql_stmt_fetch(m_stmt) != 0)
+        {
+            err_report();
+            mysql_free_result(meta_result);
+            return m_cda.rc;
+        }
+
+        // 分配足够的缓冲区
         if (text_length > 0)
         {
             buffer = new char[text_length + 1];
             bind.buffer = buffer;
             bind.buffer_length = text_length + 1;
 
-            mysql_stmt_bind_result(m_stmt, &bind);
-            mysql_stmt_fetch(m_stmt);
+            // 重新绑定并获取实际数据
+            if (mysql_stmt_bind_result(m_stmt, &bind) != 0)
+            {
+                err_report();
+                delete[] buffer;
+                mysql_free_result(meta_result);
+                return m_cda.rc;
+            }
+
+            if (mysql_stmt_fetch(m_stmt) != 0)
+            {
+                err_report();
+                delete[] buffer;
+                mysql_free_result(meta_result);
+                return m_cda.rc;
+            }
             buffer[text_length] = '\0';
         }
 
+        // 写入文件
         FILE* fp = fopen(filename.c_str(), "w");
         if (!fp)
         {
             delete[] buffer;
+            mysql_free_result(meta_result);
             m_cda.rc = -1;
             m_cda.message = "fopen failed for " + filename + ": " + std::string(strerror(errno));
             return -1;
         }
 
-        if (text_length > 0)
+        if (text_length > 0 && buffer)
         {
             fwrite(buffer, 1, text_length, fp);
         }
         fclose(fp);
         delete[] buffer;
+        mysql_free_result(meta_result);
 
         return 0;
     }
@@ -1459,7 +1715,6 @@ namespace ol
             m_bindout = nullptr;
         }
 
-        // 释放新增的辅助数组
         if (m_out_lengths)
         {
             delete[] m_out_lengths;
@@ -1470,6 +1725,13 @@ namespace ol
         {
             delete[] m_out_is_null;
             m_out_is_null = nullptr;
+        }
+
+        // 释放BLOB长度数组
+        if (m_blob_lengths)
+        {
+            delete[] m_blob_lengths;
+            m_blob_lengths = nullptr;
         }
 
         m_param_count = 0;

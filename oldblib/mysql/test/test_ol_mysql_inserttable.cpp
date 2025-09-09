@@ -27,11 +27,11 @@ int main(int argc, char* argv[])
     // 定义结构体存储数据
     struct st_girl
     {
-        long id;        // 超女编号，对应MySQL的int（8字节，确保后续double对齐）
-        double weight;  // 超女体重，对应MySQL的decimal(8,2)（8字节，紧跟long后自然对齐）
-        char name[32];  // 超女姓名，对应MySQL的varchar(30)（32字节，8的倍数，避免对齐问题）
-        char btime[20]; // 报名时间，对应MySQL的datetime
-        char memo[301]; // 备注，对应MySQL的varchar(300)
+        int id;         // 超女编号
+        double weight;  // 超女体重
+        char name[32];  // 超女姓名
+        char btime[20]; // 报名时间
+        char memo[301]; // 备注
     } stgirl;
 
     // 动态SQL语句（MySQL使用?作为占位符）

@@ -15,6 +15,7 @@
 #define __OL_MYSQL_H 1
 
 // C/C++库常用头文件
+#include <direct.h> // 目录操作
 #include <mutex>
 #include <mysql.h> // MySQL C API的头文件
 #include <stdarg.h>
@@ -145,24 +146,21 @@ namespace ol
     class sqlstatement
     {
     private:
-        MYSQL* m_mysql;               // MySQL连接句柄（引用自connection）
-        MYSQL_STMT* m_stmt;           // MySQL语句句柄
-        MYSQL_RES* m_result;          // 结果集句柄
-        MYSQL_BIND* m_bindin;         // 绑定输入变量数组
-        MYSQL_BIND* m_bindout;        // 绑定输出变量数组
-        unsigned int m_param_count;   // 输入参数数量
-        unsigned int m_field_count;   // 输出字段数量
-        unsigned long* m_out_lengths; // 输出字段的实际长度
-        bool* m_out_is_null;          // 输出字段是否为NULL
+        MYSQL* m_mysql;                // MySQL连接句柄（引用自connection）
+        MYSQL_STMT* m_stmt;            // MySQL语句句柄
+        MYSQL_RES* m_result;           // 结果集句柄
+        MYSQL_BIND* m_bindin;          // 绑定输入变量数组
+        MYSQL_BIND* m_bindout;         // 绑定输出变量数组
+        unsigned int m_param_count;    // 输入参数数量
+        unsigned int m_field_count;    // 输出字段数量
+        unsigned long* m_out_lengths;  // 输出字段的实际长度
+        bool* m_out_is_null;           // 输出字段是否为NULL
+        unsigned long* m_blob_lengths; // BLOB字段长度存储
 
         connection* m_conn;   // 数据库连接指针
         bool m_sqltype;       // SQL语句的类型，false-查询语句；true-非查询语句
         bool m_autocommitopt; // 自动提交标志，false-关闭；true-开启
         void err_report();    // 错误报告
-
-        // 处理BLOB数据的缓冲区
-        char* m_blob_buffer;
-        unsigned long m_blob_length;
 
         sqlstatement(const sqlstatement&) = delete;            // 禁用拷贝构造函数
         sqlstatement& operator=(const sqlstatement&) = delete; // 禁用赋值函数
@@ -306,17 +304,19 @@ namespace ol
 
         /**
          * @brief 将文件内容导入到BLOB字段
+         * @param position 占位符位置
          * @param filename 待导入文件的路径（建议绝对路径）
          * @return 0-成功，其他-失败（程序中一般不必关心返回值）
          */
-        int filetoblob(const std::string& filename);
+        int filetoblob(const unsigned int position, const std::string& filename);
 
         /**
          * @brief 将BLOB字段内容导出到文件
+         * @param position 结果集字段位置
          * @param filename 导出文件的路径（建议绝对路径）
          * @return 0-成功，其他-失败（程序中一般不必关心返回值）
          */
-        int blobtofile(const std::string& filename);
+        int blobtofile(const unsigned int position, const std::string& filename);
 
         /**
          * @brief 绑定TEXT字段（用于插入/读取大文本）
@@ -329,12 +329,13 @@ namespace ol
         int bindtext(const unsigned int position, std::string& buffer, unsigned long length);
 
         /**
-         * @brief 将文件内容导入到TEXT字段
+         * @brief 将文件内容导入到TEXT字段（分块传输版本）
          * @param position 占位符位置
          * @param filename 待导入文件的路径
+         * @param chunk_size 分块大小（默认4MB，建议小于max_allowed_packet）
          * @return 0-成功，其他-失败
          */
-        int filetotext(const unsigned int position, const std::string& filename);
+        int filetotext(const unsigned int position, const std::string& filename, unsigned int chunk_size = 4 * 1024 * 1024);
 
         /**
          * @brief 将TEXT字段内容导出到文件
