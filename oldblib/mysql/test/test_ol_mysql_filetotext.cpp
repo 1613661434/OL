@@ -92,30 +92,5 @@ int main(int argc, char* argv[])
     printf("文本文件已通过分块传输成功存入memo字段\n");
     conn.commit();
 
-    // 验证：从数据库读取TEXT内容并保存到文件
-    sqlstatement stmt_read(&conn);
-    stmt_read.prepare("select memo from girls where id=1");
-    stmt_read.execute();
-
-    string output_filename = R"(D:\Visual Studio Code\VScode\OL\oldblib\mysql\test\data\memo_out.txt)";
-    if (stmt_read.texttofile(1, output_filename) != 0)
-    {
-        printf("texttofile failed: %s\n", stmt_read.message().c_str());
-        return -1;
-    }
-
-    // 检查输出文件是否存在
-    long output_size = get_file_size(output_filename);
-    if (output_size > 0)
-    {
-        printf("TEXT字段内容已成功导出到文件: %s (大小: %ld 字节)\n",
-               output_filename.c_str(), output_size);
-    }
-    else
-    {
-        printf("警告: 导出文件创建失败或为空: %s\n", output_filename.c_str());
-        return -1;
-    }
-
     return 0;
 }
