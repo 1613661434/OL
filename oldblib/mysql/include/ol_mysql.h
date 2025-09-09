@@ -222,7 +222,11 @@ namespace ol
          * @brief 准备SQL语句（支持可变参数，同printf）
          * @param fmt 格式化SQL字符串
          * @return 0-成功，其他-失败（程序中一般不必关心返回值）
-         * @note 如果SQL语句没有改变，只需要prepare一次就可以了
+         * @note 1）如果SQL语句没有改变，只需要prepare一次就可以了;
+         *       2）当SQL语句中包含DATE_FORMAT等函数需要使用%格式符时，为避免与vsnprintf的格式化冲突，
+         *          应将格式字符串通过参数传入。例如：
+         *          stmt.prepare("select ... DATE_FORMAT(btime, %s) ...", R"('%Y-%m-%d %H:%i:%s')");
+         *          而非直接在SQL字符串中写入'%Y-%m-%d %H:%i:%s'
          */
         int prepare(const char* fmt, ...);
 

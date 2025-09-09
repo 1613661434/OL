@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
     int maxid = 13;
 
     // 准备查询SQL
-    stmt.prepare("select id,name,weight,btime,memo from girls where id>=? and id<=?");
+    stmt.prepare("select id, name, weight, DATE_FORMAT(btime, %s) as btime, memo from girls where id>=? and id<=?", R"('%Y-%m-%d %H:%i:%s')");
 
     // 绑定输入变量
     if (stmt.bindin(1, minid) != 0)
