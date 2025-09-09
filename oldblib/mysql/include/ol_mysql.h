@@ -144,13 +144,16 @@ namespace ol
     // SQL语句操作类，处理SQL准备、绑定变量、执行及结果集
     class sqlstatement
     {
-    public:
-        MYSQL* m_mysql;             // MySQL连接句柄（引用自connection）
-        MYSQL_STMT* m_stmt;         // MySQL语句句柄
-        MYSQL_RES* m_result;        // 结果集句柄
-        MYSQL_BIND* m_bind;         // 绑定变量数组
-        unsigned int m_param_count; // 参数数量
-        unsigned int m_field_count; // 字段数量
+    private:
+        MYSQL* m_mysql;               // MySQL连接句柄（引用自connection）
+        MYSQL_STMT* m_stmt;           // MySQL语句句柄
+        MYSQL_RES* m_result;          // 结果集句柄
+        MYSQL_BIND* m_bindin;         // 绑定输入变量数组
+        MYSQL_BIND* m_bindout;        // 绑定输出变量数组
+        unsigned int m_param_count;   // 输入参数数量
+        unsigned int m_field_count;   // 输出字段数量
+        unsigned long* m_out_lengths; // 输出字段的实际长度
+        bool* m_out_is_null;          // 输出字段是否为NULL
 
         connection* m_conn;   // 数据库连接指针
         bool m_sqltype;       // SQL语句的类型，false-查询语句；true-非查询语句
@@ -364,6 +367,24 @@ namespace ol
          * @return 错误描述字符串（失败时有效）
          */
         std::string message();
+
+        /**
+         * @brief 判断绑定的输出字段是否为NULL
+         * @param position 结果集字段位置（从1开始）
+         * @return 字段为NULL返回true，否则返回false
+         * @note 必须在调用next()之后使用，且该字段必须已通过bindout绑定
+         */
+        bool is_null(const unsigned int position);
+
+        /**
+         * @brief 获取绑定的输出字段的实际长度
+         * @param position 结果集字段位置（从1开始）
+         * @return 字段的实际字节长度
+         * @note 1. 对于字符串类型，返回实际字符数（不含终止符）
+         *       2. 对于数值类型，返回其在数据库中的存储长度
+         *       3. 必须在调用next()之后使用，且该字段必须已通过bindout绑定
+         */
+        unsigned long length(const unsigned int position);
     };
 
 } // namespace ol

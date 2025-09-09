@@ -3,6 +3,7 @@
  *  作者：ol
  */
 #include "ol_mysql.h" // 开发框架操作MySQL的头文件。
+#include <cstring>
 #include <iostream>
 
 using namespace std;
@@ -26,22 +27,32 @@ int main(int argc, char* argv[])
     // 定义结构体存储数据
     struct st_girl
     {
-        long id;        // 超女编号，对应MySQL的int（8字节，确保后续double对齐）
-        double weight;  // 超女体重，对应MySQL的decimal(8,2)（8字节，紧跟long后自然对齐）
-        char name[32];  // 超女姓名，对应MySQL的varchar(30)（32字节，8的倍数，避免对齐问题）
-        char btime[20]; // 报名时间，对应MySQL的datetime
-        char memo[301]; // 备注，对应MySQL的varchar(300)
+        long id;        // 超女编号
+        char name[31];  // 姓名
+        double weight;  // 体重
+        char btime[20]; // 时间
+        char memo[301]; // 备注
     } stgirl;
 
-    int minid = 11, maxid = 13;
-    // 准备查询表的SQL语句（MySQL使用date_format处理日期）
-    stmt.prepare("select id,name,weight,btime,memo from girls where id>= 11 and id<= 13");
-    // 绑定输入变量
-    // stmt.bindin(1, minid);
-    // stmt.bindin(2, maxid);
+    // 输入参数
+    int minid = 11;
+    int maxid = 13;
 
-    // // 准备查询表的SQL语句（MySQL使用date_format处理日期）
-    // stmt.prepare("select id,name,weight,date_format(btime,'%Y-%m-%d %H:%i:%s'),memo from girls");
+    // 准备查询SQL
+    stmt.prepare("select id,name,weight,btime,memo from girls where id>=? and id<=?");
+
+    // 绑定输入变量
+    if (stmt.bindin(1, minid) != 0)
+    {
+        printf("bindin参数1失败：%s\n", stmt.message().c_str());
+        return -1;
+    }
+    if (stmt.bindin(2, maxid) != 0)
+    {
+        printf("bindin参数2失败：%s\n", stmt.message().c_str());
+        return -1;
+    }
+
     // 绑定输出变量
     stmt.bindout(1, stgirl.id);
     stmt.bindout(2, stgirl.name, 30);
@@ -49,25 +60,39 @@ int main(int argc, char* argv[])
     stmt.bindout(4, stgirl.btime, 19);
     stmt.bindout(5, stgirl.memo, 300);
 
-    // 执行SQL语句
+    // 调试信息
+    printf("实际执行的SQL：%s\n", stmt.sql());
+    printf("查询条件：id>=%d and id<=%d\n", minid, maxid);
+
+    // 执行SQL
     if (stmt.execute() != 0)
     {
         printf("stmt.execute() failed.\n%s\n%s\n", stmt.sql(), stmt.message().c_str());
         return -1;
     }
 
-    // 循环获取结果集
+    // 遍历结果集
+    int count = 0;
     while (true)
     {
         memset(&stgirl, 0, sizeof(stgirl));
+        int next_ret = stmt.next();
 
-        // 从结果集中获取一条记录，100-无记录
-        if (stmt.next() != 0) break;
+        if (next_ret == 100)
+        {
+            printf("已获取全部记录\n");
+            break;
+        }
+        if (next_ret != 0)
+        {
+            printf("stmt.next()失败：%s\n", stmt.message().c_str());
+            break;
+        }
 
-        // 打印获取到的记录
-        printf("id=%ld,name=%s,weight=%.02f,btime=%s,memo=%s\n",
-               stgirl.id, stgirl.name, stgirl.weight, stgirl.btime, stgirl.memo);
+        printf("记录%d: id=%ld,name=%s,weight=%.2f,btime=%s,memo=%s\n",
+               ++count, stgirl.id, stgirl.name, stgirl.weight, stgirl.btime, stgirl.memo);
     }
+
     printf("本次查询了girls表%lu条记录。\n", stmt.rpc());
 
     return 0;
