@@ -48,7 +48,6 @@ int main(int argc, char* argv[])
 
     // 准备SQL语句（使用memo字段）
     sqlstatement stmt(&conn);
-    stmt.prepare("update girls set memo=? where id=1");
 
     // 检查记录是否存在，不存在则插入
     sqlstatement stmt_check_rec(&conn);
@@ -56,7 +55,13 @@ int main(int argc, char* argv[])
     stmt_check_rec.execute();
     if (stmt_check_rec.next() == 100)
     {
+        // 记录不存在，准备插入语句
         stmt.prepare("insert into girls(id,name,memo) values(1,'冰冰',?)");
+    }
+    else
+    {
+        // 记录存在，准备更新语句
+        stmt.prepare("update girls set memo=? where id=1");
     }
 
     // 检查文件
@@ -86,6 +91,31 @@ int main(int argc, char* argv[])
 
     printf("文本文件已通过分块传输成功存入memo字段\n");
     conn.commit();
+
+    // 验证：从数据库读取TEXT内容并保存到文件
+    sqlstatement stmt_read(&conn);
+    stmt_read.prepare("select memo from girls where id=1");
+    stmt_read.execute();
+
+    string output_filename = R"(D:\Visual Studio Code\VScode\OL\oldblib\mysql\test\data\memo_out.txt)";
+    if (stmt_read.texttofile(1, output_filename) != 0)
+    {
+        printf("texttofile failed: %s\n", stmt_read.message().c_str());
+        return -1;
+    }
+
+    // 检查输出文件是否存在
+    long output_size = get_file_size(output_filename);
+    if (output_size > 0)
+    {
+        printf("TEXT字段内容已成功导出到文件: %s (大小: %ld 字节)\n",
+               output_filename.c_str(), output_size);
+    }
+    else
+    {
+        printf("警告: 导出文件创建失败或为空: %s\n", output_filename.c_str());
+        return -1;
+    }
 
     return 0;
 }
