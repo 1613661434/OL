@@ -1343,7 +1343,7 @@ namespace ol
 #ifdef DEBUG
         printf("[blobtofile] 准备写入文件：%s，实际数据大小=%lu字节\n", filename.c_str(), blob_length);
         printf("[blobtofile] 前16字节: ");
-        for (int i = 0; i < 16 && i < blob_length; i++)
+        for (int i = 0; i < 16 && i < (int)blob_length; ++i)
         {
             printf("%02X ", (unsigned char)buffer[i]);
         }
@@ -1398,52 +1398,106 @@ namespace ol
         return 0;
     }
 
-    // TEXT相关函数修复
+    // TEXT相关函数修复（支持输入/输出参数绑定）
     int sqlstatement::bindtext(const unsigned int position, char* buffer, unsigned long length)
     {
-        if (position == 0 || position > m_param_count || !m_bindin || !buffer || length == 0)
+        // 基础参数校验（通用检查）
+        if (position == 0 || !buffer || length == 0)
         {
             m_cda.rc = -1;
-            m_cda.message = "invalid parameters for bindtext";
+            m_cda.message = "invalid parameters for bindtext (position=0 or buffer=null or length=0)";
             return -1;
         }
 
-        // 检查长度是否超过unsigned int的最大值
+        // 检查长度是否超过合理范围
         if (length > UINT_MAX)
         {
             m_cda.rc = -1;
-            m_cda.message = "text length exceeds maximum allowed value.";
+            m_cda.message = "text length exceeds maximum allowed value";
             return -1;
         }
 
-        MYSQL_BIND* bind = &m_bindin[position - 1];
-        memset(bind, 0, sizeof(MYSQL_BIND));
-        bind->buffer_type = MYSQL_TYPE_STRING;
-        bind->buffer = buffer;
-        bind->buffer_length = static_cast<unsigned int>(length);
-        bind->length = &length;
-        bind->is_null = nullptr;
+        // 区分输入参数（INSERT/UPDATE，有?占位符）和输出参数（SELECT，查询结果）
+        if (m_sqltype)
+        {
+            // 输入参数绑定（SQL是INSERT/UPDATE）
+            if (position > m_param_count || !m_bindin)
+            {
+                m_cda.rc = -1;
+                m_cda.message = "invalid position for bindtext (input parameter)";
+                return -1;
+            }
 
+            // 绑定输入参数
+            MYSQL_BIND* bind = &m_bindin[position - 1];
+            memset(bind, 0, sizeof(MYSQL_BIND));
+            bind->buffer_type = MYSQL_TYPE_STRING; // 文本类型用STRING
+            bind->buffer = buffer;
+            bind->buffer_length = static_cast<unsigned int>(length);
+            bind->length = &length;  // 关联实际长度
+            bind->is_null = nullptr; // 非空
+        }
+        else
+        {
+            // 输出参数绑定（SQL是SELECT，查询结果字段）
+            // 初始化结果字段计数（首次绑定输出参数时）
+            if (m_field_count == 0)
+            {
+                m_field_count = mysql_stmt_field_count(m_stmt);
+            }
+
+            // 初始化输出绑定数组（首次使用时）
+            if (!m_bindout)
+            {
+                m_bindout = new MYSQL_BIND[m_field_count];
+                memset(m_bindout, 0, sizeof(MYSQL_BIND) * m_field_count);
+
+                m_out_lengths = new unsigned long[m_field_count]; // 存储输出字段实际长度
+                memset(m_out_lengths, 0, sizeof(unsigned long) * m_field_count);
+
+                m_out_is_null = new bool[m_field_count]; // 存储是否为NULL
+                memset(m_out_is_null, 0, sizeof(bool) * m_field_count);
+            }
+
+            // 校验输出参数位置合法性
+            if (position > m_field_count)
+            {
+                m_cda.rc = -1;
+                m_cda.message = "invalid position for bindtext (output parameter)";
+                return -1;
+            }
+
+            // 绑定输出参数（查询结果字段）
+            MYSQL_BIND* bind = &m_bindout[position - 1];
+            memset(bind, 0, sizeof(MYSQL_BIND));
+            bind->buffer_type = MYSQL_TYPE_STRING; // 文本类型用STRING
+            bind->buffer = buffer;
+            bind->buffer_length = static_cast<unsigned int>(length);
+            bind->length = &m_out_lengths[position - 1];  // 关联输出长度数组
+            bind->is_null = &m_out_is_null[position - 1]; // 关联NULL标记
+        }
+
+#ifdef DEBUG
+        printf("[bindtext] 绑定TEXT %s参数%d：缓冲区大小=%lu字节\n",
+               m_sqltype ? "输入" : "输出", position, length);
+#endif
         return 0;
     }
 
+    // 字符串版本的bindtext（适配std::string）
     int sqlstatement::bindtext(const unsigned int position, std::string& buffer, unsigned long length)
     {
-        // 检查长度是否超过unsigned int的最大值
-        if (length > UINT_MAX)
+        // 基础参数校验
+        if (length == 0 || length > UINT_MAX)
         {
             m_cda.rc = -1;
-            m_cda.message = "text length exceeds maximum allowed value.";
+            m_cda.message = "invalid text length for string bindtext";
             return -1;
         }
 
-        if (length == 0)
-        {
-            m_cda.rc = -1;
-            m_cda.message = "text length cannot be zero.";
-            return -1;
-        }
+        // 调整字符串缓冲区大小
         buffer.resize(length);
+        // 调用字符数组版本的bindtext
         return bindtext(position, &buffer[0], length);
     }
 
@@ -1636,7 +1690,7 @@ namespace ol
 #ifdef DEBUG
         printf("[texttofile] 准备写入文件：%s，实际数据大小=%lu字节\n", filename.c_str(), text_length);
         printf("[texttofile] 前32字节预览: ");
-        for (int i = 0; i < 32 && i < text_length; i++)
+        for (int i = 0; i < 32 && i < (int)text_length; ++i)
         {
             // 只打印可打印字符，控制字符显示为.
             if (isprint((unsigned char)buffer[i]))
