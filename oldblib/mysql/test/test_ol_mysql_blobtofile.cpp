@@ -4,17 +4,44 @@
  *  作者：ol
  */
 #include "ol_mysql.h" // 开发框架操作MySQL的头文件
-#include <string>     // 包含string类支持
+#include <fstream>    // 用于检查文件是否存在
+#include <string>
+#include <sys/stat.h> // 用于获取文件大小
 
 using namespace std;
 using namespace ol;
+
+// 辅助函数：检查文件是否存在
+bool file_exists(const string& path)
+{
+#ifdef _WIN32
+    struct _stat info;
+    return _stat(path.c_str(), &info) == 0;
+#else
+    struct stat info;
+    return stat(path.c_str(), &info) == 0;
+#endif
+}
+
+// 辅助函数：获取文件大小
+unsigned long file_size(const string& path)
+{
+#ifdef _WIN32
+    struct _stat info;
+    if (_stat(path.c_str(), &info) != 0) return 0;
+#else
+    struct stat info;
+    if (stat(path.c_str(), &info) != 0) return 0;
+#endif
+    return (unsigned long)info.st_size;
+}
 
 int main(int argc, char* argv[])
 {
     // 创建数据库连接对象
     connection conn;
 
-    // 登录数据库，返回值：0-成功，其它-失败
+    // 登录数据库
     if (conn.connecttodb("root:0088@127.0.0.1:3306/testdb", "utf8mb4") != 0)
     {
         printf("数据库连接失败：%s\n", conn.message().c_str());
@@ -23,35 +50,36 @@ int main(int argc, char* argv[])
 
     printf("数据库连接成功。\n");
 
-    // 创建SQL语句对象，关联到数据库连接
+    // 创建SQL语句对象
     sqlstatement stmt(&conn);
 
-    // 准备SQL语句：查询id=1的记录的pic字段（BLOB类型）
+    // 准备查询语句
     if (stmt.prepare("select pic from girls where id=1") != 0)
     {
         printf("SQL语句准备失败：%s\n", stmt.message().c_str());
         return -1;
     }
 
-    // 为BLOB字段分配缓冲区（根据实际需求调整大小）
-    char blob_buffer[1024 * 1024];                   // 1MB缓冲区
-    unsigned long blob_length = sizeof(blob_buffer); // 缓冲区长度
+    // 为BLOB字段分配缓冲区
+    char blob_buffer[1024 * 1024];                        // 1MB缓冲区
+    unsigned long blob_buffer_size = sizeof(blob_buffer); // 缓冲区大小
+    unsigned long actual_blob_length = 0;                 // 实际BLOB数据长度（后续从bind中获取）
 
-    // 绑定BLOB字段（按头文件声明传递3个参数：位置、缓冲区、长度）
-    if (stmt.bindblob(1, blob_buffer, blob_length) != 0)
+    // 绑定BLOB字段（输出参数）
+    if (stmt.bindblob(1, blob_buffer, blob_buffer_size) != 0)
     {
         printf("绑定BLOB字段失败：%s\n", stmt.message().c_str());
         return -1;
     }
 
-    // 执行SQL查询
+    // 执行查询
     if (stmt.execute() != 0)
     {
         printf("SQL执行失败：%s\n", stmt.message().c_str());
         return -1;
     }
 
-    // 获取查询结果集
+    // 获取查询结果
     int ret = stmt.next();
     if (ret == 100)
     {
@@ -64,7 +92,7 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    // 将BLOB字段内容写入文件（添加字段位置参数1）
+    // 将BLOB字段内容写入文件
     string output_file = R"(D:\Visual Studio Code\VScode\OL\oldblib\mysql\test\data\pic_out.jpeg)";
     if (stmt.blobtofile(1, output_file) != 0)
     {
@@ -72,8 +100,20 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    printf("成功将数据库BLOB字段提取到文件：%s，大小：%lu字节\n",
-           output_file.c_str(), blob_length);
+    // 验证文件是否存在并输出实际信息（关键：确认文件状态）
+    if (file_exists(output_file))
+    {
+        unsigned long file_size_val = file_size(output_file);
+        printf("文件生成成功！\n");
+        printf("路径：%s\n", output_file.c_str());
+        printf("实际大小：%lu字节\n", file_size_val);
+    }
+    else
+    {
+        printf("警告：程序提示成功，但文件不存在！\n");
+        printf("预期路径：%s\n", output_file.c_str());
+        return -1;
+    }
 
     return 0;
 }
