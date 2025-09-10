@@ -305,7 +305,6 @@ namespace ol
          * @brief 从结果集中获取下一条记录（仅查询语句有效）
          * @return 0-成功，100-无更多记录（也可以使用宏MYSQL_NO_DATA），其他-失败（失败的代码在m_cda.rc中，失败的描述在m_cda.message中）
          * @note 返回失败的原因主要有两个：1）与数据库的连接已断开；2）绑定输出变量的内存太小。
-         *       每执行一次next方法，m_cda.rpc的值加1。
          *       程序中必须检查next方法的返回值。
          */
         int next();
