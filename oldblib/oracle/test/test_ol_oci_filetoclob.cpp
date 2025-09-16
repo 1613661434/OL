@@ -9,7 +9,7 @@ using namespace ol;
 
 int main(int argc, char* argv[])
 {
-    connection conn; // 创建数据库连接类的对象。
+    DBConn conn; // 创建数据库连接类的对象。
 
     // 登录数据库，返回值：0-成功，其它-失败。
     // 失败代码在conn.m_cda.rc中，失败描述在conn.m_cda.message中。
@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
     printf("connect database ok.\n");
 
     // 修改girls表结构，增加memo1字段，用于测试。 alter table girls add memo1 clob;
-    sqlstatement stmt(&conn);
+    DBStmt stmt(&conn);
     stmt.prepare("insert into girls(id,name,memo1) values(1,'冰冰',empty_clob())"); // 注意：不可用null代替empty_clob()。
     if (stmt.execute() != 0)
     {

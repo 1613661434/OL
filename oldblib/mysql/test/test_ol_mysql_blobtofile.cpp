@@ -39,7 +39,7 @@ unsigned long file_size(const string& path)
 int main(int argc, char* argv[])
 {
     // 创建数据库连接对象
-    connection conn;
+    DBConn conn;
 
     // 登录数据库
     if (conn.connecttodb("root:0088@127.0.0.1:3306/testdb", "utf8mb4") != 0)
@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
     printf("数据库连接成功。\n");
 
     // 创建SQL语句对象
-    sqlstatement stmt(&conn);
+    DBStmt stmt(&conn);
 
     // 准备查询语句
     if (stmt.prepare("select pic from girls where id=1") != 0)
@@ -63,7 +63,6 @@ int main(int argc, char* argv[])
     // 为BLOB字段分配缓冲区
     char blob_buffer[1024 * 1024];                        // 1MB缓冲区
     unsigned long blob_buffer_size = sizeof(blob_buffer); // 缓冲区大小
-    unsigned long actual_blob_length = 0;                 // 实际BLOB数据长度（后续从bind中获取）
 
     // 绑定BLOB字段（输出参数）
     if (stmt.bindblob(1, blob_buffer, blob_buffer_size) != 0)

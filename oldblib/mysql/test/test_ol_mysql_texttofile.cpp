@@ -28,7 +28,7 @@ long get_file_size(const string& filename)
 int main(int argc, char* argv[])
 {
     // 创建数据库连接类的对象
-    connection conn;
+    DBConn conn;
 
     // 登录数据库（连接字符串格式："username:password@host:port/dbname"）
     if (conn.connecttodb("root:0088@127.0.0.1:3306/testdb", "utf8mb4") != 0)
@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
     printf("数据库连接成功\n");
 
     // 创建SQL语句对象
-    sqlstatement stmt(&conn);
+    DBStmt stmt(&conn);
 
     // 准备查询语句，获取memo字段（已修改字段名）
     if (stmt.prepare("select memo from girls where id=1") != 0)

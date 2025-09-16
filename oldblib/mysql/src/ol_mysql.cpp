@@ -12,6 +12,8 @@
 
 namespace ol
 {
+    // 辅助函数实现
+    // ===========================================================================
     void MY__ToUpper(char* str)
     {
         if (str == nullptr) return;
@@ -38,9 +40,11 @@ namespace ol
         rpc = 0;
         message.clear();
     }
+    // ===========================================================================
 
-    // connection类实现
-    connection::connection() : m_mysql(nullptr), m_autocommitopt(0), m_state(disconnected)
+    // DBConn类实现
+    // ===========================================================================
+    DBConn::DBConn() : m_mysql(nullptr), m_autocommitopt(0), m_state(disconnected)
     {
         m_cda.init();
         m_cda.rc = -1;
@@ -48,7 +52,7 @@ namespace ol
         m_port = 3306;
     }
 
-    connection::~connection()
+    DBConn::~DBConn()
     {
         disconnect();
     }
@@ -65,9 +69,9 @@ namespace ol
      *
      * @return int 0表示重连成功，-1表示重连失败
      * @note 失败信息可通过message()方法获取
-     * @warning 重连成功后，之前的预处理语句（sqlstatement）可能需要重新准备
+     * @warning 重连成功后，之前的预处理语句（DBStmt）可能需要重新准备
      */
-    int connection::reconnect()
+    int DBConn::reconnect()
     {
         // 关闭旧连接
         if (m_mysql)
@@ -118,7 +122,7 @@ namespace ol
         return 0;
     }
 
-    int connection::connecttodb(const std::string& connstr, const std::string& charset, bool autocommitopt)
+    int DBConn::connecttodb(const std::string& connstr, const std::string& charset, bool autocommitopt)
     {
         if (m_state == connected) return 0;
 
@@ -168,12 +172,12 @@ namespace ol
         return 0;
     }
 
-    bool connection::isopen()
+    bool DBConn::isopen()
     {
         return (m_state == connected);
     }
 
-    int connection::commit()
+    int DBConn::commit()
     {
         m_cda.init();
 
@@ -193,7 +197,7 @@ namespace ol
         return 0;
     }
 
-    int connection::rollback()
+    int DBConn::rollback()
     {
         m_cda.init();
 
@@ -213,7 +217,7 @@ namespace ol
         return 0;
     }
 
-    int connection::disconnect()
+    int DBConn::disconnect()
     {
         m_cda.init();
 
@@ -236,7 +240,7 @@ namespace ol
         return 0;
     }
 
-    int connection::execute(const char* fmt, ...)
+    int DBConn::execute(const char* fmt, ...)
     {
         va_list ap;
         va_start(ap, fmt);
@@ -250,32 +254,32 @@ namespace ol
         vsnprintf(&strsql[0], len + 1, fmt, ap);
         va_end(ap);
 
-        sqlstatement stmt(this);
+        DBStmt stmt(this);
         return stmt.execute(strsql.c_str());
     }
 
-    int connection::rc()
+    int DBConn::rc()
     {
         return m_cda.rc;
     }
 
-    unsigned long connection::rpc()
+    unsigned long DBConn::rpc()
     {
         return m_cda.rpc;
     }
 
-    std::string connection::message()
+    std::string DBConn::message()
     {
         return m_cda.message;
     }
 
-    void connection::character(const char* charset)
+    void DBConn::character(const char* charset)
     {
         if (charset && m_mysql)
             mysql_set_character_set(m_mysql, charset);
     }
 
-    void connection::setdbopt(const char* connstr)
+    void DBConn::setdbopt(const char* connstr)
     {
         std::string str = connstr;
         size_t pos1 = str.find(':');
@@ -313,7 +317,7 @@ namespace ol
         if (m_host.empty()) m_host = "localhost";
     }
 
-    void connection::err_report()
+    void DBConn::err_report()
     {
         if (m_state == disconnected)
         {
@@ -325,9 +329,24 @@ namespace ol
         m_cda.rc = mysql_errno(m_mysql);
         m_cda.message = mysql_error(m_mysql);
     }
+    // ===========================================================================
 
-    // sqlstatement类实现
-    sqlstatement::sqlstatement() : m_mysql(nullptr), m_stmt(nullptr), m_result(nullptr),
+    // DBStmt类实现
+    // ===========================================================================
+    DBStmt::DBStmt() : m_mysql(nullptr), m_stmt(nullptr), m_result(nullptr),
+                       m_bindin(nullptr), m_bindout(nullptr),
+                       m_param_count(0), m_field_count(0),
+                       m_out_lengths(nullptr), m_out_is_null(nullptr),
+                       m_blob_lengths(nullptr), m_conn(nullptr),
+                       m_sqltype(true), m_autocommitopt(false),
+                       m_state(disconnected)
+    {
+        m_cda.init();
+        m_cda.rc = -1;
+        m_cda.message = "DBStmt not connect to DBConn.";
+    }
+
+    DBStmt::DBStmt(DBConn* conn) : m_mysql(nullptr), m_stmt(nullptr), m_result(nullptr),
                                    m_bindin(nullptr), m_bindout(nullptr),
                                    m_param_count(0), m_field_count(0),
                                    m_out_lengths(nullptr), m_out_is_null(nullptr),
@@ -337,37 +356,24 @@ namespace ol
     {
         m_cda.init();
         m_cda.rc = -1;
-        m_cda.message = "sqlstatement not connect to connection.";
-    }
-
-    sqlstatement::sqlstatement(connection* conn) : m_mysql(nullptr), m_stmt(nullptr), m_result(nullptr),
-                                                   m_bindin(nullptr), m_bindout(nullptr),
-                                                   m_param_count(0), m_field_count(0),
-                                                   m_out_lengths(nullptr), m_out_is_null(nullptr),
-                                                   m_blob_lengths(nullptr), m_conn(nullptr),
-                                                   m_sqltype(true), m_autocommitopt(false),
-                                                   m_state(disconnected)
-    {
-        m_cda.init();
-        m_cda.rc = -1;
-        m_cda.message = "sqlstatement not connect to connection.";
+        m_cda.message = "DBStmt not connect to DBConn.";
         connect(conn);
     }
 
-    sqlstatement::~sqlstatement()
+    DBStmt::~DBStmt()
     {
         disconnect();
         free_bind();
     }
 
-    int sqlstatement::connect(connection* conn)
+    int DBStmt::connect(DBConn* conn)
     {
         if (m_state == connected) return 0;
 
         m_cda.init();
         m_conn = conn;
 
-        if (!m_conn || m_conn->m_state == connection::disconnected)
+        if (!m_conn || m_conn->m_state == DBConn::disconnected)
         {
             m_cda.rc = -1;
             m_cda.message = "database not open.";
@@ -391,12 +397,12 @@ namespace ol
         return 0;
     }
 
-    bool sqlstatement::isopen()
+    bool DBStmt::isopen()
     {
         return (m_state == connected);
     }
 
-    int sqlstatement::disconnect()
+    int DBStmt::disconnect()
     {
         if (m_state == disconnected) return 0;
 
@@ -425,12 +431,12 @@ namespace ol
         return 0;
     }
 
-    int sqlstatement::prepare(const std::string& strsql)
+    int DBStmt::prepare(const std::string& strsql)
     {
         return prepare(strsql.c_str());
     }
 
-    int sqlstatement::prepare(const char* fmt, ...)
+    int DBStmt::prepare(const char* fmt, ...)
     {
         m_cda.init();
 
@@ -505,7 +511,7 @@ namespace ol
     }
 
     // 输入参数绑定方法实现
-    int sqlstatement::bindin(const unsigned int position, int& value)
+    int DBStmt::bindin(const unsigned int position, int& value)
     {
         if (position < 1 || position > m_param_count || !m_bindin)
         {
@@ -528,7 +534,7 @@ namespace ol
         return 0;
     }
 
-    int sqlstatement::bindin(const unsigned int position, long& value)
+    int DBStmt::bindin(const unsigned int position, long& value)
     {
         if (position < 1 || position > m_param_count || !m_bindin)
         {
@@ -551,7 +557,7 @@ namespace ol
         return 0;
     }
 
-    int sqlstatement::bindin(const unsigned int position, unsigned int& value)
+    int DBStmt::bindin(const unsigned int position, unsigned int& value)
     {
         if (position < 1 || position > m_param_count || !m_bindin)
         {
@@ -574,7 +580,7 @@ namespace ol
         return 0;
     }
 
-    int sqlstatement::bindin(const unsigned int position, unsigned long& value)
+    int DBStmt::bindin(const unsigned int position, unsigned long& value)
     {
         if (position < 1 || position > m_param_count || !m_bindin)
         {
@@ -597,7 +603,7 @@ namespace ol
         return 0;
     }
 
-    int sqlstatement::bindin(const unsigned int position, float& value)
+    int DBStmt::bindin(const unsigned int position, float& value)
     {
         if (position < 1 || position > m_param_count || !m_bindin)
         {
@@ -619,7 +625,7 @@ namespace ol
         return 0;
     }
 
-    int sqlstatement::bindin(const unsigned int position, double& value)
+    int DBStmt::bindin(const unsigned int position, double& value)
     {
         if (position < 1 || position > m_param_count || !m_bindin)
         {
@@ -641,7 +647,7 @@ namespace ol
         return 0;
     }
 
-    int sqlstatement::bindin(const unsigned int position, char* value, unsigned int len)
+    int DBStmt::bindin(const unsigned int position, char* value, unsigned int len)
     {
         if (position < 1 || position > m_param_count || !m_bindin || !value || len == 0)
         {
@@ -664,7 +670,7 @@ namespace ol
         return 0;
     }
 
-    int sqlstatement::bindin(const unsigned int position, std::string& value, unsigned int len)
+    int DBStmt::bindin(const unsigned int position, std::string& value, unsigned int len)
     {
         if (len == 0)
         {
@@ -676,7 +682,7 @@ namespace ol
         return bindin(position, &value[0], len);
     }
 
-    int sqlstatement::bindin1(const unsigned int position, std::string& value)
+    int DBStmt::bindin1(const unsigned int position, std::string& value)
     {
         if (value.empty())
         {
@@ -688,7 +694,7 @@ namespace ol
     }
 
     // 输出参数绑定方法实现
-    int sqlstatement::bindout(const unsigned int position, int& value)
+    int DBStmt::bindout(const unsigned int position, int& value)
     {
         if (m_field_count == 0)
         {
@@ -733,7 +739,7 @@ namespace ol
         return 0;
     }
 
-    int sqlstatement::bindout(const unsigned int position, long& value)
+    int DBStmt::bindout(const unsigned int position, long& value)
     {
         if (m_field_count == 0)
         {
@@ -777,7 +783,7 @@ namespace ol
         return 0;
     }
 
-    int sqlstatement::bindout(const unsigned int position, unsigned int& value)
+    int DBStmt::bindout(const unsigned int position, unsigned int& value)
     {
         if (m_field_count == 0)
         {
@@ -817,7 +823,7 @@ namespace ol
         return 0;
     }
 
-    int sqlstatement::bindout(const unsigned int position, unsigned long& value)
+    int DBStmt::bindout(const unsigned int position, unsigned long& value)
     {
         if (m_field_count == 0)
         {
@@ -857,7 +863,7 @@ namespace ol
         return 0;
     }
 
-    int sqlstatement::bindout(const unsigned int position, float& value)
+    int DBStmt::bindout(const unsigned int position, float& value)
     {
         if (m_field_count == 0)
         {
@@ -896,7 +902,7 @@ namespace ol
         return 0;
     }
 
-    int sqlstatement::bindout(const unsigned int position, double& value)
+    int DBStmt::bindout(const unsigned int position, double& value)
     {
         if (m_field_count == 0)
         {
@@ -935,7 +941,7 @@ namespace ol
         return 0;
     }
 
-    int sqlstatement::bindout(const unsigned int position, char* value, unsigned int len)
+    int DBStmt::bindout(const unsigned int position, char* value, unsigned int len)
     {
         if (len == 0 || !value)
         {
@@ -982,7 +988,7 @@ namespace ol
         return 0;
     }
 
-    int sqlstatement::bindout(const unsigned int position, std::string& value, unsigned int len)
+    int DBStmt::bindout(const unsigned int position, std::string& value, unsigned int len)
     {
         if (len == 0)
         {
@@ -994,7 +1000,7 @@ namespace ol
         return bindout(position, &value[0], len);
     }
 
-    int sqlstatement::execute()
+    int DBStmt::execute()
     {
         m_cda.init();
 #ifdef DEBUG
@@ -1022,7 +1028,7 @@ namespace ol
 #endif
 
             // 尝试重新连接
-            if (m_conn->reconnect() != 0) // 假设connection类有reconnect方法
+            if (m_conn->reconnect() != 0) // 假设DBConn类有reconnect方法
             {
                 m_cda.rc = -1;
                 m_cda.message = "连接已断开且重连失败: " + m_cda.message;
@@ -1123,7 +1129,7 @@ namespace ol
         return 0;
     }
 
-    int sqlstatement::execute(const char* fmt, ...)
+    int DBStmt::execute(const char* fmt, ...)
     {
         std::string strtmp;
 
@@ -1149,7 +1155,7 @@ namespace ol
         return execute();
     }
 
-    int sqlstatement::next()
+    int DBStmt::next()
     {
         if (m_state == disconnected)
         {
@@ -1208,7 +1214,7 @@ namespace ol
     }
 
     // BLOB相关函数实现（支持输入/输出参数绑定）
-    int sqlstatement::bindblob(const unsigned int position, char* buffer, unsigned long length)
+    int DBStmt::bindblob(const unsigned int position, char* buffer, unsigned long length)
     {
         // 基础参数校验
         if (position == 0 || !buffer || length == 0)
@@ -1284,7 +1290,7 @@ namespace ol
         return 0;
     }
 
-    int sqlstatement::filetoblob(const unsigned int position, const std::string& filename)
+    int DBStmt::filetoblob(const unsigned int position, const std::string& filename)
     {
         FILE* fp = fopen(filename.c_str(), "rb");
         if (!fp)
@@ -1352,7 +1358,7 @@ namespace ol
         return ret;
     }
 
-    int sqlstatement::blobtofile(const unsigned int position, const std::string& filename)
+    int DBStmt::blobtofile(const unsigned int position, const std::string& filename)
     {
         // 基础状态校验
         if (m_sqltype || m_state != connected)
@@ -1472,7 +1478,7 @@ namespace ol
     }
 
     // TEXT相关函数（支持输入/输出参数绑定）
-    int sqlstatement::bindtext(const unsigned int position, char* buffer, unsigned long length)
+    int DBStmt::bindtext(const unsigned int position, char* buffer, unsigned long length)
     {
         // 基础参数校验（通用检查）
         if (position == 0 || !buffer || length == 0)
@@ -1558,7 +1564,7 @@ namespace ol
     }
 
     // 字符串版本的bindtext（适配std::string）
-    int sqlstatement::bindtext(const unsigned int position, std::string& buffer, unsigned long length)
+    int DBStmt::bindtext(const unsigned int position, std::string& buffer, unsigned long length)
     {
         // 基础参数校验
         if (length == 0 || length > UINT_MAX)
@@ -1574,7 +1580,7 @@ namespace ol
         return bindtext(position, &buffer[0], length);
     }
 
-    int sqlstatement::filetotext(const unsigned int position, const std::string& filename, unsigned int chunk_size)
+    int DBStmt::filetotext(const unsigned int position, const std::string& filename, unsigned int chunk_size)
     {
         // 基础校验
         if (position == 0 || position > m_param_count || !m_stmt)
@@ -1695,7 +1701,7 @@ namespace ol
         return 0;
     }
 
-    int sqlstatement::texttofile(const unsigned int position, const std::string& filename)
+    int DBStmt::texttofile(const unsigned int position, const std::string& filename)
     {
         // 基础状态校验
         if (m_sqltype || m_state != connected)
@@ -1820,28 +1826,28 @@ namespace ol
         return 0;
     }
 
-    const char* sqlstatement::sql()
+    const char* DBStmt::sql()
     {
         return m_sql.c_str();
     }
 
-    int sqlstatement::rc()
+    int DBStmt::rc()
     {
         return m_cda.rc;
     }
 
-    unsigned long sqlstatement::rpc()
+    unsigned long DBStmt::rpc()
     {
         return m_cda.rpc;
     }
 
-    std::string sqlstatement::message()
+    std::string DBStmt::message()
     {
         return m_cda.message;
     }
 
     // 获取字段是否为NULL
-    bool sqlstatement::is_null(const unsigned int position)
+    bool DBStmt::is_null(const unsigned int position)
     {
         if (position < 1 || position > m_field_count || !m_out_is_null)
             return true; // 无效位置视为NULL
@@ -1850,7 +1856,7 @@ namespace ol
     }
 
     // 获取字段实际长度
-    unsigned long sqlstatement::length(const unsigned int position)
+    unsigned long DBStmt::length(const unsigned int position)
     {
         if (position < 1 || position > m_field_count || !m_out_lengths)
             return 0;
@@ -1858,7 +1864,7 @@ namespace ol
         return m_out_lengths[position - 1];
     }
 
-    void sqlstatement::free_bind()
+    void DBStmt::free_bind()
     {
         if (m_bindin)
         {
@@ -1895,7 +1901,7 @@ namespace ol
         m_field_count = 0;
     }
 
-    void sqlstatement::err_report()
+    void DBStmt::err_report()
     {
         if (m_state == disconnected)
         {
@@ -1913,5 +1919,6 @@ namespace ol
             m_conn->m_cda.message = m_cda.message;
         }
     }
+    // ===========================================================================
 
 } // namespace ol

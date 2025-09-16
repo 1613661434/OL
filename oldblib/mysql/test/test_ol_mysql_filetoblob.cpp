@@ -12,7 +12,7 @@ using namespace ol;
 
 int main(int argc, char* argv[])
 {
-    connection conn; // 创建数据库连接类的对象。
+    DBConn conn; // 创建数据库连接类的对象。
 
     // 登录数据库
     if (conn.connecttodb("root:0088@127.0.0.1:3306/testdb", "utf8mb4") != 0)
@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
     printf("connect database ok.\n");
 
     // 步骤1：插入一条带BLOB字段的记录（初始为NULL）
-    sqlstatement stmt_insert(&conn);
+    DBStmt stmt_insert(&conn);
     stmt_insert.prepare("insert into girls(id,name,pic) values(1,'冰冰冰',NULL)");
     if (stmt_insert.execute() != 0)
     {
@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
     printf("插入初始记录成功，影响行数：%ld\n", stmt_insert.rpc());
 
     // 步骤2：准备更新BLOB字段
-    sqlstatement stmt_blob(&conn);
+    DBStmt stmt_blob(&conn);
     // 使用UPDATE语句直接更新BLOB字段，这是更简洁的方式
     stmt_blob.prepare("update girls set pic=? where id=1");
 

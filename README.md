@@ -1,11 +1,11 @@
 # OL
 
-一个包含 `ollib`、`oldblib/oracle` 及 FTP 功能的 C++ 工具库，提供基础功能、Oracle 数据库交互及 FTP 客户端支持。
+一个包含 `ollib`、`oldblib`（含 MySQL 和 Oracle 数据库交互）及 FTP 功能的 C++ 工具库，提供基础功能、多数据库交互及 FTP 客户端支持。
 
 
 ## 📜 许可证信息
 ![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-blue.svg)  
-本项目所有代码（含基础功能、Oracle 交互模块、FTP 客户端模块及内置依赖）均以 **Creative Commons Attribution 4.0 International (CC BY 4.0)** 许可证发布，完整法律文本见 [CC BY 4.0 官方协议](https://creativecommons.org/licenses/by/4.0/legalcode)。
+本项目所有代码（含基础功能、数据库交互模块、FTP 客户端模块及内置依赖）均以 **Creative Commons Attribution 4.0 International (CC BY 4.0)** 许可证发布，完整法律文本见 [CC BY 4.0 官方协议](https://creativecommons.org/licenses/by/4.0/legalcode)。
 
 
 ### CC BY 4.0 核心条款（通俗解读）
@@ -19,7 +19,9 @@
 
 ## 🎯 核心功能
 - **`ollib`**：基础工具库，覆盖网络通信、文件IO、时间处理、字符串操作等高频基础功能。
-- **`oldblib/oracle`**：Oracle 数据库交互模块，基于 OCI 接口封装，支持连接管理、SQL 执行、结果解析等核心数据库操作。
+- **`oldblib`**：多数据库交互模块，统一接口风格，支持两种主流数据库：
+  - `oldblib/mysql`：MySQL 数据库交互模块，基于 MySQL C API 封装，支持连接管理、SQL 执行、参数绑定、结果集处理及 BLOB/TEXT 大字段操作。
+  - `oldblib/oracle`：Oracle 数据库交互模块，基于 OCI 接口封装，支持连接管理、SQL 执行、结果解析等核心数据库操作。
 - **`ol_ftp`**：FTP 客户端模块，基于第三方库 [ftplib](https://github.com/codebrainz/ftplib)（已内置，路径：`third_party/ftplib`），支持文件上传/下载、目录创建/删除、文件列表获取等标准操作。
 
 
@@ -51,6 +53,7 @@ std::string& deleteLRchr(std::string& str, const char c = ' ');
 ### 模块特定依赖
 | 模块                | 依赖项说明                                                                 |
 |---------------------|--------------------------------------------------------------------------|
+| `oldblib/mysql`     | MySQL 客户端（版本 5.7 及以上）；需包含 MySQL C API 头文件（`mysql.h`），并链接 `mysqlclient` 库（Windows 为 `libmysql.lib`，Linux 为 `libmysqlclient.so`） |
 | `oldblib/oracle`    | Oracle 客户端（版本 11g 及以上）；需配置 `ORACLE_HOME` 环境变量，确保 OCI 库（`oci.dll`/`libclntsh.so`）可链接 |
 | `ol_ftp`            | 内置依赖：已集成 [ftplib](https://github.com/codebrainz/ftplib)（路径：`third_party/ftplib`），无需额外安装 |
 
@@ -80,7 +83,7 @@ cd OL
 # 2. 创建并进入构建目录（推荐 out-of-source 构建）
 mkdir build && cd build
 
-# 3. 生成 Makefile（自动识别 ORACLE_HOME，内置 ftplib 无需额外配置）
+# 3. 生成 Makefile（自动识别 MySQL/Oracle 依赖，内置 ftplib 无需额外配置）
 cmake ..
 
 # 4. 并行编译（-j 后接核心数，如 -j4 表示4线程）
@@ -153,8 +156,32 @@ $OutputEncoding
 
 ## ⚠️ 注意事项
 1. **内置依赖保护**：`third_party/ftplib` 为项目核心依赖，请勿随意修改目录结构；如需更新 ftplib 版本，建议直接替换该目录文件并保持路径一致；
-2. **Oracle 平台适配**：跨平台编译时，需确保 Oracle 客户端版本与目标平台匹配（如 Windows x64 对应 Oracle 客户端 x64 版本，Linux x86_64 对应同架构版本）；
+2. **数据库平台适配**：跨平台编译时，需确保数据库客户端版本与目标平台匹配（如 Windows x64 对应 MySQL/Oracle 客户端 x64 版本，Linux x86_64 对应同架构版本）；
 3. **许可证合规**：使用或分发本项目/衍生作品时，需按 CC BY 4.0 要求注明“基于 ol木子李lo 开发的 OL 库”及 [CC BY 4.0 许可证链接](https://creativecommons.org/licenses/by/4.0/)。
+
+
+## 📋 目录结构说明
+```
+OL
+├───oldblib               # 数据库交互模块（多数据库统一接口）
+│   ├───mysql             # MySQL 交互子模块
+│   │   ├───include       # 头文件（如 ol_mysql.h）
+│   │   ├───lib           # 编译输出库（分平台）
+│   │   ├───src           # 实现代码
+│   │   └───test          # 测试程序及数据
+│   └───oracle            # Oracle 交互子模块
+│       ├───include       # 头文件（如 ol_oci.h）
+│       ├───lib           # 编译输出库（分平台）
+│       ├───src           # 实现代码
+│       └───test          # 测试程序及数据
+└───ollib                 # 基础工具库
+    ├───include           # 基础功能头文件
+    ├───lib               # 编译输出库（分平台）
+    ├───src               # 基础功能实现
+    ├───test              # 基础功能测试
+    └───third_party       # 第三方依赖
+        └───ftplib        # FTP 客户端依赖库
+```
 
 
 ## 📋 详细功能介绍

@@ -25,7 +25,7 @@ long get_file_size(const string& filename)
 
 int main(int argc, char* argv[])
 {
-    connection conn;
+    DBConn conn;
 
     // 登录数据库
     if (conn.connecttodb("root:0088@127.0.0.1:3306/testdb", "utf8mb4") != 0)
@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
     printf("connect database ok.\n");
 
     // 检查max_allowed_packet
-    sqlstatement stmt_check(&conn);
+    DBStmt stmt_check(&conn);
     stmt_check.prepare("show variables like 'max_allowed_packet'");
     stmt_check.execute();
     char var[256], val[256];
@@ -47,10 +47,10 @@ int main(int argc, char* argv[])
     printf("当前max_allowed_packet: %s字节\n", val);
 
     // 准备SQL语句（使用memo字段）
-    sqlstatement stmt(&conn);
+    DBStmt stmt(&conn);
 
     // 检查记录是否存在，不存在则插入
-    sqlstatement stmt_check_rec(&conn);
+    DBStmt stmt_check_rec(&conn);
     stmt_check_rec.prepare("select id from girls where id=1");
     stmt_check_rec.execute();
     if (stmt_check_rec.next() == 100)

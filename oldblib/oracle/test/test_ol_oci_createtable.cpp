@@ -9,7 +9,7 @@ using namespace ol;
 
 int main(int argc, char* argv[])
 {
-    connection conn; // 创建数据库连接类的对象。
+    DBConn conn; // 创建数据库连接类的对象。
 
     // 登录数据库，返回值：0-成功，其它-失败。
     // 失败代码在conn.m_cda.rc中，失败描述在conn.m_cda.message中。
@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
 
     printf("connect database ok.\n");
 
-    sqlstatement stmt;   // 操作SQL语句的对象。
+    DBStmt stmt;         // 操作SQL语句的对象。
     stmt.connect(&conn); // 指定stmt对象使用的数据库连接。
     // 准备创建表的SQL语句。
     // 如果SQL语句有错误，prepare()不会返回失败，所以，prepare()不需要判断返回值。
@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
 
     printf("create table girls ok.\n");
 
-    // conn.disconnect();              // 在connection类的析构函数中会自动调用disconnect()方法。
+    // conn.disconnect();              // 在DBConn类的析构函数中会自动调用disconnect()方法。
 
     return 0;
 }

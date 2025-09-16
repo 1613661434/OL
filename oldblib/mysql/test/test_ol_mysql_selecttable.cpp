@@ -11,7 +11,7 @@ using namespace ol;
 
 int main(int argc, char* argv[])
 {
-    connection conn; // 创建数据库连接类的对象。
+    DBConn conn; // 创建数据库连接类的对象。
 
     // 登录数据库
     if (conn.connecttodb("root:0088@127.0.0.1:3306/testdb", "utf8mb4") != 0)
@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 
     printf("connect database ok.\n");
 
-    sqlstatement stmt(&conn);
+    DBStmt stmt(&conn);
 
     // 定义结构体存储数据
     struct st_girl
@@ -89,7 +89,7 @@ int main(int argc, char* argv[])
             break;
         }
 
-        printf("记录%d: id=%ld,name=%s,weight=%.2f,btime=%s,memo=%s\n",
+        printf("记录%d: id=%d,name=%s,weight=%.2f,btime=%s,memo=%s\n",
                ++count, stgirl.id, stgirl.name, stgirl.weight, stgirl.btime, stgirl.memo);
     }
 

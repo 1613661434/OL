@@ -9,7 +9,7 @@ using namespace ol;
 
 int main(int argc, char* argv[])
 {
-    connection conn; // 创建数据库连接类的对象。
+    DBConn conn; // 创建数据库连接类的对象。
 
     // 登录数据库
     if (conn.connecttodb("root:0088@127.0.0.1:3306/testdb", "utf8mb4") != 0)
@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 
     printf("connect database ok.\n");
 
-    sqlstatement stmt(&conn);
+    DBStmt stmt(&conn);
 
     // 静态SQL语句
     stmt.prepare("delete from girls where id=10");

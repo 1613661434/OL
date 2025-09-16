@@ -9,7 +9,7 @@ using namespace ol;
 
 int main(int argc, char* argv[])
 {
-    connection conn; // 创建数据库连接类的对象。
+    DBConn conn; // 创建数据库连接类的对象。
 
     // 登录数据库
     if (conn.connecttodb("root:0088@127.0.0.1:3306/testdb", "utf8mb4") != 0)
@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 
     printf("connect database ok.\n");
 
-    sqlstatement stmt;   // 操作SQL语句的对象。
+    DBStmt stmt;         // 操作SQL语句的对象。
     stmt.connect(&conn); // 指定stmt对象使用的数据库连接。
     // 准备创建表的SQL语句（MySQL数据类型）
     // 超女表girls，超女编号id，超女姓名name，体重weight，报名时间btime，超女说明memo，超女图片pic。

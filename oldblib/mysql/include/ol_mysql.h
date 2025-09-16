@@ -2,8 +2,8 @@
 /*
  * 程序名：ol_mysql.h
  * 功能描述：开发框架中用于C++操作MySQL数据库的接口声明，提供：
- *          - 数据库连接管理（connection类）：登录、断开、事务提交/回滚等
- *          - SQL语句执行（sqlstatement类）：SQL准备、绑定变量、执行、结果集处理等
+ *          - 数据库连接管理（DBConn类）：登录、断开、事务提交/回滚等
+ *          - SQL语句执行（DBStmt类）：SQL准备、绑定变量、执行、结果集处理等
  *          - 支持普通数据类型及BLOB字段操作
  * 作者：ol
  * 依赖：MySQL C API库（需包含mysql.h及链接mysqlclient库）
@@ -37,13 +37,13 @@ namespace ol
         void init();
     };
 
-    class connection;
-    class sqlstatement;
+    class DBConn;
+    class DBStmt;
 
     // MySQL数据库连接类，管理数据库连接及事务
-    class connection
+    class DBConn
     {
-        friend class sqlstatement;
+        friend class DBStmt;
 
     private:
         MYSQL* m_mysql;      // MySQL连接句柄
@@ -53,8 +53,8 @@ namespace ol
         void setdbopt(const char* connstr);  // 从connstr中解析username、password和dbname等信息
         void err_report();                   // 获取错误信息
 
-        connection(const connection&) = delete;            // 禁用拷贝构造函数
-        connection& operator=(const connection&) = delete; // 禁用赋值函数
+        DBConn(const DBConn&) = delete;            // 禁用拷贝构造函数
+        DBConn& operator=(const DBConn&) = delete; // 禁用赋值函数
 
         // 数据库连接状态：connected-已连接；disconnected-未连接
         enum
@@ -77,9 +77,9 @@ namespace ol
 
     public:
         // 构造函数，初始化成员变量
-        connection();
+        DBConn();
         // 析构函数，自动断开连接
-        ~connection();
+        ~DBConn();
 
         /**
          * @brief 重新连接数据库
@@ -132,7 +132,7 @@ namespace ol
          * @return 0-成功，其他-失败（失败的代码在m_cda.rc中，失败的描述在m_cda.message中）
          * @note 如果成功的执行了非查询语句，在m_cda.rpc中保存了本次执行SQL影响记录的行数。
          *       程序中必须检查execute方法的返回值。
-         *       在connection类中提供了execute方法，是为了方便程序员，在该方法中，也是用sqlstatement类来完成功能。
+         *       在DBConn类中提供了execute方法，是为了方便程序员，在该方法中，也是用DBStmt类来完成功能。
          */
         int execute(const char* fmt, ...);
 
@@ -156,10 +156,10 @@ namespace ol
     };
 
     // SQL语句操作类，处理SQL准备、绑定变量、执行及结果集
-    class sqlstatement
+    class DBStmt
     {
     private:
-        MYSQL* m_mysql;                // MySQL连接句柄（引用自connection）
+        MYSQL* m_mysql;                // MySQL连接句柄（引用自DBConn）
         MYSQL_STMT* m_stmt;            // MySQL语句句柄
         MYSQL_RES* m_result;           // 结果集句柄
         MYSQL_BIND* m_bindin;          // 绑定输入变量数组
@@ -170,13 +170,13 @@ namespace ol
         bool* m_out_is_null;           // 输出字段是否为NULL
         unsigned long* m_blob_lengths; // BLOB字段长度存储
 
-        connection* m_conn;   // 数据库连接指针
+        DBConn* m_conn;       // 数据库连接指针
         bool m_sqltype;       // SQL语句的类型，false-查询语句；true-非查询语句
         bool m_autocommitopt; // 自动提交标志，false-关闭；true-开启
         void err_report();    // 错误报告
 
-        sqlstatement(const sqlstatement&) = delete;            // 禁用拷贝构造函数
-        sqlstatement& operator=(const sqlstatement&) = delete; // 禁用赋值函数
+        DBStmt(const DBStmt&) = delete;            // 禁用拷贝构造函数
+        DBStmt& operator=(const DBStmt&) = delete; // 禁用赋值函数
 
         // 与数据库连接的关联状态，connected-已关联；disconnect-未关联
         enum
@@ -194,22 +194,22 @@ namespace ol
 
     public:
         // 构造函数，初始化成员变量
-        sqlstatement();
+        DBStmt();
 
         // 构造函数，同时关联数据库连接
-        sqlstatement(connection* conn);
+        DBStmt(DBConn* conn);
 
         // 析构函数，释放资源
-        ~sqlstatement();
+        ~DBStmt();
 
         /**
          * @brief 关联数据库连接
          * @param conn 数据库连接对象指针
          * @return 0-成功，其他-失败（只要conn参数是有效的，并且数据库的游标资源足够，connect方法不会返回失败）
          * @note 程序中一般不必关心connect方法的返回值
-         *       每个sqlstatement只需要指定一次，在指定新的connection前，必须先显式的调用disconnect方法
+         *       每个DBStmt只需要指定一次，在指定新的DBConn前，必须先显式的调用disconnect方法
          */
-        int connect(connection* conn);
+        int connect(DBConn* conn);
 
         /**
          * @brief 判断是否已关联数据库连接
