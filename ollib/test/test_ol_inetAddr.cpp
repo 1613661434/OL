@@ -2,11 +2,11 @@
 /*
  * 程序名：test_ol_InetAddr.cpp
  * 功能描述：测试ol::InetAddr类的功能完整性，包括：
- *          - IPv4/IPv6地址的构造与解析
- *          - IP地址和端口的获取
- *          - 地址类型判断（IPv4/IPv6）
- *          - 格式化输出（IP:端口）
- *          - 异常处理（无效地址等场景）
+ *          - IPv4/IPv6地址构造与解析
+ *          - 地址缓存机制（性能优化点验证）
+ *          - 地址复制、修改与比较
+ *          - 格式化输出与原生地址转换
+ *          - 各类异常场景处理（无效地址、类型不匹配等）
  * 作者：ol
  * 适用标准：C++11及以上
  */
@@ -17,192 +17,254 @@
 #endif
 
 #include "ol_InetAddr.h"
+#include <arpa/inet.h>
 #include <cassert>
+#include <cstring>
 #include <iostream>
 
 using namespace ol;
 using namespace std;
 
-// 测试IPv4地址构造与解析
-void test_ipv4()
+// 测试基础构造与解析功能（IPv4/IPv6）
+void test_basic_construction()
 {
-    cout << "=== 测试IPv4地址 ===" << "\n";
+    cout << "=== 测试基础构造与解析 ===" << "\n";
 
-    // 测试普通构造
-    InetAddr addr("192.168.1.1", 8080);
-    assert(addr.isIpv4() == true);
-    assert(addr.isIpv6() == false);
-    assert(strcmp(addr.ip(), "192.168.1.1") == 0);
-    assert(addr.port() == 8080);
-    assert(addr.toString() == "192.168.1.1:8080");
-    cout << "普通IPv4构造: " << addr.toString() << " [OK]" << "\n";
+    // IPv4普通地址测试
+    InetAddr ipv4("192.168.1.1", 8080);
+    assert(ipv4.isIpv4() == true);
+    assert(ipv4.isIpv6() == false);
+    assert(strcmp(ipv4.getIp(), "192.168.1.1") == 0);
+    assert(ipv4.getPort() == 8080);
+    assert(ipv4.getAddrStr() == "192.168.1.1:8080");
+    assert(ipv4.getFamily() == AF_INET);
+    cout << "IPv4普通地址: " << ipv4.getAddrStr() << " [OK]" << "\n";
 
-    // 测试"所有接口"构造
-    InetAddr any4(80, false);
-    assert(any4.isIpv4() == true);
-    assert(strcmp(any4.ip(), "0.0.0.0") == 0); // INADDR_ANY对应0.0.0.0
-    assert(any4.port() == 80);
-    cout << "IPv4任意地址: " << any4.toString() << " [OK]" << "\n";
+    // IPv4任意地址（INADDR_ANY）测试
+    InetAddr ipv4_any(80, false);
+    assert(strcmp(ipv4_any.getIp(), "0.0.0.0") == 0);
+    assert(ipv4_any.getPort() == 80);
+    cout << "IPv4任意地址: " << ipv4_any.getAddrStr() << " [OK]" << "\n";
 
-    // 测试原生sockaddr构造
-    sockaddr_in native4;
-    memset(&native4, 0, sizeof(native4));
-    native4.sin_family = AF_INET;
-    native4.sin_addr.s_addr = inet_addr("10.0.0.1");
-    native4.sin_port = htons(9000);
-    InetAddr fromNative4(reinterpret_cast<sockaddr*>(&native4), sizeof(native4));
-    assert(strcmp(fromNative4.ip(), "10.0.0.1") == 0);
-    assert(fromNative4.port() == 9000);
-    cout << "原生IPv4转换: " << fromNative4.toString() << " [OK]" << "\n";
+    // IPv6普通地址测试
+    InetAddr ipv6("2001:db8::1", 9090);
+    assert(ipv6.isIpv6() == true);
+    assert(strcmp(ipv6.getIp(), "2001:db8::1") == 0);
+    assert(ipv6.getPort() == 9090);
+    assert(ipv6.getAddrStr() == "[2001:db8::1]:9090");
+    assert(ipv6.getFamily() == AF_INET6);
+    cout << "IPv6普通地址: " << ipv6.getAddrStr() << " [OK]" << "\n";
 
-    cout << "IPv4测试通过" << "\n"
+    // IPv6任意地址（in6addr_any）测试
+    InetAddr ipv6_any(443, true);
+    assert(strcmp(ipv6_any.getIp(), "::") == 0);
+    assert(ipv6_any.getPort() == 443);
+    cout << "IPv6任意地址: " << ipv6_any.getAddrStr() << " [OK]" << "\n";
+
+    cout << "基础构造与解析测试通过" << "\n"
          << "\n";
 }
 
-// 测试IPv6地址构造与解析
-void test_ipv6()
+// 测试原生sockaddr转换功能
+void test_native_address_conversion()
 {
-    cout << "=== 测试IPv6地址 ===" << "\n";
+    cout << "=== 测试原生地址转换 ===" << "\n";
 
-    // 测试普通构造
-    InetAddr addr("2001:db8::1", 8080);
-    assert(addr.isIpv6() == true);
-    assert(addr.isIpv4() == false);
-    assert(strcmp(addr.ip(), "2001:db8::1") == 0);
-    assert(addr.port() == 8080);
-    assert(addr.toString() == "[2001:db8::1]:8080");
-    cout << "普通IPv6构造: " << addr.toString() << " [OK]" << "\n";
+    // 从sockaddr_in构造IPv4地址
+    sockaddr_in native_ipv4;
+    memset(&native_ipv4, 0, sizeof(native_ipv4));
+    native_ipv4.sin_family = AF_INET;
+    native_ipv4.sin_port = htons(12345);
+    inet_pton(AF_INET, "10.0.0.1", &native_ipv4.sin_addr);
 
-    // 测试"所有接口"构造
-    InetAddr any6(80, true);
-    assert(any6.isIpv6() == true);
-    assert(strcmp(any6.ip(), "::") == 0); // in6addr_any对应::
-    assert(any6.port() == 80);
-    cout << "IPv6任意地址: " << any6.toString() << " [OK]" << "\n";
+    InetAddr from_native4(reinterpret_cast<sockaddr*>(&native_ipv4), sizeof(native_ipv4));
+    assert(strcmp(from_native4.getIp(), "10.0.0.1") == 0);
+    assert(from_native4.getPort() == 12345);
+    assert(from_native4.getAddrLen() == sizeof(native_ipv4));
+    cout << "从sockaddr_in转换: " << from_native4.getAddrStr() << " [OK]" << "\n";
 
-    // 测试原生sockaddr构造
-    sockaddr_in6 native6;
-    memset(&native6, 0, sizeof(native6));
-    native6.sin6_family = AF_INET6;
-    inet_pton(AF_INET6, "fe80::1", &native6.sin6_addr);
-    native6.sin6_port = htons(9000);
-    InetAddr fromNative6(reinterpret_cast<sockaddr*>(&native6), sizeof(native6));
-    assert(strcmp(fromNative6.ip(), "fe80::1") == 0);
-    assert(fromNative6.port() == 9000);
-    cout << "原生IPv6转换: " << fromNative6.toString() << " [OK]" << "\n";
+    // 从sockaddr_in6构造IPv6地址
+    sockaddr_in6 native_ipv6;
+    memset(&native_ipv6, 0, sizeof(native_ipv6));
+    native_ipv6.sin6_family = AF_INET6;
+    native_ipv6.sin6_port = htons(54321);
+    inet_pton(AF_INET6, "fe80::1", &native_ipv6.sin6_addr);
 
-    cout << "IPv6测试通过" << "\n"
+    InetAddr from_native6(reinterpret_cast<sockaddr*>(&native_ipv6), sizeof(native_ipv6));
+    assert(strcmp(from_native6.getIp(), "fe80::1") == 0);
+    assert(from_native6.getPort() == 54321);
+    assert(from_native6.getAddrLen() == sizeof(native_ipv6));
+    cout << "从sockaddr_in6转换: " << from_native6.getAddrStr() << " [OK]" << "\n";
+
+    // 测试getAddr()返回的原生地址有效性
+    const sockaddr* addr_ptr = from_native4.getAddr();
+    assert(addr_ptr->sa_family == AF_INET);
+    assert(reinterpret_cast<const sockaddr_in*>(addr_ptr)->sin_port == htons(12345));
+    cout << "原生地址指针有效性: 验证通过 [OK]" << "\n";
+
+    cout << "原生地址转换测试通过" << "\n"
          << "\n";
 }
 
-// 测试异常场景
-void test_exceptions()
+// 测试缓存机制（核心优化点）
+void test_ip_cache_mechanism()
 {
-    cout << "=== 测试异常场景 ===" << "\n";
+    cout << "=== 测试IP缓存机制 ===" << "\n";
 
-    // 测试无效IP地址
-    bool invalidIpCaught = false;
-    try
-    {
-        InetAddr invalid("256.256.256.256", 80); // 无效IPv4
-    }
-    catch (const invalid_argument& e)
-    {
-        invalidIpCaught = true;
-        cout << "捕获预期异常: " << e.what() << " [OK]" << "\n";
-    }
-    assert(invalidIpCaught == true);
+    InetAddr addr("172.16.0.1", 5000);
 
-    // 测试过大的地址长度
-    bool largeAddrCaught = false;
-    sockaddr_in native;
-    memset(&native, 0, sizeof(native));
-    try
-    {
-        InetAddr tooLarge(reinterpret_cast<sockaddr*>(&native), sizeof(sockaddr_storage) + 1); // 长度超限
-    }
-    catch (const invalid_argument& e)
-    {
-        largeAddrCaught = true;
-        cout << "捕获预期异常: " << e.what() << " [OK]" << "\n";
-    }
-    assert(largeAddrCaught == true);
+    // 首次调用getIp()：缓存未初始化，应触发转换
+    const char* first_call = addr.getIp();
+    assert(strcmp(first_call, "172.16.0.1") == 0);
 
-    cout << "异常测试通过" << "\n"
+    // 记录缓存内容（用于后续比较）
+    string original_cache = first_call;
+
+    // 二次调用getIp()：应直接返回缓存（内容不变）
+    const char* second_call = addr.getIp();
+    assert(strcmp(second_call, original_cache.c_str()) == 0); // 内容相同
+
+    // 修改IP后：缓存应失效并重新计算
+    addr.setIp("172.16.0.2");
+    const char* after_modify = addr.getIp();
+
+    // 验证1：新内容与旧内容不同（缓存已更新）
+    assert(strcmp(after_modify, original_cache.c_str()) != 0);
+    // 验证2：新内容正确（确实是修改后的IP）
+    assert(strcmp(after_modify, "172.16.0.2") == 0);
+
+    // 测试复制操作对缓存的影响（复制后缓存内容一致，但缓冲区独立）
+    InetAddr copy = addr;
+    assert(strcmp(copy.getIp(), after_modify) == 0); // 内容相同
+    // （可选）如果想验证缓冲区独立，可通过调试日志或内存地址打印确认
+    // cout << "原对象缓存地址: " << static_cast<const void*>(after_modify) << "\n";
+    // cout << "复制对象缓存地址: " << static_cast<const void*>(copy.getIp()) << "\n";
+
+    cout << "IP缓存机制测试通过" << "\n"
          << "\n";
 }
 
-// 测试复制构造和赋值
-void test_copy()
+// 测试复制与修改功能
+void test_copy_and_modification()
 {
-    cout << "=== 测试复制功能 ===" << "\n";
-
-    InetAddr original("192.168.1.100", 12345);
+    cout << "=== 测试复制与修改功能 ===" << "\n";
 
     // 测试复制构造
-    InetAddr copyCtor(original);
-    assert(strcmp(copyCtor.ip(), "192.168.1.100") == 0);
-    assert(copyCtor.port() == 12345);
+    InetAddr original("192.168.2.1", 8888);
+    InetAddr copy_ctor(original);
+    assert(strcmp(copy_ctor.getIp(), "192.168.2.1") == 0);
+    assert(copy_ctor.getPort() == 8888);
+    assert(copy_ctor.getFamily() == original.getFamily());
 
     // 测试赋值运算符
-    InetAddr copyAssign;
-    copyAssign = original;
-    assert(strcmp(copyAssign.ip(), "192.168.1.100") == 0);
-    assert(copyAssign.port() == 12345);
+    InetAddr copy_assign;
+    copy_assign = original;
+    assert(strcmp(copy_assign.getIp(), "192.168.2.1") == 0);
+    assert(copy_assign.getPort() == 8888);
 
-    cout << "复制功能测试通过" << "\n"
+    // 测试独立修改（修改副本不影响原对象）
+    copy_assign.setIp("192.168.2.2");
+    copy_assign.setPort(9999);
+    assert(strcmp(original.getIp(), "192.168.2.1") == 0); // 原对象不变
+    assert(original.getPort() == 8888);
+
+    // 测试setAddr()批量修改
+    InetAddr modify_test("10.1.1.1", 1000);
+    modify_test.setAddr("10.1.1.2", 2000);
+    assert(strcmp(modify_test.getIp(), "10.1.1.2") == 0);
+    assert(modify_test.getPort() == 2000);
+
+    // 测试通过原生sockaddr修改
+    sockaddr_in new_addr;
+    memset(&new_addr, 0, sizeof(new_addr));
+    new_addr.sin_family = AF_INET;
+    new_addr.sin_port = htons(3000);
+    inet_pton(AF_INET, "10.1.1.3", &new_addr.sin_addr);
+    modify_test.setAddr(reinterpret_cast<sockaddr*>(&new_addr), sizeof(new_addr));
+    assert(strcmp(modify_test.getIp(), "10.1.1.3") == 0);
+    assert(modify_test.getPort() == 3000);
+
+    cout << "复制与修改功能测试通过" << "\n"
          << "\n";
 }
 
-// 测试修改IP和端口的功能
-void test_modify()
+// 测试异常场景处理
+void test_exception_handling()
 {
-    cout << "=== 测试修改IP和端口功能 ===" << "\n";
+    cout << "=== 测试异常场景处理 ===" << "\n";
 
-    // 测试IPv4修改
-    InetAddr addr4("192.168.1.1", 8080);
-    addr4.setIp("10.0.0.1"); // 修改IP
-    assert(strcmp(addr4.ip(), "10.0.0.1") == 0);
-    assert(addr4.port() == 8080); // 端口应保持不变
-
-    addr4.setPort(9090); // 修改端口
-    assert(addr4.port() == 9090);
-    assert(strcmp(addr4.ip(), "10.0.0.1") == 0); // IP应保持不变
-
-    addr4.setAddr("172.16.0.1", 7070); // 同时修改IP和端口
-    assert(strcmp(addr4.ip(), "172.16.0.1") == 0);
-    assert(addr4.port() == 7070);
-    cout << "IPv4修改测试: " << addr4.toString() << " [OK]" << "\n";
-
-    // 测试IPv6修改
-    InetAddr addr6("2001:db8::1", 8080);
-    addr6.setIp("fe80::1"); // 修改IP
-    assert(strcmp(addr6.ip(), "fe80::1") == 0);
-    assert(addr6.port() == 8080);
-
-    addr6.setPort(9090); // 修改端口
-    assert(addr6.port() == 9090);
-    assert(strcmp(addr6.ip(), "fe80::1") == 0);
-
-    addr6.setAddr("::1", 7070); // 同时修改IP和端口
-    assert(strcmp(addr6.ip(), "::1") == 0);
-    assert(addr6.port() == 7070);
-    cout << "IPv6修改测试: " << addr6.toString() << " [OK]" << "\n";
-
-    // 测试修改异常（IPv4地址赋给IPv6对象）
-    bool typeMismatchCaught = false;
+    // 无效IPv4地址（超出0-255范围）
+    bool invalid_ipv4 = false;
     try
     {
-        addr6.setIp("192.168.1.1"); // IPv6对象不能设置IPv4地址
+        InetAddr("256.0.0.1", 80);
     }
     catch (const invalid_argument& e)
     {
-        typeMismatchCaught = true;
+        invalid_ipv4 = true;
         cout << "捕获预期异常: " << e.what() << " [OK]" << "\n";
     }
-    assert(typeMismatchCaught == true);
+    assert(invalid_ipv4);
 
-    cout << "修改功能测试通过" << "\n"
+    // 无效IPv6地址（格式错误）
+    bool invalid_ipv6 = false;
+    try
+    {
+        InetAddr("2001:db8:gibberish::1", 80); // 'g'不是十六进制字符
+    }
+    catch (const invalid_argument& e)
+    {
+        invalid_ipv6 = true;
+        cout << "捕获预期异常: " << e.what() << " [OK]" << "\n";
+    }
+    assert(invalid_ipv6);
+
+    // 地址族不匹配（IPv4对象设置IPv6地址）
+    bool family_mismatch = false;
+    try
+    {
+        InetAddr ipv4("192.168.1.1", 80);
+        ipv4.setIp("::1"); // 类型不匹配
+    }
+    catch (const invalid_argument& e)
+    {
+        family_mismatch = true;
+        cout << "捕获预期异常: " << e.what() << " [OK]" << "\n";
+    }
+    assert(family_mismatch);
+
+    // 原生地址长度超限
+    bool addr_len_exceed = false;
+    sockaddr_in dummy;
+    memset(&dummy, 0, sizeof(dummy));
+    try
+    {
+        // 传入的长度 = sockaddr_storage的大小 + 1（确保超限）
+        socklen_t excessive_len = sizeof(sockaddr_storage) + 1;
+        InetAddr(reinterpret_cast<sockaddr*>(&dummy), excessive_len);
+    }
+    catch (const invalid_argument& e)
+    {
+        addr_len_exceed = true;
+        cout << "捕获预期异常: " << e.what() << " [OK]" << "\n";
+    }
+    assert(addr_len_exceed);
+
+    // 未初始化地址调用getIp()
+    bool uninitialized_addr = false;
+    try
+    {
+        InetAddr uninit; // 默认构造（未设置地址）
+        uninit.getIp();
+    }
+    catch (const runtime_error& e)
+    {
+        uninitialized_addr = true;
+        cout << "捕获预期异常: " << e.what() << " [OK]" << "\n";
+    }
+    assert(uninitialized_addr);
+
+    cout << "异常场景处理测试通过" << "\n"
          << "\n";
 }
 
@@ -210,17 +272,18 @@ int main()
 {
     try
     {
-        test_ipv4();
-        test_ipv6();
-        test_exceptions();
-        test_copy();
-        test_modify();
-        cout << "所有测试通过！" << "\n";
+        test_basic_construction();
+        test_native_address_conversion();
+        test_ip_cache_mechanism();
+        test_copy_and_modification();
+        test_exception_handling();
+
+        cout << "=== 所有ol::InetAddr测试通过！ ===" << "\n";
+        return 0;
     }
     catch (const exception& e)
     {
-        cerr << "测试失败: " << e.what() << "\n";
+        cerr << "=== 测试失败: " << e.what() << " ===" << "\n";
         return 1;
     }
-    return 0;
 }

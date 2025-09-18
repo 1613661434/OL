@@ -38,7 +38,7 @@ namespace ol
 
         /**
          * @brief 地址长度（区分IPv4和IPv6）
-         * @note IPv4为sizeof(sockaddr_in)，IPv6为sizeof(sockaddr_in6)
+         * @note IPv4为sizeof(sockaddr_in)，IPv6为sizeof(sockaddr_in6)，全0表示缓存失效
          */
         socklen_t m_addrLen;
 
@@ -47,6 +47,16 @@ namespace ol
          * @note 用mutable修饰，允许const成员函数修改；大小为INET6_ADDRSTRLEN（IPv6最大长度）
          */
         mutable char m_ipBuf[INET6_ADDRSTRLEN];
+
+        /**
+         * @brief 检查m_ipBuf是否全为0（缓存是否失效）
+         * @return 全0返回true（缓存失效），否则返回false（缓存有效）
+         */
+        inline bool isIpBufZero() const
+        {
+            static const char zeroBuf[INET6_ADDRSTRLEN] = {0}; // 全0参照缓冲区
+            return std::memcmp(m_ipBuf, zeroBuf, INET6_ADDRSTRLEN) == 0;
+        }
 
     public:
         /**
@@ -101,20 +111,20 @@ namespace ol
          * @return 指向IP字符串的指针（如"192.168.1.1"或"::1"）
          * @throw std::runtime_error 当地址转换失败时抛出
          */
-        const char* ip() const;
+        const char* getIp() const;
 
         /**
          * @brief 获取端口号（主机字节序）
          * @return 端口号（如80、8080）
          * @throw std::runtime_error 当地址族不支持时抛出
          */
-        uint16_t port() const;
+        uint16_t getPort() const;
 
         /**
          * @brief 获取原生sockaddr指针（用于系统调用）
          * @return 指向sockaddr的const指针
          */
-        const sockaddr* addr() const
+        const sockaddr* getAddr() const
         {
             return reinterpret_cast<const sockaddr*>(&m_addr);
         }
@@ -123,7 +133,7 @@ namespace ol
          * @brief 获取地址长度（用于系统调用）
          * @return 地址长度（socklen_t类型）
          */
-        socklen_t addrLen() const
+        socklen_t getAddrLen() const
         {
             return m_addrLen;
         }
@@ -150,7 +160,7 @@ namespace ol
          * @brief 获取地址族（AF_INET/AF_INET6）
          * @return 地址族类型
          */
-        sa_family_t family() const
+        sa_family_t getFamily() const
         {
             return m_addr.ss_family;
         }
@@ -159,7 +169,7 @@ namespace ol
          * @brief 生成"IP:端口"格式的字符串
          * @return 格式化的地址字符串（如"192.168.1.1:8080"或"[::1]:80"）
          */
-        std::string toString() const;
+        std::string getAddrStr() const;
 
         /**
          * @brief 修改IP地址（保持端口不变）

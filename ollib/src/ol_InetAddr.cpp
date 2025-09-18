@@ -8,6 +8,7 @@ namespace ol
     InetAddr::InetAddr()
     {
         std::memset(&m_addr, 0, sizeof(m_addr));
+        std::memset(m_ipBuf, 0, sizeof(m_ipBuf)); // 初始缓存失效
         m_addrLen = sizeof(m_addr);
     }
 
@@ -15,6 +16,7 @@ namespace ol
     InetAddr::InetAddr(const std::string& ip, uint16_t port)
     {
         std::memset(&m_addr, 0, sizeof(m_addr));
+        std::memset(m_ipBuf, 0, sizeof(m_ipBuf)); // 初始缓存失效
         m_addrLen = sizeof(m_addr);
 
         // 尝试解析为IPv4
@@ -43,6 +45,8 @@ namespace ol
     InetAddr::InetAddr(uint16_t port, bool isIpv6)
     {
         std::memset(&m_addr, 0, sizeof(m_addr));
+        std::memset(m_ipBuf, 0, sizeof(m_ipBuf)); // 初始缓存失效
+
         if (isIpv6)
         {
             m_addr.ss_family = AF_INET6;
@@ -65,6 +69,8 @@ namespace ol
     InetAddr::InetAddr(const sockaddr* addr, socklen_t addrLen)
     {
         std::memset(&m_addr, 0, sizeof(m_addr));
+        std::memset(m_ipBuf, 0, sizeof(m_ipBuf)); // 初始缓存失效
+
         if (addrLen > sizeof(m_addr))
         {
             throw std::invalid_argument("Address length too large");
@@ -77,8 +83,8 @@ namespace ol
     InetAddr::InetAddr(const InetAddr& other)
     {
         std::memcpy(&m_addr, &other.m_addr, sizeof(m_addr));
-        m_addrLen = other.m_addrLen;
         std::memcpy(m_ipBuf, other.m_ipBuf, sizeof(m_ipBuf));
+        m_addrLen = other.m_addrLen;
     }
 
     // 赋值运算符
@@ -87,15 +93,22 @@ namespace ol
         if (this != &other)
         {
             std::memcpy(&m_addr, &other.m_addr, sizeof(m_addr));
-            m_addrLen = other.m_addrLen;
             std::memcpy(m_ipBuf, other.m_ipBuf, sizeof(m_ipBuf));
+            m_addrLen = other.m_addrLen;
         }
         return *this;
     }
 
     // 获取IP地址字符串（线程安全）
-    const char* InetAddr::ip() const
+    const char* InetAddr::getIp() const
     {
+        // 缓存有效：直接返回
+        if (!isIpBufZero())
+        {
+            return m_ipBuf;
+        }
+
+        // 缓存失效：重新计算并更新缓存
         const void* addrPtr = nullptr;
         if (isIpv4())
         {
@@ -107,7 +120,7 @@ namespace ol
         }
         else
         {
-            throw std::runtime_error("Unsupported address family");
+            throw std::runtime_error("Unsupported address family: " + std::to_string(m_addr.ss_family));
         }
 
         if (inet_ntop(m_addr.ss_family, addrPtr, m_ipBuf, sizeof(m_ipBuf)) == nullptr)
@@ -118,7 +131,7 @@ namespace ol
     }
 
     // 获取端口号（主机字节序）
-    uint16_t InetAddr::port() const
+    uint16_t InetAddr::getPort() const
     {
         if (isIpv4())
         {
@@ -128,23 +141,23 @@ namespace ol
         {
             return ntohs(reinterpret_cast<const sockaddr_in6*>(&m_addr)->sin6_port);
         }
-        throw std::runtime_error("Unsupported address family");
+        throw std::runtime_error("Unsupported address family: " + std::to_string(m_addr.ss_family));
     }
 
     // 生成"IP:端口"格式的字符串
-    std::string InetAddr::toString() const
+    std::string InetAddr::getAddrStr() const
     {
         std::string res;
         if (isIpv6())
         {
             res += "["; // IPv6地址需用[]包裹，避免与端口混淆
         }
-        res += ip();
+        res += getIp();
         if (isIpv6())
         {
             res += "]";
         }
-        res += ":" + std::to_string(port());
+        res += ":" + std::to_string(getPort());
         return res;
     }
 
@@ -153,15 +166,17 @@ namespace ol
      */
     void InetAddr::setIp(const std::string& ip)
     {
+        std::memset(m_ipBuf, 0, sizeof(m_ipBuf)); // 缓存失效
+
         // 1. 先保存当前地址族
-        sa_family_t originalFamily = family();
+        sa_family_t originalFamily = getFamily();
         if (originalFamily != AF_INET && originalFamily != AF_INET6)
         {
             throw std::runtime_error("Unsupported address family for setIp");
         }
 
         // 2. 保存当前端口
-        uint16_t currentPort = port();
+        uint16_t currentPort = getPort();
 
         // 3. 清空地址缓冲区
         std::memset(&m_addr, 0, sizeof(m_addr));
@@ -227,6 +242,7 @@ namespace ol
     void InetAddr::setAddr(const sockaddr* addr, socklen_t addrLen)
     {
         std::memset(&m_addr, 0, sizeof(m_addr));
+        std::memset(m_ipBuf, 0, sizeof(m_ipBuf)); // 缓存失效
         if (addrLen > sizeof(m_addr))
         {
             throw std::invalid_argument("Address length too large");
