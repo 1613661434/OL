@@ -30,23 +30,9 @@ namespace ol
     class InetAddr
     {
     private:
-        /**
-         * @brief 通用地址结构体，兼容IPv4和IPv6
-         * @note sockaddr_storage是系统定义的通用地址类型，可容纳任何套接字地址
-         */
-        sockaddr_storage m_addr;
-
-        /**
-         * @brief 地址长度（区分IPv4和IPv6）
-         * @note IPv4为sizeof(sockaddr_in)，IPv6为sizeof(sockaddr_in6)，全0表示缓存失效
-         */
-        socklen_t m_addrLen;
-
-        /**
-         * @brief IP地址字符串缓存缓冲区（线程安全）
-         * @note 用mutable修饰，允许const成员函数修改；大小为INET6_ADDRSTRLEN（IPv6最大长度）
-         */
-        mutable char m_ipBuf[INET6_ADDRSTRLEN];
+        sockaddr_storage m_addr;                ///< 通用地址结构体，兼容IPv4和IPv6
+        socklen_t m_addrLen;                    ///< 地址长度（区分IPv4和IPv6）
+        mutable char m_ipBuf[INET6_ADDRSTRLEN]; ///< IP地址字符串缓存缓冲区（线程安全）
 
         /**
          * @brief 检查m_ipBuf是否全为0（缓存是否失效）
