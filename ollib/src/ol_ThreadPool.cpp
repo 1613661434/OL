@@ -133,7 +133,7 @@ std::cout << "Thread " << std::this_thread::get_id() << " is executing task." <<
             std::unique_lock<std::mutex> lock(m_mutex);
 
             // 如果队列已满，返回失败
-            if (m_maxQueueSize <= m_taskQueue.size())
+            if (m_maxQueueSize > 0 && m_maxQueueSize <= m_taskQueue.size())
             {
                 return false;
             }
