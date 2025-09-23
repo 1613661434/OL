@@ -73,7 +73,7 @@ debug_printf_thread("Created thread");
                         m_taskQueue.pop();
                         --m_taskCount;
 
-                        // 任务完成，且队列非空通知所有工作线程
+                        // 任务完成，且队列非空通知工作线程
                         if (!m_taskQueue.empty()) m_condition.notify_one();
                     }
 
