@@ -23,7 +23,7 @@ static void debug_printf_thread(const char* message)
 #elif defined(_WIN32)
     printf("%s(%lu).\n", message, GetCurrentThreadId()); // Windows 系统线程 ID
 #else
-    std::cout << message << '(' << std::this_thread::get_id() << ')' << std::endl;
+    std::cout << message << '(' << std::this_thread::get_id() << ').' << std::endl;
 #endif // __linux__
 }
 #endif // DEBUG
