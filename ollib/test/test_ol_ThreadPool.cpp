@@ -239,7 +239,7 @@ int main()
         blockPool.setBlockPolicy();     // 设置阻塞策略
         std::vector<std::thread> blockTestThreads;
         int blockSuccessSubmit = 0;
-        std::atomic_int tasksAdded = 0; // 原子变量跟踪已添加的任务数
+        std::atomic_int tasksAdded(0); // 原子变量跟踪已添加的任务数
 
         // 多线程添加任务，测试阻塞行为
         for (int i = 0; i < 5; ++i)
