@@ -240,24 +240,23 @@ namespace ol
          */
         template <typename RandomIt, typename Compare>
         void shell_group_sort(RandomIt first, RandomIt last,
-                              size_t start, size_t step, const Compare& comp)
+                              ptrdiff_t start, ptrdiff_t step, const Compare& comp)
         {
-            size_t n = last - first;
+            ptrdiff_t n = last - first;
 
-            for (size_t i = start + step; i < n; i += step)
+            for (ptrdiff_t i = start + step; i < n; i += step)
             {
                 auto key = *(first + i);
-                // 将 j 改为有符号类型（ptrdiff_t），避免下溢
-                ptrdiff_t j = static_cast<ptrdiff_t>(i - step);
+                ptrdiff_t j = i - step;
 
-                // 有符号比较，避免 j 下溢后仍满足 j >= start
-                while (j >= static_cast<ptrdiff_t>(start) && comp(key, *(first + j)))
+                while (j >= start && comp(key, *(first + j)))
                 {
                     *(first + j + step) = *(first + j);
                     j -= step;
                 }
 
-                *(first + j + step) = key;
+                // 这里必须要(j + step)否则VC会报错，因为VC是先first+j，导致越界直接报错
+                *(first + (j + step)) = key;
             }
         }
 
@@ -272,11 +271,11 @@ namespace ol
         template <typename RandomIt, typename Compare>
         void shell_sort_impl(RandomIt first, RandomIt last, const Compare& comp)
         {
-            size_t n = last - first;
+            ptrdiff_t n = static_cast<ptrdiff_t>(last - first);
             if (n <= 1) return;
 
             // 使用(3^k - 1)/2的递增序列：1, 4, 13, 40, 121...
-            size_t step = 1;
+            ptrdiff_t step = 1;
             while (step < n / 3)
             {
                 step = 3 * step + 1;
@@ -285,7 +284,7 @@ namespace ol
             while (step >= 1)
             {
                 // 对每个组执行插入排序
-                for (size_t i = 0; i < step; ++i)
+                for (ptrdiff_t i = 0; i < step; ++i)
                 {
                     shell_group_sort(first, last, i, step, comp);
                 }
