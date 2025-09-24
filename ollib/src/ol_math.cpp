@@ -69,7 +69,7 @@ namespace ol
     {
         constexpr double ZERO_DERIV_THRESHOLD = 1e-12; // 零判断阈值
 
-        auto loop_func = [&func, &der_func](double x) -> double
+        auto loop_func = [&func, &der_func, ZERO_DERIV_THRESHOLD](double x) -> double
         {
             double df = der_func(x);
             if (fabs(df) < ZERO_DERIV_THRESHOLD) throw runtime_error("Zero derivative encountered.");
@@ -97,7 +97,7 @@ namespace ol
     {
         constexpr double ZERO_DERIV_THRESHOLD = 1e-12; // 零判断阈值
 
-        auto loop_func = [&func](double x0, double x1) -> double
+        auto loop_func = [&func, ZERO_DERIV_THRESHOLD](double x0, double x1) -> double
         {
             double f_x1 = func(x1);
             double res = f_x1 - func(x0);
