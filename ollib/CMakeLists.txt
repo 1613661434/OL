@@ -17,7 +17,10 @@ endif()
 if(MSVC)
     # Visual Studio 编译器选项
     set(RELEASE_FLAGS "/O2 /W3")
-    set(DEBUG_FLAGS "/O0 /Zi /W3")  # /Zi 生成调试信息（MSVC）
+    set(DEBUG_FLAGS "/Od /Zi /W3")  # /Zi 生成调试信息（MSVC）
+
+    #  禁用MSVC安全警告（避免C4996等，统一在这里定义，避免代码中重复#define）
+    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 else()
     # MinGW/GCC 编译器选项
     set(RELEASE_FLAGS "-O2 -Wall")  # -Wall 开启警告（GCC风格）

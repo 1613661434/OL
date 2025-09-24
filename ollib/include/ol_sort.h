@@ -32,6 +32,11 @@
 #include <type_traits>
 #include <vector>
 
+#ifdef _WIN32
+#include <cstdint>        // 包含intptr_t的头文件
+typedef intptr_t ssize_t; // MSVC用intptr_t代替ssize_t
+#endif
+
 namespace ol
 {
     // 容器特性萃取
