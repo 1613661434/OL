@@ -795,12 +795,12 @@ namespace ol
             // 按前缀相同性分组
             groups.emplace_back();
             groups.back().push_back(*first);
-            const auto prefix_len = std::min(group_pos, first->size());
+            const size_t prefix_len = std::min<size_t>(group_pos, first->size());
             std::string prev_prefix = first->substr(0, prefix_len);
 
             for (auto iter = std::next(first); iter != last; ++iter)
             {
-                const auto curr_len = std::min(group_pos, iter->size());
+                const size_t curr_len = std::min<size_t>(group_pos, iter->size());
                 std::string curr_prefix = iter->substr(0, curr_len);
 
                 if (curr_prefix != prev_prefix)
