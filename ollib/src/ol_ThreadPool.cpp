@@ -73,8 +73,8 @@ debug_printf_thread("Created thread");
                         m_taskQueue.pop();
                         --m_taskCount;
 
-                        // 任务完成，且队列非空通知工作线程
-                        if (!m_taskQueue.empty()) m_condition.notify_one();
+                        // 任务完成，且策略不为拒绝通知可以添加任务
+                        if(m_queuePolicy != QueueFullPolicy::kReject) m_conditionPolicy.notify_one();
                     }
 
 #ifdef DEBUG
@@ -116,7 +116,8 @@ debug_printf_thread("Complete task");
         if (m_stop) return; // 避免重复停止
 
         m_stop = true;
-        m_condition.notify_all(); // 唤醒所有阻塞的线程
+        m_condition.notify_all();       // 唤醒所有等待任务的线程
+        m_conditionPolicy.notify_all(); // 唤醒所有等待添加任务的线程
 
         if (wait)
         {
@@ -178,15 +179,16 @@ debug_printf_thread("Complete task");
                         return false; // 直接拒绝
 
                     case QueueFullPolicy::kBlock:
-                        m_condition.wait(lock); // 阻塞等待
+                        m_conditionPolicy.wait(lock, [this]()
+                                               { return m_taskQueue.size() < m_maxQueueSize || m_stop; }); // 阻塞等待
                         break;
 
                     case QueueFullPolicy::kTimeout:
                         // 超时等待
                         auto waitDuration = std::chrono::microseconds(m_timeoutUs);
-                        bool waitResult = m_condition.wait_for(lock, waitDuration,
-                                                               [this]()
-                                                               { return m_taskQueue.size() < m_maxQueueSize || m_stop; });
+                        bool waitResult = m_conditionPolicy.wait_for(lock, waitDuration,
+                                                                     [this]()
+                                                                     { return m_taskQueue.size() < m_maxQueueSize || m_stop; });
                         if (!waitResult)
                         {
                             return false; // 超时拒绝

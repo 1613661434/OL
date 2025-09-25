@@ -1,7 +1,6 @@
 #include "ol_ThreadPool.h"
 #include <cassert>
 #include <chrono>
-#include <cmath>
 #include <iostream>
 #include <mutex>
 #include <numeric>
@@ -36,36 +35,46 @@ void safePrint(const T& content)
     std::cout.flush(); // 立即刷新缓冲区
 }
 
+// 获取当前线程ID的字符串表示
+std::string getThreadId()
+{
+#ifdef __linux__
+    return std::to_string(syscall(SYS_gettid));
+#elif defined(_WIN32)
+    return std::to_string(GetCurrentThreadId());
+#else
+    return std::to_string(std::hash<std::thread::id>()(std::this_thread::get_id()));
+#endif
+}
+
 // 测试任务：无返回值，打印信息
 void printMessage(int id, const std::string& msg)
 {
-#ifdef __linux__
-    pid_t tid = syscall(SYS_gettid);
-#elif defined(_WIN32)
-    DWORD tid = GetCurrentThreadId();
-#else
-    auto tid = std::this_thread::get_id();
-#endif
-
-    safePrint("任务 %d: %s (线程ID: %llu)\n",
+    safePrint("任务 %d: %s (线程ID: %s)\n",
               id, msg.c_str(),
-              static_cast<unsigned long long>(tid));
+              getThreadId().c_str());
 
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 
-// 测试任务：有返回值，计算平方
-int square(int x)
+// 测试任务：有返回值，计算-100
+int subtract100(int x)
 {
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
-    return x * x;
+    return x - 100;
 }
 
-// 测试任务：有返回值，计算立方（用于策略测试）
-int cube(int x)
+// 测试任务：有返回值，计算+1000（用于策略测试）
+int add1000(int x)
 {
+    std::string threadId = getThreadId();
+    safePrint("  阻塞策略任务 %d 开始执行 (执行线程: %s)\n", x, threadId.c_str());
+
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    return x * x * x;
+
+    int result = x + 1000;
+    safePrint("  阻塞策略任务 %d 执行完成 (执行线程: %s, 结果: %d)\n", x, threadId.c_str(), result);
+    return result;
 }
 
 // 测试任务：可能抛出异常，验证异常处理机制
@@ -130,19 +139,19 @@ int main()
 
         // 3. 测试带返回值的任务
         safePrint("\n=== 带返回值任务测试 ===\n");
-        std::vector<std::future<int>> squareFutures;
+        std::vector<std::future<int>> subtractFutures;
         for (int i = 1; i <= 5; ++i)
         {
-            squareFutures.emplace_back(pool.submitTask(square, i));
+            subtractFutures.emplace_back(pool.submitTask(subtract100, i));
         }
 
         // 获取并验证结果
-        for (int i = 0; i < (int)squareFutures.size(); ++i)
+        for (int i = 0; i < (int)subtractFutures.size(); ++i)
         {
-            int result = squareFutures[i].get();
-            int expected = (i + 1) * (i + 1);
-            safePrint("%d 的平方是 %d（预期%d）\n", i + 1, result, expected);
-            assert(result == expected && "平方计算结果错误");
+            int result = subtractFutures[i].get();
+            int expected = (i + 1) - 100;
+            safePrint("%d - 100 = %d（预期%d）\n", i + 1, result, expected);
+            assert(result == expected && "减法计算结果错误");
         }
 
         // 4. 测试异常处理机制
@@ -209,7 +218,7 @@ int main()
         {
             try
             {
-                auto future = rejectPool.submitTask(cube, i);
+                auto future = rejectPool.submitTask(add1000, i);
                 rejectFutures.push_back(std::move(future));
                 rejectSuccessSubmit++;
                 safePrint("拒绝策略-submit: 任务 %d 添加成功\n", i);
@@ -228,8 +237,8 @@ int main()
         for (auto& future : rejectFutures)
         {
             int result = future.get();
-            int x = std::cbrt(result); // 计算立方根
-            assert(result == x * x * x && "立方计算错误");
+            int x = result - 1000; // 反推原始值
+            assert(result == x + 1000 && "加法计算错误");
         }
         assert(rejectPool.getTaskCount() == 0 && "拒绝策略任务未执行完毕");
 
@@ -239,30 +248,49 @@ int main()
         blockPool.setBlockPolicy();     // 设置阻塞策略
         std::vector<std::thread> blockTestThreads;
         int blockSuccessSubmit = 0;
-        std::atomic_int tasksAdded(0); // 原子变量跟踪已添加的任务数
+
+        safePrint("阻塞策略：开始创建5个线程添加任务（队列容量3，线程数2）\n");
+        safePrint("阻塞策略：预期会有任务需要等待队列空间...\n");
 
         // 多线程添加任务，测试阻塞行为
         for (int i = 0; i < 5; ++i)
         {
             blockTestThreads.emplace_back([&, i]()
                                           {
-        try {
-            auto future = blockPool.submitTask(cube, i + 20);
+                int taskId = i + 20;
+                std::string threadId = getThreadId();
+                
+                safePrint("阻塞策略：线程 %s 尝试添加任务 %d...\n", threadId.c_str(), taskId);
+                
+                try {
+                    // 记录开始时间用于计算等待时间
+                    auto start = std::chrono::high_resolution_clock::now();
+                    
+                    auto future = blockPool.submitTask(add1000, taskId);
 
-            // 等待任务完成并验证结果
-            int result = future.get();
-            int x = i + 20;
-            assert(result == x * x * x && "阻塞策略-立方计算错误");
-            
-            std::lock_guard<std::mutex> lock(g_printMutex);
-            blockSuccessSubmit++;
-        }
-        catch (const std::exception& e) {
-            safePrint("阻塞策略：线程 %d 添加任务失败（%s）\n", i, e.what());
-        } });
+                    // 计算等待时间
+                    auto end = std::chrono::high_resolution_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+                    
+                    safePrint("阻塞策略：线程 %s 成功添加任务 %d（等待了 %lld ms）\n", 
+                              threadId.c_str(), taskId, duration);
+
+                    // 等待任务完成并验证结果
+                    int result = future.get();
+                    int x = taskId;
+                    assert(result == x + 1000 && "阻塞策略-加法计算错误");
+                    
+                    std::lock_guard<std::mutex> lock(g_printMutex);
+                    blockSuccessSubmit++;
+                }
+                catch (const std::exception& e) {
+                    safePrint("阻塞策略：线程 %s 添加任务 %d 失败（%s）\n", 
+                              threadId.c_str(), taskId, e.what());
+                } });
         }
 
         // 等待所有添加线程完成
+        safePrint("阻塞策略：主线程等待所有添加任务的线程完成...\n");
         for (auto& t : blockTestThreads)
         {
             if (t.joinable())
@@ -271,6 +299,7 @@ int main()
             }
         }
 
+        safePrint("阻塞策略：所有添加任务的线程已完成\n");
         safePrint("阻塞策略：submit成功添加并执行 %d 个任务（预期5个）\n", blockSuccessSubmit);
         std::this_thread::sleep_for(std::chrono::seconds(2)); // 等待任务执行
         assert(blockPool.getTaskCount() == 0 && "阻塞策略任务未执行完毕");
@@ -295,7 +324,7 @@ int main()
         {
             try
             {
-                auto future = timeoutPool.submitTask(cube, i);
+                auto future = timeoutPool.submitTask(add1000, i);
                 timeoutFutures.push_back(std::move(future));
                 timeoutSuccessSubmit++;
                 safePrint("超时策略-submit: 任务 %d 添加成功\n", i);
@@ -314,8 +343,8 @@ int main()
         for (auto& future : timeoutFutures)
         {
             int result = future.get();
-            int x = std::cbrt(result); // 计算立方根
-            assert(result == x * x * x && "超时策略-立方计算错误");
+            int x = result - 1000; // 反推原始值
+            assert(result == x + 1000 && "超时策略-加法计算错误");
         }
         assert(timeoutPool.getTaskCount() == 0 && "超时策略任务未执行完毕");
 
@@ -348,7 +377,7 @@ int main()
         bool submitThrew = false;
         try
         {
-            stoppedPool.submitTask(square, 5);
+            stoppedPool.submitTask(subtract100, 5);
         }
         catch (const std::exception& e)
         {

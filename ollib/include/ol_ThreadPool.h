@@ -30,6 +30,7 @@ namespace ol
         std::queue<std::function<void()>> m_taskQueue; ///< 待执行的任务队列
         std::mutex m_mutex;                            ///< 保护任务队列和策略参数的互斥锁
         std::condition_variable m_condition;           ///< 用于线程同步的条件变量
+        std::condition_variable m_conditionPolicy;     ///< 用于队列满策略的条件变量
         std::atomic_bool m_stop;                       ///< 线程池停止标志（原子操作确保线程安全）
         std::atomic_size_t m_taskCount;                ///< 当前等待执行的任务数量（原子操作）
         size_t m_maxQueueSize;                         ///< 任务队列的最大容量（0表示无限制）
