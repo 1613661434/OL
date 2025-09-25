@@ -7,7 +7,7 @@
  *          - 提供原生套接字地址访问接口，便于系统调用（bind/connect等）
  *          - 支持地址类型判断（IPv4/IPv6）和格式化输出（IP:端口）
  * 作者：ol
- * 适用标准：C++11及以上（需支持异常处理、reinterpret_cast等特性）
+ * 适用标准：C++11及以上（需支持异常处理等特性）
  */
 /****************************************************************************************/
 
@@ -30,7 +30,12 @@ namespace ol
     class InetAddr
     {
     private:
-        sockaddr_storage m_addr;                ///< 通用地址结构体，兼容IPv4和IPv6
+        union AddrUnion
+        {
+            sockaddr_in ipv4;                   // IPv4地址结构体（16字节）
+            sockaddr_in6 ipv6;                  // IPv6地址结构体（28字节）
+        } m_addr;                               ///< 联合体：存储IPv4/IPv6地址
+        sa_family_t m_family;                   ///< 地址族（AF_INET/AF_INET6）
         socklen_t m_addrLen;                    ///< 地址长度（区分IPv4和IPv6）
         mutable char m_ipBuf[INET6_ADDRSTRLEN]; ///< IP地址字符串缓存缓冲区（线程安全）
 
@@ -46,7 +51,7 @@ namespace ol
 
     public:
         /**
-         * @brief 默认构造函数：初始化空地址
+         * @brief 默认构造函数：初始化空地址（默认IPv4）
          */
         InetAddr();
 
@@ -130,7 +135,7 @@ namespace ol
          */
         bool isIpv4() const
         {
-            return m_addr.ss_family == AF_INET;
+            return m_family == AF_INET;
         }
 
         /**
@@ -139,7 +144,7 @@ namespace ol
          */
         bool isIpv6() const
         {
-            return m_addr.ss_family == AF_INET6;
+            return m_family == AF_INET6;
         }
 
         /**
@@ -148,7 +153,7 @@ namespace ol
          */
         sa_family_t getFamily() const
         {
-            return m_addr.ss_family;
+            return m_family;
         }
 
         /**

@@ -20,8 +20,8 @@ if(MSVC)
     set(DEBUG_FLAGS "/Od /Zi /W3")  # /Zi 生成调试信息（MSVC）
 else()
     # MinGW/GCC 编译器选项
-    set(RELEASE_FLAGS "-O2 -Wall")  # -Wall 开启警告（GCC风格）
-    set(DEBUG_FLAGS "-O0 -g -Wall")  # -g 生成调试信息（GCC风格）
+    set(RELEASE_FLAGS "-O2 -Wall -lpthread")  # -Wall 开启警告（GCC风格）
+    set(DEBUG_FLAGS "-O0 -g -Wall -lpthread")  # -g 生成调试信息（GCC风格）
 endif()
 
 # 应用编译选项

@@ -4,35 +4,37 @@ namespace ol
 {
 
 #ifdef __linux__
-    // 默认构造函数：初始化空地址
+    // 默认构造函数：初始化空地址（默认IPv4）
     InetAddr::InetAddr()
+        : m_family(AF_INET), m_addrLen(sizeof(sockaddr_in))
     {
-        std::memset(&m_addr, 0, sizeof(m_addr));
+        std::memset(&m_addr, 0, sizeof(m_addr));  // 初始化地址联合体
         std::memset(m_ipBuf, 0, sizeof(m_ipBuf)); // 初始缓存失效
-        m_addrLen = sizeof(m_addr);
     }
 
     // 从IP字符串和端口构造（自动识别IPv4/IPv6）
     InetAddr::InetAddr(const std::string& ip, uint16_t port)
+        : m_family(AF_UNSPEC), m_addrLen(0)
     {
-        std::memset(&m_addr, 0, sizeof(m_addr));
+        std::memset(&m_addr, 0, sizeof(m_addr));  // 初始化地址联合体
         std::memset(m_ipBuf, 0, sizeof(m_ipBuf)); // 初始缓存失效
-        m_addrLen = sizeof(m_addr);
 
         // 尝试解析为IPv4
-        if (inet_pton(AF_INET, ip.c_str(), &(reinterpret_cast<sockaddr_in*>(&m_addr)->sin_addr)) == 1)
+        if (inet_pton(AF_INET, ip.c_str(), &m_addr.ipv4.sin_addr) == 1)
         {
-            m_addr.ss_family = AF_INET;
-            reinterpret_cast<sockaddr_in*>(&m_addr)->sin_port = htons(port);
+            m_family = AF_INET;
+            m_addr.ipv4.sin_family = AF_INET;
+            m_addr.ipv4.sin_port = htons(port);
             m_addrLen = sizeof(sockaddr_in);
             return;
         }
 
         // 尝试解析为IPv6
-        if (inet_pton(AF_INET6, ip.c_str(), &(reinterpret_cast<sockaddr_in6*>(&m_addr)->sin6_addr)) == 1)
+        if (inet_pton(AF_INET6, ip.c_str(), &m_addr.ipv6.sin6_addr) == 1)
         {
-            m_addr.ss_family = AF_INET6;
-            reinterpret_cast<sockaddr_in6*>(&m_addr)->sin6_port = htons(port);
+            m_family = AF_INET6;
+            m_addr.ipv6.sin6_family = AF_INET6;
+            m_addr.ipv6.sin6_port = htons(port);
             m_addrLen = sizeof(sockaddr_in6);
             return;
         }
@@ -43,48 +45,69 @@ namespace ol
 
     // 仅从端口构造（绑定到所有接口）
     InetAddr::InetAddr(uint16_t port, bool isIpv6)
+        : m_family(isIpv6 ? AF_INET6 : AF_INET)
     {
-        std::memset(&m_addr, 0, sizeof(m_addr));
+        std::memset(&m_addr, 0, sizeof(m_addr));  // 初始化地址联合体
         std::memset(m_ipBuf, 0, sizeof(m_ipBuf)); // 初始缓存失效
 
         if (isIpv6)
         {
-            m_addr.ss_family = AF_INET6;
-            auto* addr6 = reinterpret_cast<sockaddr_in6*>(&m_addr);
-            addr6->sin6_addr = in6addr_any; // IPv6的"所有接口"地址
-            addr6->sin6_port = htons(port);
+            m_addr.ipv6.sin6_family = AF_INET6;
+            m_addr.ipv6.sin6_addr = in6addr_any; // IPv6的"所有接口"地址
+            m_addr.ipv6.sin6_port = htons(port);
             m_addrLen = sizeof(sockaddr_in6);
         }
         else
         {
-            m_addr.ss_family = AF_INET;
-            auto* addr4 = reinterpret_cast<sockaddr_in*>(&m_addr);
-            addr4->sin_addr.s_addr = INADDR_ANY; // IPv4的"所有接口"地址
-            addr4->sin_port = htons(port);
+            m_addr.ipv4.sin_family = AF_INET;
+            m_addr.ipv4.sin_addr.s_addr = INADDR_ANY; // IPv4的"所有接口"地址
+            m_addr.ipv4.sin_port = htons(port);
             m_addrLen = sizeof(sockaddr_in);
         }
     }
 
     // 从原生sockaddr构造
     InetAddr::InetAddr(const sockaddr* addr, socklen_t addrLen)
+        : m_family(addr->sa_family), m_addrLen(addrLen)
     {
-        std::memset(&m_addr, 0, sizeof(m_addr));
+        std::memset(&m_addr, 0, sizeof(m_addr));  // 初始化地址联合体
         std::memset(m_ipBuf, 0, sizeof(m_ipBuf)); // 初始缓存失效
 
-        if (addrLen > sizeof(m_addr))
+        if (addr == nullptr || addrLen == 0)
         {
-            throw std::invalid_argument("Address length too large");
+            throw std::invalid_argument("Null address or zero length");
         }
-        std::memcpy(&m_addr, addr, addrLen);
-        m_addrLen = addrLen;
+
+        // 根据地址族复制对应类型的地址
+        switch (m_family)
+        {
+        case AF_INET:
+            if (addrLen < sizeof(sockaddr_in))
+            {
+                throw std::invalid_argument("IPv4 address length too small");
+            }
+            std::memcpy(&m_addr.ipv4, addr, sizeof(sockaddr_in));
+            m_addrLen = sizeof(sockaddr_in);
+            break;
+        case AF_INET6:
+            if (addrLen < sizeof(sockaddr_in6))
+            {
+                throw std::invalid_argument("IPv6 address length too small");
+            }
+            std::memcpy(&m_addr.ipv6, addr, sizeof(sockaddr_in6));
+            m_addrLen = sizeof(sockaddr_in6);
+            break;
+        default:
+            throw std::invalid_argument("Unsupported address family");
+        }
     }
 
     // 复制构造函数
     InetAddr::InetAddr(const InetAddr& other)
+        : m_family(other.m_family), m_addrLen(other.m_addrLen)
     {
-        std::memcpy(&m_addr, &other.m_addr, sizeof(m_addr));
-        std::memcpy(m_ipBuf, other.m_ipBuf, sizeof(m_ipBuf));
-        m_addrLen = other.m_addrLen;
+        std::memcpy(&m_addr, &other.m_addr, sizeof(m_addr));  // 复制地址联合体
+        std::memcpy(m_ipBuf, other.m_ipBuf, sizeof(m_ipBuf)); // 复制IP缓存
     }
 
     // 赋值运算符
@@ -92,9 +115,10 @@ namespace ol
     {
         if (this != &other)
         {
-            std::memcpy(&m_addr, &other.m_addr, sizeof(m_addr));
-            std::memcpy(m_ipBuf, other.m_ipBuf, sizeof(m_ipBuf));
+            m_family = other.m_family;
             m_addrLen = other.m_addrLen;
+            std::memcpy(&m_addr, &other.m_addr, sizeof(m_addr));  // 复制地址联合体
+            std::memcpy(m_ipBuf, other.m_ipBuf, sizeof(m_ipBuf)); // 复制IP缓存
         }
         return *this;
     }
@@ -108,22 +132,22 @@ namespace ol
             return m_ipBuf;
         }
 
-        // 缓存失效：重新计算并更新缓存
+        // 缓存失效：根据地址族获取地址指针
         const void* addrPtr = nullptr;
-        if (isIpv4())
+        switch (m_family)
         {
-            addrPtr = &(reinterpret_cast<const sockaddr_in*>(&m_addr)->sin_addr);
-        }
-        else if (isIpv6())
-        {
-            addrPtr = &(reinterpret_cast<const sockaddr_in6*>(&m_addr)->sin6_addr);
-        }
-        else
-        {
-            throw std::runtime_error("Unsupported address family: " + std::to_string(m_addr.ss_family));
+        case AF_INET:
+            addrPtr = &m_addr.ipv4.sin_addr;
+            break;
+        case AF_INET6:
+            addrPtr = &m_addr.ipv6.sin6_addr;
+            break;
+        default:
+            throw std::runtime_error("Unsupported address family: " + std::to_string(m_family));
         }
 
-        if (inet_ntop(m_addr.ss_family, addrPtr, m_ipBuf, sizeof(m_ipBuf)) == nullptr)
+        // 转换为字符串并更新缓存
+        if (inet_ntop(m_family, addrPtr, m_ipBuf, sizeof(m_ipBuf)) == nullptr)
         {
             throw std::runtime_error("Failed to convert address to string");
         }
@@ -133,15 +157,15 @@ namespace ol
     // 获取端口号（主机字节序）
     uint16_t InetAddr::getPort() const
     {
-        if (isIpv4())
+        switch (m_family)
         {
-            return ntohs(reinterpret_cast<const sockaddr_in*>(&m_addr)->sin_port);
+        case AF_INET:
+            return ntohs(m_addr.ipv4.sin_port);
+        case AF_INET6:
+            return ntohs(m_addr.ipv6.sin6_port);
+        default:
+            throw std::runtime_error("Unsupported address family: " + std::to_string(m_family));
         }
-        else if (isIpv6())
-        {
-            return ntohs(reinterpret_cast<const sockaddr_in6*>(&m_addr)->sin6_port);
-        }
-        throw std::runtime_error("Unsupported address family: " + std::to_string(m_addr.ss_family));
     }
 
     // 生成"IP:端口"格式的字符串
@@ -162,93 +186,96 @@ namespace ol
     }
 
     /**
-     * 修改IP地址
+     * 修改IP地址（保持端口和地址族不变）
      */
     void InetAddr::setIp(const std::string& ip)
     {
         std::memset(m_ipBuf, 0, sizeof(m_ipBuf)); // 缓存失效
 
-        // 1. 先保存当前地址族
-        sa_family_t originalFamily = getFamily();
-        if (originalFamily != AF_INET && originalFamily != AF_INET6)
+        // 根据当前地址族解析新IP
+        switch (m_family)
         {
+        case AF_INET:
+            if (inet_pton(AF_INET, ip.c_str(), &m_addr.ipv4.sin_addr) != 1)
+            {
+                throw std::invalid_argument("Invalid IPv4 address: " + ip);
+            }
+            break;
+        case AF_INET6:
+            if (inet_pton(AF_INET6, ip.c_str(), &m_addr.ipv6.sin6_addr) != 1)
+            {
+                throw std::invalid_argument("Invalid IPv6 address: " + ip);
+            }
+            break;
+        default:
             throw std::runtime_error("Unsupported address family for setIp");
         }
-
-        // 2. 保存当前端口
-        uint16_t currentPort = getPort();
-
-        // 3. 清空地址缓冲区
-        std::memset(&m_addr, 0, sizeof(m_addr));
-        m_addrLen = sizeof(m_addr);
-
-        // 4. 根据原地址族解析新IP（使用保存的originalFamily，而非清空后的m_addr）
-        if (originalFamily == AF_INET)
-        {
-            if (inet_pton(AF_INET, ip.c_str(), &(reinterpret_cast<sockaddr_in*>(&m_addr)->sin_addr)) == 1)
-            {
-                m_addr.ss_family = AF_INET;
-                reinterpret_cast<sockaddr_in*>(&m_addr)->sin_port = htons(currentPort);
-                m_addrLen = sizeof(sockaddr_in);
-                return;
-            }
-        }
-        else if (originalFamily == AF_INET6)
-        {
-            if (inet_pton(AF_INET6, ip.c_str(), &(reinterpret_cast<sockaddr_in6*>(&m_addr)->sin6_addr)) == 1)
-            {
-                m_addr.ss_family = AF_INET6;
-                reinterpret_cast<sockaddr_in6*>(&m_addr)->sin6_port = htons(currentPort);
-                m_addrLen = sizeof(sockaddr_in6);
-                return;
-            }
-        }
-
-        // 解析失败或地址族不匹配
-        throw std::invalid_argument("Invalid IP address for current address family: " + ip);
     }
 
     /**
-     * 修改端口号
+     * 修改端口号（保持IP和地址族不变）
      */
     void InetAddr::setPort(uint16_t port)
     {
-        if (isIpv4())
+        uint16_t netPort = htons(port);
+        switch (m_family)
         {
-            reinterpret_cast<sockaddr_in*>(&m_addr)->sin_port = htons(port);
-        }
-        else if (isIpv6())
-        {
-            reinterpret_cast<sockaddr_in6*>(&m_addr)->sin6_port = htons(port);
-        }
-        else
-        {
-            throw std::runtime_error("Unsupported address family");
+        case AF_INET:
+            m_addr.ipv4.sin_port = netPort;
+            break;
+        case AF_INET6:
+            m_addr.ipv6.sin6_port = netPort;
+            break;
+        default:
+            throw std::runtime_error("Unsupported address family for setPort");
         }
     }
 
     /**
-     * 修改IP和端口
+     * 同时修改IP和端口（可能改变地址族）
      */
     void InetAddr::setAddr(const std::string& ip, uint16_t port)
     {
-        // 复用构造函数的逻辑，直接重新初始化
+        // 复用构造函数逻辑，通过赋值运算符更新当前对象
         *this = InetAddr(ip, port);
     }
 
     /**
-     * 从原生sockaddr修改地址
+     * 从原生sockaddr修改地址（更新地址族和长度）
      */
     void InetAddr::setAddr(const sockaddr* addr, socklen_t addrLen)
     {
-        std::memset(&m_addr, 0, sizeof(m_addr));
+        std::memset(&m_addr, 0, sizeof(m_addr));  // 清空地址联合体
         std::memset(m_ipBuf, 0, sizeof(m_ipBuf)); // 缓存失效
-        if (addrLen > sizeof(m_addr))
+
+        if (addr == nullptr || addrLen == 0)
         {
-            throw std::invalid_argument("Address length too large");
+            throw std::invalid_argument("Null address or zero length");
         }
-        std::memcpy(&m_addr, addr, addrLen);
-        m_addrLen = addrLen;
+
+        m_family = addr->sa_family;
+        // 根据地址族复制对应类型的地址
+        switch (m_family)
+        {
+        case AF_INET:
+            if (addrLen < sizeof(sockaddr_in))
+            {
+                throw std::invalid_argument("IPv4 address length too small");
+            }
+            std::memcpy(&m_addr.ipv4, addr, sizeof(sockaddr_in));
+            m_addrLen = sizeof(sockaddr_in);
+            break;
+        case AF_INET6:
+            if (addrLen < sizeof(sockaddr_in6))
+            {
+                throw std::invalid_argument("IPv6 address length too small");
+            }
+            std::memcpy(&m_addr.ipv6, addr, sizeof(sockaddr_in6));
+            m_addrLen = sizeof(sockaddr_in6);
+            break;
+        default:
+            throw std::invalid_argument("Unsupported address family");
+        }
     }
 #endif // __linux__
 

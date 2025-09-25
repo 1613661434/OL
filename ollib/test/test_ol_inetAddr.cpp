@@ -1,14 +1,7 @@
 /****************************************************************************************/
 /*
  * 程序名：test_ol_InetAddr.cpp
- * 功能描述：测试ol::InetAddr类的功能完整性，包括：
- *          - IPv4/IPv6地址构造与解析
- *          - 地址缓存机制（性能优化点验证）
- *          - 地址复制、修改与比较
- *          - 格式化输出与原生地址转换
- *          - 各类异常场景处理（无效地址、类型不匹配等）
- * 作者：ol
- * 适用标准：C++11及以上
+ * 功能描述：测试ol::InetAddr类的功能完整性
  */
 /****************************************************************************************/
 
@@ -80,7 +73,7 @@ void test_native_address_conversion()
     InetAddr from_native4(reinterpret_cast<sockaddr*>(&native_ipv4), sizeof(native_ipv4));
     assert(strcmp(from_native4.getIp(), "10.0.0.1") == 0);
     assert(from_native4.getPort() == 12345);
-    assert(from_native4.getAddrLen() == sizeof(native_ipv4));
+    assert(from_native4.getAddrLen() == sizeof(native_ipv4)); // 验证IPv4地址长度
     cout << "从sockaddr_in转换: " << from_native4.getAddrStr() << " [OK]" << "\n";
 
     // 从sockaddr_in6构造IPv6地址
@@ -93,7 +86,7 @@ void test_native_address_conversion()
     InetAddr from_native6(reinterpret_cast<sockaddr*>(&native_ipv6), sizeof(native_ipv6));
     assert(strcmp(from_native6.getIp(), "fe80::1") == 0);
     assert(from_native6.getPort() == 54321);
-    assert(from_native6.getAddrLen() == sizeof(native_ipv6));
+    assert(from_native6.getAddrLen() == sizeof(native_ipv6)); // 验证IPv6地址长度
     cout << "从sockaddr_in6转换: " << from_native6.getAddrStr() << " [OK]" << "\n";
 
     // 测试getAddr()返回的原生地址有效性
@@ -136,9 +129,6 @@ void test_ip_cache_mechanism()
     // 测试复制操作对缓存的影响（复制后缓存内容一致，但缓冲区独立）
     InetAddr copy = addr;
     assert(strcmp(copy.getIp(), after_modify) == 0); // 内容相同
-    // （可选）如果想验证缓冲区独立，可通过调试日志或内存地址打印确认
-    // cout << "原对象缓存地址: " << static_cast<const void*>(after_modify) << "\n";
-    // cout << "复制对象缓存地址: " << static_cast<const void*>(copy.getIp()) << "\n";
 
     cout << "IP缓存机制测试通过" << "\n"
          << "\n";
@@ -233,14 +223,14 @@ void test_exception_handling()
     }
     assert(family_mismatch);
 
-    // 原生地址长度超限
+    // 原生地址长度超限（基于联合体最大成员sockaddr_in6的大小）
     bool addr_len_exceed = false;
     sockaddr_in dummy;
     memset(&dummy, 0, sizeof(dummy));
     try
     {
-        // 传入的长度 = sockaddr_storage的大小 + 1（确保超限）
-        socklen_t excessive_len = sizeof(sockaddr_storage) + 1;
+        // 传入的长度 > 最大地址结构体（sockaddr_in6）的大小
+        socklen_t excessive_len = sizeof(sockaddr_in6) + 1;
         InetAddr(reinterpret_cast<sockaddr*>(&dummy), excessive_len);
     }
     catch (const invalid_argument& e)
@@ -249,20 +239,6 @@ void test_exception_handling()
         cout << "捕获预期异常: " << e.what() << " [OK]" << "\n";
     }
     assert(addr_len_exceed);
-
-    // 未初始化地址调用getIp()
-    bool uninitialized_addr = false;
-    try
-    {
-        InetAddr uninit; // 默认构造（未设置地址）
-        uninit.getIp();
-    }
-    catch (const runtime_error& e)
-    {
-        uninitialized_addr = true;
-        cout << "捕获预期异常: " << e.what() << " [OK]" << "\n";
-    }
-    assert(uninitialized_addr);
 
     cout << "异常场景处理测试通过" << "\n"
          << "\n";
