@@ -494,7 +494,7 @@ namespace ol
         if (len > 0) memset(value, 0, len + 1); // 调用者必须保证value的空间足够，否则这里会内存溢出。
 
         std::string str;
-        getByXml(xmlbuffer, fieldname, str);
+        if (getByXml(xmlbuffer, fieldname, str) == false) return false;
 
         if ((str.length() <= len) || (len == 0))
         {
