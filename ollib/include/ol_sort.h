@@ -17,8 +17,8 @@
  */
 /****************************************************************************************/
 
-#ifndef __OL_SORT_H
-#define __OL_SORT_H 1
+#ifndef OL_SORT_H
+#define OL_SORT_H 1
 
 #include <algorithm>
 #include <array>
@@ -1751,4 +1751,4 @@ namespace ol
 
 } // namespace ol
 
-#endif // !__OL_SORT_H
+#endif // !OL_SORT_H

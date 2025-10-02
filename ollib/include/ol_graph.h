@@ -11,8 +11,8 @@
  */
 /****************************************************************************************/
 
-#ifndef __OL_GRAPH_H
-#define __OL_GRAPH_H 1
+#ifndef OL_GRAPH_H
+#define OL_GRAPH_H 1
 
 #include <iostream>
 #include <stdexcept>
@@ -259,4 +259,4 @@ namespace ol
 
 } // namespace ol
 
-#endif // !__OL_GRAPH_H
+#endif // !OL_GRAPH_H

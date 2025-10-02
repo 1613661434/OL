@@ -12,8 +12,8 @@
  */
 /****************************************************************************************/
 
-#ifndef __OL_FSTREAM_H
-#define __OL_FSTREAM_H 1
+#ifndef OL_FSTREAM_H
+#define OL_FSTREAM_H 1
 
 // 禁用Windows的min/max宏
 #ifdef _WIN32
@@ -520,4 +520,4 @@ namespace ol
 
 } // namespace ol
 
-#endif // !__OL_FSTREAM_H
+#endif // !OL_FSTREAM_H

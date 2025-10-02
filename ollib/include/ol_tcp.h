@@ -11,8 +11,8 @@
  */
 /****************************************************************************************/
 
-#ifndef __OL_TCP_H
-#define __OL_TCP_H 1
+#ifndef OL_TCP_H
+#define OL_TCP_H 1
 
 #include "ol_fstream.h"
 #include <iostream>
@@ -196,4 +196,4 @@ namespace ol
 
 } // namespace ol
 
-#endif // !__OL_TCP_H
+#endif // !OL_TCP_H

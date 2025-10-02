@@ -11,8 +11,8 @@
  * 适用标准：C++11及以上（需支持模板特化、STL容器等特性）
  */
 /****************************************************************************************/
-#ifndef __OL_UNIONFIND_H
-#define __OL_UNIONFIND_H 1
+#ifndef OL_UNIONFIND_H
+#define OL_UNIONFIND_H 1
 
 #include <iostream>
 #include <type_traits>
@@ -295,4 +295,4 @@ namespace ol
 
 } // namespace ol
 
-#endif // !__OL_UNIONFIND_H
+#endif // !OL_UNIONFIND_H

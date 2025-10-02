@@ -11,8 +11,8 @@
  */
 /****************************************************************************************/
 
-#ifndef __OL_TRIESET_H
-#define __OL_TRIESET_H 1
+#ifndef OL_TRIESET_H
+#define OL_TRIESET_H 1
 
 #include "ol_TrieMap.h"
 
@@ -138,4 +138,4 @@ namespace ol
 
 } // namespace ol
 
-#endif // !__OL_TRIESET_H
+#endif // !OL_TRIESET_H

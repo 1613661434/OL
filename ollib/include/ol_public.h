@@ -11,8 +11,8 @@
  */
 /*****************************************************************************************/
 
-#ifndef __OL_PUBLIC_H
-#define __OL_PUBLIC_H 1
+#ifndef OL_PUBLIC_H
+#define OL_PUBLIC_H 1
 
 // 自定义工具类头文件
 #include "ol_chrono.h"  // 时间处理工具（日期、时间戳、计时器等）
@@ -79,4 +79,4 @@
 #include <utime.h>        // 文件时间戳操作（修改访问/修改时间）
 #endif                    // __linux__
 
-#endif // !__OL_PUBLIC_H
+#endif // !OL_PUBLIC_H

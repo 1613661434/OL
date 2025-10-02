@@ -12,8 +12,8 @@
  */
 /****************************************************************************************/
 
-#ifndef __OL_TRIEMAP_H
-#define __OL_TRIEMAP_H 1
+#ifndef OL_TRIEMAP_H
+#define OL_TRIEMAP_H 1
 
 #include <list>
 #include <memory>
@@ -450,4 +450,4 @@ namespace ol
 
 } // namespace ol
 
-#endif // !__OL_TRIEMAP_H
+#endif // !OL_TRIEMAP_H

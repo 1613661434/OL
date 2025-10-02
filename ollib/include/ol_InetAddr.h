@@ -11,8 +11,8 @@
  */
 /****************************************************************************************/
 
-#ifndef __OL_INETADDR_H
-#define __OL_INETADDR_H 1
+#ifndef OL_INETADDR_H
+#define OL_INETADDR_H 1
 
 #include <cstring>
 #include <stdexcept>
@@ -112,6 +112,12 @@ namespace ol
         uint16_t getPort() const;
 
         /**
+         * @brief 生成"IP:端口"格式的字符串
+         * @return 格式化的地址字符串（如"192.168.1.1:8080"或"[::1]:80"）
+         */
+        std::string getAddrStr() const;
+
+        /**
          * @brief 获取原生sockaddr指针（用于系统调用）
          * @return 指向sockaddr的const指针
          */
@@ -127,6 +133,15 @@ namespace ol
         socklen_t getAddrLen() const
         {
             return m_addrLen;
+        }
+
+        /**
+         * @brief 获取地址族（AF_INET/AF_INET6）
+         * @return 地址族类型
+         */
+        sa_family_t getFamily() const
+        {
+            return m_family;
         }
 
         /**
@@ -146,21 +161,6 @@ namespace ol
         {
             return m_family == AF_INET6;
         }
-
-        /**
-         * @brief 获取地址族（AF_INET/AF_INET6）
-         * @return 地址族类型
-         */
-        sa_family_t getFamily() const
-        {
-            return m_family;
-        }
-
-        /**
-         * @brief 生成"IP:端口"格式的字符串
-         * @return 格式化的地址字符串（如"192.168.1.1:8080"或"[::1]:80"）
-         */
-        std::string getAddrStr() const;
 
         /**
          * @brief 修改IP地址（保持端口不变）
@@ -196,4 +196,4 @@ namespace ol
 
 } // namespace ol
 
-#endif // !__OL_INETADDR_H
+#endif // !OL_INETADDR_H

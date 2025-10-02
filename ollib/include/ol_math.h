@@ -11,8 +11,8 @@
  */
 /****************************************************************************************/
 
-#ifndef __OL_MATH_H
-#define __OL_MATH_H 1
+#ifndef OL_MATH_H
+#define OL_MATH_H 1
 
 #include <cstddef>
 
@@ -69,4 +69,4 @@ namespace ol
 
 } // namespace ol
 
-#endif // !__OL_MATH_H
+#endif // !OL_MATH_H

@@ -32,14 +32,15 @@ namespace ol
 {
     ThreadPool::ThreadPool(size_t threadNum, size_t maxQueueSize)
         : m_stop(false),
-          m_taskCount(0),
+          m_taskNum(0),
           m_maxQueueSize(maxQueueSize),
           m_queuePolicy(QueueFullPolicy::kReject), // 默认策略：拒绝
-          m_timeoutUs(1000000)                     // 默认超时1秒（1000000微秒）
+          m_timeoutUs(1000000)                    // 默认超时1秒（1000000微秒）
     {
         if (threadNum == 0)
         {
-            throw std::invalid_argument("Thread number must be greater than 0.");
+            m_stop = true;
+            return;
         }
 
         // 启动指定数量的工作线程
@@ -71,7 +72,7 @@ debug_printf_thread("Created thread");
                         // 取出任务
                         task = std::move(m_taskQueue.front());
                         m_taskQueue.pop();
-                        --m_taskCount;
+                        --m_taskNum;
 
                         // 任务完成，且策略不为拒绝通知可以添加任务
                         if(m_queuePolicy != QueueFullPolicy::kReject) m_conditionPolicy.notify_one();
@@ -205,21 +206,11 @@ debug_printf_thread("Complete task");
             }
 
             m_taskQueue.push(std::move(task));
-            ++m_taskCount;
+            ++m_taskNum;
         }
 
         m_condition.notify_one(); // 通知工作线程有新任务
         return true;
-    }
-
-    size_t ThreadPool::getTaskCount() const
-    {
-        return m_taskCount;
-    }
-
-    size_t ThreadPool::getThreadCount() const
-    {
-        return m_threads.size();
     }
 
     bool ThreadPool::isRunning() const

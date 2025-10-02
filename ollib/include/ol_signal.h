@@ -10,8 +10,8 @@
  */
 /****************************************************************************************/
 
-#ifndef __OL_SIGNAL_H
-#define __OL_SIGNAL_H 1
+#ifndef OL_SIGNAL_H
+#define OL_SIGNAL_H 1
 
 #include "ol_fstream.h"
 #include <signal.h>
@@ -36,4 +36,4 @@ namespace ol
 
 } // namespace ol
 
-#endif // !__OL_SIGNAL_H
+#endif // !OL_SIGNAL_H

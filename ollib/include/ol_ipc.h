@@ -10,8 +10,8 @@
  */
 /****************************************************************************************/
 
-#ifndef __OL_IPC_H
-#define __OL_IPC_H 1
+#ifndef OL_IPC_H
+#define OL_IPC_H 1
 
 #include "ol_fstream.h"
 
@@ -185,4 +185,4 @@ namespace ol
 
 } // namespace ol
 
-#endif // !__OL_IPC_H
+#endif // !OL_IPC_H

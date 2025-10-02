@@ -1,5 +1,5 @@
-#ifndef __OL_THREADPOOL_H
-#define __OL_THREADPOOL_H
+#ifndef OL_THREADPOOL_H
+#define OL_THREADPOOL_H 1
 
 #include <atomic>
 #include <condition_variable>
@@ -7,6 +7,7 @@
 #include <future>
 #include <mutex>
 #include <queue>
+#include <string>
 #include <thread>
 #include <vector>
 
@@ -32,7 +33,7 @@ namespace ol
         std::condition_variable m_condition;           ///< 用于线程同步的条件变量
         std::condition_variable m_conditionPolicy;     ///< 用于队列满策略的条件变量
         std::atomic_bool m_stop;                       ///< 线程池停止标志（原子操作确保线程安全）
-        std::atomic_size_t m_taskCount;                ///< 当前等待执行的任务数量（原子操作）
+        std::atomic_size_t m_taskNum;                  ///< 当前等待执行的任务数量（原子操作）
         size_t m_maxQueueSize;                         ///< 任务队列的最大容量（0表示无限制）
         QueueFullPolicy m_queuePolicy;                 ///< 当前采用的队列满处理策略
         size_t m_timeoutUs;                            ///< 超时等待时间（微秒，仅kTimeout策略生效）
@@ -40,7 +41,7 @@ namespace ol
     public:
         /**
          * @brief 构造函数，初始化线程池
-         * @param threadNum 工作线程的数量（必须大于0）
+         * @param threadNum 工作线程的数量（如果为0，则m_stop置true）
          * @param maxQueueSize 任务队列的最大容量（0表示无限制，默认值为0）
          */
         ThreadPool(size_t threadNum, size_t maxQueueSize = 0);
@@ -70,6 +71,25 @@ namespace ol
          *        - false：立即停止，丢弃未执行的任务，让正在执行的任务安全完成后退出
          */
         void stop(bool wait = true);
+
+        /**
+         * @brief 获取当前等待执行的任务数量
+         * @return 返回的是当前等待执行的任务数（不包含正在执行的任务）
+         */
+
+        inline size_t getTaskNum() const
+        {
+            return m_taskNum;
+        }
+
+        /**
+         * @brief 获取线程池中的工作线程数量
+         * @return 线程数量
+         */
+        inline size_t getThreadNum() const
+        {
+            return m_threads.size();
+        }
 
         /**
          * @brief 设置队列满时的"拒绝"策略
@@ -108,18 +128,6 @@ namespace ol
          */
         template <typename F, typename... Args>
         auto submitTask(F&& f, Args&&... args) -> std::future<typename std::result_of<F(Args...)>::type>;
-
-        /**
-         * @brief 获取当前等待执行的任务数量
-         * @return 返回的是当前等待执行的任务数（不包含正在执行的任务）
-         */
-        size_t getTaskCount() const;
-
-        /**
-         * @brief 获取线程池中的工作线程数量
-         * @return 线程数量
-         */
-        size_t getThreadCount() const;
 
         /**
          * @brief 检查线程池是否处于运行状态
@@ -170,4 +178,4 @@ namespace ol
 
 } // namespace ol
 
-#endif // !__OL_THREADPOOL_H
+#endif // !OL_THREADPOOL_H

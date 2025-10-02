@@ -12,8 +12,8 @@
  */
 /****************************************************************************************/
 
-#ifndef __OL_CHRONO_H
-#define __OL_CHRONO_H 1
+#ifndef OL_CHRONO_H
+#define OL_CHRONO_H 1
 
 #include <chrono>
 #include <ctime>
@@ -216,4 +216,4 @@ namespace ol
 
 } // namespace ol
 
-#endif // !__OL_CHRONO_H
+#endif // !OL_CHRONO_H

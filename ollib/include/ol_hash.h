@@ -12,8 +12,8 @@
 
 #include <functional>
 
-#ifndef __OL_HASH_H
-#define __OL_HASH_H 1
+#ifndef OL_HASH_H
+#define OL_HASH_H 1
 
 namespace ol
 {
@@ -75,4 +75,4 @@ namespace ol
 
 } // namespace ol
 
-#endif // !__OL_HASH_H
+#endif // !OL_HASH_H

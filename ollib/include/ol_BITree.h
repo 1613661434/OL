@@ -11,8 +11,8 @@
  */
 /***************************************************************************************/
 
-#ifndef __OL_BITREE_H
-#define __OL_BITREE_H 1
+#ifndef OL_BITREE_H
+#define OL_BITREE_H 1
 
 #include <initializer_list>
 #include <iostream>
@@ -210,4 +210,4 @@ namespace ol
 
 } // namespace ol
 
-#endif // !__OL_BITREE_H
+#endif // !OL_BITREE_H

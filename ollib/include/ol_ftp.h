@@ -13,8 +13,8 @@
  */
 /****************************************************************************************/
 
-#ifndef __OL_FTP_H
-#define __OL_FTP_H 1
+#ifndef OL_FTP_H
+#define OL_FTP_H 1
 
 #ifdef __linux__
 #include "ftplib.h"
@@ -165,4 +165,4 @@ namespace ol
 
 } // namespace ol
 
-#endif // !__OL_FTP_H
+#endif // !OL_FTP_H

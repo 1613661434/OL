@@ -12,8 +12,8 @@
  */
 /****************************************************************************************/
 
-#ifndef __OL_CQUEUE_H
-#define __OL_CQUEUE_H 1
+#ifndef OL_CQUEUE_H
+#define OL_CQUEUE_H 1
 
 #include <iostream>
 #include <stdexcept>   // 用于std::out_of_range
@@ -351,4 +351,4 @@ namespace ol
 
 } // namespace ol
 
-#endif // !__OL_CQUEUE_H
+#endif // !OL_CQUEUE_H

@@ -13,8 +13,8 @@
  */
 /****************************************************************************************/
 
-#ifndef __OL_STRING_H
-#define __OL_STRING_H 1
+#ifndef OL_STRING_H
+#define OL_STRING_H 1
 
 #include <cstdio>
 #include <string>
@@ -296,4 +296,4 @@ namespace ol
     // ===========================================================================
 } // namespace ol
 
-#endif // !__OL_STRING_H
+#endif // !OL_STRING_H

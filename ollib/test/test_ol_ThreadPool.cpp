@@ -122,8 +122,8 @@ int main()
         // 1. 基本功能测试：创建线程池
         ol::ThreadPool pool(3, 10); // 3个线程，队列最大10个任务
         safePrint("=== 基本功能测试 ===\n");
-        safePrint("创建了包含 %zu 个线程的线程池（预期3个）\n", pool.getThreadCount());
-        assert(pool.getThreadCount() == 3 && "线程数量初始化错误");
+        safePrint("创建了包含 %zu 个线程的线程池（预期3个）\n", pool.getThreadNum());
+        assert(pool.getThreadNum() == 3 && "线程数量初始化错误");
         assert(pool.isRunning() && "线程池未处于运行状态");
 
         // 2. 测试无返回值任务
@@ -133,9 +133,9 @@ int main()
             bool success = pool.addTask(std::bind(printMessage, i, "来自线程池的问候"));
             assert(success && "无返回值任务添加失败");
         }
-        safePrint("当前等待执行的任务数: %zu\n", pool.getTaskCount());
+        safePrint("当前等待执行的任务数: %zu\n", pool.getTaskNum());
         std::this_thread::sleep_for(std::chrono::seconds(1)); // 等待任务执行
-        assert(pool.getTaskCount() == 0 && "无返回值任务未正确执行完毕");
+        assert(pool.getTaskNum() == 0 && "无返回值任务未正确执行完毕");
 
         // 3. 测试带返回值的任务
         safePrint("\n=== 带返回值任务测试 ===\n");
@@ -240,7 +240,7 @@ int main()
             int x = result - 1000; // 反推原始值
             assert(result == x + 1000 && "加法计算错误");
         }
-        assert(rejectPool.getTaskCount() == 0 && "拒绝策略任务未执行完毕");
+        assert(rejectPool.getTaskNum() == 0 && "拒绝策略任务未执行完毕");
 
         // 7. 测试队列满策略：阻塞策略
         safePrint("\n=== 队列满策略测试：阻塞策略 ===\n");
@@ -302,7 +302,7 @@ int main()
         safePrint("阻塞策略：所有添加任务的线程已完成\n");
         safePrint("阻塞策略：submit成功添加并执行 %d 个任务（预期5个）\n", blockSuccessSubmit);
         std::this_thread::sleep_for(std::chrono::seconds(2)); // 等待任务执行
-        assert(blockPool.getTaskCount() == 0 && "阻塞策略任务未执行完毕");
+        assert(blockPool.getTaskNum() == 0 && "阻塞策略任务未执行完毕");
 
         // 8. 测试队列满策略：超时策略
         safePrint("\n=== 队列满策略测试：超时策略 ===\n");
@@ -346,7 +346,7 @@ int main()
             int x = result - 1000; // 反推原始值
             assert(result == x + 1000 && "超时策略-加法计算错误");
         }
-        assert(timeoutPool.getTaskCount() == 0 && "超时策略任务未执行完毕");
+        assert(timeoutPool.getTaskNum() == 0 && "超时策略任务未执行完毕");
 
         // 9. 测试stop()方法
         safePrint("\n=== stop()方法测试 ===\n");
