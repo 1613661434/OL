@@ -4,7 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${default}",
-                "D:\\Visual Studio Code\\VScode\\OL\\ollib\\include",
+                "D:\\Visual Studio Code\\Projects\\OL\\ollib\\include",
                 "C:\\Program Files\\MySQL\\MySQL Server 8.0\\**",
                 "${workspaceFolder}/oldblib/mysql/include",
                 "${workspaceFolder}/oldblib/oracle/include"

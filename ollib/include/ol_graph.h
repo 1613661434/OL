@@ -14,6 +14,7 @@
 #ifndef OL_GRAPH_H
 #define OL_GRAPH_H 1
 
+#include "ol_type_traits_ext.h"
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -36,11 +37,11 @@ namespace ol
         NodeType to; // 目标节点（类型由NodeType控制）
 
         // 仅当有权重时才定义weight成员（类型由WeightType控制）
-        typename std::conditional<IsWeighted, WeightType, std::nullptr_t>::type weight;
+        typename std::conditional<IsWeighted, WeightType, TypeEmpty>::type weight;
 
         // 无权图构造函数（仅需目标节点）
         template <bool W = IsWeighted, typename = std::enable_if_t<!W>>
-        Edge(NodeType to_node) : to(to_node), weight(nullptr)
+        Edge(NodeType to_node) : to(to_node)
         {
         }
 
