@@ -15,8 +15,8 @@
 #include <vector>
 
 #ifdef _WIN32
-#include <cstdint>        // 包含intptr_t的头文件
-typedef intptr_t ssize_t; // MSVC用intptr_t代替ssize_t
+#include <basetsd.h>
+typedef SSIZE_T ssize_t; // Windows用SSIZE_T代替ssize_t
 #endif
 
 namespace ol
