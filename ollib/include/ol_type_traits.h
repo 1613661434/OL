@@ -6,6 +6,7 @@
  *          - 空类型标记和基础类型工具
  *          - 类型判断与转换的辅助模板
  *          - 模板元编程常用基础结构
+ *          - 容器特性萃取：适配STL容器（vector、deque等）和原生数组，统一迭代器操作接口
  * 作者：ol
  * 适用标准：C++17及以上（需支持constexpr、delete/default等特性）
  */
@@ -15,6 +16,7 @@
 #define OL_TYPE_TRAITS_H 1
 
 #include <cstddef>
+#include <iterator>
 #include <type_traits>
 #include <utility>
 
@@ -164,6 +166,95 @@ namespace ol
 
     template <typename List>
     inline constexpr size_t TypeListSize_v = TypeListSize<List>::value;
+
+    // 容器特性萃取
+    // ===========================================================================
+    /**
+     * @brief 容器特性萃取模板，统一STL容器和原生数组的操作接口
+     * @tparam Container 容器类型（STL容器或原生数组）
+     */
+    template <typename Container>
+    struct container_traits
+    {
+        using iterator = typename Container::iterator;             // 容器迭代器类型
+        using const_iterator = typename Container::const_iterator; // 常量迭代器类型
+        using value_type = typename Container::value_type;         // 元素类型
+        using size_type = typename Container::size_type;           // 大小类型
+
+        /**
+         * @brief 获取容器起始迭代器
+         * @param container 容器引用
+         * @return 起始迭代器
+         */
+        static iterator begin(Container& container)
+        {
+            return container.begin();
+        }
+
+        /**
+         * @brief 获取容器结束迭代器
+         * @param container 容器引用
+         * @return 结束迭代器
+         */
+        static iterator end(Container& container)
+        {
+            return container.end();
+        }
+
+        /**
+         * @brief 获取容器大小
+         * @param container 容器引用
+         * @return 容器元素数量
+         */
+        static size_type size(Container& container)
+        {
+            return container.size();
+        }
+    };
+
+    /**
+     * @brief 容器特性萃取模板特化（原生数组）
+     * @tparam T 数组元素类型
+     * @tparam N 数组大小
+     */
+    template <typename T, size_t N>
+    struct container_traits<T[N]>
+    {
+        using iterator = T*;             // 数组迭代器（指针）
+        using const_iterator = const T*; // 常量迭代器（常量指针）
+        using value_type = T;            // 元素类型
+        using size_type = size_t;        // 大小类型
+
+        /**
+         * @brief 获取数组起始指针
+         * @param array 原生数组引用
+         * @return 数组首元素指针
+         */
+        static iterator begin(T (&array)[N])
+        {
+            return array;
+        }
+
+        /**
+         * @brief 获取数组结束指针
+         * @param array 原生数组引用
+         * @return 数组尾后指针
+         */
+        static iterator end(T (&array)[N])
+        {
+            return array + N;
+        }
+
+        /**
+         * @brief 获取数组大小
+         * @return 数组元素数量（N）
+         */
+        static size_type size(T (&)[N])
+        {
+            return N;
+        }
+    };
+    // ===========================================================================
 
 } // namespace ol
 

@@ -216,7 +216,7 @@ namespace ol
     // ===========================================================================
     // C++格式化输出函数模板。
     // 辅助函数：自动转换 std::string 到 const char*
-    namespace detail
+    namespace base
     {
         /**
          * @brief 格式化参数辅助函数，自动将std::string转换为const char*
@@ -236,7 +236,7 @@ namespace ol
                 return std::forward<T>(arg);
             }
         }
-    } // namespace detail
+    } // namespace base
 
     /**
      * @brief 格式化输出函数（写入已有字符串）
@@ -250,7 +250,7 @@ namespace ol
     bool sformat(std::string& str, const char* fmt, Types&&... args)
     {
         // 计算长度
-        int len = std::snprintf(nullptr, 0, fmt, detail::format_arg(std::forward<Types>(args))...);
+        int len = std::snprintf(nullptr, 0, fmt, base::format_arg(std::forward<Types>(args))...);
         if (len < 0) return false;
 
         if (len == 0)
@@ -261,7 +261,7 @@ namespace ol
 
         // 执行格式化
         str.resize(len);
-        std::snprintf(&str[0], len + 1, fmt, detail::format_arg(std::forward<Types>(args))...);
+        std::snprintf(&str[0], len + 1, fmt, base::format_arg(std::forward<Types>(args))...);
         return true;
     }
 
@@ -276,11 +276,11 @@ namespace ol
     std::string sformat(const char* fmt, Types&&... args)
     {
         std::string str;
-        int len = std::snprintf(nullptr, 0, fmt, detail::format_arg(std::forward<Types>(args))...);
+        int len = std::snprintf(nullptr, 0, fmt, base::format_arg(std::forward<Types>(args))...);
         if (len <= 0) return str;
 
         str.resize(len);
-        std::snprintf(&str[0], len + 1, fmt, detail::format_arg(std::forward<Types>(args))...);
+        std::snprintf(&str[0], len + 1, fmt, base::format_arg(std::forward<Types>(args))...);
         return str;
     }
     // ===========================================================================
