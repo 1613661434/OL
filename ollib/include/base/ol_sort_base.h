@@ -4,6 +4,7 @@
 #include "ol_type_traits.h"
 #include <algorithm>
 #include <array>
+#include <cstddef>
 #include <cstring>
 #include <deque>
 #include <functional>
@@ -13,11 +14,6 @@
 #include <memory>
 #include <type_traits>
 #include <vector>
-
-#ifdef _WIN32
-#include <basetsd.h>
-typedef SSIZE_T ssize_t; // Windows用SSIZE_T代替ssize_t
-#endif
 
 namespace ol
 {
@@ -136,7 +132,7 @@ namespace ol
         void shell_group_sort(RandomIt first, RandomIt last,
                               ptrdiff_t start, ptrdiff_t step, const Compare& comp)
         {
-            ptrdiff_t n = last - first;
+            const ptrdiff_t n = std::distance(first, last);
 
             for (ptrdiff_t i = start + step; i < n; i += step)
             {
@@ -165,7 +161,7 @@ namespace ol
         template <typename RandomIt, typename Compare>
         void shell_sort_base(RandomIt first, RandomIt last, const Compare& comp)
         {
-            ptrdiff_t n = static_cast<ptrdiff_t>(last - first);
+            const ptrdiff_t n = std::distance(first, last);
             if (n <= 1) return;
 
             // 使用(3^k - 1)/2的递增序列：1, 4, 13, 40, 121...
@@ -307,17 +303,17 @@ namespace ol
         template <typename RandomIt, typename Compare>
         void heap_sort_base(RandomIt first, RandomIt last, const Compare& comp)
         {
-            size_t n = last - first;
+            const ptrdiff_t n = std::distance(first, last);
             if (n <= 1) return;
 
             // 构建堆
-            for (ssize_t i = static_cast<ssize_t>(n / 2 - 1); i >= 0; --i)
+            for (ptrdiff_t i = n / 2 - 1; i >= 0; --i)
             {
                 heapify_base(first, n, static_cast<size_t>(i), comp);
             }
 
             // 提取最大元素并重建堆
-            for (size_t i = n - 1; i > 0; --i)
+            for (ptrdiff_t i = n - 1; i > 0; --i)
             {
                 std::iter_swap(first, first + i);
                 heapify_base(first, i, 0, comp);
@@ -407,7 +403,7 @@ namespace ol
         template <typename RandomIt, typename Compare>
         void merge_sort(RandomIt first, RandomIt last, const Compare& comp)
         {
-            size_t n = last - first;
+            const ptrdiff_t n = std::distance(first, last);
             if (n <= 1) return;
 
             std::vector<typename std::iterator_traits<RandomIt>::value_type> temp(n);
@@ -430,7 +426,7 @@ namespace ol
         counting_sort_base(RandomIt first, RandomIt last, const Compare& comp)
         {
             using ValueType = typename std::iterator_traits<RandomIt>::value_type;
-            size_t n = last - first;
+            const ptrdiff_t n = std::distance(first, last);
             if (n <= 1) return;
 
             // 找到最小值和最大值
@@ -459,7 +455,7 @@ namespace ol
 
             // 放置元素，从后往前遍历是为了保证排序的稳定性
             std::vector<ValueType> output(n);
-            for (auto it = last - 1; it >= first; --it)
+            for (RandomIt it = last - 1; it >= first; --it)
             {
                 output[count[*it - min_val] - 1] = *it;
                 --count[*it - min_val];
@@ -551,7 +547,7 @@ namespace ol
         void radix_sort_lsd_base(RandomIt first, RandomIt last, int radix)
         {
             using ValueType = typename std::iterator_traits<RandomIt>::value_type;
-            const size_t n = std::distance(first, last);
+            const ptrdiff_t n = std::distance(first, last);
             if (n <= 1) return;
 
             // 一次循环同时找到最大和最小元素（从第二个元素开始比较）
@@ -735,7 +731,7 @@ namespace ol
         template <typename RandomIt, typename Compare>
         void quick_sort_base(RandomIt first, RandomIt last, const Compare& comp)
         {
-            auto size = last - first;
+            ptrdiff_t size = std::distance(first, last);
 
             // 优化点：小规模数据（≤16个元素）使用插入排序
             if (size <= 16)
@@ -809,7 +805,7 @@ namespace ol
                                     const Compare& comp)
         {
             using ValueType = typename std::iterator_traits<RandomIt>::value_type;
-            const size_t n = std::distance(first, last);
+            const ptrdiff_t n = std::distance(first, last);
             if (n <= 1) return;
 
             // 创建桶容器
@@ -847,7 +843,7 @@ namespace ol
                                   const Compare& comp)
         {
             using ValueType = typename std::iterator_traits<RandomIt>::value_type;
-            const size_t n = std::distance(first, last);
+            const ptrdiff_t n = std::distance(first, last);
             if (n <= 1) return;
 
             // 使用比较器计算数据范围（找最值）
