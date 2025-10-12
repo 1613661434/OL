@@ -1,6 +1,6 @@
 /****************************************************************************************/
 /*
- * 程序名：ol_type_traits_ext.h
+ * 程序名：ol_type_traits.h
  * 功能描述：提供常用的类型特性扩展和辅助类，包括：
  *          - 不可拷贝/不可移动类特性
  *          - 空类型标记和基础类型工具
@@ -11,8 +11,8 @@
  */
 /****************************************************************************************/
 
-#ifndef OL_TYPE_TRAITS_EXT_H
-#define OL_TYPE_TRAITS_EXT_H 1
+#ifndef OL_TYPE_TRAITS_H
+#define OL_TYPE_TRAITS_H 1
 
 #include <cstddef>
 #include <type_traits>
@@ -167,4 +167,4 @@ namespace ol
 
 } // namespace ol
 
-#endif // !OL_TYPE_TRAITS_EXT_H
+#endif // !OL_TYPE_TRAITS_H

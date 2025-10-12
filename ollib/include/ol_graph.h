@@ -14,7 +14,7 @@
 #ifndef OL_GRAPH_H
 #define OL_GRAPH_H 1
 
-#include "ol_type_traits_ext.h"
+#include "ol_type_traits.h"
 #include <iostream>
 #include <stdexcept>
 #include <string>

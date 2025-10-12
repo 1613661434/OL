@@ -23,6 +23,7 @@
 #endif
 
 #include "ol_chrono.h"
+#include "ol_mutex.h"
 #include "ol_string.h"
 #include <algorithm>
 #include <atomic>
@@ -345,37 +346,6 @@ namespace ol
     // ===========================================================================
 
     // ===========================================================================
-    // 自旋锁类，用于多线程同步
-    class spinlock_mutex
-    {
-    private:
-        std::atomic_flag flag;
-
-        spinlock_mutex(const spinlock_mutex&) = delete;
-        spinlock_mutex& operator=(const spinlock_mutex) = delete;
-
-    public:
-        // 构造函数，初始化原子标志
-        spinlock_mutex()
-        {
-            flag.clear();
-        }
-
-        // 加锁（自旋等待直到获取锁）
-        void lock()
-        {
-            while (flag.test_and_set());
-        }
-
-        // 解锁
-        void unlock()
-        {
-            flag.clear();
-        }
-    };
-    // ===========================================================================
-
-    // ===========================================================================
     // 日志文件类，支持自动切换和多线程安全
     class clogfile
     {
@@ -385,7 +355,7 @@ namespace ol
         bool m_backup;             // 是否自动切换日志。
         size_t m_maxsize;          // 当日志文件的大小超过本参数时，自动切换日志。
         bool m_enbuffer;           // 是否启用文件缓冲区。
-        spinlock_mutex m_splock;   // 自旋锁，用于多线程程序中给写日志的操作加锁。
+        spin_mutex m_splock;       // 自旋锁，用于多线程程序中给写日志的操作加锁。
 
     public:
         /**
