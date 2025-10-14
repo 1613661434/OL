@@ -125,21 +125,6 @@ namespace ol
     inline constexpr bool IsIterable_v = IsIterable<T>::value;
 
     /**
-     * @brief 条件选择类型，根据条件选择不同类型（编译期分支）
-     * @tparam Condition 条件表达式（bool类型）
-     * @tparam TrueType 条件为true时的类型
-     * @tparam FalseType 条件为false时的类型
-     * @note 功能类似std::conditional，但增加更友好的注释和命名
-     */
-    template <bool Condition, typename TrueType, typename FalseType>
-    struct ConditionalType : std::conditional<Condition, TrueType, FalseType>
-    {
-    };
-
-    template <bool Condition, typename TrueType, typename FalseType>
-    using ConditionalType_t = typename ConditionalType<Condition, TrueType, FalseType>::type;
-
-    /**
      * @brief 类型列表容器，用于模板元编程中存储一组类型
      * @tparam Ts 类型列表中的类型参数包
      * @example using MyTypes = TypeList<int, float, std::string>;

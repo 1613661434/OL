@@ -37,7 +37,7 @@ namespace ol
         NodeType to; // 目标节点（类型由NodeType控制）
 
         // 仅当有权重时才定义weight成员（类型由WeightType控制）
-        typename std::conditional<IsWeighted, WeightType, TypeEmpty>::type weight;
+        typename std::conditional_t<IsWeighted, WeightType, TypeEmpty> weight;
 
         // 无权图构造函数（仅需目标节点）
         template <bool W = IsWeighted, typename = std::enable_if_t<!W>>
