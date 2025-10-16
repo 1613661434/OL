@@ -102,8 +102,11 @@ namespace ol
 
             // 启动固定数量的工作线程
             m_workers.reserve(threadNum);
-            while (threadNum-- > 0)
+            while (threadNum > 0)
+            {
                 m_workers.emplace_back(&ThreadPool::worker, this);
+                --threadNum;
+            }
         }
 
         /**
@@ -141,13 +144,14 @@ namespace ol
             // 启动最小数量（至少为1）的工作线程
             size_t needThreads = minThreadNum == 0 ? 1 : minThreadNum;
 
-            while (needThreads-- > 0)
+            while (needThreads > 0)
             {
                 std::thread th(&ThreadPool::worker, this);
 #ifdef DEBUG
                 printf("构造函数：新工作线程ID：%zu\n", th.get_id());
 #endif
                 m_workers.emplace(th.get_id(), std::move(th)); // 移动到哈希表
+                --needThreads;
             }
 
             // 启动管理者线程
@@ -565,13 +569,14 @@ namespace ol
                         // 每次最多扩容到当前的1.5倍，避免一次性创建过多线程
                         needThreads = std::min(needThreads, workerCount / 2 + 1);
 
-                        for (size_t i = 0; i < needThreads; ++i)
+                        while (needThreads > 0)
                         {
                             std::thread th(&ThreadPool::worker, this);
 #ifdef DEBUG
                             printf("新线程（ID: %zu）\n", th.get_id());
 #endif
                             m_workers.emplace(th.get_id(), std::move(th)); // 哈希表插入新线程
+                            --needThreads;
                         }
 // 调试输出：记录扩容操作
 #ifdef DEBUG
@@ -582,7 +587,7 @@ namespace ol
                     // (2). 缩容判断：空闲线程 > 线程总数的1/2 且 线程数超过「最小线程数或1（取较大值）」
                     else if (idleCount > workerCount / 2 && workerCount > std::max(m_dynamic.minThreads, static_cast<size_t>(1)))
                     {
-                        // 缩容上限：最多缩减到「最小线程数或1（取较大值）」
+                        // 缩容下限：最多缩减到「最小线程数或1（取较大值）」
                         size_t minKeep = std::max(m_dynamic.minThreads, static_cast<size_t>(1));
 
                         // 实际缩减数 = 取「可缩减线程数」和「多余空闲线程数」的较小值
@@ -599,10 +604,11 @@ namespace ol
                         if (reduceThreads > 0)
                         {
                             m_dynamic.workerExitNum = reduceThreads;
-                            while (reduceThreads-- > 0)
+                            do
                             {
                                 m_taskQueueNotEmpty_condVar.notify_one();
-                            }
+                                --reduceThreads;
+                            } while (reduceThreads > 0);
                         }
 #ifdef DEBUG
                         printf("缩容：计划销毁 %zu 个线程（当前线程数: %zu, 空闲数: %zu, 保留至少: %zu）\n",
