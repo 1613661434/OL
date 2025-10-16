@@ -29,9 +29,9 @@ namespace ol
      * 模板参数：
      * @param NodeType 节点数据类型
      * @param IsWeighted 是否包含权重（由外部图类控制）
-     * @param WeightType 权重数据类型（仅 IsWeighted=true 时有效）
+     * @param WeightType 权重数据类型（默认 int，仅 IsWeighted=true 时有效）
      */
-    template <typename NodeType, bool IsWeighted, typename WeightType>
+    template <typename NodeType, bool IsWeighted, typename WeightType = int>
     struct Edge
     {
         NodeType to; // 目标节点（类型由NodeType控制）
