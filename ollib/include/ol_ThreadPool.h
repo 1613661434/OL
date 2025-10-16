@@ -426,7 +426,7 @@ namespace ol
 
                     if (m_taskQueue.empty())
                     {
-                        if (m_stop) break;
+                        if (m_stop) return;
                         lock.unlock();
                         continue;
                     }
