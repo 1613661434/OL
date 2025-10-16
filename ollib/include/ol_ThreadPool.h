@@ -26,7 +26,6 @@
 #include <deque>
 #include <functional>
 #include <future>
-#include <map>
 #include <mutex>
 #include <queue>
 #include <stdexcept>
@@ -56,16 +55,16 @@ namespace ol
         };
 
         // 通用成员
-        mutable std::mutex m_workersMutex;                                                                                  ///< 保护工作线程集合的互斥锁
-        typename std::conditional_t<IsDynamic, std::map<std::thread::id, std::thread>, std::vector<std::thread>> m_workers; ///< 工作线程集合
-        std::mutex m_taskQueueMutex;                                                                                        ///< 保护任务队列的互斥锁
-        std::queue<std::function<void()>> m_taskQueue;                                                                      ///< 任务队列
-        std::condition_variable m_taskQueueNotEmpty_condVar;                                                                ///< 任务队列非空条件变量
-        std::condition_variable m_taskQueueNotFull_condVar;                                                                 ///< 任务队列非满条件变量
-        std::atomic_bool m_stop;                                                                                            ///< 停止标志
-        size_t m_maxQueueSize;                                                                                              ///< 最大队列容量
-        QueueFullPolicy m_queueFullPolicy;                                                                                  ///< 队列满策略
-        std::chrono::milliseconds m_timeoutMS;                                                                              ///< 超时时间（毫秒）
+        mutable std::mutex m_workersMutex;                                                                                            ///< 保护工作线程集合的互斥锁
+        typename std::conditional_t<IsDynamic, std::unordered_map<std::thread::id, std::thread>, std::vector<std::thread>> m_workers; ///< 工作线程集合
+        std::mutex m_taskQueueMutex;                                                                                                  ///< 保护任务队列的互斥锁
+        std::queue<std::function<void()>> m_taskQueue;                                                                                ///< 任务队列
+        std::condition_variable m_taskQueueNotEmpty_condVar;                                                                          ///< 任务队列非空条件变量
+        std::condition_variable m_taskQueueNotFull_condVar;                                                                           ///< 任务队列非满条件变量
+        std::atomic_bool m_stop;                                                                                                      ///< 停止标志
+        size_t m_maxQueueSize;                                                                                                        ///< 最大队列容量
+        QueueFullPolicy m_queueFullPolicy;                                                                                            ///< 队列满策略
+        std::chrono::milliseconds m_timeoutMS;                                                                                        ///< 超时时间（毫秒）
 
         // 动态模式特有成员
         struct DynamicMembers
