@@ -301,31 +301,34 @@ void testFixedQueuePolicies(size_t threadNum, size_t maxQueueSize)
 
     // 测试submitTask在拒绝策略下的行为
     std::vector<std::future<int>> rejectFutures;
+    // 提交所有任务（submitTask不再抛异常，全部收集future）
     for (int i = 10; i < 15; ++i)
     {
+        auto future = pool.submitTask(add1000, i); // 这里不再抛异常
+        rejectFutures.push_back(std::move(future));
+    }
+
+    // 验证结果并统计成功数
+    rejectSuccessSubmit = 0; // 重置计数
+    for (size_t j = 0; j < rejectFutures.size(); ++j)
+    {
+        int taskId = 10 + j;
         try
         {
-            auto future = pool.submitTask(add1000, i);
-            rejectFutures.push_back(std::move(future));
+            int result = rejectFutures[j].get(); // 异常在这里抛出
+            // 能走到这里说明提交成功且执行成功
             rejectSuccessSubmit++;
-            safePrint("拒绝策略-submit: 任务 %d 添加成功\n", i);
+            safePrint("拒绝策略-submit: 任务 %d 执行成功（结果: %d）\n", taskId, result);
+            assert(result == taskId + 1000 && "加法计算错误");
         }
         catch (const std::exception& e)
         {
-            safePrint("拒绝策略-submit: 任务 %d 添加失败（%s）\n", i, e.what());
+            safePrint("拒绝策略-submit: 任务 %d 失败（%s）\n", taskId, e.what());
         }
     }
 
     safePrint("拒绝策略：add成功 %d 个，submit成功 %d 个\n",
               rejectSuccessAdd, rejectSuccessSubmit);
-    std::this_thread::sleep_for(std::chrono::seconds(3));
-
-    // 验证结果
-    for (auto& future : rejectFutures)
-    {
-        int result = future.get();
-        assert(result == (result - 1000) + 1000 && "加法计算错误");
-    }
     assert(pool.getTaskNum() == 0 && "拒绝策略任务未执行完毕");
 }
 
@@ -359,31 +362,34 @@ void testDynamicQueuePolicies(size_t minThreadNum, size_t maxThreadNum,
 
     // 测试submitTask在拒绝策略下的行为
     std::vector<std::future<int>> rejectFutures;
+    // 提交所有任务（submitTask不再抛异常，全部收集future）
     for (int i = 10; i < 15; ++i)
     {
+        auto future = pool.submitTask(add1000, i);
+        rejectFutures.push_back(std::move(future));
+    }
+
+    // 验证结果并统计成功数
+    rejectSuccessSubmit = 0; // 重置计数
+    for (size_t j = 0; j < rejectFutures.size(); ++j)
+    {
+        int taskId = 10 + j;
         try
         {
-            auto future = pool.submitTask(add1000, i);
-            rejectFutures.push_back(std::move(future));
+            int result = rejectFutures[j].get(); // 异常在这里抛出
+            // 能走到这里说明提交成功且执行成功
             rejectSuccessSubmit++;
-            safePrint("拒绝策略-submit: 任务 %d 添加成功\n", i);
+            safePrint("拒绝策略-submit: 任务 %d 执行成功（结果: %d）\n", taskId, result);
+            assert(result == taskId + 1000 && "加法计算错误");
         }
         catch (const std::exception& e)
         {
-            safePrint("拒绝策略-submit: 任务 %d 添加失败（%s）\n", i, e.what());
+            safePrint("拒绝策略-submit: 任务 %d 失败（%s）\n", taskId, e.what());
         }
     }
 
     safePrint("拒绝策略：add成功 %d 个，submit成功 %d 个\n",
               rejectSuccessAdd, rejectSuccessSubmit);
-    std::this_thread::sleep_for(std::chrono::seconds(3));
-
-    // 验证结果
-    for (auto& future : rejectFutures)
-    {
-        int result = future.get();
-        assert(result == (result - 1000) + 1000 && "加法计算错误");
-    }
     assert(pool.getTaskNum() == 0 && "拒绝策略任务未执行完毕");
 }
 
@@ -538,7 +544,7 @@ void testDynamicScaling()
     ol::ThreadPool<true> dynamicPool(2, 5, 100, std::chrono::seconds(1));
     safePrint("初始线程数: %zu（预期2）\n", dynamicPool.getWorkerNum());
     assert(dynamicPool.getWorkerNum() == 2 && "初始线程数错误");
-    // assert(dynamicPool.getIdleThreadNum() == 2 && "初始空闲线程数错误");
+    assert(dynamicPool.getIdleThreadNum() == 2 && "初始空闲线程数错误");
 
     // 阶段1：少量任务（线程数应保持最小）
     safePrint("\n=== 阶段1：少量任务测试 ===\n");

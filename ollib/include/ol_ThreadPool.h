@@ -346,9 +346,9 @@ namespace ol
                                    { (*task)(); });
             if (!success)
             {
+                std::promise<ReturnType> promise;
                 if (m_stop)
                 {
-                    std::promise<ReturnType> promise;
                     promise.set_exception(std::make_exception_ptr(std::runtime_error("ThreadPool has been stopped")));
                     return promise.get_future();
                 }
@@ -356,13 +356,18 @@ namespace ol
                 switch (m_queueFullPolicy)
                 {
                 case QueueFullPolicy::kReject:
-                    throw std::runtime_error("Task queue full (Reject policy)");
+                    promise.set_exception(std::make_exception_ptr(std::runtime_error("Task queue full (Reject policy)")));
+                    return promise.get_future();
                 case QueueFullPolicy::kBlock:
-                    throw std::runtime_error("Task submission failed in block policy (ThreadPool stopped)");
+                    // 此时失败一定是因为线程池已停止（否则wait会一直等）
+                    promise.set_exception(std::make_exception_ptr(std::runtime_error("Task submission failed in block policy (ThreadPool stopped)")));
+                    return promise.get_future();
                 case QueueFullPolicy::kTimeout:
-                    throw std::runtime_error("Task queue full (Timeout policy)");
+                    promise.set_exception(std::make_exception_ptr(std::runtime_error("Task queue full (Timeout policy)")));
+                    return promise.get_future();
                 default:
-                    throw std::runtime_error("Task submission failed");
+                    promise.set_exception(std::make_exception_ptr(std::runtime_error("Task submission failed")));
+                    return promise.get_future();
                 }
             }
 
