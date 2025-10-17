@@ -5,15 +5,6 @@
 
 namespace ol
 {
-    // 跨平台兼容
-    inline void localtime_now(struct tm* tm_out, const time_t* t)
-    {
-#ifdef _WIN32
-        localtime_s(tm_out, t); // Windows
-#else
-        localtime_r(t, tm_out); // Linux/Unix/macOS
-#endif
-    }
 
     // Windows下实现gettimeofday()函数
 #ifdef _WIN32

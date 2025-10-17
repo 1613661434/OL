@@ -9,7 +9,7 @@
 #error "仅支持Linux平台，不支持当前系统！"
 #endif
 
-#include "ol_InetAddr.h"
+#include "ol_net/ol_InetAddr.h"
 #include <arpa/inet.h>
 #include <cassert>
 #include <cstring>

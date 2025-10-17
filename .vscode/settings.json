@@ -68,6 +68,10 @@
 		"typeinfo": "cpp",
 		"variant": "cpp",
 		"unordered_set": "cpp",
-		"future": "cpp"
+		"future": "cpp",
+		"internet": "cpp",
+		"netfwd": "cpp",
+		"buffer": "cpp",
+		"socket": "cpp"
 	}
 }

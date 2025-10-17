@@ -34,6 +34,10 @@ include_directories(${OLLIB_INCLUDE})
 
 # 源文件
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src OLLIB_SRC)
+if(NOT WIN32) # Linux平台加入网络库源文件
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/ol_net OLLIB_NET_SRC)
+set(OLLIB_SRC ${OLLIB_SRC} ${OLLIB_NET_SRC})
+endif()
 
 # 第三方库ftplib路径（区分平台）
 if(WIN32)

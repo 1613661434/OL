@@ -29,6 +29,26 @@
 namespace ol
 {
 
+    // 跨平台兼容：将localtime_s/localtime_r的结果统一为bool返回
+    inline bool localtime_now(struct tm* tm_out, const time_t* t)
+    {
+        // 基本参数校验
+        if (tm_out == nullptr || t == nullptr)
+        {
+            return false; // 无效指针直接返回失败
+        }
+
+#ifdef _WIN32
+        // Windows：localtime_s返回errno_t，0表示成功
+        errno_t err = localtime_s(tm_out, t);
+        return (err == 0); // 成功返回true，失败返回false
+#else
+        // Linux/Unix/macOS：localtime_r返回struct tm*，非NULL表示成功
+        struct tm* ret = localtime_r(t, tm_out);
+        return (ret != nullptr); // 成功返回true，失败返回false
+#endif
+    }
+
     // 时间操作的若干函数。
     // ===========================================================================
     /*
