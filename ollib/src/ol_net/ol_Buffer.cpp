@@ -105,39 +105,56 @@ namespace ol
     ssize_t Buffer::recvFd(int fd)
     {
         constexpr size_t READ_CHUNK = 4096;
-        ssize_t nread_total = 0;
+        constexpr size_t EXPAND_THRESHOLD = READ_CHUNK / 4; // 扩容阈值
+        size_t first_size = m_buf.size();
+        size_t nread_total = 0;
+
+        m_buf.resize(first_size + READ_CHUNK); // 扩容后可用空间 += READ_CHUNK
 
         while (true)
         {
-            size_t current_size = m_buf.size();
-            // 1. 预留空间并扩展可写长度
-            m_buf.reserve(current_size + READ_CHUNK);
-            m_buf.resize(current_size + READ_CHUNK); // 确保后续写入的内存可写
+            size_t current_size = m_buf.size();                // 当前有效数据长度
+            const size_t real_size = first_size + nread_total; // 实际长度
+            size_t available = current_size - real_size;       // 剩余可用空间
 
-            // 2. 获取可写地址
-            char* write_ptr = &m_buf[current_size];
+            // 1. 检查是否需要扩容：剩余空间不足EXPAND_THRESHOLD时，扩展READ_CHUNK
+            if (available < EXPAND_THRESHOLD)
+            {
+                m_buf.resize(current_size + READ_CHUNK); // 扩容后可用空间 += READ_CHUNK
+                current_size = m_buf.size();
+                available += READ_CHUNK;
+#ifdef DEBUG
+                printf("m_buf.resize(%zu)\n", m_buf.size());
+#endif
+            }
 
-            // 3. 读取数据
-            ssize_t nread = ::read(fd, write_ptr, READ_CHUNK);
+            char* write_ptr = &m_buf[real_size]; // 写入地址
 
 #ifdef DEBUG
-            printf("recvFd(%d): current_size=%zu, nread=%ld\n", fd, current_size, nread);
+            printf("recvFd-before(%d):real_size=%zu current_size=%zu, available=%zu\n",
+                   fd, real_size, current_size, available);
+#endif
+
+            // 2. 读取数据
+            ssize_t nread = ::read(fd, write_ptr, available);
+
+#ifdef DEBUG
+            printf("recvFd-after(%d):nread=%ld\n",
+                   fd, nread);
 #endif
 
             if (nread > 0)
             {
-                // 只保留实际读取的长度（截断多余的预留空间）
-                m_buf.resize(current_size + nread);
-                nread_total += nread;
+                nread_total += nread; // 累计总读取量
             }
             else if (nread == 0)
             {
-                m_buf.resize(current_size); // 恢复到实际长度
+                m_buf.resize(real_size);
                 return nread_total;
             }
             else // nread == -1
             {
-                m_buf.resize(current_size); // 恢复到实际长度
+                m_buf.resize(real_size);
                 if (errno == EINTR)
                     continue;
                 else if (errno == EAGAIN || errno == EWOULDBLOCK)
