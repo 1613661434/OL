@@ -15,7 +15,7 @@ namespace ol
         m_acceptor.setNewConnCb(std::bind(&TcpServer::newConn, this, std::placeholders::_1));
 
         // 创建从事件循环。
-        assert(m_threadNum > 0 && "从事件线程数必须大于0");
+        assert(m_threadNum > 0 && "The number of sub event threads must be greater than 0");
         m_subEventLoops.resize(m_threadNum);
         for (size_t i = 0; i < m_threadNum; ++i)
         {
