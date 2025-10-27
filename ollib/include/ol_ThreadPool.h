@@ -39,8 +39,10 @@
 namespace ol
 {
     /**
-     * @brief 线程池模板类，支持动态/固定模式
-     * @tparam IsDynamic 是否为动态线程池（默认false为固定模式）
+     * @brief 线程池模板类，支持动态/固定两种工作模式
+     * @tparam IsDynamic 是否启用动态模式：true为动态扩缩容模式，false为固定线程数模式（默认）
+     * @note 动态模式下会根据任务负载自动调整线程数量，固定模式使用初始化时指定的线程数
+     * @note 线程安全设计，支持多线程并发添加任务
      */
     template <bool IsDynamic = false>
     class ThreadPool : public TypeNonCopyableMovable
@@ -57,7 +59,7 @@ namespace ol
         // 通用成员
         mutable std::mutex m_workersMutex;                                                                                            ///< 保护工作线程集合的互斥锁
         typename std::conditional_t<IsDynamic, std::unordered_map<std::thread::id, std::thread>, std::vector<std::thread>> m_workers; ///< 工作线程集合
-        std::mutex m_taskQueueMutex;                                                                                                  ///< 保护任务队列的互斥锁
+        mutable std::mutex m_taskQueueMutex;                                                                                          ///< 保护任务队列的互斥锁
         std::queue<std::function<void()>> m_taskQueue;                                                                                ///< 任务队列
         std::condition_variable m_taskQueueNotEmpty_condVar;                                                                          ///< 任务队列非空条件变量
         std::condition_variable m_taskQueueNotFull_condVar;                                                                           ///< 任务队列非满条件变量
@@ -73,11 +75,11 @@ namespace ol
             size_t maxThreads;                              ///< 最大线程数
             std::atomic_size_t idleThreads;                 ///< 空闲线程数
             std::atomic_size_t workerExitNum;               ///< 工作线程需销毁数
-            std::mutex managerMutex;                        ///< 管理者线程锁（只是为了事件通知让管理者在睡眠中退出）
+            mutable std::mutex managerMutex;                ///< 管理者线程锁（只是为了事件通知让管理者在睡眠中退出）
             std::condition_variable managerExit_condVar;    ///< 管理者线程退出条件变量
             std::chrono::seconds checkInterval;             ///< 管理者检查间隔（秒）
             std::thread managerThread;                      ///< 管理者线程
-            std::mutex workerExitId_dequeMutex;             ///< 保护工作线程退出ID队列的互斥锁
+            mutable std::mutex workerExitId_dequeMutex;     ///< 保护工作线程退出ID队列的互斥锁
             std::deque<std::thread::id> workerExitId_deque; ///< 工作线程退出ID队列
         };
         typename std::conditional_t<IsDynamic, DynamicMembers, TypeEmpty> m_dynamic; ///< 动态模式成员
@@ -85,8 +87,10 @@ namespace ol
     public:
         /**
          * @brief 固定模式构造函数（仅IsDynamic=false时可用）
-         * @param threadNum 固定线程数量
-         * @param maxQueueSize 最大队列容量（0表示无限制）
+         * @param threadNum 固定线程数量（必须大于0，否则线程池初始化为停止状态）
+         * @param maxQueueSize 任务队列最大容量（0表示无限制，默认0）
+         * @note 线程池初始化时会创建指定数量的工作线程
+         * @throw 无异常抛出（线程数为0时仅初始化停止状态）
          */
         template <bool D = IsDynamic, typename = std::enable_if_t<!D>>
         ThreadPool(size_t threadNum, size_t maxQueueSize = 0)
@@ -111,10 +115,12 @@ namespace ol
 
         /**
          * @brief 动态模式构造函数（仅IsDynamic=true时可用）
-         * @param minThreadNum 最小线程数（默认：0）
-         * @param maxThreadNum 最大线程数（默认：CPU核心数）
-         * @param maxQueueSize 最大队列容量（0表示无限制）
-         * @param checkInterval 管理者检查间隔（秒，默认：1）
+         * @param minThreadNum 最小线程数（默认0，实际会至少创建1个线程）
+         * @param maxThreadNum 最大线程数（默认CPU核心数）
+         * @param maxQueueSize 任务队列最大容量（0表示无限制，默认0）
+         * @param checkInterval 管理者线程检查间隔（秒，默认1秒）
+         * @note 初始化时会创建minThreadNum个线程（若minThreadNum=0则创建1个;若minThreadNum=maxThreadNum=0则线程池初始化为停止状态）
+         * @throw std::invalid_argument 当 minThreadNum > maxThreadNum 时抛出
          */
         template <bool D = IsDynamic, typename = std::enable_if_t<D>>
         ThreadPool(size_t minThreadNum = 0,
@@ -163,6 +169,7 @@ namespace ol
 
         /**
          * @brief 析构函数
+         * @note 自动调用stop(true)，等待所有任务完成并清理资源
          */
         ~ThreadPool()
         {
@@ -172,9 +179,9 @@ namespace ol
 
         /**
          * @brief 停止线程池并清理资源
-         * @param wait 是否等待线程完成当前任务（true: join等待，false: detach立即返回）
-         * @note 多次调用安全，析构时自动调用stop(true)
-         * @warning wait = false时，分离的线程若访问已释放资源可能导致崩溃（确保任务完成再进行stop(false)）
+         * @param wait 是否等待当前任务完成：true-等待所有任务完成（join），false-立即返回（detach）
+         * @note 多次调用安全，已停止状态下调用无效果
+         * @warning 当wait=false时，若分离的线程访问已释放资源可能导致崩溃，需确保任务无资源依赖
          */
         void stop(bool wait = true)
         {
@@ -237,16 +244,20 @@ namespace ol
         }
 
         /**
-         * @brief 获取等待任务数量
+         * @brief 获取当前等待执行的任务数量
+         * @return 任务队列中的任务数
+         * @note 线程安全，通过互斥锁保护队列访问
          */
-        inline size_t getTaskNum()
+        inline size_t getTaskNum() const
         {
             std::lock_guard<std::mutex> lock(m_taskQueueMutex);
             return m_taskQueue.size();
         }
 
         /**
-         * @brief 获取当前线程数量（有非常大的延迟，不推荐作为依据）
+         * @brief 获取当前工作线程数量
+         * @return 工作线程的实时数量
+         * @note 线程安全，通过互斥锁保护线程集合访问
          */
         inline size_t getWorkerNum() const
         {
@@ -255,7 +266,19 @@ namespace ol
         }
 
         /**
-         * @brief 设置队列策略
+         * @brief 动态模式特有：获取当前空闲线程数量
+         * @return 空闲线程数
+         * @note 仅IsDynamic=true时可用，原子操作确保线程安全
+         */
+        template <bool D = IsDynamic, typename = std::enable_if_t<D>>
+        inline size_t getIdleThreadNum() const
+        {
+            return m_dynamic.idleThreads;
+        }
+
+        /**
+         * @brief 设置任务队列满时的拒绝策略（新任务直接被拒绝）
+         * @note 线程安全，通过互斥锁保护策略修改
          */
         void setRejectPolicy()
         {
@@ -263,12 +286,22 @@ namespace ol
             m_queueFullPolicy = QueueFullPolicy::kReject;
         }
 
+        /**
+         * @brief 设置任务队列满时的阻塞策略（等待直到队列有空闲位置）
+         * @note 线程安全，通过互斥锁保护策略修改
+         */
         void setBlockPolicy()
         {
             std::lock_guard<std::mutex> lock(m_taskQueueMutex);
             m_queueFullPolicy = QueueFullPolicy::kBlock;
         }
 
+        /**
+         * @brief 设置任务队列满时的超时等待策略
+         * @param timeoutMS 超时时间（毫秒，必须大于0）
+         * @throw std::invalid_argument 当timeoutMS <= 0时抛出
+         * @note 线程安全，通过互斥锁保护策略和超时时间修改
+         */
         void setTimeoutPolicy(std::chrono::milliseconds timeoutMS)
         {
             if (timeoutMS.count() <= 0)
@@ -279,8 +312,9 @@ namespace ol
         }
 
         /**
-         * @brief 设置管理者检查间隔
-         * @param interval
+         * @brief 动态模式特有：设置管理者线程的检查间隔
+         * @param interval 检查间隔（秒）
+         * @note 仅IsDynamic=true时可用，用于调整扩缩容的响应速度
          */
         template <bool D = IsDynamic, typename = std::enable_if_t<D>>
         void setCheckInterval(std::chrono::seconds interval)
@@ -289,7 +323,10 @@ namespace ol
         }
 
         /**
-         * @brief 添加无返回值任务
+         * @brief 添加无返回值任务到线程池
+         * @param task 待执行的任务（std::function<void()>类型）
+         * @return 任务添加成功返回true，失败返回false（线程池已停止或队列满且策略为拒绝/超时）
+         * @note 线程安全，根据当前队列策略处理满队列情况
          */
         bool addTask(std::function<void()> task)
         {
@@ -330,7 +367,14 @@ namespace ol
         }
 
         /**
-         * @brief 提交带返回值任务
+         * @brief 提交带返回值的任务到线程池
+         * @tparam F 任务函数类型
+         * @tparam Args 任务函数参数类型
+         * @param f 任务函数
+         * @param args 任务函数参数
+         * @return 包含任务返回值的std::future对象
+         * @note 若任务添加失败，返回的future会存储对应异常（线程池停止/队列满）
+         * @note 线程安全，内部调用addTask实现任务添加
          */
         template <typename F, typename... Args>
         auto submitTask(F&& f, Args&&... args) -> std::future<typename std::result_of<F(Args...)>::type>
@@ -375,25 +419,20 @@ namespace ol
         }
 
         /**
-         * @brief 检查线程池是否运行中
+         * @brief 检查线程池是否处于运行状态
+         * @return 运行中返回true，已停止返回false
+         * @note 基于原子变量m_stop的状态判断，线程安全
          */
         bool isRunning() const
         {
             return !m_stop;
         }
 
-        /**
-         * @brief 动态模式特有：获取当前空闲线程数
-         */
-        template <bool D = IsDynamic, typename = std::enable_if_t<D>>
-        size_t getIdleThreadNum() const
-        {
-            return m_dynamic.idleThreads;
-        }
-
     private:
         /**
          * @brief 工作线程主函数
+         * @note 循环从任务队列获取并执行任务，直到线程池停止或（动态模式下）收到退出指令
+         * @note 动态模式下会维护空闲线程计数，任务执行前后更新状态
          */
         void worker()
         {
@@ -487,8 +526,12 @@ namespace ol
         }
 
         /**
-         * @brief 管理者线程主函数（动态模式特有）
-         * 定期检查并调整线程数量，实现平滑扩缩容
+         * @brief 管理者线程主函数（仅动态模式可用）
+         * @note 定期执行以下操作：
+         *       1. 清理已退出的工作线程对象
+         *       2. 根据任务负载和空闲线程数进行扩缩容：
+         *          - 扩容：任务数 > 线程数*2 且未达最大线程数时创建新线程
+         *          - 缩容：空闲线程 > 线程总数的1/2 且超过最小线程数时销毁多余线程
          */
         template <bool D = IsDynamic, typename = std::enable_if_t<D>>
         void manager()
@@ -503,16 +546,16 @@ namespace ol
 
                 // 1. 清理已终止的线程对象
                 {
-                    // 1. 先锁定工作线程容器和退出ID队列的锁，确保原子性
+                    // (1). 先锁定工作线程容器和退出ID队列的锁，确保原子性
                     std::lock_guard<std::mutex> lock_workers(m_workersMutex);
                     std::unique_lock<std::mutex> lock_exitDeque(m_dynamic.workerExitId_dequeMutex);
 
-                    // 2. 复制并清空退出ID队列（避免其他线程并发修改）
+                    // (2). 复制并清空退出ID队列（避免其他线程并发修改）
                     std::deque<std::thread::id> exitIds;
                     exitIds.swap(m_dynamic.workerExitId_deque); // 用swap避免复制开销
                     lock_exitDeque.unlock();                    // 提前解锁，减少锁持有时间
 
-                    // 3. 逐个清理退出的线程
+                    // (3). 逐个清理退出的线程
                     for (const auto& exitId : exitIds)
                     {
 #ifdef DEBUG
@@ -527,7 +570,7 @@ namespace ol
                             continue;
                         }
 
-                        // 4. 先join线程，再从容器中移除
+                        // (4). 先join线程，再从容器中移除
                         if (it->second.joinable())
                         {
                             try
@@ -563,8 +606,7 @@ namespace ol
                     size_t workerCount = m_workers.size();
                     size_t idleCount = m_dynamic.idleThreads;
 
-                    // (1). 扩容判断：任务数 > 线程数 * 2 且未达最大线程数
-                    //    （乘以2是为了避免轻微负载波动就扩容）
+                    // (1). 扩容判断：任务数 > 线程数 * 2 且未达最大线程数（乘以2是为了避免轻微负载波动就扩容）
                     if (taskCount > workerCount * 2 && workerCount < m_dynamic.maxThreads)
                     {
                         size_t needThreads = std::min(
