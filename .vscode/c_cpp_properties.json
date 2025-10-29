@@ -17,7 +17,7 @@
             "cStandard": "c17",
             "cppStandard": "gnu++17",
             "intelliSenseMode": "windows-gcc-x64",
-            "compilerPath": "D:/Visual Studio Code/Msys64/ucrt64/bin/g++.exe"
+            "compilerPath": "D:/Visual Studio Code/Libs/Msys64/ucrt64/bin/g++.exe"
         }
     ],
     "version": 4
