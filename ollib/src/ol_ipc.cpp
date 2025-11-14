@@ -77,7 +77,7 @@ namespace ol
         sem_b.sem_flg = m_sem_flg;
         if (semop(m_semid, &sem_b, 1) == -1)
         {
-            perror("p semop()");
+            perror("P semop()");
             return false;
         }
 
