@@ -4,8 +4,7 @@
  * 功能描述：提供常用的类型特性扩展和辅助类，包括：
  *          - 不可拷贝/不可移动类特性
  *          - 空类型标记和基础类型工具
- *          - 类型判断与转换的辅助模板
- *          - 模板元编程常用基础结构
+ *          - 单例类
  *          - 容器特性萃取：适配STL容器（vector、deque等）和原生数组，统一迭代器操作接口
  * 作者：ol
  * 适用标准：C++17及以上（需支持constexpr、delete/default等特性）
@@ -22,6 +21,8 @@
 
 namespace ol
 {
+    // Type
+    // ===========================================================================
     /**
      * @brief 空结构体标记，用于模板中需要占位但不占用内存的场景
      * @note 尺寸为1字节（C++标准规定空结构体大小至少为1），但语义上表示"无数据"
@@ -81,16 +82,25 @@ namespace ol
     };
 
     /**
-     * @brief 类型包装器，用于在模板参数中传递类型而不实例化
-     * @tparam T 被包装的类型
-     * @example using IntWrapper = TypeWrapper<int>;
+     * @brief 单例类（懒汉模式），提供getInstance，且不可拷贝不可移动
+     * @tparam T 传入需要单例的类
+     * @note 使用奇异递归模板模式(CRTP)
+     * @example class A : public TypeSingleton<A> { friend class TypeSingleton<A>; ... }
      */
     template <typename T>
-    struct TypeWrapper
+    class TypeSingleton : public TypeNonCopyableMovable
     {
-        using type = T;
+    public:
+        static T& getInstance()
+        {
+            static T instance;
+            return instance;
+        }
     };
+    // ===========================================================================
 
+    // IsType
+    // ===========================================================================
     /**
      * @brief 检查类型是否为ol::TypeEmpty类型
      * @tparam T 待检查类型
@@ -103,54 +113,7 @@ namespace ol
 
     template <typename T>
     inline constexpr bool IsTypeEmpty_v = IsTypeEmpty<T>::value;
-
-    /**
-     * @brief 检查类型是否可迭代（存在begin()和end()）
-     * @tparam T 待检查类型
-     * @value 若T是可迭代类型则为true，否则为false
-     */
-    template <typename T, typename = void>
-    struct IsIterable : std::false_type
-    {
-    };
-
-    template <typename T>
-    struct IsIterable<T, std::void_t<decltype(std::begin(std::declval<T>())),
-                                     decltype(std::end(std::declval<T>()))>>
-        : std::true_type
-    {
-    };
-
-    template <typename T>
-    inline constexpr bool IsIterable_v = IsIterable<T>::value;
-
-    /**
-     * @brief 类型列表容器，用于模板元编程中存储一组类型
-     * @tparam Ts 类型列表中的类型参数包
-     * @example using MyTypes = TypeList<int, float, std::string>;
-     */
-    template <typename... Ts>
-    struct TypeList
-    {
-    };
-
-    /**
-     * @brief 获取类型列表的长度
-     * @tparam List 类型列表（必须是TypeList的实例）
-     * @value 类型列表中包含的类型数量
-     */
-    template <typename List>
-    struct TypeListSize : std::integral_constant<size_t, 0>
-    {
-    };
-
-    template <typename... Ts>
-    struct TypeListSize<TypeList<Ts...>> : std::integral_constant<size_t, sizeof...(Ts)>
-    {
-    };
-
-    template <typename List>
-    inline constexpr size_t TypeListSize_v = TypeListSize<List>::value;
+    // ===========================================================================
 
     // 容器特性萃取
     // ===========================================================================
