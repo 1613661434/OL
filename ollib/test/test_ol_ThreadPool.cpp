@@ -544,6 +544,7 @@ void testDynamicScaling()
     ol::ThreadPool<true> dynamicPool(2, 5, 100, std::chrono::seconds(1));
     safePrint("初始线程数: %zu（预期2）\n", dynamicPool.getWorkerNum());
     assert(dynamicPool.getWorkerNum() == 2 && "初始线程数错误");
+    std::this_thread::sleep_for(std::chrono::milliseconds(1500));
     assert(dynamicPool.getIdleThreadNum() == 2 && "初始空闲线程数错误");
 
     // 阶段1：少量任务（线程数应保持最小）

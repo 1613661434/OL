@@ -1,8 +1,12 @@
 #include "ol_TimeStamp.h"
 #include <iostream>
-#include <unistd.h>
-
 using namespace ol;
+
+#ifdef __linux__
+#include <unistd.h>
+#elif defined(_WIN32)
+#include <windows.h>
+#endif
 
 int main()
 {
@@ -10,7 +14,11 @@ int main()
     std::cout << ts.toInt() << std::endl;
     std::cout << ts.toString() << std::endl;
 
+#ifdef __linux__
     sleep(1);
+#elif defined(_WIN32)
+    Sleep(1000);
+#endif
     std::cout << TimeStamp::now().toInt() << std::endl;
     std::cout << TimeStamp::now().toString() << std::endl;
 

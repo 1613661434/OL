@@ -108,7 +108,7 @@ namespace ol
             m_workers.reserve(threadNum);
             while (threadNum > 0)
             {
-                m_workers.emplace_back(&ThreadPool::worker, this);
+                m_workers.emplace_back(&ThreadPool<IsDynamic>::worker, this);
                 --threadNum;
             }
         }
@@ -152,7 +152,7 @@ namespace ol
 
             while (needThreads > 0)
             {
-                std::thread th(&ThreadPool::worker, this);
+                std::thread th(&ThreadPool<IsDynamic>::worker, this);
 #ifdef DEBUG
                 printf("构造函数：新工作线程ID：%zu\n", th.get_id());
 #endif
@@ -161,7 +161,7 @@ namespace ol
             }
 
             // 启动管理者线程
-            m_dynamic.managerThread = std::thread(&ThreadPool::manager, this);
+            m_dynamic.managerThread = std::thread(&ThreadPool<IsDynamic>::manager, this);
 #ifdef DEBUG
             printf("构造函数：新管理者线程ID：%zu\n", m_dynamic.managerThread.get_id());
 #endif
@@ -377,9 +377,9 @@ namespace ol
          * @note 线程安全，内部调用addTask实现任务添加
          */
         template <typename F, typename... Args>
-        auto submitTask(F&& f, Args&&... args) -> std::future<typename std::result_of<F(Args...)>::type>
+        auto submitTask(F&& f, Args&&... args) -> std::future<typename std::invoke_result_t<F, Args...>>
         {
-            using ReturnType = typename std::result_of<F(Args...)>::type;
+            using ReturnType = typename std::invoke_result_t<F, Args...>;
 
             auto task = std::make_shared<std::packaged_task<ReturnType()>>(
                 std::bind(std::forward<F>(f), std::forward<Args>(args)...));
@@ -540,7 +540,7 @@ namespace ol
             {
                 // 定期检查（可被stop()唤醒）
                 std::unique_lock<std::mutex> lock_manger(m_dynamic.managerMutex);
-                m_dynamic.managerExit_condVar.wait_for(lock_manger, m_dynamic.checkInterval, [this]
+                m_dynamic.managerExit_condVar.wait_for(lock_manger, m_dynamic.checkInterval, [this]()
                                                        { return m_stop.load(); });
                 if (m_stop) return;
 
@@ -618,7 +618,7 @@ namespace ol
 
                         while (needThreads > 0)
                         {
-                            std::thread th(&ThreadPool::worker, this);
+                            std::thread th(&ThreadPool<IsDynamic>::worker, this);
 #ifdef DEBUG
                             printf("新线程（ID: %zu）\n", th.get_id());
 #endif

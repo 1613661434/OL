@@ -1,5 +1,5 @@
 # 编译产物
-build/
+build*/
 bin/
 *.o
 *.exe
@@ -23,6 +23,14 @@ install_manifest.txt
 *.swp
 *.swo
 *~
+
+# 生成的库文件
+lib/
+.lib
+.pdb
+.dll
+.a
+.so
 
 # 日志/临时文件
 logs/
