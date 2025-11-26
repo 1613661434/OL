@@ -171,10 +171,10 @@ cmake ..  # 示例：启用测试 + 仅静态库 → cmake .. -DOL_WITH_TESTS=ON
 make -j4
 
 # 5. 输出路径
-# - 静态库：ollib/lib/linux/x64/<CONFIG>/static/（含网络库代码）
-# - 动态库：ollib/lib/linux/x64/<CONFIG>/shared/（含网络库代码）
-# - 网络库测试程序：ollib/test/bin/linux/x64/<CONFIG>/ol_net/（test_ol_echoserver等）
-# - 其他测试程序：各自test/bin/linux/x64/<CONFIG>/目录下
+# - 静态库：ollib/lib/linux/x64/static/${CMAKE_BUILD_TYPE}/（含网络库代码）
+# - 动态库：ollib/lib/linux/x64/shared/${CMAKE_BUILD_TYPE}/（含网络库代码）
+# - 网络库测试程序：ollib/test/bin/linux/x64/${CMAKE_BUILD_TYPE}/ol_net/（test_ol_echoserver等）
+# - 其他测试程序：各自test/bin/linux/x64/${CMAKE_BUILD_TYPE}/目录下
 ```
 
 ### Windows 平台（不含网络库）

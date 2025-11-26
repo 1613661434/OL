@@ -23,7 +23,7 @@ endif()
 # ===================== </源文件> =====================
 
 # ===================== <输出路径> =====================
-set(LIBRARY_OUTPUT_BASE_DIR "${CMAKE_CURRENT_BINARY_DIR}/lib")
+set(LIBRARY_OUTPUT_BASE_DIR "${CMAKE_CURRENT_BINARY_DIR}/lib/${OS_NAME}/${ARCHITECTURE}")
 # ===================== </输出路径> =====================
 
 # ===================== <OBJECT 库> =====================
@@ -47,7 +47,11 @@ set_target_properties(ol_object PROPERTIES
 
 # ===================== 静态库配置 =====================
 if(OL_BUILD_STATIC_LIBS)
-    set(OLLIB_STATIC_LIB_DIR "${LIBRARY_OUTPUT_BASE_DIR}/${OS_NAME}/${ARCHITECTURE}/$<CONFIG>/static")
+    set(OLLIB_STATIC_LIB_DIR "${LIBRARY_OUTPUT_BASE_DIR}/static")
+    # 单配置：CMAKE_BUILD_TYPE
+    if(NOT DEFINED CMAKE_CONFIGURATION_TYPES)
+        set(OLLIB_STATIC_LIB_DIR "${OLLIB_STATIC_LIB_DIR}/${CMAKE_BUILD_TYPE}")
+    endif()
     add_library(ol_static STATIC $<TARGET_OBJECTS:ol_object>)
     set_target_properties(ol_static PROPERTIES
         OUTPUT_NAME "ol"
@@ -57,7 +61,11 @@ endif()
 
 # ===================== 动态库配置 =====================
 if(OL_BUILD_SHARED_LIBS)
-    set(OLLIB_SHARED_LIB_DIR "${LIBRARY_OUTPUT_BASE_DIR}/${OS_NAME}/${ARCHITECTURE}/$<CONFIG>/shared")
+    set(OLLIB_SHARED_LIB_DIR "${LIBRARY_OUTPUT_BASE_DIR}/shared")
+    # 单配置：CMAKE_BUILD_TYPE
+    if(NOT DEFINED CMAKE_CONFIGURATION_TYPES)
+        set(OLLIB_SHARED_LIB_DIR "${OLLIB_SHARED_LIB_DIR}/${CMAKE_BUILD_TYPE}")
+    endif()
     add_library(ol_shared SHARED $<TARGET_OBJECTS:ol_object>)
     set_target_properties(ol_shared PROPERTIES
         OUTPUT_NAME "ol"

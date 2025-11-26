@@ -39,7 +39,7 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src OLDB_ORACLE_SRC)
 # ===================== </源文件> =====================
 
 # ===================== <输出路径> =====================
-set(LIBRARY_OUTPUT_BASE_DIR "${CMAKE_CURRENT_BINARY_DIR}/lib")
+set(LIBRARY_OUTPUT_BASE_DIR "${CMAKE_CURRENT_BINARY_DIR}/lib/${OS_NAME}/${ARCHITECTURE}")
 # ===================== </输出路径> =====================
 
 # ===================== <OBJECT 库> =====================
@@ -63,7 +63,11 @@ endif()
 
 # ===================== 静态库配置 =====================
 if(OLDB_ORACLE_BUILD_STATIC_LIBS)
-    set(OLDB_ORACLE_STATIC_LIB_DIR "${LIBRARY_OUTPUT_BASE_DIR}/${OS_NAME}/${ARCHITECTURE}/$<CONFIG>/static")
+    set(OLDB_ORACLE_STATIC_LIB_DIR "${LIBRARY_OUTPUT_BASE_DIR}/static")
+    # 单配置：CMAKE_BUILD_TYPE
+    if(NOT DEFINED CMAKE_CONFIGURATION_TYPES)
+        set(OLDB_ORACLE_STATIC_LIB_DIR "${OLDB_ORACLE_STATIC_LIB_DIR}/${CMAKE_BUILD_TYPE}")
+    endif()
     add_library(oldb_oracle_static STATIC  $<TARGET_OBJECTS:oldb_oracle_object>)
     set_target_properties(oldb_oracle_static PROPERTIES
         OUTPUT_NAME "oldb_oracle"
@@ -78,7 +82,11 @@ endif()
 
 # ===================== 动态库配置 =====================
 if(OLDB_ORACLE_BUILD_SHARED_LIBS)
-    set(OLDB_ORACLE_SHARED_LIB_DIR "${LIBRARY_OUTPUT_BASE_DIR}/${OS_NAME}/${ARCHITECTURE}/$<CONFIG>/shared")
+    set(OLDB_ORACLE_SHARED_LIB_DIR "${LIBRARY_OUTPUT_BASE_DIR}/shared")
+    # 单配置：CMAKE_BUILD_TYPE
+    if(NOT DEFINED CMAKE_CONFIGURATION_TYPES)
+        set(OLDB_ORACLE_SHARED_LIB_DIR "${OLDB_ORACLE_SHARED_LIB_DIR}/${CMAKE_BUILD_TYPE}")
+    endif()
     add_library(oldb_oracle_shared SHARED  $<TARGET_OBJECTS:oldb_oracle_object>)
     set_target_properties(oldb_oracle_shared PROPERTIES
         OUTPUT_NAME "oldb_oracle"
