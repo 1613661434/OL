@@ -8,7 +8,7 @@
 #include <iostream>
 
 using namespace std;
-using namespace ol;
+using namespace ol::mysql;
 
 int main(int argc, char* argv[])
 {

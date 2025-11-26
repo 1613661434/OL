@@ -5,7 +5,7 @@
 #include "ol_mysql.h" // 开发框架操作MySQL的头文件。
 
 using namespace std;
-using namespace ol;
+using namespace ol::mysql;
 
 int main(int argc, char* argv[])
 {

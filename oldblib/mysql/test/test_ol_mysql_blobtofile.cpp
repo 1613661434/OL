@@ -9,7 +9,7 @@
 #include <sys/stat.h> // 用于获取文件大小
 
 using namespace std;
-using namespace ol;
+using namespace ol::mysql;
 
 // 辅助函数：检查文件是否存在
 bool file_exists(const string& path)

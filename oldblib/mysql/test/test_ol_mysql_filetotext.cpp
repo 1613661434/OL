@@ -8,7 +8,7 @@
 #include <sys/stat.h>
 
 using namespace std;
-using namespace ol;
+using namespace ol::mysql;
 
 // 获取文件大小
 long get_file_size(const string& filename)

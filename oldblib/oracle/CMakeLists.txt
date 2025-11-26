@@ -1,30 +1,5 @@
-cmake_minimum_required(VERSION 3.10)
+# OL/oldblib/oracle/CMakeLists.txt
 project(oldblib_oracle)
-
-# C++标准
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# 构建类型默认值
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
-endif()
-
-# Debug模式(默认注释，不启用)
-# set(CMAKE_BUILD_TYPE Debug)
-
-# 平台编译选项
-if(MSVC)
-    # Visual Studio 选项
-    set(COMMON_FLAGS "/W3 /D_CRT_SECURE_NO_WARNINGS")
-else()
-    # MinGW/GCC 选项
-    set(COMMON_FLAGS "-Wall -D_GLIBCXX_USE_CXX11_ABI=1")  # 移除 -Wno-write-strings（可选）
-endif()
-
-# 应用优化/调试选项
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2 ${COMMON_FLAGS}")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g ${COMMON_FLAGS}")
 
 # Oracle环境检查（区分平台）
 if(WIN32)
@@ -37,63 +12,93 @@ if(WIN32)
     set(OCI_INCLUDE "${ORACLE_BASE}/sdk/include")
     set(OCI_LIB "${ORACLE_BASE}/sdk/lib/msvc")  # MSVC库路径
 else()
-    # Linux：原配置
-    if(NOT DEFINED ENV{ORACLE_HOME})
-        message(FATAL_ERROR "请设置ORACLE_HOME环境变量")
+    # Linux：（默认或环境变量）
+    if(DEFINED ENV{ORACLE_HOME})
+        set(ORACLE_BASE $ENV{ORACLE_HOME})
+    else()
+        set(ORACLE_BASE "/opt/oracle/instantclient_19_18") # 默认路径
     endif()
     set(OCI_INCLUDE "$ENV{ORACLE_HOME}/rdbms/public")
     set(OCI_LIB "$ENV{ORACLE_HOME}/lib")
 endif()
 
-# Oracle头文件和库路径
+# 验证Oracle路径
+if(NOT EXISTS ${OCI_INCLUDE})
+    message(FATAL_ERROR "Oracle include directory not found: ${OCI_INCLUDE}")
+endif()
+
+# Oracle/oldb头文件和库路径
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${OCI_INCLUDE}
 )
 link_directories(${OCI_LIB})
 
-# 源文件
-set(OLDB_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/ol_oci.cpp)
+# ===================== <源文件> =====================
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src OLDB_ORACLE_SRC)
+# ===================== </源文件> =====================
 
-# 输出路径（区分平台）
+# ===================== <输出路径> =====================
+set(LIBRARY_OUTPUT_BASE_DIR "${CMAKE_CURRENT_BINARY_DIR}/lib")
+# ===================== </输出路径> =====================
+
+# ===================== <OBJECT 库> =====================
+## 生成 OBJECT 库（仅编译源文件为 .o/.obj，不生成库文件）
+## 包含所有库源文件 + ftplib 源文件
+set(OLDB_ORACLE_OBJECT_SOURCES ${OLDB_ORACLE_SRC})
+add_library(oldb_oracle_object OBJECT ${OLDB_ORACLE_OBJECT_SOURCES})
+
+## OBJECT 库添加动态库所需的 fPIC 选项（跨平台兼容）
+set_target_properties(oldb_oracle_object PROPERTIES
+    POSITION_INDEPENDENT_CODE ON
+    WINDOWS_EXPORT_ALL_SYMBOLS ON  # 继承动态库的符号导出配置
+)
+
 if(WIN32)
-    set(OLDB_STATIC_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/win32/static)
-    set(OLDB_SHARED_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/win32/shared)
+    target_link_libraries(oldb_oracle_object PRIVATE oci)  # Windows链接oci.lib
 else()
-    set(OLDB_STATIC_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/linux/static)
-    set(OLDB_SHARED_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/linux/shared)
+    target_link_libraries(oldb_oracle_object PRIVATE clntsh)  # Linux链接clntsh
 endif()
-file(MAKE_DIRECTORY ${OLDB_STATIC_LIB_DIR} ${OLDB_SHARED_LIB_DIR})
+# ===================== </OBJECT 库> =====================
 
 # ===================== 静态库配置 =====================
-add_library(oldb_static STATIC ${OLDB_SRC})
-set_target_properties(oldb_static PROPERTIES
-    OUTPUT_NAME "oldb"
-    ARCHIVE_OUTPUT_DIRECTORY ${OLDB_STATIC_LIB_DIR}
-)
-if(WIN32)
-    target_link_libraries(oldb_static PRIVATE oci)  # Windows链接oci.lib
-else()
-    target_link_libraries(oldb_static PRIVATE clntsh)  # Linux链接clntsh
+if(OLDB_ORACLE_BUILD_STATIC_LIBS)
+    set(OLDB_ORACLE_STATIC_LIB_DIR "${LIBRARY_OUTPUT_BASE_DIR}/${OS_NAME}/${ARCHITECTURE}/$<CONFIG>/static")
+    add_library(oldb_oracle_static STATIC  $<TARGET_OBJECTS:oldb_oracle_object>)
+    set_target_properties(oldb_oracle_static PROPERTIES
+        OUTPUT_NAME "oldb_oracle"
+        ARCHIVE_OUTPUT_DIRECTORY ${OLDB_ORACLE_STATIC_LIB_DIR}
+    )
+    if(WIN32)
+        target_link_libraries(oldb_oracle_static PRIVATE oci ws2_32)  # Windows链接oci.lib + Windows系统库ws2_32
+    else()
+        target_link_libraries(oldb_oracle_static PRIVATE clntsh)  # Linux链接clntsh
+    endif()
 endif()
 
 # ===================== 动态库配置 =====================
-add_library(oldb_shared SHARED ${OLDB_SRC})
-set_target_properties(oldb_shared PROPERTIES
-    OUTPUT_NAME "oldb"
-    LIBRARY_OUTPUT_DIRECTORY ${OLDB_SHARED_LIB_DIR}  # Linux .so
-    RUNTIME_OUTPUT_DIRECTORY ${OLDB_SHARED_LIB_DIR}  # Windows .dll
-    POSITION_INDEPENDENT_CODE ON
-    WINDOWS_EXPORT_ALL_SYMBOLS ON  # Windows自动导出符号
-)
-if(WIN32)
-    target_link_libraries(oldb_shared PRIVATE oci)  # Windows链接oci.lib
-else()
-    target_link_libraries(oldb_shared PRIVATE clntsh)  # Linux链接clntsh
+if(OLDB_ORACLE_BUILD_SHARED_LIBS)
+    set(OLDB_ORACLE_SHARED_LIB_DIR "${LIBRARY_OUTPUT_BASE_DIR}/${OS_NAME}/${ARCHITECTURE}/$<CONFIG>/shared")
+    add_library(oldb_oracle_shared SHARED  $<TARGET_OBJECTS:oldb_oracle_object>)
+    set_target_properties(oldb_oracle_shared PROPERTIES
+        OUTPUT_NAME "oldb_oracle"
+        LIBRARY_OUTPUT_DIRECTORY ${OLDB_ORACLE_SHARED_LIB_DIR} # Linux.so / macOS.dylib / Windows 动态库导入库 .lib 输出路径
+        RUNTIME_OUTPUT_DIRECTORY ${OLDB_ORACLE_SHARED_LIB_DIR} # Windows.dll / 所有平台可执行文件 输出路径（当前用于动态库 .dll）
+        POSITION_INDEPENDENT_CODE ON  # -fPIC（跨平台兼容）
+        WINDOWS_EXPORT_ALL_SYMBOLS ON  # Windows自动导出符号
+    )
+    if(WIN32)
+        target_link_libraries(oldb_oracle_shared PRIVATE oci ws2_32)  # Windows链接oci.lib + Windows系统库ws2_32
+    else()
+        target_link_libraries(oldb_oracle_shared PRIVATE clntsh)  # Linux链接clntsh
+    endif()
 endif()
 
 # 静态库别名
-add_library(oldb ALIAS oldb_static)
+add_library(oldb_oracle ALIAS oldb_oracle_object)
 
 # 引入测试目录
-add_subdirectory(test)
+if(OLDB_ORACLE_WITH_TESTS)
+    enable_testing()
+    add_subdirectory(test)
+endif()

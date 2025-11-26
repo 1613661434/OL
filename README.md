@@ -24,17 +24,19 @@
 
 * `ollib`：基础工具库，覆盖高频基础功能及 Linux 专属网络库：
 
+
   * 基础能力：文件 IO、时间处理、字符串操作、线程池、数据结构（哈希、前缀树等）；
 
   * **主从 Reactor 多线程网络库（仅限 Linux）**：路径`ollib/include/ol_net`/`ollib/src/ol_net`，基于 epoll 实现，支持非阻塞 IO、边缘触发（ET），核心架构为 “1 个主 Reactor 监听连接 + N 个从 Reactor 处理 IO 事件”，支持连接管理、报文缓冲区、事件驱动回调，适用于高并发网络场景（如服务器开发）。
 
 * `oldblib`：多数据库交互模块，统一接口风格，支持两种主流数据库：
 
+
   * `oldblib/mysql`：MySQL 交互，基于 MySQL C API 封装，支持连接管理、SQL 执行、BLOB/TEXT 大字段操作；
 
   * `oldblib/oracle`：Oracle 交互，基于 OCI 接口封装，支持连接管理、SQL 执行、BLOB/CLOB 大字段操作。
 
-* `ol_ftp`：FTP 客户端模块，基于内置[ftplib](https://github.com/codebrainz/ftplib)（路径`third_party/ftplib`），支持文件上传 / 下载、目录操作、文件列表获取。
+* `ol_ftp`：FTP 客户端模块，基于内置[ft](https://github.com/codebrainz/ftplib)[plib](https://github.com/codebrainz/ftplib)（路径`third_party/ftplib`），支持文件上传 / 下载、目录操作、文件列表获取。
 
 ## 📚 代码文档规范
 
@@ -48,7 +50,7 @@
 
 ### 示例注释风格
 
-```cpp
+```
 /**
  * @brief 根据绝对路径逐级创建目录
  * @param pathorfilename 绝对路径的文件名或目录名
@@ -68,6 +70,7 @@ bool newdir(const std::string& pathorfilename, bool bisfilename = true);
 
 * 操作系统：
 
+
   * 网络库：**仅限 Linux（内核 2.6+，需支持 epoll）**；
 
   * 其他模块：Windows 10+/Linux CentOS 7+/Ubuntu 18.04+。
@@ -81,6 +84,58 @@ bool newdir(const std::string& pathorfilename, bool bisfilename = true);
 | `oldblib/oracle` | Oracle 客户端（11g+），需配置`ORACLE_HOME`环境变量                            |
 | `ol_ftp`         | 内置 ftplib，无需额外安装                                                 |
 
+## 🔧 CMake 缓存变量说明
+
+所有变量可通过 `cmake -D<变量名>=<值>` 命令行配置（覆盖默认值），用于灵活控制编译行为。变量分类如下：
+
+### 1. 通用配置变量
+
+| 变量名                | 默认值     | 可选值                                     | 作用描述                                        |
+| ------------------ | ------- | --------------------------------------- | ------------------------------------------- |
+| `CMAKE_BUILD_TYPE` | Release | Debug/Release/RelWithDebInfo/MinSizeRel | 构建类型（单配置生成器如 MinGW/Linux 必需，多配置如 MSVC 无需指定） |
+| `ENABLE_WARNINGS`  | ON      | ON/OFF                                  | 是否启用编译器警告（推荐开启，便于发现潜在问题）                    |
+| `OS_NAME`          | 自动识别    | windows/linux/macos                     | 操作系统名称（自动识别，无需手动设置）                         |
+| `ARCHITECTURE`     | 自动识别    | x64/x86                                 | 架构（64 位 / 32 位，自动识别，无需手动设置）                 |
+
+### 2. `ollib` 库配置变量
+
+| 变量名                    | 默认值 | 可选值    | 作用描述                                  |
+| ---------------------- | --- | ------ | ------------------------------------- |
+| `OL_WITH_TESTS`        | OFF | ON/OFF | 是否编译 `ollib` 的测试程序（如线程池、网络库测试）        |
+| `OL_BUILD_STATIC_LIBS` | ON  | ON/OFF | 是否生成 `ollib` 静态库（`libol.a`/`ol.lib`）  |
+| `OL_BUILD_SHARED_LIBS` | ON  | ON/OFF | 是否生成 `ollib` 动态库（`libol.so`/`ol.dll`） |
+
+### 3. `oldblib` 数据库模块配置变量
+
+#### MySQL 模块（需依赖环境变量`MYSQL_HOME`）
+
+| 变量名                            | 默认值 | 可选值    | 作用描述                                                  |
+| ------------------------------ | --- | ------ | ----------------------------------------------------- |
+| `OLDB_MYSQL_WITH_TESTS`        | OFF | ON/OFF | 是否编译 MySQL 模块的测试程序                                    |
+| `OLDB_MYSQL_BUILD_STATIC_LIBS` | OFF | ON/OFF | 是否生成 MySQL 模块静态库（`liboldb_mysql.a`/`oldb_mysql.lib`）  |
+| `OLDB_MYSQL_BUILD_SHARED_LIBS` | OFF | ON/OFF | 是否生成 MySQL 模块动态库（`liboldb_mysql.so`/`oldb_mysql.dll`） |
+
+#### Oracle 模块（需依赖环境变量`ORACLE_HOME`）
+
+| 变量名                             | 默认值 | 可选值    | 作用描述                                                     |
+| ------------------------------- | --- | ------ | -------------------------------------------------------- |
+| `OLDB_ORACLE_WITH_TESTS`        | OFF | ON/OFF | 是否编译 Oracle 模块的测试程序                                      |
+| `OLDB_ORACLE_BUILD_STATIC_LIBS` | OFF | ON/OFF | 是否生成 Oracle 模块静态库（`liboldb_oracle.a`/`oldb_oracle.lib`）  |
+| `OLDB_ORACLE_BUILD_SHARED_LIBS` | OFF | ON/OFF | 是否生成 Oracle 模块动态库（`liboldb_oracle.so`/`oldb_oracle.dll`） |
+
+### 变量使用示例
+
+```bash
+# 示例1：Linux 下编译 Debug 版本 + 启用 ollib 测试 + 仅生成静态库
+cmake .. -DCMAKE_BUILD_TYPE=Debug -DOL_WITH_TESTS=ON -DOL_BUILD_SHARED_LIBS=OFF
+
+# 示例2：Windows MinGW 下编译 Release 版本 + 启用 MySQL 模块 + 生成动态库
+cmake .. -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DOLDB_MYSQL_BUILD_SHARED_LIBS=ON
+
+# 示例3：禁用所有警告 + 同时生成 ollib 和 MySQL 静态库
+cmake .. -DENABLE_WARNINGS=OFF -DOL_BUILD_STATIC_LIBS=ON -DOLDB_MYSQL_BUILD_STATIC_LIBS=ON
+```
+
 ## 📝 编码与格式规范
 
 1. **字符集**：所有文件（`.h`/`.cpp`/`.cmake`）均采用 **UTF-8（无 BOM）**，避免多语言字符乱码；
@@ -91,13 +146,9 @@ bool newdir(const std::string& pathorfilename, bool bisfilename = true);
 
 ```json
 {
-
 "files.encoding": "utf8",
-
 "files.eol": "\n",
-
 "files.trimTrailingWhitespace": true
-
 }
 ```
 
@@ -107,79 +158,60 @@ bool newdir(const std::string& pathorfilename, bool bisfilename = true);
 
 ```bash
 # 1. 克隆仓库
-
 git clone https://github.com/1613661434/OL.git
-
 cd OL
 
 # 2. 创建构建目录（推荐out-of-source构建）
-
 mkdir build && cd build
 
-# 3. 生成Makefile（自动编译网络库及其他模块）
-
-cmake ..
+# 3. 生成Makefile（可添加缓存变量自定义配置）
+cmake ..  # 示例：启用测试 + 仅静态库 → cmake .. -DOL_WITH_TESTS=ON -DOL_BUILD_SHARED_LIBS=OFF
 
 # 4. 并行编译（-j后接核心数，如-j4）
-
 make -j4
 
 # 5. 输出路径
-
-# - 静态库：ollib/lib/linux/static/（含网络库代码）
-
-# - 动态库：ollib/lib/linux/shared/（含网络库代码）
-
-# - 网络库测试程序：ollib/test/bin/linux/ol_net/（test_ol_echoserver等）
-
-# - 其他测试程序：各自test/bin/linux/目录下
+# - 静态库：ollib/lib/linux/x64/<CONFIG>/static/（含网络库代码）
+# - 动态库：ollib/lib/linux/x64/<CONFIG>/shared/（含网络库代码）
+# - 网络库测试程序：ollib/test/bin/linux/x64/<CONFIG>/ol_net/（test_ol_echoserver等）
+# - 其他测试程序：各自test/bin/linux/x64/<CONFIG>/目录下
 ```
 
 ### Windows 平台（不含网络库）
 
 #### MSVC 编译
 
-```powershell
+```bash
 # 1. 克隆仓库
-
 git clone https://github.com/1613661434/OL.git
-
 cd OL
 
 # 2. 创建构建目录
-
 mkdir build && cd build
 
-# 3. 生成VS项目（以VS2022 x64为例）
+# 3. 生成MinGW Makefile（可添加缓存变量）
+cmake .. -G "MinGW Makefiles"  # 示例：Debug模式 → -DCMAKE_BUILD_TYPE=Debug
 
-cmake .. -G "Visual Studio 17 2022" -A x64
+# 4. 并行编译
+mingw32-make -j4
 
-# 4. 编译（或打开OL.sln手动编译）
-
-msbuild OL.sln /p:Configuration=Release /p:Platform=x64 /m
-
-# 5. 输出路径：仅编译基础模块与数据库模块，无网络库
+# 5. 输出路径：仅基础模块与数据库模块，无网络库
 ```
 
 #### MinGW 编译
 
-```powershell
+```bash
 # 1. 克隆仓库
-
 git clone https://github.com/1613661434/OL.git
-
 cd OL
 
 # 2. 创建构建目录
-
 mkdir build && cd build
 
-# 3. 生成MinGW Makefile
-
-cmake .. -G "MinGW Makefiles"
+# 3. 生成MinGW Makefile（可添加缓存变量）
+cmake .. -G "MinGW Makefiles"  # 示例：Debug模式 → -DCMAKE_BUILD_TYPE=Debug
 
 # 4. 并行编译
-
 mingw32-make -j4
 
 # 5. 输出路径：仅基础模块与数据库模块，无网络库
@@ -196,7 +228,9 @@ mingw32-make -j4
 4. **许可证合规**：使用 / 分发本项目时，需按 CC BY 4.0 要求注明来源及许可证链接。
 
 ### 终端乱码解决
+
 若 Windows PowerShell 出现中文乱码，可临时设置 UTF-8 字符集：
+
 ```powershell
 # 设置代码页为 UTF-8 并统一输入输出编码
 chcp 65001 | Out-Null
@@ -208,7 +242,7 @@ $OutputEncoding
 
 ## 📋 目录结构说明
 
-```shell
+```bash
 OL
 ├───oldblib               # 数据库交互模块
 │   ├───mysql             # MySQL子模块（include/lib/src/test）
@@ -248,7 +282,7 @@ OL
 | `EventLoop`  | 事件循环核心，管理`epoll`实例与注册的事件回调（读 / 写 / 关闭）                    |
 | `Acceptor`   | 主 Reactor 专属，监听新连接，生成`SocketFd`后传递给从 Reactor 的`EventLoop` |
 | `Connection` | 管理单个 TCP 连接，封装`fd`、输入 / 输出缓冲区（`Buffer`）及 IO 回调            |
-| `Buffer`     | 网络缓冲区，支持报文分隔符（四字节长度 `\r\n\r\n`）、从 fd 直接读数据               |
+| `Buffer`     | 网络缓冲区，支持报文分隔符（四字节长度 `\r\n\r\n`）、从 fd 直接读数据                |
 | `TcpServer`  | 网络服务端入口，封装主从 Reactor 初始化、连接管理、回调注册（新连接 / 消息 / 关闭）         |
 
 ### 3. 典型使用场景

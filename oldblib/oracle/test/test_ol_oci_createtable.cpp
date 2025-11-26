@@ -5,7 +5,7 @@
 #include "ol_oci.h" // 开发框架操作Oracle的头文件。
 
 using namespace std;
-using namespace ol;
+using namespace ol::oracle;
 
 int main(int argc, char* argv[])
 {

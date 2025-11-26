@@ -10,7 +10,7 @@
 #include <sys/stat.h> // 用于获取文件大小
 
 using namespace std;
-using namespace ol;
+using namespace ol::mysql;
 
 // 获取文件大小的辅助函数
 long get_file_size(const string& filename)
