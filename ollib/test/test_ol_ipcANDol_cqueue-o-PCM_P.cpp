@@ -7,11 +7,14 @@
 #error "仅支持Linux平台，不支持当前系统！"
 #endif
 
-#include "ol_public.h"
+#include "ol_cqueue.h"
+#include "ol_ipc.h"
 #include <iostream>
 
 using namespace ol;
 using namespace std;
+
+#define LOOP_COUNT 5
 
 struct Sgirl
 {
@@ -27,9 +30,9 @@ struct Sgirl
 
 int main()
 {
-    using shmtype = cqueue<Sgirl, 5>;
+    using shmtype = cqueue<Sgirl, 15>;
 
-    // 1.获取共享内存id
+    // 获取共享内存id
     int shmid = shmget(0x5005, sizeof(shmtype), 0640 | IPC_CREAT);
     if (shmid == -1)
     {
@@ -37,7 +40,7 @@ int main()
         return -1;
     }
 
-    // 2.将共享内存连接到当前进程的地址空间
+    // 将共享内存连接到当前进程的地址空间
     shmtype* CQptr = (shmtype*)shmat(shmid, 0, 0);
     if (CQptr == (void*)-1)
     {
@@ -45,10 +48,10 @@ int main()
         return -1;
     }
 
-    // 3.循环队列初始化
+    // 循环队列初始化
     CQptr->init();
 
-    // 4.设置信号量
+    // 设置信号量
     csemp mutex; // 互斥锁
     mutex.init(0x5001);
 
@@ -58,25 +61,28 @@ int main()
     csemp hav_emp; // 空位数
     hav_emp.init(0x5003, 5, 0);
 
-    // 5.空位数-1
-    hav_emp.wait();
+    for (int i = 1; i <= LOOP_COUNT; ++i)
+    {
+        // 空位数-1
+        hav_emp.wait();
 
-    // 6.上锁
-    mutex.wait();
+        // 上锁
+        mutex.wait();
 
-    // 7.生产数据1
-    CQptr->push(Sgirl(1, "西施"));
+        // 生产数据1
+        CQptr->push(Sgirl(i, "西施"));
 
-    // 8.开锁
-    mutex.post();
+        // 开锁
+        mutex.post();
 
-    // 9.资源数+1
-    hav_ele.post();
+        // 资源数+1
+        hav_ele.post();
+    }
 
-    // 10.脱离共享内存
+    // 脱离共享内存
     shmdt(CQptr);
 
-    // 11.删除共享内存
+    // 删除共享内存
     //  if(shmctl(shmid,IPC_RMID,0)==-1){
     //  	cerr << "shmctl(IPC_RMID) fail\n";
     //  	return -1;
