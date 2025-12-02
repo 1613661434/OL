@@ -19,7 +19,7 @@ if((NOT DEFINED CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "") AND NOT DEFINE
         FORCE)  # FORCE 强制覆盖已定义但为空的情况
 endif()
 
-# ===================== <option> =====================
+# ===================== <Options> =====================
 # 统一：控制是否开启警告（默认开启）
 option(ENABLE_WARNINGS "Enable compiler warnings (recommended)" ON)
 
@@ -38,7 +38,7 @@ option(OLDB_MYSQL_BUILD_SHARED_LIBS "Build oldb_lib as a shared library." OFF)
 option(OLDB_ORACLE_WITH_TESTS "Compile and (for oldb_check) run OLDB test executables" OFF)
 option(OLDB_ORACLE_BUILD_STATIC_LIBS "Build oldb_lib as a static library." OFF)
 option(OLDB_ORACLE_BUILD_SHARED_LIBS "Build oldb_lib as a shared library." OFF)
-# ===================== </option> =====================
+# ===================== </Options> =====================
 
 # 跨平台字符集配置：统一使用UTF-8
 if(MSVC)
