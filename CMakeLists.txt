@@ -30,14 +30,14 @@ option(OL_BUILD_SHARED_LIBS "Build ol_lib as a shared library." ON)
 
 # OLDB库相关
 ## MYSQL
-option(OLDB_MYSQL_WITH_TESTS "Compile and (for oldb_check) run OLDB test executables" OFF)
-option(OLDB_MYSQL_BUILD_STATIC_LIBS "Build oldb_lib as a static library." OFF)
-option(OLDB_MYSQL_BUILD_SHARED_LIBS "Build oldb_lib as a shared library." OFF)
+option(OLDB_MYSQL_WITH_TESTS "Compile and (for oldb_mysql_check) run OLDB_MYSQL test executables" OFF)
+option(OLDB_MYSQL_BUILD_STATIC_LIBS "Build oldb_mysql_lib as a static library." OFF)
+option(OLDB_MYSQL_BUILD_SHARED_LIBS "Build oldb_mysql_lib as a shared library." OFF)
 
 ## ORACLE
-option(OLDB_ORACLE_WITH_TESTS "Compile and (for oldb_check) run OLDB test executables" OFF)
-option(OLDB_ORACLE_BUILD_STATIC_LIBS "Build oldb_lib as a static library." OFF)
-option(OLDB_ORACLE_BUILD_SHARED_LIBS "Build oldb_lib as a shared library." OFF)
+option(OLDB_ORACLE_WITH_TESTS "Compile and (for oldb_oracle_check) run OLDB_ORACLE test executables" OFF)
+option(OLDB_ORACLE_BUILD_STATIC_LIBS "Build oldb_oracle_lib as a static library." OFF)
+option(OLDB_ORACLE_BUILD_SHARED_LIBS "Build oldb_oracle_lib as a shared library." OFF)
 # ===================== </Options> =====================
 
 # 跨平台字符集配置：统一使用UTF-8
