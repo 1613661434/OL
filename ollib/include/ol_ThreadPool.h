@@ -161,7 +161,7 @@ namespace ol
             }
 
             // 启动管理者线程
-            m_dynamic.managerThread = std::thread(&ThreadPool<IsDynamic>::manager, this);
+            m_dynamic.managerThread = std::thread(&ThreadPool<IsDynamic>::manager<IsDynamic>, this);
 #ifdef DEBUG
             printf("构造函数：新管理者线程ID：%zu\n", m_dynamic.managerThread.get_id());
 #endif
