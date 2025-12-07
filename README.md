@@ -50,7 +50,7 @@
 
 ### 示例注释风格
 
-```
+```cpp
 /**
  * @brief 根据绝对路径逐级创建目录
  * @param pathorfilename 绝对路径的文件名或目录名
@@ -94,8 +94,6 @@ bool newdir(const std::string& pathorfilename, bool bisfilename = true);
 | ------------------ | ------- | --------------------------------------- | ------------------------------------------- |
 | `CMAKE_BUILD_TYPE` | Release | Debug/Release/RelWithDebInfo/MinSizeRel | 构建类型（单配置生成器如 MinGW/Linux 必需，多配置如 MSVC 无需指定） |
 | `ENABLE_WARNINGS`  | ON      | ON/OFF                                  | 是否启用编译器警告（推荐开启，便于发现潜在问题）                    |
-| `OS_NAME`          | 自动识别    | windows/linux/macos                     | 操作系统名称（自动识别，无需手动设置）                         |
-| `ARCHITECTURE`     | 自动识别    | x64/x86                                 | 架构（64 位 / 32 位，自动识别，无需手动设置）                 |
 
 ### 2. `ollib` 库配置变量
 
@@ -189,13 +187,12 @@ cd OL
 # 2. 创建构建目录
 mkdir build && cd build
 
-# 3. 生成MinGW Makefile（可添加缓存变量）
-cmake .. -G "MinGW Makefiles"  # 示例：Debug模式 → -DCMAKE_BUILD_TYPE=Debug
+# 3. 生成.sln文件（可添加缓存变量）
+cmake .. -G"Visual Studio 17 2022"  # 示例：Debug模式 → -DCMAKE_BUILD_TYPE=Debug
 
-# 4. 并行编译
-mingw32-make -j4
+# 4. VS2022打开进行编译
 
-# 5. 输出路径：仅基础模块与数据库模块，无网络库
+# 5. 输出：仅基础模块与数据库模块，无网络库
 ```
 
 #### MinGW 编译
@@ -214,7 +211,7 @@ cmake .. -G "MinGW Makefiles"  # 示例：Debug模式 → -DCMAKE_BUILD_TYPE=Deb
 # 4. 并行编译
 mingw32-make -j4
 
-# 5. 输出路径：仅基础模块与数据库模块，无网络库
+# 5. 输出：仅基础模块与数据库模块，无网络库
 ```
 
 ## ⚠️ 注意事项
