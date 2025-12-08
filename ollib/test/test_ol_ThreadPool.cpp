@@ -151,7 +151,7 @@ void runFixedCommonTests(size_t threadNum, size_t maxQueueSize)
     std::vector<std::future<int>> subtractFutures;
     for (int i = 1; i <= 5; ++i)
     {
-        subtractFutures.emplace_back(pool.submitTask(subtract100, i));
+        subtractFutures.emplace_back(pool.submitTask(subtract100, i).second);
     }
 
     // 获取并验证结果
@@ -181,7 +181,7 @@ void runFixedCommonTests(size_t threadNum, size_t maxQueueSize)
     {
         int start = i * 1000;
         int end = start + 999;
-        sumFutures.emplace_back(pool.submitTask(sumRange, start, end));
+        sumFutures.emplace_back(pool.submitTask(sumRange, start, end).second);
         safePrint("添加任务: 计算 %d 到 %d 的总和\n", start, end);
     }
 
@@ -225,7 +225,7 @@ void runDynamicCommonTests(size_t minThreadNum, size_t maxThreadNum,
     std::vector<std::future<int>> subtractFutures;
     for (int i = 1; i <= 5; ++i)
     {
-        subtractFutures.emplace_back(pool.submitTask(subtract100, i));
+        subtractFutures.emplace_back(pool.submitTask(subtract100, i).second);
     }
 
     // 获取并验证结果
@@ -255,7 +255,7 @@ void runDynamicCommonTests(size_t minThreadNum, size_t maxThreadNum,
     {
         int start = i * 1000;
         int end = start + 999;
-        sumFutures.emplace_back(pool.submitTask(sumRange, start, end));
+        sumFutures.emplace_back(pool.submitTask(sumRange, start, end).second);
         safePrint("添加任务: 计算 %d 到 %d 的总和\n", start, end);
     }
 
@@ -290,7 +290,7 @@ void testFixedQueuePolicies(size_t threadNum, size_t maxQueueSize)
         bool success = pool.addTask(std::bind(longRunningTask, i));
         if (success)
         {
-            rejectSuccessAdd++;
+            ++rejectSuccessAdd;
             safePrint("拒绝策略-add: 任务 %d 添加成功\n", i);
         }
         else
@@ -301,30 +301,28 @@ void testFixedQueuePolicies(size_t threadNum, size_t maxQueueSize)
 
     // 测试submitTask在拒绝策略下的行为
     std::vector<std::future<int>> rejectFutures;
-    // 提交所有任务（submitTask不再抛异常，全部收集future）
+    // 提交所有任务
     for (int i = 10; i < 15; ++i)
     {
-        auto future = pool.submitTask(add1000, i); // 这里不再抛异常
-        rejectFutures.push_back(std::move(future));
+        auto [success, future] = pool.submitTask(add1000, i);
+        if (success)
+        {
+            ++rejectSuccessSubmit;
+            rejectFutures.push_back(std::move(future));
+            safePrint("拒绝策略-submit: 任务 %d 添加成功\n", i);
+        }
+        else
+        {
+            safePrint("拒绝策略-submit: 任务 %d 添加失败\n", i);
+        }
     }
 
     // 验证结果并统计成功数
-    rejectSuccessSubmit = 0; // 重置计数
     for (size_t j = 0; j < rejectFutures.size(); ++j)
     {
         int taskId = 10 + j;
-        try
-        {
-            int result = rejectFutures[j].get(); // 异常在这里抛出
-            // 能走到这里说明提交成功且执行成功
-            rejectSuccessSubmit++;
-            safePrint("拒绝策略-submit: 任务 %d 执行成功（结果: %d）\n", taskId, result);
-            assert(result == taskId + 1000 && "加法计算错误");
-        }
-        catch (const std::exception& e)
-        {
-            safePrint("拒绝策略-submit: 任务 %d 失败（%s）\n", taskId, e.what());
-        }
+        int result = rejectFutures[j].get();
+        assert(result == taskId + 1000 && "加法计算错误");
     }
 
     safePrint("拒绝策略：add成功 %d 个，submit成功 %d 个\n",
@@ -351,7 +349,7 @@ void testDynamicQueuePolicies(size_t minThreadNum, size_t maxThreadNum,
         bool success = pool.addTask(std::bind(longRunningTask, i));
         if (success)
         {
-            rejectSuccessAdd++;
+            ++rejectSuccessAdd;
             safePrint("拒绝策略-add: 任务 %d 添加成功\n", i);
         }
         else
@@ -362,30 +360,28 @@ void testDynamicQueuePolicies(size_t minThreadNum, size_t maxThreadNum,
 
     // 测试submitTask在拒绝策略下的行为
     std::vector<std::future<int>> rejectFutures;
-    // 提交所有任务（submitTask不再抛异常，全部收集future）
+    // 提交所有任务
     for (int i = 10; i < 15; ++i)
     {
-        auto future = pool.submitTask(add1000, i);
-        rejectFutures.push_back(std::move(future));
+        auto [success, future] = pool.submitTask(add1000, i);
+        if (success)
+        {
+            ++rejectSuccessSubmit;
+            rejectFutures.push_back(std::move(future));
+            safePrint("拒绝策略-submit: 任务 %d 添加成功\n", i);
+        }
+        else
+        {
+            safePrint("拒绝策略-submit: 任务 %d 添加失败\n", i);
+        }
     }
 
     // 验证结果并统计成功数
-    rejectSuccessSubmit = 0; // 重置计数
     for (size_t j = 0; j < rejectFutures.size(); ++j)
     {
         int taskId = 10 + j;
-        try
-        {
-            int result = rejectFutures[j].get(); // 异常在这里抛出
-            // 能走到这里说明提交成功且执行成功
-            rejectSuccessSubmit++;
-            safePrint("拒绝策略-submit: 任务 %d 执行成功（结果: %d）\n", taskId, result);
-            assert(result == taskId + 1000 && "加法计算错误");
-        }
-        catch (const std::exception& e)
-        {
-            safePrint("拒绝策略-submit: 任务 %d 失败（%s）\n", taskId, e.what());
-        }
+        int result = rejectFutures[j].get();
+        assert(result == taskId + 1000 && "加法计算错误");
     }
 
     safePrint("拒绝策略：add成功 %d 个，submit成功 %d 个\n",
@@ -451,7 +447,7 @@ void testFixedStopBehavior(size_t threadNum, size_t maxQueueSize)
     try
     {
         // 线程池已停止时调用submitTask本身不会抛异常，而是返回带异常的future
-        auto future = stoppedPool.submitTask(subtract100, 5);
+        auto [success, future] = stoppedPool.submitTask(subtract100, 5);
         // 调用get()时才会触发异常
         future.get();
     }
@@ -522,7 +518,7 @@ void testDynamicStopBehavior(size_t minThreadNum, size_t maxThreadNum,
         bool submitThrew = false;
         try
         {
-            auto future = stoppedPool.submitTask(subtract100, 5);
+            auto [success, future] = stoppedPool.submitTask(subtract100, 5);
             future.get();
         }
         catch (const std::exception& e)

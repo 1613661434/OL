@@ -33,6 +33,7 @@
 #include <type_traits>
 #include <unordered_map>
 #include <vector>
+#include <utility>
 
 // #define DEBUG
 
@@ -327,6 +328,7 @@ namespace ol
          * @param task 待执行的任务（std::function<void()>类型）
          * @return 任务添加成功返回true，失败返回false（线程池已停止或队列满且策略为拒绝/超时）
          * @note 线程安全，根据当前队列策略处理满队列情况
+         * @warning 如果任务有异常虽然会将异常输出到错误流，但推荐自己包装一下函数，设置异常处理函数
          */
         bool addTask(std::function<void()> task)
         {
@@ -372,50 +374,53 @@ namespace ol
          * @tparam Args 任务函数参数类型
          * @param f 任务函数
          * @param args 任务函数参数
-         * @return 包含任务返回值的std::future对象
-         * @note 若任务添加失败，返回的future会存储对应异常（线程池停止/队列满）
+         * @return pair<是否成功添加任务的bool值, 包含任务返回值的std::future对象>
+         * @note 若任务添加失败（bool为false），调用future.get()会抛出对应异常（线程池停止/队列满）；
+         *       若任务添加成功（bool为true），future.get()会返回任务结果或抛出任务自身的异常。
          * @note 线程安全，内部调用addTask实现任务添加
          */
         template <typename F, typename... Args>
-        auto submitTask(F&& f, Args&&... args) -> std::future<typename std::invoke_result_t<F, Args...>>
+        auto submitTask(F&& f, Args&&... args) -> std::pair<bool, std::future<typename std::invoke_result_t<F, Args...>>>
         {
             using ReturnType = typename std::invoke_result_t<F, Args...>;
 
             auto task = std::make_shared<std::packaged_task<ReturnType()>>(
-                std::bind(std::forward<F>(f), std::forward<Args>(args)...));
+                [f = std::forward<F>(f), args = std::make_tuple(std::forward<Args>(args)...)]() mutable
+                {
+                    return std::apply(std::move(f), std::move(args));
+                });
 
             std::future<ReturnType> result = task->get_future();
 
-            bool success = addTask([task]()
-                                   { (*task)(); });
-            if (!success)
+            if (!addTask([task]() mutable
+                         { (*task)(); }))
             {
                 std::promise<ReturnType> promise;
                 if (m_stop)
                 {
                     promise.set_exception(std::make_exception_ptr(std::runtime_error("ThreadPool has been stopped")));
-                    return promise.get_future();
+                    return {false, promise.get_future()};
                 }
 
                 switch (m_queueFullPolicy)
                 {
                 case QueueFullPolicy::kReject:
                     promise.set_exception(std::make_exception_ptr(std::runtime_error("Task queue full (Reject policy)")));
-                    return promise.get_future();
+                    return {false, promise.get_future()};
                 case QueueFullPolicy::kBlock:
                     // 此时失败一定是因为线程池已停止（否则wait会一直等）
                     promise.set_exception(std::make_exception_ptr(std::runtime_error("Task submission failed in block policy (ThreadPool stopped)")));
-                    return promise.get_future();
+                    return {false, promise.get_future()};
                 case QueueFullPolicy::kTimeout:
                     promise.set_exception(std::make_exception_ptr(std::runtime_error("Task queue full (Timeout policy)")));
-                    return promise.get_future();
+                    return {false, promise.get_future()};
                 default:
                     promise.set_exception(std::make_exception_ptr(std::runtime_error("Task submission failed")));
-                    return promise.get_future();
+                    return {false, promise.get_future()};
                 }
             }
 
-            return result;
+            return {true, std::move(result)};
         }
 
         /**
