@@ -98,7 +98,6 @@ namespace ol
             : m_stop(false), m_maxQueueSize(maxQueueSize),
               m_queueFullPolicy(QueueFullPolicy::kReject), m_timeoutMS(std::chrono::milliseconds(500))
         {
-            static_assert(!IsDynamic, "Fixed constructor only for IsDynamic = false");
             if (threadNum == 0)
             {
                 m_stop = true;
@@ -131,7 +130,6 @@ namespace ol
             : m_stop(false), m_maxQueueSize(maxQueueSize),
               m_queueFullPolicy(QueueFullPolicy::kReject), m_timeoutMS(std::chrono::milliseconds(500))
         {
-            static_assert(IsDynamic, "Dynamic constructor only for IsDynamic=true");
             if (minThreadNum > maxThreadNum)
                 throw std::invalid_argument("Invalid thread number range");
 
