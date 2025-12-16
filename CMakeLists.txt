@@ -21,7 +21,7 @@ endif()
 
 # ===================== <Options> =====================
 # 统一：控制是否开启警告（默认开启）
-option(ENABLE_WARNINGS "Enable compiler warnings (recommended)" ON)
+option(ENABLE_WARNINGS "Enable compiler warnings (recommended)" OFF)
 
 # OL库相关
 option(OL_WITH_TESTS "Compile and (for ol_check) run OL test executables" OFF)

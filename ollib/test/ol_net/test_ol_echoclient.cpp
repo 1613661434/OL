@@ -25,8 +25,8 @@ int main(int argc, char* argv[])
 {
     if (argc != 3)
     {
-        printf("Usage: ./ol_test_echoclient ip port\n");
-        printf("Example: ./ol_test_echoclient 192.168.195.5 5085\n\n");
+        printf("Usage: ./test_ol_echoclient ip port\n");
+        printf("Example: ./test_ol_echoclient 192.168.195.5 5085\n\n");
         return -1;
     }
 

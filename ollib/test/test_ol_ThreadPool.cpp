@@ -389,54 +389,47 @@ void testDynamicQueuePolicies(size_t minThreadNum, size_t maxThreadNum,
     assert(pool.getTaskNum() == 0 && "拒绝策略任务未执行完毕");
 }
 
-// 固定模式stop方法测试
+// 固定模式stop方法测试（适配无参stop()，仅join模式）
 void testFixedStopBehavior(size_t threadNum, size_t maxQueueSize)
 {
     const std::string poolType = "固定模式";
 
-    // 测试1：stop(false)的即时性（不等待任务完成）
-    safePrint("\n=== %s stop(false)即时性测试 ===\n", poolType.c_str());
+    // 测试1：stop()的等待性（强制等待任务完成）
+    safePrint("\n=== %s stop()等待性测试 ===\n", poolType.c_str());
     ol::ThreadPool<false> stopTestPool1(threadNum, maxQueueSize);
 
-    // 提交一个长时间任务
+    // 提交一个中等时长任务（验证stop会等待完成）
     stopTestPool1.addTask([]()
-                          { std::this_thread::sleep_for(std::chrono::seconds(5)); });
-    std::this_thread::sleep_for(std::chrono::milliseconds(100)); // 确保任务已被取走执行
+                          { std::this_thread::sleep_for(std::chrono::milliseconds(300)); });
+    std::this_thread::sleep_for(std::chrono::milliseconds(50)); // 确保任务已开始执行
 
-    // 记录stop(false)调用时间（不等待任务完成）
+    // 记录stop()调用时间（强制等待任务完成）
     auto start = std::chrono::steady_clock::now();
-    stopTestPool1.stop(false); // 不等待任务，立即返回
+    stopTestPool1.stop(); // 无参stop，强制等待任务完成后返回
     auto end = std::chrono::steady_clock::now();
 
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    safePrint("stop(false) 执行耗时: %lld ms（预期 <= 500ms）\n", duration);
-    assert(duration <= 500 && "stop(false) 未及时唤醒线程");
-    assert(!stopTestPool1.isRunning() && "stop(false) 未正确停止线程池");
+    safePrint("stop() 执行耗时: %lld ms（预期 >= 250ms 且 <= 800ms）\n", duration);
+    assert(duration >= 250 && "stop() 未等待任务执行");
+    assert(duration <= 800 && "stop() 等待超时");
+    assert(!stopTestPool1.isRunning() && "stop() 未正确停止线程池");
 
-    // 测试2：stop(true)的正常等待（使用短任务）
-    safePrint("\n=== %s stop(true)等待测试 ===\n", poolType.c_str());
+    // 测试2：空任务池调用stop()的安全性
+    safePrint("\n=== %s 空任务池stop()测试 ===\n", poolType.c_str());
     ol::ThreadPool<false> stopTestPool2(threadNum, maxQueueSize);
-
-    // 提交一个短任务（200ms）
-    stopTestPool2.addTask([]()
-                          { std::this_thread::sleep_for(std::chrono::milliseconds(220)); });
-    // 缩短等待时间到50ms，确保任务已开始执行但未完成
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));
-
-    // 记录stop(true)调用时间（等待任务完成）
     start = std::chrono::steady_clock::now();
-    stopTestPool2.stop(true); // 等待任务完成后返回
+    stopTestPool2.stop(); // 空池调用stop，应快速返回
     end = std::chrono::steady_clock::now();
 
     duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    safePrint("stop(true) 执行耗时: %lld ms（预期 <= 850ms）\n", duration); // 调整预期范围
-    assert(duration <= 850 && "stop(true) 未正确等待任务完成");
-    assert(!stopTestPool2.isRunning() && "stop(true) 未正确停止线程池");
+    safePrint("空池stop() 执行耗时: %lld ms（预期 <= 200ms）\n", duration);
+    assert(duration <= 200 && "空池stop() 执行耗时过长");
+    assert(!stopTestPool2.isRunning() && "空池stop() 未正确停止线程池");
 
     // 测试3：已停止的线程池行为
     safePrint("\n=== %s 已停止线程池行为测试 ===\n", poolType.c_str());
     ol::ThreadPool<false> stoppedPool(threadNum, maxQueueSize);
-    stoppedPool.stop();
+    stoppedPool.stop(); // 先停止
 
     // 验证任务提交失败
     bool addResult = stoppedPool.addTask([]()
@@ -457,77 +450,94 @@ void testFixedStopBehavior(size_t threadNum, size_t maxQueueSize)
         safePrint("已停止线程池：submitTask正确抛出异常 - %s\n", e.what());
     }
     assert(submitThrew && "已停止线程池应拒绝submitTask任务");
+
+    // 测试4：重复调用stop()的安全性
+    safePrint("\n=== %s 重复调用stop()测试 ===\n", poolType.c_str());
+    ol::ThreadPool<false> repeatStopPool(threadNum, maxQueueSize);
+    repeatStopPool.stop();
+    start = std::chrono::steady_clock::now();
+    repeatStopPool.stop(); // 重复调用，应无副作用且快速返回
+    end = std::chrono::steady_clock::now();
+
+    duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    safePrint("重复stop() 执行耗时: %lld ms（预期 <= 200ms）\n", duration);
+    assert(duration <= 200 && "重复stop() 执行耗时过长");
+    assert(!repeatStopPool.isRunning() && "重复stop() 状态错误");
 }
 
-// 动态模式stop方法测试
+// 动态模式stop方法测试（适配无参stop()，仅join模式）
 void testDynamicStopBehavior(size_t minThreadNum, size_t maxThreadNum,
                              size_t maxQueueSize, std::chrono::seconds checkInterval)
 {
     const std::string poolType = "动态模式";
 
-    // 测试1：stop(false)的即时性（不等待任务完成）可能导致程序崩溃
-    {
-        ol::ThreadPool<true> stopTestPool1(minThreadNum, maxThreadNum, maxQueueSize, checkInterval);
+    // 测试1：stop()等待任务+管理者线程退出
+    safePrint("\n=== %s stop()等待性测试 ===\n", poolType.c_str());
+    ol::ThreadPool<true> stopTestPool1(minThreadNum, maxThreadNum, maxQueueSize, checkInterval);
 
-        // 提交一个长时间任务（1秒）
-        stopTestPool1.addTask([]()
-                              { std::this_thread::sleep_for(std::chrono::seconds(1)); });
-        std::this_thread::sleep_for(std::chrono::seconds(1)); // 确保任务已开始执行（如果时间太短，会让线程使用析构的资源导致程序崩溃）
+    // 提交任务并确保管理者线程活跃
+    stopTestPool1.addTask([]()
+                          { std::this_thread::sleep_for(std::chrono::milliseconds(300)); });
+    std::this_thread::sleep_for(std::chrono::milliseconds(50)); // 确保任务开始执行
 
-        // 记录stop(false)调用时间（不等待任务）
-        auto start = std::chrono::steady_clock::now();
-        stopTestPool1.stop(false); // 不等待任务，立即返回
-        auto end = std::chrono::steady_clock::now();
+    // 记录stop()调用时间（等待任务+管理者线程退出）
+    auto start = std::chrono::steady_clock::now();
+    stopTestPool1.stop(); // 无参stop，强制等待所有任务+管理者线程完成
+    auto end = std::chrono::steady_clock::now();
 
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-        safePrint("stop(false) 执行耗时: %lld ms（预期 <= 400ms）\n", duration);
-        assert(duration <= 400 && "stop(false) 未及时唤醒管理者线程");
-        assert(!stopTestPool1.isRunning() && "stop(false) 未正确停止线程池");
-    }
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    safePrint("stop() 执行耗时: %lld ms（预期 >= 250ms 且 <= 1000ms）\n", duration);
+    assert(duration >= 250 && "stop() 未等待任务执行");
+    assert(duration <= 1000 && "stop() 等待超时");
+    assert(!stopTestPool1.isRunning() && "stop() 未正确停止线程池");
 
-    // 测试2：stop(true)的正常等待（使用短任务）
-    {
-        ol::ThreadPool<true> stopTestPool2(minThreadNum, maxThreadNum, maxQueueSize, checkInterval);
+    // 测试2：空动态池stop()的安全性
+    safePrint("\n=== %s 空任务池stop()测试 ===\n", poolType.c_str());
+    ol::ThreadPool<true> stopTestPool2(minThreadNum, maxThreadNum, maxQueueSize, checkInterval);
+    start = std::chrono::steady_clock::now();
+    stopTestPool2.stop(); // 空池调用stop，应快速返回（管理者线程退出）
+    end = std::chrono::steady_clock::now();
 
-        // 提交一个短任务（200ms）
-        stopTestPool2.addTask([]()
-                              { std::this_thread::sleep_for(std::chrono::milliseconds(220)); });
-        std::this_thread::sleep_for(std::chrono::milliseconds(50)); // 确保任务已开始但未完成
-
-        // 记录stop(true)调用时间（等待任务完成）
-        auto start = std::chrono::steady_clock::now();
-        stopTestPool2.stop(true); // 等待任务完成后返回
-        auto end = std::chrono::steady_clock::now();
-
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-        safePrint("stop(true) 执行耗时: %lld ms（预期 < 850ms）\n", duration);
-        assert(duration <= 850 && "stop(true) 未正确等待任务完成");
-        assert(!stopTestPool2.isRunning() && "stop(true) 未正确停止线程池");
-    }
+    duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    safePrint("空池stop() 执行耗时: %lld ms（预期 <= 300ms）\n", duration);
+    assert(duration <= 300 && "空池stop() 执行耗时过长");
+    assert(!stopTestPool2.isRunning() && "空池stop() 未正确停止线程池");
 
     // 测试3：已停止的线程池行为
+    safePrint("\n=== %s 已停止线程池行为测试 ===\n", poolType.c_str());
+    ol::ThreadPool<true> stoppedPool(minThreadNum, maxThreadNum, maxQueueSize, checkInterval);
+    stoppedPool.stop(); // 主动停止
+
+    // 验证任务提交失败
+    bool addResult = stoppedPool.addTask([]()
+                                         { safePrint("此任务不应执行\n"); });
+    assert(!addResult && "已停止线程池不应接受addTask任务");
+
+    bool submitThrew = false;
+    try
     {
-        ol::ThreadPool<true> stoppedPool(minThreadNum, maxThreadNum, maxQueueSize, checkInterval);
-        stoppedPool.stop(); // 主动停止
-
-        // 验证任务提交失败
-        bool addResult = stoppedPool.addTask([]()
-                                             { safePrint("此任务不应执行\n"); });
-        assert(!addResult && "已停止线程池不应接受addTask任务");
-
-        bool submitThrew = false;
-        try
-        {
-            auto [success, future] = stoppedPool.submitTask(subtract100, 5);
-            future.get();
-        }
-        catch (const std::exception& e)
-        {
-            submitThrew = true;
-            safePrint("已停止线程池：submitTask正确抛出异常 - %s\n", e.what());
-        }
-        assert(submitThrew && "已停止线程池应拒绝submitTask任务");
+        auto [success, future] = stoppedPool.submitTask(subtract100, 5);
+        future.get();
     }
+    catch (const std::exception& e)
+    {
+        submitThrew = true;
+        safePrint("已停止线程池：submitTask正确抛出异常 - %s\n", e.what());
+    }
+    assert(submitThrew && "已停止线程池应拒绝submitTask任务");
+
+    // 测试4：重复调用stop()的安全性
+    safePrint("\n=== %s 重复调用stop()测试 ===\n", poolType.c_str());
+    ol::ThreadPool<true> repeatStopPool(minThreadNum, maxThreadNum, maxQueueSize, checkInterval);
+    repeatStopPool.stop();
+    start = std::chrono::steady_clock::now();
+    repeatStopPool.stop(); // 重复调用，无副作用
+    end = std::chrono::steady_clock::now();
+
+    duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    safePrint("重复stop() 执行耗时: %lld ms（预期 <= 300ms）\n", duration);
+    assert(duration <= 300 && "重复stop() 执行耗时过长");
+    assert(!repeatStopPool.isRunning() && "重复stop() 状态错误");
 
     safePrint("\n%s stop方法测试全部通过\n", poolType.c_str());
 }

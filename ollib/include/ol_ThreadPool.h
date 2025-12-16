@@ -9,7 +9,6 @@
  *          - 动态特性（当模板参数IsDynamic=true时）：
  *              - 自动根据任务负载扩缩容线程数量（在minThreads和maxThreads范围内）
  *              - 可配置管理者线程检查间隔，平衡响应速度和资源消耗
- *          - 灵活停止：支持等待任务完成（join）或立即返回（detach）两种停止模式
  * 作者：ol
  * 适用标准：C++17及以上（需支持constexpr if、模板条件类型等特性）
  */
@@ -44,6 +43,7 @@ namespace ol
      * @tparam IsDynamic 是否启用动态模式：true为动态扩缩容模式，false为固定线程数模式（默认）
      * @note 动态模式下会根据任务负载自动调整线程数量，固定模式使用初始化时指定的线程数
      * @note 线程安全设计，支持多线程并发添加任务
+     * @note 所有线程均通过join模式退出
      */
     template <bool IsDynamic = false>
     class ThreadPool : public TypeNonCopyableMovable
@@ -65,6 +65,7 @@ namespace ol
         std::condition_variable m_taskQueueNotEmpty_condVar;                                                                          ///< 任务队列非空条件变量
         std::condition_variable m_taskQueueNotFull_condVar;                                                                           ///< 任务队列非满条件变量
         std::atomic_bool m_stop;                                                                                                      ///< 停止标志
+        std::atomic_size_t m_activeWorkers;                                                                                           ///< 追踪活跃工作线程数
         size_t m_maxQueueSize;                                                                                                        ///< 最大队列容量
         QueueFullPolicy m_queueFullPolicy;                                                                                            ///< 队列满策略
         std::chrono::milliseconds m_timeoutMS;                                                                                        ///< 超时时间（毫秒）
@@ -95,7 +96,8 @@ namespace ol
          */
         template <bool D = IsDynamic, typename = std::enable_if_t<!D>>
         ThreadPool(size_t threadNum, size_t maxQueueSize = 0)
-            : m_stop(false), m_maxQueueSize(maxQueueSize),
+            : m_stop(false), m_activeWorkers(0),
+              m_maxQueueSize(maxQueueSize),
               m_queueFullPolicy(QueueFullPolicy::kReject), m_timeoutMS(std::chrono::milliseconds(500))
         {
             if (threadNum == 0)
@@ -108,6 +110,7 @@ namespace ol
             m_workers.reserve(threadNum);
             while (threadNum > 0)
             {
+                m_activeWorkers.fetch_add(1, std::memory_order_release);
                 m_workers.emplace_back(&ThreadPool<IsDynamic>::worker, this);
                 --threadNum;
             }
@@ -127,7 +130,8 @@ namespace ol
                    size_t maxThreadNum = std::thread::hardware_concurrency(),
                    size_t maxQueueSize = 0,
                    std::chrono::seconds checkInterval = std::chrono::seconds(1))
-            : m_stop(false), m_maxQueueSize(maxQueueSize),
+            : m_stop(false), m_activeWorkers(0),
+              m_maxQueueSize(maxQueueSize),
               m_queueFullPolicy(QueueFullPolicy::kReject), m_timeoutMS(std::chrono::milliseconds(500))
         {
             if (minThreadNum > maxThreadNum)
@@ -151,6 +155,7 @@ namespace ol
 
             while (needThreads > 0)
             {
+                m_activeWorkers.fetch_add(1, std::memory_order_release);
                 std::thread th(&ThreadPool<IsDynamic>::worker, this);
 #ifdef DEBUG
                 printf("构造函数：新工作线程ID：%zu\n", th.get_id());
@@ -168,43 +173,101 @@ namespace ol
 
         /**
          * @brief 析构函数
-         * @note 自动调用stop(true)，等待所有任务完成并清理资源
+         * @note 自动调用stop()，等待所有任务完成并清理资源
          */
         ~ThreadPool()
         {
             if (m_stop) return;
-            stop(true);
+            stop(); // 强制join，确保所有线程退出
+
+            // 最终等待活跃线程退出（最多1秒）
+            int wait_ms = 0;
+            while (m_activeWorkers.load(std::memory_order_acquire) > 0 && wait_ms < 1000)
+            {
+                std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                wait_ms += 10;
+            }
+#ifdef DEBUG
+            if (m_activeWorkers.load() > 0)
+            {
+                printf("警告：析构时仍有%d个活跃线程未退出\n", (int)m_activeWorkers.load());
+            }
+#endif
         }
 
         /**
          * @brief 停止线程池并清理资源
-         * @param wait 是否等待当前任务完成：true-等待所有任务完成（join），false-立即返回（detach）
          * @note 多次调用安全，已停止状态下调用无效果
-         * @warning 当wait=false时，若分离的线程访问已释放资源可能导致崩溃，需确保任务无资源依赖
+         * @note 仅支持join模式，等待所有任务完成、所有线程安全退出后返回
+         * @warning 确保任务无外部临时资源依赖，避免join等待时出现资源释放竞态
          */
-        void stop(bool wait = true)
+        void stop()
         {
 #ifdef DEBUG
             printf("线程池开始stop()\n");
 #endif
 
-            if (m_stop) return;
-
-            m_stop = true;
-
-            // 动态模式：停止管理者线程
-            if constexpr (IsDynamic)
+            // 原子交换，确保仅执行一次stop逻辑 + 内存可见性
+            bool expected = false;
+            if (!m_stop.compare_exchange_strong(expected, true))
             {
-                m_dynamic.managerExit_condVar.notify_one(); // 发送唤醒信号
-                if (m_dynamic.managerThread.joinable())
-                    m_dynamic.managerThread.join();
+#ifdef DEBUG
+                printf("线程池已停止，无需重复操作\n");
+#endif
+                return;
             }
 
+            // 动态模式：先停止管理者线程（确保其不再修改m_workers）
+            if constexpr (IsDynamic)
+            {
+                // 唤醒管理者线程，使其退出循环
+                m_dynamic.managerExit_condVar.notify_one();
+                if (m_dynamic.managerThread.joinable())
+                {
+                    try
+                    {
+                        auto manager_id = m_dynamic.managerThread.get_id();
+                        m_dynamic.managerThread.join();
+#ifdef DEBUG
+                        printf("动态模式：管理者线程（ID:%zu）已join\n", manager_id);
+#endif
+                        // 重置管理者线程对象，避免访问无效句柄
+                        m_dynamic.managerThread = std::thread();
+                    }
+                    catch (const std::system_error& e)
+                    {
+                        fprintf(stderr, "动态模式：管理者线程join失败: %s\n", e.what());
+                        // 即使join失败，也重置线程对象
+                        m_dynamic.managerThread = std::thread();
+                    }
+                }
+
+                // 清空工作线程退出队列
+                std::lock_guard<std::mutex> lock_exit_deque(m_dynamic.workerExitId_dequeMutex);
+                m_dynamic.workerExitId_deque.clear();
+#ifdef DEBUG
+                printf("动态模式：清空工作线程退出队列\n");
+#endif
+            }
+
+            // 唤醒所有等待的工作线程
             m_taskQueueNotEmpty_condVar.notify_all();
             m_taskQueueNotFull_condVar.notify_all();
 
-            // 给线程退出的时间
-            std::this_thread::sleep_for(std::chrono::milliseconds(200));
+            // 等待活跃线程退出（最多等待5秒，避免死等）
+            int wait_ms = 0;
+            while (m_activeWorkers.load(std::memory_order_acquire) > 0 && wait_ms < 5000)
+            {
+                std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                wait_ms += 10;
+            }
+#ifdef DEBUG
+            if (m_activeWorkers.load() > 0)
+            {
+                printf("警告：仍有%d个活跃线程未退出（已等待%dms）\n",
+                       (int)m_activeWorkers.load(), wait_ms);
+            }
+#endif
 
             // 处理工作线程
             std::lock_guard<std::mutex> lock(m_workersMutex);
@@ -215,10 +278,23 @@ namespace ol
                 {
                     if (th.joinable())
                     {
-                        if (wait) // 等待模式：join
+#ifdef DEBUG
+                        printf("动态模式：处理工作线程ID：%zu（强制join）\n", id);
+#endif
+                        try
+                        {
                             th.join();
-                        else // 不等待模式：detach
-                            th.detach();
+                        }
+                        catch (const std::system_error& e)
+                        {
+                            fprintf(stderr, "动态模式：线程(ID:%zu)join失败: %s\n", id, e.what());
+                        }
+                    }
+                    else
+                    {
+#ifdef DEBUG
+                        printf("动态模式：线程(ID:%zu)不可join，跳过\n", id);
+#endif
                     }
                 }
             }
@@ -229,14 +305,29 @@ namespace ol
                 {
                     if (th.joinable())
                     {
-                        if (wait) // 等待模式：join
+#ifdef DEBUG
+                        printf("固定模式：处理工作线程ID：%zu（强制join）\n", th.get_id());
+#endif
+                        try
+                        {
                             th.join();
-                        else // 不等待模式：detach
-                            th.detach();
+                        }
+                        catch (const std::system_error& e)
+                        {
+                            fprintf(stderr, "固定模式：线程join失败: %s\n", e.what());
+                        }
+                    }
+                    else
+                    {
+#ifdef DEBUG
+                        printf("固定模式：线程不可join，跳过\n");
+#endif
                     }
                 }
             }
-            m_workers.clear(); // 清理线程容器
+
+            // 清理线程容器
+            m_workers.clear();
 #ifdef DEBUG
             printf("线程池finish stop()\n");
 #endif
@@ -445,82 +536,104 @@ namespace ol
                 ++m_dynamic.idleThreads;
             }
 
-            while (!m_stop)
+            try
             {
-                std::function<void()> task;
-
+                while (!m_stop)
                 {
-                    std::unique_lock<std::mutex> lock(m_taskQueueMutex);
+                    std::function<void()> task;
 
-                    // 等待任务或停止信号
-                    auto waitCond = [this]()
                     {
-                        if constexpr (IsDynamic)
-                            return !m_taskQueue.empty() || m_stop || m_dynamic.workerExitNum > 0;
-                        else
-                            return !m_taskQueue.empty() || m_stop;
-                    };
-                    m_taskQueueNotEmpty_condVar.wait(lock, waitCond);
+                        std::unique_lock<std::mutex> lock(m_taskQueueMutex);
 
-                    if constexpr (IsDynamic)
-                    {
-                        if (m_dynamic.workerExitNum > 0)
+                        // 等待任务或停止信号
+                        auto waitCond = [this]()
                         {
-                            --m_dynamic.workerExitNum;
-                            break;
+                            if constexpr (IsDynamic)
+                                return !m_taskQueue.empty() || m_stop || m_dynamic.workerExitNum > 0;
+                            else
+                                return !m_taskQueue.empty() || m_stop;
+                        };
+                        m_taskQueueNotEmpty_condVar.wait(lock, waitCond);
+
+                        if (m_stop) break; // 优先检查停止信号，避免无效操作
+
+                        if constexpr (IsDynamic)
+                        {
+                            // 原子操作减少workerExitNum，避免竞态
+                            if (m_dynamic.workerExitNum.load(std::memory_order_acquire) > 0)
+                            {
+                                m_dynamic.workerExitNum.fetch_sub(1, std::memory_order_release);
+                                break;
+                            }
                         }
+
+                        if (m_taskQueue.empty())
+                        {
+                            lock.unlock();
+                            continue;
+                        }
+
+                        // 取出任务
+                        task = std::move(m_taskQueue.front());
+                        m_taskQueue.pop();
+
+                        // 通知可能等待的生产者
+                        if (m_queueFullPolicy != QueueFullPolicy::kReject)
+                            m_taskQueueNotFull_condVar.notify_one();
+
+                        // 动态模式：更新空闲线程数
+                        if constexpr (IsDynamic)
+                            --m_dynamic.idleThreads;
                     }
 
-                    if (m_taskQueue.empty())
+                    // 执行任务
+                    try
                     {
-                        if (m_stop) return;
-                        lock.unlock();
-                        continue;
+                        if (task) task(); // 空任务保护
+                    }
+                    catch (const std::exception& e)
+                    {
+                        fprintf(stderr, "Task error: %s\n", e.what());
+                    }
+                    catch (...)
+                    {
+                        fprintf(stderr, "Unknown task error\n");
                     }
 
-                    // 取出任务
-                    task = std::move(m_taskQueue.front());
-                    m_taskQueue.pop();
-
-                    // 通知可能等待的生产者
-                    if (m_queueFullPolicy != QueueFullPolicy::kReject)
-                        m_taskQueueNotFull_condVar.notify_one();
-
-                    // 动态模式：更新空闲线程数
+                    // 动态模式：任务完成，恢复空闲状态
                     if constexpr (IsDynamic)
-                        --m_dynamic.idleThreads;
-                }
-
-                // 执行任务
-                try
-                {
-                    task();
-                }
-                catch (const std::exception& e)
-                {
-                    fprintf(stderr, "Task error: %s\n", e.what());
-                }
-                catch (...)
-                {
-                    fprintf(stderr, "Unknown task error\n");
-                }
-
-                // 动态模式：任务完成，恢复空闲状态
-                if constexpr (IsDynamic)
-                {
-                    ++m_dynamic.idleThreads;
+                    {
+                        ++m_dynamic.idleThreads;
+                    }
                 }
             }
+            catch (...)
+            {
+                fprintf(stderr, "Worker thread(ID:%zu) unexpected exception\n", std::this_thread::get_id());
+            }
 
-            // 动态模式：线程退出，更新空闲数，把线程ID加入退出队列
+            // 减少活跃数
+            m_activeWorkers.fetch_sub(1, std::memory_order_release);
+
+            // 动态模式：仅当线程池未完全停止时，才添加ID到退出队列
             if constexpr (IsDynamic)
             {
                 --m_dynamic.idleThreads;
-                std::unique_lock<std::mutex> lock_exitVector(m_dynamic.workerExitId_dequeMutex);
+                // 检查stop标志，避免stop()后仍修改退出队列
+                if (!m_stop.load(std::memory_order_acquire))
+                {
+                    std::unique_lock<std::mutex> lock_exitVector(m_dynamic.workerExitId_dequeMutex);
 #ifdef DEBUG
-                printf("线程(ID:%zu)加入退出容器\n", std::this_thread::get_id());
+                    printf("线程(ID:%zu)加入退出容器\n", std::this_thread::get_id());
 #endif
-                m_dynamic.workerExitId_deque.emplace_back(std::this_thread::get_id());
+                    m_dynamic.workerExitId_deque.emplace_back(std::this_thread::get_id());
+                }
+                else
+                {
+#ifdef DEBUG
+                    printf("线程(ID:%zu)：线程池已停止，跳过加入退出容器\n", std::this_thread::get_id());
+#endif
+                }
             }
 
 #ifdef DEBUG
@@ -539,137 +652,155 @@ namespace ol
         template <bool D = IsDynamic, typename = std::enable_if_t<D>>
         void manager()
         {
-            while (!m_stop)
+#ifdef DEBUG
+            printf("管理者线程(ID:%zu)启动\n", std::this_thread::get_id());
+#endif
+
+            try
             {
-                // 定期检查（可被stop()唤醒）
-                std::unique_lock<std::mutex> lock_manger(m_dynamic.managerMutex);
-                m_dynamic.managerExit_condVar.wait_for(lock_manger, m_dynamic.checkInterval, [this]()
-                                                       { return m_stop.load(); });
-                if (m_stop) return;
-
-                // 1. 清理已终止的线程对象
+                while (!m_stop)
                 {
-                    // (1). 先锁定工作线程容器和退出ID队列的锁，确保原子性
-                    std::lock_guard<std::mutex> lock_workers(m_workersMutex);
-                    std::unique_lock<std::mutex> lock_exitDeque(m_dynamic.workerExitId_dequeMutex);
+                    // 定期检查（可被stop()唤醒）
+                    std::unique_lock<std::mutex> lock_manger(m_dynamic.managerMutex);
+                    m_dynamic.managerExit_condVar.wait_for(lock_manger, m_dynamic.checkInterval, [this]()
+                                                           { return m_stop.load(std::memory_order_acquire); });
+                    if (m_stop) return;
 
-                    // (2). 复制并清空退出ID队列（避免其他线程并发修改）
-                    std::deque<std::thread::id> exitIds;
-                    exitIds.swap(m_dynamic.workerExitId_deque); // 用swap避免复制开销
-                    lock_exitDeque.unlock();                    // 提前解锁，减少锁持有时间
-
-                    // (3). 逐个清理退出的线程
-                    for (const auto& exitId : exitIds)
+                    // 1. 清理已终止的线程对象
                     {
-#ifdef DEBUG
-                        printf("待清理线程ID：%zu\n", exitId);
-#endif
-                        auto it = m_workers.find(exitId);
-                        if (it == m_workers.end())
+                        // (1). 先锁定工作线程容器和退出ID队列的锁，确保原子性
+                        std::lock_guard<std::mutex> lock_workers(m_workersMutex);
+                        std::unique_lock<std::mutex> lock_exitDeque(m_dynamic.workerExitId_dequeMutex);
+
+                        // (2). 复制并清空退出ID队列（避免其他线程并发修改）
+                        std::deque<std::thread::id> exitIds;
+                        exitIds.swap(m_dynamic.workerExitId_deque); // 用swap避免复制开销
+                        lock_exitDeque.unlock();                    // 提前解锁，减少锁持有时间
+
+                        // (3). 逐个清理退出的线程
+                        for (const auto& exitId : exitIds)
                         {
 #ifdef DEBUG
-                            printf("线程ID已被清理，跳过: %zu\n", exitId);
+                            printf("待清理线程ID：%zu\n", exitId);
 #endif
-                            continue;
-                        }
-
-                        // (4). 先join线程，再从容器中移除
-                        if (it->second.joinable())
-                        {
-                            try
+                            auto it = m_workers.find(exitId);
+                            if (it == m_workers.end())
                             {
-                                it->second.join(); // 确保线程完全退出
 #ifdef DEBUG
-                                printf("线程ID已join: %zu\n", exitId);
+                                printf("线程ID已被清理，跳过: %zu\n", exitId);
 #endif
+                                continue;
                             }
-                            catch (const std::exception& e)
+
+                            // (4). 先join线程，再从容器中移除
+                            if (it->second.joinable())
                             {
-                                fprintf(stderr, "Worker thread join failure: %s\n", e.what());
+                                try
+                                {
+                                    it->second.join(); // 确保线程完全退出
+#ifdef DEBUG
+                                    printf("线程ID已join: %zu\n", exitId);
+#endif
+                                }
+                                catch (const std::exception& e)
+                                {
+                                    fprintf(stderr, "Worker thread join failure: %s\n", e.what());
+                                }
+                                catch (...)
+                                {
+                                    fprintf(stderr, "Unknown Worker thread join error\n");
+                                }
                             }
-                            catch (...)
-                            {
-                                fprintf(stderr, "Unknown Worker thread join error\n");
-                            }
+
+                            m_workers.erase(it); // 移除线程对象
                         }
 
-                        m_workers.erase(it); // 移除线程对象
+#ifdef DEBUG
+                        printf("线程从容器移除（管理者清理）\n");
+#endif
                     }
 
-#ifdef DEBUG
-                    printf("线程从容器移除（管理者清理）\n");
-#endif
-                }
-
-                // 2. 扩缩容
-                {
-                    std::lock_guard<std::mutex> lock_taskQueue(m_taskQueueMutex);
-                    std::lock_guard<std::mutex> lock_workers(m_workersMutex);
-                    size_t taskCount = m_taskQueue.size();
-                    size_t workerCount = m_workers.size();
-                    size_t idleCount = m_dynamic.idleThreads;
-
-                    // (1). 扩容判断：任务数 > 线程数 * 2 且未达最大线程数（乘以2是为了避免轻微负载波动就扩容）
-                    if (taskCount > workerCount * 2 && workerCount < m_dynamic.maxThreads)
+                    // 2. 扩缩容
                     {
-                        size_t needThreads = std::min(
-                            m_dynamic.maxThreads - workerCount,
-                            (taskCount + workerCount - 1) / workerCount // 按当前负载估算需要的线程数（向上取整）
-                        );
-                        // 每次最多扩容到当前的1.5倍，避免一次性创建过多线程
-                        needThreads = std::min(needThreads, workerCount / 2 + 1);
+                        std::lock_guard<std::mutex> lock_taskQueue(m_taskQueueMutex);
+                        std::lock_guard<std::mutex> lock_workers(m_workersMutex);
+                        size_t taskCount = m_taskQueue.size();
+                        size_t workerCount = m_workers.size();
+                        size_t idleCount = m_dynamic.idleThreads;
 
-                        while (needThreads > 0)
+                        // (1). 扩容判断：任务数 > 线程数 * 2 且未达最大线程数（乘以2是为了避免轻微负载波动就扩容）
+                        if (taskCount > workerCount * 2 && workerCount < m_dynamic.maxThreads)
                         {
-                            std::thread th(&ThreadPool<IsDynamic>::worker, this);
+                            size_t needThreads = std::min(
+                                m_dynamic.maxThreads - workerCount,
+                                (taskCount + workerCount - 1) / workerCount // 按当前负载估算需要的线程数（向上取整）
+                            );
+                            // 每次最多扩容到当前的1.5倍，避免一次性创建过多线程
+                            needThreads = std::min(needThreads, workerCount / 2 + 1);
+
+                            while (needThreads > 0)
+                            {
+                                m_activeWorkers.fetch_add(1, std::memory_order_release);
+                                std::thread th(&ThreadPool<IsDynamic>::worker, this);
 #ifdef DEBUG
-                            printf("新线程（ID: %zu）\n", th.get_id());
+                                printf("新线程（ID: %zu）\n", th.get_id());
 #endif
-                            m_workers.emplace(th.get_id(), std::move(th)); // 哈希表插入新线程
-                            --needThreads;
-                        }
+                                m_workers.emplace(th.get_id(), std::move(th)); // 哈希表插入新线程
+                                --needThreads;
+                            }
 // 调试输出：记录扩容操作
 #ifdef DEBUG
-                        printf("扩容：线程数从 %zu 增加到 %zu（任务数: %zu）\n",
-                               workerCount, m_workers.size(), taskCount);
+                            printf("扩容：线程数从 %zu 增加到 %zu（任务数: %zu）\n",
+                                   workerCount, m_workers.size(), taskCount);
 #endif
-                    }
-                    // (2). 缩容判断：空闲线程 > 线程总数的1/2 且 线程数超过「最小线程数或1（取较大值）」
-                    else if (idleCount > workerCount / 2 && workerCount > std::max(m_dynamic.minThreads, static_cast<size_t>(1)))
-                    {
-                        // 缩容下限：最多缩减到「最小线程数或1（取较大值）」
-                        size_t minKeep = std::max(m_dynamic.minThreads, static_cast<size_t>(1));
-
-                        // 实际缩减数 = 取「可缩减线程数」和「多余空闲线程数」的较小值
-                        size_t reduceThreads = std::min(
-                            workerCount - minKeep,        // 可缩减线程数 = 当前线程数 - 最低保留数
-                            idleCount - (workerCount / 2) // 只销毁超过一半的空闲线程
-                        );
-
-#ifdef DEBUG
-                        size_t reduceThreads_temp = reduceThreads;
-#endif
-
-                        // 销毁线程
-                        if (reduceThreads > 0)
-                        {
-                            m_dynamic.workerExitNum = reduceThreads;
-                            do
-                            {
-                                m_taskQueueNotEmpty_condVar.notify_one();
-                                --reduceThreads;
-                            } while (reduceThreads > 0);
                         }
+                        // (2). 缩容判断：空闲线程 > 线程总数的1/2 且 线程数超过「最小线程数或1（取较大值）」
+                        else if (idleCount > workerCount / 2 && workerCount > std::max(m_dynamic.minThreads, static_cast<size_t>(1)))
+                        {
+                            // 缩容下限：最多缩减到「最小线程数或1（取较大值）」
+                            size_t minKeep = std::max(m_dynamic.minThreads, static_cast<size_t>(1));
+
+                            // 实际缩减数 = 取「可缩减线程数」和「多余空闲线程数」的较小值
+                            size_t reduceThreads = std::min(
+                                workerCount - minKeep,        // 可缩减线程数 = 当前线程数 - 最低保留数
+                                idleCount - (workerCount / 2) // 只销毁超过一半的空闲线程
+                            );
+
 #ifdef DEBUG
-                        printf("缩容：计划销毁 %zu 个线程（当前线程数: %zu, 空闲数: %zu, 保留至少: %zu）\n",
-                               reduceThreads_temp, workerCount, idleCount, minKeep);
+                            size_t reduceThreads_temp = reduceThreads;
 #endif
+
+                            // 销毁线程
+                            if (reduceThreads > 0)
+                            {
+                                m_dynamic.workerExitNum = reduceThreads;
+                                do
+                                {
+                                    m_taskQueueNotEmpty_condVar.notify_one();
+                                    --reduceThreads;
+                                } while (reduceThreads > 0);
+                            }
+#ifdef DEBUG
+                            printf("缩容：计划销毁 %zu 个线程（当前线程数: %zu, 空闲数: %zu, 保留至少: %zu）\n",
+                                   reduceThreads_temp, workerCount, idleCount, minKeep);
+#endif
+                        }
                     }
                 }
             }
+            catch (...)
+            {
+                fprintf(stderr, "Manager thread(ID:%zu) unexpected exception\n", std::this_thread::get_id());
+            }
+
+            // 管理者线程退出前：清空退出队列，避免残留ID
+            std::lock_guard<std::mutex> lock_exit_deque(m_dynamic.workerExitId_dequeMutex);
+            m_dynamic.workerExitId_deque.clear();
+#ifdef DEBUG
+            printf("管理者线程(ID:%zu)退出，清空退出队列\n", std::this_thread::get_id());
+#endif
         }
     };
-
 } // namespace ol
 
 #endif // !OL_THREADPOOL_H
