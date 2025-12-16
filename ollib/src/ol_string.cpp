@@ -643,7 +643,7 @@ namespace ol
         if (s_len < p_len) return std::string::npos;
 
         // 预处理next数组，next[i] = pattern[0..i-1]的最长相等前后缀长度
-        std::vector<int> next(p_len + 1, 0);
+        std::vector<size_t> next(p_len + 1, 0);
         size_t i, j;
         for (i = 1, j = 0; i < p_len; ++i)
         {
