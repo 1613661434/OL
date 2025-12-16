@@ -635,52 +635,31 @@ namespace ol
 
     size_t skmp(const std::string& str, const std::string& pattern)
     {
-        const size_t n = str.size();
-        const size_t m = pattern.size();
-        if (m == 0) return 0;
+        if (pattern.empty()) return 0;
 
-        // 动态next数组，初始化为未计算状态
-        std::vector<size_t> next(m, SIZE_MAX);
-        next[0] = 0; // 首位固定为0
+        const size_t s_len = str.size();     // 主串长度
+        const size_t p_len = pattern.size(); // 模式串长度
 
-        size_t len = 0; // 当前最长匹配前后缀长度
-        size_t i = 0, j = 0;
+        if (s_len < p_len) return std::string::npos;
 
-        while (i < n)
+        // 预处理next数组，next[i] = pattern[0..i-1]的最长相等前后缀长度
+        std::vector<int> next(p_len + 1, 0);
+        size_t i, j;
+        for (i = 1, j = 0; i < p_len; ++i)
         {
-            if (str[i] == pattern[j])
-            {
-                // 动态计算并缓存next值
-                if (j > 0 && next[j] == SIZE_MAX)
-                {
-                    next[j] = len; // 缓存当前长度
-
-                    // 扩展计算后续可能需要的next值
-                    size_t k = j, l = len;
-                    while (++k < m && pattern[k] == pattern[l])
-                    {
-                        next[k] = ++l;
-                    }
-                }
-
-                ++i;
-                if (++j == m) return i - m; // 匹配成功
-            }
-            else
-            {
-                if (j > 0)
-                {
-                    // 使用已计算的next值回溯
-                    len = next[j - 1];
-                    j = (len != SIZE_MAX) ? len : 0;
-                }
-                else
-                {
-                    ++i;
-                }
-                len = j; // 重置当前匹配长度
-            }
+            while (j > 0 && pattern[i] != pattern[j]) j = next[j]; // 不匹配回溯，仅j>0时执行
+            if (pattern[i] == pattern[j]) ++j;                     // 匹配时前缀长度+1
+            next[i + 1] = j;                                       // 偏移存储
         }
+
+        // 匹配过程
+        for (i = 0, j = 0; i < s_len; ++i)
+        {
+            while (j > 0 && str[i] != pattern[j]) j = next[j]; // 不匹配回溯，仅j>0时执行
+            if (str[i] == pattern[j]) ++j;                     // 匹配时模式串指针后移
+            if (j == p_len) return i - p_len + 1;              // 匹配成功：立即返回起始位置
+        }
+
         return std::string::npos;
     }
 
