@@ -17,7 +17,7 @@
 #define OL_FTP_H 1
 
 #ifdef __linux__
-#include "ftplib.h"
+#include "third_party/ftplib/ftplib.h"
 #include "ol_chrono.h"
 #include "ol_fstream.h"
 #endif // __linux__

@@ -248,6 +248,7 @@ OL
 │   ├───include
 │   │   ├───ol_base           # 基础组件头文件（ol_sort_base.h等）
 │   │   ├───ol_net            # 网络库头文件（Acceptor.h/Connection.h等）
+│   │   ├───third_party       # 第三方库头文件（ftplib.h等）
 │   │   └───其他基础模块头文件
 │   ├───src
 │   │   ├───ol_base           # 基础组件实现

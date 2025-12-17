@@ -1,28 +1,37 @@
 /*****************************************************************************************/
 /*
  * 程序名：ol_public.h
- * 功能描述：开发框架公用头文件，整合了应用开发常用的自定义工具类和系统头文件，特性包括：
- *          - 包含框架内所有自定义工具类（时间、队列、文件操作、网络、IPC等）
- *          - 整合C++标准库核心头文件（容器、线程、智能指针等）
- *          - 按平台（Linux）包含系统特定头文件（网络、进程、I/O等）
- *          - 简化应用开发的头文件引用，统一依赖管理
+ * 功能描述：开发框架公用头文件
  * 作者：ol
- * 适用标准：C++11及以上（需支持线程、原子操作等特性）
+ * 适用标准：C++17及以上
  */
 /*****************************************************************************************/
 
 #ifndef OL_PUBLIC_H
 #define OL_PUBLIC_H 1
 
-// 自定义工具类头文件
-#include "ol_chrono.h"  // 时间处理工具（日期、时间戳、计时器等）
-#include "ol_cqueue.h"  // 循环队列实现（固定大小、FIFO操作）
-#include "ol_fstream.h" // 文件流操作工具（目录、文件读写、日志等）
-#include "ol_ftp.h"     // FTP客户端工具（文件上传、下载、目录操作等）
-#include "ol_ipc.h"     // 进程间通信工具（信号量、共享内存、进程心跳等）
-#include "ol_signal.h"  // 信号处理工具（信号捕获、自定义处理逻辑等）
-#include "ol_string.h"  // 字符串处理工具（格式化、分割、转换等）
-#include "ol_tcp.h"     // TCP网络编程工具（客户端、服务器通信等）
+// OL库头文件
+#include "ol_chrono.h"
+#include "ol_fstream.h"
+#include "ol_ftp.h"
+#include "ol_ipc.h"
+#include "ol_signal.h"
+#include "ol_string.h"
+#include "ol_tcp.h"
+#include "ol_cqueue.h"
+#include "ol_BITree.h"
+#include "ol_graph.h"
+#include "ol_TrieMap.h"
+#include "ol_TrieSet.h"
+#include "ol_UnionFind.h"
+#include "ol_type_traits.h"
+#include "ol_mutex.h"
+#include "ol_math.h"
+#include "ol_hash.h"
+#include "ol_ThreadPool.h"
+#include "ol_TimeStamp.h"
+#include "ol_sort.h"
+#include "ol_net/ol_net_public.h"
 
 // C++标准库头文件
 #include <algorithm>          // 算法库（排序、查找、变换等）
