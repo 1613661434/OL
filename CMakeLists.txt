@@ -20,7 +20,7 @@ if((NOT DEFINED CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "") AND NOT DEFINE
 endif()
 
 # ===================== <Options> =====================
-# 统一：控制是否开启警告（默认开启）
+# 统一：控制是否开启警告
 option(ENABLE_WARNINGS "Enable compiler warnings (recommended)" OFF)
 
 # OL库相关
