@@ -468,33 +468,33 @@ namespace ol
         return out;
     }
 
-    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, std::string& value, const size_t len)
+    bool getByXml(const std::string& xmlStr, const std::string& tag, std::string& value, const size_t len)
     {
-        std::string start = "<" + fieldname + ">"; // 数据项开始的标签。
-        std::string end = "</" + fieldname + ">";  // 数据项结束的标签。
+        std::string start = "<" + tag + ">"; // 数据项开始的标签。
+        std::string end = "</" + tag + ">";  // 数据项结束的标签。
 
-        size_t startp = xmlbuffer.find(start); // 在xml中查找数据项开始的标签的位置。
+        size_t startp = xmlStr.find(start); // 在xml中查找数据项开始的标签的位置。
         if (startp == std::string::npos) return false;
 
-        size_t endp = xmlbuffer.find(end); // 在xml中查找数据项结束的标签的位置。
+        size_t endp = xmlStr.find(end); // 在xml中查找数据项结束的标签的位置。
         if (endp == std::string::npos) return false;
 
         // 从xml中截取数据项的内容。
         size_t itmplen = endp - startp - start.length();
         if ((len > 0) && (len < itmplen)) itmplen = len;
-        value = xmlbuffer.substr(startp + start.length(), itmplen);
+        value = xmlStr.substr(startp + start.length(), itmplen);
 
         return true;
     }
 
-    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, char* value, const size_t len)
+    bool getByXml(const std::string& xmlStr, const std::string& tag, char* value, const size_t len)
     {
         if (value == nullptr) return false;
 
         if (len > 0) memset(value, 0, len + 1); // 调用者必须保证value的空间足够，否则这里会内存溢出。
 
         std::string str;
-        if (getByXml(xmlbuffer, fieldname, str) == false) return false;
+        if (getByXml(xmlStr, tag, str) == false) return false;
 
         if ((str.length() <= len) || (len == 0))
         {
@@ -510,10 +510,10 @@ namespace ol
         return true;
     }
 
-    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, bool& value)
+    bool getByXml(const std::string& xmlStr, const std::string& tag, bool& value)
     {
         std::string str;
-        if (getByXml(xmlbuffer, fieldname, str) == false) return false;
+        if (getByXml(xmlStr, tag, str) == false) return false;
 
         toupper(str); // 转换为大写来判断（也可以转换为小写，效果相同）。
 
@@ -525,11 +525,11 @@ namespace ol
         return true;
     }
 
-    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, int& value)
+    bool getByXml(const std::string& xmlStr, const std::string& tag, int& value)
     {
         std::string str;
 
-        if (getByXml(xmlbuffer, fieldname, str) == false) return false;
+        if (getByXml(xmlStr, tag, str) == false) return false;
 
         try
         {
@@ -543,11 +543,11 @@ namespace ol
         return true;
     }
 
-    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, unsigned int& value)
+    bool getByXml(const std::string& xmlStr, const std::string& tag, unsigned int& value)
     {
         std::string str;
 
-        if (getByXml(xmlbuffer, fieldname, str) == false) return false;
+        if (getByXml(xmlStr, tag, str) == false) return false;
 
         try
         {
@@ -561,11 +561,11 @@ namespace ol
         return true;
     }
 
-    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, long& value)
+    bool getByXml(const std::string& xmlStr, const std::string& tag, long& value)
     {
         std::string str;
 
-        if (getByXml(xmlbuffer, fieldname, str) == false) return false;
+        if (getByXml(xmlStr, tag, str) == false) return false;
 
         try
         {
@@ -579,11 +579,11 @@ namespace ol
         return true;
     }
 
-    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, unsigned long& value)
+    bool getByXml(const std::string& xmlStr, const std::string& tag, unsigned long& value)
     {
         std::string str;
 
-        if (getByXml(xmlbuffer, fieldname, str) == false) return false;
+        if (getByXml(xmlStr, tag, str) == false) return false;
 
         try
         {
@@ -597,11 +597,11 @@ namespace ol
         return true;
     }
 
-    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, double& value)
+    bool getByXml(const std::string& xmlStr, const std::string& tag, double& value)
     {
         std::string str;
 
-        if (getByXml(xmlbuffer, fieldname, str) == false) return false;
+        if (getByXml(xmlStr, tag, str) == false) return false;
 
         try
         {
@@ -615,11 +615,11 @@ namespace ol
         return true;
     }
 
-    bool getByXml(const std::string& xmlbuffer, const std::string& fieldname, float& value)
+    bool getByXml(const std::string& xmlStr, const std::string& tag, float& value)
     {
         std::string str;
 
-        if (getByXml(xmlbuffer, fieldname, str) == false) return false;
+        if (getByXml(xmlStr, tag, str) == false) return false;
 
         try
         {
