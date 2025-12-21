@@ -1,0 +1,942 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ol::TrieMap&lt; V &gt; 模板类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('classol_1_1_trie_map.html','','classol_1_1_trie_map-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ol::TrieMap&lt; V &gt; 模板类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Trie树键值对映射类（TrieMap）  
+ <a href="#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ol___trie_map_8h_source.html">ol_TrieMap.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a523d6dfb26e7370c51e35ac41c1db22c" id="r_a523d6dfb26e7370c51e35ac41c1db22c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a523d6dfb26e7370c51e35ac41c1db22c">TrieMap</a> ()</td></tr>
+<tr class="memitem:abb62f8ec5ac51ee43c5a9216b7c15dd5" id="r_abb62f8ec5ac51ee43c5a9216b7c15dd5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb62f8ec5ac51ee43c5a9216b7c15dd5">put</a> (const std::string &amp;key, V val)</td></tr>
+<tr class="memdesc:abb62f8ec5ac51ee43c5a9216b7c15dd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">插入或更新键值对  <br /></td></tr>
+<tr class="memitem:a3c01c0d0ade7dd49b0c3cd7ece0b5d32" id="r_a3c01c0d0ade7dd49b0c3cd7ece0b5d32"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3c01c0d0ade7dd49b0c3cd7ece0b5d32">remove</a> (const std::string &amp;key)</td></tr>
+<tr class="memdesc:a3c01c0d0ade7dd49b0c3cd7ece0b5d32"><td class="mdescLeft">&#160;</td><td class="mdescRight">删除键值对  <br /></td></tr>
+<tr class="memitem:af6c61399bd73581fcb1fb0f2ec29ae62" id="r_af6c61399bd73581fcb1fb0f2ec29ae62"><td class="memItemLeft" align="right" valign="top">std::optional&lt; V &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af6c61399bd73581fcb1fb0f2ec29ae62">get</a> (const std::string &amp;key)</td></tr>
+<tr class="memdesc:af6c61399bd73581fcb1fb0f2ec29ae62"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取键对应的值，通过 std::optional 明确表示值是否存在  <br /></td></tr>
+<tr class="memitem:a2606ba0b2de5414a56a68232eb546226" id="r_a2606ba0b2de5414a56a68232eb546226"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2606ba0b2de5414a56a68232eb546226">has</a> (const std::string &amp;key)</td></tr>
+<tr class="memdesc:a2606ba0b2de5414a56a68232eb546226"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查键是否存在  <br /></td></tr>
+<tr class="memitem:a3c56881a04902813610e5d545aa2c917" id="r_a3c56881a04902813610e5d545aa2c917"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3c56881a04902813610e5d545aa2c917">hasPrefix</a> (const std::string &amp;prefix)</td></tr>
+<tr class="memdesc:a3c56881a04902813610e5d545aa2c917"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查是否存在以指定前缀开头的键  <br /></td></tr>
+<tr class="memitem:a9a0bcb10ff8de27a35e64f19b6f954ed" id="r_a9a0bcb10ff8de27a35e64f19b6f954ed"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9a0bcb10ff8de27a35e64f19b6f954ed">shortestPrefix</a> (const std::string &amp;query)</td></tr>
+<tr class="memdesc:a9a0bcb10ff8de27a35e64f19b6f954ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">查找查询字符串的最短前缀键  <br /></td></tr>
+<tr class="memitem:aa56dbbc4dc6e8fb601a4fd3b2b7f3f19" id="r_aa56dbbc4dc6e8fb601a4fd3b2b7f3f19"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa56dbbc4dc6e8fb601a4fd3b2b7f3f19">longestPrefix</a> (const std::string &amp;query)</td></tr>
+<tr class="memdesc:aa56dbbc4dc6e8fb601a4fd3b2b7f3f19"><td class="mdescLeft">&#160;</td><td class="mdescRight">查找查询字符串的最长前缀键  <br /></td></tr>
+<tr class="memitem:ad63720a291ef162977c49b19b516dbd8" id="r_ad63720a291ef162977c49b19b516dbd8"><td class="memItemLeft" align="right" valign="top">std::list&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad63720a291ef162977c49b19b516dbd8">keysByPrefix</a> (const std::string &amp;prefix)</td></tr>
+<tr class="memdesc:ad63720a291ef162977c49b19b516dbd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取所有以指定前缀开头的键  <br /></td></tr>
+<tr class="memitem:a1d362f7b1f5cc601b8483417cc2a963a" id="r_a1d362f7b1f5cc601b8483417cc2a963a"><td class="memItemLeft" align="right" valign="top">std::list&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d362f7b1f5cc601b8483417cc2a963a">keysByPattern</a> (const std::string &amp;pattern)</td></tr>
+<tr class="memdesc:a1d362f7b1f5cc601b8483417cc2a963a"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取所有匹配模式的键（支持'.'作为通配符，匹配单个任意字符）  <br /></td></tr>
+<tr class="memitem:a05272b8f4c0a05c5db6a2b5c96e20e02" id="r_a05272b8f4c0a05c5db6a2b5c96e20e02"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05272b8f4c0a05c5db6a2b5c96e20e02">hasPattern</a> (const std::string &amp;pattern)</td></tr>
+<tr class="memdesc:a05272b8f4c0a05c5db6a2b5c96e20e02"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查是否存在匹配模式的键（支持'.'作为通配符，匹配单个任意字符）  <br /></td></tr>
+<tr class="memitem:a1334842925033f685fb9cb7be2b1b851" id="r_a1334842925033f685fb9cb7be2b1b851"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1334842925033f685fb9cb7be2b1b851">size</a> () const</td></tr>
+<tr class="memdesc:a1334842925033f685fb9cb7be2b1b851"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前键值对的数量  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:aa62e165742a6095f4b64babb28667019" id="r_aa62e165742a6095f4b64babb28667019"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa62e165742a6095f4b64babb28667019">traverse</a> (std::shared_ptr&lt; <a class="el" href="classol_1_1_trie_node.html">TrieNode</a>&lt; V &gt; &gt; node, std::string &amp;path, std::list&lt; std::string &gt; &amp;res)</td></tr>
+<tr class="memdesc:aa62e165742a6095f4b64babb28667019"><td class="mdescLeft">&#160;</td><td class="mdescRight">遍历Trie树，收集所有有效键  <br /></td></tr>
+<tr class="memitem:abd2505d53bc98395f6abe20deab5c11f" id="r_abd2505d53bc98395f6abe20deab5c11f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abd2505d53bc98395f6abe20deab5c11f">traverseByPattern</a> (std::shared_ptr&lt; <a class="el" href="classol_1_1_trie_node.html">TrieNode</a>&lt; V &gt; &gt; node, std::string &amp;path, const std::string &amp;pattern, size_t i, std::list&lt; std::string &gt; &amp;res)</td></tr>
+<tr class="memdesc:abd2505d53bc98395f6abe20deab5c11f"><td class="mdescLeft">&#160;</td><td class="mdescRight">按模式匹配遍历Trie树（支持'.'作为通配符，匹配单个任意字符）  <br /></td></tr>
+<tr class="memitem:a0f101baa5235017cfabc34b810c30703" id="r_a0f101baa5235017cfabc34b810c30703"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classol_1_1_trie_node.html">TrieNode</a>&lt; V &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f101baa5235017cfabc34b810c30703">put</a> (std::shared_ptr&lt; <a class="el" href="classol_1_1_trie_node.html">TrieNode</a>&lt; V &gt; &gt; node, const std::string &amp;key, V val, size_t i)</td></tr>
+<tr class="memdesc:a0f101baa5235017cfabc34b810c30703"><td class="mdescLeft">&#160;</td><td class="mdescRight">递归插入键值对  <br /></td></tr>
+<tr class="memitem:adc3409a528dc4204239916d4a58a0463" id="r_adc3409a528dc4204239916d4a58a0463"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classol_1_1_trie_node.html">TrieNode</a>&lt; V &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adc3409a528dc4204239916d4a58a0463">remove</a> (std::shared_ptr&lt; <a class="el" href="classol_1_1_trie_node.html">TrieNode</a>&lt; V &gt; &gt; node, const std::string &amp;key, size_t i)</td></tr>
+<tr class="memdesc:adc3409a528dc4204239916d4a58a0463"><td class="mdescLeft">&#160;</td><td class="mdescRight">递归删除键  <br /></td></tr>
+<tr class="memitem:ac12b2fa36f3e3bd8916e4dad1dd261e9" id="r_ac12b2fa36f3e3bd8916e4dad1dd261e9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac12b2fa36f3e3bd8916e4dad1dd261e9">hasPattern</a> (std::shared_ptr&lt; <a class="el" href="classol_1_1_trie_node.html">TrieNode</a>&lt; V &gt; &gt; node, const std::string &amp;pattern, size_t i)</td></tr>
+<tr class="memdesc:ac12b2fa36f3e3bd8916e4dad1dd261e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查模式是否匹配  <br /></td></tr>
+<tr class="memitem:ab4594f31aef85109b066493416131188" id="r_ab4594f31aef85109b066493416131188"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classol_1_1_trie_node.html">TrieNode</a>&lt; V &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab4594f31aef85109b066493416131188">findNode</a> (std::shared_ptr&lt; <a class="el" href="classol_1_1_trie_node.html">TrieNode</a>&lt; V &gt; &gt; node, const std::string &amp;key)</td></tr>
+<tr class="memdesc:ab4594f31aef85109b066493416131188"><td class="mdescLeft">&#160;</td><td class="mdescRight">查找键对应的节点  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a243962005b9676dd71a14093eb8a73e9" id="r_a243962005b9676dd71a14093eb8a73e9"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classol_1_1_trie_node.html">TrieNode</a>&lt; V &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a243962005b9676dd71a14093eb8a73e9">root</a></td></tr>
+<tr class="memitem:aed5d169a0618d66dabd1f2b8ec3ff633" id="r_aed5d169a0618d66dabd1f2b8ec3ff633"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed5d169a0618d66dabd1f2b8ec3ff633">count</a></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">详细描述</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename V&gt;<br />
+class ol::TrieMap&lt; V &gt;</div><p>Trie树键值对映射类（TrieMap） </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">V</td><td>存储的值类型 </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
+<a id="a523d6dfb26e7370c51e35ac41c1db22c" name="a523d6dfb26e7370c51e35ac41c1db22c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a523d6dfb26e7370c51e35ac41c1db22c">&#9670;&#160;</a></span>TrieMap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1_trie_map.html">ol::TrieMap</a>&lt; V &gt;::TrieMap </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">成员函数说明</h2>
+<a id="ab4594f31aef85109b066493416131188" name="ab4594f31aef85109b066493416131188"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4594f31aef85109b066493416131188">&#9670;&#160;</a></span>findNode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classol_1_1_trie_node.html">TrieNode</a>&lt; V &gt; &gt; <a class="el" href="classol_1_1_trie_map.html">ol::TrieMap</a>&lt; V &gt;::findNode </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classol_1_1_trie_node.html">TrieNode</a>&lt; V &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>查找键对应的节点 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>起始节点 </td></tr>
+    <tr><td class="paramname">key</td><td>查找的键 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>键终点对应的节点（不存在则返回nullptr） </dd></dl>
+
+</div>
+</div>
+<a id="af6c61399bd73581fcb1fb0f2ec29ae62" name="af6c61399bd73581fcb1fb0f2ec29ae62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6c61399bd73581fcb1fb0f2ec29ae62">&#9670;&#160;</a></span>get()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; V &gt; <a class="el" href="classol_1_1_trie_map.html">ol::TrieMap</a>&lt; V &gt;::get </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取键对应的值，通过 std::optional 明确表示值是否存在 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>要查询的键 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若键存在，返回包含对应值的 std::optional&lt;V&gt;；若键不存在，返回 std::nullopt </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>可通过 has_value() 判断键是否存在，通过 value() 获取值（键存在时） </dd></dl>
+
+</div>
+</div>
+<a id="a2606ba0b2de5414a56a68232eb546226" name="a2606ba0b2de5414a56a68232eb546226"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2606ba0b2de5414a56a68232eb546226">&#9670;&#160;</a></span>has()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classol_1_1_trie_map.html">ol::TrieMap</a>&lt; V &gt;::has </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>检查键是否存在 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>要检查的键 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>键存在返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="a05272b8f4c0a05c5db6a2b5c96e20e02" name="a05272b8f4c0a05c5db6a2b5c96e20e02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05272b8f4c0a05c5db6a2b5c96e20e02">&#9670;&#160;</a></span>hasPattern() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classol_1_1_trie_map.html">ol::TrieMap</a>&lt; V &gt;::hasPattern </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>pattern</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>检查是否存在匹配模式的键（支持'.'作为通配符，匹配单个任意字符） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pattern</td><td>模式字符串 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>存在返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="ac12b2fa36f3e3bd8916e4dad1dd261e9" name="ac12b2fa36f3e3bd8916e4dad1dd261e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac12b2fa36f3e3bd8916e4dad1dd261e9">&#9670;&#160;</a></span>hasPattern() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classol_1_1_trie_map.html">ol::TrieMap</a>&lt; V &gt;::hasPattern </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classol_1_1_trie_node.html">TrieNode</a>&lt; V &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>pattern</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>i</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>检查模式是否匹配 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>当前节点 </td></tr>
+    <tr><td class="paramname">pattern</td><td>模式字符串 </td></tr>
+    <tr><td class="paramname">i</td><td>当前处理位置 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否存在匹配的键 </dd></dl>
+
+</div>
+</div>
+<a id="a3c56881a04902813610e5d545aa2c917" name="a3c56881a04902813610e5d545aa2c917"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c56881a04902813610e5d545aa2c917">&#9670;&#160;</a></span>hasPrefix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classol_1_1_trie_map.html">ol::TrieMap</a>&lt; V &gt;::hasPrefix </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>prefix</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>检查是否存在以指定前缀开头的键 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">prefix</td><td>前缀字符串 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>存在返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="a1d362f7b1f5cc601b8483417cc2a963a" name="a1d362f7b1f5cc601b8483417cc2a963a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d362f7b1f5cc601b8483417cc2a963a">&#9670;&#160;</a></span>keysByPattern()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::list&lt; std::string &gt; <a class="el" href="classol_1_1_trie_map.html">ol::TrieMap</a>&lt; V &gt;::keysByPattern </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>pattern</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取所有匹配模式的键（支持'.'作为通配符，匹配单个任意字符） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pattern</td><td>模式字符串，其中'.'代表匹配任意单个字符 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>匹配的键列表 </dd></dl>
+
+</div>
+</div>
+<a id="ad63720a291ef162977c49b19b516dbd8" name="ad63720a291ef162977c49b19b516dbd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad63720a291ef162977c49b19b516dbd8">&#9670;&#160;</a></span>keysByPrefix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::list&lt; std::string &gt; <a class="el" href="classol_1_1_trie_map.html">ol::TrieMap</a>&lt; V &gt;::keysByPrefix </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>prefix</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取所有以指定前缀开头的键 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">prefix</td><td>前缀字符串 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>匹配的键列表 </dd></dl>
+
+</div>
+</div>
+<a id="aa56dbbc4dc6e8fb601a4fd3b2b7f3f19" name="aa56dbbc4dc6e8fb601a4fd3b2b7f3f19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa56dbbc4dc6e8fb601a4fd3b2b7f3f19">&#9670;&#160;</a></span>longestPrefix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string <a class="el" href="classol_1_1_trie_map.html">ol::TrieMap</a>&lt; V &gt;::longestPrefix </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>query</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>查找查询字符串的最长前缀键 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">query</td><td>查询字符串 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>最长前缀键（不存在返回空串） </dd></dl>
+
+</div>
+</div>
+<a id="abb62f8ec5ac51ee43c5a9216b7c15dd5" name="abb62f8ec5ac51ee43c5a9216b7c15dd5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb62f8ec5ac51ee43c5a9216b7c15dd5">&#9670;&#160;</a></span>put() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_trie_map.html">ol::TrieMap</a>&lt; V &gt;::put </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">V</td>          <td class="paramname"><span class="paramname"><em>val</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>插入或更新键值对 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>键字符串 </td></tr>
+    <tr><td class="paramname">val</td><td>对应的值 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0f101baa5235017cfabc34b810c30703" name="a0f101baa5235017cfabc34b810c30703"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f101baa5235017cfabc34b810c30703">&#9670;&#160;</a></span>put() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classol_1_1_trie_node.html">TrieNode</a>&lt; V &gt; &gt; <a class="el" href="classol_1_1_trie_map.html">ol::TrieMap</a>&lt; V &gt;::put </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classol_1_1_trie_node.html">TrieNode</a>&lt; V &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">V</td>          <td class="paramname"><span class="paramname"><em>val</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>i</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>递归插入键值对 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>当前节点 </td></tr>
+    <tr><td class="paramname">key</td><td>插入的键 </td></tr>
+    <tr><td class="paramname">val</td><td>插入的值 </td></tr>
+    <tr><td class="paramname">i</td><td>当前处理位置 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>处理后的节点 </dd></dl>
+
+</div>
+</div>
+<a id="a3c01c0d0ade7dd49b0c3cd7ece0b5d32" name="a3c01c0d0ade7dd49b0c3cd7ece0b5d32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c01c0d0ade7dd49b0c3cd7ece0b5d32">&#9670;&#160;</a></span>remove() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_trie_map.html">ol::TrieMap</a>&lt; V &gt;::remove </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>删除键值对 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>要删除的键 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="adc3409a528dc4204239916d4a58a0463" name="adc3409a528dc4204239916d4a58a0463"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc3409a528dc4204239916d4a58a0463">&#9670;&#160;</a></span>remove() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classol_1_1_trie_node.html">TrieNode</a>&lt; V &gt; &gt; <a class="el" href="classol_1_1_trie_map.html">ol::TrieMap</a>&lt; V &gt;::remove </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classol_1_1_trie_node.html">TrieNode</a>&lt; V &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>i</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>递归删除键 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>当前节点 </td></tr>
+    <tr><td class="paramname">key</td><td>删除的键 </td></tr>
+    <tr><td class="paramname">i</td><td>当前处理位置 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>处理后的节点（可能为nullptr） </dd></dl>
+
+</div>
+</div>
+<a id="a9a0bcb10ff8de27a35e64f19b6f954ed" name="a9a0bcb10ff8de27a35e64f19b6f954ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a0bcb10ff8de27a35e64f19b6f954ed">&#9670;&#160;</a></span>shortestPrefix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string <a class="el" href="classol_1_1_trie_map.html">ol::TrieMap</a>&lt; V &gt;::shortestPrefix </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>query</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>查找查询字符串的最短前缀键 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">query</td><td>查询字符串 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>最短前缀键（不存在返回空串） </dd></dl>
+
+</div>
+</div>
+<a id="a1334842925033f685fb9cb7be2b1b851" name="a1334842925033f685fb9cb7be2b1b851"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1334842925033f685fb9cb7be2b1b851">&#9670;&#160;</a></span>size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classol_1_1_trie_map.html">ol::TrieMap</a>&lt; V &gt;::size </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前键值对的数量 </p>
+<dl class="section return"><dt>返回</dt><dd>键值对数量 </dd></dl>
+
+</div>
+</div>
+<a id="aa62e165742a6095f4b64babb28667019" name="aa62e165742a6095f4b64babb28667019"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa62e165742a6095f4b64babb28667019">&#9670;&#160;</a></span>traverse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_trie_map.html">ol::TrieMap</a>&lt; V &gt;::traverse </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classol_1_1_trie_node.html">TrieNode</a>&lt; V &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::list&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>res</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>遍历Trie树，收集所有有效键 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>起始节点 </td></tr>
+    <tr><td class="paramname">path</td><td>当前路径（已遍历的字符） </td></tr>
+    <tr><td class="paramname">res</td><td>存储结果的列表 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="abd2505d53bc98395f6abe20deab5c11f" name="abd2505d53bc98395f6abe20deab5c11f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd2505d53bc98395f6abe20deab5c11f">&#9670;&#160;</a></span>traverseByPattern()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_trie_map.html">ol::TrieMap</a>&lt; V &gt;::traverseByPattern </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classol_1_1_trie_node.html">TrieNode</a>&lt; V &gt; &gt;</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>pattern</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>i</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::list&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>res</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>按模式匹配遍历Trie树（支持'.'作为通配符，匹配单个任意字符） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>起始节点 </td></tr>
+    <tr><td class="paramname">path</td><td>当前匹配路径 </td></tr>
+    <tr><td class="paramname">pattern</td><td>模式字符串 </td></tr>
+    <tr><td class="paramname">i</td><td>当前匹配位置 </td></tr>
+    <tr><td class="paramname">res</td><td>存储匹配结果的列表 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">类成员变量说明</h2>
+<a id="aed5d169a0618d66dabd1f2b8ec3ff633" name="aed5d169a0618d66dabd1f2b8ec3ff633"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed5d169a0618d66dabd1f2b8ec3ff633">&#9670;&#160;</a></span>count</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classol_1_1_trie_map.html">ol::TrieMap</a>&lt; V &gt;::count</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a243962005b9676dd71a14093eb8a73e9" name="a243962005b9676dd71a14093eb8a73e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a243962005b9676dd71a14093eb8a73e9">&#9670;&#160;</a></span>root</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classol_1_1_trie_node.html">TrieNode</a>&lt;V&gt; &gt; <a class="el" href="classol_1_1_trie_map.html">ol::TrieMap</a>&lt; V &gt;::root</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>ollib/include/<a class="el" href="ol___trie_map_8h_source.html">ol_TrieMap.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="namespaceol.html">ol</a></li><li class="navelem"><a href="classol_1_1_trie_map.html">TrieMap</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

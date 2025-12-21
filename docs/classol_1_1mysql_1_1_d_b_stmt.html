@@ -1,0 +1,1719 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ol::mysql::DBStmt类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('classol_1_1mysql_1_1_d_b_stmt.html','','classol_1_1mysql_1_1_d_b_stmt-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ol::mysql::DBStmt类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="ol__mysql_8h_source.html">ol_mysql.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a557f0a4c587d29afcd9063013a225907" id="r_a557f0a4c587d29afcd9063013a225907"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a557f0a4c587d29afcd9063013a225907">DBStmt</a> ()</td></tr>
+<tr class="memitem:a8421096e9be950a5755b79aaafad5c5a" id="r_a8421096e9be950a5755b79aaafad5c5a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8421096e9be950a5755b79aaafad5c5a">DBStmt</a> (<a class="el" href="classol_1_1mysql_1_1_d_b_conn.html">DBConn</a> *conn)</td></tr>
+<tr class="memitem:a886eebef87431d741855701e782a6e2b" id="r_a886eebef87431d741855701e782a6e2b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a886eebef87431d741855701e782a6e2b">~DBStmt</a> ()</td></tr>
+<tr class="memitem:af639f8fb7511453bcb269999e7f02c5c" id="r_af639f8fb7511453bcb269999e7f02c5c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af639f8fb7511453bcb269999e7f02c5c">connect</a> (<a class="el" href="classol_1_1mysql_1_1_d_b_conn.html">DBConn</a> *conn)</td></tr>
+<tr class="memdesc:af639f8fb7511453bcb269999e7f02c5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">关联数据库连接  <br /></td></tr>
+<tr class="memitem:aaf84ae1a9d8aede92cba899d30a4c4b8" id="r_aaf84ae1a9d8aede92cba899d30a4c4b8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf84ae1a9d8aede92cba899d30a4c4b8">isopen</a> ()</td></tr>
+<tr class="memdesc:aaf84ae1a9d8aede92cba899d30a4c4b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断是否已关联数据库连接  <br /></td></tr>
+<tr class="memitem:aa278e833c57dc9a2ff7e32bbb97f4c77" id="r_aa278e833c57dc9a2ff7e32bbb97f4c77"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa278e833c57dc9a2ff7e32bbb97f4c77">disconnect</a> ()</td></tr>
+<tr class="memdesc:aa278e833c57dc9a2ff7e32bbb97f4c77"><td class="mdescLeft">&#160;</td><td class="mdescRight">解除与数据库连接的关联  <br /></td></tr>
+<tr class="memitem:a4edbcd852099994c7d6d3f978117ba3e" id="r_a4edbcd852099994c7d6d3f978117ba3e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4edbcd852099994c7d6d3f978117ba3e">prepare</a> (const std::string &amp;strsql)</td></tr>
+<tr class="memdesc:a4edbcd852099994c7d6d3f978117ba3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">准备SQL语句（支持格式化字符串）  <br /></td></tr>
+<tr class="memitem:a401f1245a92b207953ee0bb55a490c95" id="r_a401f1245a92b207953ee0bb55a490c95"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a401f1245a92b207953ee0bb55a490c95">prepare</a> (const char *fmt,...)</td></tr>
+<tr class="memdesc:a401f1245a92b207953ee0bb55a490c95"><td class="mdescLeft">&#160;</td><td class="mdescRight">准备SQL语句（支持可变参数，同printf）  <br /></td></tr>
+<tr class="memitem:a2fda1f00a85b4110b5e796fa32449cb3" id="r_a2fda1f00a85b4110b5e796fa32449cb3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2fda1f00a85b4110b5e796fa32449cb3">bindin</a> (const unsigned int position, int &amp;value)</td></tr>
+<tr class="memdesc:a2fda1f00a85b4110b5e796fa32449cb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定输入变量（将SQL中的占位符与变量关联）  <br /></td></tr>
+<tr class="memitem:a6acf5c0b8d72c05d7974ed27c4b18db6" id="r_a6acf5c0b8d72c05d7974ed27c4b18db6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6acf5c0b8d72c05d7974ed27c4b18db6">bindin</a> (const unsigned int position, long &amp;value)</td></tr>
+<tr class="memitem:ac1a8e62f2a75fbbbd190f84a299d2eb7" id="r_ac1a8e62f2a75fbbbd190f84a299d2eb7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1a8e62f2a75fbbbd190f84a299d2eb7">bindin</a> (const unsigned int position, unsigned int &amp;value)</td></tr>
+<tr class="memitem:a4da6381e6320a16b2e9e474e815b8582" id="r_a4da6381e6320a16b2e9e474e815b8582"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4da6381e6320a16b2e9e474e815b8582">bindin</a> (const unsigned int position, unsigned long &amp;value)</td></tr>
+<tr class="memitem:a5598214ecbdd111877d0648cf579f36f" id="r_a5598214ecbdd111877d0648cf579f36f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5598214ecbdd111877d0648cf579f36f">bindin</a> (const unsigned int position, float &amp;value)</td></tr>
+<tr class="memitem:a0903410e778796ed98555dd6516c10ad" id="r_a0903410e778796ed98555dd6516c10ad"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0903410e778796ed98555dd6516c10ad">bindin</a> (const unsigned int position, double &amp;value)</td></tr>
+<tr class="memitem:a6a738fc33c8dd0f4b8d392f4138c8557" id="r_a6a738fc33c8dd0f4b8d392f4138c8557"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a738fc33c8dd0f4b8d392f4138c8557">bindin</a> (const unsigned int position, char *value, unsigned int len=2000)</td></tr>
+<tr class="memitem:a07bf364b6b3e7f887c9b03ca48e8779a" id="r_a07bf364b6b3e7f887c9b03ca48e8779a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07bf364b6b3e7f887c9b03ca48e8779a">bindin</a> (const unsigned int position, std::string &amp;value, unsigned int len=2000)</td></tr>
+<tr class="memitem:aad4ab9f66c231e5d34e4cde3559ea723" id="r_aad4ab9f66c231e5d34e4cde3559ea723"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad4ab9f66c231e5d34e4cde3559ea723">bindin1</a> (const unsigned int position, std::string &amp;value)</td></tr>
+<tr class="memitem:a8696882d290c0c373ff5971289cb0c3a" id="r_a8696882d290c0c373ff5971289cb0c3a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8696882d290c0c373ff5971289cb0c3a">bindout</a> (const unsigned int position, int &amp;value)</td></tr>
+<tr class="memdesc:a8696882d290c0c373ff5971289cb0c3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定输出变量（将查询结果字段与变量关联）  <br /></td></tr>
+<tr class="memitem:a146f42a2ada790f81304c82f825d92ad" id="r_a146f42a2ada790f81304c82f825d92ad"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a146f42a2ada790f81304c82f825d92ad">bindout</a> (const unsigned int position, long &amp;value)</td></tr>
+<tr class="memitem:a126cf8792f6b08a5ac42d76db0a97710" id="r_a126cf8792f6b08a5ac42d76db0a97710"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a126cf8792f6b08a5ac42d76db0a97710">bindout</a> (const unsigned int position, unsigned int &amp;value)</td></tr>
+<tr class="memitem:a10a9a78a820d72b87519a89f617a0bf3" id="r_a10a9a78a820d72b87519a89f617a0bf3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a10a9a78a820d72b87519a89f617a0bf3">bindout</a> (const unsigned int position, unsigned long &amp;value)</td></tr>
+<tr class="memitem:a2430412aa1c80dcf784d53088d1886bf" id="r_a2430412aa1c80dcf784d53088d1886bf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2430412aa1c80dcf784d53088d1886bf">bindout</a> (const unsigned int position, float &amp;value)</td></tr>
+<tr class="memitem:a5fcde6595b1c4b8588d616f5d727911c" id="r_a5fcde6595b1c4b8588d616f5d727911c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5fcde6595b1c4b8588d616f5d727911c">bindout</a> (const unsigned int position, double &amp;value)</td></tr>
+<tr class="memitem:a1ee93b73a7aaf2c59523bc8d09c83924" id="r_a1ee93b73a7aaf2c59523bc8d09c83924"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ee93b73a7aaf2c59523bc8d09c83924">bindout</a> (const unsigned int position, char *value, unsigned int len=2000)</td></tr>
+<tr class="memitem:ac39a8a12ce827e9fb326c64458daef1b" id="r_ac39a8a12ce827e9fb326c64458daef1b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac39a8a12ce827e9fb326c64458daef1b">bindout</a> (const unsigned int position, std::string &amp;value, unsigned int len=2000)</td></tr>
+<tr class="memitem:a3988e2ef07ff94887dbb3285c8c67221" id="r_a3988e2ef07ff94887dbb3285c8c67221"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3988e2ef07ff94887dbb3285c8c67221">execute</a> ()</td></tr>
+<tr class="memdesc:a3988e2ef07ff94887dbb3285c8c67221"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行已准备的（静态或动态）SQL语句  <br /></td></tr>
+<tr class="memitem:a089aac14eee27304829992daa18bc0db" id="r_a089aac14eee27304829992daa18bc0db"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a089aac14eee27304829992daa18bc0db">execute</a> (const char *fmt,...)</td></tr>
+<tr class="memdesc:a089aac14eee27304829992daa18bc0db"><td class="mdescLeft">&#160;</td><td class="mdescRight">直接执行静态SQL语句（无绑定变量，非查询语句）  <br /></td></tr>
+<tr class="memitem:aadce99309878be93f1e9b65cec8bce1b" id="r_aadce99309878be93f1e9b65cec8bce1b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aadce99309878be93f1e9b65cec8bce1b">next</a> ()</td></tr>
+<tr class="memdesc:aadce99309878be93f1e9b65cec8bce1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">从结果集中获取下一条记录（仅查询语句有效）  <br /></td></tr>
+<tr class="memitem:aae6d7ca130415ef95524dfe87f647663" id="r_aae6d7ca130415ef95524dfe87f647663"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae6d7ca130415ef95524dfe87f647663">bindblob</a> (const unsigned int position, char *buffer, unsigned long <a class="el" href="#af827c03ed48fadf8f1e7f463b06ff687">length</a>)</td></tr>
+<tr class="memdesc:aae6d7ca130415ef95524dfe87f647663"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定BLOB字段（用于插入/读取二进制大对象）  <br /></td></tr>
+<tr class="memitem:a6c474601c49f01c1c0758a47121c2960" id="r_a6c474601c49f01c1c0758a47121c2960"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6c474601c49f01c1c0758a47121c2960">filetoblob</a> (const unsigned int position, const std::string &amp;filename)</td></tr>
+<tr class="memdesc:a6c474601c49f01c1c0758a47121c2960"><td class="mdescLeft">&#160;</td><td class="mdescRight">将文件内容导入到BLOB字段  <br /></td></tr>
+<tr class="memitem:af48299469223d9a5ae22e153850de356" id="r_af48299469223d9a5ae22e153850de356"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af48299469223d9a5ae22e153850de356">blobtofile</a> (const unsigned int position, const std::string &amp;filename)</td></tr>
+<tr class="memdesc:af48299469223d9a5ae22e153850de356"><td class="mdescLeft">&#160;</td><td class="mdescRight">将BLOB字段内容导出到文件  <br /></td></tr>
+<tr class="memitem:a3c5eac5bbfafb196e56535453c1d8e72" id="r_a3c5eac5bbfafb196e56535453c1d8e72"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3c5eac5bbfafb196e56535453c1d8e72">bindtext</a> (const unsigned int position, char *buffer, unsigned long <a class="el" href="#af827c03ed48fadf8f1e7f463b06ff687">length</a>)</td></tr>
+<tr class="memdesc:a3c5eac5bbfafb196e56535453c1d8e72"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定TEXT字段（用于插入/读取大文本）  <br /></td></tr>
+<tr class="memitem:a9ae8f2a0b352f944ed4b044d8d7d6287" id="r_a9ae8f2a0b352f944ed4b044d8d7d6287"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ae8f2a0b352f944ed4b044d8d7d6287">bindtext</a> (const unsigned int position, std::string &amp;buffer, unsigned long <a class="el" href="#af827c03ed48fadf8f1e7f463b06ff687">length</a>)</td></tr>
+<tr class="memitem:abcd96807a1b1d9e187e4c3d5ae08d2cc" id="r_abcd96807a1b1d9e187e4c3d5ae08d2cc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abcd96807a1b1d9e187e4c3d5ae08d2cc">filetotext</a> (const unsigned int position, const std::string &amp;filename, unsigned int chunk_size=4 *1024 *1024)</td></tr>
+<tr class="memdesc:abcd96807a1b1d9e187e4c3d5ae08d2cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">将文件内容导入到TEXT字段（分块传输版本）  <br /></td></tr>
+<tr class="memitem:abb6be16ee2140790ceb91d3f5c1a1bec" id="r_abb6be16ee2140790ceb91d3f5c1a1bec"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb6be16ee2140790ceb91d3f5c1a1bec">texttofile</a> (const unsigned int position, const std::string &amp;filename)</td></tr>
+<tr class="memdesc:abb6be16ee2140790ceb91d3f5c1a1bec"><td class="mdescLeft">&#160;</td><td class="mdescRight">将TEXT字段内容导出到文件  <br /></td></tr>
+<tr class="memitem:a96603d1c7773a242bf00d7a05656a521" id="r_a96603d1c7773a242bf00d7a05656a521"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a96603d1c7773a242bf00d7a05656a521">sql</a> ()</td></tr>
+<tr class="memdesc:a96603d1c7773a242bf00d7a05656a521"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取SQL语句的文本  <br /></td></tr>
+<tr class="memitem:a656f0c3129ddc7ac2f78d719db330dd2" id="r_a656f0c3129ddc7ac2f78d719db330dd2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a656f0c3129ddc7ac2f78d719db330dd2">rc</a> ()</td></tr>
+<tr class="memdesc:a656f0c3129ddc7ac2f78d719db330dd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取错误代码（Return Code）  <br /></td></tr>
+<tr class="memitem:a4dd99092f6100e7b8d6d3a67075bcbda" id="r_a4dd99092f6100e7b8d6d3a67075bcbda"><td class="memItemLeft" align="right" valign="top">unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4dd99092f6100e7b8d6d3a67075bcbda">rpc</a> ()</td></tr>
+<tr class="memdesc:a4dd99092f6100e7b8d6d3a67075bcbda"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取影响数据的行数（Rows Processed Count）  <br /></td></tr>
+<tr class="memitem:a22896802ff2f2e403d7e3ee30b71a1ed" id="r_a22896802ff2f2e403d7e3ee30b71a1ed"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22896802ff2f2e403d7e3ee30b71a1ed">message</a> ()</td></tr>
+<tr class="memdesc:a22896802ff2f2e403d7e3ee30b71a1ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取错误描述信息  <br /></td></tr>
+<tr class="memitem:a25c118b5568ebbc1993e259171418dda" id="r_a25c118b5568ebbc1993e259171418dda"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a25c118b5568ebbc1993e259171418dda">is_null</a> (const unsigned int position)</td></tr>
+<tr class="memdesc:a25c118b5568ebbc1993e259171418dda"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断绑定的输出字段是否为NULL  <br /></td></tr>
+<tr class="memitem:af827c03ed48fadf8f1e7f463b06ff687" id="r_af827c03ed48fadf8f1e7f463b06ff687"><td class="memItemLeft" align="right" valign="top">unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af827c03ed48fadf8f1e7f463b06ff687">length</a> (const unsigned int position)</td></tr>
+<tr class="memdesc:af827c03ed48fadf8f1e7f463b06ff687"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取绑定的输出字段的实际长度  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-types" class="groupheader"><a id="pri-types" name="pri-types"></a>
+Private 类型</h2></td></tr>
+<tr class="memitem:ad1c9fbbea834008ae5abb85c18c4ee24" id="r_ad1c9fbbea834008ae5abb85c18c4ee24"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="#ad1c9fbbea834008ae5abb85c18c4ee24aef1f6a4a11b3fd291be53a5aae78aaed">connected</a>
+, <a class="el" href="#ad1c9fbbea834008ae5abb85c18c4ee24a70b91dde62dfcd76dfb4373e4c94251d">disconnected</a>
+ }</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a14806d90f2063c55f573af528b5d969d" id="r_a14806d90f2063c55f573af528b5d969d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a14806d90f2063c55f573af528b5d969d">err_report</a> ()</td></tr>
+<tr class="memitem:a4af046a45994bc957729f2bd8a3436a0" id="r_a4af046a45994bc957729f2bd8a3436a0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4af046a45994bc957729f2bd8a3436a0">DBStmt</a> (const <a class="el" href="classol_1_1mysql_1_1_d_b_stmt.html">DBStmt</a> &amp;)=delete</td></tr>
+<tr class="memitem:abeaa497acae3db86a505ed77e2b28f05" id="r_abeaa497acae3db86a505ed77e2b28f05"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classol_1_1mysql_1_1_d_b_stmt.html">DBStmt</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abeaa497acae3db86a505ed77e2b28f05">operator=</a> (const <a class="el" href="classol_1_1mysql_1_1_d_b_stmt.html">DBStmt</a> &amp;)=delete</td></tr>
+<tr class="memitem:a3bd1da79953ce2869ac354e0c5589b6d" id="r_a3bd1da79953ce2869ac354e0c5589b6d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3bd1da79953ce2869ac354e0c5589b6d">free_bind</a> ()</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:abee93190789891d393034dd9f8b88915" id="r_abee93190789891d393034dd9f8b88915"><td class="memItemLeft" align="right" valign="top">MYSQL *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abee93190789891d393034dd9f8b88915">m_mysql</a></td></tr>
+<tr class="memitem:a82f2323f6935f0f18daee5273765b07e" id="r_a82f2323f6935f0f18daee5273765b07e"><td class="memItemLeft" align="right" valign="top">MYSQL_STMT *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82f2323f6935f0f18daee5273765b07e">m_stmt</a></td></tr>
+<tr class="memitem:acefa7d575269a1667c70051370fe5bdd" id="r_acefa7d575269a1667c70051370fe5bdd"><td class="memItemLeft" align="right" valign="top">MYSQL_RES *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acefa7d575269a1667c70051370fe5bdd">m_result</a></td></tr>
+<tr class="memitem:a5350071ae497a79b4f680491bd8a1b2b" id="r_a5350071ae497a79b4f680491bd8a1b2b"><td class="memItemLeft" align="right" valign="top">MYSQL_BIND *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5350071ae497a79b4f680491bd8a1b2b">m_bindin</a></td></tr>
+<tr class="memitem:a15f67a796b16b7901153bd4c8e6ccae1" id="r_a15f67a796b16b7901153bd4c8e6ccae1"><td class="memItemLeft" align="right" valign="top">MYSQL_BIND *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a15f67a796b16b7901153bd4c8e6ccae1">m_bindout</a></td></tr>
+<tr class="memitem:a1d4f9d9ee14e510e85dca120461ce48d" id="r_a1d4f9d9ee14e510e85dca120461ce48d"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d4f9d9ee14e510e85dca120461ce48d">m_param_count</a></td></tr>
+<tr class="memitem:a949df3738cc6bda8ec5afa59b7529ba7" id="r_a949df3738cc6bda8ec5afa59b7529ba7"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a949df3738cc6bda8ec5afa59b7529ba7">m_field_count</a></td></tr>
+<tr class="memitem:a1b051f88dd46e99c35f33ca6b83d05bd" id="r_a1b051f88dd46e99c35f33ca6b83d05bd"><td class="memItemLeft" align="right" valign="top">unsigned long *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b051f88dd46e99c35f33ca6b83d05bd">m_out_lengths</a></td></tr>
+<tr class="memitem:a9c0b57c2fdd56d1dcff4c1256611f705" id="r_a9c0b57c2fdd56d1dcff4c1256611f705"><td class="memItemLeft" align="right" valign="top">bool *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9c0b57c2fdd56d1dcff4c1256611f705">m_out_is_null</a></td></tr>
+<tr class="memitem:ab7af2f4eb9fb3e7c65e2c0c3597f03ba" id="r_ab7af2f4eb9fb3e7c65e2c0c3597f03ba"><td class="memItemLeft" align="right" valign="top">unsigned long *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab7af2f4eb9fb3e7c65e2c0c3597f03ba">m_blob_lengths</a></td></tr>
+<tr class="memitem:a84b4a01021930f8fc57db9dce18d685a" id="r_a84b4a01021930f8fc57db9dce18d685a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classol_1_1mysql_1_1_d_b_conn.html">DBConn</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84b4a01021930f8fc57db9dce18d685a">m_conn</a></td></tr>
+<tr class="memitem:a740f462b8db26382accdf7869a1d55a2" id="r_a740f462b8db26382accdf7869a1d55a2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a740f462b8db26382accdf7869a1d55a2">m_sqltype</a></td></tr>
+<tr class="memitem:a17254deb5db3591c514bb69a08771f03" id="r_a17254deb5db3591c514bb69a08771f03"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17254deb5db3591c514bb69a08771f03">m_autocommitopt</a></td></tr>
+<tr class="memitem:a0afffb9da11bed92c309b9140f7a001e" id="r_a0afffb9da11bed92c309b9140f7a001e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0afffb9da11bed92c309b9140f7a001e">m_state</a></td></tr>
+<tr class="memitem:af69ac13623c605d8b9e0f469e6e82e15" id="r_af69ac13623c605d8b9e0f469e6e82e15"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af69ac13623c605d8b9e0f469e6e82e15">m_sql</a></td></tr>
+<tr class="memitem:a247c91d1e566612b7e2049d8288336c8" id="r_a247c91d1e566612b7e2049d8288336c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structol_1_1mysql_1_1_c_d_a___d_e_f.html">CDA_DEF</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a247c91d1e566612b7e2049d8288336c8">m_cda</a></td></tr>
+</table>
+<a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">成员枚举类型说明</h2>
+<a id="ad1c9fbbea834008ae5abb85c18c4ee24" name="ad1c9fbbea834008ae5abb85c18c4ee24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1c9fbbea834008ae5abb85c18c4ee24">&#9670;&#160;</a></span>anonymous enum</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">anonymous enum</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="ad1c9fbbea834008ae5abb85c18c4ee24aef1f6a4a11b3fd291be53a5aae78aaed" name="ad1c9fbbea834008ae5abb85c18c4ee24aef1f6a4a11b3fd291be53a5aae78aaed"></a>connected&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad1c9fbbea834008ae5abb85c18c4ee24a70b91dde62dfcd76dfb4373e4c94251d" name="ad1c9fbbea834008ae5abb85c18c4ee24a70b91dde62dfcd76dfb4373e4c94251d"></a>disconnected&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
+<a id="a4af046a45994bc957729f2bd8a3436a0" name="a4af046a45994bc957729f2bd8a3436a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4af046a45994bc957729f2bd8a3436a0">&#9670;&#160;</a></span>DBStmt() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ol::mysql::DBStmt::DBStmt </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classol_1_1mysql_1_1_d_b_stmt.html">DBStmt</a> &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a557f0a4c587d29afcd9063013a225907" name="a557f0a4c587d29afcd9063013a225907"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a557f0a4c587d29afcd9063013a225907">&#9670;&#160;</a></span>DBStmt() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ol::mysql::DBStmt::DBStmt </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8421096e9be950a5755b79aaafad5c5a" name="a8421096e9be950a5755b79aaafad5c5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8421096e9be950a5755b79aaafad5c5a">&#9670;&#160;</a></span>DBStmt() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ol::mysql::DBStmt::DBStmt </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classol_1_1mysql_1_1_d_b_conn.html">DBConn</a> *</td>          <td class="paramname"><span class="paramname"><em>conn</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a886eebef87431d741855701e782a6e2b" name="a886eebef87431d741855701e782a6e2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a886eebef87431d741855701e782a6e2b">&#9670;&#160;</a></span>~DBStmt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ol::mysql::DBStmt::~DBStmt </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">成员函数说明</h2>
+<a id="aae6d7ca130415ef95524dfe87f647663" name="aae6d7ca130415ef95524dfe87f647663"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae6d7ca130415ef95524dfe87f647663">&#9670;&#160;</a></span>bindblob()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::bindblob </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>buffer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned long</td>          <td class="paramname"><span class="paramname"><em>length</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>绑定BLOB字段（用于插入/读取二进制大对象） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">position</td><td>占位符位置（从1开始） </td></tr>
+    <tr><td class="paramname">buffer</td><td>数据缓冲区 </td></tr>
+    <tr><td class="paramname">length</td><td>数据长度 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（程序中一般不必关心返回值） </dd></dl>
+
+</div>
+</div>
+<a id="a6a738fc33c8dd0f4b8d392f4138c8557" name="a6a738fc33c8dd0f4b8d392f4138c8557"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a738fc33c8dd0f4b8d392f4138c8557">&#9670;&#160;</a></span>bindin() <span class="overload">[1/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::bindin </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>len</em></span><span class="paramdefsep"> = </span><span class="paramdefval">2000</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0903410e778796ed98555dd6516c10ad" name="a0903410e778796ed98555dd6516c10ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0903410e778796ed98555dd6516c10ad">&#9670;&#160;</a></span>bindin() <span class="overload">[2/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::bindin </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5598214ecbdd111877d0648cf579f36f" name="a5598214ecbdd111877d0648cf579f36f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5598214ecbdd111877d0648cf579f36f">&#9670;&#160;</a></span>bindin() <span class="overload">[3/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::bindin </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2fda1f00a85b4110b5e796fa32449cb3" name="a2fda1f00a85b4110b5e796fa32449cb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fda1f00a85b4110b5e796fa32449cb3">&#9670;&#160;</a></span>bindin() <span class="overload">[4/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::bindin </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>绑定输入变量（将SQL中的占位符与变量关联） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">position</td><td>占位符位置（从1开始，必须与prepare方法中的SQL的序号一一对应） </td></tr>
+    <tr><td class="paramname">value</td><td>输入变量地址（如果是字符串，内存大小应该是表对应的字段长度加1） </td></tr>
+    <tr><td class="paramname">len</td><td>字符串类型的长度（不含终止符，默认2000） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（程序中一般不必关心返回值） </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>1）如果SQL语句没有改变，只需要bindin一次就可以了； 2）如果value的类型是std::string，bindin()函数中会resize(len)； 3）如果value的类型是std::string，那么，在用户的程序代码中，不可改变它内部buffer的地址。 4）如果value的类型是std::string或char，那么传入len的参数不包括最后的NULL。 </dd></dl>
+
+</div>
+</div>
+<a id="a6acf5c0b8d72c05d7974ed27c4b18db6" name="a6acf5c0b8d72c05d7974ed27c4b18db6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6acf5c0b8d72c05d7974ed27c4b18db6">&#9670;&#160;</a></span>bindin() <span class="overload">[5/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::bindin </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a07bf364b6b3e7f887c9b03ca48e8779a" name="a07bf364b6b3e7f887c9b03ca48e8779a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07bf364b6b3e7f887c9b03ca48e8779a">&#9670;&#160;</a></span>bindin() <span class="overload">[6/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::bindin </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>len</em></span><span class="paramdefsep"> = </span><span class="paramdefval">2000</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac1a8e62f2a75fbbbd190f84a299d2eb7" name="ac1a8e62f2a75fbbbd190f84a299d2eb7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1a8e62f2a75fbbbd190f84a299d2eb7">&#9670;&#160;</a></span>bindin() <span class="overload">[7/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::bindin </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4da6381e6320a16b2e9e474e815b8582" name="a4da6381e6320a16b2e9e474e815b8582"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4da6381e6320a16b2e9e474e815b8582">&#9670;&#160;</a></span>bindin() <span class="overload">[8/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::bindin </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned long &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aad4ab9f66c231e5d34e4cde3559ea723" name="aad4ab9f66c231e5d34e4cde3559ea723"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad4ab9f66c231e5d34e4cde3559ea723">&#9670;&#160;</a></span>bindin1()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::bindin1 </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1ee93b73a7aaf2c59523bc8d09c83924" name="a1ee93b73a7aaf2c59523bc8d09c83924"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ee93b73a7aaf2c59523bc8d09c83924">&#9670;&#160;</a></span>bindout() <span class="overload">[1/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::bindout </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>len</em></span><span class="paramdefsep"> = </span><span class="paramdefval">2000</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5fcde6595b1c4b8588d616f5d727911c" name="a5fcde6595b1c4b8588d616f5d727911c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fcde6595b1c4b8588d616f5d727911c">&#9670;&#160;</a></span>bindout() <span class="overload">[2/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::bindout </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2430412aa1c80dcf784d53088d1886bf" name="a2430412aa1c80dcf784d53088d1886bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2430412aa1c80dcf784d53088d1886bf">&#9670;&#160;</a></span>bindout() <span class="overload">[3/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::bindout </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8696882d290c0c373ff5971289cb0c3a" name="a8696882d290c0c373ff5971289cb0c3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8696882d290c0c373ff5971289cb0c3a">&#9670;&#160;</a></span>bindout() <span class="overload">[4/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::bindout </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>绑定输出变量（将查询结果字段与变量关联） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">position</td><td>结果集字段位置（从1开始，与SQL的结果集一一对应） </td></tr>
+    <tr><td class="paramname">value</td><td>输出变量地址（如果是字符串，内存大小应该是表对应的字段长度加1） </td></tr>
+    <tr><td class="paramname">len</td><td>字符串类型的最大长度（不含终止符，默认2000） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（程序中一般不必关心返回值） </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>1）如果SQL语句没有改变，只需要bindout一次就可以了； 2）如果value的类型是std::string，那么将在内容后面填充0，直到len的大小，value.size()永远是len。 3）如果value的类型是std::string，那么，在用户的程序代码中，不可改变它内部buffer的地址。 4）如果value的类型是std::string或char，那么传入len的参数不包括最后的NULL。 </dd></dl>
+
+</div>
+</div>
+<a id="a146f42a2ada790f81304c82f825d92ad" name="a146f42a2ada790f81304c82f825d92ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a146f42a2ada790f81304c82f825d92ad">&#9670;&#160;</a></span>bindout() <span class="overload">[5/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::bindout </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac39a8a12ce827e9fb326c64458daef1b" name="ac39a8a12ce827e9fb326c64458daef1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac39a8a12ce827e9fb326c64458daef1b">&#9670;&#160;</a></span>bindout() <span class="overload">[6/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::bindout </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>len</em></span><span class="paramdefsep"> = </span><span class="paramdefval">2000</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a126cf8792f6b08a5ac42d76db0a97710" name="a126cf8792f6b08a5ac42d76db0a97710"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a126cf8792f6b08a5ac42d76db0a97710">&#9670;&#160;</a></span>bindout() <span class="overload">[7/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::bindout </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a10a9a78a820d72b87519a89f617a0bf3" name="a10a9a78a820d72b87519a89f617a0bf3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10a9a78a820d72b87519a89f617a0bf3">&#9670;&#160;</a></span>bindout() <span class="overload">[8/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::bindout </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned long &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3c5eac5bbfafb196e56535453c1d8e72" name="a3c5eac5bbfafb196e56535453c1d8e72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c5eac5bbfafb196e56535453c1d8e72">&#9670;&#160;</a></span>bindtext() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::bindtext </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>buffer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned long</td>          <td class="paramname"><span class="paramname"><em>length</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>绑定TEXT字段（用于插入/读取大文本） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">position</td><td>占位符位置（从1开始） </td></tr>
+    <tr><td class="paramname">buffer</td><td>文本缓冲区 </td></tr>
+    <tr><td class="paramname">length</td><td>文本长度 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败 </dd></dl>
+
+</div>
+</div>
+<a id="a9ae8f2a0b352f944ed4b044d8d7d6287" name="a9ae8f2a0b352f944ed4b044d8d7d6287"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ae8f2a0b352f944ed4b044d8d7d6287">&#9670;&#160;</a></span>bindtext() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::bindtext </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>buffer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned long</td>          <td class="paramname"><span class="paramname"><em>length</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af48299469223d9a5ae22e153850de356" name="af48299469223d9a5ae22e153850de356"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af48299469223d9a5ae22e153850de356">&#9670;&#160;</a></span>blobtofile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::blobtofile </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>将BLOB字段内容导出到文件 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">position</td><td>结果集字段位置 </td></tr>
+    <tr><td class="paramname">filename</td><td>导出文件的路径（建议绝对路径） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（程序中一般不必关心返回值） </dd></dl>
+
+</div>
+</div>
+<a id="af639f8fb7511453bcb269999e7f02c5c" name="af639f8fb7511453bcb269999e7f02c5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af639f8fb7511453bcb269999e7f02c5c">&#9670;&#160;</a></span>connect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::connect </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classol_1_1mysql_1_1_d_b_conn.html">DBConn</a> *</td>          <td class="paramname"><span class="paramname"><em>conn</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>关联数据库连接 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">conn</td><td>数据库连接对象指针 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（只要conn参数是有效的，并且数据库的游标资源足够，connect方法不会返回失败） </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>程序中一般不必关心connect方法的返回值 每个DBStmt只需要指定一次，在指定新的DBConn前，必须先显式的调用disconnect方法 </dd></dl>
+
+</div>
+</div>
+<a id="aa278e833c57dc9a2ff7e32bbb97f4c77" name="aa278e833c57dc9a2ff7e32bbb97f4c77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa278e833c57dc9a2ff7e32bbb97f4c77">&#9670;&#160;</a></span>disconnect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::disconnect </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>解除与数据库连接的关联 </p>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（程序中一般不必关心返回值） </dd></dl>
+
+</div>
+</div>
+<a id="a14806d90f2063c55f573af528b5d969d" name="a14806d90f2063c55f573af528b5d969d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14806d90f2063c55f573af528b5d969d">&#9670;&#160;</a></span>err_report()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ol::mysql::DBStmt::err_report </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3988e2ef07ff94887dbb3285c8c67221" name="a3988e2ef07ff94887dbb3285c8c67221"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3988e2ef07ff94887dbb3285c8c67221">&#9670;&#160;</a></span>execute() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::execute </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>执行已准备的（静态或动态）SQL语句 </p>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（失败的代码在m_cda.rc中，失败的描述在m_cda.message中） </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>如果成功的执行了非查询语句，在m_cda.rpc中保存了本次执行SQL影响记录的行数。 程序中必须检查execute方法的返回值。 </dd></dl>
+
+</div>
+</div>
+<a id="a089aac14eee27304829992daa18bc0db" name="a089aac14eee27304829992daa18bc0db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a089aac14eee27304829992daa18bc0db">&#9670;&#160;</a></span>execute() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::execute </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>fmt</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>...</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>直接执行静态SQL语句（无绑定变量，非查询语句） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fmt</td><td>格式化SQL字符串（支持可变参数，同printf） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（失败的代码在m_cda.rc中，失败的描述在m_cda.message中） </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>如果成功的执行了非查询语句，在m_cda.rpc中保存了本次执行SQL影响记录的行数。 程序中必须检查execute方法的返回值。 </dd></dl>
+
+</div>
+</div>
+<a id="a6c474601c49f01c1c0758a47121c2960" name="a6c474601c49f01c1c0758a47121c2960"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c474601c49f01c1c0758a47121c2960">&#9670;&#160;</a></span>filetoblob()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::filetoblob </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>将文件内容导入到BLOB字段 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">position</td><td>占位符位置 </td></tr>
+    <tr><td class="paramname">filename</td><td>待导入文件的路径（建议绝对路径） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（程序中一般不必关心返回值） </dd></dl>
+
+</div>
+</div>
+<a id="abcd96807a1b1d9e187e4c3d5ae08d2cc" name="abcd96807a1b1d9e187e4c3d5ae08d2cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abcd96807a1b1d9e187e4c3d5ae08d2cc">&#9670;&#160;</a></span>filetotext()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::filetotext </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>chunk_size</em></span><span class="paramdefsep"> = </span><span class="paramdefval">4&#160;*&#160;1024&#160;*&#160;1024</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>将文件内容导入到TEXT字段（分块传输版本） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">position</td><td>占位符位置 </td></tr>
+    <tr><td class="paramname">filename</td><td>待导入文件的路径 </td></tr>
+    <tr><td class="paramname">chunk_size</td><td>分块大小（默认4MB，建议小于max_allowed_packet） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败 </dd></dl>
+
+</div>
+</div>
+<a id="a3bd1da79953ce2869ac354e0c5589b6d" name="a3bd1da79953ce2869ac354e0c5589b6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3bd1da79953ce2869ac354e0c5589b6d">&#9670;&#160;</a></span>free_bind()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ol::mysql::DBStmt::free_bind </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a25c118b5568ebbc1993e259171418dda" name="a25c118b5568ebbc1993e259171418dda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25c118b5568ebbc1993e259171418dda">&#9670;&#160;</a></span>is_null()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ol::mysql::DBStmt::is_null </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>判断绑定的输出字段是否为NULL </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">position</td><td>结果集字段位置（从1开始） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>字段为NULL返回true，否则返回false </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>必须在调用next()之后使用，且该字段必须已通过bindout绑定 </dd></dl>
+
+</div>
+</div>
+<a id="aaf84ae1a9d8aede92cba899d30a4c4b8" name="aaf84ae1a9d8aede92cba899d30a4c4b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf84ae1a9d8aede92cba899d30a4c4b8">&#9670;&#160;</a></span>isopen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ol::mysql::DBStmt::isopen </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>判断是否已关联数据库连接 </p>
+<dl class="section return"><dt>返回</dt><dd>已关联返回true，否则false </dd></dl>
+
+</div>
+</div>
+<a id="af827c03ed48fadf8f1e7f463b06ff687" name="af827c03ed48fadf8f1e7f463b06ff687"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af827c03ed48fadf8f1e7f463b06ff687">&#9670;&#160;</a></span>length()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned long ol::mysql::DBStmt::length </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取绑定的输出字段的实际长度 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">position</td><td>结果集字段位置（从1开始） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>字段的实际字节长度 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>1. 对于字符串类型，返回实际字符数（不含终止符）<ol type="1">
+<li>对于数值类型，返回其在数据库中的存储长度</li>
+<li>必须在调用next()之后使用，且该字段必须已通过bindout绑定 </li>
+</ol>
+</dd></dl>
+
+</div>
+</div>
+<a id="a22896802ff2f2e403d7e3ee30b71a1ed" name="a22896802ff2f2e403d7e3ee30b71a1ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22896802ff2f2e403d7e3ee30b71a1ed">&#9670;&#160;</a></span>message()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string ol::mysql::DBStmt::message </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取错误描述信息 </p>
+<dl class="section return"><dt>返回</dt><dd>错误描述字符串（失败时有效） </dd></dl>
+
+</div>
+</div>
+<a id="aadce99309878be93f1e9b65cec8bce1b" name="aadce99309878be93f1e9b65cec8bce1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aadce99309878be93f1e9b65cec8bce1b">&#9670;&#160;</a></span>next()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::next </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>从结果集中获取下一条记录（仅查询语句有效） </p>
+<dl class="section return"><dt>返回</dt><dd>0-成功，100-无更多记录（也可以使用宏MYSQL_NO_DATA），其他-失败（失败的代码在m_cda.rc中，失败的描述在m_cda.message中） </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>返回失败的原因主要有两个：1）与数据库的连接已断开；2）绑定输出变量的内存太小。 程序中必须检查next方法的返回值。 </dd></dl>
+
+</div>
+</div>
+<a id="abeaa497acae3db86a505ed77e2b28f05" name="abeaa497acae3db86a505ed77e2b28f05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abeaa497acae3db86a505ed77e2b28f05">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1mysql_1_1_d_b_stmt.html">DBStmt</a> &amp; ol::mysql::DBStmt::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classol_1_1mysql_1_1_d_b_stmt.html">DBStmt</a> &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a401f1245a92b207953ee0bb55a490c95" name="a401f1245a92b207953ee0bb55a490c95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a401f1245a92b207953ee0bb55a490c95">&#9670;&#160;</a></span>prepare() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::prepare </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>fmt</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>...</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>准备SQL语句（支持可变参数，同printf） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fmt</td><td>格式化SQL字符串 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（程序中一般不必关心返回值） </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>1）如果SQL语句没有改变，只需要prepare一次就可以了; 2）当SQL语句中包含DATE_FORMAT等函数需要使用格式符时，为避免与vsnprintf的格式化冲突， 应将格式字符串通过参数传入。例如： stmt.prepare("select ... DATE_FORMAT(btime, %s) ...", R"('%Y-%m-%d %H:%i:%s')"); 而非直接在SQL字符串中写入'Y-m-d H:i:s' </dd></dl>
+
+</div>
+</div>
+<a id="a4edbcd852099994c7d6d3f978117ba3e" name="a4edbcd852099994c7d6d3f978117ba3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4edbcd852099994c7d6d3f978117ba3e">&#9670;&#160;</a></span>prepare() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::prepare </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>strsql</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>准备SQL语句（支持格式化字符串） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strsql</td><td>SQL字符串 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（程序中一般不必关心返回值） </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>如果SQL语句没有改变，只需要prepare一次就可以了 </dd></dl>
+
+</div>
+</div>
+<a id="a656f0c3129ddc7ac2f78d719db330dd2" name="a656f0c3129ddc7ac2f78d719db330dd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a656f0c3129ddc7ac2f78d719db330dd2">&#9670;&#160;</a></span>rc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::rc </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取错误代码（Return Code） </p>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其它值-失败 </dd></dl>
+
+</div>
+</div>
+<a id="a4dd99092f6100e7b8d6d3a67075bcbda" name="a4dd99092f6100e7b8d6d3a67075bcbda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4dd99092f6100e7b8d6d3a67075bcbda">&#9670;&#160;</a></span>rpc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned long ol::mysql::DBStmt::rpc </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取影响数据的行数（Rows Processed Count） </p>
+<dl class="section return"><dt>返回</dt><dd>对于insert/update/delete返回影响记录数，对于select返回结果集行数 </dd></dl>
+
+</div>
+</div>
+<a id="a96603d1c7773a242bf00d7a05656a521" name="a96603d1c7773a242bf00d7a05656a521"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96603d1c7773a242bf00d7a05656a521">&#9670;&#160;</a></span>sql()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * ol::mysql::DBStmt::sql </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取SQL语句的文本 </p>
+<dl class="section return"><dt>返回</dt><dd>SQL语句字符串的常量指针 </dd></dl>
+
+</div>
+</div>
+<a id="abb6be16ee2140790ceb91d3f5c1a1bec" name="abb6be16ee2140790ceb91d3f5c1a1bec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb6be16ee2140790ceb91d3f5c1a1bec">&#9670;&#160;</a></span>texttofile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::texttofile </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>将TEXT字段内容导出到文件 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">position</td><td>结果集字段位置 </td></tr>
+    <tr><td class="paramname">filename</td><td>导出文件的路径 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败 </dd></dl>
+
+</div>
+</div>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">类成员变量说明</h2>
+<a id="a17254deb5db3591c514bb69a08771f03" name="a17254deb5db3591c514bb69a08771f03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17254deb5db3591c514bb69a08771f03">&#9670;&#160;</a></span>m_autocommitopt</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ol::mysql::DBStmt::m_autocommitopt</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5350071ae497a79b4f680491bd8a1b2b" name="a5350071ae497a79b4f680491bd8a1b2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5350071ae497a79b4f680491bd8a1b2b">&#9670;&#160;</a></span>m_bindin</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">MYSQL_BIND* ol::mysql::DBStmt::m_bindin</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a15f67a796b16b7901153bd4c8e6ccae1" name="a15f67a796b16b7901153bd4c8e6ccae1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15f67a796b16b7901153bd4c8e6ccae1">&#9670;&#160;</a></span>m_bindout</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">MYSQL_BIND* ol::mysql::DBStmt::m_bindout</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab7af2f4eb9fb3e7c65e2c0c3597f03ba" name="ab7af2f4eb9fb3e7c65e2c0c3597f03ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7af2f4eb9fb3e7c65e2c0c3597f03ba">&#9670;&#160;</a></span>m_blob_lengths</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned long* ol::mysql::DBStmt::m_blob_lengths</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a247c91d1e566612b7e2049d8288336c8" name="a247c91d1e566612b7e2049d8288336c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a247c91d1e566612b7e2049d8288336c8">&#9670;&#160;</a></span>m_cda</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structol_1_1mysql_1_1_c_d_a___d_e_f.html">CDA_DEF</a> ol::mysql::DBStmt::m_cda</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a84b4a01021930f8fc57db9dce18d685a" name="a84b4a01021930f8fc57db9dce18d685a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84b4a01021930f8fc57db9dce18d685a">&#9670;&#160;</a></span>m_conn</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1mysql_1_1_d_b_conn.html">DBConn</a>* ol::mysql::DBStmt::m_conn</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a949df3738cc6bda8ec5afa59b7529ba7" name="a949df3738cc6bda8ec5afa59b7529ba7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a949df3738cc6bda8ec5afa59b7529ba7">&#9670;&#160;</a></span>m_field_count</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int ol::mysql::DBStmt::m_field_count</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abee93190789891d393034dd9f8b88915" name="abee93190789891d393034dd9f8b88915"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abee93190789891d393034dd9f8b88915">&#9670;&#160;</a></span>m_mysql</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">MYSQL* ol::mysql::DBStmt::m_mysql</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9c0b57c2fdd56d1dcff4c1256611f705" name="a9c0b57c2fdd56d1dcff4c1256611f705"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c0b57c2fdd56d1dcff4c1256611f705">&#9670;&#160;</a></span>m_out_is_null</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool* ol::mysql::DBStmt::m_out_is_null</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1b051f88dd46e99c35f33ca6b83d05bd" name="a1b051f88dd46e99c35f33ca6b83d05bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b051f88dd46e99c35f33ca6b83d05bd">&#9670;&#160;</a></span>m_out_lengths</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned long* ol::mysql::DBStmt::m_out_lengths</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1d4f9d9ee14e510e85dca120461ce48d" name="a1d4f9d9ee14e510e85dca120461ce48d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d4f9d9ee14e510e85dca120461ce48d">&#9670;&#160;</a></span>m_param_count</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int ol::mysql::DBStmt::m_param_count</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acefa7d575269a1667c70051370fe5bdd" name="acefa7d575269a1667c70051370fe5bdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acefa7d575269a1667c70051370fe5bdd">&#9670;&#160;</a></span>m_result</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">MYSQL_RES* ol::mysql::DBStmt::m_result</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af69ac13623c605d8b9e0f469e6e82e15" name="af69ac13623c605d8b9e0f469e6e82e15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af69ac13623c605d8b9e0f469e6e82e15">&#9670;&#160;</a></span>m_sql</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string ol::mysql::DBStmt::m_sql</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a740f462b8db26382accdf7869a1d55a2" name="a740f462b8db26382accdf7869a1d55a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a740f462b8db26382accdf7869a1d55a2">&#9670;&#160;</a></span>m_sqltype</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ol::mysql::DBStmt::m_sqltype</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0afffb9da11bed92c309b9140f7a001e" name="a0afffb9da11bed92c309b9140f7a001e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0afffb9da11bed92c309b9140f7a001e">&#9670;&#160;</a></span>m_state</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::mysql::DBStmt::m_state</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a82f2323f6935f0f18daee5273765b07e" name="a82f2323f6935f0f18daee5273765b07e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82f2323f6935f0f18daee5273765b07e">&#9670;&#160;</a></span>m_stmt</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">MYSQL_STMT* ol::mysql::DBStmt::m_stmt</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>oldblib/mysql/include/<a class="el" href="ol__mysql_8h_source.html">ol_mysql.h</a></li>
+<li>oldblib/mysql/src/<a class="el" href="ol__mysql_8cpp.html">ol_mysql.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="namespaceol.html">ol</a></li><li class="navelem"><a href="namespaceol_1_1mysql.html">mysql</a></li><li class="navelem"><a href="classol_1_1mysql_1_1_d_b_stmt.html">DBStmt</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

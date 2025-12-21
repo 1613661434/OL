@@ -1,0 +1,1109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ollib/include/third_party/ftplib/ftplib.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('ftplib_8h.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ftplib.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;limits.h&gt;</code><br />
+<code>#include &lt;inttypes.h&gt;</code><br />
+</div>
+<p><a href="ftplib_8h_source.html">浏览该文件的源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:FtpCallbackOptions" id="r_FtpCallbackOptions"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_ftp_callback_options.html">FtpCallbackOptions</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-define-members" class="groupheader"><a id="define-members" name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:a1572cad2ccc2977a34f00f5cd1e49979" id="r_a1572cad2ccc2977a34f00f5cd1e49979"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1572cad2ccc2977a34f00f5cd1e49979">FTPLIB_DIR</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memitem:ae943c456987494e064f03d37a097c354" id="r_ae943c456987494e064f03d37a097c354"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae943c456987494e064f03d37a097c354">FTPLIB_DIR_VERBOSE</a>&#160;&#160;&#160;2</td></tr>
+<tr class="memitem:a36e3d855c6219bd95825f1f93d68a62a" id="r_a36e3d855c6219bd95825f1f93d68a62a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a36e3d855c6219bd95825f1f93d68a62a">FTPLIB_FILE_READ</a>&#160;&#160;&#160;3</td></tr>
+<tr class="memitem:aa9793cf181925c0b6f60f4c9ac400740" id="r_aa9793cf181925c0b6f60f4c9ac400740"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9793cf181925c0b6f60f4c9ac400740">FTPLIB_FILE_WRITE</a>&#160;&#160;&#160;4</td></tr>
+<tr class="memitem:a706724801feeb2bb68751534efaf4207" id="r_a706724801feeb2bb68751534efaf4207"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a706724801feeb2bb68751534efaf4207">FTPLIB_ASCII</a>&#160;&#160;&#160;'A'</td></tr>
+<tr class="memitem:a1d8c232bd1e241a834e22736386f3a99" id="r_a1d8c232bd1e241a834e22736386f3a99"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d8c232bd1e241a834e22736386f3a99">FTPLIB_IMAGE</a>&#160;&#160;&#160;'I'</td></tr>
+<tr class="memitem:a723b3fa0993db4d8de4c566567e17deb" id="r_a723b3fa0993db4d8de4c566567e17deb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a723b3fa0993db4d8de4c566567e17deb">FTPLIB_TEXT</a>&#160;&#160;&#160;<a class="el" href="#a706724801feeb2bb68751534efaf4207">FTPLIB_ASCII</a></td></tr>
+<tr class="memitem:ae553b697c1ee8014d60fb1d407ba67d1" id="r_ae553b697c1ee8014d60fb1d407ba67d1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae553b697c1ee8014d60fb1d407ba67d1">FTPLIB_BINARY</a>&#160;&#160;&#160;<a class="el" href="#a1d8c232bd1e241a834e22736386f3a99">FTPLIB_IMAGE</a></td></tr>
+<tr class="memitem:aa0ad169c53b73ddcc2854356d3f05409" id="r_aa0ad169c53b73ddcc2854356d3f05409"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa0ad169c53b73ddcc2854356d3f05409">FTPLIB_PASSIVE</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memitem:a7ce38a031ca4a29ed368f694316efbec" id="r_a7ce38a031ca4a29ed368f694316efbec"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7ce38a031ca4a29ed368f694316efbec">FTPLIB_PORT</a>&#160;&#160;&#160;2</td></tr>
+<tr class="memitem:a92dc4ef668dc02da25d82fb0f397014a" id="r_a92dc4ef668dc02da25d82fb0f397014a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92dc4ef668dc02da25d82fb0f397014a">FTPLIB_CONNMODE</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memitem:a5da988dc35f3363ff44ef6457fa2bb06" id="r_a5da988dc35f3363ff44ef6457fa2bb06"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5da988dc35f3363ff44ef6457fa2bb06">FTPLIB_CALLBACK</a>&#160;&#160;&#160;2</td></tr>
+<tr class="memitem:a603971f9d4aaae61a613b39a8636786c" id="r_a603971f9d4aaae61a613b39a8636786c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a603971f9d4aaae61a613b39a8636786c">FTPLIB_IDLETIME</a>&#160;&#160;&#160;3</td></tr>
+<tr class="memitem:a2b928813af0794248fd3587bdbb92d2e" id="r_a2b928813af0794248fd3587bdbb92d2e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b928813af0794248fd3587bdbb92d2e">FTPLIB_CALLBACKARG</a>&#160;&#160;&#160;4</td></tr>
+<tr class="memitem:ae23ea6a3a0807ea7fbac768cdff924f1" id="r_ae23ea6a3a0807ea7fbac768cdff924f1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae23ea6a3a0807ea7fbac768cdff924f1">FTPLIB_CALLBACKBYTES</a>&#160;&#160;&#160;5</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+类型定义</h2></td></tr>
+<tr class="memitem:a6ca53be72b4249c711c35aab599f4dc5" id="r_a6ca53be72b4249c711c35aab599f4dc5"><td class="memItemLeft" align="right" valign="top">typedef uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ca53be72b4249c711c35aab599f4dc5">fsz_t</a></td></tr>
+<tr class="memitem:a41c079148fbe076c02326a3f114d9a0a" id="r_a41c079148fbe076c02326a3f114d9a0a"><td class="memItemLeft" align="right" valign="top">typedef struct NetBuf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a></td></tr>
+<tr class="memitem:a47858824ff9f3fc8b0ebbe9ba8b40cd3" id="r_a47858824ff9f3fc8b0ebbe9ba8b40cd3"><td class="memItemLeft" align="right" valign="top">typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a47858824ff9f3fc8b0ebbe9ba8b40cd3">FtpCallback</a>) (<a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl, <a class="el" href="#a6ca53be72b4249c711c35aab599f4dc5">fsz_t</a> xfered, void *arg)</td></tr>
+<tr class="memitem:a3a2db043e360673a8cd718b1dfcc03fc" id="r_a3a2db043e360673a8cd718b1dfcc03fc"><td class="memItemLeft" align="right" valign="top">typedef struct FtpCallbackOptions&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3a2db043e360673a8cd718b1dfcc03fc">FtpCallbackOptions</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:aafb14a5f62128100c066fd1a7e74134e" id="r_aafb14a5f62128100c066fd1a7e74134e"><td class="memItemLeft" align="right" valign="top">GLOBALREF void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aafb14a5f62128100c066fd1a7e74134e">FtpInit</a> (void)</td></tr>
+<tr class="memitem:aa81580f0482b0a9dbd0d9f4b7d82415f" id="r_aa81580f0482b0a9dbd0d9f4b7d82415f"><td class="memItemLeft" align="right" valign="top">GLOBALREF char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa81580f0482b0a9dbd0d9f4b7d82415f">FtpLastResponse</a> (<a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+<tr class="memitem:a3b55c9628b3459941d78feeff721079c" id="r_a3b55c9628b3459941d78feeff721079c"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3b55c9628b3459941d78feeff721079c">FtpConnect</a> (const char *host, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> **nControl)</td></tr>
+<tr class="memitem:a7ae36664bd8f842194b0307e64503b0a" id="r_a7ae36664bd8f842194b0307e64503b0a"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7ae36664bd8f842194b0307e64503b0a">FtpOptions</a> (int opt, long val, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+<tr class="memitem:a6609840f61e8c8c1c81d0145d40f6bf3" id="r_a6609840f61e8c8c1c81d0145d40f6bf3"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6609840f61e8c8c1c81d0145d40f6bf3">FtpSetCallback</a> (const <a class="el" href="struct_ftp_callback_options.html">FtpCallbackOptions</a> *opt, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+<tr class="memitem:adc4502770f2a4cace10ddeb6ecb0106f" id="r_adc4502770f2a4cace10ddeb6ecb0106f"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adc4502770f2a4cace10ddeb6ecb0106f">FtpClearCallback</a> (<a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+<tr class="memitem:af3a63413b2b6997c5912bf35ebd266b2" id="r_af3a63413b2b6997c5912bf35ebd266b2"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af3a63413b2b6997c5912bf35ebd266b2">FtpLogin</a> (const char *user, const char *pass, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+<tr class="memitem:a23a99f182b59699a0c4c50d374e97392" id="r_a23a99f182b59699a0c4c50d374e97392"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a23a99f182b59699a0c4c50d374e97392">FtpAccess</a> (const char *path, int typ, int mode, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> **nData)</td></tr>
+<tr class="memitem:a8521d533a6f6440cc692588d6dfb1dc2" id="r_a8521d533a6f6440cc692588d6dfb1dc2"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8521d533a6f6440cc692588d6dfb1dc2">FtpRead</a> (void *buf, int max, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nData)</td></tr>
+<tr class="memitem:a36f80b2adf868bd8163c5af726601708" id="r_a36f80b2adf868bd8163c5af726601708"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a36f80b2adf868bd8163c5af726601708">FtpWrite</a> (const void *buf, int len, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nData)</td></tr>
+<tr class="memitem:a032840338842c6b837a88ed4473a24ee" id="r_a032840338842c6b837a88ed4473a24ee"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a032840338842c6b837a88ed4473a24ee">FtpClose</a> (<a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nData)</td></tr>
+<tr class="memitem:a5a6c29bdab1fa850bdec20a90d7fd082" id="r_a5a6c29bdab1fa850bdec20a90d7fd082"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a6c29bdab1fa850bdec20a90d7fd082">FtpSite</a> (const char *cmd, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+<tr class="memitem:a73d82a6dd558cfa066e0c47f02822cd2" id="r_a73d82a6dd558cfa066e0c47f02822cd2"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a73d82a6dd558cfa066e0c47f02822cd2">FtpSysType</a> (char *buf, int max, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+<tr class="memitem:af8700fbb8619d1cd348fa4231b29b0f9" id="r_af8700fbb8619d1cd348fa4231b29b0f9"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af8700fbb8619d1cd348fa4231b29b0f9">FtpMkdir</a> (const char *path, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+<tr class="memitem:a21b92b6a5ed5ec03b088b6c3b4b61597" id="r_a21b92b6a5ed5ec03b088b6c3b4b61597"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a21b92b6a5ed5ec03b088b6c3b4b61597">FtpChdir</a> (const char *path, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+<tr class="memitem:a50da3dcdfe2494d3885fcfc0607271d0" id="r_a50da3dcdfe2494d3885fcfc0607271d0"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a50da3dcdfe2494d3885fcfc0607271d0">FtpCDUp</a> (<a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+<tr class="memitem:a2b48a889bcf496a3e6c442831a51ab67" id="r_a2b48a889bcf496a3e6c442831a51ab67"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b48a889bcf496a3e6c442831a51ab67">FtpRmdir</a> (const char *path, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+<tr class="memitem:a3fa5de231562ee8f6eac8447f024ff66" id="r_a3fa5de231562ee8f6eac8447f024ff66"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3fa5de231562ee8f6eac8447f024ff66">FtpPwd</a> (char *path, int max, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+<tr class="memitem:adeaecd03fdb18f49fdd3895317af7121" id="r_adeaecd03fdb18f49fdd3895317af7121"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adeaecd03fdb18f49fdd3895317af7121">FtpNlst</a> (const char *output, const char *path, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+<tr class="memitem:a56088b449645a1d4c1952afca07d2bb0" id="r_a56088b449645a1d4c1952afca07d2bb0"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a56088b449645a1d4c1952afca07d2bb0">FtpDir</a> (const char *output, const char *path, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+<tr class="memitem:aca7685cedc22bcd15a086cb40b6f685e" id="r_aca7685cedc22bcd15a086cb40b6f685e"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aca7685cedc22bcd15a086cb40b6f685e">FtpSize</a> (const char *path, unsigned int *size, char mode, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+<tr class="memitem:aac704c715d59812a13fbdcaede05e6f0" id="r_aac704c715d59812a13fbdcaede05e6f0"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aac704c715d59812a13fbdcaede05e6f0">FtpModDate</a> (const char *path, char *dt, int max, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+<tr class="memitem:a3e108e13a78d270a40f01d2dc6c110d8" id="r_a3e108e13a78d270a40f01d2dc6c110d8"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3e108e13a78d270a40f01d2dc6c110d8">FtpGet</a> (const char *output, const char *path, char mode, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+<tr class="memitem:adfa38dfec5fc2c06720ce02a8aa1f438" id="r_adfa38dfec5fc2c06720ce02a8aa1f438"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adfa38dfec5fc2c06720ce02a8aa1f438">FtpPut</a> (const char *input, const char *path, char mode, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+<tr class="memitem:a67b33075a3817aa0007793eece975205" id="r_a67b33075a3817aa0007793eece975205"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67b33075a3817aa0007793eece975205">FtpRename</a> (const char *src, const char *dst, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+<tr class="memitem:ae5e158e4be6977167b373883730bc60c" id="r_ae5e158e4be6977167b373883730bc60c"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5e158e4be6977167b373883730bc60c">FtpDelete</a> (const char *fnm, <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+<tr class="memitem:ab1c1f23f7e2c4bd6f660056064484d6c" id="r_ab1c1f23f7e2c4bd6f660056064484d6c"><td class="memItemLeft" align="right" valign="top">GLOBALREF void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab1c1f23f7e2c4bd6f660056064484d6c">FtpQuit</a> (<a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl)</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+变量</h2></td></tr>
+<tr class="memitem:afa4515b80b3ae393d43713e0937de602" id="r_afa4515b80b3ae393d43713e0937de602"><td class="memItemLeft" align="right" valign="top">GLOBALREF int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa4515b80b3ae393d43713e0937de602">ftplib_debug</a></td></tr>
+</table>
+<a name="doc-define-members" id="doc-define-members"></a><h2 id="header-doc-define-members" class="groupheader">宏定义说明</h2>
+<a id="a706724801feeb2bb68751534efaf4207" name="a706724801feeb2bb68751534efaf4207"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a706724801feeb2bb68751534efaf4207">&#9670;&#160;</a></span>FTPLIB_ASCII</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FTPLIB_ASCII&#160;&#160;&#160;'A'</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae553b697c1ee8014d60fb1d407ba67d1" name="ae553b697c1ee8014d60fb1d407ba67d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae553b697c1ee8014d60fb1d407ba67d1">&#9670;&#160;</a></span>FTPLIB_BINARY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FTPLIB_BINARY&#160;&#160;&#160;<a class="el" href="#a1d8c232bd1e241a834e22736386f3a99">FTPLIB_IMAGE</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5da988dc35f3363ff44ef6457fa2bb06" name="a5da988dc35f3363ff44ef6457fa2bb06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5da988dc35f3363ff44ef6457fa2bb06">&#9670;&#160;</a></span>FTPLIB_CALLBACK</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FTPLIB_CALLBACK&#160;&#160;&#160;2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2b928813af0794248fd3587bdbb92d2e" name="a2b928813af0794248fd3587bdbb92d2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b928813af0794248fd3587bdbb92d2e">&#9670;&#160;</a></span>FTPLIB_CALLBACKARG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FTPLIB_CALLBACKARG&#160;&#160;&#160;4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae23ea6a3a0807ea7fbac768cdff924f1" name="ae23ea6a3a0807ea7fbac768cdff924f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae23ea6a3a0807ea7fbac768cdff924f1">&#9670;&#160;</a></span>FTPLIB_CALLBACKBYTES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FTPLIB_CALLBACKBYTES&#160;&#160;&#160;5</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a92dc4ef668dc02da25d82fb0f397014a" name="a92dc4ef668dc02da25d82fb0f397014a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92dc4ef668dc02da25d82fb0f397014a">&#9670;&#160;</a></span>FTPLIB_CONNMODE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FTPLIB_CONNMODE&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1572cad2ccc2977a34f00f5cd1e49979" name="a1572cad2ccc2977a34f00f5cd1e49979"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1572cad2ccc2977a34f00f5cd1e49979">&#9670;&#160;</a></span>FTPLIB_DIR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FTPLIB_DIR&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae943c456987494e064f03d37a097c354" name="ae943c456987494e064f03d37a097c354"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae943c456987494e064f03d37a097c354">&#9670;&#160;</a></span>FTPLIB_DIR_VERBOSE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FTPLIB_DIR_VERBOSE&#160;&#160;&#160;2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a36e3d855c6219bd95825f1f93d68a62a" name="a36e3d855c6219bd95825f1f93d68a62a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36e3d855c6219bd95825f1f93d68a62a">&#9670;&#160;</a></span>FTPLIB_FILE_READ</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FTPLIB_FILE_READ&#160;&#160;&#160;3</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa9793cf181925c0b6f60f4c9ac400740" name="aa9793cf181925c0b6f60f4c9ac400740"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9793cf181925c0b6f60f4c9ac400740">&#9670;&#160;</a></span>FTPLIB_FILE_WRITE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FTPLIB_FILE_WRITE&#160;&#160;&#160;4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a603971f9d4aaae61a613b39a8636786c" name="a603971f9d4aaae61a613b39a8636786c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a603971f9d4aaae61a613b39a8636786c">&#9670;&#160;</a></span>FTPLIB_IDLETIME</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FTPLIB_IDLETIME&#160;&#160;&#160;3</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1d8c232bd1e241a834e22736386f3a99" name="a1d8c232bd1e241a834e22736386f3a99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d8c232bd1e241a834e22736386f3a99">&#9670;&#160;</a></span>FTPLIB_IMAGE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FTPLIB_IMAGE&#160;&#160;&#160;'I'</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa0ad169c53b73ddcc2854356d3f05409" name="aa0ad169c53b73ddcc2854356d3f05409"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0ad169c53b73ddcc2854356d3f05409">&#9670;&#160;</a></span>FTPLIB_PASSIVE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FTPLIB_PASSIVE&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7ce38a031ca4a29ed368f694316efbec" name="a7ce38a031ca4a29ed368f694316efbec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ce38a031ca4a29ed368f694316efbec">&#9670;&#160;</a></span>FTPLIB_PORT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FTPLIB_PORT&#160;&#160;&#160;2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a723b3fa0993db4d8de4c566567e17deb" name="a723b3fa0993db4d8de4c566567e17deb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a723b3fa0993db4d8de4c566567e17deb">&#9670;&#160;</a></span>FTPLIB_TEXT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FTPLIB_TEXT&#160;&#160;&#160;<a class="el" href="#a706724801feeb2bb68751534efaf4207">FTPLIB_ASCII</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">类型定义说明</h2>
+<a id="a6ca53be72b4249c711c35aab599f4dc5" name="a6ca53be72b4249c711c35aab599f4dc5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ca53be72b4249c711c35aab599f4dc5">&#9670;&#160;</a></span>fsz_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef uint32_t <a class="el" href="#a6ca53be72b4249c711c35aab599f4dc5">fsz_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a47858824ff9f3fc8b0ebbe9ba8b40cd3" name="a47858824ff9f3fc8b0ebbe9ba8b40cd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47858824ff9f3fc8b0ebbe9ba8b40cd3">&#9670;&#160;</a></span>FtpCallback</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef int(* FtpCallback) (<a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl, <a class="el" href="#a6ca53be72b4249c711c35aab599f4dc5">fsz_t</a> xfered, void *arg)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3a2db043e360673a8cd718b1dfcc03fc" name="a3a2db043e360673a8cd718b1dfcc03fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a2db043e360673a8cd718b1dfcc03fc">&#9670;&#160;</a></span>FtpCallbackOptions</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct FtpCallbackOptions FtpCallbackOptions</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a41c079148fbe076c02326a3f114d9a0a" name="a41c079148fbe076c02326a3f114d9a0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41c079148fbe076c02326a3f114d9a0a">&#9670;&#160;</a></span>netbuf</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct NetBuf <a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">函数说明</h2>
+<a id="a23a99f182b59699a0c4c50d374e97392" name="a23a99f182b59699a0c4c50d374e97392"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23a99f182b59699a0c4c50d374e97392">&#9670;&#160;</a></span>FtpAccess()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpAccess </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>typ</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>mode</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> **</td>          <td class="paramname"><span class="paramname"><em>nData</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a50da3dcdfe2494d3885fcfc0607271d0" name="a50da3dcdfe2494d3885fcfc0607271d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50da3dcdfe2494d3885fcfc0607271d0">&#9670;&#160;</a></span>FtpCDUp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpCDUp </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a21b92b6a5ed5ec03b088b6c3b4b61597" name="a21b92b6a5ed5ec03b088b6c3b4b61597"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21b92b6a5ed5ec03b088b6c3b4b61597">&#9670;&#160;</a></span>FtpChdir()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpChdir </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adc4502770f2a4cace10ddeb6ecb0106f" name="adc4502770f2a4cace10ddeb6ecb0106f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc4502770f2a4cace10ddeb6ecb0106f">&#9670;&#160;</a></span>FtpClearCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpClearCallback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a032840338842c6b837a88ed4473a24ee" name="a032840338842c6b837a88ed4473a24ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a032840338842c6b837a88ed4473a24ee">&#9670;&#160;</a></span>FtpClose()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpClose </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nData</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3b55c9628b3459941d78feeff721079c" name="a3b55c9628b3459941d78feeff721079c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b55c9628b3459941d78feeff721079c">&#9670;&#160;</a></span>FtpConnect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpConnect </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>host</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> **</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae5e158e4be6977167b373883730bc60c" name="ae5e158e4be6977167b373883730bc60c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5e158e4be6977167b373883730bc60c">&#9670;&#160;</a></span>FtpDelete()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpDelete </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>fnm</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a56088b449645a1d4c1952afca07d2bb0" name="a56088b449645a1d4c1952afca07d2bb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56088b449645a1d4c1952afca07d2bb0">&#9670;&#160;</a></span>FtpDir()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpDir </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>output</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3e108e13a78d270a40f01d2dc6c110d8" name="a3e108e13a78d270a40f01d2dc6c110d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e108e13a78d270a40f01d2dc6c110d8">&#9670;&#160;</a></span>FtpGet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpGet </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>output</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char</td>          <td class="paramname"><span class="paramname"><em>mode</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aafb14a5f62128100c066fd1a7e74134e" name="aafb14a5f62128100c066fd1a7e74134e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafb14a5f62128100c066fd1a7e74134e">&#9670;&#160;</a></span>FtpInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF void FtpInit </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa81580f0482b0a9dbd0d9f4b7d82415f" name="aa81580f0482b0a9dbd0d9f4b7d82415f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa81580f0482b0a9dbd0d9f4b7d82415f">&#9670;&#160;</a></span>FtpLastResponse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF char * FtpLastResponse </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af3a63413b2b6997c5912bf35ebd266b2" name="af3a63413b2b6997c5912bf35ebd266b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3a63413b2b6997c5912bf35ebd266b2">&#9670;&#160;</a></span>FtpLogin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpLogin </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>user</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>pass</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af8700fbb8619d1cd348fa4231b29b0f9" name="af8700fbb8619d1cd348fa4231b29b0f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8700fbb8619d1cd348fa4231b29b0f9">&#9670;&#160;</a></span>FtpMkdir()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpMkdir </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aac704c715d59812a13fbdcaede05e6f0" name="aac704c715d59812a13fbdcaede05e6f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac704c715d59812a13fbdcaede05e6f0">&#9670;&#160;</a></span>FtpModDate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpModDate </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>dt</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>max</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adeaecd03fdb18f49fdd3895317af7121" name="adeaecd03fdb18f49fdd3895317af7121"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adeaecd03fdb18f49fdd3895317af7121">&#9670;&#160;</a></span>FtpNlst()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpNlst </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>output</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7ae36664bd8f842194b0307e64503b0a" name="a7ae36664bd8f842194b0307e64503b0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ae36664bd8f842194b0307e64503b0a">&#9670;&#160;</a></span>FtpOptions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpOptions </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long</td>          <td class="paramname"><span class="paramname"><em>val</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adfa38dfec5fc2c06720ce02a8aa1f438" name="adfa38dfec5fc2c06720ce02a8aa1f438"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfa38dfec5fc2c06720ce02a8aa1f438">&#9670;&#160;</a></span>FtpPut()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpPut </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>input</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char</td>          <td class="paramname"><span class="paramname"><em>mode</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3fa5de231562ee8f6eac8447f024ff66" name="a3fa5de231562ee8f6eac8447f024ff66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3fa5de231562ee8f6eac8447f024ff66">&#9670;&#160;</a></span>FtpPwd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpPwd </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>max</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab1c1f23f7e2c4bd6f660056064484d6c" name="ab1c1f23f7e2c4bd6f660056064484d6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1c1f23f7e2c4bd6f660056064484d6c">&#9670;&#160;</a></span>FtpQuit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF void FtpQuit </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8521d533a6f6440cc692588d6dfb1dc2" name="a8521d533a6f6440cc692588d6dfb1dc2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8521d533a6f6440cc692588d6dfb1dc2">&#9670;&#160;</a></span>FtpRead()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpRead </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>buf</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>max</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nData</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a67b33075a3817aa0007793eece975205" name="a67b33075a3817aa0007793eece975205"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67b33075a3817aa0007793eece975205">&#9670;&#160;</a></span>FtpRename()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpRename </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>src</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>dst</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2b48a889bcf496a3e6c442831a51ab67" name="a2b48a889bcf496a3e6c442831a51ab67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b48a889bcf496a3e6c442831a51ab67">&#9670;&#160;</a></span>FtpRmdir()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpRmdir </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6609840f61e8c8c1c81d0145d40f6bf3" name="a6609840f61e8c8c1c81d0145d40f6bf3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6609840f61e8c8c1c81d0145d40f6bf3">&#9670;&#160;</a></span>FtpSetCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpSetCallback </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_ftp_callback_options.html">FtpCallbackOptions</a> *</td>          <td class="paramname"><span class="paramname"><em>opt</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5a6c29bdab1fa850bdec20a90d7fd082" name="a5a6c29bdab1fa850bdec20a90d7fd082"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a6c29bdab1fa850bdec20a90d7fd082">&#9670;&#160;</a></span>FtpSite()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpSite </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>cmd</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aca7685cedc22bcd15a086cb40b6f685e" name="aca7685cedc22bcd15a086cb40b6f685e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca7685cedc22bcd15a086cb40b6f685e">&#9670;&#160;</a></span>FtpSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpSize </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int *</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char</td>          <td class="paramname"><span class="paramname"><em>mode</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a73d82a6dd558cfa066e0c47f02822cd2" name="a73d82a6dd558cfa066e0c47f02822cd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73d82a6dd558cfa066e0c47f02822cd2">&#9670;&#160;</a></span>FtpSysType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpSysType </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>buf</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>max</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nControl</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a36f80b2adf868bd8163c5af726601708" name="a36f80b2adf868bd8163c5af726601708"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36f80b2adf868bd8163c5af726601708">&#9670;&#160;</a></span>FtpWrite()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int FtpWrite </td>
+          <td>(</td>
+          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>buf</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>len</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *</td>          <td class="paramname"><span class="paramname"><em>nData</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">变量说明</h2>
+<a id="afa4515b80b3ae393d43713e0937de602" name="afa4515b80b3ae393d43713e0937de602"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa4515b80b3ae393d43713e0937de602">&#9670;&#160;</a></span>ftplib_debug</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLOBALREF int ftplib_debug</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_75b512e435434d14bff7e88c830596e1.html">ollib</a></li><li class="navelem"><a href="dir_b9a0bbad5c7f744a36cd404f18e81e13.html">include</a></li><li class="navelem"><a href="dir_14b48f1f896617aa98580e7bcb9ac940.html">third_party</a></li><li class="navelem"><a href="dir_2bffc038b4152da0a5acb7fa234bf3ac.html">ftplib</a></li><li class="navelem"><a href="ftplib_8h.html">ftplib.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

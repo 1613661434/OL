@@ -1,0 +1,473 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: oldblib/oracle/include/ol_oci.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('ol__oci_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ol_oci.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ol__oci_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/**************************************************************************************/</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">/*</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> * 程序名：ol_oci.h</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> * 功能描述：开发框架中用于C++操作Oracle数据库的接口声明，提供：</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> *          - 数据库连接管理（DBConn类）：登录、断开、事务提交/回滚等</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> *          - SQL语句执行（DBStmt类）：SQL准备、绑定变量、执行、结果集处理等</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> *          - 支持普通数据类型及LOB（CLOB/BLOB）字段操作</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> * 作者：ol</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> * 依赖：Oracle OCI库（需包含oci.h及链接OCI库）</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> * 适用标准：C++11及以上</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment">/**************************************************************************************/</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#ifndef __OL_OCI_H</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#define __OL_OCI_H 1</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment">// C/C++库常用头文件</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &lt;oci.h&gt;</span> <span class="comment">// OCI的头文件。</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &lt;stdarg.h&gt;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#include &lt;string.h&gt;</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceol.html">ol</a></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>{</div>
+<div class="foldopen" id="foldopen00028" data-start="{" data-end="}">
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="namespaceol_1_1oracle.html">   28</a></span>    <span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceol_1_1oracle.html">oracle</a></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="comment">// OCI登录环境结构体，存储数据库登录信息及环境句柄</span></div>
+<div class="foldopen" id="foldopen00031" data-start="{" data-end="};">
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html">   31</a></span>        <span class="keyword">struct </span><a class="code hl_struct" href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html">LOGINENV</a></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html#aa96b52921690159691940739086d97a0">   33</a></span>            <span class="keywordtype">char</span> <a class="code hl_variable" href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html#aa96b52921690159691940739086d97a0">user</a>[31];    <span class="comment">// 数据库用户名（最大30字节）</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html#a68aec0f37b971dc4cd71b435732a1ab6">   34</a></span>            <span class="keywordtype">char</span> <a class="code hl_variable" href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html#a68aec0f37b971dc4cd71b435732a1ab6">pass</a>[31];    <span class="comment">// 数据库密码（最大30字节）</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html#ae4fca1789f5fd507472704e3eb88766c">   35</a></span>            <span class="keywordtype">char</span> <a class="code hl_variable" href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html#ae4fca1789f5fd507472704e3eb88766c">tnsname</a>[51]; <span class="comment">// 数据库的tnsname（最大50字节，在ORACLE_HOME/network/admin/tnsnames.ora中配置）</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html#a396385f1f9289e3017c369c6c196d1ab">   36</a></span>            OCIEnv* <a class="code hl_variable" href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html#a396385f1f9289e3017c369c6c196d1ab">envhp</a>;    <span class="comment">// 环境变量的句柄。</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        };</div>
+</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="comment">// OCI上下文句柄结构体，存储服务器上下文及错误句柄</span></div>
+<div class="foldopen" id="foldopen00040" data-start="{" data-end="};">
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="structol_1_1oracle_1_1_o_c_i___c_x_t.html">   40</a></span>        <span class="keyword">struct </span><a class="code hl_struct" href="structol_1_1oracle_1_1_o_c_i___c_x_t.html">OCI_CXT</a></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="structol_1_1oracle_1_1_o_c_i___c_x_t.html#a519388498d839bd15b02b88d950ba5f2">   42</a></span>            OCISvcCtx* <a class="code hl_variable" href="structol_1_1oracle_1_1_o_c_i___c_x_t.html#a519388498d839bd15b02b88d950ba5f2">svchp</a>; <span class="comment">// 服务器上下文句柄</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="structol_1_1oracle_1_1_o_c_i___c_x_t.html#a804d9df29032a08d8f24754e3b39a8ae">   43</a></span>            OCIError* <a class="code hl_variable" href="structol_1_1oracle_1_1_o_c_i___c_x_t.html#a804d9df29032a08d8f24754e3b39a8ae">errhp</a>;  <span class="comment">// 错误句柄</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="structol_1_1oracle_1_1_o_c_i___c_x_t.html#aab8219fa32dae2df3877b76632fd279e">   44</a></span>            OCIEnv* <a class="code hl_variable" href="structol_1_1oracle_1_1_o_c_i___c_x_t.html#aab8219fa32dae2df3877b76632fd279e">envhp</a>;    <span class="comment">// 环境句柄</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        };</div>
+</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="comment">// OCI SQL句柄结构体，存储SQL执行相关句柄</span></div>
+<div class="foldopen" id="foldopen00048" data-start="{" data-end="};">
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html">   48</a></span>        <span class="keyword">struct </span><a class="code hl_struct" href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html">OCI_HANDLE</a></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        {</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html#aa436572087ccf72f17b3b37da34f720c">   50</a></span>            OCISvcCtx* <a class="code hl_variable" href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html#aa436572087ccf72f17b3b37da34f720c">svchp</a>; <span class="comment">// 服务器上下文句柄（引用自OCI_CXT）</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html#a27053f2e741254e84d9fe359bd412819">   51</a></span>            OCIStmt* <a class="code hl_variable" href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html#a27053f2e741254e84d9fe359bd412819">smthp</a>;   <span class="comment">// SQL语句句柄</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html#a698bf679618c6ff7d359ebbc6c77aa9a">   52</a></span>            OCIBind* <a class="code hl_variable" href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html#a698bf679618c6ff7d359ebbc6c77aa9a">bindhp</a>;  <span class="comment">// 绑定输入变量句柄</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html#a079840e4754a0f1d23519088cfa42370">   53</a></span>            OCIDefine* <a class="code hl_variable" href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html#a079840e4754a0f1d23519088cfa42370">defhp</a>; <span class="comment">// 定义输出变量句柄</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html#a8bc0ccdae9e390c4eb39a50a96266596">   54</a></span>            OCIError* <a class="code hl_variable" href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html#a8bc0ccdae9e390c4eb39a50a96266596">errhp</a>;  <span class="comment">// 错误句柄（引用自OCI_CXT）</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html#a0c952a0b9053a4c5c8bad33107336447">   55</a></span>            OCIEnv* <a class="code hl_variable" href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html#a0c952a0b9053a4c5c8bad33107336447">envhp</a>;    <span class="comment">// 环境句柄</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        };</div>
+</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="comment">// OCI操作结果结构体，存储执行状态及错误信息</span></div>
+<div class="foldopen" id="foldopen00059" data-start="{" data-end="};">
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="structol_1_1oracle_1_1_c_d_a___d_e_f.html">   59</a></span>        <span class="keyword">struct </span><a class="code hl_struct" href="structol_1_1oracle_1_1_c_d_a___d_e_f.html">CDA_DEF</a></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="structol_1_1oracle_1_1_c_d_a___d_e_f.html#ac3bdaf4824ce8bd937ada31fd60d3183">   61</a></span>            <span class="keywordtype">int</span> <a class="code hl_variable" href="structol_1_1oracle_1_1_c_d_a___d_e_f.html#ac3bdaf4824ce8bd937ada31fd60d3183">rc</a>;             <span class="comment">// 返回码：0-成功，其他-失败</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="structol_1_1oracle_1_1_c_d_a___d_e_f.html#a7021181e4586ce0bad5fcc2d3ccb589f">   62</a></span>            <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code hl_variable" href="structol_1_1oracle_1_1_c_d_a___d_e_f.html#a7021181e4586ce0bad5fcc2d3ccb589f">rpc</a>;  <span class="comment">// 影响行数：DML语句（insert/update/delete）为影响记录数，查询为结果集行数</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="structol_1_1oracle_1_1_c_d_a___d_e_f.html#ab532f429702ce1bee93219250a24440f">   63</a></span>            <span class="keywordtype">char</span> <a class="code hl_variable" href="structol_1_1oracle_1_1_c_d_a___d_e_f.html#ab532f429702ce1bee93219250a24440f">message</a>[2048]; <span class="comment">// 错误描述信息（失败时有效）</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        };</div>
+</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="comment">// OCI底层初始化与释放函数（内部使用）</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keywordtype">int</span> <a class="code hl_function" href="namespaceol_1_1oracle.html#a6706bea1973da4530da69e2d1f900120">oci_init</a>(<a class="code hl_struct" href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html">LOGINENV</a>* env);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="keywordtype">int</span> <a class="code hl_function" href="namespaceol_1_1oracle.html#acc23f91fb12c5acc1b55fef91cffa157">oci_close</a>(<a class="code hl_struct" href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html">LOGINENV</a>* env);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keywordtype">int</span> <a class="code hl_function" href="namespaceol_1_1oracle.html#a799a365d7d2ac0361ae85c8dc5082238">oci_context_create</a>(<a class="code hl_struct" href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html">LOGINENV</a>* env, <a class="code hl_struct" href="structol_1_1oracle_1_1_o_c_i___c_x_t.html">OCI_CXT</a>* cxt);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="keywordtype">int</span> <a class="code hl_function" href="namespaceol_1_1oracle.html#ab211292a256353c312c550bb4693f567">oci_context_close</a>(<a class="code hl_struct" href="structol_1_1oracle_1_1_o_c_i___c_x_t.html">OCI_CXT</a>* cxt);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="keywordtype">int</span> <a class="code hl_function" href="namespaceol_1_1oracle.html#a7b4456f4dc2340eb6cd7b79663dc4569">oci_stmt_create</a>(<a class="code hl_struct" href="structol_1_1oracle_1_1_o_c_i___c_x_t.html">OCI_CXT</a>* cxt, <a class="code hl_struct" href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html">OCI_HANDLE</a>* handle);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keywordtype">int</span> <a class="code hl_function" href="namespaceol_1_1oracle.html#a6bf3925a7c01e8c1940529e124cb2ff7">oci_stmt_close</a>(<a class="code hl_struct" href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html">OCI_HANDLE</a>* handle);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keyword">class </span><a class="code hl_class" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a>;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        <span class="keyword">class </span><a class="code hl_class" href="classol_1_1oracle_1_1_d_b_stmt.html">DBStmt</a>;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="comment">// Oracle数据库连接类，管理数据库连接及事务</span></div>
+<div class="foldopen" id="foldopen00078" data-start="{" data-end="};">
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_conn.html">   78</a></span>        <span class="keyword">class </span><a class="code hl_function" href="classol_1_1oracle_1_1_d_b_conn.html#add912558cb4138750d3e063f98b9a182">DBConn</a></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        {</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_conn.html#aa64c719be4d2aea92d419606f414e98a">   80</a></span>            <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_friend" href="classol_1_1oracle_1_1_d_b_conn.html#aa64c719be4d2aea92d419606f414e98a">DBStmt</a>;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_conn.html#a0931f2ccaef2d756834cb0a16a1898ac">   83</a></span>            <a class="code hl_struct" href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html">LOGINENV</a> <a class="code hl_variable" href="classol_1_1oracle_1_1_d_b_conn.html#a0931f2ccaef2d756834cb0a16a1898ac">m_env</a>;      <span class="comment">// 服务器环境句柄。</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_conn.html#afb0db2970541d92bdad919c8041bf848">   84</a></span>            <a class="code hl_struct" href="structol_1_1oracle_1_1_o_c_i___c_x_t.html">OCI_CXT</a> <a class="code hl_variable" href="classol_1_1oracle_1_1_d_b_conn.html#afb0db2970541d92bdad919c8041bf848">m_cxt</a>;       <span class="comment">// 服务器上下文。</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_conn.html#a935af2aaecdfcc34d1a6646738dc3e8a">   85</a></span>            <span class="keywordtype">int</span> <a class="code hl_variable" href="classol_1_1oracle_1_1_d_b_conn.html#a935af2aaecdfcc34d1a6646738dc3e8a">m_autocommitopt</a>; <span class="comment">// 自动提交标志，0-关闭；1-开启。</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>            <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_conn.html#abb3d64a1d160b5380141949709f37249">character</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* charset); <span class="comment">// 设置字符集（防止乱码）</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>            <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_conn.html#af683ce35edd86688eaf57bfeebe577c4">setdbopt</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* connstr);  <span class="comment">// 从connstr中解析username、password和tnsname。</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>            <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_conn.html#afd2e02a9a3cc976287838a52a4b094b0">err_report</a>();                   <span class="comment">// 获取错误信息。</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_conn.html#add912558cb4138750d3e063f98b9a182">   91</a></span>            <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_conn.html#add912558cb4138750d3e063f98b9a182">DBConn</a>(<span class="keyword">const</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_conn.html#add912558cb4138750d3e063f98b9a182">DBConn</a>&amp;) = <span class="keyword">delete</span>;            <span class="comment">// 禁用拷贝构造函数。</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_conn.html#a4d273c3e4f9a5a94435e8a26d98dca96">   92</a></span>            <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_conn.html#add912558cb4138750d3e063f98b9a182">DBConn</a>&amp; <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_conn.html#a4d273c3e4f9a5a94435e8a26d98dca96">operator=</a>(<span class="keyword">const</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_conn.html#add912558cb4138750d3e063f98b9a182">DBConn</a>&amp;) = <span class="keyword">delete</span>; <span class="comment">// 禁用赋值函数。</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>            <span class="comment">// 数据库连接状态：connected-已连接；disconnected-未连接。</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>            <span class="keyword">enum</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>            {</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_conn.html#a67d7a22cbaf1eea710c8ff156167d4a6af80aebb763e5bc20329876f29ef6d973">   97</a></span>                <a class="code hl_enumvalue" href="classol_1_1oracle_1_1_d_b_conn.html#a67d7a22cbaf1eea710c8ff156167d4a6af80aebb763e5bc20329876f29ef6d973">connected</a>,</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_conn.html#a67d7a22cbaf1eea710c8ff156167d4a6aa7109c1633f986d2fbf9f32dfa76134f">   98</a></span>                <a class="code hl_enumvalue" href="classol_1_1oracle_1_1_d_b_conn.html#a67d7a22cbaf1eea710c8ff156167d4a6aa7109c1633f986d2fbf9f32dfa76134f">disconnected</a></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            };</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_conn.html#a9056c2cd7d1af0f26970302a29c5f758">  100</a></span>            <span class="keywordtype">int</span> <a class="code hl_variable" href="classol_1_1oracle_1_1_d_b_conn.html#a9056c2cd7d1af0f26970302a29c5f758">m_state</a>;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_conn.html#a1b184a47e2c398300b25b2445e8ce9f3">  102</a></span>            <a class="code hl_struct" href="structol_1_1oracle_1_1_c_d_a___d_e_f.html">CDA_DEF</a> <a class="code hl_variable" href="classol_1_1oracle_1_1_d_b_conn.html#a1b184a47e2c398300b25b2445e8ce9f3">m_cda</a>; <span class="comment">// 数据库操作的结果或最后一次执行SQL语句的结果。</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            <span class="comment">// 构造函数，初始化成员变量</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_conn.html#a9fd96b02a751d419b17f65b6cc653d92">DBConn</a>();</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>            <span class="comment">// 析构函数，自动断开连接</span></div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>            <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_conn.html#a40b2e71568e504a909d7fee70ebff236">~DBConn</a>();</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_conn.html#ae8ef48f8a9174cb878deb642bffc4093">connecttodb</a>(<span class="keyword">const</span> std::string&amp; connstr, <span class="keyword">const</span> std::string&amp; charset, <span class="keywordtype">bool</span> autocommitopt = <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>            <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_conn.html#aabcab90b7d7312c597c79f0cf913cc1d">isopen</a>();</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_conn.html#ab71054162343d9836f909ecd36ba77d9">commit</a>();</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_conn.html#a92341b2bc530b8c6471fe3e7fcf74bc0">rollback</a>();</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_conn.html#a0feec3335b6377b7095395dc70c7c201">disconnect</a>();</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_conn.html#a70e63fd02db523d5170afea2f1d48a16">execute</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* fmt, ...);</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span></div>
+<div class="foldopen" id="foldopen00158" data-start="{" data-end="}">
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_conn.html#ad0c2e1338a858ae71bd0fd5de95c07cd">  158</a></span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_conn.html#ad0c2e1338a858ae71bd0fd5de95c07cd">rc</a>()</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>            {</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="classol_1_1oracle_1_1_d_b_conn.html#a1b184a47e2c398300b25b2445e8ce9f3">m_cda</a>.rc;</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>            }</div>
+</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span></div>
+<div class="foldopen" id="foldopen00167" data-start="{" data-end="}">
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_conn.html#a4e845000984b55df9a2f305fbdade648">  167</a></span>            <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_conn.html#a4e845000984b55df9a2f305fbdade648">rpc</a>()</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>            {</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="classol_1_1oracle_1_1_d_b_conn.html#a1b184a47e2c398300b25b2445e8ce9f3">m_cda</a>.rpc;</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>            }</div>
+</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span></div>
+<div class="foldopen" id="foldopen00176" data-start="{" data-end="}">
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_conn.html#a4c185b388eebee486e8a4b835c993cc7">  176</a></span>            <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_conn.html#a4c185b388eebee486e8a4b835c993cc7">message</a>()</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>            {</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="classol_1_1oracle_1_1_d_b_conn.html#a1b184a47e2c398300b25b2445e8ce9f3">m_cda</a>.message;</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>            }</div>
+</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>        };</div>
+</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>        <span class="comment">// SQL语句操作类，处理SQL准备、绑定变量、执行及结果集</span></div>
+<div class="foldopen" id="foldopen00183" data-start="{" data-end="};">
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_stmt.html">  183</a></span>        <span class="keyword">class </span><a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#ac3f3736bb5d7084b749b64845dc9c066">DBStmt</a></div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>        {</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>        <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_stmt.html#abb28e36e6c794714185f8360d8a0d1d1">  186</a></span>            <a class="code hl_struct" href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html">OCI_HANDLE</a> <a class="code hl_variable" href="classol_1_1oracle_1_1_d_b_stmt.html#abb28e36e6c794714185f8360d8a0d1d1">m_handle</a>; <span class="comment">// SQL句柄。</span></div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span> </div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_stmt.html#af36f47d9639bed35e4dc123e2e44d6a1">  188</a></span>            <a class="code hl_class" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a>* <a class="code hl_variable" href="classol_1_1oracle_1_1_d_b_stmt.html#af36f47d9639bed35e4dc123e2e44d6a1">m_conn</a>;       <span class="comment">// 数据库连接指针。</span></div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_stmt.html#a999bedf0100657e3aba62fd881d5f44a">  189</a></span>            <span class="keywordtype">bool</span> <a class="code hl_variable" href="classol_1_1oracle_1_1_d_b_stmt.html#a999bedf0100657e3aba62fd881d5f44a">m_sqltype</a>;       <span class="comment">// SQL语句的类型，false-查询语句；true-非查询语句。</span></div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_stmt.html#accbc6594225e222651065a30a259ec28">  190</a></span>            <span class="keywordtype">bool</span> <a class="code hl_variable" href="classol_1_1oracle_1_1_d_b_stmt.html#accbc6594225e222651065a30a259ec28">m_autocommitopt</a>; <span class="comment">// 自动提交标志，false-关闭；true-开启。</span></div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>            <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#aa22d6d6669d60da728db6afa29a5ce98">err_report</a>();    <span class="comment">// 错误报告。</span></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_stmt.html#aa4028a08343b65e84b12fbd5c4859417">  193</a></span>            OCILobLocator* <a class="code hl_variable" href="classol_1_1oracle_1_1_d_b_stmt.html#aa4028a08343b65e84b12fbd5c4859417">m_lob</a>;    <span class="comment">// 指向LOB字段的指针。</span></div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a50ebc5499c4a90b87702566721a4db89">alloclob</a>();          <span class="comment">// 初始化lob指针。</span></div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a91a7d1e00691fc5d2bee6e0032cfc512">filetolob</a>(FILE* fp); <span class="comment">// 把文件的内容导入到clob和blob字段中。</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a56406d40af96a3f245bf718ad5477e0d">lobtofile</a>(FILE* fp); <span class="comment">// 从clob和blob字段中导出内容到文件中。</span></div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>            <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#af480042e0729bce35e1a2325ee3f4458">freelob</a>();          <span class="comment">// 释放lob指针。</span></div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span> </div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_stmt.html#ac3f3736bb5d7084b749b64845dc9c066">  199</a></span>            <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#ac3f3736bb5d7084b749b64845dc9c066">DBStmt</a>(<span class="keyword">const</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#ac3f3736bb5d7084b749b64845dc9c066">DBStmt</a>&amp;) = <span class="keyword">delete</span>;            <span class="comment">// 禁用拷贝构造函数。</span></div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_stmt.html#a3c5f195ad6edc60660c12e1f57d51598">  200</a></span>            <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#ac3f3736bb5d7084b749b64845dc9c066">DBStmt</a>&amp; <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a3c5f195ad6edc60660c12e1f57d51598">operator=</a>(<span class="keyword">const</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#ac3f3736bb5d7084b749b64845dc9c066">DBStmt</a>&amp;) = <span class="keyword">delete</span>; <span class="comment">// 禁用赋值函数。</span></div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span> </div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>            <span class="comment">// 与数据库连接的关联状态，connected-已关联；disconnect-未关联。</span></div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>            <span class="keyword">enum</span></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>            {</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_stmt.html#a3376103b0e5ad22d315c382d55db5c70aff82c6b99ba816cc4f133e4b024d8739">  205</a></span>                <a class="code hl_enumvalue" href="classol_1_1oracle_1_1_d_b_stmt.html#a3376103b0e5ad22d315c382d55db5c70aff82c6b99ba816cc4f133e4b024d8739">connected</a>,</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_stmt.html#a3376103b0e5ad22d315c382d55db5c70a3ccd235bc0705b2cab02b4dd16273286">  206</a></span>                <a class="code hl_enumvalue" href="classol_1_1oracle_1_1_d_b_stmt.html#a3376103b0e5ad22d315c382d55db5c70a3ccd235bc0705b2cab02b4dd16273286">disconnected</a></div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>            };</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_stmt.html#a2503bd0dfdc67a0143a17df26dbb3868">  208</a></span>            <span class="keywordtype">int</span> <a class="code hl_variable" href="classol_1_1oracle_1_1_d_b_stmt.html#a2503bd0dfdc67a0143a17df26dbb3868">m_state</a>;</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span> </div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_stmt.html#a9dadcb4934876e14a14078bac6829aec">  210</a></span>            std::string <a class="code hl_variable" href="classol_1_1oracle_1_1_d_b_stmt.html#a9dadcb4934876e14a14078bac6829aec">m_sql</a>; <span class="comment">// SQL语句的文本。</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_stmt.html#ab5fb7d0c31852615859e31153f074652">  211</a></span>            <a class="code hl_struct" href="structol_1_1oracle_1_1_c_d_a___d_e_f.html">CDA_DEF</a> <a class="code hl_variable" href="classol_1_1oracle_1_1_d_b_stmt.html#ab5fb7d0c31852615859e31153f074652">m_cda</a>;     <span class="comment">// 执行SQL语句的结果。</span></div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span> </div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>        <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>            <span class="comment">// 构造函数，初始化成员变量</span></div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>            <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a1e76d8eeaab4d7a38d292b492f33abaf">DBStmt</a>();</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span> </div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>            <span class="comment">// 构造函数，同时关联数据库连接</span></div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>            <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a1e76d8eeaab4d7a38d292b492f33abaf">DBStmt</a>(<a class="code hl_class" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a>* conn);</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span> </div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>            <span class="comment">// 析构函数，释放资源</span></div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>            <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a6411609d2422cb66289f473d45a9ff48">~DBStmt</a>();</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span></div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a8ec044d1fefadd1a31113c6faffd712e">connect</a>(<a class="code hl_class" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a>* conn);</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>            <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a0e35925126ed129fb9da5de73dc8a381">isopen</a>();</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span></div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a74e689ee9ff0f2a9fba2224a0519bfd9">disconnect</a>();</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span></div>
+<div class="foldopen" id="foldopen00250" data-start="{" data-end="}">
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_stmt.html#a4a0e399b0463ff367d1a4820cbd919dd">  250</a></span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a4a0e399b0463ff367d1a4820cbd919dd">prepare</a>(<span class="keyword">const</span> std::string&amp; strsql)</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>            {</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a4a0e399b0463ff367d1a4820cbd919dd">prepare</a>(strsql.c_str());</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>            }</div>
+</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span></div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a4a0e399b0463ff367d1a4820cbd919dd">prepare</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* fmt, ...);</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span></div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a1b1edc201621442821fbc4f4a06d37c2">bindin</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position, <span class="keywordtype">int</span>&amp; value);                                  <span class="comment">// 绑定int类型</span></div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a1b1edc201621442821fbc4f4a06d37c2">bindin</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position, <span class="keywordtype">long</span>&amp; value);                                 <span class="comment">// 绑定long类型</span></div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a1b1edc201621442821fbc4f4a06d37c2">bindin</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>&amp; value);                         <span class="comment">// 绑定unsigned int类型</span></div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a1b1edc201621442821fbc4f4a06d37c2">bindin</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>&amp; value);                        <span class="comment">// 绑定unsigned long类型</span></div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a1b1edc201621442821fbc4f4a06d37c2">bindin</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position, <span class="keywordtype">float</span>&amp; value);                                <span class="comment">// 绑定float类型</span></div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a1b1edc201621442821fbc4f4a06d37c2">bindin</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position, <span class="keywordtype">double</span>&amp; value);                               <span class="comment">// 绑定double类型</span></div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a1b1edc201621442821fbc4f4a06d37c2">bindin</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position, <span class="keywordtype">char</span>* value, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> len = 2000);        <span class="comment">// 绑定char*类型</span></div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a1b1edc201621442821fbc4f4a06d37c2">bindin</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position, std::string&amp; value, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> len = 2000); <span class="comment">// 绑定std::string类型</span></div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#ac746106ed7775b243907c843f2130b07">bindin1</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position, std::string&amp; value);                         <span class="comment">// 绑定std::string（不分配内存）</span></div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span></div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a64526e944b348b5a4e09e50aed4ad44e">bindout</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position, <span class="keywordtype">int</span>&amp; value);                                  <span class="comment">// 绑定int类型</span></div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a64526e944b348b5a4e09e50aed4ad44e">bindout</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position, <span class="keywordtype">long</span>&amp; value);                                 <span class="comment">// 绑定long类型</span></div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a64526e944b348b5a4e09e50aed4ad44e">bindout</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>&amp; value);                         <span class="comment">// 绑定unsigned int类型</span></div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a64526e944b348b5a4e09e50aed4ad44e">bindout</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>&amp; value);                        <span class="comment">// 绑定unsigned long类型</span></div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a64526e944b348b5a4e09e50aed4ad44e">bindout</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position, <span class="keywordtype">float</span>&amp; value);                                <span class="comment">// 绑定float类型</span></div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a64526e944b348b5a4e09e50aed4ad44e">bindout</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position, <span class="keywordtype">double</span>&amp; value);                               <span class="comment">// 绑定double类型</span></div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a64526e944b348b5a4e09e50aed4ad44e">bindout</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position, <span class="keywordtype">char</span>* value, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> len = 2000);        <span class="comment">// 绑定char*类型</span></div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a64526e944b348b5a4e09e50aed4ad44e">bindout</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position, std::string&amp; value, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> len = 2000); <span class="comment">// 绑定std::string类型</span></div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span></div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a7a4f45d878629ca6f1ef70443a28aec2">execute</a>();</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span></div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a7a4f45d878629ca6f1ef70443a28aec2">execute</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* fmt, ...);</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span></div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a26a626fc7f038cfcd06441af4c0df800">next</a>();</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span></div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#ae4d4ec987ba995aa7d93607fabb764b1">bindblob</a>();</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span></div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#ab4db523d08af0b8044cc1f7c9aa99a68">bindclob</a>();</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span></div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a91a7d1e00691fc5d2bee6e0032cfc512">filetolob</a>(<span class="keyword">const</span> std::string&amp; filename);</div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span></div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a56406d40af96a3f245bf718ad5477e0d">lobtofile</a>(<span class="keyword">const</span> std::string&amp; filename);</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span></div>
+<div class="foldopen" id="foldopen00360" data-start="{" data-end="}">
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_stmt.html#ac116c0c80703ff265b6bf7eb60cf6cec">  360</a></span>            <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#ac116c0c80703ff265b6bf7eb60cf6cec">sql</a>()</div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>            {</div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="classol_1_1oracle_1_1_d_b_stmt.html#a9dadcb4934876e14a14078bac6829aec">m_sql</a>.c_str();</div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>            }</div>
+</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span></div>
+<div class="foldopen" id="foldopen00369" data-start="{" data-end="}">
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_stmt.html#ae27aa746ef3a471a0ca004e5f0bece1a">  369</a></span>            <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#ae27aa746ef3a471a0ca004e5f0bece1a">rc</a>()</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>            {</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="classol_1_1oracle_1_1_d_b_stmt.html#ab5fb7d0c31852615859e31153f074652">m_cda</a>.rc;</div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>            }</div>
+</div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span></div>
+<div class="foldopen" id="foldopen00378" data-start="{" data-end="}">
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_stmt.html#a222cb61cfa5729795817680660c9c8d8">  378</a></span>            <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#a222cb61cfa5729795817680660c9c8d8">rpc</a>()</div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>            {</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="classol_1_1oracle_1_1_d_b_stmt.html#ab5fb7d0c31852615859e31153f074652">m_cda</a>.rpc;</div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>            }</div>
+</div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span></div>
+<div class="foldopen" id="foldopen00387" data-start="{" data-end="}">
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno"><a class="line" href="classol_1_1oracle_1_1_d_b_stmt.html#ae437928902890e447328d1ec8c6dc880">  387</a></span>            <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code hl_function" href="classol_1_1oracle_1_1_d_b_stmt.html#ae437928902890e447328d1ec8c6dc880">message</a>()</div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>            {</div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="classol_1_1oracle_1_1_d_b_stmt.html#ab5fb7d0c31852615859e31153f074652">m_cda</a>.message;</div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>            }</div>
+</div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>        };</div>
+</div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>    } <span class="comment">// namespace oracle</span></div>
+</div>
+<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>} <span class="comment">// namespace ol</span></div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span> </div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span><span class="preprocessor">#endif </span><span class="comment">// !__OL_OCI_H</span></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html">ol::oracle::DBConn</a></div><div class="ttdef"><b>定义</b> ol_oci.h:79</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_a0931f2ccaef2d756834cb0a16a1898ac"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#a0931f2ccaef2d756834cb0a16a1898ac">ol::oracle::DBConn::m_env</a></div><div class="ttdeci">LOGINENV m_env</div><div class="ttdef"><b>定义</b> ol_oci.h:83</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_a0feec3335b6377b7095395dc70c7c201"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#a0feec3335b6377b7095395dc70c7c201">ol::oracle::DBConn::disconnect</a></div><div class="ttdeci">int disconnect()</div><div class="ttdoc">断开数据库连接（未提交事务自动回滚）</div><div class="ttdef"><b>定义</b> ol_oci.cpp:268</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_a1b184a47e2c398300b25b2445e8ce9f3"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#a1b184a47e2c398300b25b2445e8ce9f3">ol::oracle::DBConn::m_cda</a></div><div class="ttdeci">CDA_DEF m_cda</div><div class="ttdef"><b>定义</b> ol_oci.h:102</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_a40b2e71568e504a909d7fee70ebff236"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#a40b2e71568e504a909d7fee70ebff236">ol::oracle::DBConn::~DBConn</a></div><div class="ttdeci">~DBConn()</div><div class="ttdef"><b>定义</b> ol_oci.cpp:156</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_a4c185b388eebee486e8a4b835c993cc7"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#a4c185b388eebee486e8a4b835c993cc7">ol::oracle::DBConn::message</a></div><div class="ttdeci">const char * message()</div><div class="ttdoc">获取错误描述信息</div><div class="ttdef"><b>定义</b> ol_oci.h:176</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_a4d273c3e4f9a5a94435e8a26d98dca96"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#a4d273c3e4f9a5a94435e8a26d98dca96">ol::oracle::DBConn::operator=</a></div><div class="ttdeci">DBConn &amp; operator=(const DBConn &amp;)=delete</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_a4e845000984b55df9a2f305fbdade648"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#a4e845000984b55df9a2f305fbdade648">ol::oracle::DBConn::rpc</a></div><div class="ttdeci">unsigned long rpc()</div><div class="ttdoc">获取影响数据的行数</div><div class="ttdef"><b>定义</b> ol_oci.h:167</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_a67d7a22cbaf1eea710c8ff156167d4a6aa7109c1633f986d2fbf9f32dfa76134f"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#a67d7a22cbaf1eea710c8ff156167d4a6aa7109c1633f986d2fbf9f32dfa76134f">ol::oracle::DBConn::disconnected</a></div><div class="ttdeci">@ disconnected</div><div class="ttdef"><b>定义</b> ol_oci.h:98</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_a67d7a22cbaf1eea710c8ff156167d4a6af80aebb763e5bc20329876f29ef6d973"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#a67d7a22cbaf1eea710c8ff156167d4a6af80aebb763e5bc20329876f29ef6d973">ol::oracle::DBConn::connected</a></div><div class="ttdeci">@ connected</div><div class="ttdef"><b>定义</b> ol_oci.h:97</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_a70e63fd02db523d5170afea2f1d48a16"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#a70e63fd02db523d5170afea2f1d48a16">ol::oracle::DBConn::execute</a></div><div class="ttdeci">int execute(const char *fmt,...)</div><div class="ttdoc">执行静态SQL语句（无绑定变量的非查询语句）</div><div class="ttdef"><b>定义</b> ol_oci.cpp:290</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_a9056c2cd7d1af0f26970302a29c5f758"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#a9056c2cd7d1af0f26970302a29c5f758">ol::oracle::DBConn::m_state</a></div><div class="ttdeci">int m_state</div><div class="ttdef"><b>定义</b> ol_oci.h:100</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_a92341b2bc530b8c6471fe3e7fcf74bc0"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#a92341b2bc530b8c6471fe3e7fcf74bc0">ol::oracle::DBConn::rollback</a></div><div class="ttdeci">int rollback()</div><div class="ttdoc">回滚事务</div><div class="ttdef"><b>定义</b> ol_oci.cpp:308</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_a935af2aaecdfcc34d1a6646738dc3e8a"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#a935af2aaecdfcc34d1a6646738dc3e8a">ol::oracle::DBConn::m_autocommitopt</a></div><div class="ttdeci">int m_autocommitopt</div><div class="ttdef"><b>定义</b> ol_oci.h:85</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_a9fd96b02a751d419b17f65b6cc653d92"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#a9fd96b02a751d419b17f65b6cc653d92">ol::oracle::DBConn::DBConn</a></div><div class="ttdeci">DBConn()</div><div class="ttdef"><b>定义</b> ol_oci.cpp:143</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_aa64c719be4d2aea92d419606f414e98a"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#aa64c719be4d2aea92d419606f414e98a">ol::oracle::DBConn::DBStmt</a></div><div class="ttdeci">friend class DBStmt</div><div class="ttdef"><b>定义</b> ol_oci.h:80</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_aabcab90b7d7312c597c79f0cf913cc1d"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#aabcab90b7d7312c597c79f0cf913cc1d">ol::oracle::DBConn::isopen</a></div><div class="ttdeci">bool isopen()</div><div class="ttdoc">判断数据库是否已连接</div><div class="ttdef"><b>定义</b> ol_oci.cpp:261</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_ab71054162343d9836f909ecd36ba77d9"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#ab71054162343d9836f909ecd36ba77d9">ol::oracle::DBConn::commit</a></div><div class="ttdeci">int commit()</div><div class="ttdoc">提交事务</div><div class="ttdef"><b>定义</b> ol_oci.cpp:330</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_abb3d64a1d160b5380141949709f37249"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#abb3d64a1d160b5380141949709f37249">ol::oracle::DBConn::character</a></div><div class="ttdeci">void character(const char *charset)</div><div class="ttdef"><b>定义</b> ol_oci.cpp:193</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_ad0c2e1338a858ae71bd0fd5de95c07cd"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#ad0c2e1338a858ae71bd0fd5de95c07cd">ol::oracle::DBConn::rc</a></div><div class="ttdeci">int rc()</div><div class="ttdoc">获取错误代码</div><div class="ttdef"><b>定义</b> ol_oci.h:158</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_add912558cb4138750d3e063f98b9a182"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#add912558cb4138750d3e063f98b9a182">ol::oracle::DBConn::DBConn</a></div><div class="ttdeci">DBConn(const DBConn &amp;)=delete</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_ae8ef48f8a9174cb878deb642bffc4093"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#ae8ef48f8a9174cb878deb642bffc4093">ol::oracle::DBConn::connecttodb</a></div><div class="ttdeci">int connecttodb(const std::string &amp;connstr, const std::string &amp;charset, bool autocommitopt=false)</div><div class="ttdoc">登录数据库</div><div class="ttdef"><b>定义</b> ol_oci.cpp:209</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_af683ce35edd86688eaf57bfeebe577c4"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#af683ce35edd86688eaf57bfeebe577c4">ol::oracle::DBConn::setdbopt</a></div><div class="ttdeci">void setdbopt(const char *connstr)</div><div class="ttdef"><b>定义</b> ol_oci.cpp:162</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_afb0db2970541d92bdad919c8041bf848"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#afb0db2970541d92bdad919c8041bf848">ol::oracle::DBConn::m_cxt</a></div><div class="ttdeci">OCI_CXT m_cxt</div><div class="ttdef"><b>定义</b> ol_oci.h:84</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_conn_html_afd2e02a9a3cc976287838a52a4b094b0"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_conn.html#afd2e02a9a3cc976287838a52a4b094b0">ol::oracle::DBConn::err_report</a></div><div class="ttdeci">void err_report()</div><div class="ttdef"><b>定义</b> ol_oci.cpp:352</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html">ol::oracle::DBStmt</a></div><div class="ttdef"><b>定义</b> ol_oci.h:184</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_a0e35925126ed129fb9da5de73dc8a381"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#a0e35925126ed129fb9da5de73dc8a381">ol::oracle::DBStmt::isopen</a></div><div class="ttdeci">bool isopen()</div><div class="ttdoc">判断是否已关联数据库连接</div><div class="ttdef"><b>定义</b> ol_oci.cpp:480</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_a1b1edc201621442821fbc4f4a06d37c2"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#a1b1edc201621442821fbc4f4a06d37c2">ol::oracle::DBStmt::bindin</a></div><div class="ttdeci">int bindin(const unsigned int position, int &amp;value)</div><div class="ttdoc">绑定输入变量（将SQL中的占位符与变量关联）</div><div class="ttdef"><b>定义</b> ol_oci.cpp:575</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_a1e76d8eeaab4d7a38d292b492f33abaf"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#a1e76d8eeaab4d7a38d292b492f33abaf">ol::oracle::DBStmt::DBStmt</a></div><div class="ttdeci">DBStmt()</div><div class="ttdef"><b>定义</b> ol_oci.cpp:380</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_a222cb61cfa5729795817680660c9c8d8"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#a222cb61cfa5729795817680660c9c8d8">ol::oracle::DBStmt::rpc</a></div><div class="ttdeci">unsigned long rpc()</div><div class="ttdoc">获取影响数据的行数（Rows Processed Count）</div><div class="ttdef"><b>定义</b> ol_oci.h:378</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_a2503bd0dfdc67a0143a17df26dbb3868"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#a2503bd0dfdc67a0143a17df26dbb3868">ol::oracle::DBStmt::m_state</a></div><div class="ttdeci">int m_state</div><div class="ttdef"><b>定义</b> ol_oci.h:208</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_a26a626fc7f038cfcd06441af4c0df800"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#a26a626fc7f038cfcd06441af4c0df800">ol::oracle::DBStmt::next</a></div><div class="ttdeci">int next()</div><div class="ttdoc">从结果集中获取下一条记录（仅查询语句有效）</div><div class="ttdef"><b>定义</b> ol_oci.cpp:749</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_a3376103b0e5ad22d315c382d55db5c70a3ccd235bc0705b2cab02b4dd16273286"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#a3376103b0e5ad22d315c382d55db5c70a3ccd235bc0705b2cab02b4dd16273286">ol::oracle::DBStmt::disconnected</a></div><div class="ttdeci">@ disconnected</div><div class="ttdef"><b>定义</b> ol_oci.h:206</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_a3376103b0e5ad22d315c382d55db5c70aff82c6b99ba816cc4f133e4b024d8739"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#a3376103b0e5ad22d315c382d55db5c70aff82c6b99ba816cc4f133e4b024d8739">ol::oracle::DBStmt::connected</a></div><div class="ttdeci">@ connected</div><div class="ttdef"><b>定义</b> ol_oci.h:205</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_a3c5f195ad6edc60660c12e1f57d51598"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#a3c5f195ad6edc60660c12e1f57d51598">ol::oracle::DBStmt::operator=</a></div><div class="ttdeci">DBStmt &amp; operator=(const DBStmt &amp;)=delete</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_a4a0e399b0463ff367d1a4820cbd919dd"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#a4a0e399b0463ff367d1a4820cbd919dd">ol::oracle::DBStmt::prepare</a></div><div class="ttdeci">int prepare(const std::string &amp;strsql)</div><div class="ttdoc">准备SQL语句（支持格式化字符串）</div><div class="ttdef"><b>定义</b> ol_oci.h:250</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_a50ebc5499c4a90b87702566721a4db89"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#a50ebc5499c4a90b87702566721a4db89">ol::oracle::DBStmt::alloclob</a></div><div class="ttdeci">int alloclob()</div><div class="ttdef"><b>定义</b> ol_oci.cpp:821</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_a56406d40af96a3f245bf718ad5477e0d"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#a56406d40af96a3f245bf718ad5477e0d">ol::oracle::DBStmt::lobtofile</a></div><div class="ttdeci">int lobtofile(FILE *fp)</div><div class="ttdef"><b>定义</b> ol_oci.cpp:997</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_a6411609d2422cb66289f473d45a9ff48"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#a6411609d2422cb66289f473d45a9ff48">ol::oracle::DBStmt::~DBStmt</a></div><div class="ttdeci">~DBStmt()</div><div class="ttdef"><b>定义</b> ol_oci.cpp:410</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_a64526e944b348b5a4e09e50aed4ad44e"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#a64526e944b348b5a4e09e50aed4ad44e">ol::oracle::DBStmt::bindout</a></div><div class="ttdeci">int bindout(const unsigned int position, int &amp;value)</div><div class="ttdoc">绑定输出变量（将查询结果字段与变量关联）</div><div class="ttdef"><b>定义</b> ol_oci.cpp:630</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_a74e689ee9ff0f2a9fba2224a0519bfd9"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#a74e689ee9ff0f2a9fba2224a0519bfd9">ol::oracle::DBStmt::disconnect</a></div><div class="ttdeci">int disconnect()</div><div class="ttdoc">解除与数据库连接的关联</div><div class="ttdef"><b>定义</b> ol_oci.cpp:458</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_a7a4f45d878629ca6f1ef70443a28aec2"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#a7a4f45d878629ca6f1ef70443a28aec2">ol::oracle::DBStmt::execute</a></div><div class="ttdeci">int execute()</div><div class="ttdoc">执行已准备的（静态或动态）SQL语句</div><div class="ttdef"><b>定义</b> ol_oci.cpp:694</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_a8ec044d1fefadd1a31113c6faffd712e"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#a8ec044d1fefadd1a31113c6faffd712e">ol::oracle::DBStmt::connect</a></div><div class="ttdeci">int connect(DBConn *conn)</div><div class="ttdoc">关联数据库连接</div><div class="ttdef"><b>定义</b> ol_oci.cpp:415</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_a91a7d1e00691fc5d2bee6e0032cfc512"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#a91a7d1e00691fc5d2bee6e0032cfc512">ol::oracle::DBStmt::filetolob</a></div><div class="ttdeci">int filetolob(FILE *fp)</div><div class="ttdef"><b>定义</b> ol_oci.cpp:862</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_a999bedf0100657e3aba62fd881d5f44a"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#a999bedf0100657e3aba62fd881d5f44a">ol::oracle::DBStmt::m_sqltype</a></div><div class="ttdeci">bool m_sqltype</div><div class="ttdef"><b>定义</b> ol_oci.h:189</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_a9dadcb4934876e14a14078bac6829aec"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#a9dadcb4934876e14a14078bac6829aec">ol::oracle::DBStmt::m_sql</a></div><div class="ttdeci">std::string m_sql</div><div class="ttdef"><b>定义</b> ol_oci.h:210</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_aa22d6d6669d60da728db6afa29a5ce98"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#aa22d6d6669d60da728db6afa29a5ce98">ol::oracle::DBStmt::err_report</a></div><div class="ttdeci">void err_report()</div><div class="ttdef"><b>定义</b> ol_oci.cpp:793</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_aa4028a08343b65e84b12fbd5c4859417"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#aa4028a08343b65e84b12fbd5c4859417">ol::oracle::DBStmt::m_lob</a></div><div class="ttdeci">OCILobLocator * m_lob</div><div class="ttdef"><b>定义</b> ol_oci.h:193</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_ab4db523d08af0b8044cc1f7c9aa99a68"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#ab4db523d08af0b8044cc1f7c9aa99a68">ol::oracle::DBStmt::bindclob</a></div><div class="ttdeci">int bindclob()</div><div class="ttdoc">绑定CLOB字段（用于插入/读取字符大对象）</div><div class="ttdef"><b>定义</b> ol_oci.cpp:686</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_ab5fb7d0c31852615859e31153f074652"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#ab5fb7d0c31852615859e31153f074652">ol::oracle::DBStmt::m_cda</a></div><div class="ttdeci">CDA_DEF m_cda</div><div class="ttdef"><b>定义</b> ol_oci.h:211</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_abb28e36e6c794714185f8360d8a0d1d1"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#abb28e36e6c794714185f8360d8a0d1d1">ol::oracle::DBStmt::m_handle</a></div><div class="ttdeci">OCI_HANDLE m_handle</div><div class="ttdef"><b>定义</b> ol_oci.h:186</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_ac116c0c80703ff265b6bf7eb60cf6cec"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#ac116c0c80703ff265b6bf7eb60cf6cec">ol::oracle::DBStmt::sql</a></div><div class="ttdeci">const char * sql()</div><div class="ttdoc">获取SQL语句的文本</div><div class="ttdef"><b>定义</b> ol_oci.h:360</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_ac3f3736bb5d7084b749b64845dc9c066"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#ac3f3736bb5d7084b749b64845dc9c066">ol::oracle::DBStmt::DBStmt</a></div><div class="ttdeci">DBStmt(const DBStmt &amp;)=delete</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_ac746106ed7775b243907c843f2130b07"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#ac746106ed7775b243907c843f2130b07">ol::oracle::DBStmt::bindin1</a></div><div class="ttdeci">int bindin1(const unsigned int position, std::string &amp;value)</div><div class="ttdef"><b>定义</b> ol_oci.cpp:624</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_accbc6594225e222651065a30a259ec28"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#accbc6594225e222651065a30a259ec28">ol::oracle::DBStmt::m_autocommitopt</a></div><div class="ttdeci">bool m_autocommitopt</div><div class="ttdef"><b>定义</b> ol_oci.h:190</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_ae27aa746ef3a471a0ca004e5f0bece1a"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#ae27aa746ef3a471a0ca004e5f0bece1a">ol::oracle::DBStmt::rc</a></div><div class="ttdeci">int rc()</div><div class="ttdoc">获取错误代码（Return Code）</div><div class="ttdef"><b>定义</b> ol_oci.h:369</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_ae437928902890e447328d1ec8c6dc880"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#ae437928902890e447328d1ec8c6dc880">ol::oracle::DBStmt::message</a></div><div class="ttdeci">const char * message()</div><div class="ttdoc">获取错误描述信息</div><div class="ttdef"><b>定义</b> ol_oci.h:387</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_ae4d4ec987ba995aa7d93607fabb764b1"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#ae4d4ec987ba995aa7d93607fabb764b1">ol::oracle::DBStmt::bindblob</a></div><div class="ttdeci">int bindblob()</div><div class="ttdoc">绑定BLOB字段（用于插入/读取二进制大对象）</div><div class="ttdef"><b>定义</b> ol_oci.cpp:678</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_af36f47d9639bed35e4dc123e2e44d6a1"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#af36f47d9639bed35e4dc123e2e44d6a1">ol::oracle::DBStmt::m_conn</a></div><div class="ttdeci">DBConn * m_conn</div><div class="ttdef"><b>定义</b> ol_oci.h:188</div></div>
+<div class="ttc" id="aclassol_1_1oracle_1_1_d_b_stmt_html_af480042e0729bce35e1a2325ee3f4458"><div class="ttname"><a href="classol_1_1oracle_1_1_d_b_stmt.html#af480042e0729bce35e1a2325ee3f4458">ol::oracle::DBStmt::freelob</a></div><div class="ttdeci">void freelob()</div><div class="ttdef"><b>定义</b> ol_oci.cpp:828</div></div>
+<div class="ttc" id="anamespaceol_1_1oracle_html"><div class="ttname"><a href="namespaceol_1_1oracle.html">ol::oracle</a></div><div class="ttdef"><b>定义</b> ol_oci.h:29</div></div>
+<div class="ttc" id="anamespaceol_1_1oracle_html_a6706bea1973da4530da69e2d1f900120"><div class="ttname"><a href="namespaceol_1_1oracle.html#a6706bea1973da4530da69e2d1f900120">ol::oracle::oci_init</a></div><div class="ttdeci">int oci_init(LOGINENV *env)</div><div class="ttdef"><b>定义</b> ol_oci.cpp:42</div></div>
+<div class="ttc" id="anamespaceol_1_1oracle_html_a6bf3925a7c01e8c1940529e124cb2ff7"><div class="ttname"><a href="namespaceol_1_1oracle.html#a6bf3925a7c01e8c1940529e124cb2ff7">ol::oracle::oci_stmt_close</a></div><div class="ttdeci">int oci_stmt_close(OCI_HANDLE *handle)</div><div class="ttdef"><b>定义</b> ol_oci.cpp:132</div></div>
+<div class="ttc" id="anamespaceol_1_1oracle_html_a799a365d7d2ac0361ae85c8dc5082238"><div class="ttname"><a href="namespaceol_1_1oracle.html#a799a365d7d2ac0361ae85c8dc5082238">ol::oracle::oci_context_create</a></div><div class="ttdeci">int oci_context_create(LOGINENV *env, OCI_CXT *cxt)</div><div class="ttdef"><b>定义</b> ol_oci.cpp:66</div></div>
+<div class="ttc" id="anamespaceol_1_1oracle_html_a7b4456f4dc2340eb6cd7b79663dc4569"><div class="ttname"><a href="namespaceol_1_1oracle.html#a7b4456f4dc2340eb6cd7b79663dc4569">ol::oracle::oci_stmt_create</a></div><div class="ttdeci">int oci_stmt_create(OCI_CXT *cxt, OCI_HANDLE *handle)</div><div class="ttdef"><b>定义</b> ol_oci.cpp:115</div></div>
+<div class="ttc" id="anamespaceol_1_1oracle_html_ab211292a256353c312c550bb4693f567"><div class="ttname"><a href="namespaceol_1_1oracle.html#ab211292a256353c312c550bb4693f567">ol::oracle::oci_context_close</a></div><div class="ttdeci">int oci_context_close(OCI_CXT *cxt)</div><div class="ttdef"><b>定义</b> ol_oci.cpp:99</div></div>
+<div class="ttc" id="anamespaceol_1_1oracle_html_acc23f91fb12c5acc1b55fef91cffa157"><div class="ttname"><a href="namespaceol_1_1oracle.html#acc23f91fb12c5acc1b55fef91cffa157">ol::oracle::oci_close</a></div><div class="ttdeci">int oci_close(LOGINENV *env)</div><div class="ttdef"><b>定义</b> ol_oci.cpp:56</div></div>
+<div class="ttc" id="anamespaceol_html"><div class="ttname"><a href="namespaceol.html">ol</a></div><div class="ttdef"><b>定义</b> ol_chrono.cpp:7</div></div>
+<div class="ttc" id="astructol_1_1oracle_1_1_c_d_a___d_e_f_html"><div class="ttname"><a href="structol_1_1oracle_1_1_c_d_a___d_e_f.html">ol::oracle::CDA_DEF</a></div><div class="ttdef"><b>定义</b> ol_oci.h:60</div></div>
+<div class="ttc" id="astructol_1_1oracle_1_1_c_d_a___d_e_f_html_a7021181e4586ce0bad5fcc2d3ccb589f"><div class="ttname"><a href="structol_1_1oracle_1_1_c_d_a___d_e_f.html#a7021181e4586ce0bad5fcc2d3ccb589f">ol::oracle::CDA_DEF::rpc</a></div><div class="ttdeci">unsigned long rpc</div><div class="ttdef"><b>定义</b> ol_oci.h:62</div></div>
+<div class="ttc" id="astructol_1_1oracle_1_1_c_d_a___d_e_f_html_ab532f429702ce1bee93219250a24440f"><div class="ttname"><a href="structol_1_1oracle_1_1_c_d_a___d_e_f.html#ab532f429702ce1bee93219250a24440f">ol::oracle::CDA_DEF::message</a></div><div class="ttdeci">char message[2048]</div><div class="ttdef"><b>定义</b> ol_oci.h:63</div></div>
+<div class="ttc" id="astructol_1_1oracle_1_1_c_d_a___d_e_f_html_ac3bdaf4824ce8bd937ada31fd60d3183"><div class="ttname"><a href="structol_1_1oracle_1_1_c_d_a___d_e_f.html#ac3bdaf4824ce8bd937ada31fd60d3183">ol::oracle::CDA_DEF::rc</a></div><div class="ttdeci">int rc</div><div class="ttdef"><b>定义</b> ol_oci.h:61</div></div>
+<div class="ttc" id="astructol_1_1oracle_1_1_l_o_g_i_n_e_n_v_html"><div class="ttname"><a href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html">ol::oracle::LOGINENV</a></div><div class="ttdef"><b>定义</b> ol_oci.h:32</div></div>
+<div class="ttc" id="astructol_1_1oracle_1_1_l_o_g_i_n_e_n_v_html_a396385f1f9289e3017c369c6c196d1ab"><div class="ttname"><a href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html#a396385f1f9289e3017c369c6c196d1ab">ol::oracle::LOGINENV::envhp</a></div><div class="ttdeci">OCIEnv * envhp</div><div class="ttdef"><b>定义</b> ol_oci.h:36</div></div>
+<div class="ttc" id="astructol_1_1oracle_1_1_l_o_g_i_n_e_n_v_html_a68aec0f37b971dc4cd71b435732a1ab6"><div class="ttname"><a href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html#a68aec0f37b971dc4cd71b435732a1ab6">ol::oracle::LOGINENV::pass</a></div><div class="ttdeci">char pass[31]</div><div class="ttdef"><b>定义</b> ol_oci.h:34</div></div>
+<div class="ttc" id="astructol_1_1oracle_1_1_l_o_g_i_n_e_n_v_html_aa96b52921690159691940739086d97a0"><div class="ttname"><a href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html#aa96b52921690159691940739086d97a0">ol::oracle::LOGINENV::user</a></div><div class="ttdeci">char user[31]</div><div class="ttdef"><b>定义</b> ol_oci.h:33</div></div>
+<div class="ttc" id="astructol_1_1oracle_1_1_l_o_g_i_n_e_n_v_html_ae4fca1789f5fd507472704e3eb88766c"><div class="ttname"><a href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html#ae4fca1789f5fd507472704e3eb88766c">ol::oracle::LOGINENV::tnsname</a></div><div class="ttdeci">char tnsname[51]</div><div class="ttdef"><b>定义</b> ol_oci.h:35</div></div>
+<div class="ttc" id="astructol_1_1oracle_1_1_o_c_i___c_x_t_html"><div class="ttname"><a href="structol_1_1oracle_1_1_o_c_i___c_x_t.html">ol::oracle::OCI_CXT</a></div><div class="ttdef"><b>定义</b> ol_oci.h:41</div></div>
+<div class="ttc" id="astructol_1_1oracle_1_1_o_c_i___c_x_t_html_a519388498d839bd15b02b88d950ba5f2"><div class="ttname"><a href="structol_1_1oracle_1_1_o_c_i___c_x_t.html#a519388498d839bd15b02b88d950ba5f2">ol::oracle::OCI_CXT::svchp</a></div><div class="ttdeci">OCISvcCtx * svchp</div><div class="ttdef"><b>定义</b> ol_oci.h:42</div></div>
+<div class="ttc" id="astructol_1_1oracle_1_1_o_c_i___c_x_t_html_a804d9df29032a08d8f24754e3b39a8ae"><div class="ttname"><a href="structol_1_1oracle_1_1_o_c_i___c_x_t.html#a804d9df29032a08d8f24754e3b39a8ae">ol::oracle::OCI_CXT::errhp</a></div><div class="ttdeci">OCIError * errhp</div><div class="ttdef"><b>定义</b> ol_oci.h:43</div></div>
+<div class="ttc" id="astructol_1_1oracle_1_1_o_c_i___c_x_t_html_aab8219fa32dae2df3877b76632fd279e"><div class="ttname"><a href="structol_1_1oracle_1_1_o_c_i___c_x_t.html#aab8219fa32dae2df3877b76632fd279e">ol::oracle::OCI_CXT::envhp</a></div><div class="ttdeci">OCIEnv * envhp</div><div class="ttdef"><b>定义</b> ol_oci.h:44</div></div>
+<div class="ttc" id="astructol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e_html"><div class="ttname"><a href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html">ol::oracle::OCI_HANDLE</a></div><div class="ttdef"><b>定义</b> ol_oci.h:49</div></div>
+<div class="ttc" id="astructol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e_html_a079840e4754a0f1d23519088cfa42370"><div class="ttname"><a href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html#a079840e4754a0f1d23519088cfa42370">ol::oracle::OCI_HANDLE::defhp</a></div><div class="ttdeci">OCIDefine * defhp</div><div class="ttdef"><b>定义</b> ol_oci.h:53</div></div>
+<div class="ttc" id="astructol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e_html_a0c952a0b9053a4c5c8bad33107336447"><div class="ttname"><a href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html#a0c952a0b9053a4c5c8bad33107336447">ol::oracle::OCI_HANDLE::envhp</a></div><div class="ttdeci">OCIEnv * envhp</div><div class="ttdef"><b>定义</b> ol_oci.h:55</div></div>
+<div class="ttc" id="astructol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e_html_a27053f2e741254e84d9fe359bd412819"><div class="ttname"><a href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html#a27053f2e741254e84d9fe359bd412819">ol::oracle::OCI_HANDLE::smthp</a></div><div class="ttdeci">OCIStmt * smthp</div><div class="ttdef"><b>定义</b> ol_oci.h:51</div></div>
+<div class="ttc" id="astructol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e_html_a698bf679618c6ff7d359ebbc6c77aa9a"><div class="ttname"><a href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html#a698bf679618c6ff7d359ebbc6c77aa9a">ol::oracle::OCI_HANDLE::bindhp</a></div><div class="ttdeci">OCIBind * bindhp</div><div class="ttdef"><b>定义</b> ol_oci.h:52</div></div>
+<div class="ttc" id="astructol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e_html_a8bc0ccdae9e390c4eb39a50a96266596"><div class="ttname"><a href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html#a8bc0ccdae9e390c4eb39a50a96266596">ol::oracle::OCI_HANDLE::errhp</a></div><div class="ttdeci">OCIError * errhp</div><div class="ttdef"><b>定义</b> ol_oci.h:54</div></div>
+<div class="ttc" id="astructol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e_html_aa436572087ccf72f17b3b37da34f720c"><div class="ttname"><a href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html#aa436572087ccf72f17b3b37da34f720c">ol::oracle::OCI_HANDLE::svchp</a></div><div class="ttdeci">OCISvcCtx * svchp</div><div class="ttdef"><b>定义</b> ol_oci.h:50</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_6b7f86e6fb8cb2177df9a381d53ba4a9.html">oldblib</a></li><li class="navelem"><a href="dir_79752f5365b4efc7f687e5bb9279f0a9.html">oracle</a></li><li class="navelem"><a href="dir_2cad55e0548ca0da617aea9076c8aef5.html">include</a></li><li class="navelem"><a href="ol__oci_8h.html">ol_oci.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

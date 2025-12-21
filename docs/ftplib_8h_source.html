@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ollib/include/third_party/ftplib/ftplib.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('ftplib_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ftplib.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ftplib_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/***************************************************************************/</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">/*                                     */</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">/* ftplib.h - header file for callable ftp access routines                 */</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">/* Copyright (C) 1996-2001, 2013, 2016 Thomas Pfau, tfpfau@gmail.com       */</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">/*  1407 Thomas Ave, North Brunswick, NJ, 08902            */</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">/*                                     */</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment">/* This library is free software.  You can redistribute it and/or      */</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment">/* modify it under the terms of the Artistic License 2.0.          */</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment">/*                                     */</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">/* This library is distributed in the hope that it will be useful,     */</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">/* but WITHOUT ANY WARRANTY; without even the implied warranty of      */</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment">/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the       */</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">/* Artistic License 2.0 for more details.                  */</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment">/*                                     */</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment">/* See the file LICENSE or                         */</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment">/* http://www.perlfoundation.org/artistic_license_2_0              */</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment">/*                                     */</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment">/***************************************************************************/</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#if !defined(__FTPLIB_H)</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#define __FTPLIB_H</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#if defined(__unix__) || defined(VMS)</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#define GLOBALDEF</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#define GLOBALREF extern</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#elif defined(_WIN32)</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#if defined BUILDING_LIBRARY</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#define GLOBALDEF __declspec(dllexport)</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#define GLOBALREF __declspec(dllexport)</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="preprocessor">#define GLOBALREF __declspec(dllimport)</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#include &lt;limits.h&gt;</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#include &lt;inttypes.h&gt;</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment">/* FtpAccess() type codes */</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a1572cad2ccc2977a34f00f5cd1e49979">   39</a></span><span class="preprocessor">#define FTPLIB_DIR 1</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="ftplib_8h.html#ae943c456987494e064f03d37a097c354">   40</a></span><span class="preprocessor">#define FTPLIB_DIR_VERBOSE 2</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a36e3d855c6219bd95825f1f93d68a62a">   41</a></span><span class="preprocessor">#define FTPLIB_FILE_READ 3</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="ftplib_8h.html#aa9793cf181925c0b6f60f4c9ac400740">   42</a></span><span class="preprocessor">#define FTPLIB_FILE_WRITE 4</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="comment">/* FtpAccess() mode codes */</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a706724801feeb2bb68751534efaf4207">   45</a></span><span class="preprocessor">#define FTPLIB_ASCII &#39;A&#39;</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a1d8c232bd1e241a834e22736386f3a99">   46</a></span><span class="preprocessor">#define FTPLIB_IMAGE &#39;I&#39;</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a723b3fa0993db4d8de4c566567e17deb">   47</a></span><span class="preprocessor">#define FTPLIB_TEXT FTPLIB_ASCII</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="ftplib_8h.html#ae553b697c1ee8014d60fb1d407ba67d1">   48</a></span><span class="preprocessor">#define FTPLIB_BINARY FTPLIB_IMAGE</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="comment">/* connection modes */</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="ftplib_8h.html#aa0ad169c53b73ddcc2854356d3f05409">   51</a></span><span class="preprocessor">#define FTPLIB_PASSIVE 1</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a7ce38a031ca4a29ed368f694316efbec">   52</a></span><span class="preprocessor">#define FTPLIB_PORT 2</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="comment">/* connection option names */</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a92dc4ef668dc02da25d82fb0f397014a">   55</a></span><span class="preprocessor">#define FTPLIB_CONNMODE 1</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a5da988dc35f3363ff44ef6457fa2bb06">   56</a></span><span class="preprocessor">#define FTPLIB_CALLBACK 2</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a603971f9d4aaae61a613b39a8636786c">   57</a></span><span class="preprocessor">#define FTPLIB_IDLETIME 3</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a2b928813af0794248fd3587bdbb92d2e">   58</a></span><span class="preprocessor">#define FTPLIB_CALLBACKARG 4</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="ftplib_8h.html#ae23ea6a3a0807ea7fbac768cdff924f1">   59</a></span><span class="preprocessor">#define FTPLIB_CALLBACKBYTES 5</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#if defined(__UINT64_MAX)</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="keyword">typedef</span> uint64_t <a class="code hl_typedef" href="ftplib_8h.html#a6ca53be72b4249c711c35aab599f4dc5">fsz_t</a>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a6ca53be72b4249c711c35aab599f4dc5">   68</a></span><span class="keyword">typedef</span> uint32_t <a class="code hl_typedef" href="ftplib_8h.html#a6ca53be72b4249c711c35aab599f4dc5">fsz_t</a>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">   71</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>NetBuf <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a47858824ff9f3fc8b0ebbe9ba8b40cd3">   72</a></span><span class="keyword">typedef</span> int (*<a class="code hl_typedef" href="ftplib_8h.html#a47858824ff9f3fc8b0ebbe9ba8b40cd3">FtpCallback</a>)(<a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl, <a class="code hl_typedef" href="ftplib_8h.html#a6ca53be72b4249c711c35aab599f4dc5">fsz_t</a> xfered, <span class="keywordtype">void</span> *arg);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="foldopen" id="foldopen00074" data-start="{" data-end="};">
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="struct_ftp_callback_options.html">   74</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="struct_ftp_callback_options.html">FtpCallbackOptions</a> {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="struct_ftp_callback_options.html#a8dbebb0944fc03bf07cd17cf09c8ba28">   75</a></span>    <a class="code hl_typedef" href="ftplib_8h.html#a47858824ff9f3fc8b0ebbe9ba8b40cd3">FtpCallback</a> <a class="code hl_variable" href="struct_ftp_callback_options.html#a8dbebb0944fc03bf07cd17cf09c8ba28">cbFunc</a>;        <span class="comment">/* function to call */</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="struct_ftp_callback_options.html#ad1db455302f11c52457d61813d08e7f8">   76</a></span>    <span class="keywordtype">void</span> *<a class="code hl_variable" href="struct_ftp_callback_options.html#ad1db455302f11c52457d61813d08e7f8">cbArg</a>;       <span class="comment">/* argument to pass to function */</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="struct_ftp_callback_options.html#adceb858e24ac23359a22738917b0c23b">   77</a></span>    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_ftp_callback_options.html#adceb858e24ac23359a22738917b0c23b">bytesXferred</a>;  <span class="comment">/* callback if this number of bytes transferred */</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="struct_ftp_callback_options.html#a7c30e015fee56b32b6a9e490f5005a4c">   78</a></span>    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_ftp_callback_options.html#a7c30e015fee56b32b6a9e490f5005a4c">idleTime</a>;  <span class="comment">/* callback if this many milliseconds have elapsed */</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a3a2db043e360673a8cd718b1dfcc03fc">   79</a></span>} <a class="code hl_struct" href="struct_ftp_callback_options.html">FtpCallbackOptions</a>;</div>
+</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="ftplib_8h.html#afa4515b80b3ae393d43713e0937de602">   81</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_variable" href="ftplib_8h.html#afa4515b80b3ae393d43713e0937de602">ftplib_debug</a>;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="ftplib_8h.html#aafb14a5f62128100c066fd1a7e74134e">   82</a></span>GLOBALREF <span class="keywordtype">void</span> <a class="code hl_function" href="ftplib_8h.html#aafb14a5f62128100c066fd1a7e74134e">FtpInit</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="ftplib_8h.html#aa81580f0482b0a9dbd0d9f4b7d82415f">   83</a></span>GLOBALREF <span class="keywordtype">char</span> *<a class="code hl_function" href="ftplib_8h.html#aa81580f0482b0a9dbd0d9f4b7d82415f">FtpLastResponse</a>(<a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a3b55c9628b3459941d78feeff721079c">   84</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#a3b55c9628b3459941d78feeff721079c">FtpConnect</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *host, <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> **nControl);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a7ae36664bd8f842194b0307e64503b0a">   85</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#a7ae36664bd8f842194b0307e64503b0a">FtpOptions</a>(<span class="keywordtype">int</span> opt, <span class="keywordtype">long</span> val, <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a6609840f61e8c8c1c81d0145d40f6bf3">   86</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#a6609840f61e8c8c1c81d0145d40f6bf3">FtpSetCallback</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_ftp_callback_options.html">FtpCallbackOptions</a> *opt, <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="ftplib_8h.html#adc4502770f2a4cace10ddeb6ecb0106f">   87</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#adc4502770f2a4cace10ddeb6ecb0106f">FtpClearCallback</a>(<a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="ftplib_8h.html#af3a63413b2b6997c5912bf35ebd266b2">   88</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#af3a63413b2b6997c5912bf35ebd266b2">FtpLogin</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *user, <span class="keyword">const</span> <span class="keywordtype">char</span> *pass, <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a23a99f182b59699a0c4c50d374e97392">   89</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#a23a99f182b59699a0c4c50d374e97392">FtpAccess</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *path, <span class="keywordtype">int</span> typ, <span class="keywordtype">int</span> mode, <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl,</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> **nData);</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a8521d533a6f6440cc692588d6dfb1dc2">   91</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#a8521d533a6f6440cc692588d6dfb1dc2">FtpRead</a>(<span class="keywordtype">void</span> *buf, <span class="keywordtype">int</span> max, <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nData);</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a36f80b2adf868bd8163c5af726601708">   92</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#a36f80b2adf868bd8163c5af726601708">FtpWrite</a>(<span class="keyword">const</span> <span class="keywordtype">void</span> *buf, <span class="keywordtype">int</span> len, <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nData);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a032840338842c6b837a88ed4473a24ee">   93</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#a032840338842c6b837a88ed4473a24ee">FtpClose</a>(<a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nData);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a5a6c29bdab1fa850bdec20a90d7fd082">   94</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#a5a6c29bdab1fa850bdec20a90d7fd082">FtpSite</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *cmd, <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a73d82a6dd558cfa066e0c47f02822cd2">   95</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#a73d82a6dd558cfa066e0c47f02822cd2">FtpSysType</a>(<span class="keywordtype">char</span> *buf, <span class="keywordtype">int</span> max, <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="ftplib_8h.html#af8700fbb8619d1cd348fa4231b29b0f9">   96</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#af8700fbb8619d1cd348fa4231b29b0f9">FtpMkdir</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *path, <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a21b92b6a5ed5ec03b088b6c3b4b61597">   97</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#a21b92b6a5ed5ec03b088b6c3b4b61597">FtpChdir</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *path, <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a50da3dcdfe2494d3885fcfc0607271d0">   98</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#a50da3dcdfe2494d3885fcfc0607271d0">FtpCDUp</a>(<a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a2b48a889bcf496a3e6c442831a51ab67">   99</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#a2b48a889bcf496a3e6c442831a51ab67">FtpRmdir</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *path, <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a3fa5de231562ee8f6eac8447f024ff66">  100</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#a3fa5de231562ee8f6eac8447f024ff66">FtpPwd</a>(<span class="keywordtype">char</span> *path, <span class="keywordtype">int</span> max, <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="ftplib_8h.html#adeaecd03fdb18f49fdd3895317af7121">  101</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#adeaecd03fdb18f49fdd3895317af7121">FtpNlst</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *output, <span class="keyword">const</span> <span class="keywordtype">char</span> *path, <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a56088b449645a1d4c1952afca07d2bb0">  102</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#a56088b449645a1d4c1952afca07d2bb0">FtpDir</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *output, <span class="keyword">const</span> <span class="keywordtype">char</span> *path, <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="ftplib_8h.html#aca7685cedc22bcd15a086cb40b6f685e">  103</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#aca7685cedc22bcd15a086cb40b6f685e">FtpSize</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *path, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> *size, <span class="keywordtype">char</span> mode, <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="preprocessor">#if defined(__UINT64_MAX)</span></div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>GLOBALREF <span class="keywordtype">int</span> FtpSizeLong(<span class="keyword">const</span> <span class="keywordtype">char</span> *path, <a class="code hl_typedef" href="ftplib_8h.html#a6ca53be72b4249c711c35aab599f4dc5">fsz_t</a> *size, <span class="keywordtype">char</span> mode, <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="ftplib_8h.html#aac704c715d59812a13fbdcaede05e6f0">  107</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#aac704c715d59812a13fbdcaede05e6f0">FtpModDate</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *path, <span class="keywordtype">char</span> *dt, <span class="keywordtype">int</span> max, <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a3e108e13a78d270a40f01d2dc6c110d8">  108</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#a3e108e13a78d270a40f01d2dc6c110d8">FtpGet</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *output, <span class="keyword">const</span> <span class="keywordtype">char</span> *path, <span class="keywordtype">char</span> mode,</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="ftplib_8h.html#adfa38dfec5fc2c06720ce02a8aa1f438">  110</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#adfa38dfec5fc2c06720ce02a8aa1f438">FtpPut</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *input, <span class="keyword">const</span> <span class="keywordtype">char</span> *path, <span class="keywordtype">char</span> mode,</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="ftplib_8h.html#a67b33075a3817aa0007793eece975205">  112</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#a67b33075a3817aa0007793eece975205">FtpRename</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *src, <span class="keyword">const</span> <span class="keywordtype">char</span> *dst, <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="ftplib_8h.html#ae5e158e4be6977167b373883730bc60c">  113</a></span>GLOBALREF <span class="keywordtype">int</span> <a class="code hl_function" href="ftplib_8h.html#ae5e158e4be6977167b373883730bc60c">FtpDelete</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *fnm, <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="ftplib_8h.html#ab1c1f23f7e2c4bd6f660056064484d6c">  114</a></span>GLOBALREF <span class="keywordtype">void</span> <a class="code hl_function" href="ftplib_8h.html#ab1c1f23f7e2c4bd6f660056064484d6c">FtpQuit</a>(<a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a> *nControl);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>};</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span><span class="preprocessor">#endif </span><span class="comment">/* __FTPLIB_H */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="aftplib_8h_html_a032840338842c6b837a88ed4473a24ee"><div class="ttname"><a href="ftplib_8h.html#a032840338842c6b837a88ed4473a24ee">FtpClose</a></div><div class="ttdeci">GLOBALREF int FtpClose(netbuf *nData)</div></div>
+<div class="ttc" id="aftplib_8h_html_a21b92b6a5ed5ec03b088b6c3b4b61597"><div class="ttname"><a href="ftplib_8h.html#a21b92b6a5ed5ec03b088b6c3b4b61597">FtpChdir</a></div><div class="ttdeci">GLOBALREF int FtpChdir(const char *path, netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_a23a99f182b59699a0c4c50d374e97392"><div class="ttname"><a href="ftplib_8h.html#a23a99f182b59699a0c4c50d374e97392">FtpAccess</a></div><div class="ttdeci">GLOBALREF int FtpAccess(const char *path, int typ, int mode, netbuf *nControl, netbuf **nData)</div></div>
+<div class="ttc" id="aftplib_8h_html_a2b48a889bcf496a3e6c442831a51ab67"><div class="ttname"><a href="ftplib_8h.html#a2b48a889bcf496a3e6c442831a51ab67">FtpRmdir</a></div><div class="ttdeci">GLOBALREF int FtpRmdir(const char *path, netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_a36f80b2adf868bd8163c5af726601708"><div class="ttname"><a href="ftplib_8h.html#a36f80b2adf868bd8163c5af726601708">FtpWrite</a></div><div class="ttdeci">GLOBALREF int FtpWrite(const void *buf, int len, netbuf *nData)</div></div>
+<div class="ttc" id="aftplib_8h_html_a3b55c9628b3459941d78feeff721079c"><div class="ttname"><a href="ftplib_8h.html#a3b55c9628b3459941d78feeff721079c">FtpConnect</a></div><div class="ttdeci">GLOBALREF int FtpConnect(const char *host, netbuf **nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_a3e108e13a78d270a40f01d2dc6c110d8"><div class="ttname"><a href="ftplib_8h.html#a3e108e13a78d270a40f01d2dc6c110d8">FtpGet</a></div><div class="ttdeci">GLOBALREF int FtpGet(const char *output, const char *path, char mode, netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_a3fa5de231562ee8f6eac8447f024ff66"><div class="ttname"><a href="ftplib_8h.html#a3fa5de231562ee8f6eac8447f024ff66">FtpPwd</a></div><div class="ttdeci">GLOBALREF int FtpPwd(char *path, int max, netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_a41c079148fbe076c02326a3f114d9a0a"><div class="ttname"><a href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a></div><div class="ttdeci">struct NetBuf netbuf</div><div class="ttdef"><b>定义</b> ftplib.h:71</div></div>
+<div class="ttc" id="aftplib_8h_html_a47858824ff9f3fc8b0ebbe9ba8b40cd3"><div class="ttname"><a href="ftplib_8h.html#a47858824ff9f3fc8b0ebbe9ba8b40cd3">FtpCallback</a></div><div class="ttdeci">int(* FtpCallback)(netbuf *nControl, fsz_t xfered, void *arg)</div><div class="ttdef"><b>定义</b> ftplib.h:72</div></div>
+<div class="ttc" id="aftplib_8h_html_a50da3dcdfe2494d3885fcfc0607271d0"><div class="ttname"><a href="ftplib_8h.html#a50da3dcdfe2494d3885fcfc0607271d0">FtpCDUp</a></div><div class="ttdeci">GLOBALREF int FtpCDUp(netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_a56088b449645a1d4c1952afca07d2bb0"><div class="ttname"><a href="ftplib_8h.html#a56088b449645a1d4c1952afca07d2bb0">FtpDir</a></div><div class="ttdeci">GLOBALREF int FtpDir(const char *output, const char *path, netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_a5a6c29bdab1fa850bdec20a90d7fd082"><div class="ttname"><a href="ftplib_8h.html#a5a6c29bdab1fa850bdec20a90d7fd082">FtpSite</a></div><div class="ttdeci">GLOBALREF int FtpSite(const char *cmd, netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_a6609840f61e8c8c1c81d0145d40f6bf3"><div class="ttname"><a href="ftplib_8h.html#a6609840f61e8c8c1c81d0145d40f6bf3">FtpSetCallback</a></div><div class="ttdeci">GLOBALREF int FtpSetCallback(const FtpCallbackOptions *opt, netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_a67b33075a3817aa0007793eece975205"><div class="ttname"><a href="ftplib_8h.html#a67b33075a3817aa0007793eece975205">FtpRename</a></div><div class="ttdeci">GLOBALREF int FtpRename(const char *src, const char *dst, netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_a6ca53be72b4249c711c35aab599f4dc5"><div class="ttname"><a href="ftplib_8h.html#a6ca53be72b4249c711c35aab599f4dc5">fsz_t</a></div><div class="ttdeci">uint32_t fsz_t</div><div class="ttdef"><b>定义</b> ftplib.h:68</div></div>
+<div class="ttc" id="aftplib_8h_html_a73d82a6dd558cfa066e0c47f02822cd2"><div class="ttname"><a href="ftplib_8h.html#a73d82a6dd558cfa066e0c47f02822cd2">FtpSysType</a></div><div class="ttdeci">GLOBALREF int FtpSysType(char *buf, int max, netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_a7ae36664bd8f842194b0307e64503b0a"><div class="ttname"><a href="ftplib_8h.html#a7ae36664bd8f842194b0307e64503b0a">FtpOptions</a></div><div class="ttdeci">GLOBALREF int FtpOptions(int opt, long val, netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_a8521d533a6f6440cc692588d6dfb1dc2"><div class="ttname"><a href="ftplib_8h.html#a8521d533a6f6440cc692588d6dfb1dc2">FtpRead</a></div><div class="ttdeci">GLOBALREF int FtpRead(void *buf, int max, netbuf *nData)</div></div>
+<div class="ttc" id="aftplib_8h_html_aa81580f0482b0a9dbd0d9f4b7d82415f"><div class="ttname"><a href="ftplib_8h.html#aa81580f0482b0a9dbd0d9f4b7d82415f">FtpLastResponse</a></div><div class="ttdeci">GLOBALREF char * FtpLastResponse(netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_aac704c715d59812a13fbdcaede05e6f0"><div class="ttname"><a href="ftplib_8h.html#aac704c715d59812a13fbdcaede05e6f0">FtpModDate</a></div><div class="ttdeci">GLOBALREF int FtpModDate(const char *path, char *dt, int max, netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_aafb14a5f62128100c066fd1a7e74134e"><div class="ttname"><a href="ftplib_8h.html#aafb14a5f62128100c066fd1a7e74134e">FtpInit</a></div><div class="ttdeci">GLOBALREF void FtpInit(void)</div></div>
+<div class="ttc" id="aftplib_8h_html_ab1c1f23f7e2c4bd6f660056064484d6c"><div class="ttname"><a href="ftplib_8h.html#ab1c1f23f7e2c4bd6f660056064484d6c">FtpQuit</a></div><div class="ttdeci">GLOBALREF void FtpQuit(netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_aca7685cedc22bcd15a086cb40b6f685e"><div class="ttname"><a href="ftplib_8h.html#aca7685cedc22bcd15a086cb40b6f685e">FtpSize</a></div><div class="ttdeci">GLOBALREF int FtpSize(const char *path, unsigned int *size, char mode, netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_adc4502770f2a4cace10ddeb6ecb0106f"><div class="ttname"><a href="ftplib_8h.html#adc4502770f2a4cace10ddeb6ecb0106f">FtpClearCallback</a></div><div class="ttdeci">GLOBALREF int FtpClearCallback(netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_adeaecd03fdb18f49fdd3895317af7121"><div class="ttname"><a href="ftplib_8h.html#adeaecd03fdb18f49fdd3895317af7121">FtpNlst</a></div><div class="ttdeci">GLOBALREF int FtpNlst(const char *output, const char *path, netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_adfa38dfec5fc2c06720ce02a8aa1f438"><div class="ttname"><a href="ftplib_8h.html#adfa38dfec5fc2c06720ce02a8aa1f438">FtpPut</a></div><div class="ttdeci">GLOBALREF int FtpPut(const char *input, const char *path, char mode, netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_ae5e158e4be6977167b373883730bc60c"><div class="ttname"><a href="ftplib_8h.html#ae5e158e4be6977167b373883730bc60c">FtpDelete</a></div><div class="ttdeci">GLOBALREF int FtpDelete(const char *fnm, netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_af3a63413b2b6997c5912bf35ebd266b2"><div class="ttname"><a href="ftplib_8h.html#af3a63413b2b6997c5912bf35ebd266b2">FtpLogin</a></div><div class="ttdeci">GLOBALREF int FtpLogin(const char *user, const char *pass, netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_af8700fbb8619d1cd348fa4231b29b0f9"><div class="ttname"><a href="ftplib_8h.html#af8700fbb8619d1cd348fa4231b29b0f9">FtpMkdir</a></div><div class="ttdeci">GLOBALREF int FtpMkdir(const char *path, netbuf *nControl)</div></div>
+<div class="ttc" id="aftplib_8h_html_afa4515b80b3ae393d43713e0937de602"><div class="ttname"><a href="ftplib_8h.html#afa4515b80b3ae393d43713e0937de602">ftplib_debug</a></div><div class="ttdeci">GLOBALREF int ftplib_debug</div><div class="ttdef"><b>定义</b> ftplib.h:81</div></div>
+<div class="ttc" id="astruct_ftp_callback_options_html"><div class="ttname"><a href="struct_ftp_callback_options.html">FtpCallbackOptions</a></div><div class="ttdef"><b>定义</b> ftplib.h:74</div></div>
+<div class="ttc" id="astruct_ftp_callback_options_html_a7c30e015fee56b32b6a9e490f5005a4c"><div class="ttname"><a href="struct_ftp_callback_options.html#a7c30e015fee56b32b6a9e490f5005a4c">FtpCallbackOptions::idleTime</a></div><div class="ttdeci">unsigned int idleTime</div><div class="ttdef"><b>定义</b> ftplib.h:78</div></div>
+<div class="ttc" id="astruct_ftp_callback_options_html_a8dbebb0944fc03bf07cd17cf09c8ba28"><div class="ttname"><a href="struct_ftp_callback_options.html#a8dbebb0944fc03bf07cd17cf09c8ba28">FtpCallbackOptions::cbFunc</a></div><div class="ttdeci">FtpCallback cbFunc</div><div class="ttdef"><b>定义</b> ftplib.h:75</div></div>
+<div class="ttc" id="astruct_ftp_callback_options_html_ad1db455302f11c52457d61813d08e7f8"><div class="ttname"><a href="struct_ftp_callback_options.html#ad1db455302f11c52457d61813d08e7f8">FtpCallbackOptions::cbArg</a></div><div class="ttdeci">void * cbArg</div><div class="ttdef"><b>定义</b> ftplib.h:76</div></div>
+<div class="ttc" id="astruct_ftp_callback_options_html_adceb858e24ac23359a22738917b0c23b"><div class="ttname"><a href="struct_ftp_callback_options.html#adceb858e24ac23359a22738917b0c23b">FtpCallbackOptions::bytesXferred</a></div><div class="ttdeci">unsigned int bytesXferred</div><div class="ttdef"><b>定义</b> ftplib.h:77</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_75b512e435434d14bff7e88c830596e1.html">ollib</a></li><li class="navelem"><a href="dir_b9a0bbad5c7f744a36cd404f18e81e13.html">include</a></li><li class="navelem"><a href="dir_14b48f1f896617aa98580e7bcb9ac940.html">third_party</a></li><li class="navelem"><a href="dir_2bffc038b4152da0a5acb7fa234bf3ac.html">ftplib</a></li><li class="navelem"><a href="ftplib_8h.html">ftplib.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

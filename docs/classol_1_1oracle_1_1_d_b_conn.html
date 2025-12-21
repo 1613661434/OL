@@ -1,0 +1,725 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ol::oracle::DBConn类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('classol_1_1oracle_1_1_d_b_conn.html','','classol_1_1oracle_1_1_d_b_conn-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ol::oracle::DBConn类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="ol__oci_8h_source.html">ol_oci.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a9fd96b02a751d419b17f65b6cc653d92" id="r_a9fd96b02a751d419b17f65b6cc653d92"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9fd96b02a751d419b17f65b6cc653d92">DBConn</a> ()</td></tr>
+<tr class="memitem:a40b2e71568e504a909d7fee70ebff236" id="r_a40b2e71568e504a909d7fee70ebff236"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a40b2e71568e504a909d7fee70ebff236">~DBConn</a> ()</td></tr>
+<tr class="memitem:ae8ef48f8a9174cb878deb642bffc4093" id="r_ae8ef48f8a9174cb878deb642bffc4093"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae8ef48f8a9174cb878deb642bffc4093">connecttodb</a> (const std::string &amp;connstr, const std::string &amp;charset, bool autocommitopt=false)</td></tr>
+<tr class="memdesc:ae8ef48f8a9174cb878deb642bffc4093"><td class="mdescLeft">&#160;</td><td class="mdescRight">登录数据库  <br /></td></tr>
+<tr class="memitem:aabcab90b7d7312c597c79f0cf913cc1d" id="r_aabcab90b7d7312c597c79f0cf913cc1d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aabcab90b7d7312c597c79f0cf913cc1d">isopen</a> ()</td></tr>
+<tr class="memdesc:aabcab90b7d7312c597c79f0cf913cc1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断数据库是否已连接  <br /></td></tr>
+<tr class="memitem:ab71054162343d9836f909ecd36ba77d9" id="r_ab71054162343d9836f909ecd36ba77d9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab71054162343d9836f909ecd36ba77d9">commit</a> ()</td></tr>
+<tr class="memdesc:ab71054162343d9836f909ecd36ba77d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">提交事务  <br /></td></tr>
+<tr class="memitem:a92341b2bc530b8c6471fe3e7fcf74bc0" id="r_a92341b2bc530b8c6471fe3e7fcf74bc0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92341b2bc530b8c6471fe3e7fcf74bc0">rollback</a> ()</td></tr>
+<tr class="memdesc:a92341b2bc530b8c6471fe3e7fcf74bc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">回滚事务  <br /></td></tr>
+<tr class="memitem:a0feec3335b6377b7095395dc70c7c201" id="r_a0feec3335b6377b7095395dc70c7c201"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0feec3335b6377b7095395dc70c7c201">disconnect</a> ()</td></tr>
+<tr class="memdesc:a0feec3335b6377b7095395dc70c7c201"><td class="mdescLeft">&#160;</td><td class="mdescRight">断开数据库连接（未提交事务自动回滚）  <br /></td></tr>
+<tr class="memitem:a70e63fd02db523d5170afea2f1d48a16" id="r_a70e63fd02db523d5170afea2f1d48a16"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a70e63fd02db523d5170afea2f1d48a16">execute</a> (const char *fmt,...)</td></tr>
+<tr class="memdesc:a70e63fd02db523d5170afea2f1d48a16"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行静态SQL语句（无绑定变量的非查询语句）  <br /></td></tr>
+<tr class="memitem:ad0c2e1338a858ae71bd0fd5de95c07cd" id="r_ad0c2e1338a858ae71bd0fd5de95c07cd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0c2e1338a858ae71bd0fd5de95c07cd">rc</a> ()</td></tr>
+<tr class="memdesc:ad0c2e1338a858ae71bd0fd5de95c07cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取错误代码  <br /></td></tr>
+<tr class="memitem:a4e845000984b55df9a2f305fbdade648" id="r_a4e845000984b55df9a2f305fbdade648"><td class="memItemLeft" align="right" valign="top">unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4e845000984b55df9a2f305fbdade648">rpc</a> ()</td></tr>
+<tr class="memdesc:a4e845000984b55df9a2f305fbdade648"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取影响数据的行数  <br /></td></tr>
+<tr class="memitem:a4c185b388eebee486e8a4b835c993cc7" id="r_a4c185b388eebee486e8a4b835c993cc7"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4c185b388eebee486e8a4b835c993cc7">message</a> ()</td></tr>
+<tr class="memdesc:a4c185b388eebee486e8a4b835c993cc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取错误描述信息  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-types" class="groupheader"><a id="pri-types" name="pri-types"></a>
+Private 类型</h2></td></tr>
+<tr class="memitem:a67d7a22cbaf1eea710c8ff156167d4a6" id="r_a67d7a22cbaf1eea710c8ff156167d4a6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="#a67d7a22cbaf1eea710c8ff156167d4a6af80aebb763e5bc20329876f29ef6d973">connected</a>
+, <a class="el" href="#a67d7a22cbaf1eea710c8ff156167d4a6aa7109c1633f986d2fbf9f32dfa76134f">disconnected</a>
+ }</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:abb3d64a1d160b5380141949709f37249" id="r_abb3d64a1d160b5380141949709f37249"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb3d64a1d160b5380141949709f37249">character</a> (const char *charset)</td></tr>
+<tr class="memitem:af683ce35edd86688eaf57bfeebe577c4" id="r_af683ce35edd86688eaf57bfeebe577c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af683ce35edd86688eaf57bfeebe577c4">setdbopt</a> (const char *connstr)</td></tr>
+<tr class="memitem:afd2e02a9a3cc976287838a52a4b094b0" id="r_afd2e02a9a3cc976287838a52a4b094b0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afd2e02a9a3cc976287838a52a4b094b0">err_report</a> ()</td></tr>
+<tr class="memitem:add912558cb4138750d3e063f98b9a182" id="r_add912558cb4138750d3e063f98b9a182"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add912558cb4138750d3e063f98b9a182">DBConn</a> (const <a class="el" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a> &amp;)=delete</td></tr>
+<tr class="memitem:a4d273c3e4f9a5a94435e8a26d98dca96" id="r_a4d273c3e4f9a5a94435e8a26d98dca96"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d273c3e4f9a5a94435e8a26d98dca96">operator=</a> (const <a class="el" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a> &amp;)=delete</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a0931f2ccaef2d756834cb0a16a1898ac" id="r_a0931f2ccaef2d756834cb0a16a1898ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html">LOGINENV</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0931f2ccaef2d756834cb0a16a1898ac">m_env</a></td></tr>
+<tr class="memitem:afb0db2970541d92bdad919c8041bf848" id="r_afb0db2970541d92bdad919c8041bf848"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structol_1_1oracle_1_1_o_c_i___c_x_t.html">OCI_CXT</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb0db2970541d92bdad919c8041bf848">m_cxt</a></td></tr>
+<tr class="memitem:a935af2aaecdfcc34d1a6646738dc3e8a" id="r_a935af2aaecdfcc34d1a6646738dc3e8a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a935af2aaecdfcc34d1a6646738dc3e8a">m_autocommitopt</a></td></tr>
+<tr class="memitem:a9056c2cd7d1af0f26970302a29c5f758" id="r_a9056c2cd7d1af0f26970302a29c5f758"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9056c2cd7d1af0f26970302a29c5f758">m_state</a></td></tr>
+<tr class="memitem:a1b184a47e2c398300b25b2445e8ce9f3" id="r_a1b184a47e2c398300b25b2445e8ce9f3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structol_1_1oracle_1_1_c_d_a___d_e_f.html">CDA_DEF</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b184a47e2c398300b25b2445e8ce9f3">m_cda</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-friends" class="groupheader"><a id="friends" name="friends"></a>
+友元</h2></td></tr>
+<tr class="memitem:aa64c719be4d2aea92d419606f414e98a" id="r_aa64c719be4d2aea92d419606f414e98a"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa64c719be4d2aea92d419606f414e98a">DBStmt</a></td></tr>
+</table>
+<a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">成员枚举类型说明</h2>
+<a id="a67d7a22cbaf1eea710c8ff156167d4a6" name="a67d7a22cbaf1eea710c8ff156167d4a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67d7a22cbaf1eea710c8ff156167d4a6">&#9670;&#160;</a></span>anonymous enum</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">anonymous enum</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a67d7a22cbaf1eea710c8ff156167d4a6af80aebb763e5bc20329876f29ef6d973" name="a67d7a22cbaf1eea710c8ff156167d4a6af80aebb763e5bc20329876f29ef6d973"></a>connected&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a67d7a22cbaf1eea710c8ff156167d4a6aa7109c1633f986d2fbf9f32dfa76134f" name="a67d7a22cbaf1eea710c8ff156167d4a6aa7109c1633f986d2fbf9f32dfa76134f"></a>disconnected&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
+<a id="add912558cb4138750d3e063f98b9a182" name="add912558cb4138750d3e063f98b9a182"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add912558cb4138750d3e063f98b9a182">&#9670;&#160;</a></span>DBConn() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ol::oracle::DBConn::DBConn </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a> &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9fd96b02a751d419b17f65b6cc653d92" name="a9fd96b02a751d419b17f65b6cc653d92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9fd96b02a751d419b17f65b6cc653d92">&#9670;&#160;</a></span>DBConn() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ol::oracle::DBConn::DBConn </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a40b2e71568e504a909d7fee70ebff236" name="a40b2e71568e504a909d7fee70ebff236"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40b2e71568e504a909d7fee70ebff236">&#9670;&#160;</a></span>~DBConn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ol::oracle::DBConn::~DBConn </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">成员函数说明</h2>
+<a id="abb3d64a1d160b5380141949709f37249" name="abb3d64a1d160b5380141949709f37249"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb3d64a1d160b5380141949709f37249">&#9670;&#160;</a></span>character()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ol::oracle::DBConn::character </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>charset</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab71054162343d9836f909ecd36ba77d9" name="ab71054162343d9836f909ecd36ba77d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab71054162343d9836f909ecd36ba77d9">&#9670;&#160;</a></span>commit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::oracle::DBConn::commit </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>提交事务 </p>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（程序中一般不必关心返回值） </dd></dl>
+
+</div>
+</div>
+<a id="ae8ef48f8a9174cb878deb642bffc4093" name="ae8ef48f8a9174cb878deb642bffc4093"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8ef48f8a9174cb878deb642bffc4093">&#9670;&#160;</a></span>connecttodb()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::oracle::DBConn::connecttodb </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>connstr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>charset</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>autocommitopt</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>登录数据库 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">connstr</td><td>连接字符串，格式："username/password@tnsname" </td></tr>
+    <tr><td class="paramname">charset</td><td>客户端字符集（需与数据库一致，避免乱码） </td></tr>
+    <tr><td class="paramname">autocommitopt</td><td>自动提交开关（默认false-关闭） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（失败的代码在m_cda.rc中，失败的描述在m_cda.message中） </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>tnsname-数据库的服务名，在$ORACLE_HOME/network/admin/tnsnames.ora文件中配置。 </dd></dl>
+
+</div>
+</div>
+<a id="a0feec3335b6377b7095395dc70c7c201" name="a0feec3335b6377b7095395dc70c7c201"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0feec3335b6377b7095395dc70c7c201">&#9670;&#160;</a></span>disconnect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::oracle::DBConn::disconnect </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>断开数据库连接（未提交事务自动回滚） </p>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（程序中一般不必关心返回值） </dd></dl>
+
+</div>
+</div>
+<a id="afd2e02a9a3cc976287838a52a4b094b0" name="afd2e02a9a3cc976287838a52a4b094b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd2e02a9a3cc976287838a52a4b094b0">&#9670;&#160;</a></span>err_report()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ol::oracle::DBConn::err_report </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a70e63fd02db523d5170afea2f1d48a16" name="a70e63fd02db523d5170afea2f1d48a16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70e63fd02db523d5170afea2f1d48a16">&#9670;&#160;</a></span>execute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::oracle::DBConn::execute </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>fmt</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>...</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>执行静态SQL语句（无绑定变量的非查询语句） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fmt</td><td>格式化SQL字符串（支持可变参数，同printf） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（失败的代码在m_cda.rc中，失败的描述在m_cda.message中） </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>如果成功的执行了非查询语句，在m_cda.rpc中保存了本次执行SQL影响记录的行数。 程序中必须检查execute方法的返回值。 在DBConn类中提供了execute方法，是为了方便程序员，在该方法中，也是用DBStmt类来完成功能。 </dd></dl>
+
+</div>
+</div>
+<a id="aabcab90b7d7312c597c79f0cf913cc1d" name="aabcab90b7d7312c597c79f0cf913cc1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabcab90b7d7312c597c79f0cf913cc1d">&#9670;&#160;</a></span>isopen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ol::oracle::DBConn::isopen </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>判断数据库是否已连接 </p>
+<dl class="section return"><dt>返回</dt><dd>已连接返回true，否则false </dd></dl>
+
+</div>
+</div>
+<a id="a4c185b388eebee486e8a4b835c993cc7" name="a4c185b388eebee486e8a4b835c993cc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c185b388eebee486e8a4b835c993cc7">&#9670;&#160;</a></span>message()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * ol::oracle::DBConn::message </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取错误描述信息 </p>
+<dl class="section return"><dt>返回</dt><dd>错误描述字符串（失败时有效，成功时为空） </dd></dl>
+
+</div>
+</div>
+<a id="a4d273c3e4f9a5a94435e8a26d98dca96" name="a4d273c3e4f9a5a94435e8a26d98dca96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d273c3e4f9a5a94435e8a26d98dca96">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a> &amp; ol::oracle::DBConn::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a> &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad0c2e1338a858ae71bd0fd5de95c07cd" name="ad0c2e1338a858ae71bd0fd5de95c07cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0c2e1338a858ae71bd0fd5de95c07cd">&#9670;&#160;</a></span>rc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::oracle::DBConn::rc </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取错误代码 </p>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其它值-失败 </dd></dl>
+
+</div>
+</div>
+<a id="a92341b2bc530b8c6471fe3e7fcf74bc0" name="a92341b2bc530b8c6471fe3e7fcf74bc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92341b2bc530b8c6471fe3e7fcf74bc0">&#9670;&#160;</a></span>rollback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::oracle::DBConn::rollback </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>回滚事务 </p>
+<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（程序中一般不必关心返回值） </dd></dl>
+
+</div>
+</div>
+<a id="a4e845000984b55df9a2f305fbdade648" name="a4e845000984b55df9a2f305fbdade648"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e845000984b55df9a2f305fbdade648">&#9670;&#160;</a></span>rpc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned long ol::oracle::DBConn::rpc </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取影响数据的行数 </p>
+<dl class="section return"><dt>返回</dt><dd>对于insert/update/delete返回影响记录数，对于select返回结果集行数 </dd></dl>
+
+</div>
+</div>
+<a id="af683ce35edd86688eaf57bfeebe577c4" name="af683ce35edd86688eaf57bfeebe577c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af683ce35edd86688eaf57bfeebe577c4">&#9670;&#160;</a></span>setdbopt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ol::oracle::DBConn::setdbopt </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>connstr</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-related-members" id="doc-related-members"></a><h2 id="header-doc-related-members" class="groupheader">友元及相关符号说明</h2>
+<a id="aa64c719be4d2aea92d419606f414e98a" name="aa64c719be4d2aea92d419606f414e98a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa64c719be4d2aea92d419606f414e98a">&#9670;&#160;</a></span>DBStmt</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="classol_1_1oracle_1_1_d_b_stmt.html">DBStmt</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">类成员变量说明</h2>
+<a id="a935af2aaecdfcc34d1a6646738dc3e8a" name="a935af2aaecdfcc34d1a6646738dc3e8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a935af2aaecdfcc34d1a6646738dc3e8a">&#9670;&#160;</a></span>m_autocommitopt</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::oracle::DBConn::m_autocommitopt</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1b184a47e2c398300b25b2445e8ce9f3" name="a1b184a47e2c398300b25b2445e8ce9f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b184a47e2c398300b25b2445e8ce9f3">&#9670;&#160;</a></span>m_cda</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structol_1_1oracle_1_1_c_d_a___d_e_f.html">CDA_DEF</a> ol::oracle::DBConn::m_cda</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afb0db2970541d92bdad919c8041bf848" name="afb0db2970541d92bdad919c8041bf848"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb0db2970541d92bdad919c8041bf848">&#9670;&#160;</a></span>m_cxt</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structol_1_1oracle_1_1_o_c_i___c_x_t.html">OCI_CXT</a> ol::oracle::DBConn::m_cxt</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0931f2ccaef2d756834cb0a16a1898ac" name="a0931f2ccaef2d756834cb0a16a1898ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0931f2ccaef2d756834cb0a16a1898ac">&#9670;&#160;</a></span>m_env</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structol_1_1oracle_1_1_l_o_g_i_n_e_n_v.html">LOGINENV</a> ol::oracle::DBConn::m_env</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9056c2cd7d1af0f26970302a29c5f758" name="a9056c2cd7d1af0f26970302a29c5f758"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9056c2cd7d1af0f26970302a29c5f758">&#9670;&#160;</a></span>m_state</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::oracle::DBConn::m_state</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>oldblib/oracle/include/<a class="el" href="ol__oci_8h_source.html">ol_oci.h</a></li>
+<li>oldblib/oracle/src/<a class="el" href="ol__oci_8cpp.html">ol_oci.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="namespaceol.html">ol</a></li><li class="navelem"><a href="namespaceol_1_1oracle.html">oracle</a></li><li class="navelem"><a href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ollib/include/ol_sort.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('ol__sort_8h.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ol_sort.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="ol__sort__base_8h_source.html">ol_base/ol_sort_base.h</a>&quot;</code><br />
+</div>
+<p><a href="ol__sort_8h_source.html">浏览该文件的源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:ol" id="r_ol"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html">ol</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:ab6ff8f596eb0adeac5de66f9c658c253" id="r_ab6ff8f596eb0adeac5de66f9c658c253"><td class="memTemplParams" colspan="2">template&lt;typename Iterator, typename Compare = std::less&lt;typename std::iterator_traits&lt;Iterator&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:ab6ff8f596eb0adeac5de66f9c658c253 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#ab6ff8f596eb0adeac5de66f9c658c253">ol::insertion_sort</a> (Iterator first, Iterator last, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:ab6ff8f596eb0adeac5de66f9c658c253"><td class="mdescLeft">&#160;</td><td class="mdescRight">插入排序（迭代器版本，支持默认比较器）  <br /></td></tr>
+<tr class="memitem:a355256f0b51dffd00f26de3e2629c46f" id="r_a355256f0b51dffd00f26de3e2629c46f"><td class="memTemplParams" colspan="2">template&lt;typename Container, typename Compare = std::less&lt;typename container_traits&lt;Container&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:a355256f0b51dffd00f26de3e2629c46f template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a355256f0b51dffd00f26de3e2629c46f">ol::insertion_sort</a> (Container &amp;container, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:a355256f0b51dffd00f26de3e2629c46f"><td class="mdescLeft">&#160;</td><td class="mdescRight">插入排序（容器版本，支持默认比较器）  <br /></td></tr>
+<tr class="memitem:a45db5d3d6fa79c3adb1e07b0873a1cd4" id="r_a45db5d3d6fa79c3adb1e07b0873a1cd4"><td class="memTemplParams" colspan="2">template&lt;typename RandomIt, typename Compare = std::less&lt;typename std::iterator_traits&lt;RandomIt&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:a45db5d3d6fa79c3adb1e07b0873a1cd4 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a45db5d3d6fa79c3adb1e07b0873a1cd4">ol::binary_insertion_sort</a> (RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:a45db5d3d6fa79c3adb1e07b0873a1cd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">折半插入排序（迭代器版本，支持默认比较器）  <br /></td></tr>
+<tr class="memitem:ab943f27517cb47afd09b32c14080c1a0" id="r_ab943f27517cb47afd09b32c14080c1a0"><td class="memTemplParams" colspan="2">template&lt;typename Container, typename Compare = std::less&lt;typename container_traits&lt;Container&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:ab943f27517cb47afd09b32c14080c1a0 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#ab943f27517cb47afd09b32c14080c1a0">ol::binary_insertion_sort</a> (Container &amp;container, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:ab943f27517cb47afd09b32c14080c1a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">折半插入排序（容器版本，支持默认比较器）  <br /></td></tr>
+<tr class="memitem:a14ba777d836ccf56aa6eeeaaf0230e34" id="r_a14ba777d836ccf56aa6eeeaaf0230e34"><td class="memTemplParams" colspan="2">template&lt;typename RandomIt, typename Compare = std::less&lt;typename std::iterator_traits&lt;RandomIt&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:a14ba777d836ccf56aa6eeeaaf0230e34 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a14ba777d836ccf56aa6eeeaaf0230e34">ol::shell_sort</a> (RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:a14ba777d836ccf56aa6eeeaaf0230e34"><td class="mdescLeft">&#160;</td><td class="mdescRight">希尔排序（迭代器版本，支持默认比较器）  <br /></td></tr>
+<tr class="memitem:abc5f5010f28529925ffb01055683d42c" id="r_abc5f5010f28529925ffb01055683d42c"><td class="memTemplParams" colspan="2">template&lt;typename Container, typename Compare = std::less&lt;typename container_traits&lt;Container&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:abc5f5010f28529925ffb01055683d42c template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#abc5f5010f28529925ffb01055683d42c">ol::shell_sort</a> (Container &amp;container, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:abc5f5010f28529925ffb01055683d42c"><td class="mdescLeft">&#160;</td><td class="mdescRight">希尔排序（容器版本，支持默认比较器）  <br /></td></tr>
+<tr class="memitem:afd6efc10009da0b60ba08496cf1465e2" id="r_afd6efc10009da0b60ba08496cf1465e2"><td class="memTemplParams" colspan="2">template&lt;typename Iterator, typename Compare = std::less&lt;typename std::iterator_traits&lt;Iterator&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:afd6efc10009da0b60ba08496cf1465e2 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#afd6efc10009da0b60ba08496cf1465e2">ol::bubble_sort</a> (Iterator first, Iterator last, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:afd6efc10009da0b60ba08496cf1465e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">冒泡排序（迭代器版本，支持默认比较器）  <br /></td></tr>
+<tr class="memitem:ac4eba733f62c575369a7442dafb72921" id="r_ac4eba733f62c575369a7442dafb72921"><td class="memTemplParams" colspan="2">template&lt;typename Container, typename Compare = std::less&lt;typename container_traits&lt;Container&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:ac4eba733f62c575369a7442dafb72921 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#ac4eba733f62c575369a7442dafb72921">ol::bubble_sort</a> (Container &amp;container, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:ac4eba733f62c575369a7442dafb72921"><td class="mdescLeft">&#160;</td><td class="mdescRight">冒泡排序（容器版本，支持默认比较器）  <br /></td></tr>
+<tr class="memitem:ab5050dfa7769d72e80979b03d5838d47" id="r_ab5050dfa7769d72e80979b03d5838d47"><td class="memTemplParams" colspan="2">template&lt;typename Iterator, typename Compare = std::less&lt;typename std::iterator_traits&lt;Iterator&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:ab5050dfa7769d72e80979b03d5838d47 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#ab5050dfa7769d72e80979b03d5838d47">ol::selection_sort</a> (Iterator first, Iterator last, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:ab5050dfa7769d72e80979b03d5838d47"><td class="mdescLeft">&#160;</td><td class="mdescRight">选择排序（迭代器版本，支持默认比较器）  <br /></td></tr>
+<tr class="memitem:a30335079a85487d189df8d7746b28a04" id="r_a30335079a85487d189df8d7746b28a04"><td class="memTemplParams" colspan="2">template&lt;typename Container, typename Compare = std::less&lt;typename container_traits&lt;Container&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:a30335079a85487d189df8d7746b28a04 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a30335079a85487d189df8d7746b28a04">ol::selection_sort</a> (Container &amp;container, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:a30335079a85487d189df8d7746b28a04"><td class="mdescLeft">&#160;</td><td class="mdescRight">选择排序（容器版本，支持默认比较器）  <br /></td></tr>
+<tr class="memitem:ad58d66ffb28691d52d0c8a3436efa3a1" id="r_ad58d66ffb28691d52d0c8a3436efa3a1"><td class="memTemplParams" colspan="2">template&lt;typename RandomIt, typename Compare = std::less&lt;typename std::iterator_traits&lt;RandomIt&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:ad58d66ffb28691d52d0c8a3436efa3a1 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#ad58d66ffb28691d52d0c8a3436efa3a1">ol::heap_sort</a> (RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:ad58d66ffb28691d52d0c8a3436efa3a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">堆排序（迭代器版本，支持默认比较器）  <br /></td></tr>
+<tr class="memitem:a8f3964ed496212300b728bbc1548b059" id="r_a8f3964ed496212300b728bbc1548b059"><td class="memTemplParams" colspan="2">template&lt;typename Container, typename Compare = std::less&lt;typename container_traits&lt;Container&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:a8f3964ed496212300b728bbc1548b059 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a8f3964ed496212300b728bbc1548b059">ol::heap_sort</a> (Container &amp;container, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:a8f3964ed496212300b728bbc1548b059"><td class="mdescLeft">&#160;</td><td class="mdescRight">堆排序（容器版本，支持默认比较器）  <br /></td></tr>
+<tr class="memitem:afc1301e964ee0feb56c92811ad669d3c" id="r_afc1301e964ee0feb56c92811ad669d3c"><td class="memTemplParams" colspan="2">template&lt;typename RandomIt, typename Compare = std::less&lt;typename std::iterator_traits&lt;RandomIt&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:afc1301e964ee0feb56c92811ad669d3c template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#afc1301e964ee0feb56c92811ad669d3c">ol::merge_sort</a> (RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:afc1301e964ee0feb56c92811ad669d3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">归并排序（迭代器版本，支持默认比较器）  <br /></td></tr>
+<tr class="memitem:a8e7cb4d1f4074dfb13359f984db6421b" id="r_a8e7cb4d1f4074dfb13359f984db6421b"><td class="memTemplParams" colspan="2">template&lt;typename Container, typename Compare = std::less&lt;typename container_traits&lt;Container&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:a8e7cb4d1f4074dfb13359f984db6421b template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a8e7cb4d1f4074dfb13359f984db6421b">ol::merge_sort</a> (Container &amp;container, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:a8e7cb4d1f4074dfb13359f984db6421b"><td class="mdescLeft">&#160;</td><td class="mdescRight">归并排序（容器版本，支持默认比较器）  <br /></td></tr>
+<tr class="memitem:a7f1d9815c8bbf0a5e37466b69ac4154f" id="r_a7f1d9815c8bbf0a5e37466b69ac4154f"><td class="memTemplParams" colspan="2">template&lt;typename RandomIt, typename Compare = std::less&lt;typename std::iterator_traits&lt;RandomIt&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:a7f1d9815c8bbf0a5e37466b69ac4154f template"><td class="memItemLeft" align="right" valign="top">std::enable_if&lt; std::is_integral&lt; typenamestd::iterator_traits&lt; RandomIt &gt;::value_type &gt;::value, void &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a7f1d9815c8bbf0a5e37466b69ac4154f">ol::counting_sort</a> (RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:a7f1d9815c8bbf0a5e37466b69ac4154f"><td class="mdescLeft">&#160;</td><td class="mdescRight">计数排序（迭代器版本，支持默认比较器）  <br /></td></tr>
+<tr class="memitem:a73bd96b25ae284520474e93e504a04d7" id="r_a73bd96b25ae284520474e93e504a04d7"><td class="memTemplParams" colspan="2">template&lt;typename Container, typename Compare = std::less&lt;typename container_traits&lt;Container&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:a73bd96b25ae284520474e93e504a04d7 template"><td class="memItemLeft" align="right" valign="top">std::enable_if&lt; std::is_integral&lt; typenamecontainer_traits&lt; Container &gt;::value_type &gt;::value, void &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a73bd96b25ae284520474e93e504a04d7">ol::counting_sort</a> (Container &amp;container, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:a73bd96b25ae284520474e93e504a04d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">计数排序（容器版本，支持默认比较器）  <br /></td></tr>
+<tr class="memitem:ad3a7ae1e3c04b9fb3fe03a8c01767965" id="r_ad3a7ae1e3c04b9fb3fe03a8c01767965"><td class="memTemplParams" colspan="2">template&lt;typename RandomIt, typename Compare = std::less&lt;typename std::iterator_traits&lt;RandomIt&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:ad3a7ae1e3c04b9fb3fe03a8c01767965 template"><td class="memItemLeft" align="right" valign="top">std::enable_if&lt; std::is_integral&lt; typenamestd::iterator_traits&lt; RandomIt &gt;::value_type &gt;::value, void &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#ad3a7ae1e3c04b9fb3fe03a8c01767965">ol::radix_sort_lsd</a> (RandomIt first, RandomIt last, int radix=10, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:ad3a7ae1e3c04b9fb3fe03a8c01767965"><td class="mdescLeft">&#160;</td><td class="mdescRight">基数排序（迭代器版本，LSD策略，适用于整数类型）  <br /></td></tr>
+<tr class="memitem:aca3ac38ec67c0284d769deb7d7a543ae" id="r_aca3ac38ec67c0284d769deb7d7a543ae"><td class="memTemplParams" colspan="2">template&lt;typename Container, typename Compare = std::less&lt;typename container_traits&lt;Container&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:aca3ac38ec67c0284d769deb7d7a543ae template"><td class="memItemLeft" align="right" valign="top">std::enable_if&lt; std::is_integral&lt; typenamecontainer_traits&lt; Container &gt;::value_type &gt;::value, void &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#aca3ac38ec67c0284d769deb7d7a543ae">ol::radix_sort_lsd</a> (Container &amp;container, int radix=10, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:aca3ac38ec67c0284d769deb7d7a543ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">基数排序（容器版本，LSD策略，适用于整数类型）  <br /></td></tr>
+<tr class="memitem:ab3b54338a25c60a7d48ee493209d675e" id="r_ab3b54338a25c60a7d48ee493209d675e"><td class="memTemplParams" colspan="2">template&lt;typename RandomIt&gt; </td></tr>
+<tr class="memitem:ab3b54338a25c60a7d48ee493209d675e template"><td class="memItemLeft" align="right" valign="top">std::enable_if&lt; std::is_same&lt; typenamestd::iterator_traits&lt; RandomIt &gt;::value_type, std::string &gt;::value, void &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#ab3b54338a25c60a7d48ee493209d675e">ol::radix_sort_msd</a> (RandomIt first, RandomIt last, int max_pos=-1, int radix=256)</td></tr>
+<tr class="memdesc:ab3b54338a25c60a7d48ee493209d675e"><td class="mdescLeft">&#160;</td><td class="mdescRight">基数排序（迭代器版本，MSD策略，字符串专用）  <br /></td></tr>
+<tr class="memitem:a1673c8a78bd795b8fc12136ddb75abd7" id="r_a1673c8a78bd795b8fc12136ddb75abd7"><td class="memTemplParams" colspan="2">template&lt;typename Container&gt; </td></tr>
+<tr class="memitem:a1673c8a78bd795b8fc12136ddb75abd7 template"><td class="memItemLeft" align="right" valign="top">std::enable_if&lt; std::is_same&lt; typenamecontainer_traits&lt; Container &gt;::value_type, std::string &gt;::value, void &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a1673c8a78bd795b8fc12136ddb75abd7">ol::radix_sort_msd</a> (Container &amp;container, int max_pos=-1, int radix=256)</td></tr>
+<tr class="memdesc:a1673c8a78bd795b8fc12136ddb75abd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">基数排序（容器版本，MSD策略，字符串专用）  <br /></td></tr>
+<tr class="memitem:ae7766935138c272ea6c5c41d97b8f9d2" id="r_ae7766935138c272ea6c5c41d97b8f9d2"><td class="memTemplParams" colspan="2">template&lt;typename Container&gt; </td></tr>
+<tr class="memitem:ae7766935138c272ea6c5c41d97b8f9d2 template"><td class="memItemLeft" align="right" valign="top">std::enable_if&lt; std::is_same&lt; typenamecontainer_traits&lt; Container &gt;::value_type, std::string &gt;::value, std::vector&lt; Container &gt; &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#ae7766935138c272ea6c5c41d97b8f9d2">ol::radix_group_by_prefix</a> (Container &amp;container, size_t group_pos, int radix=256)</td></tr>
+<tr class="memdesc:ae7766935138c272ea6c5c41d97b8f9d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">按字符串前缀分组（基于基数排序MSD）  <br /></td></tr>
+<tr class="memitem:a20e0ccd87e1ef5296e5b901c6d5f0691" id="r_a20e0ccd87e1ef5296e5b901c6d5f0691"><td class="memTemplParams" colspan="2">template&lt;typename RandomIt, typename Compare = std::less&lt;typename std::iterator_traits&lt;RandomIt&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:a20e0ccd87e1ef5296e5b901c6d5f0691 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a20e0ccd87e1ef5296e5b901c6d5f0691">ol::quick_sort</a> (RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:a20e0ccd87e1ef5296e5b901c6d5f0691"><td class="mdescLeft">&#160;</td><td class="mdescRight">快速排序（迭代器版本）  <br /></td></tr>
+<tr class="memitem:acba072c1e10da92c9c812e46787ca8dc" id="r_acba072c1e10da92c9c812e46787ca8dc"><td class="memTemplParams" colspan="2">template&lt;typename Container, typename Compare = std::less&lt;typename container_traits&lt;Container&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:acba072c1e10da92c9c812e46787ca8dc template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#acba072c1e10da92c9c812e46787ca8dc">ol::quick_sort</a> (Container &amp;container, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:acba072c1e10da92c9c812e46787ca8dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">快速排序（容器版本）  <br /></td></tr>
+<tr class="memitem:aebf9da183c7571fd920489173964fc62" id="r_aebf9da183c7571fd920489173964fc62"><td class="memTemplParams" colspan="2">template&lt;typename RandomIt, typename Compare = std::less&lt;typename std::iterator_traits&lt;RandomIt&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:aebf9da183c7571fd920489173964fc62 template"><td class="memItemLeft" align="right" valign="top">std::enable_if&lt; std::is_floating_point&lt; typenamestd::iterator_traits&lt; RandomIt &gt;::value_type &gt;::value, void &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#aebf9da183c7571fd920489173964fc62">ol::bucket_sort</a> (RandomIt first, RandomIt last, size_t num_buckets=10, double min_val=0.0, double max_val=1.0, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:aebf9da183c7571fd920489173964fc62"><td class="mdescLeft">&#160;</td><td class="mdescRight">桶排序（迭代器版本，适用于浮点数）  <br /></td></tr>
+<tr class="memitem:af320799ed43dcad0f83ab6eb81564cff" id="r_af320799ed43dcad0f83ab6eb81564cff"><td class="memTemplParams" colspan="2">template&lt;typename RandomIt, typename Compare = std::less&lt;typename std::iterator_traits&lt;RandomIt&gt;::value_type&gt;&gt; </td></tr>
+<tr class="memitem:af320799ed43dcad0f83ab6eb81564cff template"><td class="memItemLeft" align="right" valign="top">std::enable_if&lt; std::is_integral&lt; typenamestd::iterator_traits&lt; RandomIt &gt;::value_type &gt;::value, void &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#af320799ed43dcad0f83ab6eb81564cff">ol::bucket_sort</a> (RandomIt first, RandomIt last, size_t num_buckets=10, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:af320799ed43dcad0f83ab6eb81564cff"><td class="mdescLeft">&#160;</td><td class="mdescRight">桶排序（迭代器版本，适用于整数）  <br /></td></tr>
+<tr class="memitem:a736b60ebf0649020725abaaee4b9a9f9" id="r_a736b60ebf0649020725abaaee4b9a9f9"><td class="memTemplParams" colspan="2">template&lt;typename Container, typename Compare = std::less&lt;typename Container::value_type&gt;&gt; </td></tr>
+<tr class="memitem:a736b60ebf0649020725abaaee4b9a9f9 template"><td class="memItemLeft" align="right" valign="top">std::enable_if&lt; std::is_floating_point&lt; typenameContainer::value_type &gt;::value, void &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a736b60ebf0649020725abaaee4b9a9f9">ol::bucket_sort</a> (Container &amp;container, size_t num_buckets=10, double min_val=0.0, double max_val=1.0, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:a736b60ebf0649020725abaaee4b9a9f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">桶排序（容器版本，适用于浮点数）  <br /></td></tr>
+<tr class="memitem:a27228a514c2c9db637e2fa559e4a28e8" id="r_a27228a514c2c9db637e2fa559e4a28e8"><td class="memTemplParams" colspan="2">template&lt;typename Container, typename Compare = std::less&lt;typename Container::value_type&gt;&gt; </td></tr>
+<tr class="memitem:a27228a514c2c9db637e2fa559e4a28e8 template"><td class="memItemLeft" align="right" valign="top">std::enable_if&lt; std::is_integral&lt; typenameContainer::value_type &gt;::value, void &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a27228a514c2c9db637e2fa559e4a28e8">ol::bucket_sort</a> (Container &amp;container, size_t num_buckets=10, const Compare &amp;comp=Compare())</td></tr>
+<tr class="memdesc:a27228a514c2c9db637e2fa559e4a28e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">桶排序（容器版本，适用于整数）  <br /></td></tr>
+<tr class="memitem:ab59144036437a58a1390422ea187c7b7" id="r_ab59144036437a58a1390422ea187c7b7"><td class="memTemplParams" colspan="2">template&lt;typename Container&gt; </td></tr>
+<tr class="memitem:ab59144036437a58a1390422ea187c7b7 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#ab59144036437a58a1390422ea187c7b7">ol::print_container</a> (const Container &amp;container)</td></tr>
+<tr class="memdesc:ab59144036437a58a1390422ea187c7b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">打印容器元素（调试用）  <br /></td></tr>
+<tr class="memitem:a53370611a6ca69b5179649d739f98912" id="r_a53370611a6ca69b5179649d739f98912"><td class="memTemplParams" colspan="2">template&lt;typename T, size_t N&gt; </td></tr>
+<tr class="memitem:a53370611a6ca69b5179649d739f98912 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a53370611a6ca69b5179649d739f98912">ol::print_container</a> (const T(&amp;array)[N])</td></tr>
+<tr class="memdesc:a53370611a6ca69b5179649d739f98912"><td class="mdescLeft">&#160;</td><td class="mdescRight">打印原生数组元素（调试用）  <br /></td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_75b512e435434d14bff7e88c830596e1.html">ollib</a></li><li class="navelem"><a href="dir_b9a0bbad5c7f744a36cd404f18e81e13.html">include</a></li><li class="navelem"><a href="ol__sort_8h.html">ol_sort.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

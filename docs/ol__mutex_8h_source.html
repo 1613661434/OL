@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ollib/include/ol_mutex.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('ol__mutex_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ol_mutex.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ol__mutex_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/***************************************************************************************/</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">/*</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> * 程序名：ol_mutex.h</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> * 功能描述：多线程同步互斥锁实现集合，当前包含：</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> *        自旋锁类（spin_mutex）：基于 std::atomic_flag 实现的轻量级无锁互斥机制</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> *          - 特性：不可拷贝、不可移动，通过自旋等待获取锁，适合短临界区场景</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> *          - 接口：lock()（阻塞直到获取锁）、unlock()（释放锁）</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> * 作者：ol</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> * 适用标准：C++ 11 及以上（需支持 atomic_flag、delete 关键字及基类继承特性）</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">/***************************************************************************************/</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#ifndef OL_MUTEX_H</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#define OL_MUTEX_H 1</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &quot;<a class="code" href="ol__type__traits_8h.html">ol_type_traits.h</a>&quot;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceol.html">ol</a></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>{</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="comment">// ===========================================================================</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="comment">// 自旋锁类，用于多线程同步</span></div>
+<div class="foldopen" id="foldopen00024" data-start="{" data-end="};">
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="classol_1_1spin__mutex.html">   24</a></span>    <span class="keyword">class </span><a class="code hl_function" href="classol_1_1spin__mutex.html#a56ce47f6bfe8a9753f4adf62cd872e7d">spin_mutex</a> : <span class="keyword">public</span> <a class="code hl_function" href="classol_1_1_type_non_copyable_movable.html#af7afd8c553bf4e8b02ac1288239cfa96">TypeNonCopyableMovable</a></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classol_1_1spin__mutex.html#a915473acd6ae00b5c011d2de151879c8">   27</a></span>        std::atomic_flag <a class="code hl_variable" href="classol_1_1spin__mutex.html#a915473acd6ae00b5c011d2de151879c8">flag</a>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="comment">// 构造函数，初始化原子标志</span></div>
+<div class="foldopen" id="foldopen00031" data-start="{" data-end="}">
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="classol_1_1spin__mutex.html#a56ce47f6bfe8a9753f4adf62cd872e7d">   31</a></span>        <a class="code hl_function" href="classol_1_1spin__mutex.html#a56ce47f6bfe8a9753f4adf62cd872e7d">spin_mutex</a>()</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>            <a class="code hl_variable" href="classol_1_1spin__mutex.html#a915473acd6ae00b5c011d2de151879c8">flag</a>.clear();</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        }</div>
+</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="comment">// 加锁（自旋等待直到获取锁）</span></div>
+<div class="foldopen" id="foldopen00037" data-start="{" data-end="}">
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classol_1_1spin__mutex.html#ac0141ed27d7e8b40e6575d71e2a6edb4">   37</a></span>        <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1spin__mutex.html#ac0141ed27d7e8b40e6575d71e2a6edb4">lock</a>()</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            <span class="keywordflow">while</span> (<a class="code hl_variable" href="classol_1_1spin__mutex.html#a915473acd6ae00b5c011d2de151879c8">flag</a>.test_and_set());</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        }</div>
+</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="comment">// 解锁</span></div>
+<div class="foldopen" id="foldopen00043" data-start="{" data-end="}">
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classol_1_1spin__mutex.html#a9557f892431a8170afa60c718bedaab3">   43</a></span>        <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1spin__mutex.html#a9557f892431a8170afa60c718bedaab3">unlock</a>()</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            <a class="code hl_variable" href="classol_1_1spin__mutex.html#a915473acd6ae00b5c011d2de151879c8">flag</a>.clear();</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        }</div>
+</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    };</div>
+</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="comment">// ===========================================================================</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>} <span class="comment">// namespace ol</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#endif </span><span class="comment">// !OL_MUTEX_H</span></div>
+<div class="ttc" id="aclassol_1_1_type_non_copyable_movable_html_af7afd8c553bf4e8b02ac1288239cfa96"><div class="ttname"><a href="classol_1_1_type_non_copyable_movable.html#af7afd8c553bf4e8b02ac1288239cfa96">ol::TypeNonCopyableMovable::TypeNonCopyableMovable</a></div><div class="ttdeci">TypeNonCopyableMovable()=default</div></div>
+<div class="ttc" id="aclassol_1_1spin__mutex_html_a56ce47f6bfe8a9753f4adf62cd872e7d"><div class="ttname"><a href="classol_1_1spin__mutex.html#a56ce47f6bfe8a9753f4adf62cd872e7d">ol::spin_mutex::spin_mutex</a></div><div class="ttdeci">spin_mutex()</div><div class="ttdef"><b>定义</b> ol_mutex.h:31</div></div>
+<div class="ttc" id="aclassol_1_1spin__mutex_html_a915473acd6ae00b5c011d2de151879c8"><div class="ttname"><a href="classol_1_1spin__mutex.html#a915473acd6ae00b5c011d2de151879c8">ol::spin_mutex::flag</a></div><div class="ttdeci">std::atomic_flag flag</div><div class="ttdef"><b>定义</b> ol_mutex.h:27</div></div>
+<div class="ttc" id="aclassol_1_1spin__mutex_html_a9557f892431a8170afa60c718bedaab3"><div class="ttname"><a href="classol_1_1spin__mutex.html#a9557f892431a8170afa60c718bedaab3">ol::spin_mutex::unlock</a></div><div class="ttdeci">void unlock()</div><div class="ttdef"><b>定义</b> ol_mutex.h:43</div></div>
+<div class="ttc" id="aclassol_1_1spin__mutex_html_ac0141ed27d7e8b40e6575d71e2a6edb4"><div class="ttname"><a href="classol_1_1spin__mutex.html#ac0141ed27d7e8b40e6575d71e2a6edb4">ol::spin_mutex::lock</a></div><div class="ttdeci">void lock()</div><div class="ttdef"><b>定义</b> ol_mutex.h:37</div></div>
+<div class="ttc" id="anamespaceol_html"><div class="ttname"><a href="namespaceol.html">ol</a></div><div class="ttdef"><b>定义</b> ol_chrono.cpp:7</div></div>
+<div class="ttc" id="aol__type__traits_8h_html"><div class="ttname"><a href="ol__type__traits_8h.html">ol_type_traits.h</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_75b512e435434d14bff7e88c830596e1.html">ollib</a></li><li class="navelem"><a href="dir_b9a0bbad5c7f744a36cd404f18e81e13.html">include</a></li><li class="navelem"><a href="ol__mutex_8h.html">ol_mutex.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

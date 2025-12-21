@@ -1,0 +1,616 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ol::ccmdstr类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('classol_1_1ccmdstr.html','','classol_1_1ccmdstr-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ol::ccmdstr类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="ol__string_8h_source.html">ol_string.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a6070970367df906eaaf5f9587e2c9c31" id="r_a6070970367df906eaaf5f9587e2c9c31"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6070970367df906eaaf5f9587e2c9c31">ccmdstr</a> ()</td></tr>
+<tr class="memitem:a0d572ebfc13110c324d4d7fa532dc458" id="r_a0d572ebfc13110c324d4d7fa532dc458"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d572ebfc13110c324d4d7fa532dc458">ccmdstr</a> (const std::string &amp;buffer, const std::string &amp;sepstr, const bool bdelspace=false)</td></tr>
+<tr class="memdesc:a0d572ebfc13110c324d4d7fa532dc458"><td class="mdescLeft">&#160;</td><td class="mdescRight">带参构造函数，直接拆分字符串  <br /></td></tr>
+<tr class="memitem:a2c1b0710e4a32c60d6fd94210ae085aa" id="r_a2c1b0710e4a32c60d6fd94210ae085aa"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2c1b0710e4a32c60d6fd94210ae085aa">operator[]</a> (int i) const</td></tr>
+<tr class="memdesc:a2c1b0710e4a32c60d6fd94210ae085aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">重载[]运算符，访问拆分后的字段(m_cmdstr成员)  <br /></td></tr>
+<tr class="memitem:a918f39e1346c8dd6d65cfeacfef099ce" id="r_a918f39e1346c8dd6d65cfeacfef099ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a918f39e1346c8dd6d65cfeacfef099ce">split</a> (const std::string &amp;buffer, const std::string &amp;sepstr, const bool bdelspace=false)</td></tr>
+<tr class="memdesc:a918f39e1346c8dd6d65cfeacfef099ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">拆分字符串并存储到内部容器  <br /></td></tr>
+<tr class="memitem:ad2bc32a18a6d86f4f1e389ffc0937732" id="r_ad2bc32a18a6d86f4f1e389ffc0937732"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad2bc32a18a6d86f4f1e389ffc0937732">size</a> () const</td></tr>
+<tr class="memdesc:ad2bc32a18a6d86f4f1e389ffc0937732"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取拆分后的字段数量  <br /></td></tr>
+<tr class="memitem:a912e3842234b10248ef5ad28fabbaafc" id="r_a912e3842234b10248ef5ad28fabbaafc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a912e3842234b10248ef5ad28fabbaafc">getvalue</a> (const size_t i, std::string &amp;value, const size_t len=0) const</td></tr>
+<tr class="memdesc:a912e3842234b10248ef5ad28fabbaafc"><td class="mdescLeft">&#160;</td><td class="mdescRight">从字段容器（m_cmdstr）中获取指定索引的字段内容并转换为目标类型  <br /></td></tr>
+<tr class="memitem:acd2e3a9e41f14db49c179151b25c9940" id="r_acd2e3a9e41f14db49c179151b25c9940"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acd2e3a9e41f14db49c179151b25c9940">getvalue</a> (const size_t i, char *value, const size_t len=0) const</td></tr>
+<tr class="memitem:a0c9c48ddccedcf1487478e37bc20f48c" id="r_a0c9c48ddccedcf1487478e37bc20f48c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0c9c48ddccedcf1487478e37bc20f48c">getvalue</a> (const size_t i, int &amp;value) const</td></tr>
+<tr class="memitem:aa2b43d77fdb185193f6c6514d4bff467" id="r_aa2b43d77fdb185193f6c6514d4bff467"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa2b43d77fdb185193f6c6514d4bff467">getvalue</a> (const size_t i, unsigned int &amp;value) const</td></tr>
+<tr class="memitem:a4e75f56eea8719fe9405ba919d7f98a6" id="r_a4e75f56eea8719fe9405ba919d7f98a6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4e75f56eea8719fe9405ba919d7f98a6">getvalue</a> (const size_t i, long &amp;value) const</td></tr>
+<tr class="memitem:a39744b49cf8689e74c9e851c57f2a103" id="r_a39744b49cf8689e74c9e851c57f2a103"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a39744b49cf8689e74c9e851c57f2a103">getvalue</a> (const size_t i, unsigned long &amp;value) const</td></tr>
+<tr class="memitem:a4cbfa681dd152f504f8f219c00949bb8" id="r_a4cbfa681dd152f504f8f219c00949bb8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4cbfa681dd152f504f8f219c00949bb8">getvalue</a> (const size_t i, double &amp;value) const</td></tr>
+<tr class="memitem:aa759f857c654be0afa630835f143911a" id="r_aa759f857c654be0afa630835f143911a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa759f857c654be0afa630835f143911a">getvalue</a> (const size_t i, float &amp;value) const</td></tr>
+<tr class="memitem:aa81c527c9eb2df1654165574160d09f6" id="r_aa81c527c9eb2df1654165574160d09f6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa81c527c9eb2df1654165574160d09f6">getvalue</a> (const size_t i, bool &amp;value) const</td></tr>
+<tr class="memitem:ac13df387b9ee71145c0519f9806b53f6" id="r_ac13df387b9ee71145c0519f9806b53f6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac13df387b9ee71145c0519f9806b53f6">~ccmdstr</a> ()</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a49fbb4586955ea43b76eda3f0a2fd375" id="r_a49fbb4586955ea43b76eda3f0a2fd375"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49fbb4586955ea43b76eda3f0a2fd375">ccmdstr</a> (const <a class="el" href="classol_1_1ccmdstr.html">ccmdstr</a> &amp;)=delete</td></tr>
+<tr class="memitem:a072c9cd61ef49ba99fb7cb0d163e0bab" id="r_a072c9cd61ef49ba99fb7cb0d163e0bab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classol_1_1ccmdstr.html">ccmdstr</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a072c9cd61ef49ba99fb7cb0d163e0bab">operator=</a> (const <a class="el" href="classol_1_1ccmdstr.html">ccmdstr</a> &amp;)=delete</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a11cb6f390535bffca010cc7a03224639" id="r_a11cb6f390535bffca010cc7a03224639"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11cb6f390535bffca010cc7a03224639">m_cmdstr</a></td></tr>
+</table>
+<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
+<a id="a49fbb4586955ea43b76eda3f0a2fd375" name="a49fbb4586955ea43b76eda3f0a2fd375"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49fbb4586955ea43b76eda3f0a2fd375">&#9670;&#160;</a></span>ccmdstr() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ol::ccmdstr::ccmdstr </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classol_1_1ccmdstr.html">ccmdstr</a> &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6070970367df906eaaf5f9587e2c9c31" name="a6070970367df906eaaf5f9587e2c9c31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6070970367df906eaaf5f9587e2c9c31">&#9670;&#160;</a></span>ccmdstr() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ol::ccmdstr::ccmdstr </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0d572ebfc13110c324d4d7fa532dc458" name="a0d572ebfc13110c324d4d7fa532dc458"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d572ebfc13110c324d4d7fa532dc458">&#9670;&#160;</a></span>ccmdstr() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ol::ccmdstr::ccmdstr </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>buffer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>sepstr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const bool</td>          <td class="paramname"><span class="paramname"><em>bdelspace</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>带参构造函数，直接拆分字符串 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>待拆分的字符串 </td></tr>
+    <tr><td class="paramname">sepstr</td><td>分隔符（支持多字符，如",,"、" | "） </td></tr>
+    <tr><td class="paramname">bdelspace</td><td>是否删除字段前后空格（默认false） </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac13df387b9ee71145c0519f9806b53f6" name="ac13df387b9ee71145c0519f9806b53f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac13df387b9ee71145c0519f9806b53f6">&#9670;&#160;</a></span>~ccmdstr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ol::ccmdstr::~ccmdstr </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">成员函数说明</h2>
+<a id="aa81c527c9eb2df1654165574160d09f6" name="aa81c527c9eb2df1654165574160d09f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa81c527c9eb2df1654165574160d09f6">&#9670;&#160;</a></span>getvalue() <span class="overload">[1/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ol::ccmdstr::getvalue </td>
+          <td>(</td>
+          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>i</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;) const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acd2e3a9e41f14db49c179151b25c9940" name="acd2e3a9e41f14db49c179151b25c9940"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd2e3a9e41f14db49c179151b25c9940">&#9670;&#160;</a></span>getvalue() <span class="overload">[2/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ol::ccmdstr::getvalue </td>
+          <td>(</td>
+          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>i</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;) const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4cbfa681dd152f504f8f219c00949bb8" name="a4cbfa681dd152f504f8f219c00949bb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cbfa681dd152f504f8f219c00949bb8">&#9670;&#160;</a></span>getvalue() <span class="overload">[3/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ol::ccmdstr::getvalue </td>
+          <td>(</td>
+          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>i</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;) const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa759f857c654be0afa630835f143911a" name="aa759f857c654be0afa630835f143911a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa759f857c654be0afa630835f143911a">&#9670;&#160;</a></span>getvalue() <span class="overload">[4/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ol::ccmdstr::getvalue </td>
+          <td>(</td>
+          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>i</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;) const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0c9c48ddccedcf1487478e37bc20f48c" name="a0c9c48ddccedcf1487478e37bc20f48c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c9c48ddccedcf1487478e37bc20f48c">&#9670;&#160;</a></span>getvalue() <span class="overload">[5/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ol::ccmdstr::getvalue </td>
+          <td>(</td>
+          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>i</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;) const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4e75f56eea8719fe9405ba919d7f98a6" name="a4e75f56eea8719fe9405ba919d7f98a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e75f56eea8719fe9405ba919d7f98a6">&#9670;&#160;</a></span>getvalue() <span class="overload">[6/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ol::ccmdstr::getvalue </td>
+          <td>(</td>
+          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>i</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;) const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a912e3842234b10248ef5ad28fabbaafc" name="a912e3842234b10248ef5ad28fabbaafc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a912e3842234b10248ef5ad28fabbaafc">&#9670;&#160;</a></span>getvalue() <span class="overload">[7/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ol::ccmdstr::getvalue </td>
+          <td>(</td>
+          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>i</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;) const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>从字段容器（m_cmdstr）中获取指定索引的字段内容并转换为目标类型 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>字段索引（从0开始） </td></tr>
+    <tr><td class="paramname">value</td><td>存储结果的变量引用 </td></tr>
+    <tr><td class="paramname">len</td><td>仅字符串类型有效，指定截取长度（默认0表示不截取） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>true-成功（索引有效且转换成功），false-失败（索引越界或转换失败） </dd></dl>
+
+</div>
+</div>
+<a id="aa2b43d77fdb185193f6c6514d4bff467" name="aa2b43d77fdb185193f6c6514d4bff467"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2b43d77fdb185193f6c6514d4bff467">&#9670;&#160;</a></span>getvalue() <span class="overload">[8/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ol::ccmdstr::getvalue </td>
+          <td>(</td>
+          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>i</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;) const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a39744b49cf8689e74c9e851c57f2a103" name="a39744b49cf8689e74c9e851c57f2a103"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39744b49cf8689e74c9e851c57f2a103">&#9670;&#160;</a></span>getvalue() <span class="overload">[9/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ol::ccmdstr::getvalue </td>
+          <td>(</td>
+          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>i</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned long &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;) const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a072c9cd61ef49ba99fb7cb0d163e0bab" name="a072c9cd61ef49ba99fb7cb0d163e0bab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a072c9cd61ef49ba99fb7cb0d163e0bab">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1ccmdstr.html">ccmdstr</a> &amp; ol::ccmdstr::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classol_1_1ccmdstr.html">ccmdstr</a> &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2c1b0710e4a32c60d6fd94210ae085aa" name="a2c1b0710e4a32c60d6fd94210ae085aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c1b0710e4a32c60d6fd94210ae085aa">&#9670;&#160;</a></span>operator[]()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; ol::ccmdstr::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>i</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>重载[]运算符，访问拆分后的字段(m_cmdstr成员) </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>字段索引（从0开始） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>字段内容的常量引用 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>索引越界会抛出异常 </dd></dl>
+
+</div>
+</div>
+<a id="ad2bc32a18a6d86f4f1e389ffc0937732" name="ad2bc32a18a6d86f4f1e389ffc0937732"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2bc32a18a6d86f4f1e389ffc0937732">&#9670;&#160;</a></span>size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t ol::ccmdstr::size </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取拆分后的字段数量 </p>
+<dl class="section return"><dt>返回</dt><dd>字段总数（m_cmdstr的大小） </dd></dl>
+
+</div>
+</div>
+<a id="a918f39e1346c8dd6d65cfeacfef099ce" name="a918f39e1346c8dd6d65cfeacfef099ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a918f39e1346c8dd6d65cfeacfef099ce">&#9670;&#160;</a></span>split()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ol::ccmdstr::split </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>buffer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>sepstr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const bool</td>          <td class="paramname"><span class="paramname"><em>bdelspace</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>拆分字符串并存储到内部容器 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>待拆分的字符串 </td></tr>
+    <tr><td class="paramname">sepstr</td><td>分隔符（支持多字符，注意，sepstr参数的数据类型不是字符，是字符串，如","、" "、"|"、"~!~"） </td></tr>
+    <tr><td class="paramname">bdelspace</td><td>是否删除字段前后空格（默认false） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>空字段会被保留（如",test"拆分为["", "test"]） </dd></dl>
+
+</div>
+</div>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">类成员变量说明</h2>
+<a id="a11cb6f390535bffca010cc7a03224639" name="a11cb6f390535bffca010cc7a03224639"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11cb6f390535bffca010cc7a03224639">&#9670;&#160;</a></span>m_cmdstr</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; ol::ccmdstr::m_cmdstr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>ollib/include/<a class="el" href="ol__string_8h_source.html">ol_string.h</a></li>
+<li>ollib/src/<a class="el" href="ol__string_8cpp.html">ol_string.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="namespaceol.html">ol</a></li><li class="navelem"><a href="classol_1_1ccmdstr.html">ccmdstr</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

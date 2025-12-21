@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ollib/include/ol_type_traits.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('ol__type__traits_8h.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ol_type_traits.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;iterator&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+</div>
+<p><a href="ol__type__traits_8h_source.html">浏览该文件的源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:ol_3A_3ATypeEmpty" id="r_ol_3A_3ATypeEmpty"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structol_1_1_type_empty.html">ol::TypeEmpty</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">空结构体标记，用于模板中需要占位但不占用内存的场景  <a href="structol_1_1_type_empty.html#details">更多...</a><br /></td></tr>
+<tr class="memitem:ol_3A_3ATypeNonCopyable" id="r_ol_3A_3ATypeNonCopyable"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_copyable.html">ol::TypeNonCopyable</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">不可拷贝标记类，继承此类的派生类将禁用拷贝构造和拷贝赋值 @usage class MyClass : public <a class="el" href="classol_1_1_type_non_copyable.html" title="不可拷贝标记类，继承此类的派生类将禁用拷贝构造和拷贝赋值 @usage class MyClass : public TypeNonCopyable {};">TypeNonCopyable</a> {};  <a href="classol_1_1_type_non_copyable.html#details">更多...</a><br /></td></tr>
+<tr class="memitem:ol_3A_3ATypeNonMovable" id="r_ol_3A_3ATypeNonMovable"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_movable.html">ol::TypeNonMovable</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">不可移动标记类，继承此类的派生类将禁用移动构造和移动赋值 @usage class MyClass : public <a class="el" href="classol_1_1_type_non_movable.html" title="不可移动标记类，继承此类的派生类将禁用移动构造和移动赋值 @usage class MyClass : public TypeNonMovable {};">TypeNonMovable</a> {};  <a href="classol_1_1_type_non_movable.html#details">更多...</a><br /></td></tr>
+<tr class="memitem:ol_3A_3ATypeNonCopyableMovable" id="r_ol_3A_3ATypeNonCopyableMovable"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_copyable_movable.html">ol::TypeNonCopyableMovable</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">不可拷贝且不可移动标记类（TypeNonCopyable + TypeNonMovable的组合） @usage class MyClass : public <a class="el" href="classol_1_1_type_non_copyable_movable.html" title="不可拷贝且不可移动标记类（TypeNonCopyable + TypeNonMovable的组合） @usage class MyClass : public TypeNonCopyableMovabl...">TypeNonCopyableMovable</a> {};  <a href="classol_1_1_type_non_copyable_movable.html#details">更多...</a><br /></td></tr>
+<tr class="memitem:ol_3A_3ATypeSingleton_3C_20T_20_3E" id="r_ol_3A_3ATypeSingleton_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_singleton.html">ol::TypeSingleton&lt; T &gt;</a></td></tr>
+<tr class="memitem:ol_3A_3AIsTypeEmpty_3C_20T_20_3E" id="r_ol_3A_3AIsTypeEmpty_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structol_1_1_is_type_empty.html">ol::IsTypeEmpty&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查类型是否为ol::TypeEmpty类型  <a href="structol_1_1_is_type_empty.html#details">更多...</a><br /></td></tr>
+<tr class="memitem:ol_3A_3Acontainer_5Ftraits_3C_20Container_20_3E" id="r_ol_3A_3Acontainer_5Ftraits_3C_20Container_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structol_1_1container__traits.html">ol::container_traits&lt; Container &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">容器特性萃取模板，统一STL容器和原生数组的操作接口  <a href="structol_1_1container__traits.html#details">更多...</a><br /></td></tr>
+<tr class="memitem:ol_3A_3Acontainer_5Ftraits_3C_20T_5BN_5D_3E" id="r_ol_3A_3Acontainer_5Ftraits_3C_20T_5BN_5D_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structol_1_1container__traits_3_01_t_0f_n_0e_4.html">ol::container_traits&lt; T[N]&gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">容器特性萃取模板特化（原生数组）  <a href="structol_1_1container__traits_3_01_t_0f_n_0e_4.html#details">更多...</a><br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:ol" id="r_ol"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html">ol</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+变量</h2></td></tr>
+<tr class="memitem:a1c4c2cb1e688fe4d998860c92537f43c" id="r_a1c4c2cb1e688fe4d998860c92537f43c"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a1c4c2cb1e688fe4d998860c92537f43c template"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a1c4c2cb1e688fe4d998860c92537f43c">ol::IsTypeEmpty_v</a> = <a class="el" href="structol_1_1_is_type_empty.html">IsTypeEmpty</a>&lt;T&gt;::value</td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_75b512e435434d14bff7e88c830596e1.html">ollib</a></li><li class="navelem"><a href="dir_b9a0bbad5c7f744a36cd404f18e81e13.html">include</a></li><li class="navelem"><a href="ol__type__traits_8h.html">ol_type_traits.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

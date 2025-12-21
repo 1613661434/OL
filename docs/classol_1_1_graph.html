@@ -1,0 +1,556 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ol::Graph&lt; IsDirected, IsWeighted, NodeType, WeightType &gt; 模板类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('classol_1_1_graph.html','','classol_1_1_graph-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ol::Graph&lt; IsDirected, IsWeighted, NodeType, WeightType &gt; 模板类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>通用图模板类，支持有向/无向、有权/无权配置 模板参数：  
+ <a href="#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ol__graph_8h_source.html">ol_graph.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:af9b33a58b72fbf1d7d3d9c55dc1144e2" id="r_af9b33a58b72fbf1d7d3d9c55dc1144e2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9b33a58b72fbf1d7d3d9c55dc1144e2">Graph</a> ()</td></tr>
+<tr class="memitem:ae982d650092aa95571d77eaec5b28abb" id="r_ae982d650092aa95571d77eaec5b28abb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae982d650092aa95571d77eaec5b28abb">addNode</a> (NodeType node)</td></tr>
+<tr class="memdesc:ae982d650092aa95571d77eaec5b28abb"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加节点（若节点已存在则不操作）  <br /></td></tr>
+<tr class="memitem:a9553dabb67897061d4a1bc29e664c3c3" id="r_a9553dabb67897061d4a1bc29e664c3c3"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:a9553dabb67897061d4a1bc29e664c3c3 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9553dabb67897061d4a1bc29e664c3c3">addEdge</a> (NodeType from, NodeType to, Args &amp;&amp;... args)</td></tr>
+<tr class="memdesc:a9553dabb67897061d4a1bc29e664c3c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加一条边（支持有权/无权、有向/无向图的适配）  <br /></td></tr>
+<tr class="memitem:a1b63f48dc6f80185d99984ceee4a9b1d" id="r_a1b63f48dc6f80185d99984ceee4a9b1d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b63f48dc6f80185d99984ceee4a9b1d">rmEdge</a> (NodeType from, NodeType to)</td></tr>
+<tr class="memdesc:a1b63f48dc6f80185d99984ceee4a9b1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">删除指定边（无向图会同时删除反向边）  <br /></td></tr>
+<tr class="memitem:a928564c0e034037dc17d6c93918dad04" id="r_a928564c0e034037dc17d6c93918dad04"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a928564c0e034037dc17d6c93918dad04">hasEdge</a> (NodeType from, NodeType to) const</td></tr>
+<tr class="memdesc:a928564c0e034037dc17d6c93918dad04"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断边是否存在  <br /></td></tr>
+<tr class="memitem:a7c5f1fbe335697a519f8c3fbf995885d" id="r_a7c5f1fbe335697a519f8c3fbf995885d"><td class="memTemplParams" colspan="2">template&lt;bool W = IsWeighted, typename = std::enable_if_t&lt;W&gt;&gt; </td></tr>
+<tr class="memitem:a7c5f1fbe335697a519f8c3fbf995885d template"><td class="memItemLeft" align="right" valign="top">WeightType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c5f1fbe335697a519f8c3fbf995885d">weight</a> (NodeType from, NodeType to) const</td></tr>
+<tr class="memdesc:a7c5f1fbe335697a519f8c3fbf995885d"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取边的权重（仅适用于有权图）  <br /></td></tr>
+<tr class="memitem:a98ccbed612ce14056b800690f28b2180" id="r_a98ccbed612ce14056b800690f28b2180"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="structol_1_1_edge.html">Edge</a>&lt; NodeType, IsWeighted, WeightType &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98ccbed612ce14056b800690f28b2180">neighbors</a> (NodeType node) const</td></tr>
+<tr class="memdesc:a98ccbed612ce14056b800690f28b2180"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取节点的所有邻居边（包含目标节点及权重信息）  <br /></td></tr>
+<tr class="memitem:a8dd96dd30b1307b99629e5baea7866a7" id="r_a8dd96dd30b1307b99629e5baea7866a7"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8dd96dd30b1307b99629e5baea7866a7">size</a> () const</td></tr>
+<tr class="memdesc:a8dd96dd30b1307b99629e5baea7866a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取图中节点的总数  <br /></td></tr>
+<tr class="memitem:aa788f685bd813e009048cbede9bb59b4" id="r_aa788f685bd813e009048cbede9bb59b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa788f685bd813e009048cbede9bb59b4">print</a> () const</td></tr>
+<tr class="memdesc:aa788f685bd813e009048cbede9bb59b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">打印图的邻接表结构（调试用）  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a20582d855a91c2f2d9f0881800f9b5a1" id="r_a20582d855a91c2f2d9f0881800f9b5a1"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; NodeType, std::vector&lt; <a class="el" href="structol_1_1_edge.html">Edge</a>&lt; NodeType, IsWeighted, WeightType &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20582d855a91c2f2d9f0881800f9b5a1">adjList</a></td></tr>
+<tr class="memitem:a99e0a44df85a69cbbf5221edd2708ecb" id="r_a99e0a44df85a69cbbf5221edd2708ecb"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a99e0a44df85a69cbbf5221edd2708ecb">nodeCount</a></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">详细描述</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;bool IsDirected = false, bool IsWeighted = false, typename NodeType = int, typename WeightType = int&gt;<br />
+class ol::Graph&lt; IsDirected, IsWeighted, NodeType, WeightType &gt;</div><p>通用图模板类，支持有向/无向、有权/无权配置 模板参数： </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">IsDirected</td><td>是否为有向图（默认 false） </td></tr>
+    <tr><td class="paramname">IsWeighted</td><td>是否为有权图（默认 false） </td></tr>
+    <tr><td class="paramname">NodeType</td><td>节点数据类型（默认 int） </td></tr>
+    <tr><td class="paramname">WeightType</td><td>权重数据类型（默认 int，仅 IsWeighted=true 时有效） </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
+<a id="af9b33a58b72fbf1d7d3d9c55dc1144e2" name="af9b33a58b72fbf1d7d3d9c55dc1144e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9b33a58b72fbf1d7d3d9c55dc1144e2">&#9670;&#160;</a></span>Graph()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDirected = false, bool IsWeighted = false, typename NodeType = int, typename WeightType = int&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1_graph.html">ol::Graph</a>&lt; IsDirected, IsWeighted, NodeType, WeightType &gt;::Graph </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">成员函数说明</h2>
+<a id="a9553dabb67897061d4a1bc29e664c3c3" name="a9553dabb67897061d4a1bc29e664c3c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9553dabb67897061d4a1bc29e664c3c3">&#9670;&#160;</a></span>addEdge()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDirected = false, bool IsWeighted = false, typename NodeType = int, typename WeightType = int&gt; </div>
+<div class="memtemplate">
+template&lt;typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_graph.html">ol::Graph</a>&lt; IsDirected, IsWeighted, NodeType, WeightType &gt;::addEdge </td>
+          <td>(</td>
+          <td class="paramtype">NodeType</td>          <td class="paramname"><span class="paramname"><em>from</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NodeType</td>          <td class="paramname"><span class="paramname"><em>to</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>添加一条边（支持有权/无权、有向/无向图的适配） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">from</td><td>边的起点节点 </td></tr>
+    <tr><td class="paramname">to</td><td>边的终点节点 </td></tr>
+    <tr><td class="paramname">args</td><td>可变参数，仅有权图（IsWeighted=true）时需要传入权重值（类型为WeightType） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>1. 若起点/终点不存在，会自动添加节点<ol type="1">
+<li>无向图（IsDirected=false）会自动添加反向边（to -&gt; from）</li>
+<li>有权图必须传入权重参数，无权图不可传入额外参数，否则会编译报错 </li>
+</ol>
+</dd></dl>
+
+</div>
+</div>
+<a id="ae982d650092aa95571d77eaec5b28abb" name="ae982d650092aa95571d77eaec5b28abb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae982d650092aa95571d77eaec5b28abb">&#9670;&#160;</a></span>addNode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDirected = false, bool IsWeighted = false, typename NodeType = int, typename WeightType = int&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_graph.html">ol::Graph</a>&lt; IsDirected, IsWeighted, NodeType, WeightType &gt;::addNode </td>
+          <td>(</td>
+          <td class="paramtype">NodeType</td>          <td class="paramname"><span class="paramname"><em>node</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>添加节点（若节点已存在则不操作） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>要添加的节点 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a928564c0e034037dc17d6c93918dad04" name="a928564c0e034037dc17d6c93918dad04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a928564c0e034037dc17d6c93918dad04">&#9670;&#160;</a></span>hasEdge()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDirected = false, bool IsWeighted = false, typename NodeType = int, typename WeightType = int&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classol_1_1_graph.html">ol::Graph</a>&lt; IsDirected, IsWeighted, NodeType, WeightType &gt;::hasEdge </td>
+          <td>(</td>
+          <td class="paramtype">NodeType</td>          <td class="paramname"><span class="paramname"><em>from</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NodeType</td>          <td class="paramname"><span class="paramname"><em>to</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断边是否存在 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">from</td><td>起点节点 </td></tr>
+    <tr><td class="paramname">to</td><td>终点节点 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>存在返回 true，否则返回 false（节点不存在时也返回 false） </dd></dl>
+
+</div>
+</div>
+<a id="a98ccbed612ce14056b800690f28b2180" name="a98ccbed612ce14056b800690f28b2180"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98ccbed612ce14056b800690f28b2180">&#9670;&#160;</a></span>neighbors()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDirected = false, bool IsWeighted = false, typename NodeType = int, typename WeightType = int&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; <a class="el" href="structol_1_1_edge.html">Edge</a>&lt; NodeType, IsWeighted, WeightType &gt; &gt; &amp; <a class="el" href="classol_1_1_graph.html">ol::Graph</a>&lt; IsDirected, IsWeighted, NodeType, WeightType &gt;::neighbors </td>
+          <td>(</td>
+          <td class="paramtype">NodeType</td>          <td class="paramname"><span class="paramname"><em>node</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取节点的所有邻居边（包含目标节点及权重信息） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>要查询的节点 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>邻居边的常量引用（若节点不存在，返回空vector） </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>每条边包含目标节点（to），有权图还包含权重（weight） </dd></dl>
+
+</div>
+</div>
+<a id="aa788f685bd813e009048cbede9bb59b4" name="aa788f685bd813e009048cbede9bb59b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa788f685bd813e009048cbede9bb59b4">&#9670;&#160;</a></span>print()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDirected = false, bool IsWeighted = false, typename NodeType = int, typename WeightType = int&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_graph.html">ol::Graph</a>&lt; IsDirected, IsWeighted, NodeType, WeightType &gt;::print </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>打印图的邻接表结构（调试用） </p>
+<dl class="section note"><dt>注解</dt><dd>输出格式为 "节点 -&gt; 邻居1(权重) 邻居2(权重) ..."，无权图不显示权重 </dd></dl>
+
+</div>
+</div>
+<a id="a1b63f48dc6f80185d99984ceee4a9b1d" name="a1b63f48dc6f80185d99984ceee4a9b1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b63f48dc6f80185d99984ceee4a9b1d">&#9670;&#160;</a></span>rmEdge()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDirected = false, bool IsWeighted = false, typename NodeType = int, typename WeightType = int&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_graph.html">ol::Graph</a>&lt; IsDirected, IsWeighted, NodeType, WeightType &gt;::rmEdge </td>
+          <td>(</td>
+          <td class="paramtype">NodeType</td>          <td class="paramname"><span class="paramname"><em>from</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NodeType</td>          <td class="paramname"><span class="paramname"><em>to</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>删除指定边（无向图会同时删除反向边） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">from</td><td>起点节点 </td></tr>
+    <tr><td class="paramname">to</td><td>终点节点 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>若边不存在则不操作 </dd></dl>
+
+</div>
+</div>
+<a id="a8dd96dd30b1307b99629e5baea7866a7" name="a8dd96dd30b1307b99629e5baea7866a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8dd96dd30b1307b99629e5baea7866a7">&#9670;&#160;</a></span>size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDirected = false, bool IsWeighted = false, typename NodeType = int, typename WeightType = int&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classol_1_1_graph.html">ol::Graph</a>&lt; IsDirected, IsWeighted, NodeType, WeightType &gt;::size </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取图中节点的总数 </p>
+<dl class="section return"><dt>返回</dt><dd>节点数量（size_t类型，&gt;=0） </dd></dl>
+
+</div>
+</div>
+<a id="a7c5f1fbe335697a519f8c3fbf995885d" name="a7c5f1fbe335697a519f8c3fbf995885d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c5f1fbe335697a519f8c3fbf995885d">&#9670;&#160;</a></span>weight()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDirected = false, bool IsWeighted = false, typename NodeType = int, typename WeightType = int&gt; </div>
+<div class="memtemplate">
+template&lt;bool W = IsWeighted, typename = std::enable_if_t&lt;W&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">WeightType <a class="el" href="classol_1_1_graph.html">ol::Graph</a>&lt; IsDirected, IsWeighted, NodeType, WeightType &gt;::weight </td>
+          <td>(</td>
+          <td class="paramtype">NodeType</td>          <td class="paramname"><span class="paramname"><em>from</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NodeType</td>          <td class="paramname"><span class="paramname"><em>to</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取边的权重（仅适用于有权图） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">from</td><td>起点节点 </td></tr>
+    <tr><td class="paramname">to</td><td>终点节点 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>边的权重值 </dd></dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::invalid_argument</td><td>若节点不存在或边不存在 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">类成员变量说明</h2>
+<a id="a20582d855a91c2f2d9f0881800f9b5a1" name="a20582d855a91c2f2d9f0881800f9b5a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20582d855a91c2f2d9f0881800f9b5a1">&#9670;&#160;</a></span>adjList</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDirected = false, bool IsWeighted = false, typename NodeType = int, typename WeightType = int&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;NodeType, std::vector&lt;<a class="el" href="structol_1_1_edge.html">Edge</a>&lt;NodeType, IsWeighted, WeightType&gt; &gt; &gt; <a class="el" href="classol_1_1_graph.html">ol::Graph</a>&lt; IsDirected, IsWeighted, NodeType, WeightType &gt;::adjList</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a99e0a44df85a69cbbf5221edd2708ecb" name="a99e0a44df85a69cbbf5221edd2708ecb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99e0a44df85a69cbbf5221edd2708ecb">&#9670;&#160;</a></span>nodeCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDirected = false, bool IsWeighted = false, typename NodeType = int, typename WeightType = int&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classol_1_1_graph.html">ol::Graph</a>&lt; IsDirected, IsWeighted, NodeType, WeightType &gt;::nodeCount</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>ollib/include/<a class="el" href="ol__graph_8h_source.html">ol_graph.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="namespaceol.html">ol</a></li><li class="navelem"><a href="classol_1_1_graph.html">Graph</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

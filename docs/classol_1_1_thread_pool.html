@@ -1,0 +1,1199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ol::ThreadPool&lt; IsDynamic &gt; 模板类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('classol_1_1_thread_pool.html','','classol_1_1_thread_pool-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ol::ThreadPool&lt; IsDynamic &gt; 模板类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>线程池模板类，支持动态/固定两种工作模式  
+ <a href="#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ol___thread_pool_8h_source.html">ol_ThreadPool.h</a>&gt;</code></p>
+<div class="dynheader">
+类 ol::ThreadPool&lt; IsDynamic &gt; 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classol_1_1_thread_pool.png" usemap="#ol_3A_3AThreadPool_3C_20IsDynamic_20_3E_map" alt=""/>
+  <map id="ol_3A_3AThreadPool_3C_20IsDynamic_20_3E_map" name="ol_3A_3AThreadPool_3C_20IsDynamic_20_3E_map">
+<area href="classol_1_1_type_non_copyable_movable.html" title="不可拷贝且不可移动标记类（TypeNonCopyable + TypeNonMovable的组合） @usage class MyClass : public TypeNonCopyableMovabl..." alt="ol::TypeNonCopyableMovable" shape="rect" coords="96,56,278,80"/>
+<area href="classol_1_1_type_non_copyable.html" title="不可拷贝标记类，继承此类的派生类将禁用拷贝构造和拷贝赋值 @usage class MyClass : public TypeNonCopyable {};" alt="ol::TypeNonCopyable" shape="rect" coords="0,0,182,24"/>
+<area href="classol_1_1_type_non_movable.html" title="不可移动标记类，继承此类的派生类将禁用移动构造和移动赋值 @usage class MyClass : public TypeNonMovable {};" alt="ol::TypeNonMovable" shape="rect" coords="192,0,374,24"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:DynamicMembers" id="r_DynamicMembers"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structol_1_1_thread_pool_1_1_dynamic_members.html">DynamicMembers</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:ace0dd0d8b93de9ce8a2ff0e884ec9ede" id="r_ace0dd0d8b93de9ce8a2ff0e884ec9ede"><td class="memTemplParams" colspan="2">template&lt;bool D = IsDynamic, typename = std::enable_if_t&lt;!D&gt;&gt; </td></tr>
+<tr class="memitem:ace0dd0d8b93de9ce8a2ff0e884ec9ede template"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace0dd0d8b93de9ce8a2ff0e884ec9ede">ThreadPool</a> (size_t threadNum, size_t maxQueueSize=0)</td></tr>
+<tr class="memdesc:ace0dd0d8b93de9ce8a2ff0e884ec9ede"><td class="mdescLeft">&#160;</td><td class="mdescRight">固定模式构造函数（仅IsDynamic=false时可用）  <br /></td></tr>
+<tr class="memitem:a6b598cbc04430bce6cec00c5a466c3d4" id="r_a6b598cbc04430bce6cec00c5a466c3d4"><td class="memTemplParams" colspan="2">template&lt;bool D = IsDynamic, typename = std::enable_if_t&lt;D&gt;&gt; </td></tr>
+<tr class="memitem:a6b598cbc04430bce6cec00c5a466c3d4 template"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b598cbc04430bce6cec00c5a466c3d4">ThreadPool</a> (size_t minThreadNum=0, size_t maxThreadNum=std::thread::hardware_concurrency(), size_t maxQueueSize=0, std::chrono::seconds checkInterval=std::chrono::seconds(1))</td></tr>
+<tr class="memdesc:a6b598cbc04430bce6cec00c5a466c3d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">动态模式构造函数（仅IsDynamic=true时可用）  <br /></td></tr>
+<tr class="memitem:a08df835b4cf7704999c1711e4f31477a" id="r_a08df835b4cf7704999c1711e4f31477a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a08df835b4cf7704999c1711e4f31477a">~ThreadPool</a> ()</td></tr>
+<tr class="memdesc:a08df835b4cf7704999c1711e4f31477a"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="memitem:a08b1ce8586db5b411447fec9276386c8" id="r_a08b1ce8586db5b411447fec9276386c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a08b1ce8586db5b411447fec9276386c8">stop</a> ()</td></tr>
+<tr class="memdesc:a08b1ce8586db5b411447fec9276386c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">停止线程池并清理资源  <br /></td></tr>
+<tr class="memitem:aaaf3b544386236be46a5d68706f7032e" id="r_aaaf3b544386236be46a5d68706f7032e"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaaf3b544386236be46a5d68706f7032e">getTaskNum</a> () const</td></tr>
+<tr class="memdesc:aaaf3b544386236be46a5d68706f7032e"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前等待执行的任务数量  <br /></td></tr>
+<tr class="memitem:ae6ad9887e3d55cc3cb06dfb1e0a63c24" id="r_ae6ad9887e3d55cc3cb06dfb1e0a63c24"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae6ad9887e3d55cc3cb06dfb1e0a63c24">getWorkerNum</a> () const</td></tr>
+<tr class="memdesc:ae6ad9887e3d55cc3cb06dfb1e0a63c24"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前工作线程数量  <br /></td></tr>
+<tr class="memitem:a5e569574a2a1d8a28ba0a3428618e020" id="r_a5e569574a2a1d8a28ba0a3428618e020"><td class="memTemplParams" colspan="2">template&lt;bool D = IsDynamic, typename = std::enable_if_t&lt;D&gt;&gt; </td></tr>
+<tr class="memitem:a5e569574a2a1d8a28ba0a3428618e020 template"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5e569574a2a1d8a28ba0a3428618e020">getIdleThreadNum</a> () const</td></tr>
+<tr class="memdesc:a5e569574a2a1d8a28ba0a3428618e020"><td class="mdescLeft">&#160;</td><td class="mdescRight">动态模式特有：获取当前空闲线程数量  <br /></td></tr>
+<tr class="memitem:aa8e3f419cf8172e16792e1d7bad2a38b" id="r_aa8e3f419cf8172e16792e1d7bad2a38b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa8e3f419cf8172e16792e1d7bad2a38b">setRejectPolicy</a> ()</td></tr>
+<tr class="memdesc:aa8e3f419cf8172e16792e1d7bad2a38b"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置任务队列满时的拒绝策略（新任务直接被拒绝）  <br /></td></tr>
+<tr class="memitem:a50d8c665001aeb6dc1f7f54ccf6124fa" id="r_a50d8c665001aeb6dc1f7f54ccf6124fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a50d8c665001aeb6dc1f7f54ccf6124fa">setBlockPolicy</a> ()</td></tr>
+<tr class="memdesc:a50d8c665001aeb6dc1f7f54ccf6124fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置任务队列满时的阻塞策略（等待直到队列有空闲位置）  <br /></td></tr>
+<tr class="memitem:ab8039b578e14873d313d7c60c84fc141" id="r_ab8039b578e14873d313d7c60c84fc141"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8039b578e14873d313d7c60c84fc141">setTimeoutPolicy</a> (std::chrono::milliseconds timeoutMS)</td></tr>
+<tr class="memdesc:ab8039b578e14873d313d7c60c84fc141"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置任务队列满时的超时等待策略  <br /></td></tr>
+<tr class="memitem:a92fbcc1a9f3879ba6d011fe8042fe675" id="r_a92fbcc1a9f3879ba6d011fe8042fe675"><td class="memTemplParams" colspan="2">template&lt;bool D = IsDynamic, typename = std::enable_if_t&lt;D&gt;&gt; </td></tr>
+<tr class="memitem:a92fbcc1a9f3879ba6d011fe8042fe675 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92fbcc1a9f3879ba6d011fe8042fe675">setCheckInterval</a> (std::chrono::seconds interval)</td></tr>
+<tr class="memdesc:a92fbcc1a9f3879ba6d011fe8042fe675"><td class="mdescLeft">&#160;</td><td class="mdescRight">动态模式特有：设置管理者线程的检查间隔  <br /></td></tr>
+<tr class="memitem:a43c4ab10427cb07ba2e54d02146ca524" id="r_a43c4ab10427cb07ba2e54d02146ca524"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a43c4ab10427cb07ba2e54d02146ca524">addTask</a> (std::function&lt; void()&gt; task)</td></tr>
+<tr class="memdesc:a43c4ab10427cb07ba2e54d02146ca524"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加无返回值任务到线程池  <br /></td></tr>
+<tr class="memitem:a4e88cb921b3fa31299c1c113d3705bfb" id="r_a4e88cb921b3fa31299c1c113d3705bfb"><td class="memTemplParams" colspan="2">template&lt;typename F, typename... Args&gt; </td></tr>
+<tr class="memitem:a4e88cb921b3fa31299c1c113d3705bfb template"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4e88cb921b3fa31299c1c113d3705bfb">submitTask</a> (F &amp;&amp;f, Args &amp;&amp;... args) -&gt; std::pair&lt; bool, std::future&lt; typename std::invoke_result_t&lt; F, Args... &gt; &gt; &gt;</td></tr>
+<tr class="memdesc:a4e88cb921b3fa31299c1c113d3705bfb"><td class="mdescLeft">&#160;</td><td class="mdescRight">提交带返回值的任务到线程池  <br /></td></tr>
+<tr class="memitem:a7ff1d3f67739fdb05b5da589952447f2" id="r_a7ff1d3f67739fdb05b5da589952447f2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7ff1d3f67739fdb05b5da589952447f2">isRunning</a> () const</td></tr>
+<tr class="memdesc:a7ff1d3f67739fdb05b5da589952447f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查线程池是否处于运行状态  <br /></td></tr>
+<tr class="inherit_header pub_methods_classol_1_1_type_non_copyable"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classol_1_1_type_non_copyable')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public 成员函数 继承自 <a class="el" href="classol_1_1_type_non_copyable.html">ol::TypeNonCopyable</a></td></tr>
+<tr class="memitem:a5cca67f1b209f78068c286238d738dff inherit pub_methods_classol_1_1_type_non_copyable" id="r_a5cca67f1b209f78068c286238d738dff"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_copyable.html#a5cca67f1b209f78068c286238d738dff">TypeNonCopyable</a> (const <a class="el" href="classol_1_1_type_non_copyable.html">TypeNonCopyable</a> &amp;)=delete</td></tr>
+<tr class="memitem:afa45d99fa97a018ad56454f213c0654e inherit pub_methods_classol_1_1_type_non_copyable" id="r_afa45d99fa97a018ad56454f213c0654e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classol_1_1_type_non_copyable.html">TypeNonCopyable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_copyable.html#afa45d99fa97a018ad56454f213c0654e">operator=</a> (const <a class="el" href="classol_1_1_type_non_copyable.html">TypeNonCopyable</a> &amp;)=delete</td></tr>
+<tr class="inherit_header pub_methods_classol_1_1_type_non_movable"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classol_1_1_type_non_movable')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public 成员函数 继承自 <a class="el" href="classol_1_1_type_non_movable.html">ol::TypeNonMovable</a></td></tr>
+<tr class="memitem:a7302d14f8ed25dd81f421892c6ac6d4c inherit pub_methods_classol_1_1_type_non_movable" id="r_a7302d14f8ed25dd81f421892c6ac6d4c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_movable.html#a7302d14f8ed25dd81f421892c6ac6d4c">TypeNonMovable</a> (<a class="el" href="classol_1_1_type_non_movable.html">TypeNonMovable</a> &amp;&amp;)=delete</td></tr>
+<tr class="memitem:a57f82041bd31b9dc08ede09465d2d7c8 inherit pub_methods_classol_1_1_type_non_movable" id="r_a57f82041bd31b9dc08ede09465d2d7c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classol_1_1_type_non_movable.html">TypeNonMovable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_movable.html#a57f82041bd31b9dc08ede09465d2d7c8">operator=</a> (<a class="el" href="classol_1_1_type_non_movable.html">TypeNonMovable</a> &amp;&amp;)=delete</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-types" class="groupheader"><a id="pri-types" name="pri-types"></a>
+Private 类型</h2></td></tr>
+<tr class="memitem:ad2ba1d0d419e9cba2999bbb5196d4a37" id="r_ad2ba1d0d419e9cba2999bbb5196d4a37"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad2ba1d0d419e9cba2999bbb5196d4a37">QueueFullPolicy</a> : char { <a class="el" href="#ad2ba1d0d419e9cba2999bbb5196d4a37a8f2fd79d5722327d476c8bb783ea2477">kReject</a>
+, <a class="el" href="#ad2ba1d0d419e9cba2999bbb5196d4a37aaf937713a39275d7c02a4a08b982d81a">kBlock</a>
+, <a class="el" href="#ad2ba1d0d419e9cba2999bbb5196d4a37a7f27861ff1d3f550c6aa77150d7edabd">kTimeout</a>
+ }</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a3dfd7c2649dabf4e70882fe4b788206f" id="r_a3dfd7c2649dabf4e70882fe4b788206f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3dfd7c2649dabf4e70882fe4b788206f">worker</a> ()</td></tr>
+<tr class="memdesc:a3dfd7c2649dabf4e70882fe4b788206f"><td class="mdescLeft">&#160;</td><td class="mdescRight">工作线程主函数  <br /></td></tr>
+<tr class="memitem:aa49c156140053ac1063f9681b3d58ab7" id="r_aa49c156140053ac1063f9681b3d58ab7"><td class="memTemplParams" colspan="2">template&lt;bool D = IsDynamic, typename = std::enable_if_t&lt;D&gt;&gt; </td></tr>
+<tr class="memitem:aa49c156140053ac1063f9681b3d58ab7 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa49c156140053ac1063f9681b3d58ab7">manager</a> ()</td></tr>
+<tr class="memdesc:aa49c156140053ac1063f9681b3d58ab7"><td class="mdescLeft">&#160;</td><td class="mdescRight">管理者线程主函数（仅动态模式可用）  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a78b7e22dca8e90df7e4eff0b50859f04" id="r_a78b7e22dca8e90df7e4eff0b50859f04"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78b7e22dca8e90df7e4eff0b50859f04">m_workersMutex</a></td></tr>
+<tr class="memdesc:a78b7e22dca8e90df7e4eff0b50859f04"><td class="mdescLeft">&#160;</td><td class="mdescRight">保护工作线程集合的互斥锁  <br /></td></tr>
+<tr class="memitem:a53ce197f44320534e849bb579308e707" id="r_a53ce197f44320534e849bb579308e707"><td class="memItemLeft" align="right" valign="top">std::conditional_t&lt; IsDynamic, std::unordered_map&lt; std::thread::id, std::thread &gt;, std::vector&lt; std::thread &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a53ce197f44320534e849bb579308e707">m_workers</a></td></tr>
+<tr class="memdesc:a53ce197f44320534e849bb579308e707"><td class="mdescLeft">&#160;</td><td class="mdescRight">工作线程集合  <br /></td></tr>
+<tr class="memitem:a5ee67b3a1eae85550701bd8224be2788" id="r_a5ee67b3a1eae85550701bd8224be2788"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5ee67b3a1eae85550701bd8224be2788">m_taskQueueMutex</a></td></tr>
+<tr class="memdesc:a5ee67b3a1eae85550701bd8224be2788"><td class="mdescLeft">&#160;</td><td class="mdescRight">保护任务队列的互斥锁  <br /></td></tr>
+<tr class="memitem:a3ac6022a74a5caa1f4401c49697e5d68" id="r_a3ac6022a74a5caa1f4401c49697e5d68"><td class="memItemLeft" align="right" valign="top">std::queue&lt; std::function&lt; void()&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ac6022a74a5caa1f4401c49697e5d68">m_taskQueue</a></td></tr>
+<tr class="memdesc:a3ac6022a74a5caa1f4401c49697e5d68"><td class="mdescLeft">&#160;</td><td class="mdescRight">任务队列  <br /></td></tr>
+<tr class="memitem:a700b4f16c2d1c1bfda90624bc414884e" id="r_a700b4f16c2d1c1bfda90624bc414884e"><td class="memItemLeft" align="right" valign="top">std::condition_variable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a700b4f16c2d1c1bfda90624bc414884e">m_taskQueueNotEmpty_condVar</a></td></tr>
+<tr class="memdesc:a700b4f16c2d1c1bfda90624bc414884e"><td class="mdescLeft">&#160;</td><td class="mdescRight">任务队列非空条件变量  <br /></td></tr>
+<tr class="memitem:ae8c7ce0f199d378b65cdd5cdd0530d1b" id="r_ae8c7ce0f199d378b65cdd5cdd0530d1b"><td class="memItemLeft" align="right" valign="top">std::condition_variable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae8c7ce0f199d378b65cdd5cdd0530d1b">m_taskQueueNotFull_condVar</a></td></tr>
+<tr class="memdesc:ae8c7ce0f199d378b65cdd5cdd0530d1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">任务队列非满条件变量  <br /></td></tr>
+<tr class="memitem:aa1e4f75ae1315f8b983e1a08b8e552c8" id="r_aa1e4f75ae1315f8b983e1a08b8e552c8"><td class="memItemLeft" align="right" valign="top">std::atomic_bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa1e4f75ae1315f8b983e1a08b8e552c8">m_stop</a></td></tr>
+<tr class="memdesc:aa1e4f75ae1315f8b983e1a08b8e552c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">停止标志  <br /></td></tr>
+<tr class="memitem:a5ab9ba063c81d81bf38052ec98ada098" id="r_a5ab9ba063c81d81bf38052ec98ada098"><td class="memItemLeft" align="right" valign="top">std::atomic_size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5ab9ba063c81d81bf38052ec98ada098">m_activeWorkers</a></td></tr>
+<tr class="memdesc:a5ab9ba063c81d81bf38052ec98ada098"><td class="mdescLeft">&#160;</td><td class="mdescRight">追踪活跃工作线程数  <br /></td></tr>
+<tr class="memitem:aa91e95535c078ac1032105c8b6da25de" id="r_aa91e95535c078ac1032105c8b6da25de"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa91e95535c078ac1032105c8b6da25de">m_maxQueueSize</a></td></tr>
+<tr class="memdesc:aa91e95535c078ac1032105c8b6da25de"><td class="mdescLeft">&#160;</td><td class="mdescRight">最大队列容量  <br /></td></tr>
+<tr class="memitem:a4c83c52488e87362113b148ffde1097d" id="r_a4c83c52488e87362113b148ffde1097d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ad2ba1d0d419e9cba2999bbb5196d4a37">QueueFullPolicy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4c83c52488e87362113b148ffde1097d">m_queueFullPolicy</a></td></tr>
+<tr class="memdesc:a4c83c52488e87362113b148ffde1097d"><td class="mdescLeft">&#160;</td><td class="mdescRight">队列满策略  <br /></td></tr>
+<tr class="memitem:a72a21e3545fbe01ef463f57942e9fe8f" id="r_a72a21e3545fbe01ef463f57942e9fe8f"><td class="memItemLeft" align="right" valign="top">std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a72a21e3545fbe01ef463f57942e9fe8f">m_timeoutMS</a></td></tr>
+<tr class="memdesc:a72a21e3545fbe01ef463f57942e9fe8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">超时时间（毫秒）  <br /></td></tr>
+<tr class="memitem:a966d14f85bc602162990f30c720f7071" id="r_a966d14f85bc602162990f30c720f7071"><td class="memItemLeft" align="right" valign="top">std::conditional_t&lt; IsDynamic, <a class="el" href="structol_1_1_thread_pool_1_1_dynamic_members.html">DynamicMembers</a>, <a class="el" href="structol_1_1_type_empty.html">TypeEmpty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a966d14f85bc602162990f30c720f7071">m_dynamic</a></td></tr>
+<tr class="memdesc:a966d14f85bc602162990f30c720f7071"><td class="mdescLeft">&#160;</td><td class="mdescRight">动态模式成员  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-inherited" class="groupheader"><a id="inherited" name="inherited"></a>
+额外继承的成员函数</h2></td></tr>
+<tr class="inherit_header pro_methods_classol_1_1_type_non_copyable_movable"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_classol_1_1_type_non_copyable_movable')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected 成员函数 继承自 <a class="el" href="classol_1_1_type_non_copyable_movable.html">ol::TypeNonCopyableMovable</a></td></tr>
+<tr class="memitem:af7afd8c553bf4e8b02ac1288239cfa96 inherit pro_methods_classol_1_1_type_non_copyable_movable" id="r_af7afd8c553bf4e8b02ac1288239cfa96"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_copyable_movable.html#af7afd8c553bf4e8b02ac1288239cfa96">TypeNonCopyableMovable</a> ()=default</td></tr>
+<tr class="memitem:ad700983e1cdf7d82d16d5e5f86912a12 inherit pro_methods_classol_1_1_type_non_copyable_movable" id="r_ad700983e1cdf7d82d16d5e5f86912a12"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_copyable_movable.html#ad700983e1cdf7d82d16d5e5f86912a12">~TypeNonCopyableMovable</a> ()=default</td></tr>
+<tr class="inherit_header pro_methods_classol_1_1_type_non_copyable"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_classol_1_1_type_non_copyable')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected 成员函数 继承自 <a class="el" href="classol_1_1_type_non_copyable.html">ol::TypeNonCopyable</a></td></tr>
+<tr class="memitem:aad5c17513b3255032f3907896107642a inherit pro_methods_classol_1_1_type_non_copyable" id="r_aad5c17513b3255032f3907896107642a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_copyable.html#aad5c17513b3255032f3907896107642a">TypeNonCopyable</a> ()=default</td></tr>
+<tr class="memitem:a391e86224526622427666585822d724a inherit pro_methods_classol_1_1_type_non_copyable" id="r_a391e86224526622427666585822d724a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_copyable.html#a391e86224526622427666585822d724a">~TypeNonCopyable</a> ()=default</td></tr>
+<tr class="inherit_header pro_methods_classol_1_1_type_non_movable"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_classol_1_1_type_non_movable')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected 成员函数 继承自 <a class="el" href="classol_1_1_type_non_movable.html">ol::TypeNonMovable</a></td></tr>
+<tr class="memitem:a935a5fca01f78b7747bc2399c76666ea inherit pro_methods_classol_1_1_type_non_movable" id="r_a935a5fca01f78b7747bc2399c76666ea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_movable.html#a935a5fca01f78b7747bc2399c76666ea">TypeNonMovable</a> ()=default</td></tr>
+<tr class="memitem:a00ff9a5d4fde1ba3772b5daebfa0409f inherit pro_methods_classol_1_1_type_non_movable" id="r_a00ff9a5d4fde1ba3772b5daebfa0409f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_movable.html#a00ff9a5d4fde1ba3772b5daebfa0409f">~TypeNonMovable</a> ()=default</td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">详细描述</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;bool IsDynamic = false&gt;<br />
+class ol::ThreadPool&lt; IsDynamic &gt;</div><p>线程池模板类，支持动态/固定两种工作模式 </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">IsDynamic</td><td>是否启用动态模式：true为动态扩缩容模式，false为固定线程数模式（默认） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>动态模式下会根据任务负载自动调整线程数量，固定模式使用初始化时指定的线程数 </dd>
+<dd>
+线程安全设计，支持多线程并发添加任务 </dd>
+<dd>
+所有线程均通过join模式退出 </dd></dl>
+</div><a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">成员枚举类型说明</h2>
+<a id="ad2ba1d0d419e9cba2999bbb5196d4a37" name="ad2ba1d0d419e9cba2999bbb5196d4a37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2ba1d0d419e9cba2999bbb5196d4a37">&#9670;&#160;</a></span>QueueFullPolicy</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#ad2ba1d0d419e9cba2999bbb5196d4a37">ol::ThreadPool::QueueFullPolicy</a> : char</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="ad2ba1d0d419e9cba2999bbb5196d4a37a8f2fd79d5722327d476c8bb783ea2477" name="ad2ba1d0d419e9cba2999bbb5196d4a37a8f2fd79d5722327d476c8bb783ea2477"></a>kReject&#160;</td><td class="fielddoc"><p>拒绝新任务 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ad2ba1d0d419e9cba2999bbb5196d4a37aaf937713a39275d7c02a4a08b982d81a" name="ad2ba1d0d419e9cba2999bbb5196d4a37aaf937713a39275d7c02a4a08b982d81a"></a>kBlock&#160;</td><td class="fielddoc"><p>阻塞等待 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ad2ba1d0d419e9cba2999bbb5196d4a37a7f27861ff1d3f550c6aa77150d7edabd" name="ad2ba1d0d419e9cba2999bbb5196d4a37a7f27861ff1d3f550c6aa77150d7edabd"></a>kTimeout&#160;</td><td class="fielddoc"><p>超时等待 </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
+<a id="ace0dd0d8b93de9ce8a2ff0e884ec9ede" name="ace0dd0d8b93de9ce8a2ff0e884ec9ede"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace0dd0d8b93de9ce8a2ff0e884ec9ede">&#9670;&#160;</a></span>ThreadPool() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<div class="memtemplate">
+template&lt;bool D = IsDynamic, typename = std::enable_if_t&lt;!D&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::ThreadPool </td>
+          <td>(</td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>threadNum</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>maxQueueSize</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>固定模式构造函数（仅IsDynamic=false时可用） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">threadNum</td><td>固定线程数量（必须大于0，否则线程池初始化为停止状态） </td></tr>
+    <tr><td class="paramname">maxQueueSize</td><td>任务队列最大容量（0表示无限制，默认0） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>线程池初始化时会创建指定数量的工作线程 </dd></dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">无异常抛出（线程数为0时仅初始化停止状态）</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6b598cbc04430bce6cec00c5a466c3d4" name="a6b598cbc04430bce6cec00c5a466c3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b598cbc04430bce6cec00c5a466c3d4">&#9670;&#160;</a></span>ThreadPool() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<div class="memtemplate">
+template&lt;bool D = IsDynamic, typename = std::enable_if_t&lt;D&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::ThreadPool </td>
+          <td>(</td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>minThreadNum</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>maxThreadNum</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::thread::hardware_concurrency()</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>maxQueueSize</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::seconds</td>          <td class="paramname"><span class="paramname"><em>checkInterval</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::chrono::seconds(1)</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>动态模式构造函数（仅IsDynamic=true时可用） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">minThreadNum</td><td>最小线程数（默认0，实际会至少创建1个线程） </td></tr>
+    <tr><td class="paramname">maxThreadNum</td><td>最大线程数（默认CPU核心数） </td></tr>
+    <tr><td class="paramname">maxQueueSize</td><td>任务队列最大容量（0表示无限制，默认0） </td></tr>
+    <tr><td class="paramname">checkInterval</td><td>管理者线程检查间隔（秒，默认1秒） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>初始化时会创建minThreadNum个线程（若minThreadNum=0则创建1个;若minThreadNum=maxThreadNum=0则线程池初始化为停止状态） </dd></dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::invalid_argument</td><td>当 minThreadNum &gt; maxThreadNum 时抛出 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a08df835b4cf7704999c1711e4f31477a" name="a08df835b4cf7704999c1711e4f31477a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08df835b4cf7704999c1711e4f31477a">&#9670;&#160;</a></span>~ThreadPool()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::~<a class="el" href="classol_1_1_thread_pool.html">ThreadPool</a> </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+<dl class="section note"><dt>注解</dt><dd>自动调用stop()，等待所有任务完成并清理资源 </dd></dl>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">成员函数说明</h2>
+<a id="a43c4ab10427cb07ba2e54d02146ca524" name="a43c4ab10427cb07ba2e54d02146ca524"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43c4ab10427cb07ba2e54d02146ca524">&#9670;&#160;</a></span>addTask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::addTask </td>
+          <td>(</td>
+          <td class="paramtype">std::function&lt; void()&gt;</td>          <td class="paramname"><span class="paramname"><em>task</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>添加无返回值任务到线程池 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">task</td><td>待执行的任务（std::function&lt;void()&gt;类型） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>任务添加成功返回true，失败返回false（线程池已停止或队列满且策略为拒绝/超时） </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>线程安全，根据当前队列策略处理满队列情况 </dd></dl>
+<dl class="section warning"><dt>警告</dt><dd>如果任务有异常虽然会将异常输出到错误流，但推荐自己包装一下函数，设置异常处理函数 </dd></dl>
+
+</div>
+</div>
+<a id="a5e569574a2a1d8a28ba0a3428618e020" name="a5e569574a2a1d8a28ba0a3428618e020"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e569574a2a1d8a28ba0a3428618e020">&#9670;&#160;</a></span>getIdleThreadNum()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<div class="memtemplate">
+template&lt;bool D = IsDynamic, typename = std::enable_if_t&lt;D&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::getIdleThreadNum </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>动态模式特有：获取当前空闲线程数量 </p>
+<dl class="section return"><dt>返回</dt><dd>空闲线程数 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>仅IsDynamic=true时可用，原子操作确保线程安全 </dd></dl>
+
+</div>
+</div>
+<a id="aaaf3b544386236be46a5d68706f7032e" name="aaaf3b544386236be46a5d68706f7032e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaaf3b544386236be46a5d68706f7032e">&#9670;&#160;</a></span>getTaskNum()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::getTaskNum </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前等待执行的任务数量 </p>
+<dl class="section return"><dt>返回</dt><dd>任务队列中的任务数 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>线程安全，通过互斥锁保护队列访问 </dd></dl>
+
+</div>
+</div>
+<a id="ae6ad9887e3d55cc3cb06dfb1e0a63c24" name="ae6ad9887e3d55cc3cb06dfb1e0a63c24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6ad9887e3d55cc3cb06dfb1e0a63c24">&#9670;&#160;</a></span>getWorkerNum()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::getWorkerNum </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前工作线程数量 </p>
+<dl class="section return"><dt>返回</dt><dd>工作线程的实时数量 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>线程安全，通过互斥锁保护线程集合访问 </dd></dl>
+
+</div>
+</div>
+<a id="a7ff1d3f67739fdb05b5da589952447f2" name="a7ff1d3f67739fdb05b5da589952447f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ff1d3f67739fdb05b5da589952447f2">&#9670;&#160;</a></span>isRunning()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::isRunning </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>检查线程池是否处于运行状态 </p>
+<dl class="section return"><dt>返回</dt><dd>运行中返回true，已停止返回false </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>基于原子变量m_stop的状态判断，线程安全 </dd></dl>
+
+</div>
+</div>
+<a id="aa49c156140053ac1063f9681b3d58ab7" name="aa49c156140053ac1063f9681b3d58ab7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa49c156140053ac1063f9681b3d58ab7">&#9670;&#160;</a></span>manager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<div class="memtemplate">
+template&lt;bool D = IsDynamic, typename = std::enable_if_t&lt;D&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::manager </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>管理者线程主函数（仅动态模式可用） </p>
+<dl class="section note"><dt>注解</dt><dd>定期执行以下操作：<ol type="1">
+<li>清理已退出的工作线程对象</li>
+<li>根据任务负载和空闲线程数进行扩缩容：<ul>
+<li>扩容：任务数 &gt; 线程数*2 且未达最大线程数时创建新线程</li>
+<li>缩容：空闲线程 &gt; 线程总数的1/2 且超过最小线程数时销毁多余线程 </li>
+</ul>
+</li>
+</ol>
+</dd></dl>
+
+</div>
+</div>
+<a id="a50d8c665001aeb6dc1f7f54ccf6124fa" name="a50d8c665001aeb6dc1f7f54ccf6124fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50d8c665001aeb6dc1f7f54ccf6124fa">&#9670;&#160;</a></span>setBlockPolicy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::setBlockPolicy </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>设置任务队列满时的阻塞策略（等待直到队列有空闲位置） </p>
+<dl class="section note"><dt>注解</dt><dd>线程安全，通过互斥锁保护策略修改 </dd></dl>
+
+</div>
+</div>
+<a id="a92fbcc1a9f3879ba6d011fe8042fe675" name="a92fbcc1a9f3879ba6d011fe8042fe675"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92fbcc1a9f3879ba6d011fe8042fe675">&#9670;&#160;</a></span>setCheckInterval()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<div class="memtemplate">
+template&lt;bool D = IsDynamic, typename = std::enable_if_t&lt;D&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::setCheckInterval </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::seconds</td>          <td class="paramname"><span class="paramname"><em>interval</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>动态模式特有：设置管理者线程的检查间隔 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">interval</td><td>检查间隔（秒） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>仅IsDynamic=true时可用，用于调整扩缩容的响应速度 </dd></dl>
+
+</div>
+</div>
+<a id="aa8e3f419cf8172e16792e1d7bad2a38b" name="aa8e3f419cf8172e16792e1d7bad2a38b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8e3f419cf8172e16792e1d7bad2a38b">&#9670;&#160;</a></span>setRejectPolicy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::setRejectPolicy </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>设置任务队列满时的拒绝策略（新任务直接被拒绝） </p>
+<dl class="section note"><dt>注解</dt><dd>线程安全，通过互斥锁保护策略修改 </dd></dl>
+
+</div>
+</div>
+<a id="ab8039b578e14873d313d7c60c84fc141" name="ab8039b578e14873d313d7c60c84fc141"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8039b578e14873d313d7c60c84fc141">&#9670;&#160;</a></span>setTimeoutPolicy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::setTimeoutPolicy </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::milliseconds</td>          <td class="paramname"><span class="paramname"><em>timeoutMS</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>设置任务队列满时的超时等待策略 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">timeoutMS</td><td>超时时间（毫秒，必须大于0） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::invalid_argument</td><td>当timeoutMS &lt;= 0时抛出 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>线程安全，通过互斥锁保护策略和超时时间修改 </dd></dl>
+
+</div>
+</div>
+<a id="a08b1ce8586db5b411447fec9276386c8" name="a08b1ce8586db5b411447fec9276386c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08b1ce8586db5b411447fec9276386c8">&#9670;&#160;</a></span>stop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::stop </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>停止线程池并清理资源 </p>
+<dl class="section note"><dt>注解</dt><dd>多次调用安全，已停止状态下调用无效果 </dd>
+<dd>
+仅支持join模式，等待所有任务完成、所有线程安全退出后返回 </dd></dl>
+<dl class="section warning"><dt>警告</dt><dd>确保任务无外部临时资源依赖，避免join等待时出现资源释放竞态 </dd></dl>
+
+</div>
+</div>
+<a id="a4e88cb921b3fa31299c1c113d3705bfb" name="a4e88cb921b3fa31299c1c113d3705bfb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e88cb921b3fa31299c1c113d3705bfb">&#9670;&#160;</a></span>submitTask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<div class="memtemplate">
+template&lt;typename F, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::submitTask </td>
+          <td>(</td>
+          <td class="paramtype">F &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>f</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;) -&gt; std::pair&lt;bool, std::future&lt;typename std::invoke_result_t&lt;F, Args...&gt;&gt;&gt;
+        </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>提交带返回值的任务到线程池 </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">F</td><td>任务函数类型 </td></tr>
+    <tr><td class="paramname">Args</td><td>任务函数参数类型 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">f</td><td>任务函数 </td></tr>
+    <tr><td class="paramname">args</td><td>任务函数参数 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>pair&lt;是否成功添加任务的bool值, 包含任务返回值的std::future对象&gt; </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>若任务添加失败（bool为false），调用future.get()会抛出对应异常（线程池停止/队列满）； 若任务添加成功（bool为true），future.get()会返回任务结果或抛出任务自身的异常。 </dd>
+<dd>
+线程安全，内部调用addTask实现任务添加 </dd></dl>
+
+</div>
+</div>
+<a id="a3dfd7c2649dabf4e70882fe4b788206f" name="a3dfd7c2649dabf4e70882fe4b788206f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3dfd7c2649dabf4e70882fe4b788206f">&#9670;&#160;</a></span>worker()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::worker </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>工作线程主函数 </p>
+<dl class="section note"><dt>注解</dt><dd>循环从任务队列获取并执行任务，直到线程池停止或（动态模式下）收到退出指令 </dd>
+<dd>
+动态模式下会维护空闲线程计数，任务执行前后更新状态 </dd></dl>
+
+</div>
+</div>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">类成员变量说明</h2>
+<a id="a5ab9ba063c81d81bf38052ec98ada098" name="a5ab9ba063c81d81bf38052ec98ada098"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ab9ba063c81d81bf38052ec98ada098">&#9670;&#160;</a></span>m_activeWorkers</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic_size_t <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::m_activeWorkers</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>追踪活跃工作线程数 </p>
+
+</div>
+</div>
+<a id="a966d14f85bc602162990f30c720f7071" name="a966d14f85bc602162990f30c720f7071"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a966d14f85bc602162990f30c720f7071">&#9670;&#160;</a></span>m_dynamic</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::conditional_t&lt;IsDynamic, <a class="el" href="structol_1_1_thread_pool_1_1_dynamic_members.html">DynamicMembers</a>, <a class="el" href="structol_1_1_type_empty.html">TypeEmpty</a>&gt; <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::m_dynamic</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>动态模式成员 </p>
+
+</div>
+</div>
+<a id="aa91e95535c078ac1032105c8b6da25de" name="aa91e95535c078ac1032105c8b6da25de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa91e95535c078ac1032105c8b6da25de">&#9670;&#160;</a></span>m_maxQueueSize</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::m_maxQueueSize</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>最大队列容量 </p>
+
+</div>
+</div>
+<a id="a4c83c52488e87362113b148ffde1097d" name="a4c83c52488e87362113b148ffde1097d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c83c52488e87362113b148ffde1097d">&#9670;&#160;</a></span>m_queueFullPolicy</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ad2ba1d0d419e9cba2999bbb5196d4a37">QueueFullPolicy</a> <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::m_queueFullPolicy</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>队列满策略 </p>
+
+</div>
+</div>
+<a id="aa1e4f75ae1315f8b983e1a08b8e552c8" name="aa1e4f75ae1315f8b983e1a08b8e552c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1e4f75ae1315f8b983e1a08b8e552c8">&#9670;&#160;</a></span>m_stop</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic_bool <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::m_stop</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>停止标志 </p>
+
+</div>
+</div>
+<a id="a3ac6022a74a5caa1f4401c49697e5d68" name="a3ac6022a74a5caa1f4401c49697e5d68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ac6022a74a5caa1f4401c49697e5d68">&#9670;&#160;</a></span>m_taskQueue</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::queue&lt;std::function&lt;void()&gt; &gt; <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::m_taskQueue</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>任务队列 </p>
+
+</div>
+</div>
+<a id="a5ee67b3a1eae85550701bd8224be2788" name="a5ee67b3a1eae85550701bd8224be2788"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ee67b3a1eae85550701bd8224be2788">&#9670;&#160;</a></span>m_taskQueueMutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::m_taskQueueMutex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel mutable">mutable</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>保护任务队列的互斥锁 </p>
+
+</div>
+</div>
+<a id="a700b4f16c2d1c1bfda90624bc414884e" name="a700b4f16c2d1c1bfda90624bc414884e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a700b4f16c2d1c1bfda90624bc414884e">&#9670;&#160;</a></span>m_taskQueueNotEmpty_condVar</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::condition_variable <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::m_taskQueueNotEmpty_condVar</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>任务队列非空条件变量 </p>
+
+</div>
+</div>
+<a id="ae8c7ce0f199d378b65cdd5cdd0530d1b" name="ae8c7ce0f199d378b65cdd5cdd0530d1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8c7ce0f199d378b65cdd5cdd0530d1b">&#9670;&#160;</a></span>m_taskQueueNotFull_condVar</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::condition_variable <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::m_taskQueueNotFull_condVar</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>任务队列非满条件变量 </p>
+
+</div>
+</div>
+<a id="a72a21e3545fbe01ef463f57942e9fe8f" name="a72a21e3545fbe01ef463f57942e9fe8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72a21e3545fbe01ef463f57942e9fe8f">&#9670;&#160;</a></span>m_timeoutMS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::m_timeoutMS</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>超时时间（毫秒） </p>
+
+</div>
+</div>
+<a id="a53ce197f44320534e849bb579308e707" name="a53ce197f44320534e849bb579308e707"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53ce197f44320534e849bb579308e707">&#9670;&#160;</a></span>m_workers</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::conditional_t&lt;IsDynamic, std::unordered_map&lt;std::thread::id, std::thread&gt;, std::vector&lt;std::thread&gt; &gt; <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::m_workers</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>工作线程集合 </p>
+
+</div>
+</div>
+<a id="a78b7e22dca8e90df7e4eff0b50859f04" name="a78b7e22dca8e90df7e4eff0b50859f04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78b7e22dca8e90df7e4eff0b50859f04">&#9670;&#160;</a></span>m_workersMutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::m_workersMutex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel mutable">mutable</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>保护工作线程集合的互斥锁 </p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>ollib/include/<a class="el" href="ol___thread_pool_8h_source.html">ol_ThreadPool.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="namespaceol.html">ol</a></li><li class="navelem"><a href="classol_1_1_thread_pool.html">ThreadPool</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

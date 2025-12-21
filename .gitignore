@@ -37,8 +37,5 @@ logs/
 tmp/
 *.log
 
-# Doxygen
-Doxygen/
-
-# 第三方库（如果已包含在项目中，可忽略此行；若通过包管理安装，建议忽略）
-# third_party/
+# Doxygen_config
+OL_Doxygen

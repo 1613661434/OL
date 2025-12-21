@@ -1,0 +1,878 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ol::cqueue&lt; T, MAX_SIZE &gt; 模板类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('classol_1_1cqueue.html','','classol_1_1cqueue-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ol::cqueue&lt; T, MAX_SIZE &gt; 模板类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>循环队列模板类 基于静态数组实现，大小固定，支持高效的FIFO（先进先出）操作  
+ <a href="#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ol__cqueue_8h_source.html">ol_cqueue.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a2ae8eb7c922b6614d09479737588079c" id="r_a2ae8eb7c922b6614d09479737588079c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ae8eb7c922b6614d09479737588079c">cqueue</a> ()</td></tr>
+<tr class="memitem:aac99ba0da47b2c2675054faaa45656d4" id="r_aac99ba0da47b2c2675054faaa45656d4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aac99ba0da47b2c2675054faaa45656d4">~cqueue</a> ()</td></tr>
+<tr class="memitem:aec8b00a0aa6e0a153cb682b24603ec2c" id="r_aec8b00a0aa6e0a153cb682b24603ec2c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aec8b00a0aa6e0a153cb682b24603ec2c">cqueue</a> (<a class="el" href="classol_1_1cqueue.html">cqueue</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="memdesc:aec8b00a0aa6e0a153cb682b24603ec2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">移动构造函数  <br /></td></tr>
+<tr class="memitem:a7eba8b7ad4a9708841f028c8da1ea232" id="r_a7eba8b7ad4a9708841f028c8da1ea232"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classol_1_1cqueue.html">cqueue</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7eba8b7ad4a9708841f028c8da1ea232">operator=</a> (<a class="el" href="classol_1_1cqueue.html">cqueue</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="memdesc:a7eba8b7ad4a9708841f028c8da1ea232"><td class="mdescLeft">&#160;</td><td class="mdescRight">移动赋值运算符  <br /></td></tr>
+<tr class="memitem:a411b7faf0839d674ab1fdbfb749bc8e2" id="r_a411b7faf0839d674ab1fdbfb749bc8e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a411b7faf0839d674ab1fdbfb749bc8e2">init</a> ()</td></tr>
+<tr class="memdesc:a411b7faf0839d674ab1fdbfb749bc8e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化队列（仅未初始化时有效） 用于共享内存场景（不自动调用构造函数时）  <br /></td></tr>
+<tr class="memitem:ae125865a11fc17c348805966e8e461c0" id="r_ae125865a11fc17c348805966e8e461c0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae125865a11fc17c348805966e8e461c0">full</a> () const</td></tr>
+<tr class="memdesc:ae125865a11fc17c348805966e8e461c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断队列是否已满  <br /></td></tr>
+<tr class="memitem:a005eaad2063f7f74268a0924f5ccaa74" id="r_a005eaad2063f7f74268a0924f5ccaa74"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a005eaad2063f7f74268a0924f5ccaa74">empty</a> () const</td></tr>
+<tr class="memdesc:a005eaad2063f7f74268a0924f5ccaa74"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断队列是否为空  <br /></td></tr>
+<tr class="memitem:ae41a3fb6ee71f57c6fae344832ee560d" id="r_ae41a3fb6ee71f57c6fae344832ee560d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae41a3fb6ee71f57c6fae344832ee560d">push</a> (const T &amp;e)</td></tr>
+<tr class="memdesc:ae41a3fb6ee71f57c6fae344832ee560d"><td class="mdescLeft">&#160;</td><td class="mdescRight">元素入队（拷贝版本）  <br /></td></tr>
+<tr class="memitem:a09a4894b260d07ce02142edaddb9dde1" id="r_a09a4894b260d07ce02142edaddb9dde1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a09a4894b260d07ce02142edaddb9dde1">push</a> (T &amp;&amp;e)</td></tr>
+<tr class="memdesc:a09a4894b260d07ce02142edaddb9dde1"><td class="mdescLeft">&#160;</td><td class="mdescRight">元素入队（移动版本）  <br /></td></tr>
+<tr class="memitem:a84e01a21528fab956aca1f071c5552b0" id="r_a84e01a21528fab956aca1f071c5552b0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84e01a21528fab956aca1f071c5552b0">pop</a> ()</td></tr>
+<tr class="memdesc:a84e01a21528fab956aca1f071c5552b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">元素出队  <br /></td></tr>
+<tr class="memitem:adb3a526dc20118d66469624040cbcc77" id="r_adb3a526dc20118d66469624040cbcc77"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adb3a526dc20118d66469624040cbcc77">clear</a> ()</td></tr>
+<tr class="memdesc:adb3a526dc20118d66469624040cbcc77"><td class="mdescLeft">&#160;</td><td class="mdescRight">清空队列所有元素（重置队列状态） 对于非平凡析构类型，会显式调用元素的析构函数  <br /></td></tr>
+<tr class="memitem:ab5ad1f1c652d5bfe9c181a3b78d48ef7" id="r_ab5ad1f1c652d5bfe9c181a3b78d48ef7"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5ad1f1c652d5bfe9c181a3b78d48ef7">size</a> () const</td></tr>
+<tr class="memdesc:ab5ad1f1c652d5bfe9c181a3b78d48ef7"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取队列当前元素数量  <br /></td></tr>
+<tr class="memitem:a4ef8069c96fda089a1645c2b7dc55c37" id="r_a4ef8069c96fda089a1645c2b7dc55c37"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ef8069c96fda089a1645c2b7dc55c37">front</a> ()</td></tr>
+<tr class="memdesc:a4ef8069c96fda089a1645c2b7dc55c37"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取队头元素（非const版本）  <br /></td></tr>
+<tr class="memitem:a1eecddd146382d1a3faa5ec8fe2f9fa1" id="r_a1eecddd146382d1a3faa5ec8fe2f9fa1"><td class="memItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1eecddd146382d1a3faa5ec8fe2f9fa1">front</a> () const</td></tr>
+<tr class="memdesc:a1eecddd146382d1a3faa5ec8fe2f9fa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取队头元素（const版本）  <br /></td></tr>
+<tr class="memitem:a9a1f582765a656c3f51c8096b849797d" id="r_a9a1f582765a656c3f51c8096b849797d"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:a9a1f582765a656c3f51c8096b849797d template"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9a1f582765a656c3f51c8096b849797d">emplace</a> (Args &amp;&amp;... args)</td></tr>
+<tr class="memdesc:a9a1f582765a656c3f51c8096b849797d"><td class="mdescLeft">&#160;</td><td class="mdescRight">原地构造元素入队（直接在队列内存中构造对象）  <br /></td></tr>
+<tr class="memitem:a21e98b88a5bef49f05b7eb98333bdeda" id="r_a21e98b88a5bef49f05b7eb98333bdeda"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a21e98b88a5bef49f05b7eb98333bdeda">print</a> () const</td></tr>
+<tr class="memdesc:a21e98b88a5bef49f05b7eb98333bdeda"><td class="mdescLeft">&#160;</td><td class="mdescRight">打印队列中所有元素（调试用） 要求元素类型支持std::cout输出  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a3ccde80796148dda9a9caf5912fe4b33" id="r_a3ccde80796148dda9a9caf5912fe4b33"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ccde80796148dda9a9caf5912fe4b33">cqueue</a> (const <a class="el" href="classol_1_1cqueue.html">cqueue</a> &amp;)=delete</td></tr>
+<tr class="memitem:a19e94442553bee0b90cba96b03807582" id="r_a19e94442553bee0b90cba96b03807582"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classol_1_1cqueue.html">cqueue</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a19e94442553bee0b90cba96b03807582">operator=</a> (const <a class="el" href="classol_1_1cqueue.html">cqueue</a> &amp;)=delete</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a8fc3173c93982b4d1beb75d647be2bd8" id="r_a8fc3173c93982b4d1beb75d647be2bd8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8fc3173c93982b4d1beb75d647be2bd8">m_inited</a> = false</td></tr>
+<tr class="memitem:a9496d3f41469e234fae160217bfbf006" id="r_a9496d3f41469e234fae160217bfbf006"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9496d3f41469e234fae160217bfbf006">m_size</a> = 0</td></tr>
+<tr class="memitem:adb8bd6118b769270484de5cc00ff645c" id="r_adb8bd6118b769270484de5cc00ff645c"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adb8bd6118b769270484de5cc00ff645c">m_data</a> [MAX_SIZE]</td></tr>
+<tr class="memitem:a89212234fe4df87abaf803a3ecc9b4c0" id="r_a89212234fe4df87abaf803a3ecc9b4c0"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a89212234fe4df87abaf803a3ecc9b4c0">m_front</a> = 0</td></tr>
+<tr class="memitem:aa6d3339eb41ac5bad582e15bcd938611" id="r_aa6d3339eb41ac5bad582e15bcd938611"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6d3339eb41ac5bad582e15bcd938611">m_rear</a> = MAX_SIZE - 1</td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">详细描述</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;class T, size_t MAX_SIZE&gt;<br />
+class ol::cqueue&lt; T, MAX_SIZE &gt;</div><p>循环队列模板类 基于静态数组实现，大小固定，支持高效的FIFO（先进先出）操作 </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>队列中元素的数据类型 </td></tr>
+    <tr><td class="paramname">MAX_SIZE</td><td>队列的最大容量（必须大于0） </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
+<a id="a3ccde80796148dda9a9caf5912fe4b33" name="a3ccde80796148dda9a9caf5912fe4b33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ccde80796148dda9a9caf5912fe4b33">&#9670;&#160;</a></span>cqueue() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::cqueue </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classol_1_1cqueue.html">cqueue</a>&lt; T, MAX_SIZE &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2ae8eb7c922b6614d09479737588079c" name="a2ae8eb7c922b6614d09479737588079c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ae8eb7c922b6614d09479737588079c">&#9670;&#160;</a></span>cqueue() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::cqueue </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aac99ba0da47b2c2675054faaa45656d4" name="aac99ba0da47b2c2675054faaa45656d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac99ba0da47b2c2675054faaa45656d4">&#9670;&#160;</a></span>~cqueue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::~<a class="el" href="classol_1_1cqueue.html">cqueue</a> </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aec8b00a0aa6e0a153cb682b24603ec2c" name="aec8b00a0aa6e0a153cb682b24603ec2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec8b00a0aa6e0a153cb682b24603ec2c">&#9670;&#160;</a></span>cqueue() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::cqueue </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classol_1_1cqueue.html">cqueue</a>&lt; T, MAX_SIZE &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>移动构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>待移动的队列对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">成员函数说明</h2>
+<a id="adb3a526dc20118d66469624040cbcc77" name="adb3a526dc20118d66469624040cbcc77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb3a526dc20118d66469624040cbcc77">&#9670;&#160;</a></span>clear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::clear </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>清空队列所有元素（重置队列状态） 对于非平凡析构类型，会显式调用元素的析构函数 </p>
+
+</div>
+</div>
+<a id="a9a1f582765a656c3f51c8096b849797d" name="a9a1f582765a656c3f51c8096b849797d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a1f582765a656c3f51c8096b849797d">&#9670;&#160;</a></span>emplace()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<div class="memtemplate">
+template&lt;typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::emplace </td>
+          <td>(</td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>原地构造元素入队（直接在队列内存中构造对象） </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Args</td><td>构造函数参数类型列表 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">args</td><td>构造函数参数（转发引用） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>true-入队成功，false-队列已满入队失败 </dd></dl>
+
+</div>
+</div>
+<a id="a005eaad2063f7f74268a0924f5ccaa74" name="a005eaad2063f7f74268a0924f5ccaa74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a005eaad2063f7f74268a0924f5ccaa74">&#9670;&#160;</a></span>empty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::empty </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断队列是否为空 </p>
+<dl class="section return"><dt>返回</dt><dd>true-队列为空，false-队列非空 </dd></dl>
+
+</div>
+</div>
+<a id="a4ef8069c96fda089a1645c2b7dc55c37" name="a4ef8069c96fda089a1645c2b7dc55c37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ef8069c96fda089a1645c2b7dc55c37">&#9670;&#160;</a></span>front() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T &amp; <a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::front </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取队头元素（非const版本） </p>
+<dl class="section return"><dt>返回</dt><dd>队头元素的引用 </dd></dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>当队列为空时 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1eecddd146382d1a3faa5ec8fe2f9fa1" name="a1eecddd146382d1a3faa5ec8fe2f9fa1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1eecddd146382d1a3faa5ec8fe2f9fa1">&#9670;&#160;</a></span>front() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const T &amp; <a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::front </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取队头元素（const版本） </p>
+<dl class="section return"><dt>返回</dt><dd>队头元素的常量引用 </dd></dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>当队列为空时 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae125865a11fc17c348805966e8e461c0" name="ae125865a11fc17c348805966e8e461c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae125865a11fc17c348805966e8e461c0">&#9670;&#160;</a></span>full()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::full </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断队列是否已满 </p>
+<dl class="section return"><dt>返回</dt><dd>true-队列已满，false-队列未满 </dd></dl>
+
+</div>
+</div>
+<a id="a411b7faf0839d674ab1fdbfb749bc8e2" name="a411b7faf0839d674ab1fdbfb749bc8e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a411b7faf0839d674ab1fdbfb749bc8e2">&#9670;&#160;</a></span>init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::init </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>初始化队列（仅未初始化时有效） 用于共享内存场景（不自动调用构造函数时） </p>
+<dl class="section note"><dt>注解</dt><dd>如果用于共享内存的队列，不会调用构造函数，必须调用此函数初始化。 </dd></dl>
+
+</div>
+</div>
+<a id="a19e94442553bee0b90cba96b03807582" name="a19e94442553bee0b90cba96b03807582"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19e94442553bee0b90cba96b03807582">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1cqueue.html">cqueue</a> &amp; <a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classol_1_1cqueue.html">cqueue</a>&lt; T, MAX_SIZE &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7eba8b7ad4a9708841f028c8da1ea232" name="a7eba8b7ad4a9708841f028c8da1ea232"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7eba8b7ad4a9708841f028c8da1ea232">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1cqueue.html">cqueue</a> &amp; <a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classol_1_1cqueue.html">cqueue</a>&lt; T, MAX_SIZE &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>移动赋值运算符 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>待移动的队列对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>当前队列对象的引用 </dd></dl>
+
+</div>
+</div>
+<a id="a84e01a21528fab956aca1f071c5552b0" name="a84e01a21528fab956aca1f071c5552b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84e01a21528fab956aca1f071c5552b0">&#9670;&#160;</a></span>pop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::pop </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>元素出队 </p>
+<dl class="section return"><dt>返回</dt><dd>true-出队成功，false-队列为空出队失败 </dd></dl>
+
+</div>
+</div>
+<a id="a21e98b88a5bef49f05b7eb98333bdeda" name="a21e98b88a5bef49f05b7eb98333bdeda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21e98b88a5bef49f05b7eb98333bdeda">&#9670;&#160;</a></span>print()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::print </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>打印队列中所有元素（调试用） 要求元素类型支持std::cout输出 </p>
+
+</div>
+</div>
+<a id="ae41a3fb6ee71f57c6fae344832ee560d" name="ae41a3fb6ee71f57c6fae344832ee560d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae41a3fb6ee71f57c6fae344832ee560d">&#9670;&#160;</a></span>push() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::push </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;</td>          <td class="paramname"><span class="paramname"><em>e</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>元素入队（拷贝版本） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">e</td><td>待入队的元素（常量引用） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>true-入队成功，false-队列已满入队失败 </dd></dl>
+
+</div>
+</div>
+<a id="a09a4894b260d07ce02142edaddb9dde1" name="a09a4894b260d07ce02142edaddb9dde1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09a4894b260d07ce02142edaddb9dde1">&#9670;&#160;</a></span>push() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::push </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>e</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>元素入队（移动版本） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">e</td><td>待入队的元素（右值引用） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>true-入队成功，false-队列已满入队失败 </dd></dl>
+
+</div>
+</div>
+<a id="ab5ad1f1c652d5bfe9c181a3b78d48ef7" name="ab5ad1f1c652d5bfe9c181a3b78d48ef7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5ad1f1c652d5bfe9c181a3b78d48ef7">&#9670;&#160;</a></span>size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::size </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取队列当前元素数量 </p>
+<dl class="section return"><dt>返回</dt><dd>队列长度（&gt;=0） </dd></dl>
+
+</div>
+</div>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">类成员变量说明</h2>
+<a id="adb8bd6118b769270484de5cc00ff645c" name="adb8bd6118b769270484de5cc00ff645c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb8bd6118b769270484de5cc00ff645c">&#9670;&#160;</a></span>m_data</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T <a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::m_data[MAX_SIZE]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a89212234fe4df87abaf803a3ecc9b4c0" name="a89212234fe4df87abaf803a3ecc9b4c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89212234fe4df87abaf803a3ecc9b4c0">&#9670;&#160;</a></span>m_front</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::m_front = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8fc3173c93982b4d1beb75d647be2bd8" name="a8fc3173c93982b4d1beb75d647be2bd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fc3173c93982b4d1beb75d647be2bd8">&#9670;&#160;</a></span>m_inited</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::m_inited = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa6d3339eb41ac5bad582e15bcd938611" name="aa6d3339eb41ac5bad582e15bcd938611"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6d3339eb41ac5bad582e15bcd938611">&#9670;&#160;</a></span>m_rear</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::m_rear = MAX_SIZE - 1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9496d3f41469e234fae160217bfbf006" name="a9496d3f41469e234fae160217bfbf006"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9496d3f41469e234fae160217bfbf006">&#9670;&#160;</a></span>m_size</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, size_t MAX_SIZE&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classol_1_1cqueue.html">ol::cqueue</a>&lt; T, MAX_SIZE &gt;::m_size = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>ollib/include/<a class="el" href="ol__cqueue_8h_source.html">ol_cqueue.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="namespaceol.html">ol</a></li><li class="navelem"><a href="classol_1_1cqueue.html">cqueue</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

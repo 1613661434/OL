@@ -1,0 +1,449 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ollib/include/ol_cqueue.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('ol__cqueue_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ol_cqueue.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ol__cqueue_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/****************************************************************************************/</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">/*</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> * 程序名：ol_cqueue.h</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> * 功能描述：固定大小的循环队列（circular queue）模板类，支持以下特性：</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> *          - 基于静态数组实现，大小由模板参数指定</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> *          - 支持POD类型和非POD类型，自动适配内存管理</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> *          - 提供入队、出队、查看队头、判断空满等基础操作</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> *          - 支持移动构造和移动赋值，禁用拷贝构造和赋值（避免资源冲突）</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> *          - 支持原地构造元素（emplace）以提升性能</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> * 作者：ol</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> * 适用标准：C++11及以上（需支持constexpr、type_traits、右值引用等特性）</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">/****************************************************************************************/</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#ifndef OL_CQUEUE_H</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#define OL_CQUEUE_H 1</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &lt;stdexcept&gt;</span>   <span class="comment">// 用于std::out_of_range</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &lt;string.h&gt;</span>    <span class="comment">// 用于memset</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#include &lt;type_traits&gt;</span> <span class="comment">// 用于std::is_pod</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#include &lt;utility&gt;</span>     <span class="comment">// 用于std::move、std::forward</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceol.html">ol</a></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>{</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keyword">template</span> &lt;<span class="keyword">class</span> T, <span class="keywordtype">size_t</span> MAX_SIZE&gt;</div>
+<div class="foldopen" id="foldopen00034" data-start="{" data-end="};">
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html">   34</a></span>    <span class="keyword">class </span><a class="code hl_function" href="classol_1_1cqueue.html#a3ccde80796148dda9a9caf5912fe4b33">cqueue</a></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    {</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keyword">static_assert</span>(MAX_SIZE &gt; 0, <span class="stringliteral">&quot;MAX_SIZE must be greater than 0&quot;</span>);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#a8fc3173c93982b4d1beb75d647be2bd8">   38</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="classol_1_1cqueue.html#a8fc3173c93982b4d1beb75d647be2bd8">m_inited</a> = <span class="keyword">false</span>;        <span class="comment">// 队列被初始化标志，true-已初始化；false-未初始化。</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#a9496d3f41469e234fae160217bfbf006">   39</a></span>        <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classol_1_1cqueue.html#a9496d3f41469e234fae160217bfbf006">m_size</a> = 0;            <span class="comment">// 队列的实际长度。</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#adb8bd6118b769270484de5cc00ff645c">   40</a></span>        T <a class="code hl_variable" href="classol_1_1cqueue.html#adb8bd6118b769270484de5cc00ff645c">m_data</a>[MAX_SIZE];           <span class="comment">// 用数组存储循环队列中的元素。</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#a89212234fe4df87abaf803a3ecc9b4c0">   41</a></span>        <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classol_1_1cqueue.html#a89212234fe4df87abaf803a3ecc9b4c0">m_front</a> = 0;           <span class="comment">// 队列的头指针。</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#aa6d3339eb41ac5bad582e15bcd938611">   42</a></span>        <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classol_1_1cqueue.html#aa6d3339eb41ac5bad582e15bcd938611">m_rear</a> = MAX_SIZE - 1; <span class="comment">// 队列的尾指针，指向队尾元素。</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#a3ccde80796148dda9a9caf5912fe4b33">   44</a></span>        <a class="code hl_function" href="classol_1_1cqueue.html#a3ccde80796148dda9a9caf5912fe4b33">cqueue</a>(<span class="keyword">const</span> <a class="code hl_function" href="classol_1_1cqueue.html#a3ccde80796148dda9a9caf5912fe4b33">cqueue</a>&amp;) = <span class="keyword">delete</span>;            <span class="comment">// 禁用拷贝构造函数。</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#a19e94442553bee0b90cba96b03807582">   45</a></span>        <a class="code hl_function" href="classol_1_1cqueue.html#a3ccde80796148dda9a9caf5912fe4b33">cqueue</a>&amp; <a class="code hl_function" href="classol_1_1cqueue.html#a19e94442553bee0b90cba96b03807582">operator=</a>(<span class="keyword">const</span> <a class="code hl_function" href="classol_1_1cqueue.html#a3ccde80796148dda9a9caf5912fe4b33">cqueue</a>&amp;) = <span class="keyword">delete</span>; <span class="comment">// 禁用赋值函数。</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="comment">// 构造函数，自动初始化队列</span></div>
+<div class="foldopen" id="foldopen00049" data-start="{" data-end="}">
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#a2ae8eb7c922b6614d09479737588079c">   49</a></span>        <a class="code hl_function" href="classol_1_1cqueue.html#a2ae8eb7c922b6614d09479737588079c">cqueue</a>()</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        {</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            <a class="code hl_function" href="classol_1_1cqueue.html#a411b7faf0839d674ab1fdbfb749bc8e2">init</a>();</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        }</div>
+</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <span class="comment">// 析构函数，释放资源（非平凡析构类型需手动调用析构函数）</span></div>
+<div class="foldopen" id="foldopen00055" data-start="{" data-end="}">
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#aac99ba0da47b2c2675054faaa45656d4">   55</a></span>        <a class="code hl_function" href="classol_1_1cqueue.html#aac99ba0da47b2c2675054faaa45656d4">~cqueue</a>()</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="classol_1_1cqueue.html#a8fc3173c93982b4d1beb75d647be2bd8">m_inited</a> == <span class="keyword">true</span>)</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            {</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                <span class="comment">// 非可平凡复制类型需要手动调用析构函数</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (!std::is_trivially_destructible_v&lt;T&gt;)</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code hl_variable" href="classol_1_1cqueue.html#a9496d3f41469e234fae160217bfbf006">m_size</a>; ++i)</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                    {</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                        <span class="keywordtype">size_t</span> index = (<a class="code hl_variable" href="classol_1_1cqueue.html#a89212234fe4df87abaf803a3ecc9b4c0">m_front</a> + i) % MAX_SIZE;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                        <a class="code hl_variable" href="classol_1_1cqueue.html#adb8bd6118b769270484de5cc00ff645c">m_data</a>[index].~T(); <span class="comment">// 显式调用析构函数</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                    }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>                }</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            }</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        }</div>
+</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span></div>
+<div class="foldopen" id="foldopen00075" data-start="{" data-end="}">
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#aec8b00a0aa6e0a153cb682b24603ec2c">   75</a></span>        <a class="code hl_function" href="classol_1_1cqueue.html#aec8b00a0aa6e0a153cb682b24603ec2c">cqueue</a>(<a class="code hl_function" href="classol_1_1cqueue.html#a3ccde80796148dda9a9caf5912fe4b33">cqueue</a>&amp;&amp; other) noexcept</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            : <a class="code hl_variable" href="classol_1_1cqueue.html#a8fc3173c93982b4d1beb75d647be2bd8">m_inited</a>(other.m_inited),</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>              <a class="code hl_variable" href="classol_1_1cqueue.html#a9496d3f41469e234fae160217bfbf006">m_size</a>(other.m_size),</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>              <a class="code hl_variable" href="classol_1_1cqueue.html#a89212234fe4df87abaf803a3ecc9b4c0">m_front</a>(other.m_front),</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>              <a class="code hl_variable" href="classol_1_1cqueue.html#aa6d3339eb41ac5bad582e15bcd938611">m_rear</a>(other.m_rear)</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        {</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="classol_1_1cqueue.html#a8fc3173c93982b4d1beb75d647be2bd8">m_inited</a> == <span class="keyword">true</span>)</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            {</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>                <span class="comment">// 移动可平凡复制类型：直接内存拷贝</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>                <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_trivially_copyable_v&lt;T&gt;)</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>                {</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>                    memcpy(<a class="code hl_variable" href="classol_1_1cqueue.html#adb8bd6118b769270484de5cc00ff645c">m_data</a>, other.m_data, MAX_SIZE * <span class="keyword">sizeof</span>(T));</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>                }</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>                <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>                {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                    <span class="comment">// 非可平凡复制类型：逐个移动</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>                    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; other.m_size; ++i)</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                    {</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                        <span class="keywordtype">size_t</span> src_idx = (other.m_front + i) % MAX_SIZE;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                        <span class="keywordtype">size_t</span> dst_idx = (<a class="code hl_variable" href="classol_1_1cqueue.html#a89212234fe4df87abaf803a3ecc9b4c0">m_front</a> + i) % MAX_SIZE;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                        <a class="code hl_variable" href="classol_1_1cqueue.html#adb8bd6118b769270484de5cc00ff645c">m_data</a>[dst_idx] = std::move(other.m_data[src_idx]);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                    }</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>                }</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>                <span class="comment">// 清空原队列</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>                other.m_inited = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                other.m_size = 0;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>            }</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        }</div>
+</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span></div>
+<div class="foldopen" id="foldopen00109" data-start="{" data-end="}">
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#a7eba8b7ad4a9708841f028c8da1ea232">  109</a></span>        <a class="code hl_function" href="classol_1_1cqueue.html#a3ccde80796148dda9a9caf5912fe4b33">cqueue</a>&amp; <a class="code hl_function" href="classol_1_1cqueue.html#a7eba8b7ad4a9708841f028c8da1ea232">operator=</a>(<a class="code hl_function" href="classol_1_1cqueue.html#a3ccde80796148dda9a9caf5912fe4b33">cqueue</a>&amp;&amp; other) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        {</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>            <span class="keywordflow">if</span> (<span class="keyword">this</span> != &amp;other)</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>            {</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>                <span class="comment">// 先释放当前队列的资源</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="classol_1_1cqueue.html#a8fc3173c93982b4d1beb75d647be2bd8">m_inited</a> == <span class="keyword">true</span>)</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>                {</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>                    <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (!std::is_trivially_destructible_v&lt;T&gt;)</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>                    {</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>                        <span class="comment">// 非可平凡析构类型：手动调用析构函数</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>                        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code hl_variable" href="classol_1_1cqueue.html#a9496d3f41469e234fae160217bfbf006">m_size</a>; ++i)</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>                        {</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>                            <span class="keywordtype">size_t</span> index = (<a class="code hl_variable" href="classol_1_1cqueue.html#a89212234fe4df87abaf803a3ecc9b4c0">m_front</a> + i) % MAX_SIZE;</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>                            <a class="code hl_variable" href="classol_1_1cqueue.html#adb8bd6118b769270484de5cc00ff645c">m_data</a>[index].~T(); <span class="comment">// 显式调用析构函数</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>                        }</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>                    }</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>                    <span class="comment">// 无论是否可平凡析构，都需要重置状态</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>                    <a class="code hl_variable" href="classol_1_1cqueue.html#a8fc3173c93982b4d1beb75d647be2bd8">m_inited</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>                    <a class="code hl_variable" href="classol_1_1cqueue.html#a9496d3f41469e234fae160217bfbf006">m_size</a> = 0;</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>                    <a class="code hl_variable" href="classol_1_1cqueue.html#a89212234fe4df87abaf803a3ecc9b4c0">m_front</a> = 0;</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                    <a class="code hl_variable" href="classol_1_1cqueue.html#aa6d3339eb41ac5bad582e15bcd938611">m_rear</a> = MAX_SIZE - 1;</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>                }</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>                <span class="comment">// 移动其他队列的资源</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>                <a class="code hl_variable" href="classol_1_1cqueue.html#a8fc3173c93982b4d1beb75d647be2bd8">m_inited</a> = other.m_inited;</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>                <a class="code hl_variable" href="classol_1_1cqueue.html#a9496d3f41469e234fae160217bfbf006">m_size</a> = other.m_size;</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>                <a class="code hl_variable" href="classol_1_1cqueue.html#a89212234fe4df87abaf803a3ecc9b4c0">m_front</a> = other.m_front;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>                <a class="code hl_variable" href="classol_1_1cqueue.html#aa6d3339eb41ac5bad582e15bcd938611">m_rear</a> = other.m_rear;</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="classol_1_1cqueue.html#a8fc3173c93982b4d1beb75d647be2bd8">m_inited</a> == <span class="keyword">true</span>)</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>                {</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>                    <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_trivially_copyable_v&lt;T&gt;)</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>                    {</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>                        <span class="comment">// 可平凡复制类型：直接内存拷贝</span></div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>                        memcpy(<a class="code hl_variable" href="classol_1_1cqueue.html#adb8bd6118b769270484de5cc00ff645c">m_data</a>, other.m_data, MAX_SIZE * <span class="keyword">sizeof</span>(T));</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>                    }</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>                    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>                    {</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>                        <span class="comment">// 非可平凡复制类型：逐个移动元素</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>                        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; other.m_size; ++i)</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>                        {</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>                            <span class="keywordtype">size_t</span> src_idx = (other.m_front + i) % MAX_SIZE;</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>                            <span class="keywordtype">size_t</span> dst_idx = (<a class="code hl_variable" href="classol_1_1cqueue.html#a89212234fe4df87abaf803a3ecc9b4c0">m_front</a> + i) % MAX_SIZE;</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>                            <a class="code hl_variable" href="classol_1_1cqueue.html#adb8bd6118b769270484de5cc00ff645c">m_data</a>[dst_idx] = std::move(other.m_data[src_idx]);</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>                        }</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>                    }</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>                    <span class="comment">// 清空原队列</span></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>                    other.m_inited = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>                    other.m_size = 0;</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>                }</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>            }</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>            <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        }</div>
+</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span></div>
+<div class="foldopen" id="foldopen00168" data-start="{" data-end="}">
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#a411b7faf0839d674ab1fdbfb749bc8e2">  168</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1cqueue.html#a411b7faf0839d674ab1fdbfb749bc8e2">init</a>()</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        {</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="classol_1_1cqueue.html#a8fc3173c93982b4d1beb75d647be2bd8">m_inited</a> == <span class="keyword">true</span>) <span class="keywordflow">return</span>; <span class="comment">// 循环队列的初始化只能执行一次。</span></div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>            <a class="code hl_variable" href="classol_1_1cqueue.html#a8fc3173c93982b4d1beb75d647be2bd8">m_inited</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>            <a class="code hl_variable" href="classol_1_1cqueue.html#a89212234fe4df87abaf803a3ecc9b4c0">m_front</a> = 0;           <span class="comment">// 头指针。</span></div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>            <a class="code hl_variable" href="classol_1_1cqueue.html#aa6d3339eb41ac5bad582e15bcd938611">m_rear</a> = MAX_SIZE - 1; <span class="comment">// 为了方便写代码，初始化时，尾指针指向队列的最后一个位置。</span></div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>            <a class="code hl_variable" href="classol_1_1cqueue.html#a9496d3f41469e234fae160217bfbf006">m_size</a> = 0;            <span class="comment">// 队列的实际长度。</span></div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span> </div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>            <span class="comment">// 数组元素初始化。</span></div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>            <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_trivially_copyable_v&lt;T&gt;)</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>            {</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>                <span class="comment">// 可平凡复制类型专用初始化（效率优先）</span></div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>                memset(<a class="code hl_variable" href="classol_1_1cqueue.html#adb8bd6118b769270484de5cc00ff645c">m_data</a>, 0, <span class="keyword">sizeof</span>(<a class="code hl_variable" href="classol_1_1cqueue.html#adb8bd6118b769270484de5cc00ff645c">m_data</a>));</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>            }</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>            <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>            {</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>                <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; MAX_SIZE; ++i)</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>                {</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>                    <span class="comment">// 非可平凡复制类型通用初始化</span></div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>                    <a class="code hl_variable" href="classol_1_1cqueue.html#adb8bd6118b769270484de5cc00ff645c">m_data</a>[i] = T(); <span class="comment">// 调用默认构造函数</span></div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>                }</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>            }</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>        }</div>
+</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span></div>
+<div class="foldopen" id="foldopen00196" data-start="{" data-end="}">
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#ae125865a11fc17c348805966e8e461c0">  196</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1cqueue.html#ae125865a11fc17c348805966e8e461c0">full</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="classol_1_1cqueue.html#a9496d3f41469e234fae160217bfbf006">m_size</a> == MAX_SIZE;</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>        }</div>
+</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span></div>
+<div class="foldopen" id="foldopen00205" data-start="{" data-end="}">
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#a005eaad2063f7f74268a0924f5ccaa74">  205</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1cqueue.html#a005eaad2063f7f74268a0924f5ccaa74">empty</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="classol_1_1cqueue.html#a9496d3f41469e234fae160217bfbf006">m_size</a> == 0;</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>        }</div>
+</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span></div>
+<div class="foldopen" id="foldopen00215" data-start="{" data-end="}">
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">  215</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(<span class="keyword">const</span> T&amp; e)</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>        {</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="classol_1_1cqueue.html#ae125865a11fc17c348805966e8e461c0">full</a>())</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>            {</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>                std::cerr &lt;&lt; <span class="stringliteral">&quot;Circular queue is full, enqueue failed.\n&quot;</span>;</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>            }</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span> </div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>            <span class="comment">// 先移动队尾指针，然后再拷贝数据。</span></div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>            <a class="code hl_variable" href="classol_1_1cqueue.html#aa6d3339eb41ac5bad582e15bcd938611">m_rear</a> = (<a class="code hl_variable" href="classol_1_1cqueue.html#aa6d3339eb41ac5bad582e15bcd938611">m_rear</a> + 1) % MAX_SIZE; <span class="comment">// 队尾指针后移。</span></div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>            <a class="code hl_variable" href="classol_1_1cqueue.html#adb8bd6118b769270484de5cc00ff645c">m_data</a>[<a class="code hl_variable" href="classol_1_1cqueue.html#aa6d3339eb41ac5bad582e15bcd938611">m_rear</a>] = e;</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>            ++<a class="code hl_variable" href="classol_1_1cqueue.html#a9496d3f41469e234fae160217bfbf006">m_size</a>;</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span> </div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>        }</div>
+</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span></div>
+<div class="foldopen" id="foldopen00236" data-start="{" data-end="}">
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#a09a4894b260d07ce02142edaddb9dde1">  236</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1cqueue.html#a09a4894b260d07ce02142edaddb9dde1">push</a>(T&amp;&amp; e)</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>        {</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="classol_1_1cqueue.html#ae125865a11fc17c348805966e8e461c0">full</a>())</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>            {</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>                std::cerr &lt;&lt; <span class="stringliteral">&quot;Circular queue is full, enqueue failed.\n&quot;</span>;</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>            }</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>            <a class="code hl_variable" href="classol_1_1cqueue.html#aa6d3339eb41ac5bad582e15bcd938611">m_rear</a> = (<a class="code hl_variable" href="classol_1_1cqueue.html#aa6d3339eb41ac5bad582e15bcd938611">m_rear</a> + 1) % MAX_SIZE;</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>            <a class="code hl_variable" href="classol_1_1cqueue.html#adb8bd6118b769270484de5cc00ff645c">m_data</a>[<a class="code hl_variable" href="classol_1_1cqueue.html#aa6d3339eb41ac5bad582e15bcd938611">m_rear</a>] = std::move(e);</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>            ++<a class="code hl_variable" href="classol_1_1cqueue.html#a9496d3f41469e234fae160217bfbf006">m_size</a>;</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>        }</div>
+</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span></div>
+<div class="foldopen" id="foldopen00253" data-start="{" data-end="}">
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#a84e01a21528fab956aca1f071c5552b0">  253</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1cqueue.html#a84e01a21528fab956aca1f071c5552b0">pop</a>()</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>        {</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="classol_1_1cqueue.html#a005eaad2063f7f74268a0924f5ccaa74">empty</a>()) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span> </div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>            <a class="code hl_variable" href="classol_1_1cqueue.html#a89212234fe4df87abaf803a3ecc9b4c0">m_front</a> = (<a class="code hl_variable" href="classol_1_1cqueue.html#a89212234fe4df87abaf803a3ecc9b4c0">m_front</a> + 1) % MAX_SIZE; <span class="comment">// 队列头指针后移。</span></div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>            --<a class="code hl_variable" href="classol_1_1cqueue.html#a9496d3f41469e234fae160217bfbf006">m_size</a>;</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span> </div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>        }</div>
+</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span></div>
+<div class="foldopen" id="foldopen00267" data-start="{" data-end="}">
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#adb3a526dc20118d66469624040cbcc77">  267</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1cqueue.html#adb3a526dc20118d66469624040cbcc77">clear</a>()</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>        {</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>            <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classol_1_1cqueue.html#a8fc3173c93982b4d1beb75d647be2bd8">m_inited</a> || <a class="code hl_function" href="classol_1_1cqueue.html#a005eaad2063f7f74268a0924f5ccaa74">empty</a>()) <span class="keywordflow">return</span>; <span class="comment">// 未初始化或已空则直接返回</span></div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span> </div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>            <span class="comment">// 处理非平凡析构类型：需要显式调用每个元素的析构函数</span></div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>            <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (!std::is_trivially_destructible_v&lt;T&gt;)</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>            {</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>                <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code hl_variable" href="classol_1_1cqueue.html#a9496d3f41469e234fae160217bfbf006">m_size</a>; ++i)</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>                {</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>                    <span class="keywordtype">size_t</span> index = (<a class="code hl_variable" href="classol_1_1cqueue.html#a89212234fe4df87abaf803a3ecc9b4c0">m_front</a> + i) % MAX_SIZE;</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>                    <a class="code hl_variable" href="classol_1_1cqueue.html#adb8bd6118b769270484de5cc00ff645c">m_data</a>[index].~T(); <span class="comment">// 显式析构元素</span></div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>                }</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>            }</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span> </div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>            <span class="comment">// 重置队列状态（无需清空数组内存，后续操作会覆盖）</span></div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>            <a class="code hl_variable" href="classol_1_1cqueue.html#a89212234fe4df87abaf803a3ecc9b4c0">m_front</a> = 0;</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>            <a class="code hl_variable" href="classol_1_1cqueue.html#aa6d3339eb41ac5bad582e15bcd938611">m_rear</a> = MAX_SIZE - 1;</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>            <a class="code hl_variable" href="classol_1_1cqueue.html#a9496d3f41469e234fae160217bfbf006">m_size</a> = 0;</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>        }</div>
+</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span></div>
+<div class="foldopen" id="foldopen00291" data-start="{" data-end="}">
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#ab5ad1f1c652d5bfe9c181a3b78d48ef7">  291</a></span>        <span class="keywordtype">size_t</span> <a class="code hl_function" href="classol_1_1cqueue.html#ab5ad1f1c652d5bfe9c181a3b78d48ef7">size</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="classol_1_1cqueue.html#a9496d3f41469e234fae160217bfbf006">m_size</a>;</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>        }</div>
+</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span></div>
+<div class="foldopen" id="foldopen00301" data-start="{" data-end="}">
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#a4ef8069c96fda089a1645c2b7dc55c37">  301</a></span>        T&amp; <a class="code hl_function" href="classol_1_1cqueue.html#a4ef8069c96fda089a1645c2b7dc55c37">front</a>()</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>        {</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="classol_1_1cqueue.html#a005eaad2063f7f74268a0924f5ccaa74">empty</a>()) <span class="keywordflow">throw</span> std::out_of_range(<span class="stringliteral">&quot;Circular queue is empty&quot;</span>);</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="classol_1_1cqueue.html#adb8bd6118b769270484de5cc00ff645c">m_data</a>[<a class="code hl_variable" href="classol_1_1cqueue.html#a89212234fe4df87abaf803a3ecc9b4c0">m_front</a>];</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>        }</div>
+</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span></div>
+<div class="foldopen" id="foldopen00312" data-start="{" data-end="}">
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#a1eecddd146382d1a3faa5ec8fe2f9fa1">  312</a></span>        <span class="keyword">const</span> T&amp; <a class="code hl_function" href="classol_1_1cqueue.html#a1eecddd146382d1a3faa5ec8fe2f9fa1">front</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="classol_1_1cqueue.html#a005eaad2063f7f74268a0924f5ccaa74">empty</a>()) <span class="keywordflow">throw</span> std::out_of_range(<span class="stringliteral">&quot;Circular queue is empty&quot;</span>);</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="classol_1_1cqueue.html#adb8bd6118b769270484de5cc00ff645c">m_data</a>[<a class="code hl_variable" href="classol_1_1cqueue.html#a89212234fe4df87abaf803a3ecc9b4c0">m_front</a>];</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>        }</div>
+</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span></div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Args&gt;</div>
+<div class="foldopen" id="foldopen00325" data-start="{" data-end="}">
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#a9a1f582765a656c3f51c8096b849797d">  325</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1cqueue.html#a9a1f582765a656c3f51c8096b849797d">emplace</a>(Args&amp;&amp;... args)</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>        {</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="classol_1_1cqueue.html#ae125865a11fc17c348805966e8e461c0">full</a>())</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>            {</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>                std::cerr &lt;&lt; <span class="stringliteral">&quot;Circular queue is full, enqueue failed.\n&quot;</span>;</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>            }</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>            <a class="code hl_variable" href="classol_1_1cqueue.html#aa6d3339eb41ac5bad582e15bcd938611">m_rear</a> = (<a class="code hl_variable" href="classol_1_1cqueue.html#aa6d3339eb41ac5bad582e15bcd938611">m_rear</a> + 1) % MAX_SIZE;</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>            <span class="keyword">new</span> (&amp;<a class="code hl_variable" href="classol_1_1cqueue.html#adb8bd6118b769270484de5cc00ff645c">m_data</a>[<a class="code hl_variable" href="classol_1_1cqueue.html#aa6d3339eb41ac5bad582e15bcd938611">m_rear</a>]) T(std::forward&lt;Args&gt;(args)...);</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>            ++<a class="code hl_variable" href="classol_1_1cqueue.html#a9496d3f41469e234fae160217bfbf006">m_size</a>;</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>        }</div>
+</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span></div>
+<div class="foldopen" id="foldopen00342" data-start="{" data-end="}">
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno"><a class="line" href="classol_1_1cqueue.html#a21e98b88a5bef49f05b7eb98333bdeda">  342</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1cqueue.html#a21e98b88a5bef49f05b7eb98333bdeda">print</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code hl_function" href="classol_1_1cqueue.html#ab5ad1f1c652d5bfe9c181a3b78d48ef7">size</a>(); ++i)</div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>            {</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>                std::cout &lt;&lt; <span class="stringliteral">&quot;m_data[&quot;</span> &lt;&lt; (<a class="code hl_variable" href="classol_1_1cqueue.html#a89212234fe4df87abaf803a3ecc9b4c0">m_front</a> + i) % MAX_SIZE &lt;&lt; <span class="stringliteral">&quot;],value=&quot;</span></div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>                          &lt;&lt; <a class="code hl_variable" href="classol_1_1cqueue.html#adb8bd6118b769270484de5cc00ff645c">m_data</a>[(<a class="code hl_variable" href="classol_1_1cqueue.html#a89212234fe4df87abaf803a3ecc9b4c0">m_front</a> + i) % MAX_SIZE] &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>            }</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>        }</div>
+</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>    };</div>
+</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span> </div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>} <span class="comment">// namespace ol</span></div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span> </div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span><span class="preprocessor">#endif </span><span class="comment">// !OL_CQUEUE_H</span></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a005eaad2063f7f74268a0924f5ccaa74"><div class="ttname"><a href="classol_1_1cqueue.html#a005eaad2063f7f74268a0924f5ccaa74">ol::cqueue::empty</a></div><div class="ttdeci">bool empty() const</div><div class="ttdoc">判断队列是否为空</div><div class="ttdef"><b>定义</b> ol_cqueue.h:205</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a09a4894b260d07ce02142edaddb9dde1"><div class="ttname"><a href="classol_1_1cqueue.html#a09a4894b260d07ce02142edaddb9dde1">ol::cqueue::push</a></div><div class="ttdeci">bool push(T &amp;&amp;e)</div><div class="ttdoc">元素入队（移动版本）</div><div class="ttdef"><b>定义</b> ol_cqueue.h:236</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a19e94442553bee0b90cba96b03807582"><div class="ttname"><a href="classol_1_1cqueue.html#a19e94442553bee0b90cba96b03807582">ol::cqueue::operator=</a></div><div class="ttdeci">cqueue &amp; operator=(const cqueue &amp;)=delete</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a1eecddd146382d1a3faa5ec8fe2f9fa1"><div class="ttname"><a href="classol_1_1cqueue.html#a1eecddd146382d1a3faa5ec8fe2f9fa1">ol::cqueue::front</a></div><div class="ttdeci">const T &amp; front() const</div><div class="ttdoc">获取队头元素（const版本）</div><div class="ttdef"><b>定义</b> ol_cqueue.h:312</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a21e98b88a5bef49f05b7eb98333bdeda"><div class="ttname"><a href="classol_1_1cqueue.html#a21e98b88a5bef49f05b7eb98333bdeda">ol::cqueue::print</a></div><div class="ttdeci">void print() const</div><div class="ttdoc">打印队列中所有元素（调试用） 要求元素类型支持std::cout输出</div><div class="ttdef"><b>定义</b> ol_cqueue.h:342</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a2ae8eb7c922b6614d09479737588079c"><div class="ttname"><a href="classol_1_1cqueue.html#a2ae8eb7c922b6614d09479737588079c">ol::cqueue::cqueue</a></div><div class="ttdeci">cqueue()</div><div class="ttdef"><b>定义</b> ol_cqueue.h:49</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a3ccde80796148dda9a9caf5912fe4b33"><div class="ttname"><a href="classol_1_1cqueue.html#a3ccde80796148dda9a9caf5912fe4b33">ol::cqueue::cqueue</a></div><div class="ttdeci">cqueue(const cqueue &amp;)=delete</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a411b7faf0839d674ab1fdbfb749bc8e2"><div class="ttname"><a href="classol_1_1cqueue.html#a411b7faf0839d674ab1fdbfb749bc8e2">ol::cqueue::init</a></div><div class="ttdeci">void init()</div><div class="ttdoc">初始化队列（仅未初始化时有效） 用于共享内存场景（不自动调用构造函数时）</div><div class="ttdef"><b>定义</b> ol_cqueue.h:168</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a4ef8069c96fda089a1645c2b7dc55c37"><div class="ttname"><a href="classol_1_1cqueue.html#a4ef8069c96fda089a1645c2b7dc55c37">ol::cqueue::front</a></div><div class="ttdeci">T &amp; front()</div><div class="ttdoc">获取队头元素（非const版本）</div><div class="ttdef"><b>定义</b> ol_cqueue.h:301</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a7eba8b7ad4a9708841f028c8da1ea232"><div class="ttname"><a href="classol_1_1cqueue.html#a7eba8b7ad4a9708841f028c8da1ea232">ol::cqueue::operator=</a></div><div class="ttdeci">cqueue &amp; operator=(cqueue &amp;&amp;other) noexcept</div><div class="ttdoc">移动赋值运算符</div><div class="ttdef"><b>定义</b> ol_cqueue.h:109</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a84e01a21528fab956aca1f071c5552b0"><div class="ttname"><a href="classol_1_1cqueue.html#a84e01a21528fab956aca1f071c5552b0">ol::cqueue::pop</a></div><div class="ttdeci">bool pop()</div><div class="ttdoc">元素出队</div><div class="ttdef"><b>定义</b> ol_cqueue.h:253</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a89212234fe4df87abaf803a3ecc9b4c0"><div class="ttname"><a href="classol_1_1cqueue.html#a89212234fe4df87abaf803a3ecc9b4c0">ol::cqueue::m_front</a></div><div class="ttdeci">size_t m_front</div><div class="ttdef"><b>定义</b> ol_cqueue.h:41</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a8fc3173c93982b4d1beb75d647be2bd8"><div class="ttname"><a href="classol_1_1cqueue.html#a8fc3173c93982b4d1beb75d647be2bd8">ol::cqueue::m_inited</a></div><div class="ttdeci">bool m_inited</div><div class="ttdef"><b>定义</b> ol_cqueue.h:38</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a9496d3f41469e234fae160217bfbf006"><div class="ttname"><a href="classol_1_1cqueue.html#a9496d3f41469e234fae160217bfbf006">ol::cqueue::m_size</a></div><div class="ttdeci">size_t m_size</div><div class="ttdef"><b>定义</b> ol_cqueue.h:39</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a9a1f582765a656c3f51c8096b849797d"><div class="ttname"><a href="classol_1_1cqueue.html#a9a1f582765a656c3f51c8096b849797d">ol::cqueue::emplace</a></div><div class="ttdeci">bool emplace(Args &amp;&amp;... args)</div><div class="ttdoc">原地构造元素入队（直接在队列内存中构造对象）</div><div class="ttdef"><b>定义</b> ol_cqueue.h:325</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_aa6d3339eb41ac5bad582e15bcd938611"><div class="ttname"><a href="classol_1_1cqueue.html#aa6d3339eb41ac5bad582e15bcd938611">ol::cqueue::m_rear</a></div><div class="ttdeci">size_t m_rear</div><div class="ttdef"><b>定义</b> ol_cqueue.h:42</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_aac99ba0da47b2c2675054faaa45656d4"><div class="ttname"><a href="classol_1_1cqueue.html#aac99ba0da47b2c2675054faaa45656d4">ol::cqueue::~cqueue</a></div><div class="ttdeci">~cqueue()</div><div class="ttdef"><b>定义</b> ol_cqueue.h:55</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_ab5ad1f1c652d5bfe9c181a3b78d48ef7"><div class="ttname"><a href="classol_1_1cqueue.html#ab5ad1f1c652d5bfe9c181a3b78d48ef7">ol::cqueue::size</a></div><div class="ttdeci">size_t size() const</div><div class="ttdoc">获取队列当前元素数量</div><div class="ttdef"><b>定义</b> ol_cqueue.h:291</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_adb3a526dc20118d66469624040cbcc77"><div class="ttname"><a href="classol_1_1cqueue.html#adb3a526dc20118d66469624040cbcc77">ol::cqueue::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">清空队列所有元素（重置队列状态） 对于非平凡析构类型，会显式调用元素的析构函数</div><div class="ttdef"><b>定义</b> ol_cqueue.h:267</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_adb8bd6118b769270484de5cc00ff645c"><div class="ttname"><a href="classol_1_1cqueue.html#adb8bd6118b769270484de5cc00ff645c">ol::cqueue::m_data</a></div><div class="ttdeci">T m_data[MAX_SIZE]</div><div class="ttdef"><b>定义</b> ol_cqueue.h:40</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_ae125865a11fc17c348805966e8e461c0"><div class="ttname"><a href="classol_1_1cqueue.html#ae125865a11fc17c348805966e8e461c0">ol::cqueue::full</a></div><div class="ttdeci">bool full() const</div><div class="ttdoc">判断队列是否已满</div><div class="ttdef"><b>定义</b> ol_cqueue.h:196</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_ae41a3fb6ee71f57c6fae344832ee560d"><div class="ttname"><a href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">ol::cqueue::push</a></div><div class="ttdeci">bool push(const T &amp;e)</div><div class="ttdoc">元素入队（拷贝版本）</div><div class="ttdef"><b>定义</b> ol_cqueue.h:215</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_aec8b00a0aa6e0a153cb682b24603ec2c"><div class="ttname"><a href="classol_1_1cqueue.html#aec8b00a0aa6e0a153cb682b24603ec2c">ol::cqueue::cqueue</a></div><div class="ttdeci">cqueue(cqueue &amp;&amp;other) noexcept</div><div class="ttdoc">移动构造函数</div><div class="ttdef"><b>定义</b> ol_cqueue.h:75</div></div>
+<div class="ttc" id="anamespaceol_html"><div class="ttname"><a href="namespaceol.html">ol</a></div><div class="ttdef"><b>定义</b> ol_chrono.cpp:7</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_75b512e435434d14bff7e88c830596e1.html">ollib</a></li><li class="navelem"><a href="dir_b9a0bbad5c7f744a36cd404f18e81e13.html">include</a></li><li class="navelem"><a href="ol__cqueue_8h.html">ol_cqueue.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>
