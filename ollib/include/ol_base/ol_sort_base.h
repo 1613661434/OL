@@ -241,7 +241,7 @@ namespace ol
             for (Iterator i = first; i != last; ++i)
             {
                 Iterator min_it = i;
-                for (Iterator j = i; j != last; ++j)
+                for (Iterator j = std::next(i); j != last; ++j)
                 {
                     if (comp(*j, *min_it))
                     {
