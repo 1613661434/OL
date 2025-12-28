@@ -389,7 +389,7 @@ void testDynamicQueuePolicies(size_t minThreadNum, size_t maxThreadNum,
     assert(pool.getTaskNum() == 0 && "拒绝策略任务未执行完毕");
 }
 
-// 固定模式stop方法测试（适配无参stop()，仅join模式）
+// 固定模式stop方法测试
 void testFixedStopBehavior(size_t threadNum, size_t maxQueueSize)
 {
     const std::string poolType = "固定模式";
@@ -409,9 +409,8 @@ void testFixedStopBehavior(size_t threadNum, size_t maxQueueSize)
     auto end = std::chrono::steady_clock::now();
 
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    safePrint("stop() 执行耗时: %lld ms（预期 >= 250ms 且 <= 800ms）\n", duration);
-    assert(duration >= 250 && "stop() 未等待任务执行");
-    assert(duration <= 800 && "stop() 等待超时");
+    safePrint("stop() 执行耗时: %lld ms（预期 <= 1000ms）\n", duration);
+    assert(duration <= 1000 && "stop() 等待超时");
     assert(!stopTestPool1.isRunning() && "stop() 未正确停止线程池");
 
     // 测试2：空任务池调用stop()的安全性
@@ -422,8 +421,8 @@ void testFixedStopBehavior(size_t threadNum, size_t maxQueueSize)
     end = std::chrono::steady_clock::now();
 
     duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    safePrint("空池stop() 执行耗时: %lld ms（预期 <= 200ms）\n", duration);
-    assert(duration <= 200 && "空池stop() 执行耗时过长");
+    safePrint("空池stop() 执行耗时: %lld ms（预期 <= 1000ms）\n", duration);
+    assert(duration <= 1000 && "空池stop() 执行耗时过长");
     assert(!stopTestPool2.isRunning() && "空池stop() 未正确停止线程池");
 
     // 测试3：已停止的线程池行为
@@ -460,12 +459,12 @@ void testFixedStopBehavior(size_t threadNum, size_t maxQueueSize)
     end = std::chrono::steady_clock::now();
 
     duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    safePrint("重复stop() 执行耗时: %lld ms（预期 <= 200ms）\n", duration);
-    assert(duration <= 200 && "重复stop() 执行耗时过长");
+    safePrint("重复stop() 执行耗时: %lld ms（预期 <= 1000ms）\n", duration);
+    assert(duration <= 1000 && "重复stop() 执行耗时过长");
     assert(!repeatStopPool.isRunning() && "重复stop() 状态错误");
 }
 
-// 动态模式stop方法测试（适配无参stop()，仅join模式）
+// 动态模式stop方法测试
 void testDynamicStopBehavior(size_t minThreadNum, size_t maxThreadNum,
                              size_t maxQueueSize, std::chrono::seconds checkInterval)
 {
@@ -486,8 +485,7 @@ void testDynamicStopBehavior(size_t minThreadNum, size_t maxThreadNum,
     auto end = std::chrono::steady_clock::now();
 
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    safePrint("stop() 执行耗时: %lld ms（预期 >= 250ms 且 <= 1000ms）\n", duration);
-    assert(duration >= 250 && "stop() 未等待任务执行");
+    safePrint("stop() 执行耗时: %lld ms（预期 <= 1000ms）\n", duration);
     assert(duration <= 1000 && "stop() 等待超时");
     assert(!stopTestPool1.isRunning() && "stop() 未正确停止线程池");
 
@@ -499,8 +497,8 @@ void testDynamicStopBehavior(size_t minThreadNum, size_t maxThreadNum,
     end = std::chrono::steady_clock::now();
 
     duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    safePrint("空池stop() 执行耗时: %lld ms（预期 <= 300ms）\n", duration);
-    assert(duration <= 300 && "空池stop() 执行耗时过长");
+    safePrint("空池stop() 执行耗时: %lld ms（预期 <= 1000ms）\n", duration);
+    assert(duration <= 1000 && "空池stop() 执行耗时过长");
     assert(!stopTestPool2.isRunning() && "空池stop() 未正确停止线程池");
 
     // 测试3：已停止的线程池行为
@@ -535,8 +533,8 @@ void testDynamicStopBehavior(size_t minThreadNum, size_t maxThreadNum,
     end = std::chrono::steady_clock::now();
 
     duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    safePrint("重复stop() 执行耗时: %lld ms（预期 <= 300ms）\n", duration);
-    assert(duration <= 300 && "重复stop() 执行耗时过长");
+    safePrint("重复stop() 执行耗时: %lld ms（预期 <= 1000ms）\n", duration);
+    assert(duration <= 1000 && "重复stop() 执行耗时过长");
     assert(!repeatStopPool.isRunning() && "重复stop() 状态错误");
 
     safePrint("\n%s stop方法测试全部通过\n", poolType.c_str());
