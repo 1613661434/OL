@@ -26,7 +26,6 @@
 #include <functional>
 #include <future>
 #include <mutex>
-#include <queue>
 #include <stdexcept>
 #include <thread>
 #include <type_traits>
@@ -135,7 +134,7 @@ namespace ol
               m_queueFullPolicy(QueueFullPolicy::kReject), m_timeoutMS(std::chrono::milliseconds(500))
         {
             if (minThreadNum > maxThreadNum)
-                throw std::invalid_argument("Invalid thread number range");
+                throw std::invalid_argument("[ol::ThreadPool] Invalid thread number range");
 
             if (minThreadNum == maxThreadNum && minThreadNum == 0)
             {
@@ -395,7 +394,7 @@ namespace ol
         void setTimeoutPolicy(std::chrono::milliseconds timeoutMS)
         {
             if (timeoutMS.count() <= 0)
-                throw std::invalid_argument("Timeout must be greater than 0");
+                throw std::invalid_argument("[ol::ThreadPool] Timeout must be greater than 0");
             std::lock_guard<std::mutex> lock(m_taskQueueMutex);
             m_queueFullPolicy = QueueFullPolicy::kTimeout;
             m_timeoutMS = timeoutMS;
@@ -487,24 +486,24 @@ namespace ol
                 std::promise<ReturnType> promise;
                 if (m_stop)
                 {
-                    promise.set_exception(std::make_exception_ptr(std::runtime_error("ThreadPool has been stopped")));
+                    promise.set_exception(std::make_exception_ptr(std::runtime_error("[ol::ThreadPool] ThreadPool has been stopped")));
                     return {false, promise.get_future()};
                 }
 
                 switch (m_queueFullPolicy)
                 {
                 case QueueFullPolicy::kReject:
-                    promise.set_exception(std::make_exception_ptr(std::runtime_error("Task queue full (Reject policy)")));
+                    promise.set_exception(std::make_exception_ptr(std::runtime_error("[ol::ThreadPool] Task queue full (Reject policy)")));
                     return {false, promise.get_future()};
                 case QueueFullPolicy::kBlock:
                     // 此时失败一定是因为线程池已停止（否则wait会一直等）
-                    promise.set_exception(std::make_exception_ptr(std::runtime_error("Task submission failed in block policy (ThreadPool stopped)")));
+                    promise.set_exception(std::make_exception_ptr(std::runtime_error("[ol::ThreadPool] Task submission failed in block policy (ThreadPool stopped)")));
                     return {false, promise.get_future()};
                 case QueueFullPolicy::kTimeout:
-                    promise.set_exception(std::make_exception_ptr(std::runtime_error("Task queue full (Timeout policy)")));
+                    promise.set_exception(std::make_exception_ptr(std::runtime_error("[ol::ThreadPool] Task queue full (Timeout policy)")));
                     return {false, promise.get_future()};
                 default:
-                    promise.set_exception(std::make_exception_ptr(std::runtime_error("Task submission failed")));
+                    promise.set_exception(std::make_exception_ptr(std::runtime_error("[ol::ThreadPool] Task submission failed")));
                     return {false, promise.get_future()};
                 }
             }
