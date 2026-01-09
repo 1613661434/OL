@@ -647,17 +647,33 @@ namespace ol
         size_t i, j;
         for (i = 1, j = 0; i < p_len; ++i)
         {
-            while (j > 0 && pattern[i] != pattern[j]) j = next[j]; // 不匹配回溯，仅j>0时执行
-            if (pattern[i] == pattern[j]) ++j;                     // 匹配时前缀长度+1
-            next[i + 1] = j;                                       // 偏移存储
+        RETRY:
+            if (pattern[i] == pattern[j]) // 匹配时前缀长度+1
+            {
+                ++j;
+            }
+            else if (j != 0) // 不匹配回溯，仅j>0时执行
+            {
+                j = next[j];
+                goto RETRY;
+            }
+            next[i + 1] = j; // 偏移存储
         }
 
         // 匹配过程
         for (i = 0, j = 0; i < s_len; ++i)
         {
-            while (j > 0 && str[i] != pattern[j]) j = next[j]; // 不匹配回溯，仅j>0时执行
-            if (str[i] == pattern[j]) ++j;                     // 匹配时模式串指针后移
-            if (j == p_len) return i - p_len + 1;              // 匹配成功：立即返回起始位置
+        RETRY2:
+            if (str[i] == pattern[j]) // 匹配时模式串指针后移
+            {
+                ++j;
+            }
+            else if (j != 0) // 不匹配回溯，仅j>0时执行
+            {
+                j = next[j];
+                goto RETRY2;
+            }
+            if (j == p_len) return i - p_len + 1; // 匹配成功：立即返回起始位置
         }
 
         return std::string::npos;

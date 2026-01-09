@@ -294,7 +294,6 @@ namespace ol
 #ifdef DEBUG
                     else
                     {
-
                         printf("动态模式：线程(ID:%zu)不可join，跳过\n", id);
                     }
 #endif
@@ -616,7 +615,7 @@ namespace ol
             if constexpr (IsDynamic)
             {
                 m_dynamic.idleThreads.fetch_sub(1, std::memory_order_acq_rel);
-                // 线程池未停止时，让管理者清空线程
+                // 线程池未停止时，让管理者清理线程
                 if (!m_stop.load(std::memory_order_acquire))
                 {
                     std::unique_lock<std::mutex> lock_exitVector(m_dynamic.workerExitId_dequeMutex);
