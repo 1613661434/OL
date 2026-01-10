@@ -15,5 +15,6 @@ var searchData=
   ['trienode_12',['TrieNode',['../classol_1_1_trie_node.html#a34024b02bddd86a1f3fb45ef7a46737b',1,'ol::TrieNode']]],
   ['typenoncopyable_13',['TypeNonCopyable',['../classol_1_1_type_non_copyable.html#a5cca67f1b209f78068c286238d738dff',1,'ol::TypeNonCopyable::TypeNonCopyable(const TypeNonCopyable &amp;)=delete'],['../classol_1_1_type_non_copyable.html#aad5c17513b3255032f3907896107642a',1,'ol::TypeNonCopyable::TypeNonCopyable()=default']]],
   ['typenoncopyablemovable_14',['TypeNonCopyableMovable',['../classol_1_1_type_non_copyable_movable.html#af7afd8c553bf4e8b02ac1288239cfa96',1,'ol::TypeNonCopyableMovable']]],
-  ['typenonmovable_15',['TypeNonMovable',['../classol_1_1_type_non_movable.html#a7302d14f8ed25dd81f421892c6ac6d4c',1,'ol::TypeNonMovable::TypeNonMovable(TypeNonMovable &amp;&amp;)=delete'],['../classol_1_1_type_non_movable.html#a935a5fca01f78b7747bc2399c76666ea',1,'ol::TypeNonMovable::TypeNonMovable()=default']]]
+  ['typenonmovable_15',['TypeNonMovable',['../classol_1_1_type_non_movable.html#a7302d14f8ed25dd81f421892c6ac6d4c',1,'ol::TypeNonMovable::TypeNonMovable(TypeNonMovable &amp;&amp;)=delete'],['../classol_1_1_type_non_movable.html#a935a5fca01f78b7747bc2399c76666ea',1,'ol::TypeNonMovable::TypeNonMovable()=default']]],
+  ['typesingleton_16',['TypeSingleton',['../classol_1_1_type_singleton.html#abe9a02cd5a4586aed581f3780215e8b6',1,'ol::TypeSingleton']]]
 ];

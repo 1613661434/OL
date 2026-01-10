@@ -1,4 +1,6 @@
 var classol_1_1_type_singleton =
 [
-    [ "getInstance", "classol_1_1_type_singleton.html#a96c4a4422e2a0c9089eec80f54a15f03", null ]
+    [ "TypeSingleton", "classol_1_1_type_singleton.html#abe9a02cd5a4586aed581f3780215e8b6", null ],
+    [ "~TypeSingleton", "classol_1_1_type_singleton.html#aa69fb55670ee9d8e58ff4b76986b91e3", null ],
+    [ "GetInst", "classol_1_1_type_singleton.html#a5e2d1fea3649b75a70f1486ddfecd155", null ]
 ];

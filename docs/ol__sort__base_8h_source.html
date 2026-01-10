@@ -290,7 +290,7 @@ $(function(){initNavTree('ol__sort__base_8h_source.html','',''); });
 <div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>            <span class="keywordflow">for</span> (Iterator i = first; i != last; ++i)</div>
 <div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>            {</div>
 <div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>                Iterator min_it = i;</div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>                <span class="keywordflow">for</span> (Iterator j = i; j != last; ++j)</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>                <span class="keywordflow">for</span> (Iterator j = std::next(i); j != last; ++j)</div>
 <div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>                {</div>
 <div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>                    <span class="keywordflow">if</span> (comp(*j, *min_it))</div>
 <div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>                    {</div>

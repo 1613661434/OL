@@ -94,9 +94,6 @@ $(function(){initNavTree('classol_1_1_type_non_copyable.html','','classol_1_1_ty
 </div><!--header-->
 <div class="contents">
 
-<p>不可拷贝标记类，继承此类的派生类将禁用拷贝构造和拷贝赋值 @usage class MyClass : public <a class="el" href="classol_1_1_type_non_copyable.html" title="不可拷贝标记类，继承此类的派生类将禁用拷贝构造和拷贝赋值 @usage class MyClass : public TypeNonCopyable {};">TypeNonCopyable</a> {};  
- <a href="#details">更多...</a></p>
-
 <p><code>#include &lt;<a class="el" href="ol__type__traits_8h_source.html">ol_type_traits.h</a>&gt;</code></p>
 <div class="dynheader">
 类 ol::TypeNonCopyable 继承关系图:</div>
@@ -104,27 +101,24 @@ $(function(){initNavTree('classol_1_1_type_non_copyable.html','','classol_1_1_ty
  <div class="center">
   <img src="classol_1_1_type_non_copyable.png" usemap="#ol_3A_3ATypeNonCopyable_map" alt=""/>
   <map id="ol_3A_3ATypeNonCopyable_map" name="ol_3A_3ATypeNonCopyable_map">
-<area href="classol_1_1_type_non_copyable_movable.html" title="不可拷贝且不可移动标记类（TypeNonCopyable + TypeNonMovable的组合） @usage class MyClass : public TypeNonCopyableMovabl..." alt="ol::TypeNonCopyableMovable" shape="rect" coords="192,56,374,80"/>
+<area href="classol_1_1_type_non_copyable_movable.html" alt="ol::TypeNonCopyableMovable" shape="rect" coords="192,56,374,80"/>
 <area href="classol_1_1_thread_pool.html" title="线程池模板类，支持动态/固定两种工作模式" alt="ol::ThreadPool&lt; IsDynamic &gt;" shape="rect" coords="0,112,182,136"/>
 <area href="classol_1_1_type_singleton.html" alt="ol::TypeSingleton&lt; T &gt;" shape="rect" coords="192,112,374,136"/>
 <area href="classol_1_1spin__mutex.html" alt="ol::spin_mutex" shape="rect" coords="384,112,566,136"/>
   </map>
 </div></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public 成员函数</h2></td></tr>
-<tr class="memitem:a5cca67f1b209f78068c286238d738dff" id="r_a5cca67f1b209f78068c286238d738dff"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5cca67f1b209f78068c286238d738dff">TypeNonCopyable</a> (const <a class="el" href="classol_1_1_type_non_copyable.html">TypeNonCopyable</a> &amp;)=delete</td></tr>
-<tr class="memitem:afa45d99fa97a018ad56454f213c0654e" id="r_afa45d99fa97a018ad56454f213c0654e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classol_1_1_type_non_copyable.html">TypeNonCopyable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa45d99fa97a018ad56454f213c0654e">operator=</a> (const <a class="el" href="classol_1_1_type_non_copyable.html">TypeNonCopyable</a> &amp;)=delete</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected 成员函数</h2></td></tr>
 <tr class="memitem:aad5c17513b3255032f3907896107642a" id="r_aad5c17513b3255032f3907896107642a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad5c17513b3255032f3907896107642a">TypeNonCopyable</a> ()=default</td></tr>
 <tr class="memitem:a391e86224526622427666585822d724a" id="r_a391e86224526622427666585822d724a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a391e86224526622427666585822d724a">~TypeNonCopyable</a> ()=default</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a5cca67f1b209f78068c286238d738dff" id="r_a5cca67f1b209f78068c286238d738dff"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5cca67f1b209f78068c286238d738dff">TypeNonCopyable</a> (const <a class="el" href="classol_1_1_type_non_copyable.html">TypeNonCopyable</a> &amp;)=delete</td></tr>
+<tr class="memitem:afa45d99fa97a018ad56454f213c0654e" id="r_afa45d99fa97a018ad56454f213c0654e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classol_1_1_type_non_copyable.html">TypeNonCopyable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa45d99fa97a018ad56454f213c0654e">operator=</a> (const <a class="el" href="classol_1_1_type_non_copyable.html">TypeNonCopyable</a> &amp;)=delete</td></tr>
 </table>
-<a name="details" id="details"></a><h2 id="header-details" class="groupheader">详细描述</h2>
-<div class="textblock"><p>不可拷贝标记类，继承此类的派生类将禁用拷贝构造和拷贝赋值 @usage class MyClass : public <a class="el" href="classol_1_1_type_non_copyable.html" title="不可拷贝标记类，继承此类的派生类将禁用拷贝构造和拷贝赋值 @usage class MyClass : public TypeNonCopyable {};">TypeNonCopyable</a> {}; </p>
-<dl class="section note"><dt>注解</dt><dd>构造函数和析构函数为protected，允许派生类正常构造和析构 </dd></dl>
-</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
+<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
 <a id="a5cca67f1b209f78068c286238d738dff" name="a5cca67f1b209f78068c286238d738dff"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5cca67f1b209f78068c286238d738dff">&#9670;&#160;</a></span>TypeNonCopyable() <span class="overload">[1/2]</span></h2>
 
@@ -143,7 +137,7 @@ Protected 成员函数</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel delete">delete</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -219,7 +213,7 @@ Protected 成员函数</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel delete">delete</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

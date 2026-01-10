@@ -93,7 +93,7 @@ bool newdir(const std::string& pathorfilename, bool bisfilename = true);
 | 变量名                | 默认值     | 可选值                                     | 作用描述                                        |
 | ------------------ | ------- | --------------------------------------- | ------------------------------------------- |
 | `CMAKE_BUILD_TYPE` | Release | Debug/Release/RelWithDebInfo/MinSizeRel | 构建类型（单配置生成器如 MinGW/Linux 必需，多配置如 MSVC 无需指定） |
-| `ENABLE_WARNINGS`  | ON      | ON/OFF                                  | 是否启用编译器警告（推荐开启，便于发现潜在问题）                    |
+| `ENABLE_WARNINGS`  | OFF      | ON/OFF                                  | 是否启用编译器警告                    |
 
 ### 2. `ollib` 库配置变量
 
@@ -139,16 +139,6 @@ cmake .. -DENABLE_WARNINGS=OFF -DOL_BUILD_STATIC_LIBS=ON -DOLDB_MYSQL_BUILD_STAT
 1. **字符集**：所有文件（`.h`/`.cpp`/`.cmake`）均采用 **UTF-8（无 BOM）**，避免多语言字符乱码；
 
 2. **换行符**：统一使用 **LF（\n）**，防止跨平台协作时版本控制冲突。
-
-> 💡 编辑器配置建议（VS Code）：
-
-```json
-{
-"files.encoding": "utf8",
-"files.eol": "\n",
-"files.trimTrailingWhitespace": true
-}
-```
 
 ## 🔨 编译步骤
 

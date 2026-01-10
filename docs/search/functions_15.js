@@ -7,5 +7,6 @@ var searchData=
   ['_7ethreadpool_4',['~ThreadPool',['../classol_1_1_thread_pool.html#a08df835b4cf7704999c1711e4f31477a',1,'ol::ThreadPool']]],
   ['_7etypenoncopyable_5',['~TypeNonCopyable',['../classol_1_1_type_non_copyable.html#a391e86224526622427666585822d724a',1,'ol::TypeNonCopyable']]],
   ['_7etypenoncopyablemovable_6',['~TypeNonCopyableMovable',['../classol_1_1_type_non_copyable_movable.html#ad700983e1cdf7d82d16d5e5f86912a12',1,'ol::TypeNonCopyableMovable']]],
-  ['_7etypenonmovable_7',['~TypeNonMovable',['../classol_1_1_type_non_movable.html#a00ff9a5d4fde1ba3772b5daebfa0409f',1,'ol::TypeNonMovable']]]
+  ['_7etypenonmovable_7',['~TypeNonMovable',['../classol_1_1_type_non_movable.html#a00ff9a5d4fde1ba3772b5daebfa0409f',1,'ol::TypeNonMovable']]],
+  ['_7etypesingleton_8',['~TypeSingleton',['../classol_1_1_type_singleton.html#aa69fb55670ee9d8e58ff4b76986b91e3',1,'ol::TypeSingleton']]]
 ];

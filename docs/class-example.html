@@ -93,14 +93,8 @@ $(function(){initNavTree('class-example.html','',''); });
   <div class="headertitle"><div class="title">class</div></div>
 </div><!--header-->
 <div class="contents">
-<p>单例类（懒汉模式），提供getInstance，且不可拷贝不可移动</p>
-<p>单例类（懒汉模式），提供getInstance，且不可拷贝不可移动</p><dl class="tparams"><dt>模板参数</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>传入需要单例的类 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>注解</dt><dd>使用奇异递归模板模式(CRTP) A : public TypeSingleton { friend class TypeSingleton; ... }</dd></dl>
+<p>不可拷贝标记类，继承此类的派生类将禁用拷贝构造和拷贝赋值</p>
+<p>不可拷贝标记类，继承此类的派生类将禁用拷贝构造和拷贝赋值</p><dl class="section note"><dt>注解</dt><dd>构造函数和析构函数为protected，允许派生类正常构造和析构 MyClass : public TypeNonCopyable {};</dd></dl>
 <div class="fragment"></div><!-- fragment --> </div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->
