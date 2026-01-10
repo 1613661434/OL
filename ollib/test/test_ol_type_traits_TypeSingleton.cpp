@@ -15,7 +15,7 @@ class MyClass : public TypeSingleton<MyClass>
     // 必须声明友元，授权单例基类调用私有构造函数
     friend class TypeSingleton<MyClass>;
 
-public:
+private:
     // 【单例核心要求】构造函数私有化，禁止外部创建实例
     MyClass()
     {
