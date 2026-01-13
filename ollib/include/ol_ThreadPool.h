@@ -177,16 +177,8 @@ namespace ol
          */
         ~ThreadPool()
         {
-            if (m_stop) return;
+            if (m_stop.load(std::memory_order_acquire)) return;
             stop();
-
-            // 最终等待活跃线程退出（最多1秒）
-            int wait_ms = 0;
-            while (m_activeWorkers.load(std::memory_order_acquire) > 0 && wait_ms < 1000)
-            {
-                std::this_thread::sleep_for(std::chrono::milliseconds(10));
-                wait_ms += 10;
-            }
 #ifdef DEBUG
             if (m_activeWorkers.load() > 0)
             {
@@ -220,7 +212,7 @@ namespace ol
             // 确保 m_stop 对所有线程可见
             std::atomic_thread_fence(std::memory_order_seq_cst);
 
-            // 动态模式：先停止管理者线程（确保其不再修改m_workers）
+            // 动态模式：先停止管理者线程
             if constexpr (IsDynamic)
             {
                 // 唤醒管理者线程，使其退出循环
@@ -431,7 +423,7 @@ namespace ol
                 // 处理队列大小限制
                 if (m_maxQueueSize > 0)
                 {
-                    while (m_taskQueue.size() >= m_maxQueueSize && !m_stop.load(std::memory_order_relaxed))
+                    while (m_taskQueue.size() >= m_maxQueueSize && !m_stop.load(std::memory_order_acquire))
                     {
                         switch (m_queueFullPolicy)
                         {
@@ -439,19 +431,19 @@ namespace ol
                             return false;
                         case QueueFullPolicy::kBlock:
                             m_taskQueueNotFull_condVar.wait(lock, [this]()
-                                                            { return m_taskQueue.size() < m_maxQueueSize || m_stop.load(std::memory_order_relaxed); });
+                                                            { return m_taskQueue.size() < m_maxQueueSize || m_stop.load(std::memory_order_acquire); });
                             break;
                         case QueueFullPolicy::kTimeout:
                             bool result = m_taskQueueNotFull_condVar.wait_for(lock, m_timeoutMS,
                                                                               [this]()
-                                                                              { return m_taskQueue.size() < m_maxQueueSize || m_stop.load(std::memory_order_relaxed); });
+                                                                              { return m_taskQueue.size() < m_maxQueueSize || m_stop.load(std::memory_order_acquire); });
                             if (!result) return false;
                             break;
                         }
                     }
                 }
 
-                if (m_stop.load(std::memory_order_relaxed)) return false;
+                if (m_stop.load(std::memory_order_acquire)) return false;
                 m_taskQueue.push(std::move(task));
             }
 
@@ -548,9 +540,9 @@ namespace ol
                         auto waitCond = [this]()
                         {
                             if constexpr (IsDynamic)
-                                return !m_taskQueue.empty() || m_stop.load(std::memory_order_relaxed) || m_dynamic.workerExitNum.load(std::memory_order_relaxed) > 0;
+                                return !m_taskQueue.empty() || m_stop.load(std::memory_order_acquire) || m_dynamic.workerExitNum.load(std::memory_order_acquire) > 0;
                             else
-                                return !m_taskQueue.empty() || m_stop.load(std::memory_order_relaxed);
+                                return !m_taskQueue.empty() || m_stop.load(std::memory_order_acquire);
                         };
                         m_taskQueueNotEmpty_condVar.wait(lock, waitCond);
 
