@@ -134,14 +134,16 @@ namespace ol
               m_maxQueueSize(maxQueueSize),
               m_queueFullPolicy(QueueFullPolicy::kReject), m_timeoutMS(std::chrono::milliseconds(500))
         {
-            if (minThreadNum > maxThreadNum)
-                throw std::invalid_argument("[ol::ThreadPool] Invalid thread number range");
+            if (minThreadNum > maxThreadNum) throw std::invalid_argument("[ol::ThreadPool] Invalid thread number range");
 
             if (minThreadNum == maxThreadNum && minThreadNum == 0)
             {
                 m_stop = true;
                 return;
             }
+
+            // 最小线程数至少为1
+            minThreadNum = std::max(minThreadNum, static_cast<size_t>(1));
 
             // 初始化动态模式成员
             m_dynamic.minThreads = minThreadNum;
@@ -150,10 +152,8 @@ namespace ol
             m_dynamic.workerExitNum = 0;
             m_dynamic.checkInterval = checkInterval;
 
-            // 启动最小数量（至少为1）的工作线程
-            size_t needThreads = minThreadNum == 0 ? 1 : minThreadNum;
-
-            while (needThreads > 0)
+            m_workers.reserve(minThreadNum);
+            while (minThreadNum > 0)
             {
                 m_activeWorkers.fetch_add(1, std::memory_order_acq_rel);
                 std::thread th(&ThreadPool<IsDynamic>::worker, this);
@@ -161,7 +161,7 @@ namespace ol
                 printf("构造函数：新工作线程ID：%zu\n", th.get_id());
 #endif
                 m_workers.emplace(th.get_id(), std::move(th)); // 移动到哈希表
-                --needThreads;
+                --minThreadNum;
             }
 
             // 启动管理者线程
@@ -734,6 +734,7 @@ namespace ol
                             // 每次最多扩容到当前的1.5倍，避免一次性创建过多线程
                             needThreads = std::min(needThreads, workerCount / 2 + 1);
 
+                            m_workers.reserve(workerCount + needThreads);
                             while (needThreads > 0)
                             {
                                 m_activeWorkers.fetch_add(1, std::memory_order_acq_rel);
@@ -749,16 +750,14 @@ namespace ol
                                    workerCount, m_workers.size(), taskCount);
 #endif
                         }
-                        // 缩容判断：空闲线程 > 线程总数的1/2 且 线程数超过「最小线程数或1（取较大值）」
-                        else if (idleCount > workerCount / 2 && workerCount > std::max(m_dynamic.minThreads, static_cast<size_t>(1)))
+                        // 缩容判断：空闲线程 > 线程总数的1/2 且 线程数 > 最小线程数
+                        else if (idleCount > workerCount / 2 && workerCount > m_dynamic.minThreads)
                         {
-                            // 缩容下限：最多缩减到「最小线程数或1（取较大值）」
-                            size_t minKeep = std::max(m_dynamic.minThreads, static_cast<size_t>(1));
 
-                            // 实际缩减数 = 取「可缩减线程数」和「多余空闲线程数」的较小值
+                            // 实际缩减数 = 取 可缩减线程数 和 多余空闲线程数 的较小值
                             size_t reduceThreads = std::min(
-                                workerCount - minKeep,        // 可缩减线程数 = 当前线程数 - 最低保留数
-                                idleCount - (workerCount / 2) // 只销毁超过一半的空闲线程
+                                workerCount - m_dynamic.minThreads, // 可缩减线程数 = 当前线程数 - 最低保留数
+                                idleCount - (workerCount / 2)       // 多余空闲线程数 = 超过一半的空闲线程
                             );
 
 #ifdef DEBUG
@@ -768,7 +767,7 @@ namespace ol
                             // 销毁线程
                             if (reduceThreads > 0)
                             {
-                                m_dynamic.workerExitNum.store(reduceThreads, std::memory_order_release);
+                                m_dynamic.workerExitNum.fetch_add(reduceThreads, std::memory_order_acq_rel);
                                 do
                                 {
                                     m_taskQueueNotEmpty_condVar.notify_one();
