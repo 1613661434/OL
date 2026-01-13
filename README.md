@@ -219,12 +219,12 @@ mingw32-make -j4
 若 Windows PowerShell 出现中文乱码，可临时设置 UTF-8 字符集：
 
 ```powershell
-# 设置代码页为 UTF-8 并统一输入输出编码
-chcp 65001 | Out-Null
-$OutputEncoding = [Console]::InputEncoding = [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding
+# 设置输入输出编码为 UTF-8
+$OutputEncoding = [Console]::InputEncoding = [Console]::OutputEncoding = [System.Text.UTF8Encoding]::UTF8
 
 # 验证编码（需显示 BodyName: utf-8, CodePage: 65001）
-$OutputEncoding
+[Console]::OutputEncoding
+[Console]::InputEncoding
 ```
 
 ## 📋 目录结构说明
