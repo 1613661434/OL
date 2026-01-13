@@ -21,21 +21,21 @@ endif()
 
 # ===================== <Options> =====================
 # 统一：控制是否开启警告
-option(ENABLE_WARNINGS "Enable compiler warnings (recommended)" OFF)
+option(ENABLE_WARNINGS "Enable compiler warnings." OFF)
 
 # OL库相关
-option(OL_WITH_TESTS "Compile and (for ol_check) run OL test executables" OFF)
+option(OL_WITH_TESTS "Compile and (for ol_check) run OL test executables." OFF)
 option(OL_BUILD_STATIC_LIBS "Build ol_lib as a static library." ON)
 option(OL_BUILD_SHARED_LIBS "Build ol_lib as a shared library." ON)
 
 # OLDB库相关
 ## MYSQL
-option(OLDB_MYSQL_WITH_TESTS "Compile and (for oldb_mysql_check) run OLDB_MYSQL test executables" OFF)
+option(OLDB_MYSQL_WITH_TESTS "Compile and (for oldb_mysql_check) run OLDB_MYSQL test executables." OFF)
 option(OLDB_MYSQL_BUILD_STATIC_LIBS "Build oldb_mysql_lib as a static library." OFF)
 option(OLDB_MYSQL_BUILD_SHARED_LIBS "Build oldb_mysql_lib as a shared library." OFF)
 
 ## ORACLE
-option(OLDB_ORACLE_WITH_TESTS "Compile and (for oldb_oracle_check) run OLDB_ORACLE test executables" OFF)
+option(OLDB_ORACLE_WITH_TESTS "Compile and (for oldb_oracle_check) run OLDB_ORACLE test executables." OFF)
 option(OLDB_ORACLE_BUILD_STATIC_LIBS "Build oldb_oracle_lib as a static library." OFF)
 option(OLDB_ORACLE_BUILD_SHARED_LIBS "Build oldb_oracle_lib as a shared library." OFF)
 # ===================== </Options> =====================
