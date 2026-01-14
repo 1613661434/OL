@@ -278,9 +278,13 @@ namespace ol
                         {
                             th.join();
                         }
-                        catch (const std::system_error& e)
+                        catch (const std::exception& e)
                         {
-                            fprintf(stderr, "[ol::ThreadPool] Dynamic mode: Thread (ID: %zu) join failed: %s\n", id, e.what());
+                            fprintf(stderr, "[ol::ThreadPool] Dynamic mode: Thread(ID:%zu) join failed: %s\n", id, e.what());
+                        }
+                        catch (...)
+                        {
+                            fprintf(stderr, "[ol::ThreadPool] Dynamic mode: Thread(ID:%zu) join catch unknown exception\n", id);
                         }
                     }
 #ifdef DEBUG
@@ -305,16 +309,19 @@ namespace ol
                         {
                             th.join();
                         }
-                        catch (const std::system_error& e)
+                        catch (const std::exception& e)
                         {
-                            fprintf(stderr, "[ol::ThreadPool] Fixed mode: Thread join failed: %s\n", e.what());
+                            fprintf(stderr, "[ol::ThreadPool] Fixed mode: Thread(ID:%zu) join failed: %s\n", th.get_id(), e.what());
+                        }
+                        catch (...)
+                        {
+                            fprintf(stderr, "[ol::ThreadPool] Fixed mode: Thread(ID:%zu) join catch unknown exception\n", th.get_id());
                         }
                     }
 #ifdef DEBUG
                     else
                     {
-
-                        printf("固定模式：线程不可join，跳过\n");
+                        printf("固定模式：线程(ID:%zu)不可join，跳过\n", th.get_id());
                     }
 #endif
                 }
@@ -557,11 +564,7 @@ namespace ol
                             }
                         }
 
-                        if (m_taskQueue.empty())
-                        {
-                            lock.unlock();
-                            continue;
-                        }
+                        if (m_taskQueue.empty()) continue;
 
                         // 取出任务
                         task = std::move(m_taskQueue.front());
@@ -581,11 +584,11 @@ namespace ol
                     }
                     catch (const std::exception& e)
                     {
-                        fprintf(stderr, "[ol::ThreadPool] Task error: %s\n", e.what());
+                        fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%zu) Task error: %s\n", std::this_thread::get_id(), e.what());
                     }
                     catch (...)
                     {
-                        fprintf(stderr, "[ol::ThreadPool] Unknown task error\n");
+                        fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%zu) Unknown task error\n", std::this_thread::get_id());
                     }
 
                     // 动态模式：任务完成，恢复空闲状态
@@ -594,6 +597,10 @@ namespace ol
                         m_dynamic.idleThreads.fetch_add(1, std::memory_order_release);
                     }
                 }
+            }
+            catch (const std::exception& e)
+            {
+                fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%zu) exception: %s\n", std::this_thread::get_id(), e.what());
             }
             catch (...)
             {
@@ -693,11 +700,11 @@ namespace ol
                                 }
                                 catch (const std::exception& e)
                                 {
-                                    fprintf(stderr, "[ol::ThreadPool] Worker thread join failure: %s\n", e.what());
+                                    fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%zu) join failure: %s\n", exitId, e.what());
                                 }
                                 catch (...)
                                 {
-                                    fprintf(stderr, "[ol::ThreadPool] Unknown Worker thread join error\n");
+                                    fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%zu) Unknown join error\n", exitId);
                                 }
                             }
 
@@ -768,11 +775,15 @@ namespace ol
                             }
 #ifdef DEBUG
                             printf("缩容：计划销毁 %zu 个线程（当前线程数: %zu, 空闲数: %zu, 保留至少: %zu）\n",
-                                   reduceThreads_temp, workerCount, idleCount, minKeep);
+                                   reduceThreads_temp, workerCount, idleCount, m_dynamic.minThreads);
 #endif
                         }
                     }
                 }
+            }
+            catch (const std::exception& e)
+            {
+                fprintf(stderr, "[ol::ThreadPool] Manager thread(ID:%zu) exception: %s\n", std::this_thread::get_id(), e.what());
             }
             catch (...)
             {
