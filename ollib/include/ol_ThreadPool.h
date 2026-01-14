@@ -626,7 +626,6 @@ namespace ol
 #ifdef DEBUG
                 else
                 {
-
                     printf("线程(ID:%zu)：线程池已停止，跳过加入退出容器\n", std::this_thread::get_id());
                 }
 #endif
