@@ -1,32 +1,21 @@
-# Creative Commons Attribution 4.0 International (CC BY 4.0)
-This is a human-readable summary of (and not a substitute for) the [full legal code](https://creativecommons.org/licenses/by/4.0/legalcode).
+MIT License
 
+Copyright (c) 2025 ol木子李lo
 
-## You are free to:
-- **Share** — Copy and redistribute the material in any medium or format, without restrictions on purpose (including commercial use).  
-- **Adapt** — Remix, transform, and build upon the material for any purpose, even commercially.  
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-The licensor cannot revoke these freedoms as long as you follow the license terms.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-
-## Under the following terms:
-### 1. Attribution  
-You must give appropriate credit to the licensor (ol木子李lo), provide a link to this license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.  
-*Suggested attribution format: "Based on the OL library developed by ol木子李lo"*  
-
-
-### 2. No Additional Restrictions  
-You may not apply legal terms, technological measures (such as DRM), or other restrictions that legally prevent others from exercising any rights granted by this license.  
-
-
-## Notices:
-- You are not required to comply with this license for elements of the material that are in the public domain, or where your use is permitted by an applicable exception or limitation (e.g., fair use under copyright law).  
-- This license does not provide warranties of any kind, including but not limited to warranties of merchantability, fitness for a particular purpose, or non-infringement. It may not cover all rights needed for your intended use (e.g., publicity, privacy, or moral rights may further limit your use of the material).  
-
-
-## Copyright Statement
-### 1. Copyright of the OL Library  
-© 2025 ol木子李lo (licensor of the OL library). All content of the OL library — including core modules (`ollib`, `oldblib/oracle`, `ol_ftp`), built-in dependencies (e.g., `third_party/ftplib`), and associated documentation — is released under the **Creative Commons Attribution 4.0 International (CC BY 4.0) License**.  
-
-### 2. Compliance Obligations  
-Users who share, adapt, or distribute the OL library or its derivative works must comply with the "Attribution" term of CC BY 4.0 (see Section "Under the following terms: 1. Attribution") and may not impose additional restrictions on the exercise of rights granted by this license.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

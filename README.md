@@ -2,23 +2,18 @@
 
 一个包含 `ollib`（含**主从 Reactor 多线程网络库**）、`oldblib`（MySQL/Oracle 数据库交互）及 FTP 功能的 C++ 工具库，提供基础功能、多数据库交互、FTP 客户端支持及 Linux 专属的高性能网络通信能力。
 
-## 📜 许可证信息
+## 📜 许可证信息 
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg) 
 
-![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-blue.svg)
+本项目所有代码均以 **MIT License** 许可证发布，完整法律文本见 [MIT 官方协议](https://opensource.org/licenses/MIT)。
 
-本项目所有代码（含基础功能、网络库、数据库交互模块、FTP 客户端模块及内置依赖）均以 **Creative Commons Attribution 4.0 International (CC BY 4.0)** 许可证发布，完整法律文本见 [CC BY 4.0 官方协议](https://creativecommons.org/licenses/by/4.0/legalcode)。
+### MIT License 核心条款
 
-### CC BY 4.0 核心条款（通俗解读）
-
-你可以**自由地**：
-
-* **共享**：以任何媒介 / 格式复制、分发本项目代码或文档（包括商业用途）；
-
-* **改编**：对代码进行修改、扩展、集成到其他项目（包括商业项目），无需额外申请授权。
-
-需遵守的**唯一核心义务**：
-
-* **署名（Attribution）**：使用或分发本项目代码 / 衍生作品时，需注明本项目来源（格式建议：“基于 ol 木子李 lo 开发的 OL 库”），并提供 [CC BY 4.0 许可证链接](https://creativecommons.org/licenses/by/4.0/)。
+你可以**自由地**： 
+* **使用**：以任何目的（包括商业用途）运行、复制、使用本项目代码或文档； 
+* **修改**：对代码进行修改、扩展、集成到其他项目（包括商业项目），无需额外申请授权； 
+* **分发**：复制、分发本项目代码或衍生作品（包括商用分发）。 需遵守的**唯一核心义务**： 
+* **保留声明**：使用、修改或分发本项目代码 / 衍生作品时，需在所有副本或实质性部分中保留原始的版权声明和 MIT 许可证权限通知（无需指定固定署名格式，可自愿标注来源）。
 
 ## 🎯 核心功能
 
