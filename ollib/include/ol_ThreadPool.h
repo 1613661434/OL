@@ -158,7 +158,7 @@ namespace ol
                 m_activeWorkers.fetch_add(1, std::memory_order_acq_rel);
                 std::thread th(&ThreadPool<IsDynamic>::worker, this);
 #ifdef DEBUG
-                printf("构造函数：新工作线程ID：%zu\n", th.get_id());
+                printf("构造函数：新工作线程(ID:%zu)\n", th.get_id());
 #endif
                 m_workers.emplace(th.get_id(), std::move(th)); // 移动到哈希表
                 --minThreadNum;
@@ -167,7 +167,7 @@ namespace ol
             // 启动管理者线程
             m_dynamic.managerThread = std::thread(&ThreadPool<IsDynamic>::manager<IsDynamic>, this);
 #ifdef DEBUG
-            printf("构造函数：新管理者线程ID：%zu\n", m_dynamic.managerThread.get_id());
+            printf("构造函数：新管理者线程(ID:%zu)\n", m_dynamic.managerThread.get_id());
 #endif
         }
 
@@ -196,7 +196,7 @@ namespace ol
         void stop()
         {
 #ifdef DEBUG
-            printf("线程池开始stop()\n");
+            printf("[stop] 线程池开始停止\n");
 #endif
 
             // 原子交换，确保仅执行一次stop逻辑 + 内存可见性
@@ -204,7 +204,7 @@ namespace ol
             if (!m_stop.compare_exchange_strong(expected, true, std::memory_order_release, std::memory_order_relaxed))
             {
 #ifdef DEBUG
-                printf("线程池已停止，无需重复操作\n");
+                printf("[stop] 线程池已停止，无需重复操作\n");
 #endif
                 return;
             }
@@ -221,10 +221,12 @@ namespace ol
                 {
                     try
                     {
+#ifdef DEBUG
                         auto manager_id = m_dynamic.managerThread.get_id();
+#endif
                         m_dynamic.managerThread.join();
 #ifdef DEBUG
-                        printf("动态模式：管理者线程（ID:%zu）已join\n", manager_id);
+                        printf("[stop] 动态模式：管理者线程(ID:%zu)已join\n", manager_id);
 #endif
                         m_dynamic.managerThread = std::thread();
                     }
@@ -239,7 +241,7 @@ namespace ol
                 std::lock_guard<std::mutex> lock_exit_deque(m_dynamic.workerExitId_dequeMutex);
                 m_dynamic.workerExitId_deque.clear();
 #ifdef DEBUG
-                printf("动态模式：清空工作线程退出队列\n");
+                printf("[stop] 动态模式：清空工作线程退出队列\n");
 #endif
             }
 
@@ -257,7 +259,7 @@ namespace ol
 #ifdef DEBUG
             if (m_activeWorkers.load() > 0)
             {
-                printf("警告：仍有%d个活跃线程未退出（已等待%dms）\n",
+                printf("[stop] 警告：仍有%d个活跃线程未退出（已等待%dms）\n",
                        (int)m_activeWorkers.load(), wait_ms);
             }
 #endif
@@ -272,7 +274,7 @@ namespace ol
                     if (th.joinable())
                     {
 #ifdef DEBUG
-                        printf("动态模式：处理工作线程ID：%zu（stop）\n", id);
+                        printf("[stop] 动态模式：处理工作线程(ID:%zu)\n", id);
 #endif
                         try
                         {
@@ -290,7 +292,7 @@ namespace ol
 #ifdef DEBUG
                     else
                     {
-                        printf("动态模式：线程(ID:%zu)不可join，跳过\n", id);
+                        printf("[stop] 动态模式：线程(ID:%zu)不可join，跳过\n", id);
                     }
 #endif
                 }
@@ -303,7 +305,7 @@ namespace ol
                     if (th.joinable())
                     {
 #ifdef DEBUG
-                        printf("固定模式：处理工作线程ID：%zu（stop）\n", th.get_id());
+                        printf("[stop] 固定模式：处理工作线程(ID:%zu)\n", th.get_id());
 #endif
                         try
                         {
@@ -321,7 +323,7 @@ namespace ol
 #ifdef DEBUG
                     else
                     {
-                        printf("固定模式：线程(ID:%zu)不可join，跳过\n", th.get_id());
+                        printf("[stop] 固定模式：线程(ID:%zu)不可join，跳过\n", th.get_id());
                     }
 #endif
                 }
@@ -330,7 +332,7 @@ namespace ol
             // 清理线程容器
             m_workers.clear();
 #ifdef DEBUG
-            printf("线程池finish stop()\n");
+            printf("[stop] 线程池已停止\n");
 #endif
         }
 
@@ -619,20 +621,20 @@ namespace ol
                 {
                     std::unique_lock<std::mutex> lock_exitVector(m_dynamic.workerExitId_dequeMutex);
 #ifdef DEBUG
-                    printf("线程(ID:%zu)加入退出容器\n", std::this_thread::get_id());
+                    printf("[worker] 线程(ID:%zu)加入退出容器\n", std::this_thread::get_id());
 #endif
                     m_dynamic.workerExitId_deque.emplace_back(std::this_thread::get_id());
                 }
 #ifdef DEBUG
                 else
                 {
-                    printf("线程(ID:%zu)：线程池已停止，跳过加入退出容器\n", std::this_thread::get_id());
+                    printf("[worker] 线程(ID:%zu)：线程池已停止，跳过加入退出容器\n", std::this_thread::get_id());
                 }
 #endif
             }
 
 #ifdef DEBUG
-            printf("线程已销毁（主动移除，ID:%zu）\n", std::this_thread::get_id());
+            printf("[worker] 线程(ID:%zu)已销毁（主动移除）\n", std::this_thread::get_id());
 #endif
         }
 
@@ -648,7 +650,7 @@ namespace ol
         void manager()
         {
 #ifdef DEBUG
-            printf("管理者线程(ID:%zu)启动\n", std::this_thread::get_id());
+            printf("[manager] 管理者线程(ID:%zu)启动\n", std::this_thread::get_id());
 #endif
 
             try
@@ -677,13 +679,13 @@ namespace ol
                         for (const auto& exitId : exitIds)
                         {
 #ifdef DEBUG
-                            printf("待清理线程ID：%zu\n", exitId);
+                            printf("[manager] 待清理线程(ID：%zu)\n", exitId);
 #endif
                             auto it = m_workers.find(exitId);
                             if (it == m_workers.end())
                             {
 #ifdef DEBUG
-                                printf("线程ID已被清理，跳过: %zu\n", exitId);
+                                printf("[manager] 线程(ID:%zu)已被清理，跳过\n", exitId);
 #endif
                                 continue;
                             }
@@ -694,7 +696,7 @@ namespace ol
                                 {
                                     it->second.join();
 #ifdef DEBUG
-                                    printf("线程ID已join: %zu\n", exitId);
+                                    printf("[manager] 线程(ID:%zu)已join\n", exitId);
 #endif
                                 }
                                 catch (const std::exception& e)
@@ -709,9 +711,6 @@ namespace ol
 
                             m_workers.erase(it);
                         }
-#ifdef DEBUG
-                        printf("线程从容器移除（管理者清理）\n");
-#endif
                     }
 
                     // 2. 扩缩容
@@ -738,13 +737,13 @@ namespace ol
                                 m_activeWorkers.fetch_add(1, std::memory_order_acq_rel);
                                 std::thread th(&ThreadPool<IsDynamic>::worker, this);
 #ifdef DEBUG
-                                printf("新线程（ID: %zu）\n", th.get_id());
+                                printf("[manager] 新工作线程(ID:%zu)\n", th.get_id());
 #endif
-                                m_workers.emplace(th.get_id(), std::move(th)); // 哈希表插入新线程
+                                m_workers.emplace(th.get_id(), std::move(th)); // 哈希表插入新工作线程
                                 --needThreads;
                             }
 #ifdef DEBUG
-                            printf("扩容：线程数从 %zu 增加到 %zu（任务数: %zu）\n",
+                            printf("[manager] 扩容：线程数从 %zu 增加到 %zu（任务数: %zu）\n",
                                    workerCount, m_workers.size(), taskCount);
 #endif
                         }
@@ -773,7 +772,7 @@ namespace ol
                                 } while (reduceThreads > 0);
                             }
 #ifdef DEBUG
-                            printf("缩容：计划销毁 %zu 个线程（当前线程数: %zu, 空闲数: %zu, 保留至少: %zu）\n",
+                            printf("[manager] 缩容：计划销毁 %zu 个线程（当前线程数: %zu, 空闲数: %zu, 保留至少: %zu）\n",
                                    reduceThreads_temp, workerCount, idleCount, m_dynamic.minThreads);
 #endif
                         }
@@ -793,7 +792,7 @@ namespace ol
             std::lock_guard<std::mutex> lock_exit_deque(m_dynamic.workerExitId_dequeMutex);
             m_dynamic.workerExitId_deque.clear();
 #ifdef DEBUG
-            printf("管理者线程(ID:%zu)退出，清空退出队列\n", std::this_thread::get_id());
+            printf("[manager] 管理者线程(ID:%zu)退出，清空退出队列\n", std::this_thread::get_id());
 #endif
         }
     };
