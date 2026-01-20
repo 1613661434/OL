@@ -31,7 +31,7 @@
 
   * `oldblib/oracle`：Oracle 交互，基于 OCI 接口封装，支持连接管理、SQL 执行、BLOB/CLOB 大字段操作。
 
-* `ol_ftp`：FTP 客户端模块，基于内置[ft](https://github.com/codebrainz/ftplib)[plib](https://github.com/codebrainz/ftplib)（路径`third_party/ftplib`），支持文件上传 / 下载、目录操作、文件列表获取。
+* `ol_ftp`：FTP 客户端模块，基于内置[ftplib](https://github.com/codebrainz/ftplib)（路径`third_party/ftplib`），支持文件上传 / 下载、目录操作、文件列表获取。
 
 ## 📚 代码文档规范
 
