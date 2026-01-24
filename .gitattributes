@@ -4,7 +4,7 @@
 # 所有文本文件强制使用LF换行符
 * text eol=lf
 
-# 二进制文件不进行换行符转换（保持原始格式）
+# 二进制文件不进行换行符转换
 *.png binary
 *.jpg binary
 *.jpeg binary
@@ -21,7 +21,7 @@
 *.docx binary
 *.xlsx binary
 
-# 特定文本文件类型的额外配置（确保覆盖所有可能的文本文件）
+# 特定文本文件类型的额外配置
 *.c text eol=lf encoding=utf-8
 *.cpp text eol=lf encoding=utf-8
 *.h text eol=lf encoding=utf-8
