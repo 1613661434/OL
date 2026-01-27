@@ -1,0 +1,53 @@
+# OL代码格式化配置
+---
+# C++ 语言配置
+Language: Cpp
+# 自动检测C++标准
+Standard: Auto
+# 基础风格基于LLVM
+BasedOnStyle: LLVM
+# 禁用Tab，使用空格缩进
+UseTab: Never
+# 缩进宽度4个空格
+IndentWidth: 4
+# Tab字符宽度4个空格
+TabWidth: 4
+# 大括号采用Allman风格（左括号单独成行）
+BreakBeforeBraces: Allman
+# 允许短if语句单行显示
+AllowShortIfStatementsOnASingleLine: 'true'
+# 允许短循环语句单行显示
+AllowShortLoopsOnASingleLine: 'true'
+# 允许短代码块单行显示
+AllowShortBlocksOnASingleLine: 'true'
+# 允许所有短函数单行显示
+AllowShortFunctionsOnASingleLine: All
+# 允许短case标签单行显示
+AllowShortCaseLabelsOnASingleLine: 'true'
+# 允许所有短lambda表达式单行显示
+AllowShortLambdasOnASingleLine: All
+# 允许短枚举单行显示
+AllowShortEnumsOnASingleLine: 'true'
+# 禁用case标签缩进
+IndentCaseLabels: 'false'
+# 禁用类访问修饰符额外缩进
+IndentAccessModifiers: 'false'
+# 禁用代码行长度限制（列宽限制为0）
+ColumnLimit: 0
+# 访问修饰符向左偏移4个空格
+AccessModifierOffset: -4
+# 命名空间内所有内容缩进
+NamespaceIndentation: All
+# 自动补全命名空间结束注释
+FixNamespaceComments: 'true'
+# 指针符号左对齐（如 int* p;）
+PointerAlignment: Left
+# 引用符号左对齐（如 int& r;）
+ReferenceAlignment: Left
+# 禁用#include头文件自动排序
+SortIncludes: 'false'
+# C风格强制类型转换后不添加空格（如 (int)a 而非 (int) a）
+SpaceAfterCStyleCast: 'false'
+# 控制语句（if/for/while等）后左括号前添加空格
+SpaceBeforeParens: ControlStatements
+...
