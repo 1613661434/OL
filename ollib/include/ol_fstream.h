@@ -353,7 +353,7 @@ namespace ol
             lock_guard_spin lock(m_splock);
             if (fout.is_open())
             {
-                if (m_enbuffer) fout.flush();
+                fout.flush();
                 fout.close();
             }
         }

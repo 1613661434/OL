@@ -20,7 +20,7 @@ int main()
 #endif
 
     // 打开日志文件。
-    if (logfile.open(filePath, ios::out, false, 2, false) == false)
+    if (logfile.open(filePath, ios::out, true, 2, false) == false)
     {
         printf("logfile.open(%s) failed.\n", filePath.c_str());
         return -1;

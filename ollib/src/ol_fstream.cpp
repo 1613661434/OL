@@ -560,14 +560,18 @@ namespace ol
     // ===========================================================================
     bool clogfile::open(const std::string& filename, const std::ios::openmode mode, const bool bbackup, const size_t maxsize, const bool benbuffer)
     {
-        assert(bbackup && maxsize > 0 && "When bbackup is true, maxsize must be greater than 0");
+        if (bbackup && maxsize == 0)
+        {
+            fprintf(stderr, "Error: When bbackup is true, maxsize must be greater than 0\n");
+            return false;
+        }
 
         lock_guard_spin lock(m_splock);
 
         // 如果日志文件是打开的状态，先关闭它。
         if (fout.is_open())
         {
-            if (m_enbuffer) fout.flush();
+            fout.flush();
             fout.close();
         }
 
@@ -581,16 +585,16 @@ namespace ol
 
         fout.open(m_filename, m_mode); // 打开日志文件。
 
-        if (m_enbuffer == false) fout << std::unitbuf; // 是否启用文件缓冲区。
+        if (!m_enbuffer) fout << std::unitbuf; // 是否启用文件缓冲区。
 
         return fout.is_open();
     }
 
     bool clogfile::backup()
     {
-        if (fout.is_open() == false) return false;
+        if (!fout.is_open()) return false;
 
-        if (m_enbuffer) fout.flush();
+        fout.flush();
 
         std::streamsize file_size = get_file_size();
         if (file_size == 0) return true;
@@ -608,13 +612,13 @@ namespace ol
             if (!renamefile(m_filename, bak_filename))
             {
                 fout.open(m_filename, m_mode); // 重命名失败，重新打开原文件
-                if (m_enbuffer == false) fout << std::unitbuf;
+                if (!m_enbuffer) fout << std::unitbuf;
                 return false;
             }
 
             fout.open(m_filename, m_mode); // 重新打开当前日志文件。
 
-            if (m_enbuffer == false) fout << std::unitbuf; // 判断是否启动文件缓冲区。
+            if (!m_enbuffer) fout << std::unitbuf; // 判断是否启动文件缓冲区。
 
             return fout.is_open();
         }
