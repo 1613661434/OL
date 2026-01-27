@@ -7,6 +7,7 @@
 #include <string>
 #include <type_traits>
 #include <vector>
+#include <assert.h>
 
 #ifdef __unix__
 #include <sys/syscall.h>

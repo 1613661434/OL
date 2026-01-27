@@ -33,6 +33,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <vector>
+#include <assert.h>
 
 #ifdef __unix__
 #include <dirent.h>
@@ -331,8 +332,8 @@ namespace ol
         std::ofstream fout;        // 日志文件对象。
         std::string m_filename;    // 日志文件名，建议采用绝对路径。
         std::ios::openmode m_mode; // 日志文件的打开模式。
-        bool m_backup;             // 是否自动切换日志。
-        size_t m_maxsize;          // 当日志文件的大小超过本参数时，自动切换日志。
+        bool m_backup;             // 是否启动备份（当文件大小大于m_maxsize自动切换日志）。
+        size_t m_maxsize;          // 备份文件最大容量（MB）。
         bool m_enbuffer;           // 是否启用文件缓冲区。
         spin_mutex m_splock;       // 自旋锁，用于多线程程序中给写日志的操作加锁。
 
@@ -341,19 +342,28 @@ namespace ol
          * @brief 构造函数
          * @param maxsize 日志最大大小（MB，默认100）
          */
-        clogfile(size_t maxsize = 100) : m_mode(std::ios::app), m_backup(true), m_maxsize(maxsize), m_enbuffer(false) {}
+        clogfile() : m_mode(std::ios::app), m_backup(true), m_maxsize(100), m_enbuffer(false) {}
 
         // 析构函数，自动关闭文件
         ~clogfile() { close(); };
 
         // 关闭日志文件
-        void close() { fout.close(); }
+        void close()
+        {
+            lock_guard_spin lock(m_splock);
+            if (fout.is_open())
+            {
+                if (m_enbuffer) fout.flush();
+                fout.close();
+            }
+        }
 
         /**
          * @brief 打开日志文件
          * @param filename 日志文件名（建议采用绝对路径，目录不存在会自动创建）
          * @param mode 打开模式（默认std::ios::app）
-         * @param bbackup 是否自动备份（默认true，多进程需设为false）
+         * @param bbackup 是否自动备份（默认true）
+         * @param maxsize 备份文件最大容量（MB）
          * @param benbuffer 是否启用缓冲区（默认false，立即写入）
          * @return true-成功，false-失败
          * @note 在多进程的程序中，多个进程往同一日志文件写入大量的日志时，可能会出现小混乱，但是，多线程不会。
@@ -361,7 +371,7 @@ namespace ol
          * 2）只有同时写大量日志时才会出现混乱，在实际开发中，这种情况不多见。
          * 3）如果业务无法容忍，可以用信号量加锁。
          */
-        bool open(const std::string& filename, const std::ios::openmode mode = std::ios::app, const bool bbackup = true, const bool benbuffer = false);
+        bool open(const std::string& filename, const std::ios::openmode mode = std::ios::app, const bool bbackup = true, const size_t maxsize = 100, const bool benbuffer = false);
 
         /**
          * @brief 格式化写入日志（带时间前缀）
@@ -373,13 +383,13 @@ namespace ol
         template <typename... Types>
         bool write(const char* fmt, Types... args)
         {
-            if (fout.is_open() == false) return false;
+            lock_guard_spin lock(m_splock);
 
-            backup(); // 判断是否需要切换日志文件。
+            if (!fout.is_open()) return false;
 
-            m_splock.lock();                                  // 加锁。
+            if (m_backup && !backup()) fout << ltime1() << " " << "[ERROR]:Backup failed\n";
+
             fout << ltime1() << " " << sformat(fmt, args...); // 把当前时间和日志内容写入日志文件。
-            m_splock.unlock();                                // 解锁。
 
             return fout.good();
         }
@@ -394,9 +404,13 @@ namespace ol
         template <typename T>
         clogfile& operator<<(const T& value)
         {
-            m_splock.lock();
+            lock_guard_spin lock(m_splock);
+
+            if (!fout.is_open()) return *this;
+
+            if (m_backup && !backup()) fout << ltime1() << " " << "[ERROR]:Backup failed\n";
+
             fout << value;
-            m_splock.unlock();
 
             return *this;
         }
@@ -405,9 +419,19 @@ namespace ol
         /**
          * @brief 自动备份日志（如果日志文件的大小超过m_maxsize的值，就把当前的日志文件名改为历史日志文件名，再创建新的当前日志文件）
          * @return true-成功，false-失败
-         * @note 备份文件名为原文件名+时间戳（如/tmp/log/filetodb.log.20200101123025）
+         * @note 备份文件名为原文件名+时间戳+.log（如file20200101123025.log）
          */
         bool backup();
+
+        // 获取文件大小
+        std::streamsize get_file_size() const
+        {
+            std::ifstream file(m_filename, std::ios::ate | std::ios::binary);
+            if (!file.is_open()) return 0;
+            std::streamsize size = file.tellg();
+            file.close();
+            return (size < 0) ? 0 : size;
+        }
     };
     // ===========================================================================
 #endif // defined(__unix__) || defined(_WIN32)

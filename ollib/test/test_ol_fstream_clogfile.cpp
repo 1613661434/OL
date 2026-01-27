@@ -20,7 +20,7 @@ int main()
 #endif
 
     // 打开日志文件。
-    if (logfile.open(filePath, ios::out, false) == false)
+    if (logfile.open(filePath, ios::out, false, 2, false) == false)
     {
         printf("logfile.open(%s) failed.\n", filePath.c_str());
         return -1;
@@ -28,7 +28,7 @@ int main()
 
     logfile.write("程序开始运行。\n");
 
-    for (size_t i = 0; i <= 1000; ++i)
+    for (size_t i = 0; i <= 100000; ++i)
     {
         logfile.write("这是第%d个%s...ok.\n", i, "超级女生");
         logfile.write("第%d个超女开始表演...", i); // 表演前，写一行日志，...表示正在表演中。

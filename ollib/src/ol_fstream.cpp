@@ -558,15 +558,24 @@ namespace ol
     // ===========================================================================
 
     // ===========================================================================
-    bool clogfile::open(const std::string& filename, const std::ios::openmode mode, const bool bbackup, const bool benbuffer)
+    bool clogfile::open(const std::string& filename, const std::ios::openmode mode, const bool bbackup, const size_t maxsize, const bool benbuffer)
     {
-        // 如果日志文件是打开的状态，先关闭它。
-        if (fout.is_open()) fout.close();
+        assert(bbackup && maxsize > 0 && "When bbackup is true, maxsize must be greater than 0");
 
-        m_filename = filename;  // 日志文件名。
-        m_mode = mode;          // 打开模式。
-        m_backup = bbackup;     // 是否自动备份。
-        m_enbuffer = benbuffer; // 是否启用文件缓冲区。
+        lock_guard_spin lock(m_splock);
+
+        // 如果日志文件是打开的状态，先关闭它。
+        if (fout.is_open())
+        {
+            if (m_enbuffer) fout.flush();
+            fout.close();
+        }
+
+        m_filename = filename;         // 日志文件名。
+        m_mode = mode | std::ios::out; // 打开模式。
+        m_backup = bbackup;            // 是否自动备份。
+        m_maxsize = maxsize;           // 备份文件最大容量（MB）
+        m_enbuffer = benbuffer;        // 是否启用文件缓冲区。
 
         newdir(m_filename, true); // 如果日志文件的目录不存在，创建它。
 
@@ -579,33 +588,33 @@ namespace ol
 
     bool clogfile::backup()
     {
-        // 不备份
-        if (m_backup == false) return true;
-
         if (fout.is_open() == false) return false;
 
-        const std::streamoff current_pos = fout.tellp();
+        if (m_enbuffer) fout.flush();
 
-        // 如果调用出现错误
-        if (current_pos == -1) return false;
+        std::streamsize file_size = get_file_size();
+        if (file_size == 0) return true;
 
         // 如果当前日志文件的大小超过m_maxsize，备份日志。
-        if ((size_t)current_pos > m_maxsize * 1024 * 1024)
+        if (static_cast<size_t>(file_size) > m_maxsize * 1024 * 1024)
         {
-            m_splock.lock(); // 加锁。
-
             fout.close(); // 关闭当前日志文件。
 
             // 拼接备份日志文件名。
-            std::string bak_filename = m_filename + "." + ltime1("yyyymmddhh24miss");
+            size_t log_suffix_pos = m_filename.rfind(".log");
+            std::string bak_filename = m_filename.substr(0, log_suffix_pos) + ltime1("yyyymmddhh24miss") + ".log";
 
-            rename(m_filename.c_str(), bak_filename.c_str()); // 把当前日志文件改名为备份日志文件。
+            // 把当前日志文件改名为备份日志文件。
+            if (!renamefile(m_filename, bak_filename))
+            {
+                fout.open(m_filename, m_mode); // 重命名失败，重新打开原文件
+                if (m_enbuffer == false) fout << std::unitbuf;
+                return false;
+            }
 
             fout.open(m_filename, m_mode); // 重新打开当前日志文件。
 
             if (m_enbuffer == false) fout << std::unitbuf; // 判断是否启动文件缓冲区。
-
-            m_splock.unlock(); // 解锁。
 
             return fout.is_open();
         }

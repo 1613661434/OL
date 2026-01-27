@@ -30,20 +30,82 @@ namespace ol
         // 构造函数，初始化原子标志
         spin_mutex()
         {
-            flag.clear();
+            flag.clear(std::memory_order_relaxed);
         }
 
         // 加锁（自旋等待直到获取锁）
         inline void lock()
         {
-            while (flag.test_and_set());
+            while (flag.test_and_set(std::memory_order_acquire));
         }
 
         // 解锁
         inline void unlock()
         {
-            flag.clear();
+            flag.clear(std::memory_order_release);
         }
+    };
+    // ===========================================================================
+
+    // ===========================================================================
+    class lock_guard_spin : public TypeNonCopyableMovable
+    {
+    private:
+        spin_mutex& m_mutex;
+
+    public:
+        explicit lock_guard_spin(spin_mutex& mutex) : m_mutex(mutex)
+        {
+            m_mutex.lock();
+        }
+
+        ~lock_guard_spin()
+        {
+            m_mutex.unlock();
+        }
+    };
+    // ===========================================================================
+
+    // ===========================================================================
+    class unique_lock_spin : public TypeNonCopyableMovable
+    {
+    private:
+        spin_mutex& m_mutex;
+        bool m_owned; // 标记是否持有锁
+
+    public:
+        explicit unique_lock_spin(spin_mutex& mutex) : m_mutex(mutex), m_owned(false)
+        {
+            lock();
+        }
+
+        ~unique_lock_spin()
+        {
+            if (m_owned)
+            {
+                m_mutex.unlock();
+            }
+        }
+
+        void lock()
+        {
+            if (!m_owned)
+            {
+                m_mutex.lock();
+                m_owned = true;
+            }
+        }
+
+        void unlock()
+        {
+            if (m_owned)
+            {
+                m_mutex.unlock();
+                m_owned = false;
+            }
+        }
+
+        bool isLock() const { return m_owned; }
     };
     // ===========================================================================
 
