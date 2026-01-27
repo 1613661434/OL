@@ -15,7 +15,7 @@
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     class TcpServer
     {
     private:
@@ -57,7 +57,7 @@ namespace ol
         void setTimeoutCb(std::function<void(EventLoop*)> func);
         void setTimerTimeoutCb(std::function<void(int)> func);
     };
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol
 

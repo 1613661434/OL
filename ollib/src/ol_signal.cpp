@@ -3,7 +3,7 @@
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     // 忽略关闭全部的信号、关闭全部的IO，缺省只忽略信号，不关IO。
     // 不希望后台服务程序被信号打扰，需要什么信号可以在程序中设置。
     // 实际上关闭的IO是0、1、2。
@@ -17,6 +17,6 @@ namespace ol
         close(STDOUT_FILENO);
         close(STDERR_FILENO);
     }
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol

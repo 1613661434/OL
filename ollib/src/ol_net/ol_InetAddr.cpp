@@ -3,7 +3,7 @@
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     // 默认构造函数：初始化空地址（默认IPv4）
     InetAddr::InetAddr()
         : m_family(AF_INET), m_addrLen(sizeof(sockaddr_in))
@@ -277,6 +277,6 @@ namespace ol
             throw std::invalid_argument("Unsupported address family");
         }
     }
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol

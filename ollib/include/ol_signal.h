@@ -16,14 +16,14 @@
 #include "ol_fstream.h"
 #include <signal.h>
 
-#ifdef __linux__
+#ifdef __unix__
 #include <unistd.h>
-#endif // __linux__
+#endif // __unix__
 
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     /**
      * @brief 忽略常见信号并可选关闭标准I/O流
      * @param bcloseio 是否关闭标准输入输出错误流（默认false-不关闭）
@@ -32,7 +32,7 @@ namespace ol
      *       3. 适用于后台服务程序，防止意外终止或输出干扰
      */
     void ignoreSignalsCloseIO(bool bcloseio = false);
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol
 

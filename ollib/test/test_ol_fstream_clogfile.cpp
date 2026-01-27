@@ -13,7 +13,7 @@ int main()
 
     string filePath;
 
-#ifdef __linux__
+#ifdef __unix__
     filePath = "/tmp/log/test_ol_fstream_clogfile.log";
 #elif defined(_WIN32)
     filePath = R"(C:\test\test_ol_fstream_clogfile.log)";

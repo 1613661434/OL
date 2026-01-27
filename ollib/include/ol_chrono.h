@@ -22,7 +22,7 @@
 
 #ifdef _WIN32
 #include <windows.h> // Windows 平台使用 windows.h 替代 sys/time.h
-#elif defined(__linux__)
+#elif defined(__unix__)
 #include <sys/time.h> // Linus 平台使用 sys/time.h
 #endif
 

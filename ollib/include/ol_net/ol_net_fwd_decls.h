@@ -15,7 +15,7 @@
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     class Buffer;
 
     class InetAddr;
@@ -38,7 +38,7 @@ namespace ol
     using EventLoopPtr = std::unique_ptr<EventLoop>;
 
     class TcpServer;
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol
 

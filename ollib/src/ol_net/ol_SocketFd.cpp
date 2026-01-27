@@ -3,7 +3,7 @@
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     // 创建一个非阻塞的socketFd。
     int createFdNonblocking()
     {
@@ -102,6 +102,6 @@ namespace ol
 
         return clifd;
     }
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol

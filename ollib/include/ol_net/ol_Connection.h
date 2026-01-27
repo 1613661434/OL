@@ -12,14 +12,14 @@
 #include <functional>
 #include <memory>
 
-#ifdef __linux__
+#ifdef __unix__
 #include <sys/syscall.h>
-#endif // __linux__
+#endif // __unix__
 
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     class Connection : public std::enable_shared_from_this<Connection>
     {
     public:
@@ -63,7 +63,7 @@ namespace ol
     public:
         bool timeout(time_t now, int val); // 判断TCP连接是否超时（空闲太久）。
     };
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol
 

@@ -13,7 +13,7 @@
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     class Acceptor
     {
     private:
@@ -29,7 +29,7 @@ namespace ol
         void setNewConnCb(std::function<void(SocketFdPtr)> func); // 设置处理新客户端连接请求的回调函数，将在创建Acceptor对象的时候（TcpServer类的构造函数中）设置。
         void newConn();                                           // 处理新客户端连接请求。
     };
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol
 

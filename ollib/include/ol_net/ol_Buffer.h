@@ -6,14 +6,14 @@
 #include <string.h>
 #include <string>
 
-#ifdef __linux__
+#ifdef __unix__
 #include <unistd.h>
-#endif // __linux__
+#endif // __unix__
 
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     class Buffer
     {
     private:
@@ -46,7 +46,7 @@ namespace ol
 
         ssize_t recvFd(int fd); // 从fd读取数据到缓冲区（非阻塞模式）
     };
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol
 

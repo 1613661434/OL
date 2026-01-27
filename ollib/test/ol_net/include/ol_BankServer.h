@@ -10,7 +10,7 @@
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     // 用户/客户端的信息（状态机）。
     class UserInfo
     {
@@ -64,7 +64,7 @@ namespace ol
 
         void onMessage(Connection::Ptr conn, std::string& message); // 处理客户端的请求报文，用于添加给线程池。
     };
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol
 

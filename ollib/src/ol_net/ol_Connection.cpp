@@ -5,7 +5,7 @@
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     Connection::Connection(EventLoop* eventLoop, SocketFd::Ptr cliFd)
         : m_eventLoop(eventLoop), m_cliFd(std::move(cliFd)), m_disconnected(false), m_cliChnl(std::make_unique<Channel>(m_eventLoop, m_cliFd->getFd()))
     {
@@ -189,6 +189,6 @@ namespace ol
     {
         return now - m_lastATime.toInt() > val;
     }
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol

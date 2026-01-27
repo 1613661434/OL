@@ -4,7 +4,7 @@
  * 功能：创建命名管道并向其写入数据（仅支持Linux）
  */
 
-#if !defined(__linux__)
+#if !defined(__unix__)
 #error "仅支持Linux平台，不支持当前系统！"
 #endif
 

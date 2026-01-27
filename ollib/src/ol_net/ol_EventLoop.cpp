@@ -4,7 +4,7 @@
 
 namespace ol
 {
-#ifdef __linux__
+#ifdef __unix__
     static inline int createTimerFd(int sec = 30)
     {
         int tfd = timerfd_create(CLOCK_MONOTONIC, TFD_CLOEXEC | TFD_NONBLOCK); // 创建timerfd。
@@ -205,6 +205,6 @@ namespace ol
     {
         m_removeTimeoutConnCb = func;
     }
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol

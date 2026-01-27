@@ -4,7 +4,7 @@
  *  功能：通过管道实现父子进程间的通信，父进程向子进程发送消息
  */
 
-#if !defined(__linux__)
+#if !defined(__unix__)
 #error "仅支持Linux平台，不支持当前系统！"
 #endif
 

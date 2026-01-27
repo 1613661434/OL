@@ -19,7 +19,7 @@
 #include <signal.h>
 #include <string>
 
-#ifdef __linux__
+#ifdef __unix__
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <netinet/in.h>
@@ -27,14 +27,14 @@
 #include <sys/sem.h> // 定义 SEM_UNDO 常量和信号量相关函数
 #include <sys/shm.h>
 #include <sys/socket.h>
-#endif // __linux__
+#endif // __unix__
 
 namespace ol
 {
 
     // socket通讯的函数和类
     // ===========================================================================
-#ifdef __linux__
+#ifdef __unix__
     // TCP客户端类，用于与服务端建立连接并进行数据通信
     class ctcpclient
     {
@@ -192,7 +192,7 @@ namespace ol
      */
     bool writen(const int sockfd, const char* buffer, const size_t n);
     // ===========================================================================
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol
 

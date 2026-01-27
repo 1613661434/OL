@@ -3,7 +3,7 @@
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     Acceptor::Acceptor(EventLoop* eventLoop, const std::string& ip, const uint16_t port)
         : m_eventLoop(eventLoop), m_servFd(createFdNonblocking()), m_acceptChnl(m_eventLoop, m_servFd.getFd())
     {
@@ -39,6 +39,6 @@ namespace ol
 
         m_newConnCb(std::move(cliFd)); // 回调TcpServer::newConn()
     }
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol

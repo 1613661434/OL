@@ -16,16 +16,16 @@
 #ifndef OL_FTP_H
 #define OL_FTP_H 1
 
-#ifdef __linux__
+#ifdef __unix__
 #include "third_party/ftplib/ftplib.h"
 #include "ol_chrono.h"
 #include "ol_fstream.h"
-#endif // __linux__
+#endif // __unix__
 
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     // FTP客户端类，封装FTP服务器的连接及文件操作
     class cftpclient
     {
@@ -161,7 +161,7 @@ namespace ol
          */
         char* response();
     };
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol
 

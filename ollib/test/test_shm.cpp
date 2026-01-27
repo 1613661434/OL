@@ -4,7 +4,7 @@
  *  功能：通过共享内存实现进程间数据共享，存储并更新一个包含编号和姓名的结构体数据
  */
 
-#if !defined(__linux__)
+#if !defined(__unix__)
 #error "仅支持Linux平台，不支持当前系统！"
 #endif
 

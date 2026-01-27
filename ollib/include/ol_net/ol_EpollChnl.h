@@ -13,14 +13,14 @@
 #include <unistd.h>
 #include <vector>
 
-#ifdef __linux__
+#ifdef __unix__
 #include <sys/epoll.h>
-#endif // __linux__
+#endif // __unix__
 
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     // EpollChnl类。
     class EpollChnl
     {
@@ -41,7 +41,7 @@ namespace ol
         std::vector<Channel*> loop(int timeout = -1); // 运行epoll_wait()，等待事件的发生，已发生的事件用vector容器返回。
         size_t getMaxEvents();
     };
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol
 

@@ -5,7 +5,7 @@
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     TcpServer::TcpServer(const std::string& ip, const uint16_t port, size_t threadNum, size_t MainMaxEvents, size_t SubMaxEvents, int epWaitTimeout, int timerTimetvl, int timerTimeout)
         : m_threadNum(threadNum), m_mainEventLoop(std::make_unique<EventLoop>(true, MainMaxEvents)),
           m_acceptor(m_mainEventLoop.get(), ip, port), m_threadPool(m_threadNum, 0)
@@ -170,6 +170,6 @@ namespace ol
     {
         m_timerTimeoutCb = func;
     }
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol

@@ -15,7 +15,7 @@ int main()
     cdir dir;
 #ifdef _WIN32
     const string test_dir = R"(D:\Visual Studio)";
-#elif defined(__linux__)
+#elif defined(__unix__)
     const string test_dir = R"(/home/mysql/test_ol)";
 #endif
 
@@ -39,7 +39,7 @@ int main()
         // 使用VS推荐的strerror_s替代strerror，避免安全警告
         char err_msg[256];                           // 存储错误信息的缓冲区
         strerror_s(err_msg, sizeof(err_msg), errno); // 安全版本的错误信息函数
-#elif defined(__linux__)
+#elif defined(__unix__)
         perror("错误：opendir() 失败！原因：\n");
 #endif
         return -1;

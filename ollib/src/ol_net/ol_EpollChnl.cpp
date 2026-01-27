@@ -5,7 +5,7 @@
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     EpollChnl::EpollChnl(size_t MaxEvents)
     {
         // 创建epoll句柄：设置EPOLL_CLOEXEC标志，避免进程替换时泄露文件描述符
@@ -118,6 +118,6 @@ namespace ol
     {
         return m_MaxEvents;
     }
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol

@@ -6,17 +6,17 @@
 #include <memory>
 #include <string.h>
 
-#ifdef __linux__
+#ifdef __unix__
 #include <netinet/tcp.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
-#endif // __linux__
+#endif // __unix__
 
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     // 创建一个非阻塞的socketFd。
     int createFdNonblocking();
 
@@ -47,7 +47,7 @@ namespace ol
         void listen(int n = 128);            // 服务端的SocketFd将调用此函数。
         int accept(InetAddr& cliAddr);       // 服务端的SocketFd将调用此函数。
     };
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol
 

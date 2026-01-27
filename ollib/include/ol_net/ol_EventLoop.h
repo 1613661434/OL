@@ -14,16 +14,16 @@
 #include <unistd.h>
 #include <unordered_map>
 
-#ifdef __linux__
+#ifdef __unix__
 #include <sys/eventfd.h>
 #include <sys/syscall.h>
 #include <sys/timerfd.h>
-#endif // __linux__
+#endif // __unix__
 
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     // 事件循环类。
     class EventLoop
     {
@@ -76,7 +76,7 @@ namespace ol
 
         void setRemoveTimeoutConnCb(std::function<void(int)> func); // 将被设置为TcpServer::removeConn(int fd)
     };
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol
 

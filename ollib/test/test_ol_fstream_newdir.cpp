@@ -8,7 +8,7 @@ using namespace ol;
 
 int main()
 {
-#ifdef __linux__
+#ifdef __unix__
     // 创建"/tmp/test_ol/bbb/ccc/ddd"目录。
     newdir("/tmp/test_ol/bbb/ccc/ddd", false);
 

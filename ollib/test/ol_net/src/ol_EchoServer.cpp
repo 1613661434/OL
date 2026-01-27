@@ -1,9 +1,9 @@
 #include "ol_EchoServer.h"
 
-#ifdef __linux__
+#ifdef __unix__
 #include <sys/syscall.h>
 #include <unistd.h>
-#endif // __linux__
+#endif // __unix__
 
 // #define DEBUG
 // #define DEBUG2
@@ -11,7 +11,7 @@
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     EchoServer::EchoServer(const std::string& ip, const uint16_t port, size_t workThreadNum, size_t subThreadNum, size_t MainMaxEvents, size_t SubMaxEvents, int epWaitTimeout, int timerTimetvl, int timerTimeout)
         : m_tcpServ(ip, port, subThreadNum, MainMaxEvents, SubMaxEvents, epWaitTimeout, timerTimetvl, timerTimeout), m_threadPool(workThreadNum, 0)
     {
@@ -129,6 +129,6 @@ namespace ol
 
         conn->send(message.data(), message.size()); // 把数据发送出去。
     }
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol

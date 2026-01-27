@@ -15,16 +15,16 @@
 
 #include "ol_fstream.h"
 
-#ifdef __linux__
+#ifdef __unix__
 #include <sys/ipc.h>
 #include <sys/sem.h> // 定义 SEM_UNDO 常量和信号量相关函数
 #include <sys/shm.h>
-#endif // __linux__
+#endif // __unix__
 
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     // ===========================================================================
     // Linux命令
     // 查看共享内存：  ipcs -m
@@ -181,7 +181,7 @@ namespace ol
         ~cpactive();
     };
     // ===========================================================================
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol
 

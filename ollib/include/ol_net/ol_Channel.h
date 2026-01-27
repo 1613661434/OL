@@ -7,16 +7,16 @@
 #include <functional>
 #include <memory>
 
-#ifdef __linux__
+#ifdef __unix__
 #include <sys/epoll.h>
 #include <sys/socket.h>
 #include <sys/types.h>
-#endif // __linux__
+#endif // __unix__
 
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     class Channel
     {
     public:
@@ -62,7 +62,7 @@ namespace ol
 
         void handleEvent(); // 事件处理函数，epoll_wait()返回的时候，执行它。
     };
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol
 

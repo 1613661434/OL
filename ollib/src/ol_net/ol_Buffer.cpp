@@ -5,7 +5,7 @@
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     Buffer::Buffer(uint16_t sep) : m_sep(sep)
     {
     }
@@ -164,6 +164,6 @@ namespace ol
             }
         }
     }
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol

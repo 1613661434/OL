@@ -18,15 +18,15 @@
 #include <stdexcept>
 #include <string>
 
-#ifdef __linux__
+#ifdef __unix__
 #include <arpa/inet.h>
 #include <netinet/in.h>
-#endif // __linux__
+#endif // __unix__
 
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     class InetAddr
     {
     private:
@@ -192,7 +192,7 @@ namespace ol
          */
         void setAddr(const sockaddr* addr, socklen_t addrLen);
     };
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol
 

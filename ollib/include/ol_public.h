@@ -66,7 +66,7 @@
 #include <vector>             // 动态数组容器（高效随机访问）
 
 // Linux平台特定头文件
-#ifdef __linux__
+#ifdef __unix__
 #include <arpa/inet.h>    // IP地址转换（inet_addr、inet_ntoa等）
 #include <dirent.h>       // 目录操作（opendir、readdir等）
 #include <netdb.h>        // 网络数据库（主机名解析、服务查询等）
@@ -86,6 +86,6 @@
 #include <termios.h>      // 终端I/O控制（串口通信、终端设置等）
 #include <unistd.h>       // Unix标准系统调用（read、write、close等）
 #include <utime.h>        // 文件时间戳操作（修改访问/修改时间）
-#endif                    // __linux__
+#endif                    // __unix__
 
 #endif // !OL_PUBLIC_H

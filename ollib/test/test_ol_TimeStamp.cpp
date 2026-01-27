@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace ol;
 
-#ifdef __linux__
+#ifdef __unix__
 #include <unistd.h>
 #elif defined(_WIN32)
 #include <windows.h>
@@ -14,7 +14,7 @@ int main()
     std::cout << ts.toInt() << std::endl;
     std::cout << ts.toString() << std::endl;
 
-#ifdef __linux__
+#ifdef __unix__
     sleep(1);
 #elif defined(_WIN32)
     Sleep(1000);

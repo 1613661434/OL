@@ -8,7 +8,7 @@ namespace ol
     // mode: 0=检查存在, 2=写权限, 4=读权限, 6=读写权限
     inline int ACCESS(const char* _FileName, int _AccessMode)
     {
-#ifdef __linux__
+#ifdef __unix__
         return access(_FileName, _AccessMode);
 #elif defined(_WIN32)
         return _access(_FileName, _AccessMode);
@@ -19,7 +19,7 @@ namespace ol
     // Linux 需指定权限（如 0755），Windows 忽略权限参数
     inline int MKDIR(const char* _Path, unsigned int _Mode)
     {
-#ifdef __linux__
+#ifdef __unix__
         return mkdir(_Path, _Mode);
 #elif defined(_WIN32)
         // Windows 不支持权限参数，直接调用 _mkdir
@@ -38,7 +38,7 @@ namespace ol
     {
         std::string path = pathorfilename;
 
-#ifdef __linux__
+#ifdef __unix__
         // 检查目录是否存在，如果不存在，逐级创建子目录
         size_t pos = 1; // 不要从0开始，0是根目录/。
 #elif defined(_WIN32)
@@ -102,7 +102,7 @@ namespace ol
     bool renamefile(const std::string& srcfilename, const std::string& dstfilename)
     {
         // 检查原文件是否存在且可读（Linux用R_OK，Windows用_access的4）
-#ifdef __linux__
+#ifdef __unix__
         if (access(srcfilename.c_str(), R_OK) != 0) return false;
 #elif defined(_WIN32)
         // Windows中_access的第二个参数：4表示检查可读性（对应Linux的R_OK）
@@ -113,7 +113,7 @@ namespace ol
         if (newdir(dstfilename, true) == false) return false;
 
         // 调用操作系统的库函数rename重命名文件。
-#ifdef __linux__
+#ifdef __unix__
         if (rename(srcfilename.c_str(), dstfilename.c_str()) == 0) return true;
 #elif defined(_WIN32)
         // Windows的rename函数与Linux用法相同，但需确保路径正确
@@ -173,7 +173,7 @@ namespace ol
     // ===========================================================================
     long filesize(const std::string& filename)
     {
-#ifdef __linux__
+#ifdef __unix__
         struct stat st_filestat;
         if (stat(filename.c_str(), &st_filestat) < 0) return -1;
 #elif defined(_WIN32)
@@ -185,7 +185,7 @@ namespace ol
 
     bool filemtime(const std::string& filename, std::string& mtime, const std::string& fmt)
     {
-#ifdef __linux__
+#ifdef __unix__
         struct stat st_filestat;
         if (stat(filename.c_str(), &st_filestat) < 0) return false;
 #elif defined(_WIN32)
@@ -198,7 +198,7 @@ namespace ol
 
     bool filemtime(const std::string& filename, char* mtime, const std::string& fmt)
     {
-#ifdef __linux__
+#ifdef __unix__
         struct stat st_filestat;
         if (stat(filename.c_str(), &st_filestat) < 0) return false;
 #elif defined(_WIN32)
@@ -211,7 +211,7 @@ namespace ol
 
     bool setmtime(const std::string& filename, const std::string& mtime)
     {
-#ifdef __linux__
+#ifdef __unix__
         // Linux 平台使用 utimbuf
         struct utimbuf stutimbuf;
         stutimbuf.actime = stutimbuf.modtime = strtotime(mtime);
@@ -233,7 +233,7 @@ namespace ol
     }
 
     // 这是一个递归函数，在opendir()中调用，cdir类的外部不需要调用它。
-#ifdef __linux__
+#ifdef __unix__
     // Linux的_opendir（递归遍历目录）
     bool cdir::_opendir(const std::string& dirname, const std::string& rules, const size_t maxfiles, const bool bandchild, const bool bwithDotFiles)
     {
@@ -304,7 +304,8 @@ namespace ol
         }
 
         std::string strffilename; // 全路径的文件名
-        do {
+        do
+        {
             // 跳过.和..（.是当前目录，..是上一级目录）
             if (strcmp(fileinfo.name, ".") == 0 || strcmp(fileinfo.name, "..") == 0) continue;
 
@@ -395,7 +396,7 @@ namespace ol
         }
 
         // 获取文件信息（区分平台）
-#ifdef __linux__
+#ifdef __unix__
         struct stat st_filestat;
         if (stat(m_ffilename.c_str(), &st_filestat) != 0) // 检查stat调用是否成功
         {

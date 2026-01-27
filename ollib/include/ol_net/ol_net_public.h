@@ -10,7 +10,7 @@
 #ifndef OL_NET_PUBLIC_H
 #define OL_NET_PUBLIC_H 1
 
-#ifdef __linux__
+#ifdef __unix__
 #include "ol_net/ol_net_fwd_decls.h"
 #include "ol_net/ol_Buffer.h"
 #include "ol_net/ol_InetAddr.h"
@@ -22,6 +22,6 @@
 #include "ol_net/ol_EpollFd.h"
 #include "ol_net/ol_EventLoop.h"
 #include "ol_net/ol_TcpServer.h"
-#endif // __linux__
+#endif // __unix__
 
 #endif // !OL_NET_PUBLIC_H

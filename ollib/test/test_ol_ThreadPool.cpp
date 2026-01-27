@@ -8,7 +8,7 @@
 #include <type_traits>
 #include <vector>
 
-#ifdef __linux__
+#ifdef __unix__
 #include <sys/syscall.h>
 #include <unistd.h>
 #elif defined(_WIN32)
@@ -39,7 +39,7 @@ void safePrint(const T& content)
 // 获取当前线程ID的字符串表示
 std::string getThreadId()
 {
-#ifdef __linux__
+#ifdef __unix__
     return std::to_string(syscall(SYS_gettid));
 #elif defined(_WIN32)
     return std::to_string(GetCurrentThreadId());

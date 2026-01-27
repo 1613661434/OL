@@ -5,7 +5,7 @@
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     Channel::Channel(EventLoop* eventLoop, int fd) : m_eventLoop(eventLoop), m_fd(fd)
     {
     }
@@ -161,6 +161,6 @@ namespace ol
             m_errorCb();
         }
     }
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol

@@ -194,7 +194,7 @@ namespace ol
         {
             if (charset == NULL) return;
 
-#ifdef __linux__
+#ifdef __unix__
             // UNIX平台是采用setenv函数
             setenv("NLS_LANG", charset, 1);
 #elif defined(_WIN32)
@@ -217,7 +217,7 @@ namespace ol
 
             // 设置日期字段的输出格式
 
-#ifdef __linux__
+#ifdef __unix__
             // UNIX平台是采用setenv函数
             setenv("NLS_DATE_FORMAT", "yyyy-mm-dd hh24:mi:ss", 1);
 #elif defined(_WIN32)

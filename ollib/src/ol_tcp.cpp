@@ -3,7 +3,7 @@
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     bool ctcpclient::connect(const std::string& ip, const int port)
     {
         // 如果已连接到服务端，则断开，这种处理方法没有特别的原因，不要纠结。
@@ -327,6 +327,6 @@ namespace ol
 
         return true;
     }
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol

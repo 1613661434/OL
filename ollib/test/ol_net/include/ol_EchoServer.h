@@ -9,7 +9,7 @@
 namespace ol
 {
 
-#ifdef __linux__
+#ifdef __unix__
     /**
      * @brief   EchoServer类：回显服务器
      */
@@ -35,7 +35,7 @@ namespace ol
 
         void onMessage(Connection::Ptr conn, std::string& message); // 处理客户端的请求报文，用于添加给线程池。
     };
-#endif // __linux__
+#endif // __unix__
 
 } // namespace ol
 

@@ -34,21 +34,21 @@
 #include <sys/stat.h>
 #include <vector>
 
-#ifdef __linux__
+#ifdef __unix__
 #include <dirent.h>
 #include <unistd.h>
 #include <utime.h>
-#elif defined(_WIN32)  // Windows 平台头文件
-#include <direct.h>    // 目录操作
-#include <io.h>        // 替代 unistd.h
-#include <sys/utime.h> // Windows 下的 utime 定义
-#include <time.h>      // 时间函数
-#endif                 // _WIN32
+#elif defined(_WIN32)
+#include <direct.h>
+#include <io.h>
+#include <sys/utime.h>
+#include <time.h>
+#endif // _WIN32
 
 namespace ol
 {
 
-#if defined(__linux__) || defined(_WIN32)
+#if defined(__unix__) || defined(_WIN32)
     // ===========================================================================
     /**
      * @brief 根据绝对路径逐级创建目录
@@ -136,10 +136,25 @@ namespace ol
         std::string m_ctime;     // 文件生成的时间，即stat结构体的st_ctime成员。
         std::string m_atime;     // 文件最后一次被访问的时间，即stat结构体的st_atime成员。
 
+    public:
         // 构造函数。
-        cdir() : m_pos(0), m_fmt("yyyymmddhh24miss"), m_filesize(0)
-        {
-        }
+        cdir() : m_pos(0), m_fmt("yyyymmddhh24miss"), m_filesize(0) {}
+
+        // 析构函数。
+        ~cdir();
+
+        /**
+         * @brief 读取下一个文件信息（从m_filelist容器中获取一条记录（文件名），同时获取该文件的大小、修改时间等信息。）
+         * @return true-成功（数据存入成员变量），false-已无更多文件
+         * @note 调用opendir方法时，m_filelist容器被清空，m_pos归零，每调用一次readdir方法m_pos加1。
+         */
+        bool readdir();
+
+        /**
+         * @brief 获取文件列表总数
+         * @return 文件数量
+         */
+        size_t size() { return m_filelist.size(); }
 
         /**
          * @brief 设置文件时间格式
@@ -170,26 +185,6 @@ namespace ol
          * @return true-成功，false-失败
          */
         bool _opendir(const std::string& dirname, const std::string& rules, const size_t maxfiles, const bool bandchild, const bool bwithDotFiles);
-
-    public:
-        /**
-         * @brief 读取下一个文件信息（从m_filelist容器中获取一条记录（文件名），同时获取该文件的大小、修改时间等信息。）
-         * @return true-成功（数据存入成员变量），false-已无更多文件
-         * @note 调用opendir方法时，m_filelist容器被清空，m_pos归零，每调用一次readdir方法m_pos加1。
-         */
-        bool readdir();
-
-        /**
-         * @brief 获取文件列表总数
-         * @return 文件数量
-         */
-        size_t size()
-        {
-            return m_filelist.size();
-        }
-
-        // 析构函数。
-        ~cdir();
     };
     // ===========================================================================
 
@@ -203,18 +198,16 @@ namespace ol
         std::string m_filenametmp; // 临时文件名，在m_filename后面加".tmp"。
     public:
         // 构造函数
-        cofile()
-        {
-        }
+        cofile() {}
+
+        // 析构函数，自动关闭文件
+        ~cofile() { close(); };
 
         /**
          * @brief 判断文件是否已打开
          * @return true-已打开，false-未打开
          */
-        bool isopen() const
-        {
-            return fout.is_open();
-        }
+        bool isopen() const { return fout.is_open(); }
 
         /**
          * @brief 打开文件
@@ -273,12 +266,6 @@ namespace ol
 
         // 关闭文件（若有临时文件则删除）
         void close();
-
-        // 析构函数，自动关闭文件
-        ~cofile()
-        {
-            close();
-        };
     };
     // ===========================================================================
 
@@ -291,18 +278,16 @@ namespace ol
         std::string m_filename; // 文件名，建议采用绝对路径。
     public:
         // 构造函数
-        cifile()
-        {
-        }
+        cifile() {}
+
+        // 析构函数，自动关闭文件
+        ~cifile() { close(); }
 
         /**
          * @brief 判断文件是否已打开
          * @return true-已打开，false-未打开
          */
-        bool isopen() const
-        {
-            return fin.is_open();
-        }
+        bool isopen() const { return fin.is_open(); }
 
         /**
          * @brief 打开文件
@@ -336,12 +321,6 @@ namespace ol
 
         // 只关闭文件。
         void close();
-
-        // 析构函数，自动关闭文件
-        ~cifile()
-        {
-            close();
-        }
     };
     // ===========================================================================
 
@@ -362,9 +341,13 @@ namespace ol
          * @brief 构造函数
          * @param maxsize 日志最大大小（MB，默认100）
          */
-        clogfile(size_t maxsize = 100) : m_mode(std::ios::app), m_backup(true), m_maxsize(maxsize), m_enbuffer(false)
-        {
-        }
+        clogfile(size_t maxsize = 100) : m_mode(std::ios::app), m_backup(true), m_maxsize(maxsize), m_enbuffer(false) {}
+
+        // 析构函数，自动关闭文件
+        ~clogfile() { close(); };
+
+        // 关闭日志文件
+        void close() { fout.close(); }
 
         /**
          * @brief 打开日志文件
@@ -425,22 +408,9 @@ namespace ol
          * @note 备份文件名为原文件名+时间戳（如/tmp/log/filetodb.log.20200101123025）
          */
         bool backup();
-
-    public:
-        // 关闭日志文件
-        void close()
-        {
-            fout.close();
-        }
-
-        // 析构函数，自动关闭文件
-        ~clogfile()
-        {
-            close();
-        };
     };
     // ===========================================================================
-#endif // defined(__linux__) || defined(_WIN32)
+#endif // defined(__unix__) || defined(_WIN32)
 
     // 自定义操作符
     // ===========================================================================

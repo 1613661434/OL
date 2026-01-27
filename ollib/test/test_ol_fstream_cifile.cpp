@@ -53,7 +53,7 @@ void Test(const std::string& filename)
 int main()
 {
     std::string filename;
-#ifdef __linux__
+#ifdef __unix__
     filename = "/tmp/test_ol/ol.txt";
 #elif defined(_WIN32)
     filename = R"(C:\test_ol\ol.txt)";
