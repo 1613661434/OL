@@ -558,7 +558,7 @@ namespace ol
     // ===========================================================================
 
     // ===========================================================================
-    bool clogfile::open(const std::string& filename, const std::ios::openmode mode, const bool bbackup, const size_t maxsize, const bool benbuffer)
+    bool clogfile::open(const std::string& filename, const std::ios::openmode mode, const bool bbackup, const long maxsize, const bool benbuffer)
     {
         if (bbackup && maxsize == 0)
         {
@@ -596,11 +596,11 @@ namespace ol
 
         fout.flush();
 
-        std::streamsize file_size = get_file_size();
-        if (file_size == 0) return true;
+        long fsize = filesize(m_filename);
+        if (fsize == -1) return false;
 
         // 如果当前日志文件的大小超过m_maxsize，备份日志。
-        if (static_cast<size_t>(file_size) > m_maxsize * 1024 * 1024)
+        if (fsize >= m_maxsize * 1024 * 1024)
         {
             fout.close(); // 关闭当前日志文件。
 

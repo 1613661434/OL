@@ -333,7 +333,7 @@ namespace ol
         std::string m_filename;    // 日志文件名，建议采用绝对路径。
         std::ios::openmode m_mode; // 日志文件的打开模式。
         bool m_backup;             // 是否启动备份（当文件大小大于m_maxsize自动切换日志）。
-        size_t m_maxsize;          // 备份文件最大容量（MB）。
+        long m_maxsize;            // 备份文件最大容量（MB）。
         bool m_enbuffer;           // 是否启用文件缓冲区。
         spin_mutex m_splock;       // 自旋锁，用于多线程程序中给写日志的操作加锁。
 
@@ -366,12 +366,8 @@ namespace ol
          * @param maxsize 备份文件最大容量（MB）
          * @param benbuffer 是否启用缓冲区（默认false，立即写入）
          * @return true-成功，false-失败
-         * @note 在多进程的程序中，多个进程往同一日志文件写入大量的日志时，可能会出现小混乱，但是，多线程不会。
-         * 1）多个进程往同一日志文件写入大量的日志时，可能会出现小混乱，这个问题并不严重，可以容忍；
-         * 2）只有同时写大量日志时才会出现混乱，在实际开发中，这种情况不多见。
-         * 3）如果业务无法容忍，可以用信号量加锁。
          */
-        bool open(const std::string& filename, const std::ios::openmode mode = std::ios::app, const bool bbackup = true, const size_t maxsize = 100, const bool benbuffer = false);
+        bool open(const std::string& filename, const std::ios::openmode mode = std::ios::app, const bool bbackup = true, const long maxsize = 100, const bool benbuffer = false);
 
         /**
          * @brief 格式化写入日志（带时间前缀）
@@ -422,16 +418,6 @@ namespace ol
          * @note 备份文件名为原文件名+时间戳+.log（如file20200101123025.log）
          */
         bool backup();
-
-        // 获取文件大小
-        std::streamsize get_file_size() const
-        {
-            std::ifstream file(m_filename, std::ios::ate | std::ios::binary);
-            if (!file.is_open()) return 0;
-            std::streamsize size = file.tellg();
-            file.close();
-            return (size < 0) ? 0 : size;
-        }
     };
     // ===========================================================================
 #endif // defined(__unix__) || defined(_WIN32)
