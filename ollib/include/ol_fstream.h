@@ -83,6 +83,7 @@ namespace ol
     bool copyfile(const std::string& srcfilename, const std::string& dstfilename);
     // ===========================================================================
 
+    // ===========================================================================
     /**
      * @brief 获取文件大小
      * @param filename 文件名（建议绝对路径）
@@ -327,7 +328,7 @@ namespace ol
 
     // ===========================================================================
     // 日志文件类，支持自动切换和多线程安全
-    class clogfile
+    class clogfile // class log file
     {
         std::ofstream fout;        // 日志文件对象。
         std::string m_filename;    // 日志文件名，建议采用绝对路径。
