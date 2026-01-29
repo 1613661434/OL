@@ -33,7 +33,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <vector>
-#include <assert.h>
+#include <mutex>
 
 #ifdef __unix__
 #include <dirent.h>
@@ -351,7 +351,7 @@ namespace ol
         // 关闭日志文件
         void close()
         {
-            lock_guard_spin lock(m_splock);
+            std::lock_guard<spin_mutex> lock(m_splock);
             if (fout.is_open())
             {
                 fout.flush();
@@ -380,7 +380,7 @@ namespace ol
         template <typename... Types>
         bool write(const char* fmt, Types... args)
         {
-            lock_guard_spin lock(m_splock);
+            std::lock_guard<spin_mutex> lock(m_splock);
 
             if (!fout.is_open()) return false;
 
@@ -401,7 +401,7 @@ namespace ol
         template <typename T>
         clogfile& operator<<(const T& value)
         {
-            lock_guard_spin lock(m_splock);
+            std::lock_guard<spin_mutex> lock(m_splock);
 
             if (!fout.is_open()) return *this;
 

@@ -566,7 +566,7 @@ namespace ol
             return false;
         }
 
-        lock_guard_spin lock(m_splock);
+        std::lock_guard<spin_mutex> lock(m_splock);
 
         // 如果日志文件是打开的状态，先关闭它。
         if (fout.is_open())
