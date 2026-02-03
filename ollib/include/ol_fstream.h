@@ -328,6 +328,7 @@ namespace ol
 
     // ===========================================================================
     // 日志文件类，支持自动切换和多线程安全
+    template <typename LockType = spin_mutex>
     class clogfile // class log file
     {
         std::ofstream fout;        // 日志文件对象。
@@ -336,7 +337,7 @@ namespace ol
         bool m_backup;             // 是否启动备份（当文件大小大于m_maxsize自动切换日志）。
         long m_maxsize;            // 备份文件最大容量（MB）。
         bool m_enbuffer;           // 是否启用文件缓冲区。
-        spin_mutex m_splock;       // 自旋锁，用于多线程程序中给写日志的操作加锁。
+        LockType m_splock;         // 锁，用于多线程程序中给写日志的操作加锁（默认自旋锁）。
 
     public:
         /**
@@ -351,7 +352,7 @@ namespace ol
         // 关闭日志文件
         void close()
         {
-            std::lock_guard<spin_mutex> lock(m_splock);
+            std::lock_guard<LockType> lock(m_splock);
             if (fout.is_open())
             {
                 fout.flush();
@@ -368,7 +369,37 @@ namespace ol
          * @param benbuffer 是否启用缓冲区（默认false，立即写入）
          * @return true-成功，false-失败
          */
-        bool open(const std::string& filename, const std::ios::openmode mode = std::ios::app, const bool bbackup = true, const long maxsize = 100, const bool benbuffer = false);
+        bool open(const std::string& filename, const std::ios::openmode mode = std::ios::app, const bool bbackup = true, const long maxsize = 100, const bool benbuffer = false)
+        {
+            if (bbackup && maxsize == 0)
+            {
+                fprintf(stderr, "Error: When bbackup is true, maxsize must be greater than 0\n");
+                return false;
+            }
+
+            std::lock_guard<LockType> lock(m_splock);
+
+            // 如果日志文件是打开的状态，先关闭它。
+            if (fout.is_open())
+            {
+                fout.flush();
+                fout.close();
+            }
+
+            m_filename = filename;         // 日志文件名。
+            m_mode = mode | std::ios::out; // 打开模式。
+            m_backup = bbackup;            // 是否自动备份。
+            m_maxsize = maxsize;           // 备份文件最大容量（MB）
+            m_enbuffer = benbuffer;        // 是否启用文件缓冲区。
+
+            newdir(m_filename, true); // 如果日志文件的目录不存在，创建它。
+
+            fout.open(m_filename, m_mode); // 打开日志文件。
+
+            if (!m_enbuffer) fout << std::unitbuf; // 是否启用文件缓冲区。
+
+            return fout.is_open();
+        }
 
         /**
          * @brief 格式化写入日志（带时间前缀）
@@ -380,13 +411,101 @@ namespace ol
         template <typename... Types>
         bool write(const char* fmt, Types... args)
         {
-            std::lock_guard<spin_mutex> lock(m_splock);
+            std::lock_guard<LockType> lock(m_splock);
 
             if (!fout.is_open()) return false;
 
-            if (m_backup && !backup()) fout << ltime1() << " " << "[ERROR]:Backup failed\n";
+            if (m_backup && !backup()) fout << ltime1() << ' ' << "[ERROR]:Backup failed\n";
 
-            fout << ltime1() << " " << sformat(fmt, args...); // 把当前时间和日志内容写入日志文件。
+            fout << ltime1() << ' ' << sformat(fmt, args...); // 把当前时间和日志内容写入日志文件。
+
+            return fout.good();
+        }
+
+        /**
+         * @brief 格式化写入日志自动换行（DEBUG模式，DEBUG或者_DEBUG宏启用时才输出）
+         * @tparam Types 可变参数类型
+         * @param fmt 格式字符串
+         * @param args 待格式化的参数
+         * @return true-成功，false-失败
+         */
+        template <typename... Types>
+        bool debug(const char* fmt, Types... args)
+        {
+#if defined(DEBUG) || defined(_DEBUG)
+            std::lock_guard<LockType> lock(m_splock);
+
+            if (!fout.is_open()) return false;
+
+            if (m_backup && !backup()) fout << ltime1() << ' ' << "[ERROR]:Backup failed\n";
+
+            fout << ltime1() << " [DEBUG] " << sformat(fmt, args...) << '\n';
+
+            return fout.good();
+#else
+            return true;
+#endif
+        }
+
+        /**
+         * @brief 格式化写入日志自动换行（INFO模式）
+         * @tparam Types 可变参数类型
+         * @param fmt 格式字符串
+         * @param args 待格式化的参数
+         * @return true-成功，false-失败
+         */
+        template <typename... Types>
+        bool info(const char* fmt, Types... args)
+        {
+            std::lock_guard<LockType> lock(m_splock);
+
+            if (!fout.is_open()) return false;
+
+            if (m_backup && !backup()) fout << ltime1() << ' ' << "[ERROR]:Backup failed\n";
+
+            fout << ltime1() << " [INFO] " << sformat(fmt, args...) << '\n'; // 把当前时间和日志内容写入日志文件。
+
+            return fout.good();
+        }
+
+        /**
+         * @brief 格式化写入日志自动换行（WARN模式）
+         * @tparam Types 可变参数类型
+         * @param fmt 格式字符串
+         * @param args 待格式化的参数
+         * @return true-成功，false-失败
+         */
+        template <typename... Types>
+        bool warn(const char* fmt, Types... args)
+        {
+            std::lock_guard<LockType> lock(m_splock);
+
+            if (!fout.is_open()) return false;
+
+            if (m_backup && !backup()) fout << ltime1() << ' ' << "[ERROR]:Backup failed\n";
+
+            fout << ltime1() << " [WARN] " << sformat(fmt, args...) << '\n'; // 把当前时间和日志内容写入日志文件。
+
+            return fout.good();
+        }
+
+        /**
+         * @brief 格式化写入日志自动换行（ERROR模式）
+         * @tparam Types 可变参数类型
+         * @param fmt 格式字符串
+         * @param args 待格式化的参数
+         * @return true-成功，false-失败
+         */
+        template <typename... Types>
+        bool error(const char* fmt, Types... args)
+        {
+            std::lock_guard<LockType> lock(m_splock);
+
+            if (!fout.is_open()) return false;
+
+            if (m_backup && !backup()) fout << ltime1() << ' ' << "[ERROR]:Backup failed\n";
+
+            fout << ltime1() << " [ERROR] " << sformat(fmt, args...) << '\n'; // 把当前时间和日志内容写入日志文件。
 
             return fout.good();
         }
@@ -401,11 +520,11 @@ namespace ol
         template <typename T>
         clogfile& operator<<(const T& value)
         {
-            std::lock_guard<spin_mutex> lock(m_splock);
+            std::lock_guard<LockType> lock(m_splock);
 
             if (!fout.is_open()) return *this;
 
-            if (m_backup && !backup()) fout << ltime1() << " " << "[ERROR]:Backup failed\n";
+            if (m_backup && !backup()) fout << ltime1() << ' ' << "[ERROR]:Backup failed\n";
 
             fout << value;
 
@@ -418,7 +537,41 @@ namespace ol
          * @return true-成功，false-失败
          * @note 备份文件名为原文件名+时间戳+.log（如file20200101123025.log）
          */
-        bool backup();
+        bool backup()
+        {
+            if (!fout.is_open()) return false;
+
+            fout.flush();
+
+            long fsize = filesize(m_filename);
+            if (fsize == -1) return false;
+
+            // 如果当前日志文件的大小超过m_maxsize，备份日志。
+            if (fsize >= m_maxsize * 1024 * 1024)
+            {
+                fout.close(); // 关闭当前日志文件。
+
+                // 拼接备份日志文件名。
+                size_t log_suffix_pos = m_filename.rfind(".log");
+                std::string bak_filename = m_filename.substr(0, log_suffix_pos) + ltime1("yyyymmddhh24miss") + ".log";
+
+                // 把当前日志文件改名为备份日志文件。
+                if (!renamefile(m_filename, bak_filename))
+                {
+                    fout.open(m_filename, m_mode); // 重命名失败，重新打开原文件
+                    if (!m_enbuffer) fout << std::unitbuf;
+                    return false;
+                }
+
+                fout.open(m_filename, m_mode); // 重新打开当前日志文件。
+
+                if (!m_enbuffer) fout << std::unitbuf; // 判断是否启动文件缓冲区。
+
+                return fout.is_open();
+            }
+
+            return true;
+        }
     };
     // ===========================================================================
 #endif // defined(__unix__) || defined(_WIN32)

@@ -9,7 +9,7 @@ using namespace std;
 
 int main()
 {
-    clogfile logfile; // 创建日志对象。
+    clogfile<> logfile; // 创建日志对象。
 
     string filePath;
 
@@ -30,10 +30,18 @@ int main()
 
     for (size_t i = 0; i <= 100000; ++i)
     {
-        logfile.write("这是第%d个%s...ok.\n", i, "超级女生");
-        logfile.write("第%d个超女开始表演...", i); // 表演前，写一行日志，...表示正在表演中。
-        // sleep_ms(2);                                // 超女在表演中。
-        logfile << "ok.\n"; // 表演完成后，写入ok。
+        logfile.write("这是第%d个%s...ok.\n", i, "OL");
+        logfile.write("第%d个OL开始编程...", i);
+        // sleep_ms(2);
+        logfile << "ok.\n";
+    }
+
+    for (size_t i = 0; i <= 1000; ++i)
+    {
+        logfile.debug("DEBUG MODE");
+        logfile.info("INFO MODE");
+        logfile.warn("WARN MODE");
+        logfile.error("ERROR MODE");
     }
 
     logfile.write("程序运行结束。\n");
