@@ -151,7 +151,7 @@ namespace ol
     }
 
     // 把当前进程的信息加入共享内存进程组中。
-    bool cpactive::addpinfo(const int timeout, const std::string& pname, clogfile* logfile, key_t SHM_KEY, key_t SEMP_KEY, size_t MAX_SIZE_P)
+    bool cpactive::addpinfo(const int timeout, const std::string& pname, clogfile<spin_mutex>* logfile, key_t SHM_KEY, key_t SEMP_KEY, size_t MAX_SIZE_P)
     {
         if (m_pos != -1) return true;
 

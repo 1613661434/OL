@@ -169,7 +169,7 @@ namespace ol
          * @param MAX_SIZE_P 最大进程数量（默认MAXNUMP）
          * @return true-成功，false-失败
          */
-        bool addpinfo(const int timeout, const std::string& pname = "", clogfile* logfile = nullptr, key_t SHM_KEY = SHMKEYP, key_t SEMP_KEY = SEMPKEYP, size_t MAX_SIZE_P = MAXNUMP);
+        bool addpinfo(const int timeout, const std::string& pname = "", clogfile<spin_mutex>* logfile = nullptr, key_t SHM_KEY = SHMKEYP, key_t SEMP_KEY = SEMPKEYP, size_t MAX_SIZE_P = MAXNUMP);
 
         /**
          * 更新当前进程的心跳时间（刷新m_atime为当前时间）
