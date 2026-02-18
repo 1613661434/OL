@@ -642,8 +642,8 @@ namespace ol
 
         if (s_len < p_len) return std::string::npos;
 
-        // 预处理next数组，next[i] = pattern[0..i-1]的最长相等前后缀长度
-        std::vector<size_t> next(p_len + 1, 0);
+        // 预处理next数组，next[i] = pattern[0..i]的最长相等前后缀长度
+        std::vector<size_t> next(p_len, 0);
         size_t i, j;
         for (i = 1, j = 0; i < p_len; ++i)
         {
@@ -654,10 +654,10 @@ namespace ol
             }
             else if (j != 0) // 不匹配回溯，仅j>0时执行
             {
-                j = next[j];
+                j = next[j - 1];
                 goto RETRY;
             }
-            next[i + 1] = j; // 偏移存储
+            next[i] = j;
         }
 
         // 匹配过程
@@ -670,10 +670,10 @@ namespace ol
             }
             else if (j != 0) // 不匹配回溯，仅j>0时执行
             {
-                j = next[j];
+                j = next[j - 1];
                 goto RETRY2;
             }
-            if (j == p_len) return i - p_len + 1; // 匹配成功：立即返回起始位置
+            if (j == p_len) return i - j + 1; // 匹配成功：立即返回起始位置
         }
 
         return std::string::npos;
