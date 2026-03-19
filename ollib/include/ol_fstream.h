@@ -334,17 +334,17 @@ namespace ol
         std::ofstream fout;        // 日志文件对象。
         std::string m_filename;    // 日志文件名，建议采用绝对路径。
         std::ios::openmode m_mode; // 日志文件的打开模式。
-        bool m_backup;             // 是否启动备份（当文件大小大于m_maxsize自动切换日志）。
-        long m_maxsize;            // 备份文件最大容量（MB）。
-        bool m_enbuffer;           // 是否启用文件缓冲区。
-        LockType m_splock;         // 锁，用于多线程程序中给写日志的操作加锁（默认自旋锁）。
+        LockType m_lock;           // 锁，用于多线程程序中给写日志的操作加锁（默认自旋锁）。
+        bool m_enBuffer;           // 是否启用文件缓冲区。
+        bool m_isRoll;             // 是否启用日志滚动（当文件大小大于m_maxSize自动滚动日志）。
+        long m_maxSize;            // 备份文件最大容量（MB）。
 
     public:
         /**
          * @brief 构造函数
-         * @param maxsize 日志最大大小（MB，默认100）
+         * @param maxSize 日志最大大小（MB，默认100）
          */
-        clogfile() : m_mode(std::ios::app), m_backup(true), m_maxsize(100), m_enbuffer(false) {}
+        clogfile() : m_mode(std::ios::app), m_isRoll(true), m_maxSize(100), m_enBuffer(false) {}
 
         // 析构函数，自动关闭文件
         ~clogfile() { close(); };
@@ -352,7 +352,7 @@ namespace ol
         // 关闭日志文件
         void close()
         {
-            std::lock_guard<LockType> lock(m_splock);
+            std::lock_guard<LockType> lock(m_lock);
             if (fout.is_open())
             {
                 fout.flush();
@@ -364,20 +364,20 @@ namespace ol
          * @brief 打开日志文件
          * @param filename 日志文件名（建议采用绝对路径，目录不存在会自动创建）
          * @param mode 打开模式（默认std::ios::app）
-         * @param bbackup 是否自动备份（默认true）
-         * @param maxsize 备份文件最大容量（MB）
-         * @param benbuffer 是否启用缓冲区（默认false，立即写入）
+         * @param isRoll 是否启用滚动日志（默认true）
+         * @param maxSize 备份文件最大容量（MB）
+         * @param enBuffer 是否启用缓冲区（默认false，立即写入）
          * @return true-成功，false-失败
          */
-        bool open(const std::string& filename, const std::ios::openmode mode = std::ios::app, const bool bbackup = true, const long maxsize = 100, const bool benbuffer = false)
+        bool open(const std::string& filename, std::ios::openmode mode = std::ios::app, bool isRoll = true, long maxSize = 100, bool enBuffer = false)
         {
-            if (bbackup && maxsize == 0)
+            if (isRoll && maxSize == 0)
             {
-                fprintf(stderr, "Error: When bbackup is true, maxsize must be greater than 0\n");
+                fprintf(stderr, "Error: When isRoll is true, maxSize must be greater than 0\n");
                 return false;
             }
 
-            std::lock_guard<LockType> lock(m_splock);
+            std::lock_guard<LockType> lock(m_lock);
 
             // 如果日志文件是打开的状态，先关闭它。
             if (fout.is_open())
@@ -388,15 +388,15 @@ namespace ol
 
             m_filename = filename;         // 日志文件名。
             m_mode = mode | std::ios::out; // 打开模式。
-            m_backup = bbackup;            // 是否自动备份。
-            m_maxsize = maxsize;           // 备份文件最大容量（MB）
-            m_enbuffer = benbuffer;        // 是否启用文件缓冲区。
+            m_isRoll = isRoll;             // 是否自动备份。
+            m_maxSize = maxSize;           // 备份文件最大容量（MB）
+            m_enBuffer = enBuffer;         // 是否启用文件缓冲区。
 
             newdir(m_filename, true); // 如果日志文件的目录不存在，创建它。
 
             fout.open(m_filename, m_mode); // 打开日志文件。
 
-            if (!m_enbuffer) fout << std::unitbuf; // 是否启用文件缓冲区。
+            if (!m_enBuffer) fout << std::unitbuf; // 是否启用文件缓冲区。
 
             return fout.is_open();
         }
@@ -411,11 +411,11 @@ namespace ol
         template <typename... Types>
         bool write(const char* fmt, Types... args)
         {
-            std::lock_guard<LockType> lock(m_splock);
+            std::lock_guard<LockType> lock(m_lock);
 
             if (!fout.is_open()) return false;
 
-            if (m_backup && !backup()) fout << ltime1() << ' ' << "[ERROR]:Backup failed\n";
+            if (m_isRoll && !rolling()) fout << ltime1() << ' ' << "[ERROR]:Rolling failed\n";
 
             fout << ltime1() << ' ' << sformat(fmt, args...); // 把当前时间和日志内容写入日志文件。
 
@@ -433,11 +433,11 @@ namespace ol
         bool debug(const char* fmt, Types... args)
         {
 #if defined(DEBUG) || defined(_DEBUG)
-            std::lock_guard<LockType> lock(m_splock);
+            std::lock_guard<LockType> lock(m_lock);
 
             if (!fout.is_open()) return false;
 
-            if (m_backup && !backup()) fout << ltime1() << ' ' << "[ERROR]:Backup failed\n";
+            if (m_isRoll && !rolling()) fout << ltime1() << ' ' << "[ERROR]:Rolling failed\n";
 
             fout << ltime1() << " [DEBUG] " << sformat(fmt, args...) << '\n';
 
@@ -457,11 +457,11 @@ namespace ol
         template <typename... Types>
         bool info(const char* fmt, Types... args)
         {
-            std::lock_guard<LockType> lock(m_splock);
+            std::lock_guard<LockType> lock(m_lock);
 
             if (!fout.is_open()) return false;
 
-            if (m_backup && !backup()) fout << ltime1() << ' ' << "[ERROR]:Backup failed\n";
+            if (m_isRoll && !rolling()) fout << ltime1() << ' ' << "[ERROR]:Rolling failed\n";
 
             fout << ltime1() << " [INFO] " << sformat(fmt, args...) << '\n'; // 把当前时间和日志内容写入日志文件。
 
@@ -478,11 +478,11 @@ namespace ol
         template <typename... Types>
         bool warn(const char* fmt, Types... args)
         {
-            std::lock_guard<LockType> lock(m_splock);
+            std::lock_guard<LockType> lock(m_lock);
 
             if (!fout.is_open()) return false;
 
-            if (m_backup && !backup()) fout << ltime1() << ' ' << "[ERROR]:Backup failed\n";
+            if (m_isRoll && !rolling()) fout << ltime1() << ' ' << "[ERROR]:Rolling failed\n";
 
             fout << ltime1() << " [WARN] " << sformat(fmt, args...) << '\n'; // 把当前时间和日志内容写入日志文件。
 
@@ -499,11 +499,11 @@ namespace ol
         template <typename... Types>
         bool error(const char* fmt, Types... args)
         {
-            std::lock_guard<LockType> lock(m_splock);
+            std::lock_guard<LockType> lock(m_lock);
 
             if (!fout.is_open()) return false;
 
-            if (m_backup && !backup()) fout << ltime1() << ' ' << "[ERROR]:Backup failed\n";
+            if (m_isRoll && !rolling()) fout << ltime1() << ' ' << "[ERROR]:Rolling failed\n";
 
             fout << ltime1() << " [ERROR] " << sformat(fmt, args...) << '\n'; // 把当前时间和日志内容写入日志文件。
 
@@ -520,11 +520,11 @@ namespace ol
         template <typename T>
         clogfile& operator<<(const T& value)
         {
-            std::lock_guard<LockType> lock(m_splock);
+            std::lock_guard<LockType> lock(m_lock);
 
             if (!fout.is_open()) return *this;
 
-            if (m_backup && !backup()) fout << ltime1() << ' ' << "[ERROR]:Backup failed\n";
+            if (m_isRoll && !rolling()) fout << ltime1() << ' ' << "[ERROR]:Rolling failed\n";
 
             fout << value;
 
@@ -533,11 +533,11 @@ namespace ol
 
     private:
         /**
-         * @brief 自动备份日志（如果日志文件的大小超过m_maxsize的值，就把当前的日志文件名改为历史日志文件名，再创建新的当前日志文件）
+         * @brief 滚动日志（如果日志文件的大小超过m_maxSize的值，就把当前的日志文件名改为历史日志文件名，再创建新的当前日志文件）
          * @return true-成功，false-失败
-         * @note 备份文件名为原文件名+时间戳+.log（如file20200101123025.log）
+         * @note 滚动日志文件名为原文件名+时间戳+.log（如file20200101123025.log）
          */
-        bool backup()
+        bool rolling()
         {
             if (!fout.is_open()) return false;
 
@@ -546,8 +546,8 @@ namespace ol
             long fsize = filesize(m_filename);
             if (fsize == -1) return false;
 
-            // 如果当前日志文件的大小超过m_maxsize，备份日志。
-            if (fsize >= m_maxsize * 1024 * 1024)
+            // 如果当前日志文件的大小超过m_maxSize，备份日志。
+            if (fsize >= m_maxSize * 1024 * 1024)
             {
                 fout.close(); // 关闭当前日志文件。
 
@@ -559,13 +559,13 @@ namespace ol
                 if (!renamefile(m_filename, bak_filename))
                 {
                     fout.open(m_filename, m_mode); // 重命名失败，重新打开原文件
-                    if (!m_enbuffer) fout << std::unitbuf;
+                    if (!m_enBuffer) fout << std::unitbuf;
                     return false;
                 }
 
                 fout.open(m_filename, m_mode); // 重新打开当前日志文件。
 
-                if (!m_enbuffer) fout << std::unitbuf; // 判断是否启动文件缓冲区。
+                if (!m_enBuffer) fout << std::unitbuf; // 判断是否启动文件缓冲区。
 
                 return fout.is_open();
             }

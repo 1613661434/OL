@@ -193,7 +193,7 @@ namespace ol
          * @brief 判断队列是否已满
          * @return true-队列已满，false-队列未满
          */
-        bool full() const
+        inline bool full() const
         {
             return m_size == MAX_SIZE;
         }
@@ -202,7 +202,7 @@ namespace ol
          * @brief 判断队列是否为空
          * @return true-队列为空，false-队列非空
          */
-        bool empty() const
+        inline bool empty() const
         {
             return m_size == 0;
         }
@@ -288,7 +288,7 @@ namespace ol
          * @brief 获取队列当前元素数量
          * @return 队列长度（>=0）
          */
-        size_t size() const
+        inline size_t size() const
         {
             return m_size;
         }
@@ -341,7 +341,7 @@ namespace ol
          */
         void print() const
         {
-            for (size_t i = 0; i < size(); ++i)
+            for (size_t i = 0; i < m_size; ++i)
             {
                 std::cout << "m_data[" << (m_front + i) % MAX_SIZE << "],value="
                           << m_data[(m_front + i) % MAX_SIZE] << '\n';
