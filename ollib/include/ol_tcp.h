@@ -39,14 +39,13 @@ namespace ol
     class ctcpclient
     {
     private:
-        int m_connfd;     // 客户端的socket描述符
-        std::string m_ip; // 服务端的ip地址
-        int m_port;       // 服务端通讯的端口
+        int m_connfd;     ///< 客户端的socket描述符
+        std::string m_ip; ///< 服务端的ip地址
+        int m_port;       ///< 服务端通讯的端口
+
     public:
         // 构造函数，初始化成员变量
-        ctcpclient() : m_connfd(-1), m_port(0)
-        {
-        }
+        ctcpclient() : m_connfd(-1), m_port(0) {}
 
         /**
          * @brief 向服务端发起连接请求
@@ -86,16 +85,18 @@ namespace ol
     class ctcpserver
     {
     private:
-        int m_socklen;                   // 结构体struct sockaddr_in的大小
-        struct sockaddr_in m_clientaddr; // 客户端的地址信息
-        struct sockaddr_in m_servaddr;   // 服务端的地址信息
-        int m_listenfd;                  // 监听socket描述符
-        int m_connfd;                    // 客户端连接socket描述符
+        int m_socklen;                   ///< 结构体struct sockaddr_in的大小
+        struct sockaddr_in m_clientaddr; ///< 客户端的地址信息
+        struct sockaddr_in m_servaddr;   ///< 服务端的地址信息
+        int m_listenfd;                  ///< 监听socket描述符
+        int m_connfd;                    ///< 客户端连接socket描述符
+
     public:
         // 构造函数，初始化成员变量
-        ctcpserver() : m_listenfd(-1), m_connfd(-1)
-        {
-        }
+        ctcpserver() : m_listenfd(-1), m_connfd(-1) {}
+
+        // 析构函数，自动关闭socket释放资源
+        ~ctcpserver();
 
         /**
          * @brief 初始化服务端（创建监听socket并绑定端口）
@@ -148,9 +149,6 @@ namespace ol
          * @note 常用于多进程服务的父进程中
          */
         void closeclient();
-
-        // 析构函数，自动关闭socket释放资源
-        ~ctcpserver();
     };
 
     /**

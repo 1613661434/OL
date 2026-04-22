@@ -136,30 +136,21 @@ namespace ol
          * @param container 容器引用
          * @return 起始迭代器
          */
-        static iterator begin(Container& container)
-        {
-            return container.begin();
-        }
+        static iterator begin(Container& container) { return container.begin(); }
 
         /**
          * @brief 获取容器结束迭代器
          * @param container 容器引用
          * @return 结束迭代器
          */
-        static iterator end(Container& container)
-        {
-            return container.end();
-        }
+        static iterator end(Container& container) { return container.end(); }
 
         /**
          * @brief 获取容器大小
          * @param container 容器引用
          * @return 容器元素数量
          */
-        static size_type size(Container& container)
-        {
-            return container.size();
-        }
+        static size_type size(Container& container) { return container.size(); }
     };
 
     /**
@@ -180,29 +171,20 @@ namespace ol
          * @param array 原生数组引用
          * @return 数组首元素指针
          */
-        static iterator begin(T (&array)[N])
-        {
-            return array;
-        }
+        static iterator begin(T (&array)[N]) { return array; }
 
         /**
          * @brief 获取数组结束指针
          * @param array 原生数组引用
          * @return 数组尾后指针
          */
-        static iterator end(T (&array)[N])
-        {
-            return array + N;
-        }
+        static iterator end(T (&array)[N]) { return array + N; }
 
         /**
          * @brief 获取数组大小
          * @return 数组元素数量（N）
          */
-        static size_type size(T (&)[N])
-        {
-            return N;
-        }
+        static size_type size(T (&)[N]) { return N; }
     };
     // ===========================================================================
 

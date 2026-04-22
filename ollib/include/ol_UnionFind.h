@@ -52,10 +52,7 @@ namespace ol
          * @brief 构造函数，初始化并查集大小
          * @param size 初始元素数量（默认为0）
          */
-        explicit UnionFind(size_t size = 0)
-        {
-            init(size);
-        }
+        explicit UnionFind(size_t size = 0) { init(size); }
 
         /**
          * @brief 重置并查集状态，重新初始化指定数量的节点
@@ -65,10 +62,7 @@ namespace ol
         {
             parent.resize(size);
             rank.resize(size, 0);
-            for (size_t i = 0; i < size; ++i)
-            {
-                parent[i] = static_cast<T>(i);
-            }
+            for (size_t i = 0; i < size; ++i) parent[i] = static_cast<T>(i);
         }
 
         /**
@@ -80,10 +74,7 @@ namespace ol
          */
         T find(T x)
         {
-            if (parent[x] != x)
-            {
-                parent[x] = find(parent[x]); // 递归压缩路径
-            }
+            if (parent[x] != x) parent[x] = find(parent[x]); // 递归压缩路径
             return parent[x];
         }
 
@@ -122,10 +113,7 @@ namespace ol
          * @param y 第二个元素
          * @return 若在同一集合返回true，否则返回false
          */
-        bool connected(T x, T y)
-        {
-            return find(x) == find(y);
-        }
+        bool connected(T x, T y) { return find(x) == find(y); }
 
         /**
          * @brief 计算并查集中不相交集合的数量
@@ -136,10 +124,8 @@ namespace ol
             size_t count = 0;
             for (size_t i = 0; i < parent.size(); ++i)
             {
-                if (parent[i] == static_cast<T>(i))
-                { // 根节点的父节点是自身
-                    ++count;
-                }
+                // 根节点的父节点是自身
+                if (parent[i] == static_cast<T>(i)) ++count;
             }
             return count;
         }
@@ -148,10 +134,7 @@ namespace ol
          * @brief 获取并查集中的元素总数
          * @return 元素数量
          */
-        size_t size() const
-        {
-            return parent.size();
-        }
+        inline size_t size() const { return parent.size(); }
     };
 
     /**
@@ -176,11 +159,10 @@ namespace ol
              * @param p 父节点（默认自身）
              * @param r 初始秩（默认0）
              */
-            Node(const T& p = T(), size_t r = 0) : parent(p), rank(r)
-            {
-            }
+            Node(const T& p = T(), size_t r = 0) : parent(p), rank(r) {}
         };
 
+    private:
         std::unordered_map<T, Node> nodes; ///< 哈希表存储所有节点
 
     public:
@@ -190,10 +172,7 @@ namespace ol
          */
         void insert(const T& x)
         {
-            if (nodes.find(x) == nodes.end())
-            {
-                nodes[x] = Node(x); // 新元素初始父节点为自身
-            }
+            if (nodes.find(x) == nodes.end()) nodes[x] = Node(x); // 新元素初始父节点为自身
         }
 
         /**
@@ -213,10 +192,7 @@ namespace ol
                 return x;
             }
 
-            if (it->second.parent != x)
-            {
-                it->second.parent = find(it->second.parent); // 递归压缩路径
-            }
+            if (it->second.parent != x) it->second.parent = find(it->second.parent); // 递归压缩路径
             return it->second.parent;
         }
 
@@ -261,10 +237,7 @@ namespace ol
          * @param y 第二个元素
          * @return 若在同一集合返回true，否则返回false
          */
-        bool connected(const T& x, const T& y)
-        {
-            return find(x) == find(y);
-        }
+        bool connected(const T& x, const T& y) { return find(x) == find(y); }
 
         /**
          * @brief 计算并查集中不相交集合的数量
@@ -275,10 +248,8 @@ namespace ol
             size_t count = 0;
             for (const auto& pair : nodes)
             {
-                if (pair.first == pair.second.parent)
-                { // 根节点的父节点是自身
-                    ++count;
-                }
+                // 根节点的父节点是自身
+                if (pair.first == pair.second.parent) ++count;
             }
             return count;
         }
@@ -287,10 +258,7 @@ namespace ol
          * @brief 获取并查集中的元素总数
          * @return 元素数量
          */
-        size_t size() const
-        {
-            return nodes.size();
-        }
+        inline size_t size() const { return nodes.size(); }
     };
 
 } // namespace ol

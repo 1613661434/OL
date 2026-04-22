@@ -34,22 +34,18 @@ namespace ol
     template <typename NodeType, bool IsWeighted, typename WeightType = int>
     struct Edge
     {
-        NodeType to; // 目标节点（类型由NodeType控制）
+        NodeType to; ///< 目标节点（类型由NodeType控制）
 
         // 仅当有权重时才定义weight成员（类型由WeightType控制）
         typename std::conditional_t<IsWeighted, WeightType, TypeEmpty> weight;
 
         // 无权图构造函数（仅需目标节点）
         template <bool W = IsWeighted, typename = std::enable_if_t<!W>>
-        Edge(NodeType to_node) : to(to_node)
-        {
-        }
+        Edge(NodeType to_node) : to(to_node) {}
 
         // 有权图构造函数（需目标节点和权重）
         template <bool W = IsWeighted, typename = std::enable_if_t<W>>
-        Edge(NodeType to_node, WeightType w) : to(to_node), weight(w)
-        {
-        }
+        Edge(NodeType to_node, WeightType w) : to(to_node), weight(w) {}
     };
 
     /**
@@ -67,14 +63,12 @@ namespace ol
     class Graph
     {
     private:
-        std::unordered_map<NodeType, std::vector<Edge<NodeType, IsWeighted, WeightType>>> adjList; // adjacency list 的缩写，中文译为 “邻接表”
-        size_t nodeCount;                                                                          // 节点总数
+        std::unordered_map<NodeType, std::vector<Edge<NodeType, IsWeighted, WeightType>>> adjList; ///< adjacency list 的缩写，中文译为 “邻接表”
+        size_t nodeCount;                                                                          ///< 节点总数
 
     public:
         // 构造函数
-        Graph() : nodeCount(0)
-        {
-        }
+        Graph() : nodeCount(0) {}
 
         /**
          * @brief 添加节点（若节点已存在则不操作）
@@ -106,25 +100,17 @@ namespace ol
 
             // 有权图需要传入权重参数，无权图不需要
             if constexpr (IsWeighted)
-            {
                 adjList[from].emplace_back(to, std::forward<Args>(args)...);
-            }
             else
-            {
                 adjList[from].emplace_back(to);
-            }
 
             // 无向图自动添加反向边
             if constexpr (!IsDirected)
             {
                 if constexpr (IsWeighted)
-                {
                     adjList[to].emplace_back(from, std::forward<Args>(args)...);
-                }
                 else
-                {
                     adjList[to].emplace_back(from);
-                }
             }
         }
 
@@ -196,10 +182,7 @@ namespace ol
         template <bool W = IsWeighted, typename = std::enable_if_t<W>>
         WeightType weight(NodeType from, NodeType to) const
         {
-            if (adjList.find(from) == adjList.end())
-            {
-                throw std::invalid_argument("Node does not exist: from");
-            }
+            if (adjList.find(from) == adjList.end()) throw std::invalid_argument("Node does not exist: from");
 
             const auto& edges = adjList.at(from);
             for (const auto& edge : edges)
@@ -230,10 +213,7 @@ namespace ol
          * @brief 获取图中节点的总数
          * @return 节点数量（size_t类型，>=0）
          */
-        size_t size() const
-        {
-            return nodeCount;
-        }
+        inline size_t size() const { return nodeCount; }
 
         /**
          * @brief 打印图的邻接表结构（调试用）
@@ -247,10 +227,7 @@ namespace ol
                 for (const auto& edge : edges)
                 {
                     std::cout << edge.to;
-                    if constexpr (IsWeighted)
-                    {
-                        std::cout << "(" << edge.weight << ")";
-                    }
+                    if constexpr (IsWeighted) std::cout << "(" << edge.weight << ")";
                     std::cout << " ";
                 }
                 std::cout << "\n";

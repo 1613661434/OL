@@ -26,7 +26,7 @@ namespace ol
     class TrieSet
     {
     private:
-        TrieMap<bool> map; // 底层TrieMap，用true标记键存在
+        TrieMap<bool> map; ///< 底层TrieMap，用true标记键存在
 
     public:
         // 元素添加
@@ -35,10 +35,7 @@ namespace ol
          * @brief 向集合中添加字符串（重复添加不影响）
          * @param key 要添加的字符串
          */
-        void put(const std::string& key)
-        {
-            map.put(key, true); // 用true作为占位值，复用TrieMap的添加逻辑
-        }
+        inline void put(const std::string& key) { map.put(key, true); }
         // ===========================================================================
 
         // 元素删除
@@ -47,10 +44,7 @@ namespace ol
          * @brief 从集合中删除字符串
          * @param key 要删除的字符串
          */
-        void remove(const std::string& key)
-        {
-            map.remove(key); // 复用TrieMap的删除逻辑
-        }
+        inline void remove(const std::string& key) { map.remove(key); }
         // ===========================================================================
 
         // 元素查询
@@ -60,79 +54,55 @@ namespace ol
          * @param key 要检查的字符串
          * @return 存在返回true，否则返回false
          */
-        bool has(const std::string& key)
-        {
-            return map.has(key); // 复用TrieMap的存在性判断
-        }
+        inline bool has(const std::string& key) { return map.has(key); }
 
         /**
          * @brief 查找查询字符串的最短前缀（该前缀必须是集合中的元素）
          * @param query 目标字符串
          * @return 最短前缀字符串，不存在则返回空串
          */
-        std::string shortestPrefix(const std::string& query)
-        {
-            return map.shortestPrefix(query); // 复用TrieMap的前缀查询
-        }
+        inline std::string shortestPrefix(const std::string& query) { return map.shortestPrefix(query); }
 
         /**
          * @brief 查找查询字符串的最长前缀（该前缀必须是集合中的元素）
          * @param query 目标字符串
          * @return 最长前缀字符串，不存在则返回空串
          */
-        std::string longestPrefix(const std::string& query)
-        {
-            return map.longestPrefix(query); // 复用TrieMap的前缀查询
-        }
+        inline std::string longestPrefix(const std::string& query) { return map.longestPrefix(query); }
 
         /**
          * @brief 获取所有以指定前缀开头的元素
          * @param prefix 前缀字符串
          * @return 匹配的元素列表（std::list<std::string>）
          */
-        std::list<std::string> keysByPrefix(const std::string& prefix)
-        {
-            return map.keysByPrefix(prefix); // 复用TrieMap的前缀匹配
-        }
+        inline std::list<std::string> keysByPrefix(const std::string& prefix) { return map.keysByPrefix(prefix); }
 
         /**
          * @brief 判断集合中是否存在以指定前缀开头的元素
          * @param prefix 前缀字符串
          * @return 存在返回true，否则返回false
          */
-        bool hasPrefix(const std::string& prefix)
-        {
-            return map.hasPrefix(prefix); // 复用TrieMap的前缀存在性判断
-        }
+        inline bool hasPrefix(const std::string& prefix) { return map.hasPrefix(prefix); }
 
         /**
          * @brief 获取所有匹配模式的元素（支持'.'作为通配符，匹配单个任意字符）
          * @param pattern 模式字符串
          * @return 匹配的元素列表（std::list<std::string>）
          */
-        std::list<std::string> keysByPattern(const std::string& pattern)
-        {
-            return map.keysByPattern(pattern); // 复用TrieMap的模式匹配
-        }
+        inline std::list<std::string> keysByPattern(const std::string& pattern) { return map.keysByPattern(pattern); }
 
         /**
          * @brief 判断集合中是否存在匹配模式的元素（支持'.'作为通配符）
          * @param pattern 模式字符串
          * @return 存在返回true，否则返回false
          */
-        bool hasPattern(const std::string& pattern)
-        {
-            return map.hasPattern(pattern); // 复用TrieMap的模式存在性判断
-        }
+        inline bool hasPattern(const std::string& pattern) { return map.hasPattern(pattern); }
 
         /**
          * @brief 获取集合中元素的数量
          * @return 元素总数（size_t）
          */
-        size_t size() const
-        {
-            return map.size(); // 复用TrieMap的计数
-        }
+        inline size_t size() const { return map.size(); }
         // ===========================================================================
     };
 

@@ -123,20 +123,21 @@ namespace ol
     class cdir
     {
     private:
-        std::vector<std::string> m_filelist; // 存放文件列表的容器（绝对路径的文件名）。
-        size_t m_pos;                        // 从文件列表m_filelist中已读取文件的位置。
-        std::string m_fmt;                   // 文件时间格式，缺省"yyyymmddhh24miss"。
+        std::vector<std::string> m_filelist; ///< 存放文件列表的容器（绝对路径的文件名）。
+        size_t m_pos;                        ///< 从文件列表m_filelist中已读取文件的位置。
+        std::string m_fmt;                   ///< 文件时间格式，缺省"yyyymmddhh24miss"。
+    public:
+        std::string m_dirname;   ///< 目录名，例如：/project/public
+        std::string m_filename;  ///< 文件名，不包括目录名，例如：_public.h
+        std::string m_ffilename; ///< 绝对路径的文件，例如：/project/public/_public.h
+        size_t m_filesize;       ///< 文件的大小，单位：字节。
+        std::string m_mtime;     ///< 文件最后一次被修改的时间，即stat结构体的st_mtime成员。
+        std::string m_ctime;     ///< 文件生成的时间，即stat结构体的st_ctime成员。
+        std::string m_atime;     ///< 文件最后一次被访问的时间，即stat结构体的st_atime成员。
 
+    private:
         cdir(const cdir&) = delete;            // 禁用拷贝构造函数。
         cdir& operator=(const cdir&) = delete; // 禁用赋值函数。
-    public:
-        std::string m_dirname;   // 目录名，例如：/project/public
-        std::string m_filename;  // 文件名，不包括目录名，例如：_public.h
-        std::string m_ffilename; // 绝对路径的文件，例如：/project/public/_public.h
-        size_t m_filesize;       // 文件的大小，单位：字节。
-        std::string m_mtime;     // 文件最后一次被修改的时间，即stat结构体的st_mtime成员。
-        std::string m_ctime;     // 文件生成的时间，即stat结构体的st_ctime成员。
-        std::string m_atime;     // 文件最后一次被访问的时间，即stat结构体的st_atime成员。
 
     public:
         // 构造函数。
@@ -195,9 +196,10 @@ namespace ol
     class cofile // class out file
     {
     private:
-        std::ofstream fout;        // 写入文件的对象。
-        std::string m_filename;    // 文件名，建议采用绝对路径。
-        std::string m_filenametmp; // 临时文件名，在m_filename后面加".tmp"。
+        std::ofstream fout;        ///< 写入文件的对象。
+        std::string m_filename;    ///< 文件名，建议采用绝对路径。
+        std::string m_filenametmp; ///< 临时文件名，在m_filename后面加".tmp"。
+
     public:
         // 构造函数
         cofile() {}
@@ -232,9 +234,7 @@ namespace ol
         bool writeline(const char* fmt, Types... args)
         {
             if (fout.is_open() == false) return false;
-
             fout << sformat(fmt, args...);
-
             return fout.good();
         }
 
@@ -276,8 +276,9 @@ namespace ol
     class cifile // class in file
     {
     private:
-        std::ifstream fin;      // 读取文件的对象。
-        std::string m_filename; // 文件名，建议采用绝对路径。
+        std::ifstream fin;      ///< 读取文件的对象。
+        std::string m_filename; ///< 文件名，建议采用绝对路径。
+
     public:
         // 构造函数
         cifile() {}
@@ -331,13 +332,14 @@ namespace ol
     template <typename LockType = spin_mutex>
     class clogfile // class log file
     {
-        std::ofstream fout;        // 日志文件对象。
-        std::string m_filename;    // 日志文件名，建议采用绝对路径。
-        std::ios::openmode m_mode; // 日志文件的打开模式。
-        LockType m_lock;           // 锁，用于多线程程序中给写日志的操作加锁（默认自旋锁）。
-        bool m_enBuffer;           // 是否启用文件缓冲区。
-        bool m_isRoll;             // 是否启用日志滚动（当文件大小大于m_maxSize自动滚动日志）。
-        long m_maxSize;            // 备份文件最大容量（MB）。
+    private:
+        std::ofstream fout;        ///< 日志文件对象。
+        std::string m_filename;    ///< 日志文件名，建议采用绝对路径。
+        std::ios::openmode m_mode; ///< 日志文件的打开模式。
+        LockType m_lock;           ///< 锁，用于多线程程序中给写日志的操作加锁（默认自旋锁）。
+        bool m_enBuffer;           ///< 是否启用文件缓冲区。
+        bool m_isRoll;             ///< 是否启用日志滚动（当文件大小大于m_maxSize自动滚动日志）。
+        long m_maxSize;            ///< 备份文件最大容量（MB）。
 
     public:
         /**
@@ -595,9 +597,7 @@ namespace ol
          * @brief 构造函数
          * @param v 待转换为二进制输出的整数
          */
-        explicit binary_t(unsigned long v) : value(v)
-        {
-        }
+        explicit binary_t(unsigned long v) : value(v) {}
     };
 
     /**
@@ -607,10 +607,7 @@ namespace ol
      * @return binary_t结构体
      */
     template <typename T>
-    binary_t binary(T value)
-    {
-        return binary_t(static_cast<unsigned long>(value));
-    }
+    binary_t binary(T value) { return binary_t(static_cast<unsigned long>(value)); }
 
     std::ostream& operator<<(std::ostream& os, const binary_t& b);
 

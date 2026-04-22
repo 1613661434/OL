@@ -758,10 +758,7 @@ namespace ol
     template <typename Container>
     void print_container(const Container& container)
     {
-        for (const auto& item : container)
-        {
-            std::cout << item << " ";
-        }
+        for (const auto& item : container) std::cout << item << " ";
         std::cout << '\n';
     }
 
@@ -775,10 +772,7 @@ namespace ol
     template <typename T, size_t N>
     void print_container(const T (&array)[N])
     {
-        for (size_t i = 0; i < N; ++i)
-        {
-            std::cout << array[i] << " ";
-        }
+        for (size_t i = 0; i < N; ++i) std::cout << array[i] << " ";
         std::cout << '\n';
     }
     // ===========================================================================

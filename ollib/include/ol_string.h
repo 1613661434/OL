@@ -114,15 +114,18 @@ namespace ol
     class ccmdstr
     {
     private:
-        std::vector<std::string> m_cmdstr; // 拆分后的字段容器
+        std::vector<std::string> m_cmdstr; ///< 拆分后的字段容器
 
+    private:
         ccmdstr(const ccmdstr&) = delete;            // 禁用拷贝构造函数
         ccmdstr& operator=(const ccmdstr&) = delete; // 禁用赋值函数
+
     public:
         // 默认构造函数
-        ccmdstr()
-        {
-        }
+        ccmdstr() {}
+
+        // 析构函数
+        ~ccmdstr();
 
         /**
          * @brief 带参构造函数，直接拆分字符串
@@ -138,10 +141,7 @@ namespace ol
          * @return 字段内容的常量引用
          * @note 索引越界会抛出异常
          */
-        const std::string& operator[](int i) const
-        {
-            return m_cmdstr[i];
-        }
+        const std::string& operator[](int i) const { return m_cmdstr[i]; }
 
         /**
          * @brief 拆分字符串并存储到内部容器
@@ -156,10 +156,7 @@ namespace ol
          * @brief 获取拆分后的字段数量
          * @return 字段总数（m_cmdstr的大小）
          */
-        size_t size() const
-        {
-            return m_cmdstr.size();
-        }
+        inline size_t size() const { return m_cmdstr.size(); }
 
         /**
          * @brief 从字段容器（m_cmdstr）中获取指定索引的字段内容并转换为目标类型
@@ -177,9 +174,6 @@ namespace ol
         bool getvalue(const size_t i, double& value) const;                            // 转换为double
         bool getvalue(const size_t i, float& value) const;                             // 转换为float
         bool getvalue(const size_t i, bool& value) const;                              // 转换为bool（"true"/"1"为true）
-
-        // 析构函数
-        ~ccmdstr();
     };
 
     /**
@@ -228,13 +222,9 @@ namespace ol
         auto format_arg(T&& arg) -> decltype(auto)
         {
             if constexpr (std::is_same_v<std::decay_t<T>, std::string>)
-            {
                 return arg.c_str();
-            }
             else
-            {
                 return std::forward<T>(arg);
-            }
         }
     } // namespace base
 

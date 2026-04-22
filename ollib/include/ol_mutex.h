@@ -42,27 +42,18 @@ namespace ol
         /**
          * @brief 加锁操作，自旋等待直到获取锁
          */
-        void lock() noexcept
-        {
-            while (flag.test_and_set(std::memory_order_acquire));
-        }
+        void lock() noexcept { while (flag.test_and_set(std::memory_order_acquire)); }
 
         /**
          * @brief 尝试加锁操作，无阻塞，立即返回结果
          * @return true-加锁成功，false-加锁失败（锁已被其他线程持有）
          */
-        bool try_lock() noexcept
-        {
-            return !flag.test_and_set(std::memory_order_acquire);
-        }
+        bool try_lock() noexcept { return !flag.test_and_set(std::memory_order_acquire); }
 
         /**
          * @brief 解锁操作，释放锁允许其他线程竞争
          */
-        void unlock() noexcept
-        {
-            flag.clear(std::memory_order_release);
-        }
+        void unlock() noexcept { flag.clear(std::memory_order_release); }
     };
 
     /**

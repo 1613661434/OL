@@ -12,7 +12,7 @@ namespace ol
     class TimeStamp
     {
     private:
-        time_t m_secSinceEpoch; // 整数表示的时间（从1970到现在已逝去的秒数）。
+        time_t m_secSinceEpoch; ///< 整数表示的时间（从1970到现在已逝去的秒数）。
 
     public:
         TimeStamp();                               // 用当前时间初始化对象。

@@ -30,7 +30,7 @@ namespace ol
     class BITree
     {
     private:
-        std::vector<T> b; // 索引从0开始
+        std::vector<T> b; ///< 索引从0开始
 
     private:
         /**
@@ -38,29 +38,20 @@ namespace ol
          * @param i 输入整数（需为非负数）
          * @return 最低位1对应的数值
          */
-        size_t lowbit(signed long long i) const
-        {
-            return i & (-i);
-        }
+        inline size_t lowbit(signed long long i) const { return i & (-i); }
 
     public:
         /**
          * @brief 从向量构造BITree并初始化
          * @param arr 初始数据向量
          */
-        BITree(const std::vector<T>& arr) : b(arr)
-        {
-            init();
-        }
+        BITree(const std::vector<T>& arr) : b(arr) { init(); }
 
         /**
          * @brief 从初始化列表构造BITree并初始化
          * @param list 初始化列表
          */
-        BITree(std::initializer_list<T> list) : b(list)
-        {
-            init();
-        }
+        BITree(std::initializer_list<T> list) : b(list) { init(); }
 
         /**
          * @brief 初始化树结构（构建BIT）
@@ -117,14 +108,8 @@ namespace ol
          */
         T rangeSum(size_t left, size_t right) const
         {
-            if (left >= b.size() || left > right)
-            {
-                return 0;
-            }
-            if (right >= b.size())
-            {
-                right = b.size() - 1;
-            }
+            if (left >= b.size() || left > right) return 0;
+            if (right >= b.size()) right = b.size() - 1;
             T leftSum = (left == 0) ? 0 : sum(left - 1);
             return sum(right) - leftSum;
         }
@@ -156,10 +141,7 @@ namespace ol
         void print() const
         {
             std::cout << "BITree: ";
-            for (size_t i = 0, size = b.size(); i < size; ++i)
-            {
-                std::cout << b[i] << " ";
-            }
+            for (size_t i = 0, size = b.size(); i < size; ++i) std::cout << b[i] << " ";
             std::cout << "\n";
         }
 

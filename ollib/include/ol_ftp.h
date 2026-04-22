@@ -30,16 +30,17 @@ namespace ol
     class cftpclient
     {
     private:
-        netbuf* m_ftpconn; // ftp连接句柄。
+        netbuf* m_ftpconn; ///< ftp连接句柄。
     public:
-        unsigned int m_size; // 文件的大小，单位：字节。
-        std::string m_mtime; // 文件的修改时间，格式：yyyymmddhh24miss。
+        unsigned int m_size; ///< 文件的大小，单位：字节。
+        std::string m_mtime; ///< 文件的修改时间，格式：yyyymmddhh24miss。
 
         // 以下三个成员变量用于存放login方法登录失败的原因。
-        bool m_connectfailed; // 如果网络连接失败，该成员的值为true。
-        bool m_loginfailed;   // 如果登录失败，用户名和密码不正确，或没有登录权限，该成员的值为true。
-        bool m_optionfailed;  // 如果设置传输模式失败，该成员变量的值为true。
+        bool m_connectfailed; ///< 如果网络连接失败，该成员的值为true。
+        bool m_loginfailed;   ///< 如果登录失败，用户名和密码不正确，或没有登录权限，该成员的值为true。
+        bool m_optionfailed;  ///< 如果设置传输模式失败，该成员变量的值为true。
 
+    public:
         // 构造函数
         cftpclient();
 

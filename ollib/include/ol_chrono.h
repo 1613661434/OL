@@ -33,10 +33,7 @@ namespace ol
     inline bool localtime_now(struct tm* tm_out, const time_t* t)
     {
         // 基本参数校验
-        if (tm_out == nullptr || t == nullptr)
-        {
-            return false; // 无效指针直接返回失败
-        }
+        if (tm_out == nullptr || t == nullptr) return false; // 无效指针直接返回失败
 
 #ifdef _WIN32
         // Windows：localtime_s返回errno_t，0表示成功

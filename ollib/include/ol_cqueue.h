@@ -35,21 +35,19 @@ namespace ol
     {
     private:
         static_assert(MAX_SIZE > 0, "MAX_SIZE must be greater than 0");
-        bool m_inited = false;        // 队列被初始化标志，true-已初始化；false-未初始化。
-        size_t m_size = 0;            // 队列的实际长度。
-        T m_data[MAX_SIZE];           // 用数组存储循环队列中的元素。
-        size_t m_front = 0;           // 队列的头指针。
-        size_t m_rear = MAX_SIZE - 1; // 队列的尾指针，指向队尾元素。
+        bool m_inited = false;        ///< 队列被初始化标志，true-已初始化；false-未初始化。
+        size_t m_size = 0;            ///< 队列的实际长度。
+        T m_data[MAX_SIZE];           ///< 用数组存储循环队列中的元素。
+        size_t m_front = 0;           ///< 队列的头指针。
+        size_t m_rear = MAX_SIZE - 1; ///< 队列的尾指针，指向队尾元素。
 
+    private:
         cqueue(const cqueue&) = delete;            // 禁用拷贝构造函数。
         cqueue& operator=(const cqueue&) = delete; // 禁用赋值函数。
 
     public:
         // 构造函数，自动初始化队列
-        cqueue()
-        {
-            init();
-        }
+        cqueue() { init(); }
 
         // 析构函数，释放资源（非平凡析构类型需手动调用析构函数）
         ~cqueue()
@@ -193,19 +191,13 @@ namespace ol
          * @brief 判断队列是否已满
          * @return true-队列已满，false-队列未满
          */
-        inline bool full() const
-        {
-            return m_size == MAX_SIZE;
-        }
+        inline bool full() const { return m_size == MAX_SIZE; }
 
         /**
          * @brief 判断队列是否为空
          * @return true-队列为空，false-队列非空
          */
-        inline bool empty() const
-        {
-            return m_size == 0;
-        }
+        inline bool empty() const { return m_size == 0; }
 
         /**
          * @brief 元素入队（拷贝版本）
@@ -288,10 +280,7 @@ namespace ol
          * @brief 获取队列当前元素数量
          * @return 队列长度（>=0）
          */
-        inline size_t size() const
-        {
-            return m_size;
-        }
+        inline size_t size() const { return m_size; }
 
         /**
          * @brief 获取队头元素（非const版本）

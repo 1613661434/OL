@@ -32,14 +32,12 @@ namespace ol
     class TrieNode
     {
     public:
-        V val = V();                                                              // 节点存储的值（默认初始化）
-        bool isValid = false;                                                     // 标记该节点是否为某个键的终点（存储有效数据）
-        std::unordered_map<unsigned char, std::shared_ptr<TrieNode<V>>> children; // 子节点映射（键：字符，值：子节点指针）
+        V val = V();                                                              ///< 节点存储的值（默认初始化）
+        bool isValid = false;                                                     ///< 标记该节点是否为某个键的终点（存储有效数据）
+        std::unordered_map<unsigned char, std::shared_ptr<TrieNode<V>>> children; ///< 子节点映射（键：字符，值：子节点指针）
 
-        // 构造函数（默认初始化，无需预分配空间）
-        TrieNode()
-        {
-        }
+        // 构造函数
+        TrieNode() {}
     };
 
     /**
@@ -50,8 +48,8 @@ namespace ol
     class TrieMap
     {
     private:
-        std::shared_ptr<TrieNode<V>> root; // Trie 树的根节点
-        size_t count;                      // 当前存在的键值对总数
+        std::shared_ptr<TrieNode<V>> root; ///< Trie 树的根节点
+        size_t count;                      ///< 当前存在的键值对总数
 
         /**
          * @brief 遍历Trie树，收集所有有效键
@@ -93,10 +91,7 @@ namespace ol
             if (i == pattern.length())
             {
                 // 如果当前节点为有效键
-                if (node->isValid)
-                {
-                    res.push_back(path);
-                }
+                if (node->isValid) res.push_back(path);
                 return;
             }
 
@@ -134,10 +129,7 @@ namespace ol
          */
         std::shared_ptr<TrieNode<V>> put(std::shared_ptr<TrieNode<V>> node, const std::string& key, V val, size_t i)
         {
-            if (!node)
-            {
-                node = std::make_shared<TrieNode<V>>();
-            }
+            if (!node) node = std::make_shared<TrieNode<V>>();
 
             if (i == key.length())
             {
@@ -175,16 +167,10 @@ namespace ol
             }
 
             // 后序处理：如果节点有效（isValid=true），保留节点
-            if (node->isValid)
-            {
-                return node;
-            }
+            if (node->isValid) return node;
 
             // 如果没有子节点，删除当前节点
-            if (node->children.empty())
-            {
-                return nullptr;
-            }
+            if (node->children.empty()) return nullptr;
 
             // 有子节点但无值，保留节点作为中间路径
             return node;
@@ -202,10 +188,7 @@ namespace ol
             if (!node) return false; // 节点不存在，匹配失败
 
             // 模式处理完毕，检查当前节点是否有值
-            if (i == pattern.length())
-            {
-                return node->isValid;
-            }
+            if (i == pattern.length()) return node->isValid;
 
             unsigned char c = pattern[i];
             if (c != '.')
@@ -219,10 +202,7 @@ namespace ol
                 // 通配符，尝试所有子节点
                 for (auto& [ch, child] : node->children)
                 {
-                    if (hasPattern(child, pattern, i + 1))
-                    {
-                        return true;
-                    }
+                    if (hasPattern(child, pattern, i + 1)) return true;
                 }
                 return false;
             }
@@ -243,11 +223,7 @@ namespace ol
 
                 // 查找下一个字符对应的子节点
                 auto it = current->children.find(key[i]);
-                if (it == current->children.end())
-                {
-                    return nullptr; // 子节点不存在，返回null
-                }
-
+                if (it == current->children.end()) return nullptr; // 子节点不存在，返回null
                 current = it->second;
             }
             return current; // 返回键末尾对应的节点
@@ -255,9 +231,7 @@ namespace ol
 
     public:
         // 构造函数，初始化根节点和计数
-        TrieMap() : root(std::make_shared<TrieNode<V>>()), count(0)
-        {
-        }
+        TrieMap() : root(std::make_shared<TrieNode<V>>()), count(0) {}
 
         /**
          * @brief 插入或更新键值对
@@ -267,10 +241,7 @@ namespace ol
         void put(const std::string& key, V val)
         {
             // 如果是新键，增加计数
-            if (!has(key))
-            {
-                ++count;
-            }
+            if (!has(key)) ++count;
             root = put(root, key, val, 0);
         }
 
@@ -280,10 +251,7 @@ namespace ol
          */
         void remove(const std::string& key)
         {
-            if (!has(key))
-            {
-                return;
-            }
+            if (!has(key)) return;
             // 递归删除并更新根节点
             root = remove(root, key, 0);
             --count;
@@ -298,10 +266,7 @@ namespace ol
         std::optional<V> get(const std::string& key)
         {
             auto node = findNode(root, key);
-            if (node && node->isValid)
-            {
-                return node->val;
-            }
+            if (node && node->isValid) return node->val;
             return std::nullopt;
         }
 
@@ -349,10 +314,7 @@ namespace ol
                 current = it->second;
             }
 
-            if (current && current->isValid)
-            {
-                return query;
-            }
+            if (current && current->isValid) return query;
 
             return "";
         }
@@ -373,10 +335,7 @@ namespace ol
                 if (!current) break; // 路径中断，退出循环
 
                 // 如果当前节点是有效键，更新最长前缀长度
-                if (current->isValid)
-                {
-                    max_len = i;
-                }
+                if (current->isValid) max_len = i;
 
                 // 查找下一个字符对应的子节点
                 auto it = current->children.find(query[i]);
@@ -386,10 +345,7 @@ namespace ol
 
             // 只有当：1. 遍历完查询字符串的所有字符；2. 最终节点是有效键
             // 才返回整个查询字符串（说明查询字符串本身就是已插入的键）
-            if (i == query.length() && current && current->isValid)
-            {
-                return query;
-            }
+            if (i == query.length() && current && current->isValid) return query;
 
             // 否则返回最长有效前缀
             return query.substr(0, max_len);
@@ -404,10 +360,7 @@ namespace ol
         {
             std::list<std::string> res;
             auto node = findNode(root, prefix);
-            if (!node)
-            {
-                return res;
-            }
+            if (!node) return res;
 
             // 从前缀节点开始遍历所有子节点
             std::string path = prefix;
@@ -433,19 +386,13 @@ namespace ol
          * @param pattern 模式字符串
          * @return 存在返回true，否则返回false
          */
-        bool hasPattern(const std::string& pattern)
-        {
-            return hasPattern(root, pattern, 0);
-        }
+        inline bool hasPattern(const std::string& pattern) { return hasPattern(root, pattern, 0); }
 
         /**
          * @brief 获取当前键值对的数量
          * @return 键值对数量
          */
-        size_t size() const
-        {
-            return count;
-        }
+        inline size_t size() const { return count; }
     };
 
 } // namespace ol

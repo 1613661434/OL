@@ -42,27 +42,26 @@ namespace ol
         /** 信号量操作共同体（符合semctl函数要求） */
         union semun
         {
-            int val;              // 用于SETVAL命令
-            struct semid_ds* buf; // 用于IPC_STAT/IPC_SET命令
-            unsigned short* arry; // 用于GETALL/SETALL命令
+            int val;              ///< 用于SETVAL命令
+            struct semid_ds* buf; ///< 用于IPC_STAT/IPC_SET命令
+            unsigned short* arry; ///< 用于GETALL/SETALL命令
         };
 
-        // 信号量ID（描述符）
-        int m_semid;
+    private:
+        int m_semid; ///< 信号量ID（描述符）
 
         // 如果把sem_flg设置为SEM_UNDO，操作系统将跟踪进程对信号量的修改情况，
         // 在全部修改过信号量的进程（正常或异常）终止后，操作系统将把信号量恢复为初始值。
         // 如果信号量用于互斥锁，设置为SEM_UNDO。
         // 如果信号量用于生产消费者模型，设置为0。
-        short m_sem_flg;
+        short m_sem_flg; ///< 信号量标志位
 
+    private:
         csemp(const csemp&) = delete;            // 禁用拷贝构造函数。
         csemp& operator=(const csemp&) = delete; // 禁用赋值函数。
     public:
         // 构造函数，初始化信号量ID为-1（无效状态）
-        csemp() : m_semid(-1)
-        {
-        }
+        csemp() : m_semid(-1) {}
 
         /**
          * @brief 初始化信号量（创建或获取已存在的信号量）
@@ -123,10 +122,10 @@ namespace ol
     // 进程心跳信息结构体，存储在共享内存中
     struct st_procinfo
     {
-        int m_pid = 0;          // 进程ID
-        char m_pname[51] = {0}; // 进程名称（最多50个字符），可以为空
-        int m_timeout = 0;      // 超时时间（秒）
-        time_t m_atime = 0;     // 最后一次心跳时间（时间戳）
+        int m_pid = 0;          ///< 进程ID
+        char m_pname[51] = {0}; ///< 进程名称（最多50个字符），可以为空
+        int m_timeout = 0;      ///< 超时时间（秒）
+        time_t m_atime = 0;     ///< 最后一次心跳时间（时间戳）
 
         st_procinfo() = default; // 默认构造函数
 
@@ -151,9 +150,9 @@ namespace ol
     class cpactive
     {
     private:
-        int m_shmid = 0;              // 共享内存ID
-        int m_pos = -1;               // 当前进程在共享内存进程组中的位置
-        st_procinfo* m_shm = nullptr; // 指向共享内存的地址空间的指针
+        int m_shmid = 0;              ///< 共享内存ID
+        int m_pos = -1;               ///< 当前进程在共享内存进程组中的位置
+        st_procinfo* m_shm = nullptr; ///< 指向共享内存的地址空间的指针
 
     public:
         // 初始化成员变量。
