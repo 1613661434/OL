@@ -70,7 +70,7 @@ if(OL_BUILD_SHARED_LIBS)
 )
 endif()
 
-# 别名：指向OBJECT库
+# 别名：指向静态库
 add_library(ol_core ALIAS ol_core_static)
 
 # 引入测试目录
