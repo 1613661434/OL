@@ -16,41 +16,38 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if((NOT DEFINED CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "") AND NOT DEFINED CMAKE_CONFIGURATION_TYPES)
     set(CMAKE_BUILD_TYPE Release CACHE STRING
         "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel Coverage."
-        FORCE)  # FORCE 强制覆盖已定义但为空的情况
+        FORCE) # FORCE 强制覆盖已定义但为空的情况
 endif()
 
 # ===================== <Options> =====================
-# 统一：控制是否开启警告
-option(ENABLE_WARNINGS "Enable compiler warnings." OFF)
+# 警告开关
+option(ENABLE_WARNINGS "Enable compiler warnings" OFF)
 
-# OL库相关
-option(OL_WITH_TESTS "Compile and (for ol_check) run OL test executables." OFF)
-option(OL_BUILD_STATIC_LIBS "Build ol_lib as a static library." ON)
-option(OL_BUILD_SHARED_LIBS "Build ol_lib as a shared library." ON)
+# 功能模块开关
+option(OL_BUILD_CORE "Build core module" ON)
+option(OL_BUILD_NETWORK "Build network module" ON)
+option(OL_BUILD_FTP "Build FTP module" ON)
+option(OL_BUILD_DATABASE "Build database module" ON)
 
-# OLDB库相关
-## MYSQL
-option(OLDB_MYSQL_WITH_TESTS "Compile and (for oldb_mysql_check) run OLDB_MYSQL test executables." OFF)
-option(OLDB_MYSQL_BUILD_STATIC_LIBS "Build oldb_mysql_lib as a static library." OFF)
-option(OLDB_MYSQL_BUILD_SHARED_LIBS "Build oldb_mysql_lib as a shared library." OFF)
+# # 数据库子模块
+option(OL_BUILD_MYSQL "Build MySQL support" ON)
+option(OL_BUILD_ORACLE "Build Oracle support" OFF)
 
-## ORACLE
-option(OLDB_ORACLE_WITH_TESTS "Compile and (for oldb_oracle_check) run OLDB_ORACLE test executables." OFF)
-option(OLDB_ORACLE_BUILD_STATIC_LIBS "Build oldb_oracle_lib as a static library." OFF)
-option(OLDB_ORACLE_BUILD_SHARED_LIBS "Build oldb_oracle_lib as a shared library." OFF)
 # ===================== </Options> =====================
 
 # 跨平台字符集配置：统一使用UTF-8
 if(MSVC)
     # Windows (MSVC)：强制UTF-8编码，禁用BOM
     add_compile_options(/utf-8)
+
     # 禁用安全函数警告、使用Unicode字符集
     add_compile_definitions(_CRT_SECURE_NO_WARNINGS UNICODE _UNICODE)
 else()
     # Linux/macOS (GCC/Clang)：默认支持UTF-8，添加通用警告选项
     add_compile_options(-Wno-write-strings -D_GLIBCXX_USE_CXX11_ABI=1)
+
     # 添加额外的跨平台编译优化
-    add_compile_options(-finput-charset=UTF-8)  # 显式指定输入编码为UTF-8
+    add_compile_options(-finput-charset=UTF-8) # 显式指定输入编码为UTF-8
 endif()
 
 # 是否启用警告
@@ -79,14 +76,18 @@ else()
 endif()
 
 # 添加子目录
-if(OL_WITH_TESTS OR OL_BUILD_STATIC_LIBS OR OL_BUILD_SHARED_LIBS)
-    add_subdirectory(ollib)
+if(OL_BUILD_CORE)
+    add_subdirectory(ol_core)
 endif()
 
-if(OLDB_MYSQL_WITH_TESTS OR OLDB_MYSQL_BUILD_STATIC_LIBS OR OLDB_MYSQL_BUILD_SHARED_LIBS)
-    add_subdirectory(oldblib/mysql)
+if(OL_BUILD_NETWORK)
+    add_subdirectory(ol_network)
 endif()
 
-if(OLDB_ORACLE_WITH_TESTS OR OLDB_ORACLE_BUILD_STATIC_LIBS OR OLDB_ORACLE_BUILD_SHARED_LIBS)
-    add_subdirectory(oldblib/oracle)
+if(OL_BUILD_FTP)
+    add_subdirectory(ol_ftp)
+endif()
+
+if(OL_BUILD_DATABASE)
+    add_subdirectory(ol_database)
 endif()
