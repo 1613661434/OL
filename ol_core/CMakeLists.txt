@@ -13,7 +13,7 @@ if(UNIX AND NOT APPLE)
 endif()
 
 # ===================== <输出路径> =====================
-set(LIBRARY_OUTPUT_BASE_DIR "${CMAKE_CURRENT_BINARY_DIR}/lib/${OS_NAME}/${ARCHITECTURE}")
+set(LIBRARY_OUTPUT_BASE_DIR "${CMAKE_CURRENT_BINARY_DIR}/lib/${OS_NAME}_${ARCHITECTURE}")
 # ===================== </输出路径> =====================
 
 # ===================== <OBJECT 库> =====================
@@ -35,11 +35,11 @@ target_include_directories(ol_core_object
 
 # ===================== 静态库配置 =====================
 if(OL_BUILD_STATIC_LIBS)
-    set(OL_CORE_STATIC_LIB_DIR "${LIBRARY_OUTPUT_BASE_DIR}/static")
+    set(OL_CORE_STATIC_LIB_DIR "${LIBRARY_OUTPUT_BASE_DIR}_static")
 
     # 单配置：CMAKE_BUILD_TYPE
     if(NOT DEFINED CMAKE_CONFIGURATION_TYPES)
-        set(OL_CORE_STATIC_LIB_DIR "${OL_CORE_STATIC_LIB_DIR}/${CMAKE_BUILD_TYPE}")
+        set(OL_CORE_STATIC_LIB_DIR "${OL_CORE_STATIC_LIB_DIR}-${CMAKE_BUILD_TYPE}")
     endif()
 
     add_library(ol_static STATIC $<TARGET_OBJECTS:ol_core_object>)
@@ -51,11 +51,11 @@ endif()
 
 # ===================== 动态库配置 =====================
 if(OL_BUILD_SHARED_LIBS)
-    set(OL_CORE_SHARED_LIB_DIR "${LIBRARY_OUTPUT_BASE_DIR}/shared")
+    set(OL_CORE_SHARED_LIB_DIR "${LIBRARY_OUTPUT_BASE_DIR}_shared")
 
     # 单配置：CMAKE_BUILD_TYPE
     if(NOT DEFINED CMAKE_CONFIGURATION_TYPES)
-        set(OL_CORE_SHARED_LIB_DIR "${OL_CORE_SHARED_LIB_DIR}/${CMAKE_BUILD_TYPE}")
+        set(OL_CORE_SHARED_LIB_DIR "${OL_CORE_SHARED_LIB_DIR}-${CMAKE_BUILD_TYPE}")
     endif()
 
     add_library(ol_shared SHARED $<TARGET_OBJECTS:ol_core_object>)
