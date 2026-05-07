@@ -1697,9 +1697,10 @@ namespace ol
             {
                 return -1;
             }
-
+#ifdef DEBUG
             printf("[filetotext] 传输完成：总大小=%ld字节，分块数=%d\n",
                    file_size, (int)((total_sent + chunk_size - 1) / chunk_size));
+#endif
             return 0;
         }
 
