@@ -49,7 +49,9 @@
 #include <winsock.h>
 #endif
 
+#ifndef BUILDING_LIBRARY
 #define BUILDING_LIBRARY
+#endif
 #include "ftplib.h"
 
 #if defined(_WIN32)
@@ -92,6 +94,8 @@ static char* version =
     "ftplib Release 3.1-1 9/16/00, copyright 1996-2000 Thomas Pfau";
 
 GLOBALDEF int ftplib_debug = 0;
+
+netbuf* DefaultNetbuf = NULL;
 
 #if defined(__unix__) || defined(VMS)
 #define net_read read

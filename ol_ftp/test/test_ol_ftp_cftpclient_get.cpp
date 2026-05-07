@@ -3,10 +3,6 @@
  *  作者：ol
  */
 
-#if !defined(__unix__)
-#error "仅支持Linux平台，不支持当前系统！"
-#endif
-
 #include "ol_ftp.h"
 #include <iostream>
 

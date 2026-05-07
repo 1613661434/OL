@@ -38,11 +38,14 @@ if(OL_BUILD_STATIC_LIBS)
         set(OL_CORE_STATIC_LIB_DIR "${OL_CORE_STATIC_LIB_DIR}-${CMAKE_BUILD_TYPE}")
     endif()
 
-    add_library(ol_static STATIC $<TARGET_OBJECTS:ol_core_object>)
-    set_target_properties(ol_static PROPERTIES
+    add_library(ol_core_static STATIC $<TARGET_OBJECTS:ol_core_object>)
+    set_target_properties(ol_core_static PROPERTIES
         OUTPUT_NAME "ol_core"
         ARCHIVE_OUTPUT_DIRECTORY ${OL_CORE_STATIC_LIB_DIR} # 静态库路径（.a/.lib）
     )
+    target_include_directories(ol_core_static
+    PUBLIC $<BUILD_INTERFACE:${OL_CORE_INCLUDE}>
+)
 endif()
 
 # ===================== 动态库配置 =====================
@@ -54,18 +57,21 @@ if(OL_BUILD_SHARED_LIBS)
         set(OL_CORE_SHARED_LIB_DIR "${OL_CORE_SHARED_LIB_DIR}-${CMAKE_BUILD_TYPE}")
     endif()
 
-    add_library(ol_shared SHARED $<TARGET_OBJECTS:ol_core_object>)
-    set_target_properties(ol_shared PROPERTIES
+    add_library(ol_core_shared SHARED $<TARGET_OBJECTS:ol_core_object>)
+    set_target_properties(ol_core_shared PROPERTIES
         OUTPUT_NAME "ol_core"
         LIBRARY_OUTPUT_DIRECTORY ${OL_CORE_SHARED_LIB_DIR} # Linux.so / macOS.dylib / Windows 动态库导入库 .lib 输出路径
         RUNTIME_OUTPUT_DIRECTORY ${OL_CORE_SHARED_LIB_DIR} # Windows.dll / 所有平台可执行文件 输出路径（当前用于动态库 .dll）
         POSITION_INDEPENDENT_CODE ON # -fPIC（跨平台兼容）
         WINDOWS_EXPORT_ALL_SYMBOLS ON # Windows自动导出符号
     )
+    target_include_directories(ol_core_shared
+    PUBLIC $<BUILD_INTERFACE:${OL_CORE_INCLUDE}>
+)
 endif()
 
 # 别名：指向OBJECT库
-add_library(ol_core ALIAS ol_core_object)
+add_library(ol_core ALIAS ol_core_static)
 
 # 引入测试目录
 if(OL_CORE_WITH_TESTS)

@@ -1,6 +1,6 @@
 /****************************************************************************************/
 /*   程序名：ol_ftp.cpp，此程序是开发框架的ftp客户端工具的类的定义文件。                     */
-/*   作者：ol。                                                                          */
+/*   作者：ol                                                                           */
 /****************************************************************************************/
 
 #include "ol_ftp.h"
@@ -8,7 +8,6 @@
 namespace ol
 {
 
-#ifdef __unix__
     cftpclient::cftpclient()
     {
         m_ftpconn = nullptr;
@@ -256,6 +255,5 @@ namespace ol
 
         return FtpLastResponse(m_ftpconn);
     }
-#endif // __unix__
 
 } // namespace ol

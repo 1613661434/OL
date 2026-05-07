@@ -39,7 +39,7 @@ option(OL_BUILD_ORACLE "Build Oracle support" OFF)
 
 ## 模块独立测试开关
 option(OL_CORE_WITH_TESTS "Build and run core tests" OFF)
-option(OL_FTP_WITH_TESTS "Build and run FTP tests" OFF)
+option(OL_FTP_WITH_TESTS "Build and run FTP tests" ON)
 option(OL_NETWORK_WITH_TESTS "Build and run network tests" OFF)
 option(OL_MYSQL_WITH_TESTS "Build and run MySQL tests" OFF)
 option(OL_ORACLE_WITH_TESTS "Build and run Oracle tests" OFF)

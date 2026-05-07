@@ -2,11 +2,6 @@
  *  程序名：test_ol_ftp_cftpclient_nlist.cpp，此程序演示采用开发框架的cftpclient类获取ftp服务器上的文件列表、时间和大小。
  *  作者：ol
  */
-
-#if !defined(__unix__)
-#error "仅支持Linux平台，不支持当前系统！"
-#endif
-
 #include "ol_ftp.h"
 #include <iostream>
 
