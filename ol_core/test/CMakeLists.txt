@@ -8,8 +8,8 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/. OL_CORE_TEST_SRC)
 if(NOT UNIX)
     ## 从测试列表中移除相关测试文件
     list(FILTER OL_CORE_TEST_SRC EXCLUDE REGEX 
-    "test_(fifo_|ol_ftp_|ol_ipc|ol_tcp_|ol_signal|pipe|shm).*\\.cpp$"
-    # "test_(fifo_|ol_ftp_|ol_ipc|ol_tcp_|ol_signal|pipe|shm).*\\.cpp$|test_ol_sort\\.cpp$|test_ol_sort2\\.cpp$"
+    "test_(fifo_|ol_ipc|ol_tcp_|ol_signal|pipe|shm).*\\.cpp$"
+    # "test_(fifo_|ol_ipc|ol_tcp_|ol_signal|pipe|shm).*\\.cpp$|test_ol_sort\\.cpp$|test_ol_sort2\\.cpp$"
     )
 endif()
 

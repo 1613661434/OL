@@ -21,15 +21,15 @@ endif()
 
 # ===================== <Options> =====================
 # 全局警告开关
-option(ENABLE_WARNINGS "Enable compiler warnings" OFF)
+option(ENABLE_WARNINGS "Enable compiler warnings (GLOBAL)" OFF)
 
-# 全局库类型开关（控制所有模块：静态库 / 动态库）
+# 全局库类型开关（控制所有模块：静态库/动态库）
 option(OL_BUILD_STATIC_LIBS "Build all modules as static libraries (GLOBAL)" ON)
 option(OL_BUILD_SHARED_LIBS "Build all modules as shared libraries (GLOBAL)" ON)
 
 # 功能模块总开关
 option(OL_BUILD_CORE "Build core module" ON)
-option(OL_BUILD_FTP "Build FTP module" OFF)
+option(OL_BUILD_FTP "Build FTP module" ON)
 option(OL_BUILD_NETWORK "Build network module" OFF)
 option(OL_BUILD_DATABASE "Build database module" OFF)
 
@@ -38,7 +38,7 @@ option(OL_BUILD_MYSQL "Build MySQL support" ON)
 option(OL_BUILD_ORACLE "Build Oracle support" OFF)
 
 ## 模块独立测试开关
-option(OL_CORE_WITH_TESTS "Build and run core tests" ON)
+option(OL_CORE_WITH_TESTS "Build and run core tests" OFF)
 option(OL_FTP_WITH_TESTS "Build and run FTP tests" OFF)
 option(OL_NETWORK_WITH_TESTS "Build and run network tests" OFF)
 option(OL_MYSQL_WITH_TESTS "Build and run MySQL tests" OFF)

@@ -1,19 +1,23 @@
 /***************************************************************************/
 /*									   */
 /* ftplib.h - header file for callable ftp access routines                 */
-/* Copyright (C) 1996-2001, 2013, 2016 Thomas Pfau, tfpfau@gmail.com	   */
-/*	1407 Thomas Ave, North Brunswick, NJ, 08902			   */
+/* Copyright (C) 1996, 1997 Thomas Pfau, pfau@cnj.digex.net                */
+/*	73 Catherine Street, South Bound Brook, NJ, 08880		   */
 /*									   */
-/* This library is free software.  You can redistribute it and/or	   */
-/* modify it under the terms of the Artistic License 2.0.		   */
+/* This library is free software; you can redistribute it and/or	   */
+/* modify it under the terms of the GNU Library General Public		   */
+/* License as published by the Free Software Foundation; either		   */
+/* version 2 of the License, or (at your option) any later version.	   */
 /* 									   */
 /* This library is distributed in the hope that it will be useful,	   */
 /* but WITHOUT ANY WARRANTY; without even the implied warranty of	   */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the	   */
-/* Artistic License 2.0 for more details.				   */
+/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU	   */
+/* Library General Public License for more details.			   */
 /* 									   */
-/* See the file LICENSE or 						   */
-/* http://www.perlfoundation.org/artistic_license_2_0			   */
+/* You should have received a copy of the GNU Library General Public	   */
+/* License along with this progam; if not, write to the			   */
+/* Free Software Foundation, Inc., 59 Temple Place - Suite 330,		   */
+/* Boston, MA 02111-1307, USA.						   */
 /*									   */
 /***************************************************************************/
 
@@ -31,9 +35,6 @@
 #define GLOBALREF __declspec(dllimport)
 #endif
 #endif
-
-#include <limits.h>
-#include <inttypes.h>
 
 /* FtpAccess() type codes */
 #define FTPLIB_DIR 1
@@ -62,34 +63,41 @@
 extern "C" {
 #endif
 
-#if defined(__UINT64_MAX)
-typedef uint64_t fsz_t;
-#else
-typedef uint32_t fsz_t;
-#endif
-
 typedef struct NetBuf netbuf;
-typedef int (*FtpCallback)(netbuf *nControl, fsz_t xfered, void *arg);
+typedef int (*FtpCallback)(netbuf *nControl, int xfered, void *arg);
 
-typedef struct FtpCallbackOptions {
-    FtpCallback cbFunc;		/* function to call */
-    void *cbArg;		/* argument to pass to function */
-    unsigned int bytesXferred;	/* callback if this number of bytes transferred */
-    unsigned int idleTime;	/* callback if this many milliseconds have elapsed */
-} FtpCallbackOptions;
+/* v1 compatibility stuff */
+#if !defined(_FTPLIB_NO_COMPAT)
+netbuf *DefaultNetbuf;
+
+#define ftplib_lastresp FtpLastResponse(DefaultNetbuf)
+#define ftpInit FtpInit
+#define ftpOpen(x) FtpConnect(x, &DefaultNetbuf)
+#define ftpLogin(x,y) FtpLogin(x, y, DefaultNetbuf)
+#define ftpSite(x) FtpSite(x, DefaultNetbuf)
+#define ftpMkdir(x) FtpMkdir(x, DefaultNetbuf)
+#define ftpChdir(x) FtpChdir(x, DefaultNetbuf)
+#define ftpRmdir(x) FtpRmdir(x, DefaultNetbuf)
+#define ftpNlst(x, y) FtpNlst(x, y, DefaultNetbuf)
+#define ftpDir(x, y) FtpDir(x, y, DefaultNetbuf)
+#define ftpGet(x, y, z) FtpGet(x, y, z, DefaultNetbuf)
+#define ftpPut(x, y, z) FtpPut(x, y, z, DefaultNetbuf)
+#define ftpRename(x, y) FtpRename(x, y, DefaultNetbuf)
+#define ftpDelete(x) FtpDelete(x, DefaultNetbuf)
+#define ftpQuit() FtpQuit(DefaultNetbuf)
+#endif /* (_FTPLIB_NO_COMPAT) */
+/* end v1 compatibility stuff */
 
 GLOBALREF int ftplib_debug;
 GLOBALREF void FtpInit(void);
 GLOBALREF char *FtpLastResponse(netbuf *nControl);
 GLOBALREF int FtpConnect(const char *host, netbuf **nControl);
 GLOBALREF int FtpOptions(int opt, long val, netbuf *nControl);
-GLOBALREF int FtpSetCallback(const FtpCallbackOptions *opt, netbuf *nControl);
-GLOBALREF int FtpClearCallback(netbuf *nControl);
 GLOBALREF int FtpLogin(const char *user, const char *pass, netbuf *nControl);
 GLOBALREF int FtpAccess(const char *path, int typ, int mode, netbuf *nControl,
     netbuf **nData);
 GLOBALREF int FtpRead(void *buf, int max, netbuf *nData);
-GLOBALREF int FtpWrite(const void *buf, int len, netbuf *nData);
+GLOBALREF int FtpWrite(void *buf, int len, netbuf *nData);
 GLOBALREF int FtpClose(netbuf *nData);
 GLOBALREF int FtpSite(const char *cmd, netbuf *nControl);
 GLOBALREF int FtpSysType(char *buf, int max, netbuf *nControl);
@@ -100,10 +108,7 @@ GLOBALREF int FtpRmdir(const char *path, netbuf *nControl);
 GLOBALREF int FtpPwd(char *path, int max, netbuf *nControl);
 GLOBALREF int FtpNlst(const char *output, const char *path, netbuf *nControl);
 GLOBALREF int FtpDir(const char *output, const char *path, netbuf *nControl);
-GLOBALREF int FtpSize(const char *path, unsigned int *size, char mode, netbuf *nControl);
-#if defined(__UINT64_MAX)
-GLOBALREF int FtpSizeLong(const char *path, fsz_t *size, char mode, netbuf *nControl);
-#endif
+GLOBALREF int FtpSize(const char *path, int *size, char mode, netbuf *nControl);
 GLOBALREF int FtpModDate(const char *path, char *dt, int max, netbuf *nControl);
 GLOBALREF int FtpGet(const char *output, const char *path, char mode,
 	netbuf *nControl);

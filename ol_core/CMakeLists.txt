@@ -3,6 +3,7 @@ project(ol_core)
 
 # 头文件目录
 set(OL_CORE_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
 # 源文件
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src OL_CORE_SRC)
 
@@ -12,26 +13,21 @@ if(UNIX AND NOT APPLE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 endif()
 
-# ===================== <输出路径> =====================
+# ===================== 输出路径 =====================
 set(LIBRARY_OUTPUT_BASE_DIR "${CMAKE_CURRENT_BINARY_DIR}/lib/${OS_NAME}_${ARCHITECTURE}")
-# ===================== </输出路径> =====================
 
-# ===================== <OBJECT 库> =====================
-## 生成 OBJECT 库（仅编译源文件为 .o/.obj，不生成库文件）
-set(OL_OBJECT_SOURCES ${OL_CORE_SRC})
+# ===================== OBJECT库配置 =====================
+add_library(ol_core_object OBJECT ${OL_CORE_SRC})
 
-add_library(ol_core_object OBJECT ${OL_OBJECT_SOURCES})
-
-## OBJECT 库添加动态库所需的 fPIC 选项（跨平台兼容）
+# 编译属性
 set_target_properties(ol_core_object PROPERTIES
     POSITION_INDEPENDENT_CODE ON
-    WINDOWS_EXPORT_ALL_SYMBOLS ON # 继承动态库的符号导出配置
+    WINDOWS_EXPORT_ALL_SYMBOLS ON
 )
 
 target_include_directories(ol_core_object
     PUBLIC $<BUILD_INTERFACE:${OL_CORE_INCLUDE}>
 )
-# ===================== </OBJECT 库> =====================
 
 # ===================== 静态库配置 =====================
 if(OL_BUILD_STATIC_LIBS)
@@ -68,7 +64,7 @@ if(OL_BUILD_SHARED_LIBS)
     )
 endif()
 
-# 别名：指向 OBJECT 库
+# 别名：指向OBJECT库
 add_library(ol_core ALIAS ol_core_object)
 
 # 引入测试目录
