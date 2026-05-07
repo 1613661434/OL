@@ -13,7 +13,6 @@
 // OL库头文件
 #include "ol_chrono.h"
 #include "ol_fstream.h"
-#include "ol_ftp.h"
 #include "ol_ipc.h"
 #include "ol_signal.h"
 #include "ol_string.h"
@@ -31,7 +30,6 @@
 #include "ol_ThreadPool.h"
 #include "ol_TimeStamp.h"
 #include "ol_sort.h"
-#include "ol_net/ol_net_public.h"
 
 // C++标准库头文件
 #include <algorithm>          // 算法库（排序、查找、变换等）
