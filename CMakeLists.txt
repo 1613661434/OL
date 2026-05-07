@@ -28,7 +28,7 @@ option(OL_BUILD_STATIC_LIBS "Build all modules as static libraries (GLOBAL)" ON)
 option(OL_BUILD_SHARED_LIBS "Build all modules as shared libraries (GLOBAL)" ON)
 
 # 功能模块总开关
-option(OL_BUILD_CORE "Build core module" ON)
+set(OL_BUILD_CORE ON)
 option(OL_BUILD_FTP "Build FTP module" ON)
 option(OL_BUILD_NETWORK "Build network module" OFF)
 option(OL_BUILD_DATABASE "Build database module" OFF)
@@ -44,6 +44,14 @@ option(OL_NETWORK_WITH_TESTS "Build and run network tests" OFF)
 option(OL_MYSQL_WITH_TESTS "Build and run MySQL tests" OFF)
 option(OL_ORACLE_WITH_TESTS "Build and run Oracle tests" OFF)
 # ===================== </Options> =====================
+
+# 开启测试时，强制编译静态库，用于链接
+if(NOT OL_BUILD_STATIC_LIBS)
+    if(OL_CORE_WITH_TESTS OR OL_FTP_WITH_TESTS OR OL_NETWORK_WITH_TESTS OR OL_MYSQL_WITH_TESTS OR OL_ORACLE_WITH_TESTS)
+        set(OL_BUILD_STATIC_LIBS ON CACHE BOOL "Build all modules as static libraries (GLOBAL)" FORCE)
+        message(STATUS "[INFO] Tests enabled, static library build auto-enabled: OL_BUILD_STATIC_LIBS = ON")
+    endif()
+endif()
 
 # 跨平台字符集配置：统一使用UTF-8
 if(MSVC)
