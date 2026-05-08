@@ -11,8 +11,9 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src OL_DB_PUBLIC_SRC)
 set(OL_DATABASE_INCLUDES ${OL_DB_PUBLIC_INCLUDE})
 set(OL_DATABASE_SOURCES ${OL_DB_PUBLIC_SRC})
 set(OL_DATABASE_LIBS ol_core)
+set(OL_DATABASE_LIB_PATHS "")
 
-# ===================== 按需加载子模块 =====================
+# ===================== 加载子模块 =====================
 if(OL_BUILD_MYSQL)
     add_subdirectory(mysql)
 endif()
@@ -27,14 +28,16 @@ if(NOT OL_DATABASE_SOURCES)
     return()
 endif()
 
+if(OL_DATABASE_LIB_PATHS)
+    link_directories(${OL_DATABASE_LIB_PATHS})
+endif()
+
 # ===================== 输出路径 =====================
 set(LIBRARY_OUTPUT_BASE_DIR "${CMAKE_CURRENT_BINARY_DIR}/lib/${OS_NAME}_${ARCHITECTURE}")
 
 # ===================== 静态库 =====================
 if(OL_BUILD_STATIC_LIBS)
-	# 多配置：
     set(OL_DB_STATIC_DIR "${LIBRARY_OUTPUT_BASE_DIR}_static")
-	# 单配置：CMAKE_BUILD_TYPE
     if(NOT CMAKE_CONFIGURATION_TYPES)
         set(OL_DB_STATIC_DIR "${OL_DB_STATIC_DIR}-${CMAKE_BUILD_TYPE}")
     endif()
@@ -50,9 +53,7 @@ endif()
 
 # ===================== 动态库 =====================
 if(OL_BUILD_SHARED_LIBS)
-	# 多配置：
     set(OL_DB_SHARED_DIR "${LIBRARY_OUTPUT_BASE_DIR}_shared")
-	# 单配置：CMAKE_BUILD_TYPE
     if(NOT CMAKE_CONFIGURATION_TYPES)
         set(OL_DB_SHARED_DIR "${OL_DB_SHARED_DIR}-${CMAKE_BUILD_TYPE}")
     endif()
@@ -69,5 +70,5 @@ if(OL_BUILD_SHARED_LIBS)
     target_link_libraries(ol_database_shared PUBLIC ${OL_DATABASE_LIBS})
 endif()
 
-# 库别名（默认静态库）
+# 库别名
 add_library(ol_database ALIAS ol_database_static)
