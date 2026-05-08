@@ -33,7 +33,7 @@ namespace ol
         class DBConn : public IDBConn
         {
         public:
-            // 连接状态强枚举，底层char类型
+            // 连接状态
             enum class ConnState : char
             {
                 Disconnected = 0, // 未连接
@@ -42,8 +42,8 @@ namespace ol
 
         private:
             MYSQL* m_mysql;
-            int m_autocommitopt;
-            ConnState m_state; // 替换原int m_state，强枚举类型
+            bool m_autocommitopt;
+            ConnState m_state;
             DBResult m_result;
 
             std::string m_host;
@@ -84,7 +84,6 @@ namespace ol
             size_t affectedRows() const;
             std::string errorMsg() const;
 
-            // 4. 私有成员函数（独立分段）
         private:
             void parseConnStr(const char* connstr);
             void errReport();
@@ -93,6 +92,8 @@ namespace ol
         // MySQL语句操作类
         class DBStmt : public TypeNonCopyableMovable
         {
+            friend class DBConn;
+
         private:
             DBConn& m_conn;
             MYSQL* m_mysql;

@@ -116,6 +116,13 @@ namespace ol
      * @return true-成功，false-失败（失败原因见errno）
      */
     bool setmtime(const std::string& filename, const std::string& mtime);
+
+    /**
+     * @brief 检查文件是否存在
+     * @param filename 文件名（建议绝对路径）
+     * @return true-成功，false-失败
+     */
+    bool fileExists(const std::string& filename);
     // ===========================================================================
 
     // ===========================================================================

@@ -8,7 +8,7 @@
 /**************************************************************************************/
 
 #include "ol_mysql.h"
-#include "ol_string.h"
+#include "ol_fstream.h"
 #include <cstdarg>
 #include <cstdio>
 #include <cstring>
@@ -32,7 +32,7 @@ namespace ol
         // ===================== DBConn 实现 =====================
         DBConn::DBConn()
             : m_mysql(nullptr),
-              m_autocommitopt(0),
+              m_autocommitopt(false),
               m_state(ConnState::Disconnected),
               m_port(3306)
         {
@@ -50,7 +50,7 @@ namespace ol
         {
             parseConnStr(connstr.c_str());
             m_charset = charset.empty() ? "binary" : charset;
-            m_autocommitopt = autocommit ? 1 : 0;
+            m_autocommitopt = autocommit;
         }
 
         bool DBConn::connect()
@@ -88,8 +88,7 @@ namespace ol
         {
             if (m_state == ConnState::Disconnected) return;
 
-            if (m_autocommitopt == 0)
-                rollback();
+            if (!m_autocommitopt) rollback();
 
             mysql_close(m_mysql);
             m_mysql = nullptr;
@@ -139,12 +138,19 @@ namespace ol
 
         int DBConn::execute(const char* fmt, ...)
         {
+            m_result.init(); // 重置结果
+
             va_list ap;
             va_start(ap, fmt);
             int len = vsnprintf(nullptr, 0, fmt, ap);
             va_end(ap);
 
-            if (len <= 0) return -1;
+            if (len <= 0)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "invalid sql format";
+                return -1;
+            }
 
             std::string sql;
             sql.resize(len + 1);
@@ -154,8 +160,23 @@ namespace ol
             va_end(ap);
 
             DBStmt stmt(*this);
-            if (!stmt.prepare(sql)) return -1;
-            return stmt.execute() ? 0 : -1;
+            if (!stmt.prepare(sql))
+            {
+                // 同步错误信息
+                m_result = stmt.m_db_result;
+                return -1;
+            }
+
+            if (!stmt.execute())
+            {
+                // 同步错误信息
+                m_result = stmt.m_db_result;
+                return -1;
+            }
+
+            // 同步执行结果到连接对象
+            m_result = stmt.m_db_result;
+            return 0;
         }
 
         int DBConn::code() const { return m_result.code; }
@@ -586,8 +607,14 @@ namespace ol
         // ===================== BLOB 操作 =====================
         int DBStmt::bindblob(unsigned int pos, char* buffer, unsigned long length)
         {
-            if (pos < 1 || !buffer || length == 0) return -1;
+            if (pos < 1 || !buffer || length == 0)
+            {
+                m_db_result.code = -1;
+                m_db_result.error_msg = "invalid parameters for bindblob";
+                return -1;
+            }
 
+            // 输入参数绑定（INSERT/UPDATE 占位符 ?）
             if (pos <= m_paramCount && m_bindIn)
             {
                 m_blobLen[pos - 1] = length;
@@ -599,6 +626,38 @@ namespace ol
                 bind.length = &m_blobLen[pos - 1];
                 return 0;
             }
+
+            // 输出参数绑定（SELECT 查询 BLOB 字段）
+            if (m_isQuery)
+            {
+                if (m_fieldCount == 0)
+                {
+                    m_fieldCount = mysql_stmt_field_count(m_stmt);
+                    m_bindOut = new MYSQL_BIND[m_fieldCount]();
+                    m_outLen = new unsigned long[m_fieldCount]();
+                    m_outNull = new bool[m_fieldCount]();
+                }
+
+                if (pos < 1 || pos > m_fieldCount)
+                {
+                    m_db_result.code = -1;
+                    m_db_result.error_msg = "invalid position for blob output";
+                    return -1;
+                }
+
+                // 绑定BLOB输出字段
+                MYSQL_BIND& bind = m_bindOut[pos - 1];
+                std::memset(&bind, 0, sizeof(MYSQL_BIND));
+                bind.buffer_type = MYSQL_TYPE_BLOB;
+                bind.buffer = buffer;
+                bind.buffer_length = length;
+                bind.length = &m_outLen[pos - 1];
+                bind.is_null = &m_outNull[pos - 1];
+                return 0;
+            }
+
+            m_db_result.code = -1;
+            m_db_result.error_msg = "bindblob failed: no param or result field";
             return -1;
         }
 
@@ -629,24 +688,70 @@ namespace ol
 
         int DBStmt::blobtofile(unsigned int pos, const std::string& filename)
         {
-            if (m_isQuery || pos < 1 || pos > m_fieldCount || !m_bindOut) return -1;
+            if (!m_isQuery || pos < 1 || pos > m_fieldCount || !m_bindOut)
+            {
+                m_db_result.code = -1;
+                m_db_result.error_msg = "blobtofile: invalid query or position";
+                return -1;
+            }
 
             MYSQL_BIND& bind = m_bindOut[pos - 1];
             unsigned long len = *bind.length;
             char* buf = static_cast<char*>(bind.buffer);
 
-            FILE* fp = fopen(filename.c_str(), "wb");
-            if (!fp) return -1;
+            // 数据校验
+            if (len == 0 || !buf)
+            {
+                m_db_result.code = -1;
+                m_db_result.error_msg = "blob data is empty or buffer null";
+                return -1;
+            }
 
-            fwrite(buf, 1, len, fp);
+            if (!newdir(filename, true))
+            {
+                m_db_result.code = -1;
+                m_db_result.error_msg = "create directory failed";
+                return -1;
+            }
+
+            // 打开文件（二进制写入）
+            FILE* fp = fopen(filename.c_str(), "wb");
+            if (!fp)
+            {
+                m_db_result.code = -1;
+                m_db_result.error_msg = "fopen failed: " + std::string(strerror(errno));
+                return -1;
+            }
+
+            // 写入数据
+            size_t wlen = fwrite(buf, 1, len, fp);
             fclose(fp);
+
+            if (wlen != len)
+            {
+                m_db_result.code = -1;
+                m_db_result.error_msg = "fwrite incomplete";
+                remove(filename.c_str());
+                return -1;
+            }
+
+            // 成功
+            m_db_result.code = 0;
+            m_db_result.error_msg.clear();
             return 0;
         }
 
         // ===================== TEXT 操作 =====================
         int DBStmt::bindtext(unsigned int pos, char* buffer, unsigned long length)
         {
-            if (pos < 1 || !buffer || length == 0) return -1;
+            if (pos < 1 || !buffer || length == 0)
+            {
+                m_db_result.code = -1;
+                m_db_result.error_msg = "bindtext: invalid params";
+                return -1;
+            }
+
+            // 输入参数绑定（INSERT/UPDATE，有?占位符）
             if (pos <= m_paramCount && m_bindIn)
             {
                 MYSQL_BIND& bind = m_bindIn[pos - 1];
@@ -656,6 +761,44 @@ namespace ol
                 bind.buffer_length = static_cast<unsigned int>(length);
                 return 0;
             }
+
+            // 输出参数绑定（SELECT 查询结果）
+            if (m_isQuery)
+            {
+                // 初始化输出绑定结构体
+                if (m_fieldCount == 0)
+                {
+                    m_fieldCount = mysql_stmt_field_count(m_stmt);
+                    m_bindOut = new MYSQL_BIND[m_fieldCount]();
+                    m_outLen = new unsigned long[m_fieldCount]();
+                    m_outNull = new bool[m_fieldCount]();
+                }
+
+                // 校验位置合法性
+                if (pos > m_fieldCount)
+                {
+                    m_db_result.code = -1;
+                    m_db_result.error_msg = "bindtext: output pos out of range";
+                    return -1;
+                }
+
+                // 绑定TEXT输出字段
+                MYSQL_BIND& bind = m_bindOut[pos - 1];
+                std::memset(&bind, 0, sizeof(MYSQL_BIND));
+                bind.buffer_type = MYSQL_TYPE_STRING;
+                bind.buffer = buffer;
+                bind.buffer_length = static_cast<unsigned int>(length);
+                bind.length = &m_outLen[pos - 1];
+                bind.is_null = &m_outNull[pos - 1];
+
+                m_db_result.code = 0;
+                m_db_result.error_msg.clear();
+                return 0;
+            }
+
+            // 既不是输入也不是输出，绑定失败
+            m_db_result.code = -1;
+            m_db_result.error_msg = "bindtext: not input param or query result";
             return -1;
         }
 
@@ -667,24 +810,90 @@ namespace ol
 
         int DBStmt::filetotext(unsigned int pos, const std::string& filename, unsigned int chunk)
         {
-            FILE* fp = fopen(filename.c_str(), "rb");
-            if (!fp) return -1;
+            if (pos < 1 || pos > m_paramCount || !m_stmt || !m_bindIn)
+            {
+                m_db_result.code = -1;
+                m_db_result.error_msg = "filetotext: invalid position or unbound param";
+                return -1;
+            }
 
+            // 打开文件
+            FILE* fp = fopen(filename.c_str(), "rb");
+            if (!fp)
+            {
+                m_db_result.code = -1;
+                m_db_result.error_msg = "fopen failed: " + std::string(strerror(errno));
+                return -1;
+            }
+
+            // 获取文件大小
             fseek(fp, 0, SEEK_END);
             long size = ftell(fp);
             fseek(fp, 0, SEEK_SET);
+            if (size <= 0)
+            {
+                fclose(fp);
+                m_db_result.code = -1;
+                m_db_result.error_msg = "file is empty";
+                return -1;
+            }
 
-            char* buf = new char[chunk];
+            // 限制分块大小
+            if (chunk < 1024) chunk = 1024;
+            if (chunk > 8 * 1024 * 1024) chunk = 8 * 1024 * 1024;
+
+            // 绑定TEXT参数类型
+            MYSQL_BIND& bind = m_bindIn[pos - 1];
+            memset(&bind, 0, sizeof(MYSQL_BIND));
+            bind.buffer_type = MYSQL_TYPE_STRING; // TEXT字段必须用STRING类型
+            bind.buffer = nullptr;                // 分块传输无需缓冲区
+            bind.is_null = nullptr;
+
+            // 绑定参数到语句
+            if (mysql_stmt_bind_param(m_stmt, m_bindIn) != 0)
+            {
+                errReport();
+                fclose(fp);
+                return -1;
+            }
+
+            // 分块传输数据
+            char* buf = new (std::nothrow) char[chunk];
+            if (!buf)
+            {
+                fclose(fp);
+                m_db_result.code = -1;
+                m_db_result.error_msg = "malloc failed";
+                return -1;
+            }
+
             size_t total = 0;
+            bool has_error = false;
             while (total < (size_t)size)
             {
                 size_t rd = fread(buf, 1, chunk, fp);
-                mysql_stmt_send_long_data(m_stmt, pos - 1, buf, rd);
+                if (rd == 0) break;
+
+                // 发送长数据
+                if (mysql_stmt_send_long_data(m_stmt, pos - 1, buf, rd) != 0)
+                {
+                    errReport();
+                    has_error = true;
+                    break;
+                }
+
                 total += rd;
             }
 
+            // 清理资源
             delete[] buf;
             fclose(fp);
+
+            if (has_error) return -1;
+
+            // 成功
+            m_db_result.code = 0;
+            m_db_result.error_msg.clear();
             return 0;
         }
 

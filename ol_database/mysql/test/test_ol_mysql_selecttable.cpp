@@ -2,8 +2,9 @@
  *  程序名：test_ol_mysql_selecttable.cpp，此程序演示开发框架操作MySQL数据库（查询表中的数据）。
  *  作者：ol
  */
-#include "ol_mysql.h" // 开发框架操作MySQL的头文件。
+#include "ol_mysql.h"
 #include <cstring>
+#include <cstdio>
 #include <iostream>
 
 using namespace std;
@@ -11,18 +12,20 @@ using namespace ol::mysql;
 
 int main(int argc, char* argv[])
 {
-    DBConn conn; // 创建数据库连接类的对象。
+    DBConn conn;
 
-    // 登录数据库
-    if (conn.connecttodb("root:0088@127.0.0.1:3306/testdb", "utf8mb4") != 0)
+    // ===================== 数据库连接 =====================
+    conn.setConnectParam("root:0088@127.0.0.1:3306/testdb", "utf8mb4");
+    if (!conn.connect())
     {
-        printf("connect database failed.\n%s\n", conn.message().c_str());
+        printf("connect database failed.\n%s\n", conn.errorMsg().c_str());
         return -1;
     }
 
     printf("connect database ok.\n");
 
-    DBStmt stmt(&conn);
+    // ===================== 创建预处理语句 =====================
+    auto stmt = conn.createStmt();
 
     // 定义结构体存储数据
     struct st_girl
@@ -38,36 +41,36 @@ int main(int argc, char* argv[])
     int minid = 11;
     int maxid = 13;
 
-    // 准备查询SQL
-    stmt.prepare("select id, name, weight, DATE_FORMAT(btime, %s) as btime, memo from girls where id>=? and id<=?", R"('%Y-%m-%d %H:%i:%s')");
+    // ===================== 格式化SQL用prepareFmt =====================
+    stmt->prepareFmt("select id, name, weight, DATE_FORMAT(btime, %s) as btime, memo from girls where id>=? and id<=?", R"('%Y-%m-%d %H:%i:%s')");
 
     // 绑定输入变量
-    if (stmt.bindin(1, minid) != 0)
+    if (stmt->bindin(1, minid) != 0)
     {
-        printf("bindin参数1失败：%s\n", stmt.message().c_str());
+        printf("bindin参数1失败：%s\n", stmt->errorMsg().c_str());
         return -1;
     }
-    if (stmt.bindin(2, maxid) != 0)
+    if (stmt->bindin(2, maxid) != 0)
     {
-        printf("bindin参数2失败：%s\n", stmt.message().c_str());
+        printf("bindin参数2失败：%s\n", stmt->errorMsg().c_str());
         return -1;
     }
 
     // 绑定输出变量
-    stmt.bindout(1, stgirl.id);
-    stmt.bindout(2, stgirl.name, 30);
-    stmt.bindout(3, stgirl.weight);
-    stmt.bindout(4, stgirl.btime, 19);
-    stmt.bindout(5, stgirl.memo, 300);
+    stmt->bindout(1, stgirl.id);
+    stmt->bindout(2, stgirl.name, 30);
+    stmt->bindout(3, stgirl.weight);
+    stmt->bindout(4, stgirl.btime, 19);
+    stmt->bindout(5, stgirl.memo, 300);
 
     // 调试信息
-    printf("实际执行的SQL：%s\n", stmt.sql());
+    printf("实际执行的SQL：%s\n", stmt->sql());
     printf("查询条件：id>=%d and id<=%d\n", minid, maxid);
 
-    // 执行SQL
-    if (stmt.execute() != 0)
+    // ===================== execute返回bool =====================
+    if (!stmt->execute())
     {
-        printf("stmt.execute() failed.\n%s\n%s\n", stmt.sql(), stmt.message().c_str());
+        printf("stmt.execute() failed.\n%s\n%s\n", stmt->sql(), stmt->errorMsg().c_str());
         return -1;
     }
 
@@ -76,7 +79,7 @@ int main(int argc, char* argv[])
     while (true)
     {
         memset(&stgirl, 0, sizeof(stgirl));
-        int next_ret = stmt.next();
+        int next_ret = stmt->next();
 
         if (next_ret == 100)
         {
@@ -85,7 +88,7 @@ int main(int argc, char* argv[])
         }
         if (next_ret != 0)
         {
-            printf("stmt.next()失败：%s\n", stmt.message().c_str());
+            printf("stmt.next()失败：%s\n", stmt->errorMsg().c_str());
             break;
         }
 
@@ -93,7 +96,7 @@ int main(int argc, char* argv[])
                ++count, stgirl.id, stgirl.name, stgirl.weight, stgirl.btime, stgirl.memo);
     }
 
-    printf("本次查询了girls表%lu条记录。\n", stmt.rpc());
+    printf("本次查询了girls表%lu条记录。\n", stmt->affectedRows());
 
     return 0;
 }

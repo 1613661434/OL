@@ -224,6 +224,17 @@ namespace ol
 #endif
         return true;
     }
+
+    bool fileExists(const std::string& filename)
+    {
+#ifdef _WIN32
+        struct _stat info;
+        return _stat(filename.c_str(), &info) == 0;
+#else
+        struct stat info;
+        return stat(filename.c_str(), &info) == 0;
+#endif
+    }
     // ===========================================================================
 
     // ===========================================================================
