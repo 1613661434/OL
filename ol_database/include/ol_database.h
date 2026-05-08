@@ -20,7 +20,7 @@
 namespace ol
 {
     // 数据库连接抽象基类
-    class IDBConn
+    class IDBConn : public TypeNonCopyableMovable
     {
     public:
         virtual ~IDBConn() = default;
