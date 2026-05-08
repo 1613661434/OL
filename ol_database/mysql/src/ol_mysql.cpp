@@ -1,3 +1,12 @@
+/**************************************************************************************/
+/*
+ * 程序名：ol_mysql.cpp
+ * 功能描述：C++ MySQL数据库操作实现（复用ol_core工具函数）
+ * 作者：ol
+ * 标准：C++11 及以上
+ */
+/**************************************************************************************/
+
 #include "ol_mysql.h"
 #include "ol_string.h"
 #include <cstdarg>
@@ -6,13 +15,13 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <direct.h>
+#include <cctype>
 
 namespace ol
 {
     namespace mysql
     {
-
-        // ===================== DBResult =====================
+        // ===================== DBResult 实现 =====================
         void DBResult::init()
         {
             code = 0;
@@ -20,9 +29,12 @@ namespace ol
             error_msg.clear();
         }
 
-        // ===================== DBConn =====================
+        // ===================== DBConn 实现 =====================
         DBConn::DBConn()
-            : m_mysql(nullptr), m_autocommitopt(0), m_state(disconnected), m_port(3306)
+            : m_mysql(nullptr),
+              m_autocommitopt(0),
+              m_state(ConnState::Disconnected),
+              m_port(3306)
         {
             m_result.init();
             m_result.code = -1;
@@ -43,7 +55,7 @@ namespace ol
 
         bool DBConn::connect()
         {
-            if (m_state == connected) return true;
+            if (m_state == ConnState::Connected) return true;
 
             m_result.init();
             m_mysql = mysql_init(nullptr);
@@ -67,26 +79,26 @@ namespace ol
             mysql_set_character_set(m_mysql, m_charset.c_str());
             mysql_autocommit(m_mysql, m_autocommitopt);
 
-            m_state = connected;
+            m_state = ConnState::Connected;
             m_result.init();
             return true;
         }
 
         void DBConn::disconnect()
         {
-            if (m_state == disconnected) return;
+            if (m_state == ConnState::Disconnected) return;
 
             if (m_autocommitopt == 0)
                 rollback();
 
             mysql_close(m_mysql);
             m_mysql = nullptr;
-            m_state = disconnected;
+            m_state = ConnState::Disconnected;
         }
 
         bool DBConn::isConnected() const
         {
-            return m_state == connected;
+            return m_state == ConnState::Connected;
         }
 
         void DBConn::reset()
@@ -142,7 +154,7 @@ namespace ol
             va_end(ap);
 
             DBStmt stmt(*this);
-            stmt.prepare(sql);
+            if (!stmt.prepare(sql)) return -1;
             return stmt.execute() ? 0 : -1;
         }
 
@@ -173,7 +185,7 @@ namespace ol
             if (p3 != std::string::npos)
             {
                 m_host = hostPart.substr(0, p3);
-                m_port = atoi(hostPart.substr(p3 + 1).c_str());
+                m_port = static_cast<unsigned int>(atoi(hostPart.substr(p3 + 1).c_str()));
             }
             else
                 m_host = hostPart.empty() ? "localhost" : hostPart;
@@ -185,13 +197,20 @@ namespace ol
             m_result.error_msg = mysql_error(m_mysql);
         }
 
-        // ===================== DBStmt =====================
+        // ===================== DBStmt 实现 =====================
         DBStmt::DBStmt(DBConn& conn)
-            : m_conn(conn), m_mysql((MYSQL*)conn.getHandle()),
-              m_stmt(nullptr), m_result(nullptr),
-              m_bindIn(nullptr), m_bindOut(nullptr),
-              m_outLen(nullptr), m_outNull(nullptr), m_blobLen(nullptr),
-              m_paramCount(0), m_fieldCount(0), m_isQuery(false)
+            : m_conn(conn),
+              m_mysql(static_cast<MYSQL*>(conn.getHandle())),
+              m_stmt(nullptr),
+              m_result(nullptr),
+              m_bindIn(nullptr),
+              m_bindOut(nullptr),
+              m_outLen(nullptr),
+              m_outNull(nullptr),
+              m_blobLen(nullptr),
+              m_paramCount(0),
+              m_fieldCount(0),
+              m_isQuery(false)
         {
             m_db_result.init();
             m_stmt = mysql_stmt_init(m_mysql);
@@ -213,7 +232,8 @@ namespace ol
             delete[] m_blobLen;
 
             m_bindIn = m_bindOut = nullptr;
-            m_outLen = m_outNull = m_blobLen = nullptr;
+            m_outLen = m_blobLen = nullptr;
+            m_outNull = nullptr;
         }
 
         bool DBStmt::isOpen() const
@@ -244,6 +264,7 @@ namespace ol
             char head[7] = {0};
             strncpy(head, sql, 6);
             toUpper(head);
+            deleteLchr(head, ' ');
 
             if (strstr(head, "SELECT") || strstr(head, "SHOW") ||
                 strstr(head, "DESC") || strstr(head, "EXPLA"))
@@ -266,6 +287,258 @@ namespace ol
             return prepare(sql.c_str());
         }
 
+        bool DBStmt::prepareFmt(const char* fmt, ...)
+        {
+            m_db_result.init();
+            if (!isOpen()) return false;
+
+            va_list ap;
+            va_start(ap, fmt);
+            int len = vsnprintf(nullptr, 0, fmt, ap);
+            va_end(ap);
+            if (len <= 0) return false;
+
+            m_sql.resize(len + 1);
+            va_start(ap, fmt);
+            vsnprintf(&m_sql[0], len + 1, fmt, ap);
+            va_end(ap);
+
+            return prepare(m_sql.c_str());
+        }
+
+        // ===================== 输入绑定 =====================
+        int DBStmt::bindin(unsigned int pos, int& value)
+        {
+            if (pos < 1 || pos > m_paramCount || !m_bindIn) return -1;
+            MYSQL_BIND& bind = m_bindIn[pos - 1];
+            std::memset(&bind, 0, sizeof(MYSQL_BIND));
+            bind.buffer_type = MYSQL_TYPE_LONG;
+            bind.buffer = &value;
+            bind.is_unsigned = false;
+            return 0;
+        }
+
+        int DBStmt::bindin(unsigned int pos, long& value)
+        {
+            if (pos < 1 || pos > m_paramCount || !m_bindIn) return -1;
+            MYSQL_BIND& bind = m_bindIn[pos - 1];
+            std::memset(&bind, 0, sizeof(MYSQL_BIND));
+            bind.buffer_type = MYSQL_TYPE_LONGLONG;
+            bind.buffer = &value;
+            bind.is_unsigned = false;
+            return 0;
+        }
+
+        int DBStmt::bindin(unsigned int pos, unsigned int& value)
+        {
+            if (pos < 1 || pos > m_paramCount || !m_bindIn) return -1;
+            MYSQL_BIND& bind = m_bindIn[pos - 1];
+            std::memset(&bind, 0, sizeof(MYSQL_BIND));
+            bind.buffer_type = MYSQL_TYPE_LONG;
+            bind.buffer = &value;
+            bind.is_unsigned = true;
+            return 0;
+        }
+
+        int DBStmt::bindin(unsigned int pos, unsigned long& value)
+        {
+            if (pos < 1 || pos > m_paramCount || !m_bindIn) return -1;
+            MYSQL_BIND& bind = m_bindIn[pos - 1];
+            std::memset(&bind, 0, sizeof(MYSQL_BIND));
+            bind.buffer_type = MYSQL_TYPE_LONGLONG;
+            bind.buffer = &value;
+            bind.is_unsigned = true;
+            return 0;
+        }
+
+        int DBStmt::bindin(unsigned int pos, float& value)
+        {
+            if (pos < 1 || pos > m_paramCount || !m_bindIn) return -1;
+            MYSQL_BIND& bind = m_bindIn[pos - 1];
+            std::memset(&bind, 0, sizeof(MYSQL_BIND));
+            bind.buffer_type = MYSQL_TYPE_FLOAT;
+            bind.buffer = &value;
+            return 0;
+        }
+
+        int DBStmt::bindin(unsigned int pos, double& value)
+        {
+            if (pos < 1 || pos > m_paramCount || !m_bindIn) return -1;
+            MYSQL_BIND& bind = m_bindIn[pos - 1];
+            std::memset(&bind, 0, sizeof(MYSQL_BIND));
+            bind.buffer_type = MYSQL_TYPE_DOUBLE;
+            bind.buffer = &value;
+            return 0;
+        }
+
+        int DBStmt::bindin(unsigned int pos, char* value, unsigned int len)
+        {
+            if (pos < 1 || pos > m_paramCount || !m_bindIn || !value || len == 0) return -1;
+            MYSQL_BIND& bind = m_bindIn[pos - 1];
+            std::memset(&bind, 0, sizeof(MYSQL_BIND));
+            bind.buffer_type = MYSQL_TYPE_STRING;
+            bind.buffer = value;
+            bind.buffer_length = len;
+            return 0;
+        }
+
+        int DBStmt::bindin(unsigned int pos, std::string& value, unsigned int len)
+        {
+            value.resize(len);
+            return bindin(pos, value.data(), len);
+        }
+
+        // ===================== 输出绑定 =====================
+        int DBStmt::bindout(unsigned int pos, int& value)
+        {
+            if (m_fieldCount == 0)
+            {
+                m_fieldCount = mysql_stmt_field_count(m_stmt);
+                m_bindOut = new MYSQL_BIND[m_fieldCount]();
+                m_outLen = new unsigned long[m_fieldCount]();
+                m_outNull = new bool[m_fieldCount]();
+            }
+            if (pos < 1 || pos > m_fieldCount) return -1;
+
+            MYSQL_BIND& bind = m_bindOut[pos - 1];
+            std::memset(&bind, 0, sizeof(MYSQL_BIND));
+            bind.buffer_type = MYSQL_TYPE_LONG;
+            bind.buffer = &value;
+            bind.length = &m_outLen[pos - 1];
+            bind.is_null = &m_outNull[pos - 1];
+            return 0;
+        }
+
+        int DBStmt::bindout(unsigned int pos, long& value)
+        {
+            if (m_fieldCount == 0)
+            {
+                m_fieldCount = mysql_stmt_field_count(m_stmt);
+                m_bindOut = new MYSQL_BIND[m_fieldCount]();
+                m_outLen = new unsigned long[m_fieldCount]();
+                m_outNull = new bool[m_fieldCount]();
+            }
+            if (pos < 1 || pos > m_fieldCount) return -1;
+
+            MYSQL_BIND& bind = m_bindOut[pos - 1];
+            std::memset(&bind, 0, sizeof(MYSQL_BIND));
+            bind.buffer_type = MYSQL_TYPE_LONGLONG;
+            bind.buffer = &value;
+            bind.length = &m_outLen[pos - 1];
+            bind.is_null = &m_outNull[pos - 1];
+            return 0;
+        }
+
+        int DBStmt::bindout(unsigned int pos, unsigned int& value)
+        {
+            if (m_fieldCount == 0)
+            {
+                m_fieldCount = mysql_stmt_field_count(m_stmt);
+                m_bindOut = new MYSQL_BIND[m_fieldCount]();
+                m_outLen = new unsigned long[m_fieldCount]();
+                m_outNull = new bool[m_fieldCount]();
+            }
+            if (pos < 1 || pos > m_fieldCount) return -1;
+
+            MYSQL_BIND& bind = m_bindOut[pos - 1];
+            std::memset(&bind, 0, sizeof(MYSQL_BIND));
+            bind.buffer_type = MYSQL_TYPE_LONG;
+            bind.buffer = &value;
+            bind.is_unsigned = true;
+            bind.length = &m_outLen[pos - 1];
+            bind.is_null = &m_outNull[pos - 1];
+            return 0;
+        }
+
+        int DBStmt::bindout(unsigned int pos, unsigned long& value)
+        {
+            if (m_fieldCount == 0)
+            {
+                m_fieldCount = mysql_stmt_field_count(m_stmt);
+                m_bindOut = new MYSQL_BIND[m_fieldCount]();
+                m_outLen = new unsigned long[m_fieldCount]();
+                m_outNull = new bool[m_fieldCount]();
+            }
+            if (pos < 1 || pos > m_fieldCount) return -1;
+
+            MYSQL_BIND& bind = m_bindOut[pos - 1];
+            std::memset(&bind, 0, sizeof(MYSQL_BIND));
+            bind.buffer_type = MYSQL_TYPE_LONGLONG;
+            bind.buffer = &value;
+            bind.is_unsigned = true;
+            bind.length = &m_outLen[pos - 1];
+            bind.is_null = &m_outNull[pos - 1];
+            return 0;
+        }
+
+        int DBStmt::bindout(unsigned int pos, float& value)
+        {
+            if (m_fieldCount == 0)
+            {
+                m_fieldCount = mysql_stmt_field_count(m_stmt);
+                m_bindOut = new MYSQL_BIND[m_fieldCount]();
+                m_outLen = new unsigned long[m_fieldCount]();
+                m_outNull = new bool[m_fieldCount]();
+            }
+            if (pos < 1 || pos > m_fieldCount) return -1;
+
+            MYSQL_BIND& bind = m_bindOut[pos - 1];
+            std::memset(&bind, 0, sizeof(MYSQL_BIND));
+            bind.buffer_type = MYSQL_TYPE_FLOAT;
+            bind.buffer = &value;
+            bind.length = &m_outLen[pos - 1];
+            bind.is_null = &m_outNull[pos - 1];
+            return 0;
+        }
+
+        int DBStmt::bindout(unsigned int pos, double& value)
+        {
+            if (m_fieldCount == 0)
+            {
+                m_fieldCount = mysql_stmt_field_count(m_stmt);
+                m_bindOut = new MYSQL_BIND[m_fieldCount]();
+                m_outLen = new unsigned long[m_fieldCount]();
+                m_outNull = new bool[m_fieldCount]();
+            }
+            if (pos < 1 || pos > m_fieldCount) return -1;
+
+            MYSQL_BIND& bind = m_bindOut[pos - 1];
+            std::memset(&bind, 0, sizeof(MYSQL_BIND));
+            bind.buffer_type = MYSQL_TYPE_DOUBLE;
+            bind.buffer = &value;
+            bind.length = &m_outLen[pos - 1];
+            bind.is_null = &m_outNull[pos - 1];
+            return 0;
+        }
+
+        int DBStmt::bindout(unsigned int pos, char* value, unsigned int len)
+        {
+            if (m_fieldCount == 0)
+            {
+                m_fieldCount = mysql_stmt_field_count(m_stmt);
+                m_bindOut = new MYSQL_BIND[m_fieldCount]();
+                m_outLen = new unsigned long[m_fieldCount]();
+                m_outNull = new bool[m_fieldCount]();
+            }
+            if (pos < 1 || pos > m_fieldCount || !value || len == 0) return -1;
+
+            MYSQL_BIND& bind = m_bindOut[pos - 1];
+            std::memset(&bind, 0, sizeof(MYSQL_BIND));
+            bind.buffer_type = MYSQL_TYPE_STRING;
+            bind.buffer = value;
+            bind.buffer_length = len;
+            bind.length = &m_outLen[pos - 1];
+            bind.is_null = &m_outNull[pos - 1];
+            return 0;
+        }
+
+        int DBStmt::bindout(unsigned int pos, std::string& value, unsigned int len)
+        {
+            value.resize(len);
+            return bindout(pos, value.data(), len);
+        }
+
+        // ===================== 执行与结果 =====================
         bool DBStmt::execute()
         {
             if (!isOpen()) return false;
@@ -310,35 +583,129 @@ namespace ol
             return m_db_result.code;
         }
 
-        // 剩余绑定/BLOB/TEXT函数实现与原版完全一致，精简展示
-        int DBStmt::bindin(unsigned int pos, int& value) { return 0; }
-        int DBStmt::bindin(unsigned int pos, long& value) { return 0; }
-        int DBStmt::bindin(unsigned int pos, unsigned int& value) { return 0; }
-        int DBStmt::bindin(unsigned int pos, unsigned long& value) { return 0; }
-        int DBStmt::bindin(unsigned int pos, float& value) { return 0; }
-        int DBStmt::bindin(unsigned int pos, double& value) { return 0; }
-        int DBStmt::bindin(unsigned int pos, char* value, unsigned int len) { return 0; }
-        int DBStmt::bindin(unsigned int pos, std::string& value, unsigned int len) { return 0; }
+        // ===================== BLOB 操作 =====================
+        int DBStmt::bindblob(unsigned int pos, char* buffer, unsigned long length)
+        {
+            if (pos < 1 || !buffer || length == 0) return -1;
 
-        int DBStmt::bindout(unsigned int pos, int& value) { return 0; }
-        int DBStmt::bindout(unsigned int pos, long& value) { return 0; }
-        int DBStmt::bindout(unsigned int pos, unsigned int& value) { return 0; }
-        int DBStmt::bindout(unsigned int pos, unsigned long& value) { return 0; }
-        int DBStmt::bindout(unsigned int pos, float& value) { return 0; }
-        int DBStmt::bindout(unsigned int pos, double& value) { return 0; }
-        int DBStmt::bindout(unsigned int pos, char* value, unsigned int len) { return 0; }
-        int DBStmt::bindout(unsigned int pos, std::string& value, unsigned int len) { return 0; }
+            if (pos <= m_paramCount && m_bindIn)
+            {
+                m_blobLen[pos - 1] = length;
+                MYSQL_BIND& bind = m_bindIn[pos - 1];
+                std::memset(&bind, 0, sizeof(MYSQL_BIND));
+                bind.buffer_type = MYSQL_TYPE_BLOB;
+                bind.buffer = buffer;
+                bind.buffer_length = length;
+                bind.length = &m_blobLen[pos - 1];
+                return 0;
+            }
+            return -1;
+        }
 
-        int DBStmt::bindblob(unsigned int pos, char* buffer, unsigned long length) { return 0; }
-        int DBStmt::filetoblob(unsigned int pos, const std::string& filename) { return 0; }
-        int DBStmt::blobtofile(unsigned int pos, const std::string& filename) { return 0; }
-        int DBStmt::bindtext(unsigned int pos, char* buffer, unsigned long length) { return 0; }
-        int DBStmt::bindtext(unsigned int pos, std::string& buffer, unsigned long length) { return 0; }
-        int DBStmt::filetotext(unsigned int pos, const std::string& filename, unsigned int chunk) { return 0; }
-        int DBStmt::texttofile(unsigned int pos, const std::string& filename) { return 0; }
+        int DBStmt::filetoblob(unsigned int pos, const std::string& filename)
+        {
+            FILE* fp = fopen(filename.c_str(), "rb");
+            if (!fp) return -1;
 
-        bool DBStmt::isNull(unsigned int pos) { return false; }
-        unsigned long DBStmt::length(unsigned int pos) { return 0; }
+            fseek(fp, 0, SEEK_END);
+            long size = ftell(fp);
+            fseek(fp, 0, SEEK_SET);
+            if (size <= 0)
+            {
+                fclose(fp);
+                return 0;
+            }
+
+            char* buf = new char[size];
+            fread(buf, 1, size, fp);
+            fclose(fp);
+
+            int ret = bindblob(pos, buf, static_cast<unsigned long>(size));
+            if (ret == 0) execute();
+
+            delete[] buf;
+            return ret;
+        }
+
+        int DBStmt::blobtofile(unsigned int pos, const std::string& filename)
+        {
+            if (m_isQuery || pos < 1 || pos > m_fieldCount || !m_bindOut) return -1;
+
+            MYSQL_BIND& bind = m_bindOut[pos - 1];
+            unsigned long len = *bind.length;
+            char* buf = static_cast<char*>(bind.buffer);
+
+            FILE* fp = fopen(filename.c_str(), "wb");
+            if (!fp) return -1;
+
+            fwrite(buf, 1, len, fp);
+            fclose(fp);
+            return 0;
+        }
+
+        // ===================== TEXT 操作 =====================
+        int DBStmt::bindtext(unsigned int pos, char* buffer, unsigned long length)
+        {
+            if (pos < 1 || !buffer || length == 0) return -1;
+            if (pos <= m_paramCount && m_bindIn)
+            {
+                MYSQL_BIND& bind = m_bindIn[pos - 1];
+                std::memset(&bind, 0, sizeof(MYSQL_BIND));
+                bind.buffer_type = MYSQL_TYPE_STRING;
+                bind.buffer = buffer;
+                bind.buffer_length = static_cast<unsigned int>(length);
+                return 0;
+            }
+            return -1;
+        }
+
+        int DBStmt::bindtext(unsigned int pos, std::string& buffer, unsigned long length)
+        {
+            buffer.resize(length);
+            return bindtext(pos, buffer.data(), length);
+        }
+
+        int DBStmt::filetotext(unsigned int pos, const std::string& filename, unsigned int chunk)
+        {
+            FILE* fp = fopen(filename.c_str(), "rb");
+            if (!fp) return -1;
+
+            fseek(fp, 0, SEEK_END);
+            long size = ftell(fp);
+            fseek(fp, 0, SEEK_SET);
+
+            char* buf = new char[chunk];
+            size_t total = 0;
+            while (total < (size_t)size)
+            {
+                size_t rd = fread(buf, 1, chunk, fp);
+                mysql_stmt_send_long_data(m_stmt, pos - 1, buf, rd);
+                total += rd;
+            }
+
+            delete[] buf;
+            fclose(fp);
+            return 0;
+        }
+
+        int DBStmt::texttofile(unsigned int pos, const std::string& filename)
+        {
+            return blobtofile(pos, filename);
+        }
+
+        // ===================== 工具方法 =====================
+        bool DBStmt::isNull(unsigned int pos)
+        {
+            if (pos < 1 || pos > m_fieldCount || !m_outNull) return true;
+            return m_outNull[pos - 1];
+        }
+
+        unsigned long DBStmt::length(unsigned int pos)
+        {
+            if (pos < 1 || pos > m_fieldCount || !m_outLen) return 0;
+            return m_outLen[pos - 1];
+        }
+
         const char* DBStmt::sql() const { return m_sql.c_str(); }
         int DBStmt::code() const { return m_db_result.code; }
         size_t DBStmt::affectedRows() const { return m_db_result.affected_rows; }

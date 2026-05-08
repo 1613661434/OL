@@ -30,8 +30,29 @@ namespace ol
         class DBStmt;
 
         // MySQL连接实现类
-        class DBConn : public ol::IDBConn
+        class DBConn : public IDBConn
         {
+        public:
+            // 连接状态强枚举，底层char类型
+            enum class ConnState : char
+            {
+                Disconnected = 0, // 未连接
+                Connected = 1     // 已连接
+            };
+
+        private:
+            MYSQL* m_mysql;
+            int m_autocommitopt;
+            ConnState m_state; // 替换原int m_state，强枚举类型
+            DBResult m_result;
+
+            std::string m_host;
+            std::string m_user;
+            std::string m_pass;
+            std::string m_dbname;
+            unsigned int m_port;
+            std::string m_charset;
+
         public:
             DBConn();
             ~DBConn() override;
@@ -63,19 +84,8 @@ namespace ol
             size_t affectedRows() const;
             std::string errorMsg() const;
 
+            // 4. 私有成员函数（独立分段）
         private:
-            MYSQL* m_mysql;
-            int m_autocommitopt;
-            int m_state;
-            DBResult m_result;
-
-            std::string m_host;
-            std::string m_user;
-            std::string m_pass;
-            std::string m_dbname;
-            unsigned int m_port;
-            std::string m_charset;
-
             void parseConnStr(const char* connstr);
             void errReport();
         };
@@ -83,6 +93,23 @@ namespace ol
         // MySQL语句操作类
         class DBStmt : public TypeNonCopyableMovable
         {
+        private:
+            DBConn& m_conn;
+            MYSQL* m_mysql;
+            MYSQL_STMT* m_stmt;
+            MYSQL_RES* m_result;
+            MYSQL_BIND* m_bindIn;
+            MYSQL_BIND* m_bindOut;
+            unsigned long* m_outLen;
+            bool* m_outNull;
+            unsigned long* m_blobLen;
+
+            unsigned int m_paramCount;
+            unsigned int m_fieldCount;
+            bool m_isQuery;
+            std::string m_sql;
+            DBResult m_db_result;
+
         public:
             explicit DBStmt(DBConn& conn);
             ~DBStmt();
@@ -90,7 +117,7 @@ namespace ol
             // 预处理SQL
             bool prepare(const char* sql);
             bool prepare(const std::string& sql);
-            bool prepare(const char* fmt, ...);
+            bool prepareFmt(const char* fmt, ...);
 
             // 输入绑定
             int bindin(unsigned int pos, int& value);
@@ -134,22 +161,6 @@ namespace ol
             std::string errorMsg() const;
 
         private:
-            DBConn& m_conn;
-            MYSQL* m_mysql;
-            MYSQL_STMT* m_stmt;
-            MYSQL_RES* m_result;
-            MYSQL_BIND* m_bindIn;
-            MYSQL_BIND* m_bindOut;
-            unsigned long* m_outLen;
-            bool* m_outNull;
-            unsigned long* m_blobLen;
-
-            unsigned int m_paramCount;
-            unsigned int m_fieldCount;
-            bool m_isQuery;
-            std::string m_sql;
-            DBResult m_db_result;
-
             void freeBind();
             void errReport();
             bool isOpen() const;
