@@ -70,12 +70,12 @@ namespace ol
         return str;
     }
 
-    char* toupper(char* str)
+    char* toUpper(char* str)
     {
-        if (str == nullptr) return nullptr;
+        if (!str) return nullptr;
 
-        char* p = str;  // 指向字符串的首地址。
-        while (*p != 0) // 遍历字符串。
+        char* p = str;     // 指向字符串的首地址。
+        while (*p != '\0') // 遍历字符串。
         {
             if ((*p >= 'a') && (*p <= 'z')) *p = *p - 32;
             ++p;
@@ -84,7 +84,7 @@ namespace ol
         return str;
     }
 
-    std::string& toupper(std::string& str)
+    std::string& toUpper(std::string& str)
     {
         for (auto& c : str)
         {
@@ -94,12 +94,12 @@ namespace ol
         return str;
     }
 
-    char* tolower(char* str)
+    char* toLower(char* str)
     {
-        if (str == nullptr) return nullptr;
+        if (!str) return nullptr;
 
-        char* p = str;  // 指向字符串的首地址。
-        while (*p != 0) // 遍历字符串。
+        char* p = str;     // 指向字符串的首地址。
+        while (*p != '\0') // 遍历字符串。
         {
             if ((*p >= 'A') && (*p <= 'Z')) *p = *p + 32;
             ++p;
@@ -108,7 +108,7 @@ namespace ol
         return str;
     }
 
-    std::string& tolower(std::string& str)
+    std::string& toLower(std::string& str)
     {
         for (auto& c : str)
         {
@@ -223,8 +223,8 @@ namespace ol
         std::string matchstr = rules;
 
         // 把字符串都转换成大写后再来比较
-        toupper(filename);
-        toupper(matchstr);
+        toUpper(filename);
+        toUpper(matchstr);
 
         cmdstr.split(matchstr, ",");
 
@@ -445,7 +445,7 @@ namespace ol
         if (i >= m_cmdstr.size()) return false;
 
         std::string str = m_cmdstr[i];
-        toupper(str); // 转换为大写来判断。
+        toUpper(str); // 转换为大写来判断。
 
         if (str == "TRUE")
             value = true;
@@ -515,7 +515,7 @@ namespace ol
         std::string str;
         if (getByXml(xmlStr, tag, str) == false) return false;
 
-        toupper(str); // 转换为大写来判断（也可以转换为小写，效果相同）。
+        toUpper(str); // 转换为大写来判断（也可以转换为小写，效果相同）。
 
         if (str == "TRUE")
             value = true;

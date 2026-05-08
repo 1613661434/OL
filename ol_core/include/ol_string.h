@@ -57,16 +57,16 @@ namespace ol
      * @param str 待转换的字符串（C字符串会被直接修改，std::string为引用）
      * @return 修改后的字符串（C字符串返回指针，std::string返回引用）
      */
-    char* toupper(char* str);               // C字符串版本
-    std::string& toupper(std::string& str); // std::string版本
+    char* toUpper(char* str);               // C字符串版本
+    std::string& toUpper(std::string& str); // std::string版本
 
     /**
      * @brief 将字符串中的大写字母转换为小写（非字母字符不变）
      * @param str 待转换的字符串（C字符串会被直接修改，std::string为引用）
      * @return 修改后的字符串（C字符串返回指针，std::string返回引用）
      */
-    char* tolower(char* str);               // C字符串版本
-    std::string& tolower(std::string& str); // std::string版本
+    char* toLower(char* str);               // C字符串版本
+    std::string& toLower(std::string& str); // std::string版本
 
     /**
      * @brief 字符串替换
