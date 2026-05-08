@@ -10,6 +10,8 @@
 #define OL_DATABASE_H
 
 #include "ol_type_traits.h"
+#include <functional>
+#include <stdexcept>
 #include <queue>
 #include <mutex>
 #include <memory>
@@ -38,20 +40,33 @@ namespace ol
 
     public:
         using ConnPtr = std::shared_ptr<T>;
+        using ConnConfigCallback = std::function<void(T& conn)>;
 
     private:
         std::queue<ConnPtr> m_queue;
         mutable std::mutex m_mtx;
         size_t m_max;
+        ConnConfigCallback m_config_cb; // 配置回调
 
     public:
-        explicit DBPool(size_t max_conn) : m_max(max_conn)
+        explicit DBPool(size_t max_conn, ConnConfigCallback config_cb)
+            : m_max(max_conn), m_config_cb(std::move(config_cb))
         {
-            std::lock_guard<std::mutex> lock(m_mtx);
+            if (!m_config_cb)
+            {
+                throw std::invalid_argument("DBPool: The connection configuration callback (m_config_cb) cannot be empty!");
+            }
+            if (m_max == 0)
+            {
+                throw std::invalid_argument("DBPool: The maximum number of connections (m_max_conn) cannot be 0!");
+            }
+
             for (size_t i = 0; i < m_max; ++i)
             {
                 ConnPtr conn = std::make_shared<T>();
-                if (conn->connect()) m_queue.push(conn);
+                m_config_cb(*conn);
+                if (!conn->connect()) throw std::runtime_error("DBPool: Database connection initialization failed!");
+                m_queue.push(conn);
             }
         }
         ~DBPool() { destroy(); }
@@ -62,8 +77,15 @@ namespace ol
             if (m_queue.empty()) return nullptr;
             ConnPtr conn = m_queue.front();
             m_queue.pop();
-            if (!conn->isConnected() && !conn->connect()) return nullptr;
-            return conn;
+
+            // 重连逻辑：先重新配置 → 再连接
+            if (!conn->isConnected())
+            {
+                m_config_cb(*conn);
+                conn->connect();
+            }
+
+            return conn->isConnected() ? conn : nullptr;
         }
 
         void release(ConnPtr conn)

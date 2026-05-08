@@ -661,29 +661,93 @@ namespace ol
             return -1;
         }
 
-        int DBStmt::filetoblob(unsigned int pos, const std::string& filename)
+        int DBStmt::filetoblob(unsigned int pos, const std::string& filename, unsigned int chunk)
         {
-            FILE* fp = fopen(filename.c_str(), "rb");
-            if (!fp) return -1;
+            if (pos < 1 || pos > m_paramCount || !m_stmt || !m_bindIn)
+            {
+                m_db_result.code = -1;
+                m_db_result.error_msg = "filetoblob: invalid position or unbound param";
+                return -1;
+            }
 
+            // 打开二进制文件
+            FILE* fp = fopen(filename.c_str(), "rb");
+            if (!fp)
+            {
+                m_db_result.code = -1;
+                m_db_result.error_msg = "fopen failed: " + std::string(strerror(errno));
+                return -1;
+            }
+
+            // 获取文件大小
             fseek(fp, 0, SEEK_END);
             long size = ftell(fp);
             fseek(fp, 0, SEEK_SET);
             if (size <= 0)
             {
                 fclose(fp);
-                return 0;
+                m_db_result.code = -1;
+                m_db_result.error_msg = "file is empty";
+                return -1;
             }
 
-            char* buf = new char[size];
-            fread(buf, 1, size, fp);
+            // 限制分块大小
+            if (chunk < 1024) chunk = 1024;
+            if (chunk > 8 * 1024 * 1024) chunk = 8 * 1024 * 1024;
+
+            // ===================== 绑定BLOB类型 =====================
+            MYSQL_BIND& bind = m_bindIn[pos - 1];
+            memset(&bind, 0, sizeof(MYSQL_BIND));
+            bind.buffer_type = MYSQL_TYPE_BLOB; // BLOB类型
+            bind.buffer = nullptr;
+            bind.is_null = nullptr;
+
+            // 绑定参数到语句
+            if (mysql_stmt_bind_param(m_stmt, m_bindIn) != 0)
+            {
+                errReport();
+                fclose(fp);
+                return -1;
+            }
+
+            // ===================== 分块发送数据 =====================
+            char* buf = new (std::nothrow) char[chunk];
+            if (!buf)
+            {
+                fclose(fp);
+                m_db_result.code = -1;
+                m_db_result.error_msg = "malloc failed";
+                return -1;
+            }
+
+            size_t total = 0;
+            bool has_error = false;
+            while (total < (size_t)size)
+            {
+                size_t rd = fread(buf, 1, chunk, fp);
+                if (rd == 0) break;
+
+                // 发送长二进制数据
+                if (mysql_stmt_send_long_data(m_stmt, pos - 1, buf, rd) != 0)
+                {
+                    errReport();
+                    has_error = true;
+                    break;
+                }
+
+                total += rd;
+            }
+
+            // 释放缓冲区
+            delete[] buf;
             fclose(fp);
 
-            int ret = bindblob(pos, buf, static_cast<unsigned long>(size));
-            if (ret == 0) execute();
+            if (has_error) return -1;
 
-            delete[] buf;
-            return ret;
+            // 成功
+            m_db_result.code = 0;
+            m_db_result.error_msg.clear();
+            return 0;
         }
 
         int DBStmt::blobtofile(unsigned int pos, const std::string& filename)

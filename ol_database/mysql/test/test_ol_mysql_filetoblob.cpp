@@ -1,14 +1,15 @@
 /*
- *  程序名：test_ol_mysql_filetoblob.cpp，此程序演示开发框架操作MySQL数据库（把二进制文件存入数据库的BLOB字段中）。
+ *  程序名：test_ol_mysql_filetoblob.cpp，演示二进制文件存入数据库BLOB字段
  *  作者：ol
  */
 #include "ol_mysql.h"
+#include "ol_fstream.h"
 #include <cstdio>
-#include <cstring>
-#include <iostream>
 #include <string>
+#include <sys/stat.h>
 
 using namespace std;
+using namespace ol;
 using namespace ol::mysql;
 
 int main(int argc, char* argv[])
@@ -25,46 +26,61 @@ int main(int argc, char* argv[])
 
     printf("connect database ok.\n");
 
-    // 步骤1：插入一条带BLOB字段的记录（初始为NULL）
+    // 检查max_allowed_packet
     // ===================== 创建预处理语句 =====================
-    auto stmt_insert = conn.createStmt();
-    stmt_insert->prepare("insert into girls(id,name,pic) values(1,'冰冰冰',NULL)");
+    auto stmt_check = conn.createStmt();
+    stmt_check->prepare("show variables like 'max_allowed_packet'");
+    stmt_check->execute();
+    char var[256], val[256];
+    stmt_check->bindout(1, var, 255);
+    stmt_check->bindout(2, val, 255);
+    stmt_check->next();
+    printf("当前max_allowed_packet: %s字节\n", val);
 
-    // ===================== execute返回bool =====================
-    if (!stmt_insert->execute())
+    // 检查记录是否存在，不存在则插入，存在则更新
+    auto stmt_check_rec = conn.createStmt();
+    stmt_check_rec->prepare("select id from girls where id=1");
+    stmt_check_rec->execute();
+
+    // 准备SQL语句（使用pic字段存储BLOB）
+    auto stmt = conn.createStmt();
+    if (stmt_check_rec->next() == 100)
     {
-        printf("stmt_insert.execute() failed.\n%s\n%s\n", stmt_insert->sql(), stmt_insert->errorMsg().c_str());
-        return -1;
+        // 记录不存在，准备插入语句
+        stmt->prepare("insert into girls(id,name,pic) values(1,'微微',?)");
+    }
+    else
+    {
+        // 记录存在，准备更新语句
+        stmt->prepare("update girls set pic=? where id=1");
     }
 
-    printf("插入初始记录成功，影响行数：%ld\n", stmt_insert->affectedRows());
-
-    // 步骤2：准备更新BLOB字段
-    auto stmt_blob = conn.createStmt();
-    // 使用UPDATE语句直接更新BLOB字段，这是更简洁的方式
-    stmt_blob->prepare("update girls set pic=? where id=1");
-
-    // 步骤3：将文件内容写入BLOB字段
+    // 检查文件
     const string filename = R"(D:\Visual Studio Code\Projects\OL\ol_database\mysql\test\data\pic_in.jpeg)";
-    // 检查文件是否存在
-    FILE* fp = fopen(filename.c_str(), "rb");
-    if (fp == nullptr)
+    long file_size = filesize(filename);
+    if (file_size <= 0)
     {
-        printf("无法打开文件：%s\n", filename.c_str());
+        printf("文件不存在或为空: %s\n", filename.c_str());
         return -1;
     }
-    fclose(fp);
+    printf("待写入BLOB文件大小: %ld字节\n", file_size);
 
-    // 调用框架方法将文件写入BLOB
-    if (stmt_blob->filetoblob(1, filename) != 0)
+    // 调用filetoblob接口写入二进制数据
+    if (stmt->filetoblob(1, filename) != 0)
     {
-        printf("stmt_blob.filetoblob() failed.\n%s\n", stmt_blob->errorMsg().c_str());
+        printf("filetoblob failed: %s\n", stmt->errorMsg().c_str());
         return -1;
     }
 
-    printf("二进制文件已成功存入数据库的BLOB字段中。\n");
+    // 执行预处理语句
+    if (!stmt->execute())
+    {
+        printf("execute failed: %s\nSQL: %s\n", stmt->errorMsg().c_str(), stmt->sql());
+        return -1;
+    }
 
-    conn.commit(); // 提交事务
+    printf("二进制文件已成功存入pic字段(BLOB类型)\n");
+    conn.commit();
 
     return 0;
 }

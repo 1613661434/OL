@@ -146,7 +146,7 @@ namespace ol
 
             // BLOB / TEXT 操作
             int bindblob(unsigned int pos, char* buffer, unsigned long length);
-            int filetoblob(unsigned int pos, const std::string& filename);
+            int filetoblob(unsigned int pos, const std::string& filename, unsigned int chunk = 4 * 1024 * 1024);
             int blobtofile(unsigned int pos, const std::string& filename);
             int bindtext(unsigned int pos, char* buffer, unsigned long length);
             int bindtext(unsigned int pos, std::string& buffer, unsigned long length);

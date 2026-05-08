@@ -51,11 +51,11 @@ int main(int argc, char* argv[])
     {
         memset(&stgirl, 0, sizeof(struct st_girl));
 
-        stgirl.id = i;                                                                 // 超女编号
-        snprintf(stgirl.name, sizeof(stgirl.name), "西施%05dgirl", i);                 // 超女姓名
-        stgirl.weight = 45.35 + i;                                                     // 超女体重
-        snprintf(stgirl.btime, sizeof(stgirl.btime), "2021-08-25 10:33:%02d", i);      // 报名时间
-        snprintf(stgirl.memo, sizeof(stgirl.memo), "这是第%05d个超级女生的备注。", i); // 备注
+        stgirl.id = i;                                                             // 超女编号
+        snprintf(stgirl.name, sizeof(stgirl.name), "微微%05dgirl", i);             // 超女姓名
+        stgirl.weight = 45.35 + i;                                                 // 超女体重
+        snprintf(stgirl.btime, sizeof(stgirl.btime), "2021-08-25 10:33:%02d", i);  // 报名时间
+        snprintf(stgirl.memo, sizeof(stgirl.memo), "这是第%05d个女生的备注。", i); // 备注
 
         // ===================== execute返回bool，错误信息用errorMsg =====================
         if (!stmt->execute())

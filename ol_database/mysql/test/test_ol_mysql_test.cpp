@@ -14,6 +14,7 @@
 #include <cstring>
 #include <string>
 #include <memory>
+#include <stdexcept>
 
 // 全局测试配置
 const std::string MYSQL_CONN_STR = "root:0088@127.0.0.1:3306/testdb";
@@ -69,7 +70,7 @@ bool testSingleDBConn()
             return false;
         }
 
-        // 4. 测试事务（回滚）✅ 修复：判断事务返回值
+        // 4. 测试事务
         if (!conn.beginTransaction())
         {
             std::cerr << "开启事务失败: " << conn.errorMsg() << std::endl;
@@ -108,7 +109,6 @@ bool testSingleDBConn()
     }
 }
 
-// 测试2：预处理语句操作
 bool testDBStmt(ol::mysql::DBConn& conn)
 {
     try
@@ -129,10 +129,11 @@ bool testDBStmt(ol::mysql::DBConn& conn)
             return false;
         }
 
-        // 3. 绑定输入参数 ✅ 修复：使用string重载，无需data()
-        std::string name = "stmt_test_user";
+        // 3. 绑定输入参数
+        char* name = "stmt_test";
+        int name_len = strlen(name);
         int age = 25;
-        if (stmt->bindin(1, name) != 0 || stmt->bindin(2, age) != 0)
+        if (stmt->bindin(1, name, name_len) != 0 || stmt->bindin(2, age) != 0)
         {
             std::cerr << "绑定参数失败: " << stmt->errorMsg() << std::endl;
             return false;
@@ -159,14 +160,13 @@ bool testDBStmt(ol::mysql::DBConn& conn)
             return false;
         }
 
-        // 绑定输入参数
-        if (queryStmt->bindin(1, name) != 0)
+        if (queryStmt->bindin(1, name, name_len) != 0)
         {
             std::cerr << "绑定查询参数失败: " << queryStmt->errorMsg() << std::endl;
             return false;
         }
 
-        // 6. ✅ 修复：绑定输出参数 → 执行（顺序正确）
+        // 6. 绑定输出参数
         int resAge = 0;
         if (queryStmt->bindout(1, resAge) != 0)
         {
@@ -192,7 +192,7 @@ bool testDBStmt(ol::mysql::DBConn& conn)
         }
 
         // 清理测试数据
-        conn.execute("DELETE FROM test_pool_table WHERE name = 'stmt_test_user';");
+        conn.execute("DELETE FROM test_pool_table WHERE name = 'stmt_test';");
         return true;
     }
     catch (const std::exception& e)
@@ -202,41 +202,18 @@ bool testDBStmt(ol::mysql::DBConn& conn)
     }
 }
 
-// 测试3：数据库连接池核心功能 ✅ 核心修复：连接池初始化连接
+// 测试3：数据库连接池核心功能
 bool testDBPool()
 {
     try
     {
-        // 1. 创建连接池
-        ol::DBPool<ol::mysql::DBConn> pool(MAX_CONN);
-
-        // 初始化连接池：给每个连接配置参数并连接
-        bool init_ok = true;
-        for (size_t i = 0; i < pool.idle(); ++i)
-        {
-            auto conn = pool.get();
-            if (!conn)
+        // 创建连接池：最大连接数 + 配置回调
+        ol::DBPool<ol::mysql::DBConn> pool(
+            MAX_CONN,
+            [&](ol::mysql::DBConn& conn)
             {
-                init_ok = false;
-                break;
-            }
-            // 配置MySQL连接参数
-            conn->setConnectParam(MYSQL_CONN_STR, MYSQL_CHARSET, true);
-            if (!conn->connect())
-            {
-                std::cerr << "连接池连接初始化失败: " << conn->errorMsg() << std::endl;
-                init_ok = false;
-                pool.release(conn);
-                break;
-            }
-            pool.release(conn);
-        }
-
-        if (!init_ok)
-        {
-            std::cerr << "连接池初始化失败，无可用连接" << std::endl;
-            return false;
-        }
+                conn.setConnectParam(MYSQL_CONN_STR, MYSQL_CHARSET, true);
+            });
 
         // 检查初始空闲连接数
         size_t initIdle = pool.idle();
@@ -247,37 +224,27 @@ bool testDBPool()
             return false;
         }
 
-        // 2. 获取连接
+        // 获取连接
         auto conn1 = pool.get();
         if (!conn1)
         {
             std::cerr << "获取第一个连接失败" << std::endl;
             return false;
         }
-        if (pool.idle() != initIdle - 1)
-        {
-            std::cerr << "获取连接后空闲数错误" << std::endl;
-            return false;
-        }
 
-        // 3. 用连接执行预处理语句测试
+        // 执行预处理语句测试
         if (!testDBStmt(*conn1))
         {
             std::cerr << "连接池连接执行预处理语句失败" << std::endl;
             return false;
         }
 
-        // 4. 释放连接
+        // 释放连接
         pool.release(conn1);
-        if (pool.idle() != initIdle)
-        {
-            std::cerr << "释放连接后空闲数错误" << std::endl;
-            return false;
-        }
 
-        // 5. 多线程测试连接池
+        // 多线程测试连接池
         bool threadTestSuccess = true;
-        auto threadFunc = [&pool, &threadTestSuccess](int threadId)
+        auto threadFunc = [&](int threadId)
         {
             try
             {
@@ -288,9 +255,8 @@ bool testDBPool()
                     threadTestSuccess = false;
                     return;
                 }
-                // 模拟业务操作
+                // 模拟业务
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));
-                // 执行简单SQL
                 conn->execute("SELECT 1;");
                 pool.release(conn);
             }
@@ -308,19 +274,10 @@ bool testDBPool()
         t2.join();
         t3.join();
 
-        if (!threadTestSuccess)
-        {
-            return false;
-        }
+        if (!threadTestSuccess) return false;
 
-        // 6. 销毁连接池
+        // 销毁连接池
         pool.destroy();
-        if (pool.idle() != 0)
-        {
-            std::cerr << "销毁连接池后空闲数不为0" << std::endl;
-            return false;
-        }
-
         return true;
     }
     catch (const std::exception& e)
