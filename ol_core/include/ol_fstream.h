@@ -346,7 +346,7 @@ namespace ol
          * @brief 构造函数
          * @param maxSize 日志最大大小（MB，默认100）
          */
-        clogfile() : m_mode(std::ios::app), m_isRoll(true), m_maxSize(100), m_enBuffer(false) {}
+        clogfile() : m_mode(std::ios::app), m_enBuffer(false), m_isRoll(true), m_maxSize(100) {}
 
         // 析构函数，自动关闭文件
         ~clogfile() { close(); };
