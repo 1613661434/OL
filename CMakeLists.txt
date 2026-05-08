@@ -31,17 +31,17 @@ option(OL_BUILD_SHARED_LIBS "Build all modules as shared libraries (GLOBAL)" ON)
 set(OL_BUILD_CORE ON)
 option(OL_BUILD_FTP "Build FTP module" OFF)
 option(OL_BUILD_NETWORK "Build network module" OFF)
-option(OL_BUILD_DATABASE "Build database module" ON)
+option(OL_BUILD_DATABASE "Build database module" OFF)
 
 ## 数据库子模块开关
-option(OL_BUILD_MYSQL "Build MySQL support" ON)
+option(OL_BUILD_MYSQL "Build MySQL support" OFF)
 option(OL_BUILD_ORACLE "Build Oracle support" OFF)
 
 ## 模块独立测试开关
 option(OL_CORE_WITH_TESTS "Build and run core tests" OFF)
 option(OL_FTP_WITH_TESTS "Build and run FTP tests" OFF)
 option(OL_NETWORK_WITH_TESTS "Build and run network tests" OFF)
-option(OL_MYSQL_WITH_TESTS "Build and run MySQL tests" ON)
+option(OL_MYSQL_WITH_TESTS "Build and run MySQL tests" OFF)
 option(OL_ORACLE_WITH_TESTS "Build and run Oracle tests" OFF)
 # ===================== </Options> =====================
 
