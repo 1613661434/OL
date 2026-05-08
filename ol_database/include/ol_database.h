@@ -29,7 +29,6 @@ namespace ol
         virtual void disconnect() = 0;
         virtual bool isConnected() const = 0;
         virtual void reset() = 0;
-        virtual void* getHandle() = 0;
     };
 
     // 模板数据库连接池

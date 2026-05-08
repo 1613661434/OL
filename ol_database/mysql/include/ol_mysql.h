@@ -32,6 +32,8 @@ namespace ol
         // MySQL连接实现类
         class DBConn : public IDBConn
         {
+            friend class DBStmt;
+
         public:
             // 连接状态
             enum class ConnState : char
@@ -62,7 +64,8 @@ namespace ol
             void disconnect() override;
             bool isConnected() const override;
             void reset() override;
-            void* getHandle() override;
+
+            MYSQL* getNativeHandle();
 
             // 连接配置
             void setConnectParam(const std::string& connstr, const std::string& charset, bool autocommit = false);

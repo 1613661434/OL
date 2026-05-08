@@ -105,7 +105,7 @@ namespace ol
             m_result.init();
         }
 
-        void* DBConn::getHandle()
+        MYSQL* DBConn::getNativeHandle()
         {
             return m_mysql;
         }
@@ -221,7 +221,7 @@ namespace ol
         // ===================== DBStmt 实现 =====================
         DBStmt::DBStmt(DBConn& conn)
             : m_conn(conn),
-              m_mysql(static_cast<MYSQL*>(conn.getHandle())),
+              m_mysql(conn.m_mysql),
               m_stmt(nullptr),
               m_result(nullptr),
               m_bindIn(nullptr),
