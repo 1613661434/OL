@@ -3,7 +3,7 @@ project(ol_network)
 
 # ===================== 平台判断：仅支持 Linux =====================
 if(NOT (UNIX AND NOT APPLE))
-    message(STATUS "[INFO] ol_network module is only supported on Linux, skipping build...")
+    message(STATUS "[INFO] ol_network module is only supported on Linux, skipping build.")
     return()
 endif()
 

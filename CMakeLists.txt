@@ -31,7 +31,7 @@ option(OL_BUILD_SHARED_LIBS "Build all modules as shared libraries (GLOBAL)" ON)
 set(OL_BUILD_CORE ON)
 option(OL_BUILD_FTP "Build FTP module" OFF)
 option(OL_BUILD_NETWORK "Build network module" OFF)
-option(OL_BUILD_DATABASE "Build database module" OFF)
+option(OL_BUILD_DATABASE "Build database module" ON)
 
 ## 数据库子模块开关
 option(OL_BUILD_MYSQL "Build MySQL support" ON)
