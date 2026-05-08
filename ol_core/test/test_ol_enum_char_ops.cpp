@@ -17,6 +17,8 @@
 #include <iostream>
 #include <cstdint>
 
+using namespace ol;
+
 // 定义测试用的强类型枚举（底层为char，符合头文件适用条件）
 enum class CardPoint : char
 {

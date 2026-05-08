@@ -242,17 +242,17 @@ namespace ol
 } // namespace ol
 
 // 全局导出运算符
-using ol::operator++;
-using ol::operator--;
-using ol::operator<;
-using ol::operator>;
-using ol::operator<=;
-using ol::operator>=;
-using ol::operator==;
-using ol::operator!=;
-using ol::operator+;
-using ol::operator-;
-using ol::operator+=;
-using ol::operator-=;
+// using ol::operator++;
+// using ol::operator--;
+// using ol::operator<;
+// using ol::operator>;
+// using ol::operator<=;
+// using ol::operator>=;
+// using ol::operator==;
+// using ol::operator!=;
+// using ol::operator+;
+// using ol::operator-;
+// using ol::operator+=;
+// using ol::operator-=;
 
 #endif // !OL_ENUM_CHAR_OPS_H
