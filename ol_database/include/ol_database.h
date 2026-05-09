@@ -107,8 +107,6 @@ namespace ol
          */
         void init(size_t max_conn, ConnConfigCallback config_cb)
         {
-            std::lock_guard<std::mutex> lock(m_mtx);
-
             // 防止重复初始化
             if (m_max_conn > 0 || m_config_cb) throw std::runtime_error("DBPool: Singleton pool has been initialized!");
 
