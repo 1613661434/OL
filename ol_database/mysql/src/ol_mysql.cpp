@@ -105,15 +105,15 @@ namespace ol
             m_result.init();
         }
 
+        bool DBConn::reconnect()
+        {
+            disconnect();
+            return connect();
+        }
+
         MYSQL* DBConn::getNativeHandle()
         {
             return m_mysql;
-        }
-
-        int DBConn::reconnect()
-        {
-            disconnect();
-            return connect() ? 0 : -1;
         }
 
         bool DBConn::beginTransaction()

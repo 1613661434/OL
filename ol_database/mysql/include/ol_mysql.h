@@ -56,8 +56,8 @@ namespace ol
              */
             enum class ConnState : char
             {
-                Disconnected = 0, ///< 未连接
-                Connected = 1     ///< 已连接
+                Disconnected = 0, // 未连接
+                Connected = 1     // 已连接
             };
 
         private:
@@ -107,6 +107,12 @@ namespace ol
             void reset() override;
 
             /**
+             * @brief 重新连接数据库
+             * @return 重连成功返回true，失败返回false
+             */
+            bool reconnect();
+
+            /**
              * @brief 获取MySQL原生句柄
              * @return MYSQL* 原生句柄
              */
@@ -119,12 +125,6 @@ namespace ol
              * @param autocommit 是否自动提交
              */
             void setConnectParam(const std::string& connstr, const std::string& charset, bool autocommit = false);
-
-            /**
-             * @brief 重新连接数据库
-             * @return 0成功，-1失败
-             */
-            int reconnect();
 
             /**
              * @brief 创建预处理语句对象
