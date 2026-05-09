@@ -1,58 +1,71 @@
 # OL
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MTUxYmM4YjNiMWRkNDI0ZTAwNTdjNGQzZDNjZjYyYjdfNjA0ZGQ1YmZkNGE2YWYyOTM3YmFiNjA4MzhjNGVmODBfSUQ6NzYzNzczNTA0MzIzNDA0MDc2OF8xNzc4Mjk4Nzc1OjE3NzgzODUxNzVfVjM) ![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MDAzNTIxZTYwZjBjZmVlOTNlNjJkMmZmNTdlMGNiOGFfYjZhZmJmMDZjYTg4MjU5YjE2OTU1MDFkMzBmODYyMGZfSUQ6NzYzNzczNTAzODYxMzkxNjY0MF8xNzc4Mjk4Nzc1OjE3NzgzODUxNzVfVjM) ![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MDk2MjFjMDU4YzI2MDQ0YzAxNDI5M2EyOWZlZGFkNzJfZTZhZTUwNzJiNTkyMTAzMWQyYWFlZDhhMjQyOGRkZGFfSUQ6NzYzNzczNTA0MzQ1NjQ2OTk2Nl8xNzc4Mjk4Nzc1OjE3NzgzODUxNzVfVjM) ![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OWZhYzRjMWFjOTRhZGNkYzVhNjdiMzQ0ZTJmYTZmODRfYzU2NDdkMjVmYzA2ZDQ4YjJhNWMxYWYyY2Y0MzM5MTRfSUQ6NzYzNzczNTA0MDI0ODAwNzYyN18xNzc4Mjk4Nzc1OjE3NzgzODUxNzVfVjM)
 
-一个包含 `ollib`（含**主从 Reactor 多线程网络库**）、`oldblib`（MySQL/Oracle 数据库交互）及 FTP 功能的 C++ 工具库，提供基础功能、多数据库交互、FTP 客户端支持及 Linux 专属的高性能网络通信能力。
+一个包含 `ol_core`（基础工具库）、`ol_network`（**Linux 主从 Reactor 多线程网络库**）、`ol_database`（MySQL/Oracle 数据库交互）及 `ol_ftp`（FTP 客户端）的 C++ 工具库，提供模块化编译、跨平台支持及 Linux 专属高性能网络通信能力。
 
-## 📜 许可证信息 
-![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg) 
+> **作者：ol木子李lo（简称:ol）**
+> **GitHub项目地址**：[https://github.com/1613661434/OL](https://github.com/1613661434/OL)
+> **Gitee项目地址**：[https://gitee.com/LJJ1613661434/OL](https://gitee.com/LJJ1613661434/OL)
+
+## 📜 许可证信息
+
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MTUxYmM4YjNiMWRkNDI0ZTAwNTdjNGQzZDNjZjYyYjdfNjA0ZGQ1YmZkNGE2YWYyOTM3YmFiNjA4MzhjNGVmODBfSUQ6NzYzNzczNTA0MzIzNDA0MDc2OF8xNzc4Mjk4Nzc1OjE3NzgzODUxNzVfVjM)
 
 本项目所有代码均以 **MIT License** 许可证发布，完整法律文本见 [MIT 官方协议](https://opensource.org/licenses/MIT)。
 
 ### MIT License 核心条款
 
-你可以**自由地**： 
-* **使用**：以任何目的（包括商业用途）运行、复制、使用本项目代码或文档； 
-* **修改**：对代码进行修改、扩展、集成到其他项目（包括商业项目），无需额外申请授权； 
-* **分发**：复制、分发本项目代码或衍生作品（包括商用分发）。 
+你可以**自由地**：
+
+- **使用**：以任何目的（包括商业用途）运行、复制、使用本项目代码或文档；
+
+- **修改**：对代码进行修改、扩展、集成到其他项目（包括商业项目），无需额外申请授权；
+
+- **分发**：复制、分发本项目代码或衍生作品（包括商用分发）。
 
 需遵守的**唯一核心义务**：
-* **保留声明**：使用、修改或分发本项目代码 / 衍生作品时，需在所有副本或实质性部分中保留原始的版权声明和 MIT 许可证权限通知（无需指定固定署名格式，可自愿标注来源）。
+
+- **保留声明**：使用、修改或分发本项目代码 / 衍生作品时，需在所有副本或实质性部分中保留原始的版权声明和 MIT 许可证权限通知。
 
 ## 🎯 核心功能
 
-* `ollib`：基础工具库，覆盖高频基础功能及 Linux 专属网络库：
+项目采用**模块化编译设计**，可按需开启 / 关闭任意功能模块，轻量化部署：
 
+- `ol_core`：**核心基础库（必选）**
+提供高频通用能力：文件 IO、时间处理、字符串操作、线程池、通用数据结构（哈希、前缀树等）。
 
-  * 基础能力：文件 IO、时间处理、字符串操作、线程池、数据结构（哈希、前缀树等）；
+- `ol_network`：**高性能网络库（仅限 Linux）**
+基于 epoll 实现的主从 Reactor 多线程网络库，支持非阻塞 IO、边缘触发（ET）；
+架构：1 主 Reactor 监听连接 + N 从 Reactor 处理 IO，适用于高并发 TCP 服务端开发。
 
-  * **主从 Reactor 多线程网络库（仅限 Linux）**：路径`ollib/include/ol_net`/`ollib/src/ol_net`，基于 epoll 实现，支持非阻塞 IO、边缘触发（ET），核心架构为 “1 个主 Reactor 监听连接 + N 个从 Reactor 处理 IO 事件”，支持连接管理、报文缓冲区、事件驱动回调，适用于高并发网络场景（如服务器开发）。
+- `ol_database`：**多数据库交互模块**
+统一接口封装，支持双数据库，可独立开关：
 
-* `oldblib`：多数据库交互模块，统一接口风格，支持两种主流数据库：
+    - MySQL：基于 MySQL C API 封装，支持连接管理、SQL 执行、BLOB/TEXT 大字段；
 
+    - Oracle：基于 OCI 接口封装，支持连接管理、SQL 执行、BLOB/CLOB 大字段。**(暂不支持连接池，未改为新版本，请等待作者更新)**
 
-  * `oldblib/mysql`：MySQL 交互，基于 MySQL C API 封装，支持连接管理、SQL 执行、BLOB/TEXT 大字段操作；
-
-  * `oldblib/oracle`：Oracle 交互，基于 OCI 接口封装，支持连接管理、SQL 执行、BLOB/CLOB 大字段操作。
-
-* `ol_ftp`：FTP 客户端模块，基于内置[ftplib](https://github.com/codebrainz/ftplib)（路径`third_party/ftplib`），支持文件上传 / 下载、目录操作、文件列表获取。
+- `ol_ftp`：**FTP 客户端模块**
+基于内置第三方库 `ftplib` 实现，支持文件上传 / 下载、目录操作、文件列表获取。
 
 ## 📚 代码文档规范
 
-本项目所有头文件（`.h`）均遵循 **Doxygen 注释规范**，便于开发者快速理解接口功能：
+本项目所有头文件（`.h`）均遵循 **Doxygen 注释规范**：
 
-* 函数 / 类 / 结构体包含完整注释，覆盖功能描述（`@brief`）、参数说明（`@param`）、返回值（`@return`）及注意事项（`@note`）；
+- 函数 / 类 / 结构体包含 `@brief`（功能）、`@param`（参数）、`@return`（返回值）、`@note`（注意事项）；
 
-* 支持通过 Doxygen 自动生成 HTML/PDF 格式 API 文档；
+- 支持自动生成 HTML/PDF API 文档；
 
-* 主流 IDE（VS Code、CLion）可识别注释并提供智能提示，提升编码效率。
+- 主流 IDE（VS Code、CLion）原生支持智能提示。
 
-### 示例注释风格
+### 示例注释
 
 ```cpp
 /**
  * @brief 根据绝对路径逐级创建目录
  * @param pathorfilename 绝对路径的文件名或目录名
  * @param bisfilename 指定pathorfilename类型（true-文件名，false-目录名，默认true）
- * @return true-成功，false-失败（权限不足、路径非法、磁盘满等）
+ * @return true-成功，false-失败
  */
 bool newdir(const std::string& pathorfilename, bool bisfilename = true);
 ```
@@ -61,220 +74,182 @@ bool newdir(const std::string& pathorfilename, bool bisfilename = true);
 
 ### 基础依赖
 
-* 构建工具：CMake 3.10+
+- 构建工具：CMake 3.10+
 
-* 编译器：C++17 兼容编译器（Linux：GCC 8+/Clang 7+；Windows：MSVC 2019+/MinGW 8+）
+- 编译器：C++17 兼容（GCC 8+/Clang 7+/MSVC 2019+/MinGW 8+）
 
-* 操作系统：
+- 操作系统：
 
+    - `ol_network`：**仅限 Linux（内核 2.6+，支持 epoll）**
 
-  * 网络库：**仅限 Linux（内核 2.6+，需支持 epoll）**；
-
-  * 其他模块：Windows 10+/Linux CentOS 7+/Ubuntu 18.04+。
+    - 其他模块：Windows 10+/Linux CentOS 7+/Ubuntu 18.04+
 
 ### 模块特定依赖
 
-| 模块               | 依赖项说明                                                            |
-| ---------------- | ---------------------------------------------------------------- |
-| `ollib/ol_net`   | Linux epoll（内核 2.6+）；无需额外安装，内核自带                                 |
-| `oldblib/mysql`  | MySQL 客户端（5.7+），需链接`mysqlclient`库（Linux）/`libmysql.lib`（Windows） |
-| `oldblib/oracle` | Oracle 客户端（11g+），需配置`ORACLE_HOME`环境变量                            |
-| `ol_ftp`         | 内置 ftplib，无需额外安装                                                 |
+|模块|依赖说明|
+|---|---|
+|ol_network|Linux 内核原生 epoll，无额外依赖|
+|ol_database(MySQL)|MySQL 客户端 5.7+，需配置 `MYSQL_HOME`|
+|ol_database(Oracle)|Oracle 客户端 11g+，需配置 `ORACLE_HOME`|
+|ol_ftp|内置 ftplib，无需额外安装|
 
-## 🔧 CMake 缓存变量说明
+## 🔧 CMake 配置变量说明
 
-所有变量可通过 `cmake -D<变量名>=<值>` 命令行配置（覆盖默认值），用于灵活控制编译行为。变量分类如下：
+所有变量通过 `cmake -D<变量名>=<值>` 配置，**模块化开关为新版核心特性**。
 
-### 1. 通用配置变量
+### 1. 通用配置
 
-| 变量名                | 默认值     | 可选值                                     | 作用描述                                        |
-| ------------------ | ------- | --------------------------------------- | ------------------------------------------- |
-| `CMAKE_BUILD_TYPE` | Release | Debug/Release/RelWithDebInfo/MinSizeRel | 构建类型（单配置生成器如 MinGW/Linux 必需，多配置如 MSVC 无需指定） |
-| `ENABLE_WARNINGS`  | OFF      | ON/OFF                                  | 是否启用编译器警告                    |
+|变量名|默认值|可选值|说明|
+|---|---|---|---|
+|CMAKE_BUILD_TYPE|Release|Debug/Release|编译类型|
+|ENABLE_WARNINGS|OFF|ON/OFF|开启编译器警告|
+|OL_BUILD_STATIC_LIBS|ON|ON/OFF|编译所有模块静态库（开启测试时强制启用）|
+|OL_BUILD_SHARED_LIBS|ON|ON/OFF|编译所有模块动态库|
 
-### 2. `ollib` 库配置变量
+### 2. 功能模块总开关
 
-| 变量名                    | 默认值 | 可选值    | 作用描述                                  |
-| ---------------------- | --- | ------ | ------------------------------------- |
-| `OL_WITH_TESTS`        | OFF | ON/OFF | 是否编译 `ollib` 的测试程序（如线程池、网络库测试）        |
-| `OL_BUILD_STATIC_LIBS` | ON  | ON/OFF | 是否生成 `ollib` 静态库（`libol.a`/`ol.lib`）  |
-| `OL_BUILD_SHARED_LIBS` | ON  | ON/OFF | 是否生成 `ollib` 动态库（`libol.so`/`ol.dll`） |
+|变量名|默认值|说明|
+|---|---|---|
+|OL_BUILD_CORE|ON|核心基础库（**强制开启**）|
+|OL_BUILD_FTP|OFF|编译 FTP 客户端模块|
+|OL_BUILD_NETWORK|OFF|编译 Linux 网络库模块|
+|OL_BUILD_DATABASE|OFF|编译数据库模块|
 
-### 3. `oldblib` 数据库模块配置变量
+### 3. 数据库子模块开关
 
-#### MySQL 模块（需依赖环境变量`MYSQL_HOME`）
+|变量名|默认值|说明|
+|---|---|---|
+|OL_BUILD_MYSQL|ON|编译 MySQL 支持|
+|OL_BUILD_ORACLE|OFF|编译 Oracle 支持|
 
-| 变量名                            | 默认值 | 可选值    | 作用描述                                                  |
-| ------------------------------ | --- | ------ | ----------------------------------------------------- |
-| `OLDB_MYSQL_WITH_TESTS`        | OFF | ON/OFF | 是否编译 MySQL 模块的测试程序                                    |
-| `OLDB_MYSQL_BUILD_STATIC_LIBS` | OFF | ON/OFF | 是否生成 MySQL 模块静态库（`liboldb_mysql.a`/`oldb_mysql.lib`）  |
-| `OLDB_MYSQL_BUILD_SHARED_LIBS` | OFF | ON/OFF | 是否生成 MySQL 模块动态库（`liboldb_mysql.so`/`oldb_mysql.dll`） |
+### 4. 测试程序开关
 
-#### Oracle 模块（需依赖环境变量`ORACLE_HOME`）
+|变量名|默认值|说明|
+|---|---|---|
+|OL_CORE_WITH_TESTS|OFF|编译核心库测试|
+|OL_FTP_WITH_TESTS|OFF|编译 FTP 测试|
+|OL_NETWORK_WITH_TESTS|OFF|编译网络库测试|
+|OL_MYSQL_WITH_TESTS|OFF|编译 MySQL 测试|
+|OL_ORACLE_WITH_TESTS|OFF|编译 Oracle 测试|
 
-| 变量名                             | 默认值 | 可选值    | 作用描述                                                     |
-| ------------------------------- | --- | ------ | -------------------------------------------------------- |
-| `OLDB_ORACLE_WITH_TESTS`        | OFF | ON/OFF | 是否编译 Oracle 模块的测试程序                                      |
-| `OLDB_ORACLE_BUILD_STATIC_LIBS` | OFF | ON/OFF | 是否生成 Oracle 模块静态库（`liboldb_oracle.a`/`oldb_oracle.lib`）  |
-| `OLDB_ORACLE_BUILD_SHARED_LIBS` | OFF | ON/OFF | 是否生成 Oracle 模块动态库（`liboldb_oracle.so`/`oldb_oracle.dll`） |
-
-### 变量使用示例
+### 配置示例
 
 ```bash
-# 示例1：Linux 下编译 Debug 版本 + 启用 ollib 测试 + 仅生成静态库
-cmake .. -DCMAKE_BUILD_TYPE=Debug -DOL_WITH_TESTS=ON -DOL_BUILD_SHARED_LIBS=OFF
+# 示例1：Linux 编译 Debug 版 + 开启网络库 + 启用网络测试
+cmake .. -DCMAKE_BUILD_TYPE=Debug -DOL_BUILD_NETWORK=ON -DOL_NETWORK_WITH_TESTS=ON
 
-# 示例2：Windows MinGW 下编译 Release 版本 + 启用 MySQL 模块 + 生成动态库
-cmake .. -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DOLDB_MYSQL_BUILD_SHARED_LIBS=ON
+# 示例2：Windows 仅编译核心+MySQL，关闭动态库
+cmake .. -DOL_BUILD_DATABASE=ON -DOL_BUILD_MYSQL=ON -DOL_BUILD_ORACLE=OFF -DOL_BUILD_SHARED_LIBS=OFF
 
-# 示例3：禁用所有警告 + 同时生成 ollib 和 MySQL 静态库
-cmake .. -DENABLE_WARNINGS=OFF -DOL_BUILD_STATIC_LIBS=ON -DOLDB_MYSQL_BUILD_STATIC_LIBS=ON
+# 示例3：全功能开启（核心+网络+数据库+FTP+所有测试）
+cmake .. -DOL_BUILD_FTP=ON -DOL_BUILD_NETWORK=ON -DOL_BUILD_ORACLE=ON -D*_WITH_TESTS=ON
 ```
 
-## 📝 编码与格式规范
+## 📝 编码规范
 
-1. **字符集**：所有文件（`.h`/`.cpp`/`.cmake`）均采用 **UTF-8（无 BOM）**，避免多语言字符乱码；
+1. **字符集**：所有文件采用 **UTF-8（无 BOM）**，跨平台无乱码；
 
-2. **换行符**：统一使用 **LF（\n）**，防止跨平台协作时版本控制冲突。
+2. **换行符**：统一使用 **LF（\n）**，避免 Git 冲突；
+
+3. **编译约束**：禁止源码内编译（out-of-source build），必须创建独立 build 目录。
 
 ## 🔨 编译步骤
 
-### Linux 平台（含网络库编译）
+### Linux 平台（支持网络库）
 
 ```bash
-# 1. 克隆仓库
+# 1. 拉取代码
 git clone https://github.com/1613661434/OL.git
 cd OL
 
-# 2. 创建构建目录（推荐out-of-source构建）
+# 2. 创建编译目录
 mkdir build && cd build
 
-# 3. 生成Makefile（可添加缓存变量自定义配置）
-cmake ..  # 示例：启用测试 + 仅静态库 → cmake .. -DOL_WITH_TESTS=ON -DOL_BUILD_SHARED_LIBS=OFF
+# 3. 配置 CMake（按需添加模块开关）
+cmake ..  # 基础版：核心+数据库
+# cmake .. -DOL_BUILD_NETWORK=ON  # 开启网络库
+# cmake .. -DOL_BUILD_FTP=ON      # 开启FTP
 
-# 4. 并行编译（-j后接核心数，如-j4）
+# 4. 并行编译
 make -j4
 
-# 5. 输出路径
-# - 静态库：ollib/lib/linux/x64/static/${CMAKE_BUILD_TYPE}/（含网络库代码）
-# - 动态库：ollib/lib/linux/x64/shared/${CMAKE_BUILD_TYPE}/（含网络库代码）
-# - 网络库测试程序：ollib/test/bin/linux/x64/${CMAKE_BUILD_TYPE}/ol_net/（test_ol_echoserver等）
-# - 其他测试程序：各自test/bin/linux/x64/${CMAKE_BUILD_TYPE}/目录下
+# 5. 产物输出
+# 库文件：各模块 lib 目录
+# 测试程序：各模块 test/bin 目录
 ```
 
-### Windows 平台（不含网络库）
+### Windows 平台（不支持网络库）
 
 #### MSVC 编译
 
 ```bash
-# 1. 克隆仓库
 git clone https://github.com/1613661434/OL.git
 cd OL
-
-# 2. 创建构建目录
 mkdir build && cd build
-
-# 3. 生成.sln文件（可添加缓存变量）
-cmake .. -G"Visual Studio 17 2022"  # 示例：Debug模式 → -DCMAKE_BUILD_TYPE=Debug
-
-# 4. VS2022打开进行编译
-
-# 5. 输出：仅基础模块与数据库模块，无网络库
+cmake .. -G"Visual Studio 17 2022"
+# 用 VS 打开解决方案编译
 ```
 
 #### MinGW 编译
 
 ```bash
-# 1. 克隆仓库
 git clone https://github.com/1613661434/OL.git
 cd OL
-
-# 2. 创建构建目录
 mkdir build && cd build
-
-# 3. 生成MinGW Makefile（可添加缓存变量）
-cmake .. -G "MinGW Makefiles"  # 示例：Debug模式 → -DCMAKE_BUILD_TYPE=Debug
-
-# 4. 并行编译
+cmake .. -G "MinGW Makefiles"
 mingw32-make -j4
-
-# 5. 输出：仅基础模块与数据库模块，无网络库
 ```
 
 ## ⚠️ 注意事项
 
-1. **网络库平台限制**：`ollib/ol_net` 仅限 Linux，Windows 下不会编译相关代码，避免依赖冲突；
+1. **平台限制**：`ol_network` 仅支持 Linux，Windows 下自动跳过编译；
 
-2. **内置依赖保护**：`third_party/ftplib` 为核心依赖，请勿修改目录结构；如需更新，直接替换该目录文件并保持路径一致；
+2. **测试依赖**：开启任意测试后，CMake **强制启用静态库编译**；
 
-3. **数据库版本适配**：跨平台编译时，需确保数据库客户端版本与目标平台架构匹配（如 x64 客户端对应 x64 编译目标）；
+3. **第三方库**：`third_party/ftplib` 为内置依赖，禁止修改目录结构；
 
-4. **许可证合规**：使用 / 分发本项目时，需按 CC BY 4.0 要求注明来源及许可证链接。
+4. **数据库适配**：编译前必须配置对应数据库的环境变量（`MYSQL_HOME`/`ORACLE_HOME`）；
 
-### 终端乱码解决
+5. **Windows 乱码**：PowerShell 执行编码命令可修复中文乱码。
 
-若 Windows PowerShell 出现中文乱码，可临时设置 UTF-8 字符集：
+### Windows 终端乱码修复
 
 ```powershell
-# 设置输入输出编码为 UTF-8
-$OutputEncoding = [Console]::InputEncoding = [Console]::OutputEncoding = [System.Text.UTF8Encoding]::UTF8
-
-# 验证编码（需显示 BodyName: utf-8, CodePage: 65001）
-[Console]::OutputEncoding
-[Console]::InputEncoding
+$OutputEncoding = [Console::InputEncoding] = [Console::OutputEncoding] = [System.Text.UTF8Encoding]::UTF8
 ```
 
-## 📋 目录结构说明
+## 📋 新版项目目录结构
 
 ```bash
 OL
-├───oldblib               # 数据库交互模块
-│   ├───mysql             # MySQL子模块（include/lib/src/test）
-│   └───oracle            # Oracle子模块（include/lib/src/test）
-├───ollib                 # 基础工具库（含网络库）
-│   ├───include
-│   │   ├───ol_base           # 基础组件头文件（ol_sort_base.h等）
-│   │   ├───ol_net            # 网络库头文件（Acceptor.h/Connection.h等）
-│   │   ├───third_party       # 第三方库头文件（ftplib.h等）
-│   │   └───其他基础模块头文件
-│   ├───src
-│   │   ├───ol_base           # 基础组件实现
-│   │   ├───ol_net            # 网络库实现（Acceptor.cpp/Connection.cpp等）
-│   │   └───其他基础模块实现
-│   └───test
-│       ├───ol_net            # 网络库测试（回声服务器/银行示例等）
-│       └───其他模块测试
-└───third_party
-│   └───ftplib            # 内置FTP依赖库
-└───docs                  # 说明文档（index.html）
+├── ol_core/          # 核心基础工具库（必选）
+├── ol_ftp/           # FTP客户端模块（可选）
+├── ol_network/       # Linux主从Reactor网络库（可选）
+├── ol_database/      # 数据库模块（MySQL/Oracle，可选）
+│   ├── mysql/        # MySQL子模块
+│   └── oracle/       # Oracle子模块（老版本，暂不支持连接池）
+├── third_party/      # 第三方依赖库
+│   └── ftplib/       # FTP底层依赖库
+├── docs/             # 项目文档
+└── CMakeLists.txt    # 新版主构建配置
 ```
 
-## 📋 网络库详细介绍（仅限 Linux）
+## 📋 ol_network 网络库详解（Linux 专属）
 
-### 1. 架构设计
+### 架构设计
 
-采用**主从 Reactor 多线程模型**，核心组件分工：
+**主从 Reactor 多线程模型**：
 
-* **主 Reactor**：1 个线程，负责监听`listenfd`，接收新连接后分发到从 Reactor；
+- 主 Reactor：单线程，负责监听新连接；
 
-* **从 Reactor**：N 个线程（默认与 CPU 核心数一致），每个线程绑定 1 个`epoll`实例，处理已连接 fd 的 IO 事件（读 / 写）；
+- 从 Reactor：多线程（默认 = CPU 核心数），负责 IO 事件处理；
 
-* **事件驱动**：基于`epoll ET`（边缘触发）+ 非阻塞 IO，减少不必要的事件触发，提升高并发性能。
+- IO 模型：epoll + 边缘触发（ET）+ 非阻塞 IO，高并发低延迟。
 
-### 2. 核心组件
+### 核心组件
 
-| 组件           | 功能描述                                                      |
-| ------------ | --------------------------------------------------------- |
-| `EventLoop`  | 事件循环核心，管理`epoll`实例与注册的事件回调（读 / 写 / 关闭）                    |
-| `Acceptor`   | 主 Reactor 专属，监听新连接，生成`SocketFd`后传递给从 Reactor 的`EventLoop` |
-| `Connection` | 管理单个 TCP 连接，封装`fd`、输入 / 输出缓冲区（`Buffer`）及 IO 回调            |
-| `Buffer`     | 网络缓冲区，支持报文分隔符（四字节长度 `\r\n\r\n`）、从 fd 直接读数据                |
-| `TcpServer`  | 网络服务端入口，封装主从 Reactor 初始化、连接管理、回调注册（新连接 / 消息 / 关闭）         |
+`EventLoop`（事件循环）、`Acceptor`（连接接收器）、`Connection`（连接管理）、`Buffer`（网络缓冲区）、`TcpServer`（服务端入口）。
 
-### 3. 典型使用场景
+### 适用场景
 
-* 高并发 TCP 服务器（如回声服务器、网关、游戏服务器）；
-
-* 需低延迟 IO 处理的场景（依赖 epoll ET 模式减少事件开销）；
-
-* 需统一连接管理与报文解析的网络应用（依赖`Buffer`的分隔符功能）。
+高并发 TCP 服务器、网关服务、游戏后端、自定义协议通信服务。
