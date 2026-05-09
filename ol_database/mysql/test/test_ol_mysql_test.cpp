@@ -20,6 +20,7 @@
 #include <string>
 #include <memory>
 #include <stdexcept>
+#include <vector>
 
 // 全局测试配置
 const std::string MYSQL_CONN_STR = "root:0088@127.0.0.1:3306/testdb";
@@ -231,8 +232,11 @@ bool testDBPool()
 {
     try
     {
-        // 创建生产级连接池：最大连接数 + 连接配置回调
-        ol::DBPool<ol::mysql::DBConn> pool(
+        // ===================== 适配单例模式：获取全局唯一连接池 =====================
+        auto& pool = ol::DBPool<ol::mysql::DBConn>::GetInst();
+
+        // 初始化连接池
+        pool.init(
             MAX_CONN,
             [&](ol::mysql::DBConn& conn)
             {

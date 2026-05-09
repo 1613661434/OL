@@ -7,6 +7,7 @@
  *          - 超时获取：支持带默认超时的连接获取，避免无限阻塞
  *          - 自动重连：获取连接时自动检测有效性，失效则重新连接
  *          - 资源管理：连接池销毁时自动关闭所有连接，无资源泄漏
+ *          - 单例模式：基于CRTP单例基类，每种数据库类型对应一个全局单例
  * 规范：所有数据库 DBConn 必须继承 IDBConn
  * 作者：ol
  * 适用标准：C++17及以上
@@ -63,16 +64,19 @@ namespace ol
     };
 
     /**
-     * @brief 模板数据库连接池
+     * @brief 模板数据库连接池（全局单例模式）
      * @tparam T 数据库连接类型，必须继承自IDBConn
      * @note 线程安全设计，支持多线程并发获取/释放连接
-     * @note 禁止拷贝/移动，保证连接池单例唯一性
+     * @note 继承单例基类，每种数据库类型对应唯一全局单例
+     * @note 禁止外部构造/拷贝/移动，保证单例唯一性
      */
     template <typename T>
-    class DBPool : public TypeNonCopyableMovable
+    class DBPool : public TypeSingleton<DBPool<T>>
     {
         // 编译期校验：连接类型必须继承自IDBConn
         static_assert(std::is_base_of<IDBConn, T>::value, "DBPool: DBConn Must inherit from IDBConn");
+        // 单例基类友元，允许访问私有构造函数
+        friend class TypeSingleton<DBPool<T>>;
 
     public:
         using ConnPtr = std::shared_ptr<T>;
@@ -83,22 +87,36 @@ namespace ol
         std::queue<ConnPtr> m_queue;    ///< 空闲连接队列
         mutable std::mutex m_mtx;       ///< 互斥锁
         std::condition_variable m_cv;   ///< 条件变量：实现空闲连接阻塞等待
-        size_t m_max_conn;              ///< 最大连接数
+        size_t m_max_conn{0};           ///< 最大连接数
         ConnConfigCallback m_config_cb; ///< 连接初始化配置回调
+
+    private:
+        // 单例模式：构造函数私有化
+        DBPool() = default;
+
+        // 析构函数私有化
+        ~DBPool() { destroy(); }
 
     public:
         /**
-         * @brief 构造数据库连接池
+         * @brief 初始化单例连接池（全局仅需调用1次）
          * @param max_conn 最大连接数（必须大于0）
          * @param config_cb 连接配置回调（设置地址、账号、密码、字符集等参数）
          * @throw std::invalid_argument 回调为空或最大连接数为0时抛出
          * @throw std::runtime_error 连接初始化失败时抛出
          */
-        explicit DBPool(size_t max_conn, ConnConfigCallback config_cb)
-            : m_max_conn(max_conn), m_config_cb(std::move(config_cb))
+        void init(size_t max_conn, ConnConfigCallback config_cb)
         {
-            if (!m_config_cb) throw std::invalid_argument("DBPool: Connection configuration callback cannot be empty!");
-            if (m_max_conn == 0) throw std::invalid_argument("DBPool: Maximum connection count cannot be zero!");
+            std::lock_guard<std::mutex> lock(m_mtx);
+
+            // 防止重复初始化
+            if (m_max_conn > 0 || m_config_cb) throw std::runtime_error("DBPool: Singleton pool has been initialized!");
+
+            if (!config_cb) throw std::invalid_argument("DBPool: Connection configuration callback cannot be empty!");
+            if (max_conn == 0) throw std::invalid_argument("DBPool: Maximum connection count cannot be zero!");
+
+            m_max_conn = max_conn;
+            m_config_cb = std::move(config_cb);
 
             // 初始化所有连接
             for (size_t i = 0; i < m_max_conn; ++i)
@@ -111,18 +129,10 @@ namespace ol
         }
 
         /**
-         * @brief 析构函数
-         * @note 自动调用destroy()，关闭所有连接并释放资源
-         */
-        ~DBPool()
-        {
-            destroy();
-        }
-
-        /**
          * @brief 阻塞获取连接（无限等待，直到获取到可用连接）
          * @return 有效的数据库连接智能指针
          * @note 无空闲连接时线程阻塞，获取后自动检查连接有效性
+         * @note 必须先调用init()初始化连接池
          */
         ConnPtr get()
         {
@@ -151,6 +161,7 @@ namespace ol
          * @param timeout_ms 超时时间，默认3秒
          * @return 成功返回有效连接，超时返回nullptr
          * @note 超时时间可自定义，避免线程无限阻塞
+         * @note 必须先调用init()初始化连接池
          */
         ConnPtr getTimeout(TimeoutMs timeout_ms = TimeoutMs(3000))
         {
