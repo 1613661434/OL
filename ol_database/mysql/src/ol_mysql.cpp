@@ -163,19 +163,19 @@ namespace ol
             if (!stmt.prepare(sql))
             {
                 // 同步错误信息
-                m_result = stmt.m_db_result;
+                m_result = stmt.m_result;
                 return -1;
             }
 
             if (!stmt.execute())
             {
                 // 同步错误信息
-                m_result = stmt.m_db_result;
+                m_result = stmt.m_result;
                 return -1;
             }
 
             // 同步执行结果到连接对象
-            m_result = stmt.m_db_result;
+            m_result = stmt.m_result;
             return 0;
         }
 
@@ -223,7 +223,7 @@ namespace ol
             : m_conn(conn),
               m_mysql(conn.m_mysql),
               m_stmt(nullptr),
-              m_result(nullptr),
+              m_db_result(nullptr),
               m_bindIn(nullptr),
               m_bindOut(nullptr),
               m_outLen(nullptr),
@@ -233,13 +233,13 @@ namespace ol
               m_fieldCount(0),
               m_isQuery(false)
         {
-            m_db_result.init();
+            m_result.init();
             m_stmt = mysql_stmt_init(m_mysql);
         }
 
         DBStmt::~DBStmt()
         {
-            if (m_result) mysql_free_result(m_result);
+            if (m_db_result) mysql_free_result(m_db_result);
             if (m_stmt) mysql_stmt_close(m_stmt);
             freeBind();
         }
@@ -264,8 +264,8 @@ namespace ol
 
         void DBStmt::errReport()
         {
-            m_db_result.code = mysql_stmt_errno(m_stmt);
-            m_db_result.error_msg = mysql_stmt_error(m_stmt);
+            m_result.code = mysql_stmt_errno(m_stmt);
+            m_result.error_msg = mysql_stmt_error(m_stmt);
         }
 
         bool DBStmt::prepare(const char* sql)
@@ -310,7 +310,7 @@ namespace ol
 
         bool DBStmt::prepareFmt(const char* fmt, ...)
         {
-            m_db_result.init();
+            m_result.init();
             if (!isOpen()) return false;
 
             va_list ap;
@@ -330,81 +330,136 @@ namespace ol
         // ===================== 输入绑定 =====================
         int DBStmt::bindin(unsigned int pos, int& value)
         {
-            if (pos < 1 || pos > m_paramCount || !m_bindIn) return -1;
+            if (pos < 1 || pos > m_paramCount || !m_bindIn)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindin failed: position out of range or m_bindIn null";
+                return -1;
+            }
             MYSQL_BIND& bind = m_bindIn[pos - 1];
             std::memset(&bind, 0, sizeof(MYSQL_BIND));
             bind.buffer_type = MYSQL_TYPE_LONG;
             bind.buffer = &value;
             bind.is_unsigned = false;
+            m_result.code = 0;
+            m_result.error_msg.clear();
             return 0;
         }
 
         int DBStmt::bindin(unsigned int pos, long& value)
         {
-            if (pos < 1 || pos > m_paramCount || !m_bindIn) return -1;
+            if (pos < 1 || pos > m_paramCount || !m_bindIn)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindin failed: position out of range or m_bindIn null";
+                return -1;
+            }
             MYSQL_BIND& bind = m_bindIn[pos - 1];
             std::memset(&bind, 0, sizeof(MYSQL_BIND));
             bind.buffer_type = MYSQL_TYPE_LONGLONG;
             bind.buffer = &value;
             bind.is_unsigned = false;
+            m_result.code = 0;
+            m_result.error_msg.clear();
             return 0;
         }
 
         int DBStmt::bindin(unsigned int pos, unsigned int& value)
         {
-            if (pos < 1 || pos > m_paramCount || !m_bindIn) return -1;
+            if (pos < 1 || pos > m_paramCount || !m_bindIn)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindin failed: position out of range or m_bindIn null";
+                return -1;
+            }
             MYSQL_BIND& bind = m_bindIn[pos - 1];
             std::memset(&bind, 0, sizeof(MYSQL_BIND));
             bind.buffer_type = MYSQL_TYPE_LONG;
             bind.buffer = &value;
             bind.is_unsigned = true;
+            m_result.code = 0;
+            m_result.error_msg.clear();
             return 0;
         }
 
         int DBStmt::bindin(unsigned int pos, unsigned long& value)
         {
-            if (pos < 1 || pos > m_paramCount || !m_bindIn) return -1;
+            if (pos < 1 || pos > m_paramCount || !m_bindIn)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindin failed: position out of range or m_bindIn null";
+                return -1;
+            }
             MYSQL_BIND& bind = m_bindIn[pos - 1];
             std::memset(&bind, 0, sizeof(MYSQL_BIND));
             bind.buffer_type = MYSQL_TYPE_LONGLONG;
             bind.buffer = &value;
             bind.is_unsigned = true;
+            m_result.code = 0;
+            m_result.error_msg.clear();
             return 0;
         }
 
         int DBStmt::bindin(unsigned int pos, float& value)
         {
-            if (pos < 1 || pos > m_paramCount || !m_bindIn) return -1;
+            if (pos < 1 || pos > m_paramCount || !m_bindIn)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindin failed: position out of range or m_bindIn null";
+                return -1;
+            }
             MYSQL_BIND& bind = m_bindIn[pos - 1];
             std::memset(&bind, 0, sizeof(MYSQL_BIND));
             bind.buffer_type = MYSQL_TYPE_FLOAT;
             bind.buffer = &value;
+            m_result.code = 0;
+            m_result.error_msg.clear();
             return 0;
         }
 
         int DBStmt::bindin(unsigned int pos, double& value)
         {
-            if (pos < 1 || pos > m_paramCount || !m_bindIn) return -1;
+            if (pos < 1 || pos > m_paramCount || !m_bindIn)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindin failed: position out of range or m_bindIn null";
+                return -1;
+            }
             MYSQL_BIND& bind = m_bindIn[pos - 1];
             std::memset(&bind, 0, sizeof(MYSQL_BIND));
             bind.buffer_type = MYSQL_TYPE_DOUBLE;
             bind.buffer = &value;
+            m_result.code = 0;
+            m_result.error_msg.clear();
             return 0;
         }
 
         int DBStmt::bindin(unsigned int pos, char* value, unsigned int len)
         {
-            if (pos < 1 || pos > m_paramCount || !m_bindIn || !value || len == 0) return -1;
+            if (pos < 1 || pos > m_paramCount || !m_bindIn || !value || len == 0)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindin failed: invalid params (null/zero length/position)";
+                return -1;
+            }
             MYSQL_BIND& bind = m_bindIn[pos - 1];
             std::memset(&bind, 0, sizeof(MYSQL_BIND));
             bind.buffer_type = MYSQL_TYPE_STRING;
             bind.buffer = value;
             bind.buffer_length = len;
+            m_result.code = 0;
+            m_result.error_msg.clear();
             return 0;
         }
 
         int DBStmt::bindin(unsigned int pos, std::string& value, unsigned int len)
         {
+            if (len == 0)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindin failed: length cannot be zero";
+                return -1;
+            }
             value.resize(len);
             return bindin(pos, value.data(), len);
         }
@@ -419,7 +474,12 @@ namespace ol
                 m_outLen = new unsigned long[m_fieldCount]();
                 m_outNull = new bool[m_fieldCount]();
             }
-            if (pos < 1 || pos > m_fieldCount) return -1;
+            if (pos < 1 || pos > m_fieldCount)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindout failed: position out of range";
+                return -1;
+            }
 
             MYSQL_BIND& bind = m_bindOut[pos - 1];
             std::memset(&bind, 0, sizeof(MYSQL_BIND));
@@ -427,6 +487,8 @@ namespace ol
             bind.buffer = &value;
             bind.length = &m_outLen[pos - 1];
             bind.is_null = &m_outNull[pos - 1];
+            m_result.code = 0;
+            m_result.error_msg.clear();
             return 0;
         }
 
@@ -439,7 +501,12 @@ namespace ol
                 m_outLen = new unsigned long[m_fieldCount]();
                 m_outNull = new bool[m_fieldCount]();
             }
-            if (pos < 1 || pos > m_fieldCount) return -1;
+            if (pos < 1 || pos > m_fieldCount)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindout failed: position out of range";
+                return -1;
+            }
 
             MYSQL_BIND& bind = m_bindOut[pos - 1];
             std::memset(&bind, 0, sizeof(MYSQL_BIND));
@@ -447,6 +514,8 @@ namespace ol
             bind.buffer = &value;
             bind.length = &m_outLen[pos - 1];
             bind.is_null = &m_outNull[pos - 1];
+            m_result.code = 0;
+            m_result.error_msg.clear();
             return 0;
         }
 
@@ -459,7 +528,12 @@ namespace ol
                 m_outLen = new unsigned long[m_fieldCount]();
                 m_outNull = new bool[m_fieldCount]();
             }
-            if (pos < 1 || pos > m_fieldCount) return -1;
+            if (pos < 1 || pos > m_fieldCount)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindout failed: position out of range";
+                return -1;
+            }
 
             MYSQL_BIND& bind = m_bindOut[pos - 1];
             std::memset(&bind, 0, sizeof(MYSQL_BIND));
@@ -468,6 +542,8 @@ namespace ol
             bind.is_unsigned = true;
             bind.length = &m_outLen[pos - 1];
             bind.is_null = &m_outNull[pos - 1];
+            m_result.code = 0;
+            m_result.error_msg.clear();
             return 0;
         }
 
@@ -480,7 +556,12 @@ namespace ol
                 m_outLen = new unsigned long[m_fieldCount]();
                 m_outNull = new bool[m_fieldCount]();
             }
-            if (pos < 1 || pos > m_fieldCount) return -1;
+            if (pos < 1 || pos > m_fieldCount)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindout failed: position out of range";
+                return -1;
+            }
 
             MYSQL_BIND& bind = m_bindOut[pos - 1];
             std::memset(&bind, 0, sizeof(MYSQL_BIND));
@@ -489,6 +570,8 @@ namespace ol
             bind.is_unsigned = true;
             bind.length = &m_outLen[pos - 1];
             bind.is_null = &m_outNull[pos - 1];
+            m_result.code = 0;
+            m_result.error_msg.clear();
             return 0;
         }
 
@@ -501,7 +584,12 @@ namespace ol
                 m_outLen = new unsigned long[m_fieldCount]();
                 m_outNull = new bool[m_fieldCount]();
             }
-            if (pos < 1 || pos > m_fieldCount) return -1;
+            if (pos < 1 || pos > m_fieldCount)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindout failed: position out of range";
+                return -1;
+            }
 
             MYSQL_BIND& bind = m_bindOut[pos - 1];
             std::memset(&bind, 0, sizeof(MYSQL_BIND));
@@ -509,6 +597,8 @@ namespace ol
             bind.buffer = &value;
             bind.length = &m_outLen[pos - 1];
             bind.is_null = &m_outNull[pos - 1];
+            m_result.code = 0;
+            m_result.error_msg.clear();
             return 0;
         }
 
@@ -521,7 +611,12 @@ namespace ol
                 m_outLen = new unsigned long[m_fieldCount]();
                 m_outNull = new bool[m_fieldCount]();
             }
-            if (pos < 1 || pos > m_fieldCount) return -1;
+            if (pos < 1 || pos > m_fieldCount)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindout failed: position out of range";
+                return -1;
+            }
 
             MYSQL_BIND& bind = m_bindOut[pos - 1];
             std::memset(&bind, 0, sizeof(MYSQL_BIND));
@@ -529,6 +624,8 @@ namespace ol
             bind.buffer = &value;
             bind.length = &m_outLen[pos - 1];
             bind.is_null = &m_outNull[pos - 1];
+            m_result.code = 0;
+            m_result.error_msg.clear();
             return 0;
         }
 
@@ -541,7 +638,12 @@ namespace ol
                 m_outLen = new unsigned long[m_fieldCount]();
                 m_outNull = new bool[m_fieldCount]();
             }
-            if (pos < 1 || pos > m_fieldCount || !value || len == 0) return -1;
+            if (pos < 1 || pos > m_fieldCount || !value || len == 0)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindout failed: invalid params (null/zero length/position)";
+                return -1;
+            }
 
             MYSQL_BIND& bind = m_bindOut[pos - 1];
             std::memset(&bind, 0, sizeof(MYSQL_BIND));
@@ -550,11 +652,19 @@ namespace ol
             bind.buffer_length = len;
             bind.length = &m_outLen[pos - 1];
             bind.is_null = &m_outNull[pos - 1];
+            m_result.code = 0;
+            m_result.error_msg.clear();
             return 0;
         }
 
         int DBStmt::bindout(unsigned int pos, std::string& value, unsigned int len)
         {
+            if (len == 0)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindout failed: length cannot be zero";
+                return -1;
+            }
             value.resize(len);
             return bindout(pos, value.data(), len);
         }
@@ -581,14 +691,14 @@ namespace ol
                 if (m_bindOut)
                     mysql_stmt_bind_result(m_stmt, m_bindOut);
                 mysql_stmt_store_result(m_stmt);
-                m_db_result.affected_rows = mysql_stmt_num_rows(m_stmt);
+                m_result.affected_rows = mysql_stmt_num_rows(m_stmt);
             }
             else
             {
-                m_db_result.affected_rows = mysql_stmt_affected_rows(m_stmt);
+                m_result.affected_rows = mysql_stmt_affected_rows(m_stmt);
             }
 
-            m_db_result.code = 0;
+            m_result.code = 0;
             return true;
         }
 
@@ -597,11 +707,11 @@ namespace ol
             if (!m_isQuery) return -1;
 
             int ret = mysql_stmt_fetch(m_stmt);
-            if (ret == 0) return 0;
-            if (ret == MYSQL_NO_DATA) return 100;
+            if (ret == 0) return ret;
+            if (ret == MYSQL_NO_DATA) return ret;
 
             errReport();
-            return m_db_result.code;
+            return m_result.code;
         }
 
         // ===================== BLOB 操作 =====================
@@ -609,12 +719,11 @@ namespace ol
         {
             if (pos < 1 || !buffer || length == 0)
             {
-                m_db_result.code = -1;
-                m_db_result.error_msg = "invalid parameters for bindblob";
+                m_result.code = -1;
+                m_result.error_msg = "bindblob failed: invalid parameters (pos/buffer/length)";
                 return -1;
             }
 
-            // 输入参数绑定（INSERT/UPDATE 占位符 ?）
             if (pos <= m_paramCount && m_bindIn)
             {
                 m_blobLen[pos - 1] = length;
@@ -624,10 +733,11 @@ namespace ol
                 bind.buffer = buffer;
                 bind.buffer_length = length;
                 bind.length = &m_blobLen[pos - 1];
+                m_result.code = 0;
+                m_result.error_msg.clear();
                 return 0;
             }
 
-            // 输出参数绑定（SELECT 查询 BLOB 字段）
             if (m_isQuery)
             {
                 if (m_fieldCount == 0)
@@ -640,12 +750,11 @@ namespace ol
 
                 if (pos < 1 || pos > m_fieldCount)
                 {
-                    m_db_result.code = -1;
-                    m_db_result.error_msg = "invalid position for blob output";
+                    m_result.code = -1;
+                    m_result.error_msg = "bindblob failed: output position out of range";
                     return -1;
                 }
 
-                // 绑定BLOB输出字段
                 MYSQL_BIND& bind = m_bindOut[pos - 1];
                 std::memset(&bind, 0, sizeof(MYSQL_BIND));
                 bind.buffer_type = MYSQL_TYPE_BLOB;
@@ -653,11 +762,13 @@ namespace ol
                 bind.buffer_length = length;
                 bind.length = &m_outLen[pos - 1];
                 bind.is_null = &m_outNull[pos - 1];
+                m_result.code = 0;
+                m_result.error_msg.clear();
                 return 0;
             }
 
-            m_db_result.code = -1;
-            m_db_result.error_msg = "bindblob failed: no param or result field";
+            m_result.code = -1;
+            m_result.error_msg = "bindblob failed: not input param or result field";
             return -1;
         }
 
@@ -665,8 +776,8 @@ namespace ol
         {
             if (pos < 1 || pos > m_paramCount || !m_stmt || !m_bindIn)
             {
-                m_db_result.code = -1;
-                m_db_result.error_msg = "filetoblob: invalid position or unbound param";
+                m_result.code = -1;
+                m_result.error_msg = "filetoblob: invalid position or unbound param";
                 return -1;
             }
 
@@ -674,8 +785,8 @@ namespace ol
             FILE* fp = fopen(filename.c_str(), "rb");
             if (!fp)
             {
-                m_db_result.code = -1;
-                m_db_result.error_msg = "fopen failed: " + std::string(strerror(errno));
+                m_result.code = -1;
+                m_result.error_msg = "fopen failed: " + std::string(strerror(errno));
                 return -1;
             }
 
@@ -686,8 +797,8 @@ namespace ol
             if (size <= 0)
             {
                 fclose(fp);
-                m_db_result.code = -1;
-                m_db_result.error_msg = "file is empty";
+                m_result.code = -1;
+                m_result.error_msg = "file is empty";
                 return -1;
             }
 
@@ -715,8 +826,8 @@ namespace ol
             if (!buf)
             {
                 fclose(fp);
-                m_db_result.code = -1;
-                m_db_result.error_msg = "malloc failed";
+                m_result.code = -1;
+                m_result.error_msg = "malloc failed";
                 return -1;
             }
 
@@ -745,8 +856,8 @@ namespace ol
             if (has_error) return -1;
 
             // 成功
-            m_db_result.code = 0;
-            m_db_result.error_msg.clear();
+            m_result.code = 0;
+            m_result.error_msg.clear();
             return 0;
         }
 
@@ -754,8 +865,8 @@ namespace ol
         {
             if (!m_isQuery || pos < 1 || pos > m_fieldCount || !m_bindOut)
             {
-                m_db_result.code = -1;
-                m_db_result.error_msg = "blobtofile: invalid query or position";
+                m_result.code = -1;
+                m_result.error_msg = "blobtofile: invalid query or position";
                 return -1;
             }
 
@@ -766,24 +877,24 @@ namespace ol
             // 数据校验
             if (len == 0 || !buf)
             {
-                m_db_result.code = -1;
-                m_db_result.error_msg = "blob data is empty or buffer null";
+                m_result.code = -1;
+                m_result.error_msg = "blob data is empty or buffer null";
                 return -1;
             }
 
             if (!newdir(filename, true))
             {
-                m_db_result.code = -1;
-                m_db_result.error_msg = "create directory failed";
+                m_result.code = -1;
+                m_result.error_msg = "create directory failed";
                 return -1;
             }
 
-            // 打开文件（二进制写入）
+            // 打开文件
             FILE* fp = fopen(filename.c_str(), "wb");
             if (!fp)
             {
-                m_db_result.code = -1;
-                m_db_result.error_msg = "fopen failed: " + std::string(strerror(errno));
+                m_result.code = -1;
+                m_result.error_msg = "fopen failed: " + std::string(strerror(errno));
                 return -1;
             }
 
@@ -793,15 +904,15 @@ namespace ol
 
             if (wlen != len)
             {
-                m_db_result.code = -1;
-                m_db_result.error_msg = "fwrite incomplete";
+                m_result.code = -1;
+                m_result.error_msg = "fwrite incomplete";
                 remove(filename.c_str());
                 return -1;
             }
 
             // 成功
-            m_db_result.code = 0;
-            m_db_result.error_msg.clear();
+            m_result.code = 0;
+            m_result.error_msg.clear();
             return 0;
         }
 
@@ -810,12 +921,11 @@ namespace ol
         {
             if (pos < 1 || !buffer || length == 0)
             {
-                m_db_result.code = -1;
-                m_db_result.error_msg = "bindtext: invalid params";
+                m_result.code = -1;
+                m_result.error_msg = "bindtext failed: invalid parameters";
                 return -1;
             }
 
-            // 输入参数绑定（INSERT/UPDATE，有?占位符）
             if (pos <= m_paramCount && m_bindIn)
             {
                 MYSQL_BIND& bind = m_bindIn[pos - 1];
@@ -823,13 +933,13 @@ namespace ol
                 bind.buffer_type = MYSQL_TYPE_STRING;
                 bind.buffer = buffer;
                 bind.buffer_length = static_cast<unsigned int>(length);
+                m_result.code = 0;
+                m_result.error_msg.clear();
                 return 0;
             }
 
-            // 输出参数绑定（SELECT 查询结果）
             if (m_isQuery)
             {
-                // 初始化输出绑定结构体
                 if (m_fieldCount == 0)
                 {
                     m_fieldCount = mysql_stmt_field_count(m_stmt);
@@ -838,15 +948,13 @@ namespace ol
                     m_outNull = new bool[m_fieldCount]();
                 }
 
-                // 校验位置合法性
                 if (pos > m_fieldCount)
                 {
-                    m_db_result.code = -1;
-                    m_db_result.error_msg = "bindtext: output pos out of range";
+                    m_result.code = -1;
+                    m_result.error_msg = "bindtext failed: output position out of range";
                     return -1;
                 }
 
-                // 绑定TEXT输出字段
                 MYSQL_BIND& bind = m_bindOut[pos - 1];
                 std::memset(&bind, 0, sizeof(MYSQL_BIND));
                 bind.buffer_type = MYSQL_TYPE_STRING;
@@ -855,19 +963,24 @@ namespace ol
                 bind.length = &m_outLen[pos - 1];
                 bind.is_null = &m_outNull[pos - 1];
 
-                m_db_result.code = 0;
-                m_db_result.error_msg.clear();
+                m_result.code = 0;
+                m_result.error_msg.clear();
                 return 0;
             }
 
-            // 既不是输入也不是输出，绑定失败
-            m_db_result.code = -1;
-            m_db_result.error_msg = "bindtext: not input param or query result";
+            m_result.code = -1;
+            m_result.error_msg = "bindtext failed: not input param or query result";
             return -1;
         }
 
         int DBStmt::bindtext(unsigned int pos, std::string& buffer, unsigned long length)
         {
+            if (length == 0)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindtext failed: length cannot be zero";
+                return -1;
+            }
             buffer.resize(length);
             return bindtext(pos, buffer.data(), length);
         }
@@ -876,8 +989,8 @@ namespace ol
         {
             if (pos < 1 || pos > m_paramCount || !m_stmt || !m_bindIn)
             {
-                m_db_result.code = -1;
-                m_db_result.error_msg = "filetotext: invalid position or unbound param";
+                m_result.code = -1;
+                m_result.error_msg = "filetotext: invalid position or unbound param";
                 return -1;
             }
 
@@ -885,8 +998,8 @@ namespace ol
             FILE* fp = fopen(filename.c_str(), "rb");
             if (!fp)
             {
-                m_db_result.code = -1;
-                m_db_result.error_msg = "fopen failed: " + std::string(strerror(errno));
+                m_result.code = -1;
+                m_result.error_msg = "fopen failed: " + std::string(strerror(errno));
                 return -1;
             }
 
@@ -897,8 +1010,8 @@ namespace ol
             if (size <= 0)
             {
                 fclose(fp);
-                m_db_result.code = -1;
-                m_db_result.error_msg = "file is empty";
+                m_result.code = -1;
+                m_result.error_msg = "file is empty";
                 return -1;
             }
 
@@ -926,8 +1039,8 @@ namespace ol
             if (!buf)
             {
                 fclose(fp);
-                m_db_result.code = -1;
-                m_db_result.error_msg = "malloc failed";
+                m_result.code = -1;
+                m_result.error_msg = "malloc failed";
                 return -1;
             }
 
@@ -956,8 +1069,8 @@ namespace ol
             if (has_error) return -1;
 
             // 成功
-            m_db_result.code = 0;
-            m_db_result.error_msg.clear();
+            m_result.code = 0;
+            m_result.error_msg.clear();
             return 0;
         }
 
@@ -980,9 +1093,9 @@ namespace ol
         }
 
         const char* DBStmt::sql() const { return m_sql.c_str(); }
-        int DBStmt::code() const { return m_db_result.code; }
-        size_t DBStmt::affectedRows() const { return m_db_result.affected_rows; }
-        std::string DBStmt::errorMsg() const { return m_db_result.error_msg; }
+        int DBStmt::code() const { return m_result.code; }
+        size_t DBStmt::affectedRows() const { return m_result.affected_rows; }
+        std::string DBStmt::errorMsg() const { return m_result.error_msg; }
 
     } // namespace mysql
 } // namespace ol

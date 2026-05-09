@@ -1,8 +1,13 @@
 /****************************************************************************************/
 /*
  * 程序名：ol_mysql_test.cpp
- * 功能描述：MySQL连接池综合测试用例
+ * 功能描述：MySQL连接池综合测试用例，测试内容包括：
+ *          - 单连接基础操作（连接、增删改查、事务）
+ *          - 预处理语句（绑定参数、执行、结果集）
+ *          - 生产级连接池（多线程、阻塞获取、自动重连、连接复用）
+ *          - 测试环境自动清理
  * 作者：ol
+ * 适用标准：C++17及以上
  */
 /****************************************************************************************/
 #include "ol_mysql.h"
@@ -19,15 +24,24 @@
 // 全局测试配置
 const std::string MYSQL_CONN_STR = "root:0088@127.0.0.1:3306/testdb";
 const std::string MYSQL_CHARSET = "utf8mb4";
-const size_t MAX_CONN = 5; // 连接池最大连接数
+const size_t MAX_CONN = 5;          ///< 连接池最大连接数
+const size_t THREAD_TEST_COUNT = 3; ///< 多线程测试线程数量
 
-// 打印测试结果辅助函数
+/**
+ * @brief 打印测试结果辅助函数
+ * @param testName 测试用例名称
+ * @param success 测试是否成功
+ */
 void printTestResult(const std::string& testName, bool success)
 {
     std::cout << "[" << (success ? "PASS" : "FAIL") << "] " << testName << std::endl;
 }
 
-// 测试1：单个MySQL连接基本操作
+/**
+ * @brief 测试1：单个MySQL连接基本操作
+ * @return 测试全部通过返回true，任意步骤失败返回false
+ * @note 测试内容：连接/断开、建表、增删数据、事务回滚
+ */
 bool testSingleDBConn()
 {
     try
@@ -70,7 +84,7 @@ bool testSingleDBConn()
             return false;
         }
 
-        // 4. 测试事务
+        // 4. 测试事务回滚
         if (!conn.beginTransaction())
         {
             std::cerr << "开启事务失败: " << conn.errorMsg() << std::endl;
@@ -109,6 +123,12 @@ bool testSingleDBConn()
     }
 }
 
+/**
+ * @brief 测试2：MySQL预处理语句（stmt）功能
+ * @param conn 已建立连接的MySQL连接对象
+ * @return 测试全部通过返回true，任意步骤失败返回false
+ * @note 测试内容：SQL预处理、参数绑定、增查操作、结果集获取
+ */
 bool testDBStmt(ol::mysql::DBConn& conn)
 {
     try
@@ -182,7 +202,7 @@ bool testDBStmt(ol::mysql::DBConn& conn)
 
         if (queryStmt->next() != 0)
         {
-            std::cerr << "获取查询结果失败: " << queryStmt->errorMsg() << std::endl;
+            std::cerr << "获取查询结果失败" << std::endl;
             return false;
         }
         if (resAge != 25)
@@ -202,12 +222,16 @@ bool testDBStmt(ol::mysql::DBConn& conn)
     }
 }
 
-// 测试3：数据库连接池核心功能
+/**
+ * @brief 测试3：数据库连接池核心功能
+ * @return 测试全部通过返回true，任意步骤失败返回false
+ * @note 测试内容：连接池初始化、连接获取/释放、多线程并发、自动重连
+ */
 bool testDBPool()
 {
     try
     {
-        // 创建连接池：最大连接数 + 配置回调
+        // 创建生产级连接池：最大连接数 + 连接配置回调
         ol::DBPool<ol::mysql::DBConn> pool(
             MAX_CONN,
             [&](ol::mysql::DBConn& conn)
@@ -224,7 +248,7 @@ bool testDBPool()
             return false;
         }
 
-        // 获取连接
+        // 阻塞获取连接
         auto conn1 = pool.get();
         if (!conn1)
         {
@@ -239,25 +263,27 @@ bool testDBPool()
             return false;
         }
 
-        // 释放连接
+        // 释放连接回池
         pool.release(conn1);
 
-        // 多线程测试连接池
+        // 多线程并发测试连接池
         bool threadTestSuccess = true;
         auto threadFunc = [&](int threadId)
         {
             try
             {
-                auto conn = pool.get();
+                // 超时获取连接（默认3秒，生产环境推荐）
+                auto conn = pool.getTimeout();
                 if (!conn)
                 {
-                    std::cerr << "线程" << threadId << "获取连接失败" << std::endl;
+                    std::cerr << "线程" << threadId << "获取连接超时/失败" << std::endl;
                     threadTestSuccess = false;
                     return;
                 }
-                // 模拟业务
+                // 模拟业务逻辑执行
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));
                 conn->execute("SELECT 1;");
+                // 释放连接
                 pool.release(conn);
             }
             catch (const std::exception& e)
@@ -267,16 +293,23 @@ bool testDBPool()
             }
         };
 
-        std::thread t1(threadFunc, 1);
-        std::thread t2(threadFunc, 2);
-        std::thread t3(threadFunc, 3);
-        t1.join();
-        t2.join();
-        t3.join();
+        // 启动多线程测试
+        std::vector<std::thread> threads;
+        for (size_t i = 1; i <= THREAD_TEST_COUNT; ++i)
+        {
+            threads.emplace_back(threadFunc, i);
+        }
+        for (auto& t : threads)
+        {
+            t.join();
+        }
 
-        if (!threadTestSuccess) return false;
+        if (!threadTestSuccess)
+        {
+            return false;
+        }
 
-        // 销毁连接池
+        // 销毁连接池，释放所有资源
         pool.destroy();
         return true;
     }
@@ -287,13 +320,18 @@ bool testDBPool()
     }
 }
 
-// 测试4：清理测试环境
+/**
+ * @brief 测试4：清理测试环境
+ * @return 清理成功返回true，失败返回false
+ * @note 删除测试表，断开连接，还原数据库环境
+ */
 bool cleanTestEnv()
 {
     try
     {
         ol::mysql::DBConn conn;
-        conn.setConnectParam(MYSQL_CONN_STR, MYSQL_CHARSET);
+        // 统一连接参数配置
+        conn.setConnectParam(MYSQL_CONN_STR, MYSQL_CHARSET, true);
         if (!conn.connect())
         {
             std::cerr << "清理环境连接失败: " << conn.errorMsg() << std::endl;
@@ -316,11 +354,15 @@ bool cleanTestEnv()
     }
 }
 
+/**
+ * @brief 主函数：执行所有MySQL综合测试用例
+ * @return 程序退出码
+ */
 int main()
 {
     std::cout << "==================== MySQL连接池综合测试 ====================" << std::endl;
 
-    // 执行测试用例
+    // 顺序执行所有测试用例
     printTestResult("单个MySQL连接基本操作", testSingleDBConn());
     printTestResult("数据库连接池核心功能", testDBPool());
     printTestResult("清理测试环境", cleanTestEnv());

@@ -1,7 +1,7 @@
 /****************************************************************************************/
 /*
  * 程序名：ol_mysql.h
- * 功能描述：MySQL数据库实现，适配静态连接池
+ * 功能描述：MySQL数据库实现，适配连接池
  * 作者：ol
  */
 /****************************************************************************************/
@@ -101,7 +101,7 @@ namespace ol
             DBConn& m_conn;
             MYSQL* m_mysql;
             MYSQL_STMT* m_stmt;
-            MYSQL_RES* m_result;
+            MYSQL_RES* m_db_result;
             MYSQL_BIND* m_bindIn;
             MYSQL_BIND* m_bindOut;
             unsigned long* m_outLen;
@@ -112,7 +112,7 @@ namespace ol
             unsigned int m_fieldCount;
             bool m_isQuery;
             std::string m_sql;
-            DBResult m_db_result;
+            DBResult m_result;
 
         public:
             explicit DBStmt(DBConn& conn);
@@ -130,8 +130,8 @@ namespace ol
             int bindin(unsigned int pos, unsigned long& value);
             int bindin(unsigned int pos, float& value);
             int bindin(unsigned int pos, double& value);
-            int bindin(unsigned int pos, char* value, unsigned int len = 2000);
-            int bindin(unsigned int pos, std::string& value, unsigned int len = 2000);
+            int bindin(unsigned int pos, char* value, unsigned int len = 512u);
+            int bindin(unsigned int pos, std::string& value, unsigned int len = 512u);
 
             // 输出绑定
             int bindout(unsigned int pos, int& value);
@@ -140,8 +140,8 @@ namespace ol
             int bindout(unsigned int pos, unsigned long& value);
             int bindout(unsigned int pos, float& value);
             int bindout(unsigned int pos, double& value);
-            int bindout(unsigned int pos, char* value, unsigned int len = 2000);
-            int bindout(unsigned int pos, std::string& value, unsigned int len = 2000);
+            int bindout(unsigned int pos, char* value, unsigned int len = 512u);
+            int bindout(unsigned int pos, std::string& value, unsigned int len = 512u);
 
             // 执行与获取结果
             bool execute();
@@ -149,11 +149,11 @@ namespace ol
 
             // BLOB / TEXT 操作
             int bindblob(unsigned int pos, char* buffer, unsigned long length);
-            int filetoblob(unsigned int pos, const std::string& filename, unsigned int chunk = 4 * 1024 * 1024);
+            int filetoblob(unsigned int pos, const std::string& filename, unsigned int chunk = 4194304u); // 默认分块大小：4MB
             int blobtofile(unsigned int pos, const std::string& filename);
             int bindtext(unsigned int pos, char* buffer, unsigned long length);
             int bindtext(unsigned int pos, std::string& buffer, unsigned long length);
-            int filetotext(unsigned int pos, const std::string& filename, unsigned int chunk = 4 * 1024 * 1024);
+            int filetotext(unsigned int pos, const std::string& filename, unsigned int chunk = 4194304u); // 默认分块大小：4MB
             int texttofile(unsigned int pos, const std::string& filename);
 
             // 工具方法
