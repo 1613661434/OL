@@ -15,7 +15,7 @@
 /****************************************************************************************/
 
 #ifndef OL_DATABASE_H
-#define OL_DATABASE_H
+#define OL_DATABASE_H 1
 
 #include "ol_type_traits.h"
 #include <functional>

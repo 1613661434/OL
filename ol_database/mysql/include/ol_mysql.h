@@ -14,7 +14,7 @@
 /****************************************************************************************/
 
 #ifndef OL_MYSQL_H
-#define OL_MYSQL_H
+#define OL_MYSQL_H 1
 
 #include "ol_database.h"
 #include <mysql.h>
