@@ -186,6 +186,7 @@ namespace ol
         /**
          * @brief 释放连接（归还到连接池）
          * @param conn 待归还的数据库连接
+         * @throw std::runtime_error 空闲连接数达到最大值时抛出（非法归还连接）
          * @note 归还前自动重置连接状态，唤醒一个等待线程
          */
         void release(ConnPtr conn)
@@ -193,6 +194,9 @@ namespace ol
             if (!conn) return;
 
             std::lock_guard<std::mutex> lock(m_mtx);
+
+            if (m_queue.size() >= m_max_conn) throw std::runtime_error("DBPool::release: The DBPool is full!");
+
             conn->reset();      // 重置连接状态
             m_queue.push(conn); // 归还至空闲队列
             m_cv.notify_one();  // 唤醒一个等待的工作线程
