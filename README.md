@@ -5,7 +5,6 @@
 
 > **作者：ol木子李lo（简称:ol）**
 > **GitHub项目地址**：[https://github.com/1613661434/OL](https://github.com/1613661434/OL)
-> **Gitee项目地址**：[https://gitee.com/LJJ1613661434/OL](https://gitee.com/LJJ1613661434/OL)
 
 ## 📜 许可证信息
 
