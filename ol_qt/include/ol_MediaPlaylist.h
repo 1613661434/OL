@@ -12,7 +12,7 @@
  */
 /****************************************************************************************/
 #ifndef OL_MEDIAPLAYLIST_H
-#define OL_MEDIAPLAYLIST_H
+#define OL_MEDIAPLAYLIST_H 1
 
 #include <QObject>
 #include <QVector>
