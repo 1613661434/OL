@@ -4,6 +4,7 @@
 一个包含 `ol_core`（基础工具库）、`ol_network`（**Linux 主从 Reactor 多线程网络库**）、`ol_database`（MySQL/Oracle 数据库交互）及 `ol_ftp`（FTP 客户端）的 C++ 工具库，提供模块化编译、跨平台支持及 Linux 专属高性能网络通信能力。
 
 > **作者：ol木子李lo（简称:ol）**
+>
 > **GitHub项目地址**：[https://github.com/1613661434/OL](https://github.com/1613661434/OL)
 
 ## 📜 许可证信息
@@ -217,7 +218,7 @@ mingw32-make -j4
 $OutputEncoding = [Console::InputEncoding] = [Console::OutputEncoding] = [System.Text.UTF8Encoding]::UTF8
 ```
 
-## 📋 新版项目目录结构
+## 📋 项目目录结构
 
 ```bash
 OL
