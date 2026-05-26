@@ -19,9 +19,7 @@ namespace ol
 
     std::string& deleteLchr(std::string& str, const char c)
     {
-        auto pos = str.find_first_not_of(c); // 从字符串的左边查找第一个不是c的字符的位置。
-
-        if (pos != 0) str.replace(0, pos, ""); // 把0-pos之间的字符串替换成空。
+        str.erase(0, str.find_first_not_of(c));
 
         return str;
     }
@@ -49,7 +47,10 @@ namespace ol
     {
         auto pos = str.find_last_not_of(c); // 从字符串的右边查找第一个不是c的字符的位置。
 
-        if (pos != 0) str.erase(pos + 1); // 把pos之后的字符删掉。
+        if (pos != std::string::npos)
+            str.erase(pos + 1); // 把pos之后的字符删掉。
+        else
+            str.clear(); // 全是c，清空整个字符串。
 
         return str;
     }
@@ -88,7 +89,7 @@ namespace ol
     {
         for (auto& c : str)
         {
-            if ((c >= 'a') && (c <= 'z')) c = c - 32;
+            if (c >= 'a' && c <= 'z') c -= 32;
         }
 
         return str;
