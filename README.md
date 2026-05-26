@@ -1,7 +1,13 @@
 # OL
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MTUxYmM4YjNiMWRkNDI0ZTAwNTdjNGQzZDNjZjYyYjdfNjA0ZGQ1YmZkNGE2YWYyOTM3YmFiNjA4MzhjNGVmODBfSUQ6NzYzNzczNTA0MzIzNDA0MDc2OF8xNzc4Mjk4Nzc1OjE3NzgzODUxNzVfVjM) ![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MDAzNTIxZTYwZjBjZmVlOTNlNjJkMmZmNTdlMGNiOGFfYjZhZmJmMDZjYTg4MjU5YjE2OTU1MDFkMzBmODYyMGZfSUQ6NzYzNzczNTAzODYxMzkxNjY0MF8xNzc4Mjk4Nzc1OjE3NzgzODUxNzVfVjM) ![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MDk2MjFjMDU4YzI2MDQ0YzAxNDI5M2EyOWZlZGFkNzJfZTZhZTUwNzJiNTkyMTAzMWQyYWFlZDhhMjQyOGRkZGFfSUQ6NzYzNzczNTA0MzQ1NjQ2OTk2Nl8xNzc4Mjk4Nzc1OjE3NzgzODUxNzVfVjM) ![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OWZhYzRjMWFjOTRhZGNkYzVhNjdiMzQ0ZTJmYTZmODRfYzU2NDdkMjVmYzA2ZDQ4YjJhNWMxYWYyY2Y0MzM5MTRfSUQ6NzYzNzczNTA0MDI0ODAwNzYyN18xNzc4Mjk4Nzc1OjE3NzgzODUxNzVfVjM)
 
-一个包含 `ol_core`（基础工具库）、`ol_network`（**Linux 主从 Reactor 多线程网络库**）、`ol_database`（MySQL/Oracle 数据库交互）及 `ol_ftp`（FTP 客户端）的 C++ 工具库，提供模块化编译、跨平台支持及 Linux 专属高性能网络通信能力。
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![C++](https://img.shields.io/badge/C%2B%2B-17%2B-%2300599C?logo=c%2B%2B)](https://isocpp.org/)
+[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Windows-%23808080?logo=linux)](https://github.com/1613661434/OL)
+[![CMake](https://img.shields.io/badge/build-CMake%203.10%2B-%23064F8C?logo=cmake)](https://cmake.org/)
+[![MySQL](https://img.shields.io/badge/database-MySQL%205.7%2B-%234479A1?logo=mysql)](https://www.mysql.com/)
+[![Oracle](https://img.shields.io/badge/database-Oracle%2011g%2B-%23F80000?logo=oracle)](https://www.oracle.com/database/)
+
+一个包含 `ol_core`（基础工具库）、`ol_network`（**Linux 主从 Reactor 多线程网络库**）、`ol_database`（MySQL/Oracle 数据库交互）及 `ol_ftp`（FTP 客户端）的 C++17 工具库，提供模块化编译、跨平台支持及 Linux 专属高性能网络通信能力。
 
 > **作者：ol木子李lo（简称:ol）**
 >
@@ -9,7 +15,7 @@
 
 ## 📜 许可证信息
 
-![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MTUxYmM4YjNiMWRkNDI0ZTAwNTdjNGQzZDNjZjYyYjdfNjA0ZGQ1YmZkNGE2YWYyOTM3YmFiNjA4MzhjNGVmODBfSUQ6NzYzNzczNTA0MzIzNDA0MDc2OF8xNzc4Mjk4Nzc1OjE3NzgzODUxNzVfVjM)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 本项目所有代码均以 **MIT License** 许可证发布，完整法律文本见 [MIT 官方协议](https://opensource.org/licenses/MIT)。
 
@@ -18,9 +24,7 @@
 你可以**自由地**：
 
 - **使用**：以任何目的（包括商业用途）运行、复制、使用本项目代码或文档；
-
 - **修改**：对代码进行修改、扩展、集成到其他项目（包括商业项目），无需额外申请授权；
-
 - **分发**：复制、分发本项目代码或衍生作品（包括商用分发）。
 
 需遵守的**唯一核心义务**：
@@ -32,30 +36,29 @@
 项目采用**模块化编译设计**，可按需开启 / 关闭任意功能模块，轻量化部署：
 
 - `ol_core`：**核心基础库（必选）**
-提供高频通用能力：文件 IO、时间处理、字符串操作、线程池、通用数据结构（哈希、前缀树等）。
+  提供高频通用能力：文件 IO、时间处理、字符串操作、动态线程池（支持固定/动态扩缩容双模式）、通用数据结构（哈希、前缀树等）。
 
 - `ol_network`：**高性能网络库（仅限 Linux）**
-基于 epoll 实现的主从 Reactor 多线程网络库，支持非阻塞 IO、边缘触发（ET）；
-架构：1 主 Reactor 监听连接 + N 从 Reactor 处理 IO，适用于高并发 TCP 服务端开发。
+  基于 epoll 实现的主从 Reactor 多线程网络库，支持非阻塞 IO、边缘触发（ET）；
+  架构：1 主 Reactor 监听连接 + N 从 Reactor 处理 IO，适用于高并发 TCP 服务端开发。
 
 - `ol_database`：**多数据库交互模块**
-统一接口封装，支持双数据库，可独立开关：
+  统一接口封装，支持双数据库，已适配连接池，可独立开关：
 
     - MySQL：基于 MySQL C API 封装，支持连接管理、SQL 执行、BLOB/TEXT 大字段；
 
     - Oracle：基于 OCI 接口封装，支持连接管理、SQL 执行、BLOB/CLOB 大字段。
 
 - `ol_ftp`：**FTP 客户端模块**
-基于内置第三方库 `ftplib` 实现，支持文件上传 / 下载、目录操作、文件列表获取。
+  基于内置第三方库 `ftplib` 实现，支持文件上传 / 下载、目录操作、文件列表获取。
 
 ## 📚 代码文档规范
 
 本项目所有头文件（`.h`）均遵循 **Doxygen 注释规范**：
 
 - 函数 / 类 / 结构体包含 `@brief`（功能）、`@param`（参数）、`@return`（返回值）、`@note`（注意事项）；
-
+- 描述文字使用中文，面向开发者的信息（异常、断言、错误消息）使用英文；
 - 支持自动生成 HTML/PDF API 文档；
-
 - 主流 IDE（VS Code、CLion）原生支持智能提示。
 
 ### 示例注释
@@ -75,13 +78,9 @@ bool newdir(const std::string& pathorfilename, bool bisfilename = true);
 ### 基础依赖
 
 - 构建工具：CMake 3.10+
-
 - 编译器：C++17 兼容（GCC 8+/Clang 7+/MSVC 2019+/MinGW 8+）
-
 - 操作系统：
-
     - `ol_network`：**仅限 Linux（内核 2.6+，支持 epoll）**
-
     - 其他模块：Windows 10+/Linux CentOS 7+/Ubuntu 18.04+
 
 ### 模块特定依赖
@@ -141,17 +140,19 @@ cmake .. -DCMAKE_BUILD_TYPE=Debug -DOL_BUILD_NETWORK=ON -DOL_NETWORK_WITH_TESTS=
 # 示例2：Windows 仅编译核心+MySQL，关闭动态库
 cmake .. -DOL_BUILD_DATABASE=ON -DOL_BUILD_MYSQL=ON -DOL_BUILD_ORACLE=OFF -DOL_BUILD_SHARED_LIBS=OFF
 
-# 示例3：全功能开启（核心+网络+数据库+FTP+所有测试）
-cmake .. -DOL_BUILD_FTP=ON -DOL_BUILD_NETWORK=ON -DOL_BUILD_ORACLE=ON -D*_WITH_TESTS=ON
+# 示例3：Linux 开启 Oracle + 测试（关闭 MySQL）
+cmake .. -DOL_BUILD_DATABASE=ON -DOL_BUILD_MYSQL=OFF -DOL_BUILD_ORACLE=ON -DOL_ORACLE_WITH_TESTS=ON
+
+# 示例4：全功能开启（核心+网络+数据库+FTP+所有测试）
+cmake .. -DOL_BUILD_FTP=ON -DOL_BUILD_NETWORK=ON -DOL_BUILD_MYSQL=ON -DOL_BUILD_ORACLE=ON -D*_WITH_TESTS=ON
 ```
 
 ## 📝 编码规范
 
 1. **字符集**：所有文件采用 **UTF-8（无 BOM）**，跨平台无乱码；
-
 2. **换行符**：统一使用 **LF（\n）**，避免 Git 冲突；
-
-3. **编译约束**：禁止源码内编译（out-of-source build），必须创建独立 build 目录。
+3. **编译约束**：禁止源码内编译（out-of-source build），必须创建独立 build 目录；
+4. **调试宏**：项目使用 `OL_DEBUG` 宏控制调试输出，不与编译器 `DEBUG` 宏冲突。
 
 ## 🔨 编译步骤
 
@@ -203,13 +204,9 @@ mingw32-make -j4
 ## ⚠️ 注意事项
 
 1. **平台限制**：`ol_network` 仅支持 Linux，Windows 下自动跳过编译；
-
 2. **测试依赖**：开启任意测试后，CMake **强制启用静态库编译**；
-
 3. **第三方库**：`third_party/ftplib` 为内置依赖，禁止修改目录结构；
-
 4. **数据库适配**：编译前必须配置对应数据库的环境变量（`MYSQL_HOME`/`ORACLE_HOME`）；
-
 5. **Windows 乱码**：PowerShell 执行编码命令可修复中文乱码。
 
 ### Windows 终端乱码修复
@@ -220,19 +217,51 @@ $OutputEncoding = [Console::InputEncoding] = [Console::OutputEncoding] = [System
 
 ## 📋 项目目录结构
 
-```bash
-OL
-├── ol_core/          # 核心基础工具库（必选）
-├── ol_ftp/           # FTP客户端模块（可选）
-├── ol_network/       # Linux主从Reactor网络库（可选）
-├── ol_database/      # 数据库模块（MySQL/Oracle，可选）
-│   ├── mysql/        # MySQL子模块
-│   └── oracle/       # Oracle子模块
-├── third_party/      # 第三方依赖库
-│   └── ftplib/       # FTP底层依赖库
-├── docs/             # 项目文档
-└── CMakeLists.txt    # 新版主构建配置
 ```
+OL
+├── CMakeLists.txt            # 顶层构建配置
+├── README.md                 # 项目说明文档
+├── LICENSE                   # MIT 许可证
+├── clang-format.txt          # 代码格式化配置
+├── OL_Doxygen                # Doxygen 文档生成配置
+│
+├── ol_core/                  # 核心基础工具库（必选）
+│   ├── include/              #   头文件（ThreadPool、容器、字符串等）
+│   ├── src/                  #   源文件
+│   └── test/                 #   测试程序
+│
+├── ol_database/              # 数据库模块
+│   ├── include/              #   IDBConn 抽象接口 + DBPool 连接池
+│   ├── mysql/                #   MySQL 子模块
+│   │   ├── include/          #     头文件
+│   │   ├── src/              #     源文件
+│   │   └── test/             #     测试程序 + 测试数据
+│   └── oracle/               #   Oracle 子模块
+│       ├── include/          #     头文件
+│       ├── src/              #     源文件
+│       └── test/             #     测试程序 + 测试数据
+│
+├── ol_network/               # Linux 网络库
+│   ├── include/ol_net/       #   头文件
+│   ├── src/                  #   源文件
+│   └── test/                 #   测试程序（Echo/Bank 示例）
+│
+├── ol_ftp/                   # FTP 客户端模块
+│
+├── docs/                     # 项目文档
+└── third_party/              # 第三方依赖
+    └── ftplib/               #   FTP 底层库
+```
+
+## 📋 ol_core 核心库详解
+
+### 动态线程池 `ol::ThreadPool`
+
+- **固定模式**：`ol::ThreadPool<false>` — 固定线程数，简单可靠；
+- **动态模式**：`ol::ThreadPool<true>` — 根据任务负载自动扩缩容，管理者线程定期检查；
+- **队列策略**：满队列时支持拒绝（kReject）、阻塞等待（kBlock）、超时等待（kTimeout）三种策略；
+- **双任务接口**：`addTask()` 无返回值，`submitTask()` 返回 `std::future`；
+- **线程安全**：全原子变量 + 互斥锁 + 条件变量，适配 `ol::DBPool` 等高性能场景。
 
 ## 📋 ol_network 网络库详解（Linux 专属）
 
@@ -241,9 +270,7 @@ OL
 **主从 Reactor 多线程模型**：
 
 - 主 Reactor：单线程，负责监听新连接；
-
 - 从 Reactor：多线程（默认 = CPU 核心数），负责 IO 事件处理；
-
 - IO 模型：epoll + 边缘触发（ET）+ 非阻塞 IO，高并发低延迟。
 
 ### 核心组件
