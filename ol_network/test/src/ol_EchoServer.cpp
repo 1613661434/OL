@@ -5,8 +5,8 @@
 #include <unistd.h>
 #endif // __unix__
 
-// #define DEBUG
-// #define DEBUG2
+// #define OL_DEBUG
+// #define OL_DEBUG2
 
 namespace ol
 {
@@ -39,7 +39,7 @@ namespace ol
     {
         // 停止工作线程。
         m_threadPool.stop();
-#ifdef DEBUG
+#ifdef OL_DEBUG
         printf("工作线程已停止。\n");
 #endif
 
@@ -50,9 +50,9 @@ namespace ol
     // 处理新客户端连接请求，在TcpServer类中回调此函数。
     void EchoServer::handleNewConn(Connection::Ptr conn)
     {
-#ifdef DEBUG
+#ifdef OL_DEBUG
         printf("EchoServer::handleNewConn(%ld).\n", syscall(SYS_gettid));
-#endif // DEBUG
+#endif // OL_DEBUG
 
         printf("%s new connection(fd=%d,ip=%s,port=%d) ok.\n", TimeStamp::now().toString().c_str(), conn->getFd(), conn->getIp(), conn->getPort());
 
@@ -82,9 +82,9 @@ namespace ol
     // 处理客户端的请求报文，在TcpServer类中回调此函数。
     void EchoServer::handleMessage(Connection::Ptr conn, std::string& message)
     {
-#ifdef DEBUG
+#ifdef OL_DEBUG
         printf("EchoServer::handleMessage(%ld).\n", syscall(SYS_gettid));
-#endif // DEBUG
+#endif // OL_DEBUG
 
         if (m_threadPool.getWorkerNum() == 0)
         {
@@ -117,11 +117,11 @@ namespace ol
     // 处理客户端的请求报文，用于添加给线程池。
     void EchoServer::onMessage(Connection::Ptr conn, std::string& message)
     {
-#ifdef DEBUG
+#ifdef OL_DEBUG
         printf("EchoServer::onMessage(%ld).\n", syscall(SYS_gettid));
-#endif // DEBUG
+#endif // OL_DEBUG
 
-#ifdef DEBUG2
+#ifdef OL_DEBUG2
         printf("%s message (eventfd=%d):%s\n", TimeStamp::now().toString().c_str(), conn->getFd(), message.c_str());
 #endif
         // 在这里，将经过若干步骤的运算。

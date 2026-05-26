@@ -22,6 +22,7 @@
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
+#include <cinttypes>
 #include <queue>
 #include <deque>
 #include <functional>
@@ -34,7 +35,14 @@
 #include <vector>
 #include <utility>
 
-// #define DEBUG
+#ifdef __unix__
+#include <sys/syscall.h>
+#include <unistd.h>
+#else
+#include <windows.h>
+#endif
+
+// #define OL_DEBUG
 
 namespace ol
 {
@@ -157,8 +165,8 @@ namespace ol
             {
                 m_activeWorkers.fetch_add(1, std::memory_order_acq_rel);
                 std::thread th(&ThreadPool<IsDynamic>::worker, this);
-#ifdef DEBUG
-                printf("构造函数：新工作线程(ID:%zu)\n", th.get_id());
+#ifdef OL_DEBUG
+                printf("构造函数：新工作线程(ID:%llu)\n", getThreadId(th.get_id()));
 #endif
                 m_workers.emplace(th.get_id(), std::move(th)); // 移动到哈希表
                 --minThreadNum;
@@ -166,8 +174,8 @@ namespace ol
 
             // 启动管理者线程
             m_dynamic.managerThread = std::thread(&ThreadPool<IsDynamic>::manager<IsDynamic>, this);
-#ifdef DEBUG
-            printf("构造函数：新管理者线程(ID:%zu)\n", m_dynamic.managerThread.get_id());
+#ifdef OL_DEBUG
+            printf("构造函数：新管理者线程(ID:%llu)\n", getThreadId(m_dynamic.managerThread.get_id()));
 #endif
         }
 
@@ -179,7 +187,7 @@ namespace ol
         {
             if (m_stop.load(std::memory_order_acquire)) return;
             stop();
-#ifdef DEBUG
+#ifdef OL_DEBUG
             if (m_activeWorkers.load() > 0)
             {
                 printf("警告：析构时仍有%d个活跃线程未退出\n", (int)m_activeWorkers.load());
@@ -195,7 +203,7 @@ namespace ol
          */
         void stop()
         {
-#ifdef DEBUG
+#ifdef OL_DEBUG
             printf("[stop] 线程池开始停止\n");
 #endif
 
@@ -203,14 +211,11 @@ namespace ol
             bool expected = false;
             if (!m_stop.compare_exchange_strong(expected, true, std::memory_order_release, std::memory_order_relaxed))
             {
-#ifdef DEBUG
+#ifdef OL_DEBUG
                 printf("[stop] 线程池已停止，无需重复操作\n");
 #endif
                 return;
             }
-
-            // 确保 m_stop 对所有线程可见
-            std::atomic_thread_fence(std::memory_order_seq_cst);
 
             // 动态模式：先停止管理者线程
             if constexpr (IsDynamic)
@@ -221,12 +226,12 @@ namespace ol
                 {
                     try
                     {
-#ifdef DEBUG
-                        auto manager_id = m_dynamic.managerThread.get_id();
+#ifdef OL_DEBUG
+                        auto manager_id = getThreadId(m_dynamic.managerThread.get_id());
 #endif
                         m_dynamic.managerThread.join();
-#ifdef DEBUG
-                        printf("[stop] 动态模式：管理者线程(ID:%zu)已join\n", manager_id);
+#ifdef OL_DEBUG
+                        printf("[stop] 动态模式：管理者线程(ID:%llu)已join\n", manager_id);
 #endif
                         m_dynamic.managerThread = std::thread();
                     }
@@ -240,7 +245,7 @@ namespace ol
                 // 清空工作线程退出队列
                 std::lock_guard<std::mutex> lock_exit_deque(m_dynamic.workerExitId_dequeMutex);
                 m_dynamic.workerExitId_deque.clear();
-#ifdef DEBUG
+#ifdef OL_DEBUG
                 printf("[stop] 动态模式：清空工作线程退出队列\n");
 #endif
             }
@@ -248,21 +253,6 @@ namespace ol
             // 唤醒所有等待的工作线程
             m_taskQueueNotEmpty_condVar.notify_all();
             m_taskQueueNotFull_condVar.notify_all();
-
-            // 等待活跃线程退出（最多等待5秒）
-            int wait_ms = 0;
-            while (m_activeWorkers.load(std::memory_order_acquire) > 0 && wait_ms < 5000)
-            {
-                std::this_thread::sleep_for(std::chrono::milliseconds(10));
-                wait_ms += 10;
-            }
-#ifdef DEBUG
-            if (m_activeWorkers.load() > 0)
-            {
-                printf("[stop] 警告：仍有%d个活跃线程未退出（已等待%dms）\n",
-                       (int)m_activeWorkers.load(), wait_ms);
-            }
-#endif
 
             // 处理工作线程
             std::lock_guard<std::mutex> lock(m_workersMutex);
@@ -273,8 +263,8 @@ namespace ol
                 {
                     if (th.joinable())
                     {
-#ifdef DEBUG
-                        printf("[stop] 动态模式：处理工作线程(ID:%zu)\n", id);
+#ifdef OL_DEBUG
+                        printf("[stop] 动态模式：处理工作线程(ID:%llu)\n", getThreadId(id));
 #endif
                         try
                         {
@@ -282,17 +272,17 @@ namespace ol
                         }
                         catch (const std::exception& e)
                         {
-                            fprintf(stderr, "[ol::ThreadPool] Dynamic mode: Thread(ID:%zu) join failed: %s\n", id, e.what());
+                            fprintf(stderr, "[ol::ThreadPool] Dynamic mode: Thread(ID:%llu) join failed: %s\n", getThreadId(id), e.what());
                         }
                         catch (...)
                         {
-                            fprintf(stderr, "[ol::ThreadPool] Dynamic mode: Thread(ID:%zu) join catch unknown exception\n", id);
+                            fprintf(stderr, "[ol::ThreadPool] Dynamic mode: Thread(ID:%llu) join catch unknown exception\n", getThreadId(id));
                         }
                     }
-#ifdef DEBUG
+#ifdef OL_DEBUG
                     else
                     {
-                        printf("[stop] 动态模式：线程(ID:%zu)不可join，跳过\n", id);
+                        printf("[stop] 动态模式：线程(ID:%llu)不可join，跳过\n", getThreadId(id));
                     }
 #endif
                 }
@@ -304,8 +294,8 @@ namespace ol
                 {
                     if (th.joinable())
                     {
-#ifdef DEBUG
-                        printf("[stop] 固定模式：处理工作线程(ID:%zu)\n", th.get_id());
+#ifdef OL_DEBUG
+                        printf("[stop] 固定模式：处理工作线程(ID:%llu)\n", getThreadId(th.get_id()));
 #endif
                         try
                         {
@@ -313,17 +303,17 @@ namespace ol
                         }
                         catch (const std::exception& e)
                         {
-                            fprintf(stderr, "[ol::ThreadPool] Fixed mode: Thread(ID:%zu) join failed: %s\n", th.get_id(), e.what());
+                            fprintf(stderr, "[ol::ThreadPool] Fixed mode: Thread(ID:%llu) join failed: %s\n", getThreadId(th.get_id()), e.what());
                         }
                         catch (...)
                         {
-                            fprintf(stderr, "[ol::ThreadPool] Fixed mode: Thread(ID:%zu) join catch unknown exception\n", th.get_id());
+                            fprintf(stderr, "[ol::ThreadPool] Fixed mode: Thread(ID:%llu) join catch unknown exception\n", getThreadId(th.get_id()));
                         }
                     }
-#ifdef DEBUG
+#ifdef OL_DEBUG
                     else
                     {
-                        printf("[stop] 固定模式：线程(ID:%zu)不可join，跳过\n", th.get_id());
+                        printf("[stop] 固定模式：线程(ID:%llu)不可join，跳过\n", getThreadId(th.get_id()));
                     }
 #endif
                 }
@@ -331,7 +321,7 @@ namespace ol
 
             // 清理线程容器
             m_workers.clear();
-#ifdef DEBUG
+#ifdef OL_DEBUG
             printf("[stop] 线程池已停止\n");
 #endif
         }
@@ -367,6 +357,30 @@ namespace ol
         inline size_t getIdleThreadNum() const
         {
             return m_dynamic.idleThreads;
+        }
+
+        /**
+         * @brief 获取当前线程的可打印标识（Linux返回内核TID，Windows返回线程ID）
+         * @return 线程标识数值（可安全用于printf("%llu")等格式化输出）
+         * @note Linux下返回syscall(SYS_gettid)，与top -H输出一致；Windows下返回GetCurrentThreadId()
+         */
+        static uint64_t getThreadId()
+        {
+#ifdef __unix__
+            return static_cast<uint64_t>(syscall(SYS_gettid));
+#else
+            return static_cast<uint64_t>(GetCurrentThreadId());
+#endif
+        }
+
+        /**
+         * @brief 将std::thread::id转换为可打印数值（用于非当前线程的id）
+         * @param id 线程id
+         * @return 可打印数值
+         */
+        static uint64_t getThreadId(const std::thread::id& id)
+        {
+            return std::hash<std::thread::id>{}(id);
         }
 
         /**
@@ -586,11 +600,11 @@ namespace ol
                     }
                     catch (const std::exception& e)
                     {
-                        fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%zu) Task error: %s\n", std::this_thread::get_id(), e.what());
+                        fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%llu) Task error: %s\n", getThreadId(), e.what());
                     }
                     catch (...)
                     {
-                        fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%zu) Unknown task error\n", std::this_thread::get_id());
+                        fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%llu) Unknown task error\n", getThreadId());
                     }
 
                     // 动态模式：任务完成，恢复空闲状态
@@ -602,11 +616,11 @@ namespace ol
             }
             catch (const std::exception& e)
             {
-                fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%zu) exception: %s\n", std::this_thread::get_id(), e.what());
+                fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%llu) exception: %s\n", getThreadId(), e.what());
             }
             catch (...)
             {
-                fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%zu) unexpected exception\n", std::this_thread::get_id());
+                fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%llu) unexpected exception\n", getThreadId());
             }
 
             // 活跃线程数-1
@@ -620,21 +634,21 @@ namespace ol
                 if (!m_stop.load(std::memory_order_acquire))
                 {
                     std::unique_lock<std::mutex> lock_exitVector(m_dynamic.workerExitId_dequeMutex);
-#ifdef DEBUG
-                    printf("[worker] 线程(ID:%zu)加入退出容器\n", std::this_thread::get_id());
+#ifdef OL_DEBUG
+                    printf("[worker] 线程(ID:%llu)加入退出容器\n", getThreadId());
 #endif
                     m_dynamic.workerExitId_deque.emplace_back(std::this_thread::get_id());
                 }
-#ifdef DEBUG
+#ifdef OL_DEBUG
                 else
                 {
-                    printf("[worker] 线程(ID:%zu)：线程池已停止，跳过加入退出容器\n", std::this_thread::get_id());
+                    printf("[worker] 线程(ID:%llu)：线程池已停止，跳过加入退出容器\n", getThreadId());
                 }
 #endif
             }
 
-#ifdef DEBUG
-            printf("[worker] 线程(ID:%zu)已销毁（主动移除）\n", std::this_thread::get_id());
+#ifdef OL_DEBUG
+            printf("[worker] 线程(ID:%llu)已销毁（主动移除）\n", getThreadId());
 #endif
         }
 
@@ -649,8 +663,8 @@ namespace ol
         template <bool D = IsDynamic, typename = std::enable_if_t<D>>
         void manager()
         {
-#ifdef DEBUG
-            printf("[manager] 管理者线程(ID:%zu)启动\n", std::this_thread::get_id());
+#ifdef OL_DEBUG
+            printf("[manager] 管理者线程(ID:%llu)启动\n", getThreadId());
 #endif
 
             try
@@ -678,14 +692,14 @@ namespace ol
                         // 清理退出的线程
                         for (const auto& exitId : exitIds)
                         {
-#ifdef DEBUG
-                            printf("[manager] 待清理线程(ID：%zu)\n", exitId);
+#ifdef OL_DEBUG
+                            printf("[manager] 待清理线程(ID：%llu)\n", getThreadId(exitId));
 #endif
                             auto it = m_workers.find(exitId);
                             if (it == m_workers.end())
                             {
-#ifdef DEBUG
-                                printf("[manager] 线程(ID:%zu)已被清理，跳过\n", exitId);
+#ifdef OL_DEBUG
+                                printf("[manager] 线程(ID:%llu)已被清理，跳过\n", getThreadId(exitId));
 #endif
                                 continue;
                             }
@@ -695,17 +709,17 @@ namespace ol
                                 try
                                 {
                                     it->second.join();
-#ifdef DEBUG
-                                    printf("[manager] 线程(ID:%zu)已join\n", exitId);
+#ifdef OL_DEBUG
+                                    printf("[manager] 线程(ID:%llu)已join\n", getThreadId(exitId));
 #endif
                                 }
                                 catch (const std::exception& e)
                                 {
-                                    fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%zu) join failure: %s\n", exitId, e.what());
+                                    fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%llu) join failure: %s\n", getThreadId(exitId), e.what());
                                 }
                                 catch (...)
                                 {
-                                    fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%zu) Unknown join error\n", exitId);
+                                    fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%llu) Unknown join error\n", getThreadId(exitId));
                                 }
                             }
 
@@ -736,13 +750,13 @@ namespace ol
                             {
                                 m_activeWorkers.fetch_add(1, std::memory_order_acq_rel);
                                 std::thread th(&ThreadPool<IsDynamic>::worker, this);
-#ifdef DEBUG
-                                printf("[manager] 新工作线程(ID:%zu)\n", th.get_id());
+#ifdef OL_DEBUG
+                                printf("[manager] 新工作线程(ID:%llu)\n", getThreadId(th.get_id()));
 #endif
                                 m_workers.emplace(th.get_id(), std::move(th)); // 哈希表插入新工作线程
                                 --needThreads;
                             }
-#ifdef DEBUG
+#ifdef OL_DEBUG
                             printf("[manager] 扩容：线程数从 %zu 增加到 %zu（任务数: %zu）\n",
                                    workerCount, m_workers.size(), taskCount);
 #endif
@@ -757,11 +771,11 @@ namespace ol
                                 idleCount - (workerCount / 2)       // 多余空闲线程数 = 超过一半的空闲线程
                             );
 
-#ifdef DEBUG
+#ifdef OL_DEBUG
                             size_t reduceThreads_temp = reduceThreads;
 #endif
 
-                            // 销毁线程
+                            // 销毁线程：设置退出数量后逐个唤醒，避免惊群效应
                             if (reduceThreads > 0)
                             {
                                 m_dynamic.workerExitNum.fetch_add(reduceThreads, std::memory_order_acq_rel);
@@ -771,7 +785,7 @@ namespace ol
                                     --reduceThreads;
                                 } while (reduceThreads > 0);
                             }
-#ifdef DEBUG
+#ifdef OL_DEBUG
                             printf("[manager] 缩容：计划销毁 %zu 个线程（当前线程数: %zu, 空闲数: %zu, 保留至少: %zu）\n",
                                    reduceThreads_temp, workerCount, idleCount, m_dynamic.minThreads);
 #endif
@@ -781,18 +795,18 @@ namespace ol
             }
             catch (const std::exception& e)
             {
-                fprintf(stderr, "[ol::ThreadPool] Manager thread(ID:%zu) exception: %s\n", std::this_thread::get_id(), e.what());
+                fprintf(stderr, "[ol::ThreadPool] Manager thread(ID:%llu) exception: %s\n", getThreadId(), e.what());
             }
             catch (...)
             {
-                fprintf(stderr, "[ol::ThreadPool] Manager thread(ID:%zu) unexpected exception\n", std::this_thread::get_id());
+                fprintf(stderr, "[ol::ThreadPool] Manager thread(ID:%llu) unexpected exception\n", getThreadId());
             }
 
             // 清空退出队列
             std::lock_guard<std::mutex> lock_exit_deque(m_dynamic.workerExitId_dequeMutex);
             m_dynamic.workerExitId_deque.clear();
-#ifdef DEBUG
-            printf("[manager] 管理者线程(ID:%zu)退出，清空退出队列\n", std::this_thread::get_id());
+#ifdef OL_DEBUG
+            printf("[manager] 管理者线程(ID:%llu)退出，清空退出队列\n", getThreadId());
 #endif
         }
     };

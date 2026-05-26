@@ -9,13 +9,6 @@
 #include <vector>
 #include <assert.h>
 
-#ifdef __unix__
-#include <sys/syscall.h>
-#include <unistd.h>
-#elif defined(_WIN32)
-#include <windows.h>
-#endif
-
 // 全局输出互斥锁，确保多线程输出不交错
 std::mutex g_printMutex;
 
@@ -37,24 +30,12 @@ void safePrint(const T& content)
     std::cout.flush();
 }
 
-// 获取当前线程ID的字符串表示
-std::string getThreadId()
-{
-#ifdef __unix__
-    return std::to_string(syscall(SYS_gettid));
-#elif defined(_WIN32)
-    return std::to_string(GetCurrentThreadId());
-#else
-    return std::to_string(std::hash<std::thread::id>()(std::this_thread::get_id()));
-#endif
-}
-
 // 测试任务：无返回值，打印信息
 void printMessage(int id, const std::string& msg)
 {
-    safePrint("任务 %d: %s (线程ID: %s)\n",
+    safePrint("任务 %d: %s (线程ID: %llu)\n",
               id, msg.c_str(),
-              getThreadId().c_str());
+              ol::ThreadPool<>::getThreadId());
 
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
@@ -69,13 +50,13 @@ int subtract100(int x)
 // 测试任务：有返回值，计算+1000（用于策略测试）
 int add1000(int x)
 {
-    std::string threadId = getThreadId();
-    safePrint("  阻塞策略任务 %d 开始执行 (执行线程: %s)\n", x, threadId.c_str());
+    uint64_t threadId = ol::ThreadPool<>::getThreadId();
+    safePrint("  阻塞策略任务 %d 开始执行 (执行线程: %llu)\n", x, threadId);
 
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     int result = x + 1000;
-    safePrint("  阻塞策略任务 %d 执行完成 (执行线程: %s, 结果: %d)\n", x, threadId.c_str(), result);
+    safePrint("  阻塞策略任务 %d 执行完成 (执行线程: %llu, 结果: %d)\n", x, threadId, result);
     return result;
 }
 
@@ -120,10 +101,10 @@ void longRunningTask(int id)
 // 测试任务：轻量级任务，用于测试动态线程池的扩缩容
 void lightTask(int id)
 {
-    std::string threadId = getThreadId();
-    safePrint("轻量任务 %d 开始执行 (线程: %s)\n", id, threadId.c_str());
+    uint64_t threadId = ol::ThreadPool<>::getThreadId();
+    safePrint("轻量任务 %d 开始执行 (线程: %llu)\n", id, threadId);
     std::this_thread::sleep_for(std::chrono::milliseconds(200));
-    safePrint("轻量任务 %d 执行完毕 (线程: %s)\n", id, threadId.c_str());
+    safePrint("轻量任务 %d 执行完毕 (线程: %llu)\n", id, threadId);
 }
 
 // 固定模式线程池基本功能测试

@@ -432,7 +432,7 @@ namespace ol
         }
 
         /**
-         * @brief 格式化写入日志自动换行（DEBUG模式，DEBUG或者_DEBUG宏启用时才输出）
+         * @brief 格式化写入日志自动换行（DEBUG模式，OL_DEBUG或者DEBUG或者_DEBUG宏启用时才输出）
          * @tparam Types 可变参数类型
          * @param fmt 格式字符串
          * @param args 待格式化的参数
@@ -441,7 +441,7 @@ namespace ol
         template <typename... Types>
         bool debug(const char* fmt, Types... args)
         {
-#if defined(DEBUG) || defined(_DEBUG)
+#if defined(OL_DEBUG) || defined(DEBUG) || defined(_DEBUG)
             std::lock_guard<LockType> lock(m_lock);
 
             if (!fout.is_open()) return false;

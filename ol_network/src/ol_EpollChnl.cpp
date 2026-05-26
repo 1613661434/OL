@@ -1,6 +1,6 @@
 #include "ol_net/ol_EpollChnl.h"
 
-// #define DEBUG
+// #define OL_DEBUG
 
 namespace ol
 {
@@ -56,7 +56,7 @@ namespace ol
     {
         if (chnl->getInEpoll()) // 如果channel已经在树上了。
         {
-#ifdef DEBUG
+#ifdef OL_DEBUG
             printf("removeChnl(%d)\n", chnl->getFd());
 #endif
             if (epoll_ctl(m_epollFd, EPOLL_CTL_DEL, chnl->getFd(), 0) == -1)

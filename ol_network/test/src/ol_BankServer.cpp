@@ -5,8 +5,8 @@
 #include <unistd.h>
 #endif // __unix__
 
-// #define DEBUG
-// #define DEBUG2
+// #define OL_DEBUG
+// #define OL_DEBUG2
 
 namespace ol
 {
@@ -40,7 +40,7 @@ namespace ol
     {
         // 停止工作线程。
         m_threadPool.stop();
-#ifdef DEBUG
+#ifdef OL_DEBUG
         printf("工作线程已停止。\n");
 #endif
 
@@ -80,9 +80,9 @@ namespace ol
     // 处理客户端的请求报文，在TcpServer类中回调此函数。
     void BankServer::handleMessage(Connection::Ptr conn, std::string& message)
     {
-#ifdef DEBUG
+#ifdef OL_DEBUG
         printf("BankServer::handleMessage(%ld).\n", syscall(SYS_gettid));
-#endif // DEBUG
+#endif // OL_DEBUG
 
         if (m_threadPool.getWorkerNum() == 0)
         {

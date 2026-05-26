@@ -1,6 +1,6 @@
 #include "ol_net/ol_EventLoop.h"
 
-// #define DEBUG
+// #define OL_DEBUG
 
 namespace ol
 {
@@ -48,9 +48,9 @@ namespace ol
     void EventLoop::run(int timeout)
     {
 // 事件循环时的 ID 输出
-#ifdef DEBUG
+#ifdef OL_DEBUG
         printf("EventLoop::run(%ld).\n", syscall(SYS_gettid));
-#endif // DEBUG
+#endif // OL_DEBUG
 
         m_threadId = syscall(SYS_gettid);
 
@@ -117,7 +117,7 @@ namespace ol
     // 事件循环线程被eventfd唤醒后执行的函数。
     void EventLoop::handleWakeUp()
     {
-#ifdef DEBUG
+#ifdef OL_DEBUG
         printf("EventLoop::handleWakeUp(%ld).\n", syscall(SYS_gettid));
 #endif
         uint64_t val;
@@ -146,13 +146,13 @@ namespace ol
 
         if (m_mainEventLoop)
         {
-#ifdef DEBUG
+#ifdef OL_DEBUG
 // printf("主事件循环的闹钟时间到了。\n");
 #endif
         }
         else
         {
-#ifdef DEBUG
+#ifdef OL_DEBUG
             // printf("从事件循环的闹钟时间到了。\n");
             printf("EventLoop::handleTimer(%ld). Fd:", syscall(SYS_gettid));
 #endif
@@ -162,7 +162,7 @@ namespace ol
             auto it = m_conns.begin();
             while (it != m_conns.end())
             {
-#ifdef DEBUG
+#ifdef OL_DEBUG
                 printf("%d ", it->first);
 #endif
                 if (it->second->timeout(now, m_timeout))
@@ -179,7 +179,7 @@ namespace ol
                     ++it;
                 }
             }
-#ifdef DEBUG
+#ifdef OL_DEBUG
             printf("\n");
 #endif
         }
@@ -195,7 +195,7 @@ namespace ol
     // 把Connection对象从m_conns中删除。
     void EventLoop::closeConn(ConnectionPtr conn)
     {
-#ifdef DEBUG
+#ifdef OL_DEBUG
         printf("EventLoop::closeConn(%d)\n", conn->getFd());
 #endif
         std::lock_guard<std::mutex> lock(m_connsMutex);

@@ -1,6 +1,6 @@
 #include "ol_net/ol_TcpServer.h"
 
-// #define DEBUG
+// #define OL_DEBUG
 
 namespace ol
 {
@@ -41,7 +41,7 @@ namespace ol
     {
         // 停止主事件循环。
         m_mainEventLoop->stop();
-#ifdef DEBUG
+#ifdef OL_DEBUG
         printf("主事件循环已停止。\n");
 #endif
 
@@ -50,13 +50,13 @@ namespace ol
         {
             m_subEventLoops[i]->stop();
         }
-#ifdef DEBUG
+#ifdef OL_DEBUG
         printf("从事件循环已停止。\n");
 #endif
 
         // 停止IO线程。
         m_threadPool.stop();
-#ifdef DEBUG
+#ifdef OL_DEBUG
         printf("IO线程池停止。\n");
 #endif
     }
@@ -71,7 +71,7 @@ namespace ol
         conn->setOnMessageCb(std::bind(&TcpServer::onMessage, this, std::placeholders::_1, std::placeholders::_2));
         conn->setSendCompleteCb(std::bind(&TcpServer::sendComplete, this, std::placeholders::_1));
 
-#ifdef DEBUG
+#ifdef OL_DEBUG
         printf("TcpServer::newConn(fd=%d,ip=%s,port=%d)\n", conn->getFd(), conn->getIp(), conn->getPort());
 #endif
         {
@@ -87,7 +87,7 @@ namespace ol
     void TcpServer::closeConn(ConnectionPtr conn)
     {
         if (m_closeCb) m_closeCb(conn); // 回调上层业务类的handleClose()。
-#ifdef DEBUG
+#ifdef OL_DEBUG
         printf("TcpServer::closeConn(%d)\n", conn->getFd());
 #endif
         m_subEventLoops[conn->getFd() % m_threadNum]->closeConn(conn); // 删除从事件中的conn。
@@ -99,7 +99,7 @@ namespace ol
     void TcpServer::errorConn(ConnectionPtr conn)
     {
         if (m_errorCb) m_errorCb(conn); // 回调上层业务类的handleError()。
-#ifdef DEBUG
+#ifdef OL_DEBUG
         printf("TcpServer::errorConn(%d)\n", conn->getFd());
 #endif
         m_subEventLoops[conn->getFd() % m_threadNum]->closeConn(conn); // 删除从事件中的conn。

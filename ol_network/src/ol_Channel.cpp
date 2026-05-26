@@ -1,6 +1,6 @@
 #include "ol_net/ol_Channel.h"
 
-// #define DEBUG
+// #define OL_DEBUG
 
 namespace ol
 {
@@ -128,7 +128,7 @@ namespace ol
     {
         if (m_revents & EPOLLRDHUP) // 对方已关闭，有些系统检测不到，可以使用EPOLLIN，recv()返回0。
         {
-#ifdef DEBUG
+#ifdef OL_DEBUG
             printf("EPOLLRDHUP\n");
 #endif
             // 回调Connection::closeCb()。
@@ -136,7 +136,7 @@ namespace ol
         }
         else if (m_revents & (EPOLLIN | EPOLLPRI)) // 接收缓冲区中有数据可以读。
         {
-#ifdef DEBUG
+#ifdef OL_DEBUG
             printf("EPOLLIN | EPOLLPRI\n");
 #endif
             // 如果是servChnl，将回调Acceptor::newConnection()；
@@ -146,7 +146,7 @@ namespace ol
         }
         else if (m_revents & EPOLLOUT) // 有数据需要写。
         {
-#ifdef DEBUG
+#ifdef OL_DEBUG
             printf("EPOLLOUT\n");
 #endif
             // 回调Connection::writeCb()。
@@ -154,7 +154,7 @@ namespace ol
         }
         else // 其它事件，都视为错误。
         {
-#ifdef DEBUG
+#ifdef OL_DEBUG
             printf("EPOLLELSE\n");
 #endif
             // 回调Connection::errorCb()。

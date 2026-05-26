@@ -1,6 +1,6 @@
 #include "ol_net/ol_Connection.h"
 
-// #define DEBUG
+// #define OL_DEBUG
 
 namespace ol
 {
@@ -20,7 +20,7 @@ namespace ol
 
     Connection::~Connection()
     {
-#ifdef DEBUG
+#ifdef OL_DEBUG
         printf("Conn对象已被析构\n");
 #endif
     }
@@ -86,9 +86,9 @@ namespace ol
     // 处理写事件的回调函数，供Channel回调。
     void Connection::writeCb()
     {
-#ifdef DEBUG
+#ifdef OL_DEBUG
         printf("Connection::writeCb(%ld).\n", syscall(SYS_gettid));
-#endif // DEBUG
+#endif // OL_DEBUG
 
         // 尝试把m_outputBuf中的数据全部发送出去。
         int writen = ::send(getFd(), m_outputBuf.data(), m_outputBuf.size(), 0);
@@ -140,7 +140,7 @@ namespace ol
         while (m_inputBuf.pickMessage(message))
         {
             m_lastATime = TimeStamp::now(); // 更新最后活动时间
-#ifdef DEBUG
+#ifdef OL_DEBUG
             std::cout << "lastATime=" << m_lastATime.toString() << std::endl;
 #endif
             m_onMessageCb(shared_from_this(), message); // 回调业务处理
@@ -153,7 +153,7 @@ namespace ol
 
         if (m_disconnected == true)
         {
-#ifdef DEBUG
+#ifdef OL_DEBUG
             printf("send() return.\n");
 #endif
             return;
@@ -162,7 +162,7 @@ namespace ol
         if (m_eventLoop->isInLoopThread()) // 判断当前线程是否为事件循环线程（IO线程）。
         {
 // 如果当前线程是IO线程，直接调用_sendInLoop()发送数据。
-#ifdef DEBUG
+#ifdef OL_DEBUG
             printf("send() 在事件循环的线程中。\n");
 #endif
             _sendInLoop(data, size);
@@ -170,7 +170,7 @@ namespace ol
         else
         {
 // 如果当前线程不是IO线程，调用EventLoop::queueinloop()，把_sendInLoop()交给事件循环线程去执行。
-#ifdef DEBUG
+#ifdef OL_DEBUG
             printf("send() 不在事件循环的线程中。\n");
 #endif
             // 拷贝数据，避免调用方buffer释放后IO线程访问已释放内存

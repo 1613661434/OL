@@ -15,7 +15,7 @@
 #include <unistd.h>
 
 #define MessageNum 100000
-// #define DEBUG
+// #define OL_DEBUG
 
 void sendMessage(int fd, char* buf, int bufLen, int i);
 
@@ -80,7 +80,7 @@ void sendMessage(int fd, char* buf, int bufLen, int i)
     sprintf(message, "第%d个超女", i);
     int len = strlen(message);
 
-#ifdef DEBUG
+#ifdef OL_DEBUG
     printf("send:%s\n", message);
 #endif
 
@@ -121,7 +121,7 @@ void recvMessage(int fd, char* buf, int bufLen, int i)
         }
         recv_len += n;
     }
-#ifdef DEBUG
+#ifdef OL_DEBUG
     printf("recv:%s\n", buf);
 #endif
 }

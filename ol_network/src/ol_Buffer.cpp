@@ -1,6 +1,6 @@
 #include "ol_net/ol_Buffer.h"
 
-// #define DEBUG
+// #define OL_DEBUG
 
 namespace ol
 {
@@ -123,14 +123,14 @@ namespace ol
                 m_buf.resize(current_size + READ_CHUNK); // 扩容后可用空间 += READ_CHUNK
                 current_size = m_buf.size();
                 available += READ_CHUNK;
-#ifdef DEBUG
+#ifdef OL_DEBUG
                 printf("m_buf.resize(%zu)\n", m_buf.size());
 #endif
             }
 
             char* write_ptr = &m_buf[real_size]; // 写入地址
 
-#ifdef DEBUG
+#ifdef OL_DEBUG
             printf("recvFd-before(%d):real_size=%zu current_size=%zu, available=%zu\n",
                    fd, real_size, current_size, available);
 #endif
@@ -138,7 +138,7 @@ namespace ol
             // 2. 读取数据
             ssize_t nread = ::read(fd, write_ptr, available);
 
-#ifdef DEBUG
+#ifdef OL_DEBUG
             printf("recvFd-after(%d):nread=%ld\n",
                    fd, nread);
 #endif
