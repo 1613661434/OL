@@ -94,7 +94,7 @@ bool newdir(const std::string& pathorfilename, bool bisfilename = true);
 
 ## 🔧 CMake 配置变量说明
 
-所有变量通过 `cmake -D<变量名>=<值>` 配置，**模块化开关为新版核心特性**。
+所有变量通过 `cmake -D<变量名>=<值>` 配置。
 
 ### 1. 通用配置
 
@@ -152,7 +152,7 @@ cmake .. -DOL_BUILD_FTP=ON -DOL_BUILD_NETWORK=ON -DOL_BUILD_MYSQL=ON -DOL_BUILD_
 1. **字符集**：所有文件采用 **UTF-8（无 BOM）**，跨平台无乱码；
 2. **换行符**：统一使用 **LF（\n）**，避免 Git 冲突；
 3. **编译约束**：禁止源码内编译（out-of-source build），必须创建独立 build 目录；
-4. **调试宏**：项目使用 `OL_DEBUG` 宏控制调试输出，不与编译器 `DEBUG` 宏冲突。
+4. **调试宏**：项目使用 `OL_DEBUG` 宏控制调试输出。
 
 ## 🔨 编译步骤
 
