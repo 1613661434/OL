@@ -33,8 +33,11 @@ namespace ol
     void Acceptor::newConn()
     {
         InetAddr cliAddr; // 客户端的地址和协议。
-        SocketFd::Ptr cliFd = std::make_unique<SocketFd>(m_servFd.accept(cliAddr));
+        int clifd = m_servFd.accept(cliAddr);
 
+        if (clifd < 0) return; // accept失败（EAGAIN等），忽略
+
+        SocketFd::Ptr cliFd = std::make_unique<SocketFd>(clifd);
         cliFd->setAddr(cliAddr);
 
         m_newConnCb(std::move(cliFd)); // 回调TcpServer::newConn()

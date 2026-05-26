@@ -45,9 +45,10 @@ namespace ol
         memset(m_events, 0, sizeof(epoll_event) * m_MaxEvents);
         int infds = epoll_wait(m_epollFd, m_events, m_MaxEvents, timeout); // 等待监视的fd有事件发生。
 
-        // 返回失败。
+        // 返回失败：信号中断则返回空，外层会重试；其余致命错误退出
         if (infds < 0)
         {
+            if (errno == EINTR) return evs;
             perror("epoll_wait() failed");
             exit(-1);
         }

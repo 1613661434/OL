@@ -33,8 +33,8 @@ int main(int argc, char* argv[])
 {
     if (argc != 3)
     {
-        printf("Usage: ./test_ol_Bankserver ip port\n");
-        printf("Example: ./test_ol_Bankserver 192.168.195.5 5085\n\n");
+        printf("Usage: ./test_ol_bankserver ip port\n");
+        printf("Example: ./test_ol_bankserver 192.168.195.5 5085\n\n");
         return -1;
     }
 

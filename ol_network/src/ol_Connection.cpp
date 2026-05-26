@@ -173,7 +173,10 @@ namespace ol
 #ifdef DEBUG
             printf("send() 不在事件循环的线程中。\n");
 #endif
-            m_eventLoop->pushToQueue(std::bind(&Connection::_sendInLoop, this, data, size));
+            // 拷贝数据，避免调用方buffer释放后IO线程访问已释放内存
+            auto msg = std::make_shared<std::string>(data, size);
+            m_eventLoop->pushToQueue([this, msg]()
+                                     { _sendInLoop(msg->data(), msg->size()); });
         }
     }
 

@@ -98,7 +98,10 @@ namespace ol
         socklen_t len = sizeof(peerAddr);
         int clifd = accept4(m_fd, (sockaddr*)&peerAddr, &len, SOCK_NONBLOCK);
 
-        cliAddr.setAddr((sockaddr*)&peerAddr, sizeof(peerAddr)); // 客户端的地址和协议。
+        if (clifd >= 0)
+        {
+            cliAddr.setAddr((sockaddr*)&peerAddr, sizeof(peerAddr)); // 客户端的地址和协议。
+        }
 
         return clifd;
     }

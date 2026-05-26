@@ -34,6 +34,8 @@ namespace ol
     // 析构函数
     EventLoop::~EventLoop()
     {
+        ::close(m_wakeUpFd);
+        ::close(m_timerFd);
     }
 
     // 设置epoll_wait()超时的回调函数。
