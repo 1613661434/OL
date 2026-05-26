@@ -221,36 +221,33 @@ $OutputEncoding = [Console::InputEncoding] = [Console::OutputEncoding] = [System
 OL
 ├── CMakeLists.txt            # 顶层构建配置
 ├── README.md                 # 项目说明文档
-├── LICENSE                   # MIT 许可证
+├── LICENSE                   # 许可证
 ├── clang-format.txt          # 代码格式化配置
-├── OL_Doxygen                # Doxygen 文档生成配置
 │
 ├── ol_core/                  # 核心基础工具库（必选）
-│   ├── include/              #   头文件（ThreadPool、容器、字符串等）
-│   ├── src/                  #   源文件
-│   └── test/                 #   测试程序
+│   ├── include/              ## 头文件（ThreadPool、容器、字符串等）
+│   ├── src/                  ## 源文件
+│   └── test/                 ## 测试程序
 │
 ├── ol_database/              # 数据库模块
-│   ├── include/              #   IDBConn 抽象接口 + DBPool 连接池
-│   ├── mysql/                #   MySQL 子模块
-│   │   ├── include/          #     头文件
-│   │   ├── src/              #     源文件
-│   │   └── test/             #     测试程序 + 测试数据
-│   └── oracle/               #   Oracle 子模块
-│       ├── include/          #     头文件
-│       ├── src/              #     源文件
-│       └── test/             #     测试程序 + 测试数据
+│   ├── include/              ## IDBConn 抽象接口 + DBPool 连接池
+│   ├── mysql/                ## MySQL 子模块
+│   │   ├── include/          ### 头文件
+│   │   ├── src/              ### 源文件
+│   │   └── test/             ### 测试程序 + 测试数据
+│   └── oracle/               ## Oracle 子模块
+│       ├── include/          ### 头文件
+│       ├── src/              ### 源文件
+│       └── test/             ### 测试程序 + 测试数据
 │
 ├── ol_network/               # Linux 网络库
-│   ├── include/ol_net/       #   头文件
-│   ├── src/                  #   源文件
-│   └── test/                 #   测试程序（Echo/Bank 示例）
+│   ├── include/ol_net/       ## 头文件
+│   ├── src/                  ## 源文件
+│   └── test/                 ## 测试程序（Echo/Bank 示例）
 │
 ├── ol_ftp/                   # FTP 客户端模块
 │
-├── docs/                     # 项目文档
-└── third_party/              # 第三方依赖
-    └── ftplib/               #   FTP 底层库
+└── docs/                     # 项目文档
 ```
 
 ## 📋 ol_core 核心库详解
