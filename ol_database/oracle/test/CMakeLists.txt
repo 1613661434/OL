@@ -1,6 +1,9 @@
 # OL/ol_database/oracle/test/CMakeLists.txt
 project(ol_database_oracle_tests)
 
+# 查找线程库（综合测试使用std::thread需要）
+find_package(Threads REQUIRED)
+
 # 链接主库
 link_libraries(ol_database)
 
@@ -20,4 +23,5 @@ endif()
 foreach(TEST_FILE ${OLDB_TEST_SRC})
     get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)
     add_executable(${TEST_NAME} ${TEST_FILE})
+    target_link_libraries(${TEST_NAME} Threads::Threads)
 endforeach()

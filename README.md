@@ -43,7 +43,7 @@
 
     - MySQL：基于 MySQL C API 封装，支持连接管理、SQL 执行、BLOB/TEXT 大字段；
 
-    - Oracle：基于 OCI 接口封装，支持连接管理、SQL 执行、BLOB/CLOB 大字段。**(暂不支持连接池，未改为新版本，请等待作者更新)**
+    - Oracle：基于 OCI 接口封装，支持连接管理、SQL 执行、BLOB/CLOB 大字段。
 
 - `ol_ftp`：**FTP 客户端模块**
 基于内置第三方库 `ftplib` 实现，支持文件上传 / 下载、目录操作、文件列表获取。
@@ -227,7 +227,7 @@ OL
 ├── ol_network/       # Linux主从Reactor网络库（可选）
 ├── ol_database/      # 数据库模块（MySQL/Oracle，可选）
 │   ├── mysql/        # MySQL子模块
-│   └── oracle/       # Oracle子模块（老版本，暂不支持连接池）
+│   └── oracle/       # Oracle子模块
 ├── third_party/      # 第三方依赖库
 │   └── ftplib/       # FTP底层依赖库
 ├── docs/             # 项目文档

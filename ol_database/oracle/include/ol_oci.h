@@ -1,395 +1,445 @@
-/**************************************************************************************/
+/****************************************************************************************/
 /*
  * 程序名：ol_oci.h
- * 功能描述：开发框架中用于C++操作Oracle数据库的接口声明，提供：
- *          - 数据库连接管理（DBConn类）：登录、断开、事务提交/回滚等
- *          - SQL语句执行（DBStmt类）：SQL准备、绑定变量、执行、结果集处理等
- *          - 支持普通数据类型及LOB（CLOB/BLOB）字段操作
+ * 功能描述：Oracle数据库操作实现，适配连接池，支持以下特性：
+ *          - 连接管理：支持数据库连接、重连、断开、状态检测
+ *          - 事务控制：支持手动事务提交/回滚、自动提交配置
+ *          - 预处理语句：支持参数绑定、结果集绑定、SQL格式化预处理
+ *          - 数据类型：支持int/long/float/double/string/BLOB/CLOB全类型绑定
+ *          - 大字段操作：支持文件与BLOB/CLOB互转、分块传输大文件
+ *          - 错误处理：统一执行结果码、错误信息、受影响行数返回
  * 作者：ol
- * 依赖：Oracle OCI库（需包含oci.h及链接OCI库）
- * 适用标准：C++11及以上
+ * 适用标准：C++17及以上
  */
-/**************************************************************************************/
+/****************************************************************************************/
 
-#ifndef __OL_OCI_H
-#define __OL_OCI_H 1
+/*
+// OCI 返回状态码
+OCI_SUCCESS                0  // maps to SQL_SUCCESS of SAG CLI  函数执行成功
+OCI_SUCCESS_WITH_INFO      1  // maps to SQL_SUCCESS_WITH_INFO   执行成功，但有诊断消息返回，
+                              // 可能是警告信息，但是，在测试的时候，我还从未见
+                              // 识到OCI_SUCCESS_WITH_INFO是怎么回事
+OCI_RESERVED_FOR_INT_USE 200  // reserved
+OCI_NO_DATA              100  // maps to SQL_NO_DATA 函数执行完成，但没有其他数据
+OCI_ERROR                 -1  // maps to SQL_ERROR 函数执行错误
+OCI_INVALID_HANDLE        -2  // maps to SQL_INVALID_HANDLE 传递给函数的参数为无效句柄，
+                              // 或传回的句柄无效
+OCI_NEED_DATA             99  // maps to SQL_NEED_DATA 需要应用程序提供运行时刻的数据
+OCI_STILL_EXECUTING    -3123  // OCI would block error 服务环境建立在非阻塞模式，
+                              // OCI函数调用正在执行中
 
-// C/C++库常用头文件
-#include <mutex>
-#include <oci.h> // OCI的头文件。
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+OCI_CONTINUE          -24200  // Continue with the body of the OCI function
+                              // 说明回调函数需要OCI库恢复其正常的处理操作
+OCI_ROWCBK_DONE       -24201  // done with user row callback
+*/
+
+#ifndef OL_OCI_H
+#define OL_OCI_H 1
+
+#include "ol_database.h"
+#include "ol_string.h"
+#include <oci.h>
 #include <string>
+#include <memory>
+#include <cstdarg>
 
 namespace ol
 {
     namespace oracle
     {
-        // OCI登录环境结构体，存储数据库登录信息及环境句柄
-        struct LOGINENV
+        /**
+         * @brief 数据库操作结果结构体
+         */
+        struct DBResult
         {
-            char user[31];    // 数据库用户名（最大30字节）
-            char pass[31];    // 数据库密码（最大30字节）
-            char tnsname[51]; // 数据库的tnsname（最大50字节，在ORACLE_HOME/network/admin/tnsnames.ora中配置）
-            OCIEnv* envhp;    // 环境变量的句柄。
+            int code = 0;             ///< 0=成功，非0=失败
+            size_t affected_rows = 0; ///< 影响行数/结果集行数
+            std::string error_msg;    ///< 错误信息
+
+            /**
+             * @brief 初始化结果结构体
+             */
+            void init();
         };
 
-        // OCI上下文句柄结构体，存储服务器上下文及错误句柄
-        struct OCI_CXT
-        {
-            OCISvcCtx* svchp; // 服务器上下文句柄
-            OCIError* errhp;  // 错误句柄
-            OCIEnv* envhp;    // 环境句柄
-        };
-
-        // OCI SQL句柄结构体，存储SQL执行相关句柄
-        struct OCI_HANDLE
-        {
-            OCISvcCtx* svchp; // 服务器上下文句柄（引用自OCI_CXT）
-            OCIStmt* smthp;   // SQL语句句柄
-            OCIBind* bindhp;  // 绑定输入变量句柄
-            OCIDefine* defhp; // 定义输出变量句柄
-            OCIError* errhp;  // 错误句柄（引用自OCI_CXT）
-            OCIEnv* envhp;    // 环境句柄
-        };
-
-        // OCI操作结果结构体，存储执行状态及错误信息
-        struct CDA_DEF
-        {
-            int rc;             // 返回码：0-成功，其他-失败
-            unsigned long rpc;  // 影响行数：DML语句（insert/update/delete）为影响记录数，查询为结果集行数
-            char message[2048]; // 错误描述信息（失败时有效）
-        };
-
-        // OCI底层初始化与释放函数（内部使用）
-        int oci_init(LOGINENV* env);
-        int oci_close(LOGINENV* env);
-        int oci_context_create(LOGINENV* env, OCI_CXT* cxt);
-        int oci_context_close(OCI_CXT* cxt);
-        int oci_stmt_create(OCI_CXT* cxt, OCI_HANDLE* handle);
-        int oci_stmt_close(OCI_HANDLE* handle);
-
-        class DBConn;
         class DBStmt;
 
-        // Oracle数据库连接类，管理数据库连接及事务
-        class DBConn
+        /**
+         * @brief Oracle连接实现类
+         * @note 继承数据库连接抽象接口，适配连接池
+         */
+        class DBConn : public IDBConn
         {
             friend class DBStmt;
 
-        private:
-            LOGINENV m_env;      // 服务器环境句柄。
-            OCI_CXT m_cxt;       // 服务器上下文。
-            int m_autocommitopt; // 自动提交标志，0-关闭；1-开启。
-
-            void character(const char* charset); // 设置字符集（防止乱码）
-            void setdbopt(const char* connstr);  // 从connstr中解析username、password和tnsname。
-            void err_report();                   // 获取错误信息。
-
-            DBConn(const DBConn&) = delete;            // 禁用拷贝构造函数。
-            DBConn& operator=(const DBConn&) = delete; // 禁用赋值函数。
-
-            // 数据库连接状态：connected-已连接；disconnected-未连接。
-            enum
+        public:
+            /**
+             * @brief 连接状态枚举
+             */
+            enum class ConnState : char
             {
-                connected,
-                disconnected
+                Disconnected = 0, // 未连接
+                Connected = 1     // 已连接
             };
-            int m_state;
 
-            CDA_DEF m_cda; // 数据库操作的结果或最后一次执行SQL语句的结果。
+        private:
+            OCIEnv* m_envhp = nullptr;                   ///< OCI环境句柄
+            OCISvcCtx* m_svchp = nullptr;                ///< OCI服务器上下文句柄
+            OCIError* m_errhp = nullptr;                 ///< OCI错误句柄
+            bool m_autocommitopt = false;                ///< 自动提交事务开关
+            ConnState m_state = ConnState::Disconnected; ///< 当前连接状态
+            DBResult m_result;                           ///< 数据库操作执行结果
+
+            std::string m_user;    ///< 数据库用户名
+            std::string m_pass;    ///< 数据库密码
+            std::string m_tnsname; ///< 数据库TNS服务名
+            std::string m_charset; ///< 数据库字符集
 
         public:
-            // 构造函数，初始化成员变量
+            /**
+             * @brief 构造函数
+             */
             DBConn();
-            // 析构函数，自动断开连接
-            ~DBConn();
 
             /**
-             * @brief 登录数据库
-             * @param connstr 连接字符串，格式："username/password@tnsname"
-             * @param charset 客户端字符集（需与数据库一致，避免乱码）
-             * @param autocommitopt 自动提交开关（默认false-关闭）
-             * @return 0-成功，其他-失败（失败的代码在m_cda.rc中，失败的描述在m_cda.message中）
-             * @note tnsname-数据库的服务名，在$ORACLE_HOME/network/admin/tnsnames.ora文件中配置。
+             * @brief 析构函数，自动断开连接
              */
-            int connecttodb(const std::string& connstr, const std::string& charset, bool autocommitopt = false);
+            ~DBConn() override;
 
             /**
-             * @brief 判断数据库是否已连接
-             * @return 已连接返回true，否则false
+             * @brief 建立数据库连接
+             * @return 连接成功返回true，失败返回false
              */
-            bool isopen();
+            bool connect() override;
+
+            /**
+             * @brief 断开数据库连接
+             */
+            void disconnect() override;
+
+            /**
+             * @brief 检查连接是否有效
+             * @return 已连接返回true，未连接返回false
+             */
+            bool isConnected() const override;
+
+            /**
+             * @brief 重置连接执行状态
+             */
+            void reset() override;
+
+            /**
+             * @brief 重新连接数据库
+             * @return 重连成功返回true，失败返回false
+             */
+            bool reconnect();
+
+            /**
+             * @brief 设置数据库连接参数
+             * @param connstr 连接字符串（username/password@tnsname）
+             * @param charset 字符集
+             * @param autocommit 是否自动提交
+             */
+            void setConnectParam(const std::string& connstr, const std::string& charset, bool autocommit = false);
+
+            /**
+             * @brief 创建预处理语句对象
+             * @return 预处理语句智能指针
+             */
+            std::unique_ptr<DBStmt> createStmt();
+
+            /**
+             * @brief 开启事务
+             * @return 成功返回true
+             */
+            bool beginTransaction();
 
             /**
              * @brief 提交事务
-             * @return 0-成功，其他-失败（程序中一般不必关心返回值）
+             * @return 成功返回true
              */
-            int commit();
+            bool commit();
 
             /**
              * @brief 回滚事务
-             * @return 0-成功，其他-失败（程序中一般不必关心返回值）
+             * @return 成功返回true
              */
-            int rollback();
+            bool rollback();
 
             /**
-             * @brief 断开数据库连接（未提交事务自动回滚）
-             * @return 0-成功，其他-失败（程序中一般不必关心返回值）
-             */
-            int disconnect();
-
-            /**
-             * @brief 执行静态SQL语句（无绑定变量的非查询语句）
-             * @param fmt 格式化SQL字符串（支持可变参数，同printf）
-             * @return 0-成功，其他-失败（失败的代码在m_cda.rc中，失败的描述在m_cda.message中）
-             * @note 如果成功的执行了非查询语句，在m_cda.rpc中保存了本次执行SQL影响记录的行数。
-             *       程序中必须检查execute方法的返回值。
-             *       在DBConn类中提供了execute方法，是为了方便程序员，在该方法中，也是用DBStmt类来完成功能。
+             * @brief 直接执行SQL语句
+             * @param fmt SQL格式化字符串
+             * @param ... 可变参数
+             * @return 0成功，-1失败
              */
             int execute(const char* fmt, ...);
 
             /**
-             * @brief 获取错误代码
-             * @return 0-成功，其它值-失败
+             * @brief 获取执行结果码
+             * @return 结果码
              */
-            int rc()
-            {
-                return m_cda.rc;
-            }
+            int code() const;
 
             /**
-             * @brief 获取影响数据的行数
-             * @return 对于insert/update/delete返回影响记录数，对于select返回结果集行数
+             * @brief 获取受影响行数
+             * @return 行数
              */
-            unsigned long rpc()
-            {
-                return m_cda.rpc;
-            }
+            size_t affectedRows() const;
 
             /**
-             * @brief 获取错误描述信息
-             * @return 错误描述字符串（失败时有效，成功时为空）
+             * @brief 获取错误信息
+             * @return 错误字符串
              */
-            const char* message()
-            {
-                return m_cda.message;
-            }
+            std::string errorMsg() const;
+
+        private:
+            /**
+             * @brief 解析连接字符串
+             * @param connstr 连接字符串
+             */
+            void parseConnStr(const std::string& connstr);
+
+            /**
+             * @brief 设置客户端字符集
+             * @param charset 字符集名称
+             */
+            void setCharset(const char* charset);
+
+            /**
+             * @brief 记录数据库错误信息
+             */
+            void errReport();
+
+            // OCI底层操作（从旧版全局函数迁移为私有方法）
+            int ociEnvInit();
+            int ociEnvClose();
+            int ociContextCreate();
+            int ociContextClose();
         };
 
-        // SQL语句操作类，处理SQL准备、绑定变量、执行及结果集
-        class DBStmt
+        /**
+         * @brief Oracle预处理语句操作类
+         * @note 支持参数绑定、结果集读取、大字段操作
+         */
+        class DBStmt : public TypeNonCopyableMovable
         {
+            friend class DBConn;
+
         private:
-            OCI_HANDLE m_handle; // SQL句柄。
+            DBConn& m_conn;               ///< 所属数据库连接
+            OCIStmt* m_smthp = nullptr;   ///< OCI语句句柄
+            OCIBind* m_bindhp = nullptr;  ///< OCI绑定句柄
+            OCIDefine* m_defhp = nullptr; ///< OCI定义句柄
+            OCIError* m_errhp = nullptr;  ///< 错误句柄（引用自DBConn）
+            OCISvcCtx* m_svchp = nullptr; ///< 服务上下文（引用自DBConn）
+            OCIEnv* m_envhp = nullptr;    ///< 环境句柄（引用自DBConn）
 
-            DBConn* m_conn;       // 数据库连接指针。
-            bool m_sqltype;       // SQL语句的类型，false-查询语句；true-非查询语句。
-            bool m_autocommitopt; // 自动提交标志，false-关闭；true-开启。
-            void err_report();    // 错误报告。
-
-            OCILobLocator* m_lob;    // 指向LOB字段的指针。
-            int alloclob();          // 初始化lob指针。
-            int filetolob(FILE* fp); // 把文件的内容导入到clob和blob字段中。
-            int lobtofile(FILE* fp); // 从clob和blob字段中导出内容到文件中。
-            void freelob();          // 释放lob指针。
-
-            DBStmt(const DBStmt&) = delete;            // 禁用拷贝构造函数。
-            DBStmt& operator=(const DBStmt&) = delete; // 禁用赋值函数。
-
-            // 与数据库连接的关联状态，connected-已关联；disconnect-未关联。
-            enum
-            {
-                connected,
-                disconnected
-            };
-            int m_state;
-
-            std::string m_sql; // SQL语句的文本。
-            CDA_DEF m_cda;     // 执行SQL语句的结果。
+            bool m_autocommitopt = false;   ///< 自动提交标志
+            bool m_isQuery = false;         ///< 是否为查询语句（SELECT）
+            OCILobLocator* m_lob = nullptr; ///< LOB定位器
+            std::string m_sql;              ///< 当前执行的SQL语句
+            DBResult m_result;              ///< 语句执行结果
 
         public:
-            // 构造函数，初始化成员变量
-            DBStmt();
+            /**
+             * @brief 构造函数
+             * @param conn 所属数据库连接
+             */
+            explicit DBStmt(DBConn& conn);
 
-            // 构造函数，同时关联数据库连接
-            DBStmt(DBConn* conn);
-
-            // 析构函数，释放资源
+            /**
+             * @brief 析构函数，释放资源
+             */
             ~DBStmt();
 
             /**
-             * @brief 关联数据库连接
-             * @param conn 数据库连接对象指针
-             * @return 0-成功，其他-失败（只要conn参数是有效的，并且数据库的游标资源足够，connect方法不会返回失败）
-             * @note 程序中一般不必关心connect方法的返回值
-             *       每个DBStmt只需要指定一次，在指定新的DBConn前，必须先显式的调用disconnect方法
+             * @brief 预处理SQL语句
+             * @param sql SQL字符串
+             * @return 预处理成功返回true
              */
-            int connect(DBConn* conn);
+            bool prepare(const char* sql);
 
             /**
-             * @brief 判断是否已关联数据库连接
-             * @return 已关联返回true，否则false
+             * @brief 预处理SQL语句
+             * @param sql SQL字符串
+             * @return 预处理成功返回true
              */
-            bool isopen();
+            bool prepare(const std::string& sql);
 
             /**
-             * @brief 解除与数据库连接的关联
-             * @return 0-成功，其他-失败（程序中一般不必关心返回值）
+             * @brief 格式化预处理SQL
+             * @param fmt 格式化字符串
+             * @param ... 可变参数
+             * @return 成功返回true
              */
-            int disconnect();
-
-            /**
-             * @brief 准备SQL语句（支持格式化字符串）
-             * @param strsql SQL字符串
-             * @return 0-成功，其他-失败（程序中一般不必关心返回值）
-             * @note 如果SQL语句没有改变，只需要prepare一次就可以了
-             */
-            int prepare(const std::string& strsql)
-            {
-                return prepare(strsql.c_str());
-            }
-
-            /**
-             * @brief 准备SQL语句（支持可变参数，同printf）
-             * @param fmt 格式化SQL字符串
-             * @return 0-成功，其他-失败（程序中一般不必关心返回值）
-             * @note 如果SQL语句没有改变，只需要prepare一次就可以了
-             */
-            int prepare(const char* fmt, ...);
+            bool prepareFmt(const char* fmt, ...);
 
             /**
              * @brief 绑定输入变量（将SQL中的占位符与变量关联）
-             * @param position 占位符位置（从1开始，必须与prepare方法中的SQL的序号一一对应）
+             * @param pos 占位符位置（从1开始，必须与prepare方法中的SQL的序号一一对应）
              * @param value 输入变量地址（如果是字符串，内存大小应该是表对应的字段长度加1）
-             * @param len 字符串类型的长度（不含终止符，默认2000）
+             * @param len 字符串类型的长度（不含终止符，默认512）
              * @return 0-成功，其他-失败（程序中一般不必关心返回值）
              * @note 1）如果SQL语句没有改变，只需要bindin一次就可以了；
              *       2）如果value的类型是std::string，bindin()函数中会resize(len)；
              *       3）如果value的类型是std::string，那么，在用户的程序代码中，不可改变它内部buffer的地址。
              *       4）如果value的类型是std::string或char，那么传入len的参数不包括最后的NULL。
              */
-            int bindin(const unsigned int position, int& value);                                  // 绑定int类型
-            int bindin(const unsigned int position, long& value);                                 // 绑定long类型
-            int bindin(const unsigned int position, unsigned int& value);                         // 绑定unsigned int类型
-            int bindin(const unsigned int position, unsigned long& value);                        // 绑定unsigned long类型
-            int bindin(const unsigned int position, float& value);                                // 绑定float类型
-            int bindin(const unsigned int position, double& value);                               // 绑定double类型
-            int bindin(const unsigned int position, char* value, unsigned int len = 2000);        // 绑定char*类型
-            int bindin(const unsigned int position, std::string& value, unsigned int len = 2000); // 绑定std::string类型
-            int bindin1(const unsigned int position, std::string& value);                         // 绑定std::string（不分配内存）
+            int bindin(unsigned int pos, int& value);                                  ///< 绑定int类型
+            int bindin(unsigned int pos, long& value);                                 ///< 绑定long类型
+            int bindin(unsigned int pos, unsigned int& value);                         ///< 绑定unsigned int类型
+            int bindin(unsigned int pos, unsigned long& value);                        ///< 绑定unsigned long类型
+            int bindin(unsigned int pos, float& value);                                ///< 绑定float类型
+            int bindin(unsigned int pos, double& value);                               ///< 绑定double类型
+            int bindin(unsigned int pos, char* value, unsigned int len = 512u);        ///< 绑定char*类型
+            int bindin(unsigned int pos, std::string& value, unsigned int len = 512u); ///< 绑定std::string类型
 
             /**
              * @brief 绑定输出变量（将查询结果字段与变量关联）
-             * @param position 结果集字段位置（从1开始，与SQL的结果集一一对应）
+             * @param pos 结果集字段位置（从1开始，与SQL的结果集一一对应）
              * @param value 输出变量地址（如果是字符串，内存大小应该是表对应的字段长度加1）
-             * @param len 字符串类型的最大长度（不含终止符，默认2000）
+             * @param len 字符串类型的最大长度（不含终止符，默认512）
              * @return 0-成功，其他-失败（程序中一般不必关心返回值）
              * @note 1）如果SQL语句没有改变，只需要bindout一次就可以了；
              *       2）如果value的类型是std::string，那么将在内容后面填充0，直到len的大小，value.size()永远是len。
              *       3）如果value的类型是std::string，那么，在用户的程序代码中，不可改变它内部buffer的地址。
              *       4）如果value的类型是std::string或char，那么传入len的参数不包括最后的NULL。
              */
-            int bindout(const unsigned int position, int& value);                                  // 绑定int类型
-            int bindout(const unsigned int position, long& value);                                 // 绑定long类型
-            int bindout(const unsigned int position, unsigned int& value);                         // 绑定unsigned int类型
-            int bindout(const unsigned int position, unsigned long& value);                        // 绑定unsigned long类型
-            int bindout(const unsigned int position, float& value);                                // 绑定float类型
-            int bindout(const unsigned int position, double& value);                               // 绑定double类型
-            int bindout(const unsigned int position, char* value, unsigned int len = 2000);        // 绑定char*类型
-            int bindout(const unsigned int position, std::string& value, unsigned int len = 2000); // 绑定std::string类型
+            int bindout(unsigned int pos, int& value);                                  ///< 绑定int类型
+            int bindout(unsigned int pos, long& value);                                 ///< 绑定long类型
+            int bindout(unsigned int pos, unsigned int& value);                         ///< 绑定unsigned int类型
+            int bindout(unsigned int pos, unsigned long& value);                        ///< 绑定unsigned long类型
+            int bindout(unsigned int pos, float& value);                                ///< 绑定float类型
+            int bindout(unsigned int pos, double& value);                               ///< 绑定double类型
+            int bindout(unsigned int pos, char* value, unsigned int len = 512u);        ///< 绑定char*类型
+            int bindout(unsigned int pos, std::string& value, unsigned int len = 512u); ///< 绑定std::string类型
 
             /**
-             * @brief 执行已准备的（静态或动态）SQL语句
-             * @return 0-成功，其他-失败（失败的代码在m_cda.rc中，失败的描述在m_cda.message中）
-             * @note 如果成功的执行了非查询语句，在m_cda.rpc中保存了本次执行SQL影响记录的行数。
-             *       程序中必须检查execute方法的返回值。
+             * @brief 执行预处理语句
+             * @return 执行成功返回true
              */
-            int execute();
+            bool execute();
 
             /**
-             * @brief 直接执行静态SQL语句（无绑定变量，非查询语句）
-             * @param fmt 格式化SQL字符串（支持可变参数，同printf）
-             * @return 0-成功，其他-失败（失败的代码在m_cda.rc中，失败的描述在m_cda.message中）
-             * @note 如果成功的执行了非查询语句，在m_cda.rpc中保存了本次执行SQL影响记录的行数。
-             *       程序中必须检查execute方法的返回值。
-             */
-            int execute(const char* fmt, ...);
-
-            /**
-             * @brief 从结果集中获取下一条记录（仅查询语句有效）
-             * @return 0-成功，1403-无更多记录，其他-失败（失败的代码在m_cda.rc中，失败的描述在m_cda.message中）
-             * @note 返回失败的原因主要有两个：1）与数据库的连接已断开；2）绑定输出变量的内存太小。
-             *       每执行一次next方法，m_cda.rpc的值加1。
-             *       程序中必须检查next方法的返回值。
+             * @brief 获取下一行结果集
+             * @return 0成功，OCI_NO_DATA(100)无数据，其他错误
              */
             int next();
 
+            // ===================== BLOB / CLOB 操作 =====================
             /**
-             * @brief 绑定BLOB字段（用于插入/读取二进制大对象）
-             * @return 0-成功，其他-失败（程序中一般不必关心返回值）
+             * @brief 绑定BLOB字段（用于读取二进制大对象）
+             * @param pos 字段位置（从1开始）
+             * @return 0成功，其他失败
              */
-            int bindblob();
+            int bindblob(unsigned int pos);
 
             /**
-             * @brief 绑定CLOB字段（用于插入/读取字符大对象）
-             * @return 0-成功，其他-失败（程序中一般不必关心返回值）
+             * @brief 绑定CLOB字段（用于读取字符大对象）
+             * @param pos 字段位置（从1开始）
+             * @return 0成功，其他失败
              */
-            int bindclob();
+            int bindclob(unsigned int pos);
 
             /**
-             * @brief 将文件内容导入到LOB字段
-             * @param filename 待导入文件的路径（建议绝对路径）
-             * @return 0-成功，其他-失败（程序中一般不必关心返回值）
+             * @brief 将文件内容导入到BLOB字段
+             * @param pos 字段位置（从1开始）
+             * @param filename 待导入文件的路径
+             * @return 0成功，其他失败
              */
-            int filetolob(const std::string& filename);
+            int filetoblob(unsigned int pos, const std::string& filename);
 
             /**
-             * @brief 将LOB字段内容导出到文件
-             * @param filename 导出文件的路径（建议绝对路径）
-             * @return 0-成功，其他-失败（程序中一般不必关心返回值）
+             * @brief 将BLOB字段内容导出到文件
+             * @param pos 字段位置（从1开始）
+             * @param filename 导出文件的路径
+             * @return 0成功，其他失败
              */
-            int lobtofile(const std::string& filename);
+            int blobtofile(unsigned int pos, const std::string& filename);
 
             /**
-             * @brief 获取SQL语句的文本
-             * @return SQL语句字符串的常量指针
+             * @brief 将文件内容导入到CLOB字段
+             * @param pos 字段位置（从1开始）
+             * @param filename 待导入文件的路径
+             * @return 0成功，其他失败
              */
-            const char* sql()
-            {
-                return m_sql.c_str();
-            }
+            int filetoclob(unsigned int pos, const std::string& filename);
 
             /**
-             * @brief 获取错误代码（Return Code）
-             * @return 0-成功，其它值-失败
+             * @brief 将CLOB字段内容导出到文件
+             * @param pos 字段位置（从1开始）
+             * @param filename 导出文件的路径
+             * @return 0成功，其他失败
              */
-            int rc()
-            {
-                return m_cda.rc;
-            }
+            int clobtofile(unsigned int pos, const std::string& filename);
 
             /**
-             * @brief 获取影响数据的行数（Rows Processed Count）
-             * @return 对于insert/update/delete返回影响记录数，对于select返回结果集行数
+             * @brief 获取当前SQL语句
+             * @return SQL字符串
              */
-            unsigned long rpc()
-            {
-                return m_cda.rpc;
-            }
+            const char* sql() const;
 
             /**
-             * @brief 获取错误描述信息
-             * @return 错误描述字符串（失败时有效）
+             * @brief 获取执行结果码
+             * @return 结果码
              */
-            const char* message()
-            {
-                return m_cda.message;
-            }
+            int code() const;
+
+            /**
+             * @brief 获取受影响行数
+             * @return 行数
+             */
+            size_t affectedRows() const;
+
+            /**
+             * @brief 获取错误信息
+             * @return 错误字符串
+             */
+            std::string errorMsg() const;
+
+        private:
+            /**
+             * @brief 检查语句是否初始化
+             * @return 已初始化返回true
+             */
+            bool isOpen() const;
+
+            /**
+             * @brief 记录语句错误信息
+             */
+            void errReport();
+
+            /**
+             * @brief 初始化LOB定位器
+             * @return 0成功，其他失败
+             */
+            int alloclob();
+
+            /**
+             * @brief 释放LOB定位器
+             */
+            void freelob();
+
+            /**
+             * @brief 将文件内容写入LOB字段（内部实现，分片传输）
+             * @param fp 已打开的文件指针
+             * @return 0成功，其他失败
+             */
+            int filetolobInternal(FILE* fp);
+
+            /**
+             * @brief 将LOB字段内容写入文件（内部实现，分片读取）
+             * @param fp 已打开的文件指针
+             * @return 0成功，其他失败
+             */
+            int lobtofileInternal(FILE* fp);
+
+            // OCI底层操作
+            int ociStmtCreate();
+            int ociStmtClose();
         };
+
     } // namespace oracle
 } // namespace ol
 
-#endif // !__OL_OCI_H
+#endif // OL_OCI_H

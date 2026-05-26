@@ -1,156 +1,41 @@
-/**************************************************************************************/
+/****************************************************************************************/
 /*
  * 程序名：ol_oci.cpp
- * 功能描述：开发框架中C++操作Oracle数据库的实现文件，对应ol_oci.h的接口实现，包括：
- *          - DBConn类：数据库连接、事务管理等方法的具体实现
- *          - DBStmt类：SQL语句准备、变量绑定、执行及结果集处理的实现
- *          - 底层OCI API调用封装，处理错误信息及内存管理
+ * 功能描述：C++ Oracle数据库操作实现（复用ol_core工具函数）
  * 作者：ol
- * 依赖：Oracle OCI库（需正确配置OCI环境及链接库）
- * 适用标准：C++11及以上
+ * 标准：C++17 及以上
  */
-/**************************************************************************************/
+/****************************************************************************************/
 
 #include "ol_oci.h"
-
-/*
-// OCI 返回状态码
-OCI_SUCCESS                0  // maps to SQL_SUCCESS of SAG CLI  函数执行成功
-OCI_SUCCESS_WITH_INFO      1  // maps to SQL_SUCCESS_WITH_INFO   执行成功，但有诊断消息返回，
-                              // 可能是警告信息，但是，在测试的时候，我还从未见
-                              // 识到OCI_SUCCESS_WITH_INFO是怎么回事
-OCI_RESERVED_FOR_INT_USE 200  // reserved
-OCI_NO_DATA              100  // maps to SQL_NO_DATA 函数执行完成，但没有其他数据
-OCI_ERROR                 -1  // maps to SQL_ERROR 函数执行错误
-OCI_INVALID_HANDLE        -2  // maps to SQL_INVALID_HANDLE 传递给函数的参数为无效句柄，
-                              // 或传回的句柄无效
-OCI_NEED_DATA             99  // maps to SQL_NEED_DATA 需要应用程序提供运行时刻的数据
-OCI_STILL_EXECUTING    -3123  // OCI would block error 服务环境建立在非阻塞模式，
-                              // OCI函数调用正在执行中
-
-OCI_CONTINUE          -24200  // Continue with the body of the OCI function
-                              // 说明回调函数需要OCI库恢复其正常的处理操作
-OCI_ROWCBK_DONE       -24201  // done with user row callback
-*/
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <vector>
 
 namespace ol
 {
     namespace oracle
     {
-        // 辅助函数实现
-        // ===========================================================================
-        int oci_init(LOGINENV* env)
+        // LOB分块传输缓冲区大小
+        static constexpr size_t LOB_CHUNK_SIZE = 10240;
+
+        // ===================== DBResult 实现 =====================
+        void DBResult::init()
         {
-            // 初始化Oracle 环境变量
-            int oci_ret = OCIEnvCreate(&env->envhp, OCI_DEFAULT, NULL, NULL, NULL, NULL, 0, NULL);
-
-            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
-            {
-                oci_close(env);
-                return -1;
-            }
-
-            return 0;
+            code = 0;
+            affected_rows = 0;
+            error_msg.clear();
         }
 
-        int oci_close(LOGINENV* env)
-        {
-            // 释放Oracle 环境变量
-            int oci_ret = OCIHandleFree(env->envhp, OCI_HTYPE_ENV);
-
-            env->envhp = 0;
-
-            return oci_ret;
-        }
-
-        int oci_context_create(LOGINENV* env, OCI_CXT* cxt)
-        {
-            // 创建数据库连接的上下文对象，连接服务器，认证并建立会话
-            if (env->envhp == 0) return -1;
-
-            int oci_ret = OCIHandleAlloc(env->envhp, (dvoid**)&cxt->errhp, OCI_HTYPE_ERROR, (size_t)0, NULL);
-
-            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
-            {
-                oci_context_close(cxt);
-                return -1;
-            }
-
-            static std::mutex lock;
-
-            // 登录
-            // 如果多个线程同时连数据，会出现段错误，所以，这里使用了互斥锁。
-            lock.lock();
-            oci_ret = OCILogon(env->envhp, cxt->errhp, &cxt->svchp, (OraText*)env->user, strlen(env->user),
-                               (OraText*)env->pass, strlen(env->pass), (OraText*)env->tnsname, strlen(env->tnsname));
-            lock.unlock();
-
-            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
-            {
-                oci_context_close(cxt);
-                return -1;
-            }
-
-            cxt->envhp = env->envhp;
-
-            return 0;
-        }
-
-        int oci_context_close(OCI_CXT* cxt)
-        {
-            // 关闭数据库连接的上下文
-            int oci_ret = OCILogoff(cxt->svchp, cxt->errhp);
-
-            oci_ret = OCIHandleFree(cxt->svchp, OCI_HTYPE_SVCCTX);
-
-            oci_ret = OCIHandleFree(cxt->errhp, OCI_HTYPE_ERROR);
-
-            cxt->svchp = 0;
-
-            cxt->errhp = 0;
-
-            return oci_ret;
-        }
-
-        int oci_stmt_create(OCI_CXT* cxt, OCI_HANDLE* handle)
-        {
-            // 创建语句
-            int oci_ret = OCIHandleAlloc(cxt->envhp, (dvoid**)&handle->smthp, OCI_HTYPE_STMT, (size_t)0, NULL);
-
-            if (oci_ret == OCI_SUCCESS || oci_ret == OCI_SUCCESS_WITH_INFO)
-            {
-                handle->svchp = cxt->svchp;
-                handle->errhp = cxt->errhp;
-                handle->envhp = cxt->envhp;
-
-                oci_ret = OCI_SUCCESS;
-            }
-
-            return oci_ret;
-        }
-
-        int oci_stmt_close(OCI_HANDLE* handle)
-        {
-            // 关闭语句
-            int oci_ret = OCIHandleFree(handle->smthp, OCI_HTYPE_STMT);
-
-            return oci_ret;
-        }
-        // ===========================================================================
-
-        // DBConn类实现
-        // ===========================================================================
+        // ===================== DBConn 实现 =====================
         DBConn::DBConn()
+            : m_autocommitopt(false),
+              m_state(ConnState::Disconnected)
         {
-            m_state = disconnected;
-
-            memset(&m_cxt, 0, sizeof(OCI_CXT));
-            memset(&m_env, 0, sizeof(LOGINENV));
-
-            memset(&m_cda, 0, sizeof(m_cda));
-
-            m_cda.rc = -1;
-            strncpy(m_cda.message, "database not open.", 128);
+            m_result.init();
+            m_result.code = -1;
+            m_result.error_msg = "database not open.";
         }
 
         DBConn::~DBConn()
@@ -158,745 +43,831 @@ namespace ol
             disconnect();
         }
 
-        // 从connstr中解析username,password,tnsname
-        void DBConn::setdbopt(const char* connstr)
+        void DBConn::setConnectParam(const std::string& connstr, const std::string& charset, bool autocommit)
         {
-            char strtemp[201];
-
-            memset(strtemp, 0, sizeof(strtemp));
-
-            strncpy(strtemp, connstr, 128);
-
-            char* pos = 0;
-
-            // tnsname
-            pos = strstr(strtemp, "@");
-            if (pos > 0)
-            {
-                strncpy(m_env.tnsname, pos + 1, 50);
-                pos[0] = 0;
-            }
-
-            // password
-            pos = strstr(strtemp, "/");
-            if (pos > 0)
-            {
-                strncpy(m_env.pass, pos + 1, 30);
-                pos[0] = 0;
-            }
-
-            // username
-            strncpy(m_env.user, strtemp, 30);
+            parseConnStr(connstr);
+            m_charset = charset;
+            m_autocommitopt = autocommit;
         }
 
-        // 设置字符集，如果客户端的字符集与数据库的不一致，就会出现乱码。
-        void DBConn::character(const char* charset)
+        void DBConn::parseConnStr(const std::string& connstr)
         {
-            if (charset == NULL) return;
+            // 格式：username/password@tnsname
+            size_t atPos = connstr.find('@');
+            size_t slashPos = connstr.find('/');
+
+            // 解析 TNS 服务名
+            if (atPos != std::string::npos)
+            {
+                m_tnsname = connstr.substr(atPos + 1);
+            }
+
+            // 解析用户名和密码
+            std::string credPart = (atPos != std::string::npos)
+                                       ? connstr.substr(0, atPos)
+                                       : connstr;
+
+            if (slashPos != std::string::npos && slashPos < atPos)
+            {
+                m_user = credPart.substr(0, slashPos);
+                m_pass = credPart.substr(slashPos + 1);
+            }
+            else
+            {
+                m_user = credPart;
+            }
+        }
+
+        void DBConn::setCharset(const char* charset)
+        {
+            if (!charset || charset[0] == '\0') return;
 
 #ifdef __unix__
-            // UNIX平台是采用setenv函数
             setenv("NLS_LANG", charset, 1);
-#elif defined(_WIN32)
-            // windows是采用putenv，如下
-            char str[100];
-            memset(str, 0, sizeof(str));
-            _snprintf(str, 50, "NLS_LANG=%s", charset);
-            putenv(str);
-#endif
-        }
-
-        int DBConn::connecttodb(const std::string& connstr, const std::string& charset, bool autocommitopt)
-        {
-            // 如果已连接上数据库，就不再连接
-            // 所以，如果想重连数据库，必须显示的调用disconnect()方法后才能重连
-            if (m_state == connected) return 0;
-
-            // 设置字符集
-            character(charset.c_str());
-
-            // 设置日期字段的输出格式
-
-#ifdef __unix__
-            // UNIX平台是采用setenv函数
             setenv("NLS_DATE_FORMAT", "yyyy-mm-dd hh24:mi:ss", 1);
 #elif defined(_WIN32)
-            // windows是采用putenv，如下
+            char buf[128];
+            snprintf(buf, sizeof(buf), "NLS_LANG=%s", charset);
+            putenv(buf);
             putenv("NLS_DATE_FORMAT=yyyy-mm-dd hh24:mi:ss");
 #endif
-            // 从connstr中解析username,password,tnsname
-            setdbopt(connstr.c_str());
+        }
 
-            memset(&m_cda, 0, sizeof(m_cda));
-
-            // 初始化环境
-            int oci_ret = oci_init(&m_env);
+        int DBConn::ociEnvInit()
+        {
+            int oci_ret = OCIEnvCreate(&m_envhp, OCI_DEFAULT, nullptr, nullptr, nullptr, nullptr, 0, nullptr);
 
             if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
             {
-                oci_close(&m_env);
-                m_cda.rc = -1;
-                strncpy(m_cda.message, "initialize oracle call interface failed.\n", 128);
+                ociEnvClose();
                 return -1;
             }
-
-            // 创建句柄，登录数据库
-            oci_ret = oci_context_create(&m_env, &m_cxt);
-
-            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
-            {
-                oci_close(&m_env);
-                m_cda.rc = 1017;
-                strncpy(m_cda.message, "ORA-01017: invalid username/password,logon denied.\n", 128);
-                return -1;
-            }
-
-            m_state = connected;
-
-            m_autocommitopt = autocommitopt;
 
             return 0;
         }
 
-        bool DBConn::isopen()
+        int DBConn::ociEnvClose()
         {
-            if (m_state == disconnected) return false;
+            if (m_envhp)
+            {
+                OCIHandleFree(m_envhp, OCI_HTYPE_ENV);
+                m_envhp = nullptr;
+            }
+            return 0;
+        }
+
+        int DBConn::ociContextCreate()
+        {
+            if (!m_envhp) return -1;
+
+            int oci_ret = OCIHandleAlloc(m_envhp, (dvoid**)&m_errhp, OCI_HTYPE_ERROR, 0, nullptr);
+
+            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
+            {
+                ociContextClose();
+                return -1;
+            }
+
+            // 多线程同时OCILogon会导致段错误，必须加锁
+            static std::mutex logonMutex;
+            {
+                std::lock_guard<std::mutex> lock(logonMutex);
+                oci_ret = OCILogon(m_envhp, m_errhp, &m_svchp,
+                                   (OraText*)m_user.c_str(), (ub4)m_user.size(),
+                                   (OraText*)m_pass.c_str(), (ub4)m_pass.size(),
+                                   (OraText*)m_tnsname.c_str(), (ub4)m_tnsname.size());
+            }
+
+            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
+            {
+                ociContextClose();
+                return -1;
+            }
+
+            return 0;
+        }
+
+        int DBConn::ociContextClose()
+        {
+            if (m_svchp)
+            {
+                OCILogoff(m_svchp, m_errhp);
+                OCIHandleFree(m_svchp, OCI_HTYPE_SVCCTX);
+                m_svchp = nullptr;
+            }
+
+            if (m_errhp)
+            {
+                OCIHandleFree(m_errhp, OCI_HTYPE_ERROR);
+                m_errhp = nullptr;
+            }
+
+            return 0;
+        }
+
+        bool DBConn::connect()
+        {
+            if (m_state == ConnState::Connected) return true;
+
+            m_result.init();
+
+            // 设置字符集
+            setCharset(m_charset.c_str());
+
+            // 初始化OCI环境
+            if (ociEnvInit() != 0)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "initialize oracle call interface failed.";
+                return false;
+            }
+
+            // 创建上下文并登录
+            if (ociContextCreate() != 0)
+            {
+                ociEnvClose();
+                m_result.code = 1017;
+                m_result.error_msg = "ORA-01017: invalid username/password, logon denied.";
+                return false;
+            }
+
+            m_state = ConnState::Connected;
+            m_result.init();
+            return true;
+        }
+
+        void DBConn::disconnect()
+        {
+            if (m_state == ConnState::Disconnected) return;
+
+            if (!m_autocommitopt) rollback();
+
+            ociContextClose();
+            ociEnvClose();
+
+            m_state = ConnState::Disconnected;
+        }
+
+        bool DBConn::isConnected() const
+        {
+            return m_state == ConnState::Connected;
+        }
+
+        void DBConn::reset()
+        {
+            m_result.init();
+        }
+
+        bool DBConn::reconnect()
+        {
+            disconnect();
+            return connect();
+        }
+
+        bool DBConn::beginTransaction()
+        {
+            // Oracle在首条DML时隐式开启事务，只需确保autocommit关闭
+            m_autocommitopt = false;
+            return true;
+        }
+
+        bool DBConn::commit()
+        {
+            m_result.init();
+
+            if (m_state == ConnState::Disconnected)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "database not open.";
+                return false;
+            }
+
+            int oci_ret = OCITransCommit(m_svchp, m_errhp, OCI_DEFAULT);
+
+            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
+            {
+                errReport();
+                return false;
+            }
 
             return true;
         }
 
-        int DBConn::disconnect()
+        bool DBConn::rollback()
         {
-            memset(&m_cda, 0, sizeof(m_cda));
+            m_result.init();
 
-            if (m_state == disconnected)
+            if (m_state == ConnState::Disconnected)
             {
-                m_cda.rc = -1;
-                strncpy(m_cda.message, "database not open.", 128);
-                return -1;
+                m_result.code = -1;
+                m_result.error_msg = "database not open.";
+                return false;
             }
 
-            rollback();
+            int oci_ret = OCITransRollback(m_svchp, m_errhp, OCI_DEFAULT);
 
-            oci_context_close(&m_cxt);
+            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
+            {
+                errReport();
+                return false;
+            }
 
-            oci_close(&m_env);
+            return true;
+        }
 
-            m_state = disconnected;
-
-            return 0;
+        std::unique_ptr<DBStmt> DBConn::createStmt()
+        {
+            return std::make_unique<DBStmt>(*this);
         }
 
         int DBConn::execute(const char* fmt, ...)
         {
+            m_result.init();
+
             va_list ap;
             va_start(ap, fmt);
             int len = vsnprintf(nullptr, 0, fmt, ap);
             va_end(ap);
-            if (len <= 0) return -1;
+
+            if (len <= 0)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "invalid sql format";
+                return -1;
+            }
+
+            std::string sql;
+            sql.resize(len + 1);
+
             va_start(ap, fmt);
-            std::string strsql;
-            strsql.resize(len);
-            vsnprintf(&strsql[0], len + 1, fmt, ap);
+            vsnprintf(&sql[0], len + 1, fmt, ap);
             va_end(ap);
 
-            DBStmt stmt(this);
-
-            return stmt.execute(strsql.c_str());
-        }
-
-        int DBConn::rollback()
-        {
-            memset(&m_cda, 0, sizeof(m_cda));
-
-            if (m_state == disconnected)
+            DBStmt stmt(*this);
+            if (!stmt.prepare(sql))
             {
-                m_cda.rc = -1;
-                strncpy(m_cda.message, "database not open.", 128);
+                m_result = stmt.m_result;
                 return -1;
             }
 
-            int oci_ret = OCITransRollback(m_cxt.svchp, m_cxt.errhp, OCI_DEFAULT);
-
-            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
+            if (!stmt.execute())
             {
-                err_report();
-                return m_cda.rc;
-            }
-
-            return 0;
-        }
-
-        int DBConn::commit()
-        {
-            memset(&m_cda, 0, sizeof(m_cda));
-
-            if (m_state == disconnected)
-            {
-                m_cda.rc = -1;
-                strncpy(m_cda.message, "database not open.", 128);
+                m_result = stmt.m_result;
                 return -1;
             }
 
-            int oci_ret = OCITransCommit(m_cxt.svchp, m_cxt.errhp, OCI_DEFAULT);
-
-            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
-            {
-                err_report();
-                return m_cda.rc;
-            }
-
+            m_result = stmt.m_result;
             return 0;
         }
 
-        void DBConn::err_report()
+        int DBConn::code() const { return m_result.code; }
+        size_t DBConn::affectedRows() const { return m_result.affected_rows; }
+        std::string DBConn::errorMsg() const { return m_result.error_msg; }
+
+        void DBConn::errReport()
         {
-            if (m_state == disconnected)
+            if (m_state == ConnState::Disconnected)
             {
-                m_cda.rc = -1;
-                strncpy(m_cda.message, "database not open.", 128);
+                m_result.code = -1;
+                m_result.error_msg = "database not open.";
                 return;
             }
 
-            memset(&m_cda, 0, sizeof(m_cda));
+            m_result.init();
+            m_result.code = -1;
+            m_result.error_msg = "call err_report failed.";
 
-            m_cda.rc = -1;
-            strncpy(m_cda.message, "call err_report failed.", 128);
-
-            if (m_cxt.errhp != NULL)
+            if (m_errhp)
             {
-                if (OCIErrorGet(m_cxt.errhp, 1, NULL, &m_cda.rc, (OraText*)m_cda.message, sizeof(m_cda.message), OCI_HTYPE_ERROR) == OCI_NO_DATA)
+                char errBuf[2048] = {0};
+                if (OCIErrorGet(m_errhp, 1, nullptr, &m_result.code, (OraText*)errBuf, sizeof(errBuf), OCI_HTYPE_ERROR)
+                    == OCI_NO_DATA)
                 {
-                    // 如果获取不到错误信息，就返回正确的
-                    memset(&m_cda, 0, sizeof(m_cda));
+                    m_result.init();
                     return;
                 }
+                m_result.error_msg = errBuf;
             }
         }
-        // ===========================================================================
 
-        // DBStmt类实现
-        // ===========================================================================
-        DBStmt::DBStmt()
+        // ===================== DBStmt 实现 =====================
+        DBStmt::DBStmt(DBConn& conn)
+            : m_conn(conn),
+              m_autocommitopt(conn.m_autocommitopt)
         {
-            m_state = disconnected;
+            m_result.init();
+            m_result.code = -1;
+            m_result.error_msg = "cursor not open.";
 
-            memset(&m_handle, 0, sizeof(m_handle));
-
-            memset(&m_cda, 0, sizeof(m_cda));
-
-            m_cda.rc = -1;
-            strncpy(m_cda.message, "DBStmt not connect to DBConn.\n", 128);
-
-            m_lob = 0;
-        }
-
-        DBStmt::DBStmt(DBConn* conn)
-        {
-            m_state = disconnected;
-
-            memset(&m_handle, 0, sizeof(m_handle));
-
-            memset(&m_cda, 0, sizeof(m_cda));
-
-            m_cda.rc = -1;
-            strncpy(m_cda.message, "DBStmt not connect to DBConn.\n", 128);
-
-            m_lob = 0;
-
-            connect(conn);
+            ociStmtCreate();
         }
 
         DBStmt::~DBStmt()
         {
-            disconnect();
-        }
-
-        int DBStmt::connect(DBConn* conn)
-        {
-            // 注意，一个DBStmt在程序中只能指定一个DBConn，不允许指定多个DBConn。
-            // 所以，只要这个DBStmt已指定DBConn，直接返回成功。
-            if (m_state == connected) return 0;
-
-            memset(&m_cda, 0, sizeof(m_cda));
-
-            m_conn = conn;
-
-            // 如果数据库连接对象的指针为空，直接返回失败
-            if (m_conn == 0)
-            {
-                m_cda.rc = -1;
-                strncpy(m_cda.message, "database not open.\n", 128);
-                return -1;
-            }
-
-            // 如果数据库连接不可用，直接返回失败
-            if (m_conn->m_state == disconnected)
-            {
-                m_cda.rc = -1;
-                strncpy(m_cda.message, "database not open.\n", 128);
-                return -1;
-            }
-
-            m_cda.rc = oci_stmt_create(&m_conn->m_cxt, &m_handle);
-
-            if (m_cda.rc != OCI_SUCCESS && m_cda.rc != OCI_SUCCESS_WITH_INFO)
-            {
-                err_report();
-                return m_cda.rc;
-            }
-
-            m_state = connected;
-
-            m_autocommitopt = m_conn->m_autocommitopt;
-
-            m_cda.rc = OCI_SUCCESS;
-
-            return 0;
-        }
-
-        int DBStmt::disconnect()
-        {
-            if (m_state == disconnected) return 0;
-
-            memset(&m_cda, 0, sizeof(m_cda));
-
             freelob();
+            ociStmtClose();
+        }
 
-            m_cda.rc = oci_stmt_close(&m_handle);
+        bool DBStmt::isOpen() const
+        {
+            return m_smthp != nullptr;
+        }
 
-            m_state = disconnected;
+        int DBStmt::ociStmtCreate()
+        {
+            if (!m_envhp && m_conn.m_envhp)
+            {
+                m_envhp = m_conn.m_envhp;
+                m_svchp = m_conn.m_svchp;
+                m_errhp = m_conn.m_errhp;
+            }
 
-            memset(&m_handle, 0, sizeof(m_handle));
+            if (!m_envhp) return -1;
 
-            memset(&m_cda, 0, sizeof(m_cda));
+            int oci_ret = OCIHandleAlloc(m_envhp, (dvoid**)&m_smthp, OCI_HTYPE_STMT, 0, nullptr);
 
-            m_cda.rc = -1;
-            strncpy(m_cda.message, "cursor not open.", 128);
+            if (oci_ret == OCI_SUCCESS || oci_ret == OCI_SUCCESS_WITH_INFO)
+            {
+                return 0;
+            }
 
+            return oci_ret;
+        }
+
+        int DBStmt::ociStmtClose()
+        {
+            if (m_smthp)
+            {
+                OCIHandleFree(m_smthp, OCI_HTYPE_STMT);
+                m_smthp = nullptr;
+            }
             return 0;
         }
 
-        bool DBStmt::isopen()
+        bool DBStmt::prepare(const char* sql)
         {
-            if (m_state == disconnected) return false;
+            if (!isOpen())
+            {
+                m_result.code = -1;
+                m_result.error_msg = "cursor not open.";
+                return false;
+            }
+
+            m_result.init();
+            m_sql = sql;
+
+            int oci_ret = OCIStmtPrepare(m_smthp, m_errhp, (OraText*)m_sql.c_str(), (ub4)m_sql.size(),
+                                         OCI_NTV_SYNTAX, OCI_DEFAULT);
+
+            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
+            {
+                errReport();
+                return false;
+            }
+
+            // 判断是否为查询语句
+            m_isQuery = false;
+
+            std::string head = m_sql.substr(0, 30);
+            ol::toUpper(head);
+            ol::deleteLchr(head, ' ');
+
+            if (head.compare(0, 6, "SELECT") == 0) m_isQuery = true;
 
             return true;
         }
 
-        // 把字符串中的小写字母转换成大写，忽略不是字母的字符。
-        // 这个函数只在prepare方法中用到。
-        void OR__ToUpper(char* str)
+        bool DBStmt::prepare(const std::string& sql)
         {
-            if (str == 0) return;
-
-            if (strlen(str) == 0) return;
-
-            int istrlen = strlen(str);
-
-            for (int i = 0; i < istrlen; ++i)
-            {
-                if ((str[i] >= 'a') && (str[i] <= 'z')) str[i] = str[i] - 32;
-            }
+            return prepare(sql.c_str());
         }
 
-        // 删除字符串左边的空格。
-        // 这个函数只在prepare方法中用到。
-        void OR__DeleteLChar(char* str, const char chr)
+        bool DBStmt::prepareFmt(const char* fmt, ...)
         {
-            if (str == 0) return;
-            if (strlen(str) == 0) return;
-
-            char strTemp[strlen(str) + 1];
-
-            int iTemp = 0;
-
-            memset(strTemp, 0, sizeof(strTemp));
-            strcpy(strTemp, str);
-
-            while (strTemp[iTemp] == chr) ++iTemp;
-
-            memset(str, 0, strlen(str) + 1);
-
-            strcpy(str, strTemp + iTemp);
-
-            return;
-        }
-
-        // 在新的OCI方法中，当SQL语句有错误时，OCIStmtPrepare返回的是0，不是失败
-        // 所以，程序中在程序中一般不必处理prepare的结果
-        int DBStmt::prepare(const char* fmt, ...)
-        {
-            memset(&m_cda, 0, sizeof(m_cda));
-
-            if (m_state == disconnected)
-            {
-                m_cda.rc = -1;
-                strncpy(m_cda.message, "cursor not open.\n", 128);
-                return -1;
-            }
-
-            m_sql.clear();
+            m_result.init();
+            if (!isOpen()) return false;
 
             va_list ap;
             va_start(ap, fmt);
             int len = vsnprintf(nullptr, 0, fmt, ap);
             va_end(ap);
-            if (len <= 0) return -1;
+            if (len <= 0) return false;
+
+            m_sql.resize(len + 1);
             va_start(ap, fmt);
-            m_sql.resize(len);
             vsnprintf(&m_sql[0], len + 1, fmt, ap);
             va_end(ap);
 
-            int oci_ret = OCIStmtPrepare(m_handle.smthp, m_handle.errhp, (OraText*)m_sql.c_str(), m_sql.size(), OCI_NTV_SYNTAX, OCI_DEFAULT);
+            return prepare(m_sql.c_str());
+        }
 
+        // ===================== 输入绑定 =====================
+        int DBStmt::bindin(unsigned int pos, int& value)
+        {
+            int oci_ret = OCIBindByPos(m_smthp, &m_bindhp, m_errhp, (ub4)pos, &value, sizeof(value),
+                                        SQLT_INT, nullptr, nullptr, nullptr, 0, nullptr, OCI_DEFAULT);
             if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
             {
-                err_report();
-                return m_cda.rc;
+                errReport();
+                return m_result.code;
             }
-
-            // 判断是否是查询语句，如果是，把m_sqltype设为false，其它语句设为true。
-            m_sqltype = true;
-
-            // 从待执行的SQL语句中截取30个字符，如果是以"select"打头，就认为是查询语句。
-            char strtemp[31];
-            memset(strtemp, 0, sizeof(strtemp));
-            strncpy(strtemp, m_sql.c_str(), 30);
-            OR__ToUpper(strtemp);
-            OR__DeleteLChar(strtemp, ' ');
-            if (strncmp(strtemp, "SELECT", 6) == 0) m_sqltype = false;
-
-            m_cda.rc = OCI_SUCCESS;
-
+            m_result.code = 0;
+            m_result.error_msg.clear();
             return 0;
         }
 
-        int DBStmt::bindin(const unsigned int position, int& value)
+        int DBStmt::bindin(unsigned int pos, long& value)
         {
-            return OCIBindByPos(m_handle.smthp, &m_handle.bindhp, m_handle.errhp, (ub4)position, &value, sizeof(value),
-                                SQLT_INT, NULL, NULL, NULL, 0, NULL, OCI_DEFAULT);
-        }
-
-        int DBStmt::bindin(const unsigned int position, long& value)
-        {
-            return OCIBindByPos(m_handle.smthp, &m_handle.bindhp, m_handle.errhp, (ub4)position, &value, sizeof(value),
-                                SQLT_INT, NULL, NULL, NULL, 0, NULL, OCI_DEFAULT);
-        }
-
-        int DBStmt::bindin(const unsigned int position, unsigned int& value)
-        {
-            return OCIBindByPos(m_handle.smthp, &m_handle.bindhp, m_handle.errhp, (ub4)position, &value, sizeof(value),
-                                SQLT_INT, NULL, NULL, NULL, 0, NULL, OCI_DEFAULT);
-        }
-
-        int DBStmt::bindin(const unsigned int position, unsigned long& value)
-        {
-            return OCIBindByPos(m_handle.smthp, &m_handle.bindhp, m_handle.errhp, (ub4)position, &value, sizeof(value),
-                                SQLT_INT, NULL, NULL, NULL, 0, NULL, OCI_DEFAULT);
-        }
-
-        int DBStmt::bindin(const unsigned int position, float& value)
-        {
-            return OCIBindByPos(m_handle.smthp, &m_handle.bindhp, m_handle.errhp, (ub4)position, &value, sizeof(value),
-                                SQLT_FLT, NULL, NULL, NULL, 0, NULL, OCI_DEFAULT);
-        }
-
-        int DBStmt::bindin(const unsigned int position, double& value)
-        {
-            return OCIBindByPos(m_handle.smthp, &m_handle.bindhp, m_handle.errhp, (ub4)position, &value, sizeof(value),
-                                SQLT_FLT, NULL, NULL, NULL, 0, NULL, OCI_DEFAULT);
-        }
-
-        int DBStmt::bindin(const unsigned int position, char* value, unsigned int len)
-        {
-            return OCIBindByPos(m_handle.smthp, &m_handle.bindhp, m_handle.errhp, (ub4)position, value, len + 1,
-                                SQLT_STR, NULL, NULL, NULL, 0, NULL, OCI_DEFAULT);
-        }
-
-        int DBStmt::bindin(const unsigned int position, std::string& value, unsigned int len)
-        {
-            value.resize(len);
-            return OCIBindByPos(m_handle.smthp, &m_handle.bindhp, m_handle.errhp, (ub4)position, &value[0], len + 1,
-                                SQLT_STR, NULL, NULL, NULL, 0, NULL, OCI_DEFAULT);
-        }
-
-        int DBStmt::bindin1(const unsigned int position, std::string& value)
-        {
-            return OCIBindByPos(m_handle.smthp, &m_handle.bindhp, m_handle.errhp, (ub4)position, &value[0], value.size() + 1,
-                                SQLT_STR, NULL, NULL, NULL, 0, NULL, OCI_DEFAULT);
-        }
-
-        int DBStmt::bindout(const unsigned int position, int& value)
-        {
-            return OCIDefineByPos(m_handle.smthp, &m_handle.defhp, m_handle.errhp, position, &value, sizeof(value),
-                                  SQLT_INT, NULL, NULL, NULL, OCI_DEFAULT);
-        }
-
-        int DBStmt::bindout(const unsigned int position, long& value)
-        {
-            return OCIDefineByPos(m_handle.smthp, &m_handle.defhp, m_handle.errhp, position, &value, sizeof(value),
-                                  SQLT_INT, NULL, NULL, NULL, OCI_DEFAULT);
-        }
-
-        int DBStmt::bindout(const unsigned int position, unsigned int& value)
-        {
-            return OCIDefineByPos(m_handle.smthp, &m_handle.defhp, m_handle.errhp, position, &value, sizeof(value),
-                                  SQLT_INT, NULL, NULL, NULL, OCI_DEFAULT);
-        }
-        int DBStmt::bindout(const unsigned int position, unsigned long& value)
-        {
-            return OCIDefineByPos(m_handle.smthp, &m_handle.defhp, m_handle.errhp, position, &value, sizeof(value),
-                                  SQLT_INT, NULL, NULL, NULL, OCI_DEFAULT);
-        }
-
-        int DBStmt::bindout(const unsigned int position, float& value)
-        {
-            return OCIDefineByPos(m_handle.smthp, &m_handle.defhp, m_handle.errhp, position, &value, sizeof(value),
-                                  SQLT_FLT, NULL, NULL, NULL, OCI_DEFAULT);
-        }
-
-        int DBStmt::bindout(const unsigned int position, double& value)
-        {
-            return OCIDefineByPos(m_handle.smthp, &m_handle.defhp, m_handle.errhp, position, &value, sizeof(value),
-                                  SQLT_FLT, NULL, NULL, NULL, OCI_DEFAULT);
-        }
-
-        int DBStmt::bindout(const unsigned int position, char* value, unsigned int len)
-        {
-            return OCIDefineByPos(m_handle.smthp, &m_handle.defhp, m_handle.errhp, position, value, len + 1,
-                                  SQLT_STR, NULL, NULL, NULL, OCI_DEFAULT);
-        }
-
-        int DBStmt::bindout(const unsigned int position, std::string& value, unsigned int len)
-        {
-            value.resize(len);
-            return OCIDefineByPos(m_handle.smthp, &m_handle.defhp, m_handle.errhp, position, &value[0], len + 1,
-                                  SQLT_STR, NULL, NULL, NULL, OCI_DEFAULT);
-        }
-
-        int DBStmt::bindblob()
-        {
-            alloclob();
-
-            return OCIDefineByPos(m_handle.smthp, &m_handle.defhp, m_handle.errhp, 1, (dvoid*)&m_lob, -1,
-                                  SQLT_BLOB, NULL, NULL, NULL, OCI_DEFAULT);
-        }
-
-        int DBStmt::bindclob()
-        {
-            alloclob();
-
-            return OCIDefineByPos(m_handle.smthp, &m_handle.defhp, m_handle.errhp, 1, (dvoid*)&m_lob, -1,
-                                  SQLT_CLOB, NULL, NULL, NULL, OCI_DEFAULT);
-        }
-
-        int DBStmt::execute()
-        {
-            memset(&m_cda, 0, sizeof(m_cda));
-
-            if (m_state == disconnected)
+            int oci_ret = OCIBindByPos(m_smthp, &m_bindhp, m_errhp, (ub4)pos, &value, sizeof(value),
+                                        SQLT_INT, nullptr, nullptr, nullptr, 0, nullptr, OCI_DEFAULT);
+            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
             {
-                m_cda.rc = -1;
-                strncpy(m_cda.message, "cursor not open.\n", 128);
+                errReport();
+                return m_result.code;
+            }
+            m_result.code = 0;
+            m_result.error_msg.clear();
+            return 0;
+        }
+
+        int DBStmt::bindin(unsigned int pos, unsigned int& value)
+        {
+            int oci_ret = OCIBindByPos(m_smthp, &m_bindhp, m_errhp, (ub4)pos, &value, sizeof(value),
+                                        SQLT_INT, nullptr, nullptr, nullptr, 0, nullptr, OCI_DEFAULT);
+            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
+            {
+                errReport();
+                return m_result.code;
+            }
+            m_result.code = 0;
+            m_result.error_msg.clear();
+            return 0;
+        }
+
+        int DBStmt::bindin(unsigned int pos, unsigned long& value)
+        {
+            int oci_ret = OCIBindByPos(m_smthp, &m_bindhp, m_errhp, (ub4)pos, &value, sizeof(value),
+                                        SQLT_INT, nullptr, nullptr, nullptr, 0, nullptr, OCI_DEFAULT);
+            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
+            {
+                errReport();
+                return m_result.code;
+            }
+            m_result.code = 0;
+            m_result.error_msg.clear();
+            return 0;
+        }
+
+        int DBStmt::bindin(unsigned int pos, float& value)
+        {
+            int oci_ret = OCIBindByPos(m_smthp, &m_bindhp, m_errhp, (ub4)pos, &value, sizeof(value),
+                                        SQLT_FLT, nullptr, nullptr, nullptr, 0, nullptr, OCI_DEFAULT);
+            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
+            {
+                errReport();
+                return m_result.code;
+            }
+            m_result.code = 0;
+            m_result.error_msg.clear();
+            return 0;
+        }
+
+        int DBStmt::bindin(unsigned int pos, double& value)
+        {
+            int oci_ret = OCIBindByPos(m_smthp, &m_bindhp, m_errhp, (ub4)pos, &value, sizeof(value),
+                                        SQLT_FLT, nullptr, nullptr, nullptr, 0, nullptr, OCI_DEFAULT);
+            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
+            {
+                errReport();
+                return m_result.code;
+            }
+            m_result.code = 0;
+            m_result.error_msg.clear();
+            return 0;
+        }
+
+        int DBStmt::bindin(unsigned int pos, char* value, unsigned int len)
+        {
+            if (!value || len == 0)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindin failed: invalid params (null/zero length)";
                 return -1;
             }
-
-            ub4 mode = OCI_DEFAULT;
-
-            if (m_sqltype == true && m_autocommitopt == true) mode = OCI_COMMIT_ON_SUCCESS;
-
-            int oci_ret = OCIStmtExecute(m_handle.svchp, m_handle.smthp, m_handle.errhp, m_sqltype, 0, NULL, NULL, mode);
-
+            int oci_ret = OCIBindByPos(m_smthp, &m_bindhp, m_errhp, (ub4)pos, value, len + 1,
+                                        SQLT_STR, nullptr, nullptr, nullptr, 0, nullptr, OCI_DEFAULT);
             if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
             {
-                // 发生了错误或查询没有结果
-                err_report();
-                return m_cda.rc;
+                errReport();
+                return m_result.code;
             }
-
-            // 如果不是查询语句，就获取影响记录的行数
-            if (m_sqltype == true)
-            {
-                OCIAttrGet((CONST dvoid*)m_handle.smthp, OCI_HTYPE_STMT, (dvoid*)&m_cda.rpc, (ub4*)0,
-                           OCI_ATTR_ROW_COUNT, m_handle.errhp);
-                m_conn->m_cda.rpc = m_cda.rpc;
-            }
-
+            m_result.code = 0;
+            m_result.error_msg.clear();
             return 0;
         }
 
-        int DBStmt::execute(const char* fmt, ...)
+        int DBStmt::bindin(unsigned int pos, std::string& value, unsigned int len)
         {
-            std::string strtmp;
+            if (len == 0)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindin failed: length cannot be zero";
+                return -1;
+            }
+            value.resize(len);
+            return bindin(pos, &value[0], len);
+        }
 
-            va_list ap;
-            va_start(ap, fmt);
-            int len = vsnprintf(nullptr, 0, fmt, ap);
-            va_end(ap);
-            if (len <= 0) return -1;
-            va_start(ap, fmt);
-            strtmp.resize(len);
-            vsnprintf(&strtmp[0], len + 1, fmt, ap);
-            va_end(ap);
+        // ===================== 输出绑定 =====================
+        int DBStmt::bindout(unsigned int pos, int& value)
+        {
+            int oci_ret = OCIDefineByPos(m_smthp, &m_defhp, m_errhp, (ub4)pos, &value, sizeof(value),
+                                          SQLT_INT, nullptr, nullptr, nullptr, OCI_DEFAULT);
+            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
+            {
+                errReport();
+                return m_result.code;
+            }
+            m_result.code = 0;
+            m_result.error_msg.clear();
+            return 0;
+        }
 
-            if (prepare(strtmp.c_str()) != 0)
-                return m_cda.rc;
+        int DBStmt::bindout(unsigned int pos, long& value)
+        {
+            int oci_ret = OCIDefineByPos(m_smthp, &m_defhp, m_errhp, (ub4)pos, &value, sizeof(value),
+                                          SQLT_INT, nullptr, nullptr, nullptr, OCI_DEFAULT);
+            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
+            {
+                errReport();
+                return m_result.code;
+            }
+            m_result.code = 0;
+            m_result.error_msg.clear();
+            return 0;
+        }
 
-            return execute();
+        int DBStmt::bindout(unsigned int pos, unsigned int& value)
+        {
+            int oci_ret = OCIDefineByPos(m_smthp, &m_defhp, m_errhp, (ub4)pos, &value, sizeof(value),
+                                          SQLT_INT, nullptr, nullptr, nullptr, OCI_DEFAULT);
+            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
+            {
+                errReport();
+                return m_result.code;
+            }
+            m_result.code = 0;
+            m_result.error_msg.clear();
+            return 0;
+        }
+
+        int DBStmt::bindout(unsigned int pos, unsigned long& value)
+        {
+            int oci_ret = OCIDefineByPos(m_smthp, &m_defhp, m_errhp, (ub4)pos, &value, sizeof(value),
+                                          SQLT_INT, nullptr, nullptr, nullptr, OCI_DEFAULT);
+            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
+            {
+                errReport();
+                return m_result.code;
+            }
+            m_result.code = 0;
+            m_result.error_msg.clear();
+            return 0;
+        }
+
+        int DBStmt::bindout(unsigned int pos, float& value)
+        {
+            int oci_ret = OCIDefineByPos(m_smthp, &m_defhp, m_errhp, (ub4)pos, &value, sizeof(value),
+                                          SQLT_FLT, nullptr, nullptr, nullptr, OCI_DEFAULT);
+            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
+            {
+                errReport();
+                return m_result.code;
+            }
+            m_result.code = 0;
+            m_result.error_msg.clear();
+            return 0;
+        }
+
+        int DBStmt::bindout(unsigned int pos, double& value)
+        {
+            int oci_ret = OCIDefineByPos(m_smthp, &m_defhp, m_errhp, (ub4)pos, &value, sizeof(value),
+                                          SQLT_FLT, nullptr, nullptr, nullptr, OCI_DEFAULT);
+            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
+            {
+                errReport();
+                return m_result.code;
+            }
+            m_result.code = 0;
+            m_result.error_msg.clear();
+            return 0;
+        }
+
+        int DBStmt::bindout(unsigned int pos, char* value, unsigned int len)
+        {
+            if (!value || len == 0)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindout failed: invalid params (null/zero length)";
+                return -1;
+            }
+            int oci_ret = OCIDefineByPos(m_smthp, &m_defhp, m_errhp, (ub4)pos, value, len + 1,
+                                          SQLT_STR, nullptr, nullptr, nullptr, OCI_DEFAULT);
+            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
+            {
+                errReport();
+                return m_result.code;
+            }
+            m_result.code = 0;
+            m_result.error_msg.clear();
+            return 0;
+        }
+
+        int DBStmt::bindout(unsigned int pos, std::string& value, unsigned int len)
+        {
+            if (len == 0)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "bindout failed: length cannot be zero";
+                return -1;
+            }
+            value.resize(len);
+            return bindout(pos, &value[0], len);
+        }
+
+        // ===================== 执行与结果 =====================
+        bool DBStmt::execute()
+        {
+            if (!isOpen())
+            {
+                m_result.code = -1;
+                m_result.error_msg = "cursor not open.";
+                return false;
+            }
+
+            m_result.init();
+
+            ub4 mode = OCI_DEFAULT;
+            // 非查询语句 + 自动提交 → OCI_COMMIT_ON_SUCCESS
+            if (!m_isQuery && m_autocommitopt) mode = OCI_COMMIT_ON_SUCCESS;
+
+            // iters: DML用1，查询用0
+            ub4 iters = m_isQuery ? 0 : 1;
+
+            int oci_ret = OCIStmtExecute(m_svchp, m_smthp, m_errhp, iters, 0, nullptr, nullptr, mode);
+
+            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
+            {
+                errReport();
+                return false;
+            }
+
+            // 非查询语句：获取影响行数
+            if (!m_isQuery)
+            {
+                OCIAttrGet((CONST dvoid*)m_smthp, OCI_HTYPE_STMT, (dvoid*)&m_result.affected_rows, nullptr,
+                           OCI_ATTR_ROW_COUNT, m_errhp);
+                m_conn.m_result.affected_rows = m_result.affected_rows;
+            }
+
+            m_result.code = 0;
+            return true;
         }
 
         int DBStmt::next()
         {
-            // 注意，在该函数中，不可用memset(&m_cda,0,sizeof(m_cda))，否则会清空m_cda.rpc的内容
-            if (m_state == disconnected)
+            if (!isOpen())
             {
-                m_cda.rc = -1;
-                strncpy(m_cda.message, "cursor not open.\n", 128);
+                m_result.code = -1;
+                m_result.error_msg = "cursor not open.";
                 return -1;
             }
 
-            // 如果语句未执行成功，直接返回失败。
-            if (m_cda.rc != 0) return m_cda.rc;
-
-            // 判断是否是查询语句，如果不是，直接返回错误
-            if (m_sqltype == true)
+            // 非查询语句，无法fetch
+            if (!m_isQuery)
             {
-                m_cda.rc = -1;
-                strncpy(m_cda.message, "no recordset found.\n", 128);
+                m_result.code = -1;
+                m_result.error_msg = "no recordset found.";
                 return -1;
             }
 
-            int oci_ret = OCIStmtFetch(m_handle.smthp, m_handle.errhp, 1, OCI_FETCH_NEXT, OCI_DEFAULT);
+            int oci_ret = OCIStmtFetch(m_smthp, m_errhp, 1, OCI_FETCH_NEXT, OCI_DEFAULT);
+
+            if (oci_ret == OCI_NO_DATA)
+            {
+                return OCI_NO_DATA; // 100
+            }
 
             if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
             {
-                err_report();
+                errReport();
 
-                // 只有当m_cda.rc不是1405和1406的时候，才返回错误，1405和1406不算错
-                // 并且，返回错误的时候，不要清空了m_cda.rpc
-                if (m_cda.rc != 1405 && m_cda.rc != 1406) return m_cda.rc;
+                // ORA-01405(FETCHED COLUMN VALUE IS NULL) 和 ORA-01406(FETCHED COLUMN VALUE WAS TRUNCATED) 不算错误
+                if (m_result.code != 1405 && m_result.code != 1406) return m_result.code;
+
+                m_result.code = 0;
             }
 
-            // 如果返回的是1405或1406，就把它强置为0。
-            if (m_cda.rc == 1405 || m_cda.rc == 1406) m_cda.rc = 0;
-
-            // 获取影响记录的行数据。
-            OCIAttrGet((CONST dvoid*)m_handle.smthp, OCI_HTYPE_STMT, (dvoid*)&m_cda.rpc, (ub4*)0,
-                       OCI_ATTR_ROW_COUNT, m_handle.errhp);
-
-            m_conn->m_cda.rpc = m_cda.rpc;
+            // 更新行计数
+            OCIAttrGet((CONST dvoid*)m_smthp, OCI_HTYPE_STMT, (dvoid*)&m_result.affected_rows, nullptr,
+                       OCI_ATTR_ROW_COUNT, m_errhp);
+            m_conn.m_result.affected_rows = m_result.affected_rows;
 
             return 0;
         }
 
-        void DBStmt::err_report()
-        {
-            // 注意，在该函数中，不可随意用memset(&m_cda,0,sizeof(m_cda))，否则会清空m_cda.rpc的内容
-            if (m_state == disconnected)
-            {
-                m_cda.rc = -1;
-                strncpy(m_cda.message, "cursor not open.\n", 128);
-                return;
-            }
-
-            m_cda.rc = -1;
-            strncpy(m_cda.message, "call DBStmt::err_report() failed.\n", 128);
-
-            if (m_handle.errhp != NULL)
-            {
-                if (OCIErrorGet(m_handle.errhp, 1, NULL, &m_cda.rc, (OraText*)m_cda.message, sizeof(m_cda.message), OCI_HTYPE_ERROR) == OCI_NO_DATA)
-                {
-                    // 如果没有获取到任何错误信息，就返回正确的
-                    // 这里可以用memset清空m_cda，因为如果没有任何错误m_cda.rpc在next中会重新赋值
-                    m_cda.rc = 0;
-                    memset(m_cda.message, 0, sizeof(m_cda.message));
-                    return;
-                }
-            }
-
-            m_conn->err_report();
-        }
-
+        // ===================== LOB 操作 =====================
         int DBStmt::alloclob()
         {
-            if (m_lob != 0) return 0;
+            if (m_lob) return 0;
 
-            return OCIDescriptorAlloc((dvoid*)m_handle.envhp, (dvoid**)&m_lob, (ub4)OCI_DTYPE_LOB, (size_t)0, (dvoid**)0);
+            return OCIDescriptorAlloc(m_envhp, (dvoid**)&m_lob, OCI_DTYPE_LOB, 0, nullptr);
         }
 
         void DBStmt::freelob()
         {
-            if (m_lob != 0) OCIDescriptorFree((dvoid*)m_lob, (ub4)OCI_DTYPE_LOB);
-
-            m_lob = 0;
-        }
-
-        ub4 file_length(FILE* fp)
-        {
-            fseek(fp, 0, SEEK_END);
-            return (ub4)(ftell(fp));
-        }
-
-        int DBStmt::filetolob(const std::string& filename)
-        {
-            FILE* fp = 0;
-
-            if ((fp = fopen(filename.c_str(), "rb")) == 0)
+            if (m_lob)
             {
-                m_cda.rc = -1;
-                strncpy(m_cda.message, "fopen failed", 128);
+                OCIDescriptorFree(m_lob, OCI_DTYPE_LOB);
+                m_lob = nullptr;
+            }
+        }
+
+        int DBStmt::bindblob(unsigned int pos)
+        {
+            if (alloclob() != 0)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "alloclob failed";
                 return -1;
             }
 
-            int iret = filetolob(fp);
-
-            fclose(fp);
-
-            return iret;
+            int oci_ret = OCIDefineByPos(m_smthp, &m_defhp, m_errhp, (ub4)pos, (dvoid*)&m_lob, -1,
+                                          SQLT_BLOB, nullptr, nullptr, nullptr, OCI_DEFAULT);
+            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
+            {
+                errReport();
+                return m_result.code;
+            }
+            m_result.code = 0;
+            m_result.error_msg.clear();
+            return 0;
         }
 
-/* 操作CLOB和BLOB内容时，缓冲区的大小，一般不需要修改。 */
-#define LOBMAXBUFLEN 10240
+        int DBStmt::bindclob(unsigned int pos)
+        {
+            if (alloclob() != 0)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "alloclob failed";
+                return -1;
+            }
 
-        int DBStmt::filetolob(FILE* fp)
+            int oci_ret = OCIDefineByPos(m_smthp, &m_defhp, m_errhp, (ub4)pos, (dvoid*)&m_lob, -1,
+                                          SQLT_CLOB, nullptr, nullptr, nullptr, OCI_DEFAULT);
+            if (oci_ret != OCI_SUCCESS && oci_ret != OCI_SUCCESS_WITH_INFO)
+            {
+                errReport();
+                return m_result.code;
+            }
+            m_result.code = 0;
+            m_result.error_msg.clear();
+            return 0;
+        }
+
+        static ub4 fileLength(FILE* fp)
+        {
+            fseek(fp, 0, SEEK_END);
+            return (ub4)ftell(fp);
+        }
+
+        int DBStmt::filetolobInternal(FILE* fp)
         {
             ub4 offset = 1;
             ub4 loblen = 0;
-            ub1 bufp[LOBMAXBUFLEN + 1];
+            std::vector<char> buf(LOB_CHUNK_SIZE);
             ub4 amtp;
             ub1 piece;
             sword retval;
             ub4 nbytes;
             ub4 remainder;
 
-            ub4 filelen = file_length(fp);
+            ub4 filelen = fileLength(fp);
 
             if (filelen == 0) return 0;
 
             amtp = filelen;
-
             remainder = filelen;
 
-            (void)OCILobGetLength(m_handle.svchp, m_handle.errhp, m_lob, &loblen);
+            OCILobGetLength(m_svchp, m_errhp, m_lob, &loblen);
+            fseek(fp, 0, SEEK_SET);
 
-            (void)fseek(fp, 0, 0);
+            nbytes = (filelen > LOB_CHUNK_SIZE) ? LOB_CHUNK_SIZE : filelen;
 
-            if (filelen > LOBMAXBUFLEN)
+            if (fread(buf.data(), 1, nbytes, fp) != nbytes)
             {
-                nbytes = LOBMAXBUFLEN;
-            }
-            else
-            {
-                nbytes = filelen;
-            }
-
-            memset(bufp, 0, sizeof(bufp));
-
-            if (fread((void*)bufp, (size_t)nbytes, 1, fp) != 1)
-            {
-                m_cda.rc = -1;
-                strncpy(m_cda.message, "fread failed", 128);
+                m_result.code = -1;
+                m_result.error_msg = "fread failed";
                 return -1;
             }
 
@@ -904,56 +875,44 @@ namespace ol
 
             if (remainder == 0)
             {
-                // exactly one piece in the file
-                // Only one piece, no need for stream write
-                if ((retval = OCILobWrite(m_handle.svchp, m_handle.errhp, m_lob, &amtp, offset, (dvoid*)bufp,
-                                          (ub4)nbytes, OCI_ONE_PIECE, (dvoid*)0,
-                                          (sb4 (*)(dvoid*, dvoid*, ub4*, ub1*))0,
-                                          (ub2)0, (ub1)SQLCS_IMPLICIT)) != OCI_SUCCESS)
+                // 只有一块
+                retval = OCILobWrite(m_svchp, m_errhp, m_lob, &amtp, offset, buf.data(),
+                                     nbytes, OCI_ONE_PIECE, nullptr,
+                                     nullptr, 0, SQLCS_IMPLICIT);
+                if (retval != OCI_SUCCESS)
                 {
-                    err_report();
-                    return m_cda.rc;
+                    errReport();
+                    return m_result.code;
                 }
             }
             else
             {
-                // more than one piece
-                if (OCILobWrite(m_handle.svchp, m_handle.errhp, m_lob, &amtp, offset, (dvoid*)bufp,
-                                (ub4)LOBMAXBUFLEN, OCI_FIRST_PIECE, (dvoid*)0,
-                                (sb4 (*)(dvoid*, dvoid*, ub4*, ub1*))0,
-                                (ub2)0, (ub1)SQLCS_IMPLICIT) != OCI_NEED_DATA)
+                // 多块分片写入
+                retval = OCILobWrite(m_svchp, m_errhp, m_lob, &amtp, offset, buf.data(),
+                                     LOB_CHUNK_SIZE, OCI_FIRST_PIECE, nullptr,
+                                     nullptr, 0, SQLCS_IMPLICIT);
+                if (retval != OCI_NEED_DATA)
                 {
-                    err_report();
-                    return m_cda.rc;
+                    errReport();
+                    return m_result.code;
                 }
 
                 piece = OCI_NEXT_PIECE;
 
                 do
                 {
-                    if (remainder > LOBMAXBUFLEN)
-                    {
-                        nbytes = LOBMAXBUFLEN;
-                    }
-                    else
-                    {
-                        nbytes = remainder;
-                        piece = OCI_LAST_PIECE;
-                    }
+                    nbytes = (remainder > LOB_CHUNK_SIZE) ? LOB_CHUNK_SIZE : remainder;
+                    if (remainder <= LOB_CHUNK_SIZE) piece = OCI_LAST_PIECE;
 
-                    memset(bufp, 0, sizeof(bufp));
-
-                    if (fread((void*)bufp, (size_t)nbytes, 1, fp) != 1)
+                    if (fread(buf.data(), 1, nbytes, fp) != nbytes)
                     {
-                        m_cda.rc = -1;
-                        strncpy(m_cda.message, "fread failed", 128);
+                        m_result.code = -1;
+                        m_result.error_msg = "fread failed";
                         return -1;
                     }
 
-                    retval = OCILobWrite(m_handle.svchp, m_handle.errhp, m_lob, &amtp, offset, (dvoid*)bufp,
-                                         (ub4)nbytes, piece, (dvoid*)0,
-                                         (sb4 (*)(dvoid*, dvoid*, ub4*, ub1*))0,
-                                         (ub2)0, (ub1)SQLCS_IMPLICIT);
+                    retval = OCILobWrite(m_svchp, m_errhp, m_lob, &amtp, offset, buf.data(),
+                                         nbytes, piece, nullptr, nullptr, 0, SQLCS_IMPLICIT);
                     remainder -= nbytes;
 
                 } while (retval == OCI_NEED_DATA && !feof(fp));
@@ -961,94 +920,186 @@ namespace ol
 
             if (retval != OCI_SUCCESS)
             {
-                err_report();
-                return m_cda.rc;
+                errReport();
+                return m_result.code;
             }
 
-            (void)OCILobGetLength(m_handle.svchp, m_handle.errhp, m_lob, &loblen);
-
+            OCILobGetLength(m_svchp, m_errhp, m_lob, &loblen);
             return 0;
         }
 
-        // 把LOB字段中的内容写入文件
-        int DBStmt::lobtofile(const std::string& filename)
-        {
-            FILE* fp = 0;
-
-            if ((fp = fopen(filename.c_str(), "wb")) == 0)
-            {
-                m_cda.rc = -1;
-                strncpy(m_cda.message, "fopen failed", 128);
-                return -1;
-            }
-
-            fseek(fp, 0, 0);
-
-            int iret = lobtofile(fp);
-
-            fclose(fp);
-
-            // 如果文件在生成的过程中发生了错误，就删除该文件，因为它是一个不完整的文件
-            if (iret != 0) remove(filename.c_str());
-
-            return iret;
-        }
-
-        int DBStmt::lobtofile(FILE* fp)
+        int DBStmt::lobtofileInternal(FILE* fp)
         {
             ub4 offset = 1;
             ub4 loblen = 0;
-            ub1 bufp[LOBMAXBUFLEN + 1];
+            std::vector<char> buf(LOB_CHUNK_SIZE);
             ub4 amtp = 0;
             sword retval;
 
-            OCILobGetLength(m_handle.svchp, m_handle.errhp, m_lob, &loblen);
+            OCILobGetLength(m_svchp, m_errhp, m_lob, &loblen);
 
             if (loblen == 0) return 0;
 
             amtp = loblen;
 
-            memset(bufp, 0, sizeof(bufp));
+            ub4 readLen = (loblen < LOB_CHUNK_SIZE) ? loblen : LOB_CHUNK_SIZE;
 
-            retval = OCILobRead(m_handle.svchp, m_handle.errhp, m_lob, &amtp, offset, (dvoid*)bufp,
-                                (loblen < LOBMAXBUFLEN ? loblen : LOBMAXBUFLEN), (dvoid*)0,
-                                (sb4 (*)(dvoid*, const dvoid*, ub4, ub1))0,
-                                (ub2)0, (ub1)SQLCS_IMPLICIT);
+            retval = OCILobRead(m_svchp, m_errhp, m_lob, &amtp, offset, buf.data(),
+                                readLen, nullptr, nullptr, 0, SQLCS_IMPLICIT);
 
             switch (retval)
             {
-            case OCI_SUCCESS: /* only one piece */
-                fwrite((void*)bufp, (size_t)amtp, 1, fp);
+            case OCI_SUCCESS:
+                fwrite(buf.data(), 1, amtp, fp);
                 break;
 
-            case OCI_NEED_DATA: /* there are 2 or more pieces */
-                fwrite((void*)bufp, amtp, 1, fp);
+            case OCI_NEED_DATA:
+                fwrite(buf.data(), 1, amtp, fp);
 
-                while (1)
+                while (true)
                 {
                     amtp = 0;
-                    memset(bufp, 0, sizeof(bufp));
+                    retval = OCILobRead(m_svchp, m_errhp, m_lob, &amtp, offset, buf.data(),
+                                        LOB_CHUNK_SIZE, nullptr, nullptr, 0, SQLCS_IMPLICIT);
 
-                    retval = OCILobRead(m_handle.svchp, m_handle.errhp, m_lob, &amtp, offset, (dvoid*)bufp,
-                                        (ub4)LOBMAXBUFLEN, (dvoid*)0,
-                                        (sb4 (*)(dvoid*, const dvoid*, ub4, ub1))0,
-                                        (ub2)0, (ub1)SQLCS_IMPLICIT);
-
-                    fwrite((void*)bufp, (size_t)amtp, 1, fp);
+                    if (amtp > 0) fwrite(buf.data(), 1, amtp, fp);
 
                     if (retval != OCI_NEED_DATA) break;
                 }
-
                 break;
 
             case OCI_ERROR:
-                err_report();
-
-                return m_cda.rc;
+                errReport();
+                return m_result.code;
             }
 
             return 0;
         }
-        // ===========================================================================
+
+        int DBStmt::filetoblob(unsigned int pos, const std::string& filename)
+        {
+            FILE* fp = fopen(filename.c_str(), "rb");
+            if (!fp)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "fopen failed";
+                return -1;
+            }
+
+            if (bindblob(pos) != 0)
+            {
+                fclose(fp);
+                return -1;
+            }
+
+            int ret = filetolobInternal(fp);
+            fclose(fp);
+            return ret;
+        }
+
+        int DBStmt::filetoclob(unsigned int pos, const std::string& filename)
+        {
+            FILE* fp = fopen(filename.c_str(), "rb");
+            if (!fp)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "fopen failed";
+                return -1;
+            }
+
+            if (bindclob(pos) != 0)
+            {
+                fclose(fp);
+                return -1;
+            }
+
+            int ret = filetolobInternal(fp);
+            fclose(fp);
+            return ret;
+        }
+
+        int DBStmt::blobtofile(unsigned int pos, const std::string& filename)
+        {
+            FILE* fp = fopen(filename.c_str(), "wb");
+            if (!fp)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "fopen failed";
+                return -1;
+            }
+
+            if (bindblob(pos) != 0)
+            {
+                fclose(fp);
+                return -1;
+            }
+
+            int ret = lobtofileInternal(fp);
+            fclose(fp);
+
+            // 如果导出过程中发生错误，删除不完整的文件
+            if (ret != 0) remove(filename.c_str());
+
+            return ret;
+        }
+
+        int DBStmt::clobtofile(unsigned int pos, const std::string& filename)
+        {
+            FILE* fp = fopen(filename.c_str(), "wb");
+            if (!fp)
+            {
+                m_result.code = -1;
+                m_result.error_msg = "fopen failed";
+                return -1;
+            }
+
+            if (bindclob(pos) != 0)
+            {
+                fclose(fp);
+                return -1;
+            }
+
+            int ret = lobtofileInternal(fp);
+            fclose(fp);
+
+            if (ret != 0) remove(filename.c_str());
+
+            return ret;
+        }
+
+        // ===================== 工具方法 =====================
+        const char* DBStmt::sql() const { return m_sql.c_str(); }
+        int DBStmt::code() const { return m_result.code; }
+        size_t DBStmt::affectedRows() const { return m_result.affected_rows; }
+        std::string DBStmt::errorMsg() const { return m_result.error_msg; }
+
+        void DBStmt::errReport()
+        {
+            if (!isOpen())
+            {
+                m_result.code = -1;
+                m_result.error_msg = "cursor not open.";
+                return;
+            }
+
+            m_result.code = -1;
+            m_result.error_msg = "call err_report failed.";
+
+            if (m_errhp)
+            {
+                char errBuf[2048] = {0};
+                if (OCIErrorGet(m_errhp, 1, nullptr, &m_result.code, (OraText*)errBuf, sizeof(errBuf), OCI_HTYPE_ERROR)
+                    == OCI_NO_DATA)
+                {
+                    m_result.code = 0;
+                    m_result.error_msg.clear();
+                    return;
+                }
+                m_result.error_msg = errBuf;
+            }
+
+            m_conn.errReport();
+        }
+
     } // namespace oracle
 } // namespace ol

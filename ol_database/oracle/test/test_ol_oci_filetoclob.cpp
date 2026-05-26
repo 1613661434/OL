@@ -1,8 +1,10 @@
 /*
- *  程序名：test_ol_oci_filetoclob.cpp，此程序演示开发框架操作Oracle数据库（把文本文件存入数据库表的CLOB字段中）。
+ *  程序名：test_ol_oci_filetoclob.cpp，演示文本文件存入数据库CLOB字段
  *  作者：ol
  */
 #include "ol_oci.h" // 开发框架操作Oracle的头文件。
+#include <cstdio>
+#include <string>
 
 using namespace std;
 using namespace ol::oracle;
@@ -11,48 +13,65 @@ int main(int argc, char* argv[])
 {
     DBConn conn; // 创建数据库连接类的对象。
 
-    // 登录数据库，返回值：0-成功，其它-失败。
-    // 失败代码在conn.m_cda.rc中，失败描述在conn.m_cda.message中。
-    if (conn.connecttodb("scott/000888@snorcl11g_5", "Simplified Chinese_China.AL32UTF8") != 0)
+    // ===================== 数据库连接 =====================
+    conn.setConnectParam("scott/000888@snorcl11g_5", "Simplified Chinese_China.AL32UTF8");
+    if (!conn.connect())
     {
-        printf("connect database failed.\n%s\n", conn.message());
+        printf("connect database failed.\n%s\n", conn.errorMsg().c_str());
         return -1;
     }
 
     printf("connect database ok.\n");
 
-    // 修改girls表结构，增加memo1字段，用于测试。 alter table girls add memo1 clob;
-    DBStmt stmt(&conn);
-    stmt.prepare("insert into girls(id,name,memo1) values(1,'冰冰',empty_clob())"); // 注意：不可用null代替empty_clob()。
-    if (stmt.execute() != 0)
+    // ===================== 检查记录是否存在 =====================
+    auto stmtCheck = conn.createStmt();
+    stmtCheck->prepare("select id from girls where id=1");
+    long checkId = 0;
+    stmtCheck->bindout(1, checkId);
+    stmtCheck->execute();
+
+    // 准备SQL语句（使用memo字段存储CLOB）
+    auto stmt = conn.createStmt();
+    if (stmtCheck->next() == 100) // OCI_NO_DATA — 记录不存在
     {
-        printf("stmt.execute() failed.\n%s\n%s\n", stmt.sql(), stmt.message());
+        // 先插入一条带空CLOB的记录（注意：不可用null代替empty_clob()）
+        stmt->prepare("insert into girls(id,name,memo) values(1,'冰冰',empty_clob())");
+        if (!stmt->execute())
+        {
+            printf("insert failed.\n%s\n%s\n", stmt->sql(), stmt->errorMsg().c_str());
+            return -1;
+        }
+    }
+    else
+    {
+        // 记录存在但memo可能为NULL（被其他测试程序插入的），先设为empty_clob
+        stmt->prepare("update girls set memo=empty_clob() where id=1 and memo is null");
+        stmt->execute();
+    }
+
+    // 使用游标从girls表中提取memo字段并锁定
+    stmt->prepare("select memo from girls where id=1 for update");
+    stmt->bindclob(1);
+
+    // ===================== 执行查询 =====================
+    if (!stmt->execute())
+    {
+        printf("stmt.execute() failed.\n%s\n%s\n", stmt->sql(), stmt->errorMsg().c_str());
         return -1;
     }
 
-    // 使用游标从girls表中提取记录的memo1字段
-    stmt.prepare("select memo1 from girls where id=1 for update");
-    stmt.bindclob();
+    // 获取一条记录，0-成功，100(OCI_NO_DATA)-无记录
+    if (stmt->next() != 0) return 0;
 
-    // 执行SQL语句，一定要判断返回值，0-成功，其它-失败。
-    if (stmt.execute() != 0)
+    // 调用filetoclob接口写入文本数据
+    const string filename = "/home/mysql/OL/ol_database/oracle/test/data/memo_in.txt";
+    if (stmt->filetoclob(1, filename) != 0)
     {
-        printf("stmt.execute() failed.\n%s\n%s\n", stmt.sql(), stmt.message());
+        printf("stmt.filetoclob() failed.\n%s\n", stmt->errorMsg().c_str());
         return -1;
     }
 
-    // 获取一条记录，一定要判断返回值，0-成功，1403-无记录，其它-失败。
-    if (stmt.next() != 0) return 0;
-
-    // 把磁盘文件memo_in.txt的内容写入CLOB字段，一定要判断返回值，0-成功，其它-失败。
-    if (stmt.filetolob("/PROJECT/OL/db/oracle/Test/data/memo_in.txt") != 0)
-    {
-        printf("stmt.filetolob() failed.\n%s\n", stmt.message());
-        return -1;
-    }
-
-    printf("文本文件已存入数据库的CLOB字段中。\n");
-
+    printf("文本文件已成功存入memo字段(CLOB类型)\n");
     conn.commit();
 
     return 0;
