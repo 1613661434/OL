@@ -246,6 +246,10 @@ OL
 │   └── test/                 ## 测试程序（Echo/Bank 示例）
 │
 ├── ol_ftp/                   # FTP 客户端模块
+│   ├── include/              ## 头文件
+│   ├── src/                  ## 源文件
+│   ├── test/                 ## 测试程序
+│   └── third_party/ftplib/   ## FTP 底层库（内置依赖）
 │
 └── docs/                     # 项目文档
 ```
