@@ -220,7 +220,8 @@ $OutputEncoding = [Console::InputEncoding] = [Console::OutputEncoding] = [System
 ```
 OL
 ├── CMakeLists.txt            # 顶层构建配置
-├── README.md                 # 项目说明文档
+├── README.md                 # 项目说明文档（中文）
+├── README_EN.md              # 项目说明文档（英文）
 ├── LICENSE                   # 许可证
 ├── clang-format.txt          # 代码格式化配置
 │
