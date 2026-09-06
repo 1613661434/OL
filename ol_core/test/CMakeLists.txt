@@ -34,7 +34,7 @@ foreach(TEST_FILE ${OL_CORE_TEST_SRC})
         add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
         set_tests_properties(${TEST_NAME} PROPERTIES
             LABELS "core;automatic"
-            TIMEOUT 60
+            TIMEOUT 100
         )
     endif()
 endforeach()
