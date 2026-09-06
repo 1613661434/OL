@@ -12,6 +12,7 @@
 #include <iterator>
 #include <list>
 #include <memory>
+#include <stdexcept>
 #include <type_traits>
 #include <vector>
 
@@ -602,14 +603,14 @@ namespace ol
         // 基数排序（MSD）相关实现
         // -----------------------------------------------------------------------
         /**
-         * @brief 获取字符串在指定位置的字符（支持越界处理，使用unsigned char确保无符号性）
+         * @brief 获取字符串在指定位置的字符（使用-1表示字符串结束）
          * @param str 输入字符串
          * @param pos 字符位置（从0开始）
-         * @return 若pos在字符串长度范围内则返回对应unsigned char，否则返回'\0'
+         * @return 若pos在字符串长度范围内则返回对应unsigned char值，否则返回-1
          */
-        inline unsigned char get_char(const std::string& str, size_t pos)
+        inline int get_char(const std::string& str, size_t pos)
         {
-            return (pos < str.size()) ? static_cast<unsigned char>(str[pos]) : '\0';
+            return (pos < str.size()) ? static_cast<unsigned char>(str[pos]) : -1;
         }
 
         /**
@@ -636,24 +637,29 @@ namespace ol
             // 分配元素到对应桶（使用unsigned char避免符号扩展）
             for (auto iter = first; iter != last; ++iter)
             {
-                unsigned char c = get_char(*iter, pos);
-                size_t bucket_idx = static_cast<size_t>(c) + 1; // +1避开索引0
+                const int c = get_char(*iter, pos);
+                if (c >= radix)
+                    throw std::invalid_argument("Character value exceeds the configured radix");
+
+                // 字符串结束(-1)进入桶0，真实字节0..255进入桶1..256。
+                const size_t bucket_idx = static_cast<size_t>(c + 1);
                 buckets[bucket_idx].push_back(*iter);
             }
 
             // 将桶中元素写回原区间，并对非空桶递归排序下一位
             auto dest = first;
-            for (auto& bucket : buckets)
+            for (size_t bucket_idx = 0; bucket_idx < buckets.size(); ++bucket_idx)
             {
+                auto& bucket = buckets[bucket_idx];
                 if (bucket.empty()) continue;
 
                 // 将当前桶元素复制回原区间
+                auto bucket_first = dest;
                 dest = std::copy(bucket.begin(), bucket.end(), dest);
 
                 // 递归处理下一位（空字符桶不需要继续递归）
-                if (!bucket.empty() && &bucket != &buckets[0])
+                if (bucket_idx != 0 && bucket.size() > 1)
                 {
-                    auto bucket_first = dest - bucket.size();
                     radix_sort_msd_base(bucket_first, dest, pos + 1, max_pos, radix);
                 }
             }
