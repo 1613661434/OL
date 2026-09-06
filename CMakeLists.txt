@@ -37,13 +37,19 @@ option(OL_BUILD_DATABASE "Build database module" OFF)
 option(OL_BUILD_MYSQL "Build MySQL support" ON)
 option(OL_BUILD_ORACLE "Build Oracle support" OFF)
 
-## 模块独立测试开关
-option(OL_CORE_WITH_TESTS "Build and run core tests" OFF)
-option(OL_FTP_WITH_TESTS "Build and run FTP tests" OFF)
-option(OL_NETWORK_WITH_TESTS "Build and run network tests" OFF)
-option(OL_MYSQL_WITH_TESTS "Build and run MySQL tests" OFF)
-option(OL_ORACLE_WITH_TESTS "Build and run Oracle tests" OFF)
+## 模块独立测试开关（只控制是否编译测试，不会自动运行）
+option(OL_CORE_WITH_TESTS "Build core tests" OFF)
+option(OL_FTP_WITH_TESTS "Build FTP tests" OFF)
+option(OL_NETWORK_WITH_TESTS "Build network tests" OFF)
+option(OL_MYSQL_WITH_TESTS "Build MySQL tests" OFF)
+option(OL_ORACLE_WITH_TESTS "Build Oracle tests" OFF)
 # ===================== </Options> =====================
+
+# CTest必须在项目根目录启用，子目录注册的测试才能被ctest发现。
+if(OL_CORE_WITH_TESTS OR OL_FTP_WITH_TESTS OR OL_NETWORK_WITH_TESTS OR
+   OL_MYSQL_WITH_TESTS OR OL_ORACLE_WITH_TESTS)
+    enable_testing()
+endif()
 
 # 开启测试时，强制编译静态库，用于链接
 if(NOT OL_BUILD_STATIC_LIBS)

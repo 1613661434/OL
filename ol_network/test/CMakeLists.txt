@@ -30,4 +30,13 @@ foreach(TEST_FILE ${TEST_ENTRY_FILES})
     target_link_libraries(${TEST_NAME} PRIVATE ol_network)
     # 添加测试专用头文件
     target_include_directories(${TEST_NAME} PRIVATE ${TEST_INCLUDE})
+
+    # 地址类测试可独立完成；客户端和服务端程序需要手动配对运行。
+    if(TEST_NAME STREQUAL "test_ol_InetAddr")
+        add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
+        set_tests_properties(${TEST_NAME} PROPERTIES
+            LABELS "network;automatic"
+            TIMEOUT 30
+        )
+    endif()
 endforeach()

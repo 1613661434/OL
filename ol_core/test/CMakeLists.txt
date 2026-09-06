@@ -27,4 +27,14 @@ foreach(TEST_FILE ${OL_CORE_TEST_SRC})
     get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)
     add_executable(${TEST_NAME} ${TEST_FILE})
     target_link_libraries(${TEST_NAME} PRIVATE ol_core)
+
+    # 需要交互、多个进程、外部资源或用于性能测试的程序仍由用户手动运行。
+    if(NOT TEST_NAME MATCHES
+       "^test_(fifo_|ol_fstream_|ol_ipc|ol_signal|ol_tcp_|pipe|shm|ol_sort3)")
+        add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
+        set_tests_properties(${TEST_NAME} PROPERTIES
+            LABELS "core;automatic"
+            TIMEOUT 60
+        )
+    endif()
 endforeach()

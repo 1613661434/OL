@@ -126,6 +126,21 @@ All variables are set via `cmake -D<var>=<value>`.
 |OL_MYSQL_WITH_TESTS|OFF|Build MySQL tests|
 |OL_ORACLE_WITH_TESTS|OFF|Build Oracle tests|
 
+These switches only **build** test programs; they do not run them automatically. Once tests are enabled, use CTest as follows:
+
+```bash
+# List registered automatic tests
+ctest --test-dir build -N
+
+# Run one test
+ctest --test-dir build -R "^test_ol_cqueue$" --output-on-failure
+
+# Run all automatic tests
+ctest --test-dir build --output-on-failure -j 4
+```
+
+Tests that require terminal interaction, an external FTP/database service, IPC, or a separately started server and client are not registered as automatic tests. Continue to run those executables manually.
+
 ### Configuration Examples
 
 ```bash
@@ -138,8 +153,8 @@ cmake .. -DOL_BUILD_DATABASE=ON -DOL_BUILD_MYSQL=ON -DOL_BUILD_ORACLE=OFF -DOL_B
 # Example 3: Linux Oracle + tests (disable MySQL)
 cmake .. -DOL_BUILD_DATABASE=ON -DOL_BUILD_MYSQL=OFF -DOL_BUILD_ORACLE=ON -DOL_ORACLE_WITH_TESTS=ON
 
-# Example 4: Full build (core + network + database + FTP + all tests)
-cmake .. -DOL_BUILD_FTP=ON -DOL_BUILD_NETWORK=ON -DOL_BUILD_MYSQL=ON -DOL_BUILD_ORACLE=ON -D*_WITH_TESTS=ON
+# Example 4: Full build (core + network + database + FTP + all test programs)
+cmake .. -DOL_BUILD_FTP=ON -DOL_BUILD_NETWORK=ON -DOL_BUILD_DATABASE=ON -DOL_BUILD_MYSQL=ON -DOL_BUILD_ORACLE=ON -DOL_CORE_WITH_TESTS=ON -DOL_FTP_WITH_TESTS=ON -DOL_NETWORK_WITH_TESTS=ON -DOL_MYSQL_WITH_TESTS=ON -DOL_ORACLE_WITH_TESTS=ON
 ```
 
 ## 📝 Coding Conventions

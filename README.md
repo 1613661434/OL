@@ -131,6 +131,21 @@ bool newdir(const std::string& pathorfilename, bool bisfilename = true);
 |OL_MYSQL_WITH_TESTS|OFF|编译 MySQL 测试|
 |OL_ORACLE_WITH_TESTS|OFF|编译 Oracle 测试|
 
+测试开关只负责**编译**测试程序，不会自动运行。启用测试后可使用 CTest：
+
+```bash
+# 查看已注册的自动测试
+ctest --test-dir build -N
+
+# 只运行一个测试
+ctest --test-dir build -R "^test_ol_cqueue$" --output-on-failure
+
+# 批量运行全部自动测试
+ctest --test-dir build --output-on-failure -j 4
+```
+
+需要终端交互、外部 FTP/数据库、IPC，或需要同时启动服务端和客户端的测试不会注册为自动测试，请继续手动运行对应程序。
+
 ### 配置示例
 
 ```bash
@@ -143,8 +158,8 @@ cmake .. -DOL_BUILD_DATABASE=ON -DOL_BUILD_MYSQL=ON -DOL_BUILD_ORACLE=OFF -DOL_B
 # 示例3：Linux 开启 Oracle + 测试（关闭 MySQL）
 cmake .. -DOL_BUILD_DATABASE=ON -DOL_BUILD_MYSQL=OFF -DOL_BUILD_ORACLE=ON -DOL_ORACLE_WITH_TESTS=ON
 
-# 示例4：全功能开启（核心+网络+数据库+FTP+所有测试）
-cmake .. -DOL_BUILD_FTP=ON -DOL_BUILD_NETWORK=ON -DOL_BUILD_MYSQL=ON -DOL_BUILD_ORACLE=ON -D*_WITH_TESTS=ON
+# 示例4：全功能开启（核心+网络+数据库+FTP+所有测试程序）
+cmake .. -DOL_BUILD_FTP=ON -DOL_BUILD_NETWORK=ON -DOL_BUILD_DATABASE=ON -DOL_BUILD_MYSQL=ON -DOL_BUILD_ORACLE=ON -DOL_CORE_WITH_TESTS=ON -DOL_FTP_WITH_TESTS=ON -DOL_NETWORK_WITH_TESTS=ON -DOL_MYSQL_WITH_TESTS=ON -DOL_ORACLE_WITH_TESTS=ON
 ```
 
 ## 📝 编码规范
