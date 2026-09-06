@@ -26,8 +26,8 @@ namespace ol
         Shader& operator=(const Shader&) = delete;
 
         // 支持移动
-        Shader(Shader&&) noexcept = default;
-        Shader& operator=(Shader&&) noexcept = default;
+        Shader(Shader&& other) noexcept;
+        Shader& operator=(Shader&& other) noexcept;
 
         void loadShader(const std::string& vertexPath, const std::string& fragmentPath);
         void use() const noexcept;

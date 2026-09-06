@@ -26,6 +26,7 @@
 #include <memory>
 #include <type_traits>
 #include <chrono>
+#include <utility>
 
 namespace ol
 {
@@ -79,16 +80,89 @@ namespace ol
         friend class TypeSingleton<DBPool<T>>;
 
     public:
-        using ConnPtr = std::shared_ptr<T>;
         using ConnConfigCallback = std::function<void(T& conn)>;
         using TimeoutMs = std::chrono::milliseconds;
 
     private:
-        std::queue<ConnPtr> m_queue;    ///< 空闲连接队列
+        using StoragePtr = std::unique_ptr<T>;
+
+        enum class State : char
+        {
+            Uninitialized,
+            Initializing,
+            Running,
+            Stopped
+        };
+
+    public:
+        /**
+         * @brief 独占连接租约，离开作用域时自动将连接归还连接池
+         * @note 不可复制但可以移动，从类型上避免重复归还和归还外部连接
+         */
+        class ConnectionLease
+        {
+            friend class DBPool<T>;
+
+        private:
+            DBPool* m_pool{nullptr};
+            StoragePtr m_conn;
+
+            ConnectionLease(DBPool* pool, StoragePtr conn) noexcept
+                : m_pool(pool), m_conn(std::move(conn))
+            {
+            }
+
+        public:
+            ConnectionLease() noexcept = default;
+            ~ConnectionLease() { reset(); }
+
+            ConnectionLease(const ConnectionLease&) = delete;
+            ConnectionLease& operator=(const ConnectionLease&) = delete;
+
+            ConnectionLease(ConnectionLease&& other) noexcept
+                : m_pool(std::exchange(other.m_pool, nullptr)),
+                  m_conn(std::move(other.m_conn))
+            {
+            }
+
+            ConnectionLease& operator=(ConnectionLease&& other) noexcept
+            {
+                if (this == &other) return *this;
+                reset();
+                m_pool = std::exchange(other.m_pool, nullptr);
+                m_conn = std::move(other.m_conn);
+                return *this;
+            }
+
+            T* get() const noexcept { return m_conn.get(); }
+            T& operator*() const noexcept { return *m_conn; }
+            T* operator->() const noexcept { return m_conn.get(); }
+            explicit operator bool() const noexcept { return static_cast<bool>(m_conn); }
+
+            void reset() noexcept
+            {
+                if (!m_conn)
+                {
+                    m_pool = nullptr;
+                    return;
+                }
+
+                StoragePtr conn = std::move(m_conn);
+                DBPool* pool = std::exchange(m_pool, nullptr);
+                if (pool) pool->returnConnection(std::move(conn));
+            }
+        };
+
+        // 保留原名称以兼容使用auto/ConnPtr的现有代码；实际类型已改为RAII租约。
+        using ConnPtr = ConnectionLease;
+
+    private:
+        std::queue<StoragePtr> m_queue; ///< 空闲连接队列
         mutable std::mutex m_mtx;       ///< 互斥锁
         std::condition_variable m_cv;   ///< 条件变量：实现空闲连接阻塞等待
         size_t m_max_conn{0};           ///< 最大连接数
         ConnConfigCallback m_config_cb; ///< 连接初始化配置回调
+        State m_state{State::Uninitialized}; ///< 连接池状态（由m_mtx保护）
 
     private:
         // 单例模式：构造函数私有化
@@ -96,6 +170,87 @@ namespace ol
 
         // 析构函数私有化
         ~DBPool() { destroy(); }
+
+        static void disconnectNoexcept(StoragePtr& conn) noexcept
+        {
+            if (!conn) return;
+            try
+            {
+                conn->disconnect();
+            }
+            catch (...)
+            {
+            }
+        }
+
+        static void disconnectAll(std::queue<StoragePtr>& connections) noexcept
+        {
+            while (!connections.empty())
+            {
+                StoragePtr conn = std::move(connections.front());
+                connections.pop();
+                disconnectNoexcept(conn);
+            }
+        }
+
+        void returnConnection(StoragePtr conn) noexcept
+        {
+            if (!conn) return;
+
+            try
+            {
+                conn->reset();
+            }
+            catch (...)
+            {
+                disconnectNoexcept(conn);
+                return;
+            }
+
+            bool returned = false;
+            {
+                std::lock_guard<std::mutex> lock(m_mtx);
+                if (m_state == State::Running)
+                {
+                    try
+                    {
+                        m_queue.push(std::move(conn));
+                        returned = true;
+                    }
+                    catch (...)
+                    {
+                    }
+                }
+            }
+
+            if (returned)
+                m_cv.notify_one();
+            else
+                disconnectNoexcept(conn);
+        }
+
+        ConnPtr prepareLease(StoragePtr conn, const ConnConfigCallback& config_cb)
+        {
+            try
+            {
+                if (!conn->isConnected())
+                {
+                    config_cb(*conn);
+                    if (!conn->connect())
+                    {
+                        returnConnection(std::move(conn));
+                        return {};
+                    }
+                }
+            }
+            catch (...)
+            {
+                returnConnection(std::move(conn));
+                throw;
+            }
+
+            return ConnPtr(this, std::move(conn));
+        }
 
     public:
         /**
@@ -107,114 +262,165 @@ namespace ol
          */
         void init(size_t max_conn, ConnConfigCallback config_cb)
         {
-            // 防止重复初始化
-            if (m_max_conn > 0 || m_config_cb) throw std::runtime_error("DBPool: Singleton pool has been initialized!");
-
             if (!config_cb) throw std::invalid_argument("DBPool: Connection configuration callback cannot be empty!");
             if (max_conn == 0) throw std::invalid_argument("DBPool: Maximum connection count cannot be zero!");
 
-            m_max_conn = max_conn;
-            m_config_cb = std::move(config_cb);
-
-            // 初始化所有连接
-            for (size_t i = 0; i < m_max_conn; ++i)
             {
-                ConnPtr conn = std::make_shared<T>();
-                m_config_cb(*conn);
-                if (!conn->connect()) throw std::runtime_error("DBPool: Database connection initialization failed!");
-                m_queue.push(conn);
+                std::lock_guard<std::mutex> lock(m_mtx);
+                if (m_state != State::Uninitialized)
+                    throw std::runtime_error("DBPool: Singleton pool has been initialized or stopped!");
+                m_state = State::Initializing;
             }
+
+            std::queue<StoragePtr> connections;
+            try
+            {
+                for (size_t i = 0; i < max_conn; ++i)
+                {
+                    StoragePtr conn = std::make_unique<T>();
+                    config_cb(*conn);
+                    if (!conn->connect())
+                    {
+                        disconnectNoexcept(conn);
+                        throw std::runtime_error("DBPool: Database connection initialization failed!");
+                    }
+                    connections.push(std::move(conn));
+                }
+            }
+            catch (...)
+            {
+                disconnectAll(connections);
+                {
+                    std::lock_guard<std::mutex> lock(m_mtx);
+                    if (m_state == State::Initializing) m_state = State::Uninitialized;
+                }
+                m_cv.notify_all();
+                throw;
+            }
+
+            bool initialized = false;
+            {
+                std::lock_guard<std::mutex> lock(m_mtx);
+                if (m_state == State::Initializing)
+                {
+                    m_max_conn = max_conn;
+                    m_config_cb = std::move(config_cb);
+                    m_queue.swap(connections);
+                    m_state = State::Running;
+                    initialized = true;
+                }
+            }
+
+            m_cv.notify_all();
+            if (initialized) return;
+
+            disconnectAll(connections);
+            throw std::runtime_error("DBPool: Pool was stopped during initialization!");
         }
 
         /**
          * @brief 阻塞获取连接（无限等待，直到获取到可用连接）
-         * @return 有效的数据库连接智能指针
+         * @return 成功返回连接租约；连接池已停止时返回空租约
          * @note 无空闲连接时线程阻塞，获取后自动检查连接有效性
          * @note 必须先调用init()初始化连接池
          */
         ConnPtr get()
         {
+            StoragePtr conn;
+            ConnConfigCallback config_cb;
             std::unique_lock<std::mutex> lock(m_mtx);
-            // 等待队列非空
-            m_cv.wait(lock, [this]()
-                      { return !m_queue.empty(); });
 
-            // 取出连接
-            ConnPtr conn = m_queue.front();
+            if (m_state == State::Uninitialized)
+                throw std::logic_error("DBPool::get: Pool has not been initialized!");
+
+            if (m_state == State::Initializing)
+                m_cv.wait(lock, [this]() { return m_state != State::Initializing; });
+
+            if (m_state != State::Running) return {};
+
+            m_cv.wait(lock, [this]()
+                      { return !m_queue.empty() || m_state != State::Running; });
+
+            if (m_state != State::Running) return {};
+
+            conn = std::move(m_queue.front());
             m_queue.pop();
+            config_cb = m_config_cb;
             lock.unlock();
 
-            // 自动重连：保证连接有效性
-            if (!conn->isConnected())
-            {
-                m_config_cb(*conn);
-                conn->connect();
-            }
-
-            return conn->isConnected() ? conn : nullptr;
+            return prepareLease(std::move(conn), config_cb);
         }
 
         /**
          * @brief 超时获取连接（带默认超时时间）
          * @param timeout_ms 超时时间，默认3秒
-         * @return 成功返回有效连接，超时返回nullptr
+         * @return 成功返回连接租约；超时或连接池已停止时返回空租约
          * @note 超时时间可自定义，避免线程无限阻塞
          * @note 必须先调用init()初始化连接池
          */
         ConnPtr getTimeout(TimeoutMs timeout_ms = TimeoutMs(3000))
         {
+            if (timeout_ms < TimeoutMs::zero())
+                throw std::invalid_argument("DBPool::getTimeout: Timeout cannot be negative!");
+
+            const auto deadline = std::chrono::steady_clock::now() + timeout_ms;
+            StoragePtr conn;
+            ConnConfigCallback config_cb;
             std::unique_lock<std::mutex> lock(m_mtx);
 
-            // 带超时等待空闲连接
-            if (!m_cv.wait_for(lock, timeout_ms, [this]()
-                               { return !m_queue.empty(); })) return nullptr;
+            if (m_state == State::Uninitialized)
+                throw std::logic_error("DBPool::getTimeout: Pool has not been initialized!");
 
-            ConnPtr conn = m_queue.front();
+            if (m_state == State::Initializing &&
+                !m_cv.wait_until(lock, deadline, [this]() { return m_state != State::Initializing; }))
+                return {};
+
+            if (m_state != State::Running) return {};
+
+            if (!m_cv.wait_until(lock, deadline, [this]()
+                                 { return !m_queue.empty() || m_state != State::Running; }))
+                return {};
+
+            if (m_state != State::Running) return {};
+
+            conn = std::move(m_queue.front());
             m_queue.pop();
+            config_cb = m_config_cb;
             lock.unlock();
 
-            // 自动重连
-            if (!conn->isConnected())
-            {
-                m_config_cb(*conn);
-                conn->connect();
-            }
-
-            return conn->isConnected() ? conn : nullptr;
+            return prepareLease(std::move(conn), config_cb);
         }
 
         /**
-         * @brief 释放连接（归还到连接池）
-         * @param conn 待归还的数据库连接
-         * @throw std::runtime_error 空闲连接数达到最大值时抛出（非法归还连接）
-         * @note 归还前自动重置连接状态，唤醒一个等待线程
+         * @brief 提前释放连接租约（通常无需调用，租约析构时会自动归还）
+         * @param conn 由当前连接池获取的连接租约
+         * @note 重复调用安全；外部连接无法构造成ConnectionLease
          */
-        void release(ConnPtr conn)
+        void release(ConnPtr& conn) noexcept
         {
-            if (!conn) return;
-
-            std::lock_guard<std::mutex> lock(m_mtx);
-
-            if (m_queue.size() >= m_max_conn) throw std::runtime_error("DBPool::release: The DBPool is full!");
-
-            conn->reset();      // 重置连接状态
-            m_queue.push(conn); // 归还至空闲队列
-            m_cv.notify_one();  // 唤醒一个等待的工作线程
+            conn.reset();
         }
 
         /**
          * @brief 销毁连接池，关闭所有数据库连接
          * @note 唤醒所有等待线程，避免销毁时阻塞卡死
          */
-        void destroy()
+        void destroy() noexcept
         {
-            std::lock_guard<std::mutex> lock(m_mtx);
-            while (!m_queue.empty())
             {
-                m_queue.front()->disconnect();
-                m_queue.pop();
+                std::lock_guard<std::mutex> lock(m_mtx);
+                if (m_state == State::Stopped) return;
+                m_state = State::Stopped;
             }
-            m_cv.notify_all(); // 唤醒所有等待线程
+
+            m_cv.notify_all();
+
+            std::queue<StoragePtr> connections;
+            {
+                std::lock_guard<std::mutex> lock(m_mtx);
+                connections.swap(m_queue);
+            }
+            disconnectAll(connections);
         }
 
         /**
@@ -234,7 +440,17 @@ namespace ol
          */
         size_t maxConn() const
         {
+            std::lock_guard<std::mutex> lock(m_mtx);
             return m_max_conn;
+        }
+
+        /**
+         * @brief 检查连接池是否仍接受连接获取和归还
+         */
+        bool isRunning() const
+        {
+            std::lock_guard<std::mutex> lock(m_mtx);
+            return m_state == State::Running;
         }
     };
 

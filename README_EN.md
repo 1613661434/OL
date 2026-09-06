@@ -7,7 +7,7 @@
 [![MySQL](https://img.shields.io/badge/database-MySQL%205.7%2B-%234479A1?logo=mysql)](https://www.mysql.com/)
 [![Oracle](https://img.shields.io/badge/database-Oracle%2011g%2B-%23F80000?logo=oracle)](https://www.oracle.com/database/)
 
-A C++17 utility library featuring `ol_core` (core utilities), `ol_network` (**Linux master/worker Reactor network library**), `ol_database` (MySQL/Oracle integration), and `ol_ftp` (FTP client), with modular compilation, cross-platform support, and Linux-native high-performance networking.
+A C++17 utility library featuring `ol_core` (core utilities), `ol_network` (**Linux master/worker Reactor network library**), `ol_database` (MySQL/Oracle integration), `ol_ftp` (FTP client), `ol_gl` (OpenGL helpers), and `ol_qt` (Qt 6 media playlist helpers).
 
 > **Author: ol木子李lo（aka: ol）**
 >
@@ -46,6 +46,12 @@ Modular compilation design — enable or disable modules on demand:
 
 - `ol_ftp`: **FTP client module**
   Based on built-in third-party library `ftplib`: file upload/download, directory operations, file listings.
+
+- `ol_gl`: **OpenGL helper module**
+  Camera and shader-program loading, use, and uniform-cache helpers.
+
+- `ol_qt`: **Qt 6 helper module**
+  A Qt 6 media playlist wrapper with sequential navigation and loop playback modes.
 
 ## 📚 Documentation Conventions
 
@@ -86,6 +92,8 @@ bool newdir(const std::string& pathorfilename, bool bisfilename = true);
 |ol_database(MySQL)|MySQL client 5.7+, set `MYSQL_HOME`|
 |ol_database(Oracle)|Oracle client 11g+, set `ORACLE_HOME`|
 |ol_ftp|Built-in ftplib, no extra installation needed|
+|ol_gl|OpenGL, GLAD, and GLM; use CMake packages or set `OL_GLAD_ROOT`/`GLAD_ROOT` and `OL_GLM_ROOT`/`GLM_ROOT`|
+|ol_qt|Qt 6.0+ Core/Multimedia; set `CMAKE_PREFIX_PATH` to the Qt installation when needed|
 
 ## 🔧 CMake Configuration
 
@@ -109,6 +117,8 @@ All variables are set via `cmake -D<var>=<value>`.
 |OL_BUILD_FTP|OFF|Build FTP client module|
 |OL_BUILD_NETWORK|OFF|Build Linux network library module|
 |OL_BUILD_DATABASE|OFF|Build database module|
+|OL_BUILD_GL|OFF|Build OpenGL helper module|
+|OL_BUILD_QT|OFF|Build Qt 6 helper module|
 
 ### 3. Database Sub-Module Switches
 
@@ -126,6 +136,9 @@ All variables are set via `cmake -D<var>=<value>`.
 |OL_NETWORK_WITH_TESTS|OFF|Build network library tests|
 |OL_MYSQL_WITH_TESTS|OFF|Build MySQL tests|
 |OL_ORACLE_WITH_TESTS|OFF|Build Oracle tests|
+|OL_DATABASE_WITH_TESTS|OFF|Build database-pool tests that need no database server|
+|OL_GL_WITH_TESTS|OFF|Build OpenGL helper tests|
+|OL_QT_WITH_TESTS|OFF|Build Qt 6 helper tests|
 
 These switches only **build** test programs; they do not run them automatically. Once tests are enabled, use CTest as follows:
 
@@ -154,8 +167,8 @@ cmake .. -DOL_BUILD_DATABASE=ON -DOL_BUILD_MYSQL=ON -DOL_BUILD_ORACLE=OFF -DOL_B
 # Example 3: Linux Oracle + tests (disable MySQL)
 cmake .. -DOL_BUILD_DATABASE=ON -DOL_BUILD_MYSQL=OFF -DOL_BUILD_ORACLE=ON -DOL_ORACLE_WITH_TESTS=ON
 
-# Example 4: Full build (core + network + database + FTP + all test programs)
-cmake .. -DOL_BUILD_FTP=ON -DOL_BUILD_NETWORK=ON -DOL_BUILD_DATABASE=ON -DOL_BUILD_MYSQL=ON -DOL_BUILD_ORACLE=ON -DOL_CORE_WITH_TESTS=ON -DOL_FTP_WITH_TESTS=ON -DOL_NETWORK_WITH_TESTS=ON -DOL_MYSQL_WITH_TESTS=ON -DOL_ORACLE_WITH_TESTS=ON
+# Example 4: OpenGL + Qt 6 (adjust paths to your local installations)
+cmake .. -DOL_BUILD_GL=ON -DOL_GLAD_ROOT=/path/to/glad -DOL_GLM_ROOT=/path/to/glm -DOL_BUILD_QT=ON -DCMAKE_PREFIX_PATH=/path/to/Qt/6.x/gcc_64
 ```
 
 ## 📝 Coding Conventions
@@ -263,6 +276,16 @@ OL
 │   ├── src/                  #   Sources
 │   ├── test/                 #   Tests
 │   └── third_party/ftplib/   #   FTP core library (built-in dependency)
+│
+├── ol_gl/                    # OpenGL helper module
+│   ├── include/              #   Camera/Shader headers
+│   ├── src/                  #   Sources
+│   └── test/                 #   Ownership test without a graphics context
+│
+├── ol_qt/                    # Qt 6 helper module
+│   ├── include/              #   MediaPlaylist header
+│   ├── src/                  #   Sources
+│   └── test/                 #   Playlist tests
 │
 └── docs/                     # Documentation
 ```

@@ -35,6 +35,8 @@ set(OL_BUILD_CORE ON)
 option(OL_BUILD_FTP "Build FTP module" OFF)
 option(OL_BUILD_NETWORK "Build network module" OFF)
 option(OL_BUILD_DATABASE "Build database module" OFF)
+option(OL_BUILD_GL "Build OpenGL helper module" OFF)
+option(OL_BUILD_QT "Build Qt helper module" OFF)
 
 ## 数据库子模块开关
 option(OL_BUILD_MYSQL "Build MySQL support" ON)
@@ -46,6 +48,9 @@ option(OL_FTP_WITH_TESTS "Build FTP tests" OFF)
 option(OL_NETWORK_WITH_TESTS "Build network tests" OFF)
 option(OL_MYSQL_WITH_TESTS "Build MySQL tests" OFF)
 option(OL_ORACLE_WITH_TESTS "Build Oracle tests" OFF)
+option(OL_DATABASE_WITH_TESTS "Build database pool tests" OFF)
+option(OL_GL_WITH_TESTS "Build OpenGL helper tests" OFF)
+option(OL_QT_WITH_TESTS "Build Qt helper tests" OFF)
 # ===================== </Options> =====================
 
 if(OL_ENABLE_DEBUG_LOGS)
@@ -54,13 +59,16 @@ endif()
 
 # CTest必须在项目根目录启用，子目录注册的测试才能被ctest发现。
 if(OL_CORE_WITH_TESTS OR OL_FTP_WITH_TESTS OR OL_NETWORK_WITH_TESTS OR
-   OL_MYSQL_WITH_TESTS OR OL_ORACLE_WITH_TESTS)
+   OL_MYSQL_WITH_TESTS OR OL_ORACLE_WITH_TESTS OR OL_DATABASE_WITH_TESTS OR
+   OL_GL_WITH_TESTS OR OL_QT_WITH_TESTS)
     enable_testing()
 endif()
 
 # 开启测试时，强制编译静态库，用于链接
 if(NOT OL_BUILD_STATIC_LIBS)
-    if(OL_CORE_WITH_TESTS OR OL_FTP_WITH_TESTS OR OL_NETWORK_WITH_TESTS OR OL_MYSQL_WITH_TESTS OR OL_ORACLE_WITH_TESTS)
+    if(OL_CORE_WITH_TESTS OR OL_FTP_WITH_TESTS OR OL_NETWORK_WITH_TESTS OR
+       OL_MYSQL_WITH_TESTS OR OL_ORACLE_WITH_TESTS OR OL_DATABASE_WITH_TESTS OR
+       OL_GL_WITH_TESTS OR OL_QT_WITH_TESTS)
         set(OL_BUILD_STATIC_LIBS ON CACHE BOOL "Build all modules as static libraries (GLOBAL)" FORCE)
         message(STATUS "[INFO] Tests enabled, static library build auto-enabled: OL_BUILD_STATIC_LIBS = ON")
     endif()
@@ -121,4 +129,12 @@ endif()
 
 if(OL_BUILD_DATABASE)
     add_subdirectory(ol_database)
+endif()
+
+if(OL_BUILD_GL)
+    add_subdirectory(ol_gl)
+endif()
+
+if(OL_BUILD_QT)
+    add_subdirectory(ol_qt)
 endif()

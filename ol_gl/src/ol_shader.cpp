@@ -3,6 +3,7 @@
 #include <sstream>
 #include <fstream>
 #include <stdexcept>
+#include <utility>
 
 namespace ol
 {
@@ -10,6 +11,22 @@ namespace ol
     Shader::~Shader()
     {
         if (isValid()) glDeleteProgram(m_id);
+    }
+
+    Shader::Shader(Shader&& other) noexcept
+        : m_id(std::exchange(other.m_id, 0)),
+          m_uniformCache(std::move(other.m_uniformCache))
+    {
+    }
+
+    Shader& Shader::operator=(Shader&& other) noexcept
+    {
+        if (this == &other) return *this;
+
+        if (isValid()) glDeleteProgram(m_id);
+        m_id = std::exchange(other.m_id, 0);
+        m_uniformCache = std::move(other.m_uniformCache);
+        return *this;
     }
 
     Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath)

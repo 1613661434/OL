@@ -7,7 +7,7 @@
 [![MySQL](https://img.shields.io/badge/database-MySQL%205.7%2B-%234479A1?logo=mysql)](https://www.mysql.com/)
 [![Oracle](https://img.shields.io/badge/database-Oracle%2011g%2B-%23F80000?logo=oracle)](https://www.oracle.com/database/)
 
-一个包含 `ol_core`（基础工具库）、`ol_network`（**Linux 主从 Reactor 多线程网络库**）、`ol_database`（MySQL/Oracle 数据库交互）及 `ol_ftp`（FTP 客户端）的 C++17 工具库，提供模块化编译、跨平台支持及 Linux 专属高性能网络通信能力。
+一个包含 `ol_core`（基础工具库）、`ol_network`（**Linux 主从 Reactor 多线程网络库**）、`ol_database`（MySQL/Oracle 数据库交互）、`ol_ftp`（FTP 客户端）、`ol_gl`（OpenGL 辅助工具）及 `ol_qt`（Qt6 媒体播放列表）的 C++17 工具库。
 
 > **作者：ol木子李lo（简称:ol）**
 >
@@ -52,6 +52,12 @@
 - `ol_ftp`：**FTP 客户端模块**
   基于内置第三方库 `ftplib` 实现，支持文件上传 / 下载、目录操作、文件列表获取。
 
+- `ol_gl`：**OpenGL 辅助模块**
+  提供摄像机与 Shader program 的加载、使用和 uniform 缓存封装。
+
+- `ol_qt`：**Qt6 辅助模块**
+  提供 Qt6 媒体播放列表封装，支持顺序切换与循环播放。
+
 ## 📚 代码文档规范
 
 本项目所有头文件（`.h`）均遵循 **Doxygen 注释规范**：
@@ -91,6 +97,8 @@ bool newdir(const std::string& pathorfilename, bool bisfilename = true);
 |ol_database(MySQL)|MySQL 客户端 5.7+，需配置 `MYSQL_HOME`|
 |ol_database(Oracle)|Oracle 客户端 11g+，需配置 `ORACLE_HOME`|
 |ol_ftp|内置 ftplib，无需额外安装|
+|ol_gl|OpenGL、GLAD 和 GLM；可用 CMake package，或配置 `OL_GLAD_ROOT`/`GLAD_ROOT` 与 `OL_GLM_ROOT`/`GLM_ROOT`|
+|ol_qt|Qt 6.0+ Core/Multimedia；必要时通过 `CMAKE_PREFIX_PATH` 指定 Qt 安装目录|
 
 ## 🔧 CMake 配置变量说明
 
@@ -114,6 +122,8 @@ bool newdir(const std::string& pathorfilename, bool bisfilename = true);
 |OL_BUILD_FTP|OFF|编译 FTP 客户端模块|
 |OL_BUILD_NETWORK|OFF|编译 Linux 网络库模块|
 |OL_BUILD_DATABASE|OFF|编译数据库模块|
+|OL_BUILD_GL|OFF|编译 OpenGL 辅助模块|
+|OL_BUILD_QT|OFF|编译 Qt6 辅助模块|
 
 ### 3. 数据库子模块开关
 
@@ -131,6 +141,9 @@ bool newdir(const std::string& pathorfilename, bool bisfilename = true);
 |OL_NETWORK_WITH_TESTS|OFF|编译网络库测试|
 |OL_MYSQL_WITH_TESTS|OFF|编译 MySQL 测试|
 |OL_ORACLE_WITH_TESTS|OFF|编译 Oracle 测试|
+|OL_DATABASE_WITH_TESTS|OFF|编译不需数据库服务器的连接池测试|
+|OL_GL_WITH_TESTS|OFF|编译 OpenGL 辅助测试|
+|OL_QT_WITH_TESTS|OFF|编译 Qt6 辅助测试|
 
 测试开关只负责**编译**测试程序，不会自动运行。启用测试后可使用 CTest：
 
@@ -159,8 +172,8 @@ cmake .. -DOL_BUILD_DATABASE=ON -DOL_BUILD_MYSQL=ON -DOL_BUILD_ORACLE=OFF -DOL_B
 # 示例3：Linux 开启 Oracle + 测试（关闭 MySQL）
 cmake .. -DOL_BUILD_DATABASE=ON -DOL_BUILD_MYSQL=OFF -DOL_BUILD_ORACLE=ON -DOL_ORACLE_WITH_TESTS=ON
 
-# 示例4：全功能开启（核心+网络+数据库+FTP+所有测试程序）
-cmake .. -DOL_BUILD_FTP=ON -DOL_BUILD_NETWORK=ON -DOL_BUILD_DATABASE=ON -DOL_BUILD_MYSQL=ON -DOL_BUILD_ORACLE=ON -DOL_CORE_WITH_TESTS=ON -DOL_FTP_WITH_TESTS=ON -DOL_NETWORK_WITH_TESTS=ON -DOL_MYSQL_WITH_TESTS=ON -DOL_ORACLE_WITH_TESTS=ON
+# 示例4：开启 OpenGL 和 Qt6（路径按本机实际安装位置修改）
+cmake .. -DOL_BUILD_GL=ON -DOL_GLAD_ROOT=/path/to/glad -DOL_GLM_ROOT=/path/to/glm -DOL_BUILD_QT=ON -DCMAKE_PREFIX_PATH=/path/to/Qt/6.x/gcc_64
 ```
 
 ## 📝 编码规范
@@ -267,6 +280,16 @@ OL
 │   ├── src/                  ## 源文件
 │   ├── test/                 ## 测试程序
 │   └── third_party/ftplib/   ## FTP 底层库（内置依赖）
+│
+├── ol_gl/                    # OpenGL 辅助模块
+│   ├── include/              ## Camera/Shader 头文件
+│   ├── src/                  ## 源文件
+│   └── test/                 ## 无图形上下文的所有权测试
+│
+├── ol_qt/                    # Qt6 辅助模块
+│   ├── include/              ## MediaPlaylist 头文件
+│   ├── src/                  ## 源文件
+│   └── test/                 ## 播放列表测试
 │
 └── docs/                     # 项目文档
 ```

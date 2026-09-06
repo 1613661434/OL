@@ -20,6 +20,7 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <utility>
 
 namespace ol
 {
@@ -162,8 +163,15 @@ namespace ol
             else
             {
                 unsigned char c = key[i];
-                // 递归删除子节点
-                node->children[c] = remove(node->children[c], key, i + 1);
+                auto childIt = node->children.find(c);
+                if (childIt == node->children.end()) return node;
+
+                // 递归删除子节点；子树被完全剪枝时必须擦除映射，不能留下空shared_ptr。
+                auto child = remove(childIt->second, key, i + 1);
+                if (child)
+                    childIt->second = std::move(child);
+                else
+                    node->children.erase(childIt);
             }
 
             // 后序处理：如果节点有效（isValid=true），保留节点

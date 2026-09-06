@@ -22,6 +22,10 @@ if(OL_BUILD_ORACLE)
     add_subdirectory(oracle)
 endif()
 
+if(OL_DATABASE_WITH_TESTS)
+    add_subdirectory(test)
+endif()
+
 # 既没有公共代码，也没有启用任何数据库 → 直接跳过构建
 if(NOT OL_DATABASE_SOURCES)
     message(STATUS "[INFO] ol_database: No public code and no database enabled, skipping build.")

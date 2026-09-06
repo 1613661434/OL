@@ -146,9 +146,10 @@ namespace ol
             const int new_count = recursion_count.fetch_sub(1, std::memory_order_relaxed) - 1;
             if (new_count <= 0)
             {
-                flag.clear(std::memory_order_release);
-                owner_thread.store(std::thread::id(), std::memory_order_release);
                 recursion_count.store(0, std::memory_order_relaxed);
+                owner_thread.store(std::thread::id(), std::memory_order_relaxed);
+                // owner和递归计数必须在发布空闲状态前清除，避免新持有者的数据被旧线程覆盖。
+                flag.clear(std::memory_order_release);
             }
         }
     };
