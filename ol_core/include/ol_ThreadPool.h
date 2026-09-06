@@ -46,6 +46,21 @@
 
 namespace ol
 {
+    namespace thread_pool_detail
+    {
+        inline std::mutex& logOutputMutex()
+        {
+            static std::mutex mutex;
+            return mutex;
+        }
+
+        inline uint64_t nextLogSequence()
+        {
+            static std::atomic<uint64_t> sequence{0};
+            return sequence.fetch_add(1, std::memory_order_relaxed) + 1;
+        }
+    } // namespace thread_pool_detail
+
     /**
      * @brief 线程池模板类，支持动态/固定两种工作模式
      * @tparam IsDynamic 是否启用动态模式：true为动态扩缩容模式，false为固定线程数模式（默认）
@@ -130,6 +145,60 @@ namespace ol
             }
         };
 
+#ifdef OL_DEBUG
+        static const char* stateName(State state) noexcept
+        {
+            switch (state)
+            {
+            case State::Running:
+                return "Running";
+            case State::Draining:
+                return "Draining";
+            case State::Cancelling:
+                return "Cancelling";
+            case State::Stopped:
+                return "Stopped";
+            }
+            return "Unknown";
+        }
+
+        template <typename... Args>
+        void debugLog(const char* event, const char* format, Args... args) const
+        {
+            std::lock_guard<std::mutex> lock(thread_pool_detail::logOutputMutex());
+            const uint64_t sequence = thread_pool_detail::nextLogSequence();
+            fprintf(stderr,
+                    "[ol::ThreadPool][seq=%" PRIu64 "][pool=%p][mode=%s][os_tid=%" PRIu64 "][std_id=%" PRIu64 "][%s] ",
+                    sequence,
+                    static_cast<const void*>(this),
+                    IsDynamic ? "dynamic" : "fixed",
+                    getThreadId(),
+                    getThreadId(std::this_thread::get_id()),
+                    event);
+            fprintf(stderr, format, args...);
+            fputc('\n', stderr);
+            fflush(stderr);
+        }
+#endif
+
+        template <typename... Args>
+        void errorLog(const char* event, const char* format, Args... args) const
+        {
+            std::lock_guard<std::mutex> lock(thread_pool_detail::logOutputMutex());
+            const uint64_t sequence = thread_pool_detail::nextLogSequence();
+            fprintf(stderr,
+                    "[ol::ThreadPool][seq=%" PRIu64 "][pool=%p][mode=%s][os_tid=%" PRIu64 "][std_id=%" PRIu64 "][%s] ",
+                    sequence,
+                    static_cast<const void*>(this),
+                    IsDynamic ? "dynamic" : "fixed",
+                    getThreadId(),
+                    getThreadId(std::this_thread::get_id()),
+                    event);
+            fprintf(stderr, format, args...);
+            fputc('\n', stderr);
+            fflush(stderr);
+        }
+
     public:
         /**
          * @brief 固定模式构造函数（仅IsDynamic=false时可用）
@@ -147,8 +216,15 @@ namespace ol
             if (threadNum == 0)
             {
                 m_state.store(State::Stopped, std::memory_order_release);
+#ifdef OL_DEBUG
+                debugLog("pool-create", "state=Stopped workers=0 max_queue=%zu", m_maxQueueSize);
+#endif
                 return;
             }
+
+#ifdef OL_DEBUG
+            debugLog("pool-create", "state=Running workers=%zu max_queue=%zu", threadNum, m_maxQueueSize);
+#endif
 
             // 启动固定数量的工作线程
             m_workers.reserve(threadNum);
@@ -183,6 +259,9 @@ namespace ol
             if (minThreadNum == maxThreadNum && minThreadNum == 0)
             {
                 m_state.store(State::Stopped, std::memory_order_release);
+#ifdef OL_DEBUG
+                debugLog("pool-create", "state=Stopped min_workers=0 max_workers=0 max_queue=%zu", m_maxQueueSize);
+#endif
                 return;
             }
 
@@ -196,23 +275,26 @@ namespace ol
             m_dynamic.workerExitNum = 0;
             m_dynamic.checkInterval = checkInterval;
 
+#ifdef OL_DEBUG
+            debugLog("pool-create",
+                     "state=Running min_workers=%zu max_workers=%zu max_queue=%zu check_interval_s=%lld",
+                     m_dynamic.minThreads,
+                     m_dynamic.maxThreads,
+                     m_maxQueueSize,
+                     static_cast<long long>(m_dynamic.checkInterval.count()));
+#endif
+
             m_workers.reserve(minThreadNum);
             while (minThreadNum > 0)
             {
                 m_activeWorkers.fetch_add(1, std::memory_order_acq_rel);
                 std::thread th(&ThreadPool<IsDynamic>::worker, this);
-#ifdef OL_DEBUG
-                printf("构造函数：新工作线程(ID:%llu)\n", getThreadId(th.get_id()));
-#endif
                 m_workers.emplace(th.get_id(), std::move(th)); // 移动到哈希表
                 --minThreadNum;
             }
 
             // 启动管理者线程
             m_dynamic.managerThread = std::thread(&ThreadPool<IsDynamic>::manager<IsDynamic>, this);
-#ifdef OL_DEBUG
-            printf("构造函数：新管理者线程(ID:%llu)\n", getThreadId(m_dynamic.managerThread.get_id()));
-#endif
         }
 
         /**
@@ -227,7 +309,9 @@ namespace ol
 #ifdef OL_DEBUG
             if (m_activeWorkers.load() > 0)
             {
-                printf("警告：析构时仍有%d个活跃线程未退出\n", (int)m_activeWorkers.load());
+                debugLog("invariant-violation",
+                         "destructor completed with active_workers=%zu",
+                         m_activeWorkers.load(std::memory_order_acquire));
             }
 #endif
         }
@@ -241,24 +325,52 @@ namespace ol
         {
             std::queue<std::function<void()>> cancelledTasks;
             bool stateChanged = false;
+            State previousState;
+            State nextState;
+#ifdef OL_DEBUG
+            size_t queuedBefore = 0;
+            size_t droppedTasks = 0;
+#endif
             {
                 std::lock_guard<std::mutex> lock(m_taskQueueMutex);
-                const State state = m_state.load(std::memory_order_acquire);
+                previousState = m_state.load(std::memory_order_acquire);
+                nextState = previousState;
+#ifdef OL_DEBUG
+                queuedBefore = m_taskQueue.size();
+#endif
 
                 if (mode == ShutdownMode::CancelPending)
                 {
-                    if (state == State::Running || state == State::Draining)
+                    if (previousState == State::Running || previousState == State::Draining)
                     {
-                        m_state.store(State::Cancelling, std::memory_order_release);
+                        nextState = State::Cancelling;
+                        m_state.store(nextState, std::memory_order_release);
+#ifdef OL_DEBUG
+                        droppedTasks = m_taskQueue.size();
+#endif
                         cancelledTasks.swap(m_taskQueue);
                         stateChanged = true;
                     }
                 }
-                else if (state == State::Running)
+                else if (previousState == State::Running)
                 {
-                    m_state.store(State::Draining, std::memory_order_release);
+                    nextState = State::Draining;
+                    m_state.store(nextState, std::memory_order_release);
                     stateChanged = true;
                 }
+
+#ifdef OL_DEBUG
+                if (stateChanged)
+                {
+                    debugLog("state-change",
+                             "from=%s to=%s queued_before=%zu dropped=%zu active_workers=%zu",
+                             stateName(previousState),
+                             stateName(nextState),
+                             queuedBefore,
+                             droppedTasks,
+                             m_activeWorkers.load(std::memory_order_acquire));
+                }
+#endif
             }
 
             if (!stateChanged) return;
@@ -276,17 +388,41 @@ namespace ol
         void wait()
         {
             if (s_currentThreadPool == this)
+            {
+#ifdef OL_DEBUG
+                debugLog("invalid-call", "wait called from an internal thread");
+#endif
                 throw std::logic_error("[ol::ThreadPool] wait() cannot be called from an internal thread");
+            }
 
             std::unique_lock<std::mutex> waitLock(m_waitMutex);
             State state = m_state.load(std::memory_order_acquire);
             if (state == State::Stopped) return;
             if (state == State::Running)
+            {
+#ifdef OL_DEBUG
+                debugLog("invalid-call", "wait called while state=Running");
+#endif
                 throw std::logic_error("[ol::ThreadPool] requestStop() must be called before wait()");
+            }
+
+#ifdef OL_DEBUG
+            debugLog("wait-begin",
+                     "state=%s queued=%zu active_workers=%zu",
+                     stateName(state),
+                     getTaskNum(),
+                     m_activeWorkers.load(std::memory_order_acquire));
+#endif
 
             if constexpr (IsDynamic)
             {
-                if (m_dynamic.managerThread.joinable()) m_dynamic.managerThread.join();
+                if (m_dynamic.managerThread.joinable())
+                {
+                    m_dynamic.managerThread.join();
+#ifdef OL_DEBUG
+                    debugLog("manager-joined", "state=%s", stateName(m_state.load(std::memory_order_acquire)));
+#endif
+                }
             }
 
             std::vector<std::thread> workers;
@@ -308,6 +444,9 @@ namespace ol
                 }
             }
 
+#ifdef OL_DEBUG
+            debugLog("worker-join-begin", "count=%zu", workers.size());
+#endif
             for (auto& workerThread : workers)
             {
                 if (workerThread.joinable()) workerThread.join();
@@ -319,7 +458,17 @@ namespace ol
                 m_dynamic.workerExitId_deque.clear();
             }
 
+#ifdef OL_DEBUG
+            const State shutdownState = m_state.load(std::memory_order_acquire);
+#endif
             m_state.store(State::Stopped, std::memory_order_release);
+#ifdef OL_DEBUG
+            debugLog("wait-end",
+                     "from=%s to=Stopped joined=%zu active_workers=%zu",
+                     stateName(shutdownState),
+                     workers.size(),
+                     m_activeWorkers.load(std::memory_order_acquire));
+#endif
         }
 
         /**
@@ -329,7 +478,12 @@ namespace ol
         void stop()
         {
             if (s_currentThreadPool == this)
+            {
+#ifdef OL_DEBUG
+                debugLog("invalid-call", "stop called from an internal thread; use requestStop");
+#endif
                 throw std::logic_error("[ol::ThreadPool] stop() cannot be called from an internal thread; use requestStop()");
+            }
             requestStop(ShutdownMode::Drain);
             wait();
         }
@@ -342,7 +496,12 @@ namespace ol
         void stopNow()
         {
             if (s_currentThreadPool == this)
+            {
+#ifdef OL_DEBUG
+                debugLog("invalid-call", "stopNow called from an internal thread; use requestStop(CancelPending)");
+#endif
                 throw std::logic_error("[ol::ThreadPool] stopNow() cannot be called from an internal thread; use requestStop(CancelPending)");
+            }
             requestStop(ShutdownMode::CancelPending);
             wait();
         }
@@ -382,7 +541,7 @@ namespace ol
 
         /**
          * @brief 获取当前线程的可打印标识（Linux返回内核TID，Windows返回线程ID）
-         * @return 线程标识数值（可安全用于printf("%llu")等格式化输出）
+         * @return 操作系统线程标识数值（使用PRIu64进行格式化输出）
          * @note Linux下返回syscall(SYS_gettid)，与top -H输出一致；Windows下返回GetCurrentThreadId()
          */
         static uint64_t getThreadId()
@@ -395,9 +554,9 @@ namespace ol
         }
 
         /**
-         * @brief 将std::thread::id转换为可打印数值（用于非当前线程的id）
+         * @brief 将std::thread::id转换为可打印哈希值（用于非当前线程的id）
          * @param id 线程id
-         * @return 可打印数值
+         * @return 当前进程内用于日志关联的哈希值，不等同于操作系统线程ID
          */
         static uint64_t getThreadId(const std::thread::id& id)
         {
@@ -578,6 +737,13 @@ namespace ol
         void worker()
         {
             ThreadContextGuard threadContext(this);
+#ifdef OL_DEBUG
+            const char* exitReason = "unknown";
+            debugLog("worker-start",
+                     "state=%s active_workers=%zu",
+                     stateName(m_state.load(std::memory_order_acquire)),
+                     m_activeWorkers.load(std::memory_order_acquire));
+#endif
 
             // 动态模式：初始化线程状态
             if constexpr (IsDynamic)
@@ -605,8 +771,27 @@ namespace ol
                         m_taskQueueNotEmpty_condVar.wait(lock, waitCond);
 
                         const State state = m_state.load(std::memory_order_acquire);
-                        if (state == State::Cancelling || state == State::Stopped) break;
-                        if (state == State::Draining && m_taskQueue.empty()) break;
+                        if (state == State::Cancelling)
+                        {
+#ifdef OL_DEBUG
+                            exitReason = "cancelled";
+#endif
+                            break;
+                        }
+                        if (state == State::Stopped)
+                        {
+#ifdef OL_DEBUG
+                            exitReason = "stopped";
+#endif
+                            break;
+                        }
+                        if (state == State::Draining && m_taskQueue.empty())
+                        {
+#ifdef OL_DEBUG
+                            exitReason = "drained";
+#endif
+                            break;
+                        }
 
                         if constexpr (IsDynamic)
                         {
@@ -614,6 +799,9 @@ namespace ol
                                 m_dynamic.workerExitNum.load(std::memory_order_acquire) > 0)
                             {
                                 m_dynamic.workerExitNum.fetch_sub(1, std::memory_order_acq_rel);
+#ifdef OL_DEBUG
+                                exitReason = "scale-down";
+#endif
                                 break;
                             }
                         }
@@ -638,11 +826,11 @@ namespace ol
                     }
                     catch (const std::exception& e)
                     {
-                        fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%llu) Task error: %s\n", getThreadId(), e.what());
+                        errorLog("task-error", "exception=%s", e.what());
                     }
                     catch (...)
                     {
-                        fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%llu) Unknown task error\n", getThreadId());
+                        errorLog("task-error", "unknown exception");
                     }
 
                     // 动态模式：任务完成，恢复空闲状态
@@ -654,15 +842,25 @@ namespace ol
             }
             catch (const std::exception& e)
             {
-                fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%llu) exception: %s\n", getThreadId(), e.what());
+#ifdef OL_DEBUG
+                exitReason = "exception";
+#endif
+                errorLog("worker-error", "exception=%s", e.what());
             }
             catch (...)
             {
-                fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%llu) unexpected exception\n", getThreadId());
+#ifdef OL_DEBUG
+                exitReason = "exception";
+#endif
+                errorLog("worker-error", "unknown exception");
             }
 
             // 活跃线程数-1
+#ifdef OL_DEBUG
+            const size_t remainingActiveWorkers = m_activeWorkers.fetch_sub(1, std::memory_order_acq_rel) - 1;
+#else
             m_activeWorkers.fetch_sub(1, std::memory_order_acq_rel);
+#endif
 
             // 动态模式：空闲线程数-1
             if constexpr (IsDynamic)
@@ -672,21 +870,12 @@ namespace ol
                 if (m_state.load(std::memory_order_acquire) == State::Running)
                 {
                     std::unique_lock<std::mutex> lock_exitVector(m_dynamic.workerExitId_dequeMutex);
-#ifdef OL_DEBUG
-                    printf("[worker] 线程(ID:%llu)加入退出容器\n", getThreadId());
-#endif
                     m_dynamic.workerExitId_deque.emplace_back(std::this_thread::get_id());
                 }
-#ifdef OL_DEBUG
-                else
-                {
-                    printf("[worker] 线程(ID:%llu)：线程池已停止，跳过加入退出容器\n", getThreadId());
-                }
-#endif
             }
 
 #ifdef OL_DEBUG
-            printf("[worker] 线程(ID:%llu)已销毁（主动移除）\n", getThreadId());
+            debugLog("worker-exit", "reason=%s active_workers=%zu", exitReason, remainingActiveWorkers);
 #endif
         }
 
@@ -704,7 +893,11 @@ namespace ol
             ThreadContextGuard threadContext(this);
 
 #ifdef OL_DEBUG
-            printf("[manager] 管理者线程(ID:%llu)启动\n", getThreadId());
+            debugLog("manager-start",
+                     "state=%s min_workers=%zu max_workers=%zu",
+                     stateName(m_state.load(std::memory_order_acquire)),
+                     m_dynamic.minThreads,
+                     m_dynamic.maxThreads);
 #endif
 
             try
@@ -717,8 +910,13 @@ namespace ol
                     m_dynamic.managerExit_condVar.wait_for(lock_manger, m_dynamic.checkInterval, [this]()
                                                            { return m_state.load(std::memory_order_acquire) != State::Running; });
                     if (m_state.load(std::memory_order_acquire) != State::Running) break;
+                    lock_manger.unlock();
 
                     // 1. 清理已终止的线程对象
+#ifdef OL_DEBUG
+                    size_t joinedWorkers = 0;
+                    size_t missingWorkers = 0;
+#endif
                     {
                         // 上锁
                         std::lock_guard<std::mutex> lock_workers(m_workersMutex);
@@ -732,14 +930,11 @@ namespace ol
                         // 清理退出的线程
                         for (const auto& exitId : exitIds)
                         {
-#ifdef OL_DEBUG
-                            printf("[manager] 待清理线程(ID：%llu)\n", getThreadId(exitId));
-#endif
                             auto it = m_workers.find(exitId);
                             if (it == m_workers.end())
                             {
 #ifdef OL_DEBUG
-                                printf("[manager] 线程(ID:%llu)已被清理，跳过\n", getThreadId(exitId));
+                                ++missingWorkers;
 #endif
                                 continue;
                             }
@@ -750,103 +945,140 @@ namespace ol
                                 {
                                     it->second.join();
 #ifdef OL_DEBUG
-                                    printf("[manager] 线程(ID:%llu)已join\n", getThreadId(exitId));
+                                    ++joinedWorkers;
 #endif
                                 }
                                 catch (const std::exception& e)
                                 {
-                                    fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%llu) join failure: %s\n", getThreadId(exitId), e.what());
+                                    errorLog("worker-join-error",
+                                             "worker_std_id=%" PRIu64 " exception=%s",
+                                             getThreadId(exitId),
+                                             e.what());
                                 }
                                 catch (...)
                                 {
-                                    fprintf(stderr, "[ol::ThreadPool] Worker thread(ID:%llu) Unknown join error\n", getThreadId(exitId));
+                                    errorLog("worker-join-error",
+                                             "worker_std_id=%" PRIu64 " unknown exception",
+                                             getThreadId(exitId));
                                 }
                             }
 
                             m_workers.erase(it);
                         }
                     }
+#ifdef OL_DEBUG
+                    if (joinedWorkers > 0 || missingWorkers > 0)
+                    {
+                        debugLog("worker-cleanup",
+                                 "joined=%zu missing=%zu remaining_workers=%zu",
+                                 joinedWorkers,
+                                 missingWorkers,
+                                 getWorkerNum());
+                    }
+#endif
 
                     // 2. 扩缩容
+                    size_t addedThreads = 0;
+                    size_t reducedThreads = 0;
+                    size_t taskCountSnapshot = 0;
+                    size_t workerCountSnapshot = 0;
+                    size_t idleCountSnapshot = 0;
+#ifdef OL_DEBUG
+                    size_t reducedThreadsForLog = 0;
+                    size_t workerCountAfterScale = 0;
+#endif
                     {
                         std::lock_guard<std::mutex> lock_taskQueue(m_taskQueueMutex);
                         std::lock_guard<std::mutex> lock_workers(m_workersMutex);
-                        size_t taskCount = m_taskQueue.size();
-                        size_t workerCount = m_workers.size();
-                        size_t idleCount = m_dynamic.idleThreads.load(std::memory_order_acquire);
+                        taskCountSnapshot = m_taskQueue.size();
+                        workerCountSnapshot = m_workers.size();
+                        idleCountSnapshot = m_dynamic.idleThreads.load(std::memory_order_acquire);
 
                         // 扩容判断：任务数 > 线程数 * 2 且未达最大线程数
-                        if (taskCount > workerCount * 2 && workerCount < m_dynamic.maxThreads)
+                        if (taskCountSnapshot > workerCountSnapshot * 2 && workerCountSnapshot < m_dynamic.maxThreads)
                         {
-                            size_t needThreads = std::min(
-                                m_dynamic.maxThreads - workerCount,
-                                (taskCount + workerCount - 1) / workerCount // 按当前负载估算需要的线程数（向上取整）
+                            addedThreads = std::min(
+                                m_dynamic.maxThreads - workerCountSnapshot,
+                                (taskCountSnapshot + workerCountSnapshot - 1) / workerCountSnapshot // 按当前负载估算需要的线程数（向上取整）
                             );
                             // 每次最多扩容到当前的1.5倍，避免一次性创建过多线程
-                            needThreads = std::min(needThreads, workerCount / 2 + 1);
+                            addedThreads = std::min(addedThreads, workerCountSnapshot / 2 + 1);
 
-                            m_workers.reserve(workerCount + needThreads);
-                            while (needThreads > 0)
+                            m_workers.reserve(workerCountSnapshot + addedThreads);
+                            for (size_t i = 0; i < addedThreads; ++i)
                             {
                                 m_activeWorkers.fetch_add(1, std::memory_order_acq_rel);
                                 std::thread th(&ThreadPool<IsDynamic>::worker, this);
-#ifdef OL_DEBUG
-                                printf("[manager] 新工作线程(ID:%llu)\n", getThreadId(th.get_id()));
-#endif
                                 m_workers.emplace(th.get_id(), std::move(th)); // 哈希表插入新工作线程
-                                --needThreads;
                             }
-#ifdef OL_DEBUG
-                            printf("[manager] 扩容：线程数从 %zu 增加到 %zu（任务数: %zu）\n",
-                                   workerCount, m_workers.size(), taskCount);
-#endif
                         }
                         // 缩容判断：空闲线程 > 线程总数的1/2 且 线程数 > 最小线程数
-                        else if (idleCount > workerCount / 2 && workerCount > m_dynamic.minThreads)
+                        else if (idleCountSnapshot > workerCountSnapshot / 2 && workerCountSnapshot > m_dynamic.minThreads)
                         {
-
                             // 实际缩减数 = 取 可缩减线程数 和 多余空闲线程数 的较小值
-                            size_t reduceThreads = std::min(
-                                workerCount - m_dynamic.minThreads, // 可缩减线程数 = 当前线程数 - 最低保留数
-                                idleCount - (workerCount / 2)       // 多余空闲线程数 = 超过一半的空闲线程
+                            reducedThreads = std::min(
+                                workerCountSnapshot - m_dynamic.minThreads, // 可缩减线程数 = 当前线程数 - 最低保留数
+                                idleCountSnapshot - (workerCountSnapshot / 2) // 多余空闲线程数 = 超过一半的空闲线程
                             );
-
 #ifdef OL_DEBUG
-                            size_t reduceThreads_temp = reduceThreads;
+                            reducedThreadsForLog = reducedThreads;
 #endif
 
                             // 销毁线程：设置退出数量后逐个唤醒，避免惊群效应
-                            if (reduceThreads > 0)
+                            if (reducedThreads > 0)
                             {
-                                m_dynamic.workerExitNum.fetch_add(reduceThreads, std::memory_order_acq_rel);
+                                m_dynamic.workerExitNum.fetch_add(reducedThreads, std::memory_order_acq_rel);
                                 do
                                 {
                                     m_taskQueueNotEmpty_condVar.notify_one();
-                                    --reduceThreads;
-                                } while (reduceThreads > 0);
+                                    --reducedThreads;
+                                } while (reducedThreads > 0);
                             }
-#ifdef OL_DEBUG
-                            printf("[manager] 缩容：计划销毁 %zu 个线程（当前线程数: %zu, 空闲数: %zu, 保留至少: %zu）\n",
-                                   reduceThreads_temp, workerCount, idleCount, m_dynamic.minThreads);
-#endif
                         }
+#ifdef OL_DEBUG
+                        workerCountAfterScale = m_workers.size();
+#endif
                     }
+#ifdef OL_DEBUG
+                    if (addedThreads > 0)
+                    {
+                        debugLog("scale-up",
+                                 "from=%zu to=%zu added=%zu queued=%zu idle=%zu",
+                                 workerCountSnapshot,
+                                 workerCountAfterScale,
+                                 addedThreads,
+                                 taskCountSnapshot,
+                                 idleCountSnapshot);
+                    }
+                    else if (reducedThreadsForLog > 0)
+                    {
+                        debugLog("scale-down-request",
+                                 "current=%zu requested_exit=%zu queued=%zu idle=%zu min_workers=%zu",
+                                 workerCountSnapshot,
+                                 reducedThreadsForLog,
+                                 taskCountSnapshot,
+                                 idleCountSnapshot,
+                                 m_dynamic.minThreads);
+                    }
+#endif
                 }
             }
             catch (const std::exception& e)
             {
-                fprintf(stderr, "[ol::ThreadPool] Manager thread(ID:%llu) exception: %s\n", getThreadId(), e.what());
+                errorLog("manager-error", "exception=%s", e.what());
             }
             catch (...)
             {
-                fprintf(stderr, "[ol::ThreadPool] Manager thread(ID:%llu) unexpected exception\n", getThreadId());
+                errorLog("manager-error", "unknown exception");
             }
 
             // 清空退出队列
-            std::lock_guard<std::mutex> lock_exit_deque(m_dynamic.workerExitId_dequeMutex);
-            m_dynamic.workerExitId_deque.clear();
+            {
+                std::lock_guard<std::mutex> lock_exit_deque(m_dynamic.workerExitId_dequeMutex);
+                m_dynamic.workerExitId_deque.clear();
+            }
 #ifdef OL_DEBUG
-            printf("[manager] 管理者线程(ID:%llu)退出，清空退出队列\n", getThreadId());
+            debugLog("manager-exit", "state=%s", stateName(m_state.load(std::memory_order_acquire)));
 #endif
         }
     };

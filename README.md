@@ -102,6 +102,7 @@ bool newdir(const std::string& pathorfilename, bool bisfilename = true);
 |---|---|---|---|
 |CMAKE_BUILD_TYPE|Release|Debug/Release|编译类型|
 |ENABLE_WARNINGS|OFF|ON/OFF|开启编译器警告|
+|OL_ENABLE_DEBUG_LOGS|OFF|ON/OFF|为所有模块定义 `OL_DEBUG` 并开启调试日志|
 |OL_BUILD_STATIC_LIBS|ON|ON/OFF|编译所有模块静态库（开启测试时强制启用）|
 |OL_BUILD_SHARED_LIBS|ON|ON/OFF|编译所有模块动态库|
 
@@ -167,7 +168,7 @@ cmake .. -DOL_BUILD_FTP=ON -DOL_BUILD_NETWORK=ON -DOL_BUILD_DATABASE=ON -DOL_BUI
 1. **字符集**：所有文件采用 **UTF-8（无 BOM）**，跨平台无乱码；
 2. **换行符**：统一使用 **LF（\n）**，避免 Git 冲突；
 3. **编译约束**：禁止源码内编译（out-of-source build），必须创建独立 build 目录；
-4. **调试宏**：项目使用 `OL_DEBUG` 宏控制调试输出。
+4. **调试宏**：项目使用 `OL_DEBUG` 宏控制调试输出；可通过 `-DOL_ENABLE_DEBUG_LOGS=ON` 全局开启，也可在单个源文件中自行定义。
 
 ## 🔨 编译步骤
 

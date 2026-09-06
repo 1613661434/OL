@@ -97,6 +97,7 @@ All variables are set via `cmake -D<var>=<value>`.
 |---|---|---|---|
 |CMAKE_BUILD_TYPE|Release|Debug/Release|Build type|
 |ENABLE_WARNINGS|OFF|ON/OFF|Enable compiler warnings|
+|OL_ENABLE_DEBUG_LOGS|OFF|ON/OFF|Define `OL_DEBUG` for all modules and enable debug logs|
 |OL_BUILD_STATIC_LIBS|ON|ON/OFF|Build static libraries (forced ON when tests enabled)|
 |OL_BUILD_SHARED_LIBS|ON|ON/OFF|Build shared libraries|
 
@@ -162,7 +163,7 @@ cmake .. -DOL_BUILD_FTP=ON -DOL_BUILD_NETWORK=ON -DOL_BUILD_DATABASE=ON -DOL_BUI
 1. **Charset**: UTF-8 (no BOM), consistent across all platforms;
 2. **Line endings**: LF (\n), avoid Git conflicts;
 3. **Out-of-source build**: Always create a separate build directory;
-4. **Debug macro**: Use `OL_DEBUG` macro for debug output; does not conflict with compiler `DEBUG` macros.
+4. **Debug macro**: Use `OL_DEBUG` for debug output. Enable it globally with `-DOL_ENABLE_DEBUG_LOGS=ON`, or define it in an individual source file.
 
 ## 🔨 Build Instructions
 

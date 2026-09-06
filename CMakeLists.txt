@@ -23,6 +23,9 @@ endif()
 # 全局警告开关
 option(ENABLE_WARNINGS "Enable compiler warnings (GLOBAL)" OFF)
 
+# 全局调试日志开关（也可在单个源文件中自行定义OL_DEBUG）
+option(OL_ENABLE_DEBUG_LOGS "Enable OL debug logs (GLOBAL)" OFF)
+
 # 全局库类型开关（控制所有模块：静态库/动态库）
 option(OL_BUILD_STATIC_LIBS "Build all modules as static libraries (GLOBAL)" ON)
 option(OL_BUILD_SHARED_LIBS "Build all modules as shared libraries (GLOBAL)" ON)
@@ -44,6 +47,10 @@ option(OL_NETWORK_WITH_TESTS "Build network tests" OFF)
 option(OL_MYSQL_WITH_TESTS "Build MySQL tests" OFF)
 option(OL_ORACLE_WITH_TESTS "Build Oracle tests" OFF)
 # ===================== </Options> =====================
+
+if(OL_ENABLE_DEBUG_LOGS)
+    add_compile_definitions(OL_DEBUG)
+endif()
 
 # CTest必须在项目根目录启用，子目录注册的测试才能被ctest发现。
 if(OL_CORE_WITH_TESTS OR OL_FTP_WITH_TESTS OR OL_NETWORK_WITH_TESTS OR
