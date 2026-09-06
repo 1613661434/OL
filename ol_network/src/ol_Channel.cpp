@@ -6,7 +6,7 @@ namespace ol
 {
 
 #ifdef __unix__
-    Channel::Channel(EventLoop* eventLoop, int fd) : m_eventLoop(eventLoop), m_fd(fd)
+    Channel::Channel(EventLoop* eventLoop, int fd) : m_fd(fd), m_eventLoop(eventLoop)
     {
     }
 
@@ -93,10 +93,26 @@ namespace ol
         m_inEpoll = true;
     }
 
+    void Channel::setNotInEpoll()
+    {
+        m_inEpoll = false;
+    }
+
     // 设置m_revents成员的值为参数ev。
     void Channel::setRevents(uint32_t ev)
     {
         m_revents = ev;
+    }
+
+    void Channel::tie(const std::shared_ptr<void>& owner)
+    {
+        m_tie = owner;
+        m_tied = true;
+    }
+
+    std::shared_ptr<void> Channel::lockTie() const
+    {
+        return m_tied ? m_tie.lock() : std::shared_ptr<void>{};
     }
 
     // 设置m_fd读事件的回调函数。
@@ -126,40 +142,63 @@ namespace ol
     // 事件处理函数，epoll_wait()返回的时候，执行它。
     void Channel::handleEvent()
     {
-        if (m_revents & EPOLLRDHUP) // 对方已关闭，有些系统检测不到，可以使用EPOLLIN，recv()返回0。
+        if (m_tied)
+        {
+            if (auto guard = m_tie.lock()) handleEventWithGuard();
+            return;
+        }
+
+        handleEventWithGuard();
+    }
+
+    void Channel::handleEventWithGuard()
+    {
+        // 同一批epoll事件中，定时器回调可能已经移除了此Channel。
+        if (!m_inEpoll) return;
+
+        bool handled = false;
+
+        // RDHUP可能与最后一批可读数据同时出现，必须先把数据读完。
+        if (m_revents & (EPOLLIN | EPOLLPRI | EPOLLRDHUP))
         {
 #ifdef OL_DEBUG
-            printf("EPOLLRDHUP\n");
+            printf("EPOLLIN | EPOLLPRI | EPOLLRDHUP\n");
 #endif
-            // 回调Connection::closeCb()。
-            m_closeCb();
+            handled = true;
+            if (m_readCb) m_readCb();
+            if (!m_inEpoll) return;
         }
-        else if (m_revents & (EPOLLIN | EPOLLPRI)) // 接收缓冲区中有数据可以读。
-        {
-#ifdef OL_DEBUG
-            printf("EPOLLIN | EPOLLPRI\n");
-#endif
-            // 如果是servChnl，将回调Acceptor::newConnection()；
-            // 如果是cliChnl，将回调Connection::onMessage()；
-            // 如果是wakeUpChnl，将回调EventLoop::handleWakeUp()。
-            m_readCb();
-        }
-        else if (m_revents & EPOLLOUT) // 有数据需要写。
+
+        // 读写事件可以同时到达，不能使用else if丢掉写事件。
+        if (m_revents & EPOLLOUT)
         {
 #ifdef OL_DEBUG
             printf("EPOLLOUT\n");
 #endif
-            // 回调Connection::writeCb()。
-            m_writeCb();
+            handled = true;
+            if (m_writeCb) m_writeCb();
+            if (!m_inEpoll) return;
         }
-        else // 其它事件，都视为错误。
+
+        if (m_revents & EPOLLERR)
         {
 #ifdef OL_DEBUG
-            printf("EPOLLELSE\n");
+            printf("EPOLLERR\n");
 #endif
-            // 回调Connection::errorCb()。
-            m_errorCb();
+            if (m_errorCb) m_errorCb();
+            return;
         }
+
+        if (m_revents & EPOLLHUP)
+        {
+#ifdef OL_DEBUG
+            printf("EPOLLHUP\n");
+#endif
+            if (m_closeCb) m_closeCb();
+            return;
+        }
+
+        if (!handled && m_errorCb) m_errorCb();
     }
 #endif // __unix__
 

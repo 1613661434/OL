@@ -1,21 +1,45 @@
 #include "ol_net/ol_TcpServer.h"
 
+#include <cstdint>
+#include <limits>
+#include <stdexcept>
+
 // #define OL_DEBUG
 
 namespace ol
 {
 
 #ifdef __unix__
-    TcpServer::TcpServer(const std::string& ip, const uint16_t port, size_t threadNum, size_t MainMaxEvents, size_t SubMaxEvents, int epWaitTimeout, int timerTimetvl, int timerTimeout)
-        : m_threadNum(threadNum), m_mainEventLoop(std::make_unique<EventLoop>(true, MainMaxEvents)),
-          m_acceptor(m_mainEventLoop.get(), ip, port), m_threadPool(m_threadNum, 0)
+    namespace
+    {
+        size_t checkedThreadNum(size_t threadNum)
+        {
+            if (threadNum == 0)
+                throw std::invalid_argument("The number of sub event threads must be greater than zero");
+            return threadNum;
+        }
+
+        size_t checkedMaxFrameSize(size_t maxFrameSize)
+        {
+            if (maxFrameSize == 0 || maxFrameSize > std::numeric_limits<uint32_t>::max())
+                throw std::invalid_argument("Maximum frame size must be between 1 and UINT32_MAX");
+            return maxFrameSize;
+        }
+    } // namespace
+
+    TcpServer::TcpServer(const std::string& ip, const uint16_t port, size_t threadNum,
+                         size_t MainMaxEvents, size_t SubMaxEvents, int epWaitTimeout,
+                         int timerTimetvl, int timerTimeout, size_t maxFrameSize)
+        : m_mainEventLoop(std::make_unique<EventLoop>(true, MainMaxEvents)),
+          m_threadNum(checkedThreadNum(threadNum)), m_threadPool(m_threadNum, 0),
+          m_acceptor(m_mainEventLoop.get(), ip, port),
+          m_maxFrameSize(checkedMaxFrameSize(maxFrameSize))
     {
         m_mainEventLoop->setEpollTimeoutCb(std::bind(&TcpServer::epollTimeout, this, std::placeholders::_1));
 
         m_acceptor.setNewConnCb(std::bind(&TcpServer::newConn, this, std::placeholders::_1));
 
         // 创建从事件循环。
-        assert(m_threadNum > 0 && "The number of sub event threads must be greater than 0");
         m_subEventLoops.resize(m_threadNum);
         for (size_t i = 0; i < m_threadNum; ++i)
         {
@@ -28,6 +52,7 @@ namespace ol
 
     TcpServer::~TcpServer()
     {
+        stop();
     }
 
     // 运行事件循环。
@@ -39,6 +64,8 @@ namespace ol
     // 停止IO线程和事件循环。
     void TcpServer::stop()
     {
+        if (m_stopped.exchange(true, std::memory_order_acq_rel)) return;
+
         // 停止主事件循环。
         m_mainEventLoop->stop();
 #ifdef OL_DEBUG
@@ -64,8 +91,13 @@ namespace ol
     // 处理新客户端连接请求。
     void TcpServer::newConn(SocketFd::Ptr cliFd)
     {
+        if (m_stopped.load(std::memory_order_acquire)) return;
+
+        const size_t loopIndex = static_cast<size_t>(cliFd->getFd()) % m_threadNum;
+        EventLoop* eventLoop = m_subEventLoops[loopIndex].get();
+
         // 把新建的conn分配给从事件循环。
-        ConnectionPtr conn = std::make_shared<Connection>(m_subEventLoops[cliFd->getFd() % m_threadNum].get(), std::move(cliFd));
+        ConnectionPtr conn = std::make_shared<Connection>(eventLoop, std::move(cliFd), m_maxFrameSize);
         conn->setCloseCb(std::bind(&TcpServer::closeConn, this, std::placeholders::_1));
         conn->setErrorCb(std::bind(&TcpServer::errorConn, this, std::placeholders::_1));
         conn->setOnMessageCb(std::bind(&TcpServer::onMessage, this, std::placeholders::_1, std::placeholders::_2));
@@ -78,7 +110,10 @@ namespace ol
             std::lock_guard<std::mutex> lock(m_connsMutex);
             m_conns[conn->getFd()] = conn; // 把conn存放unordered_map容器中。
         }
-        m_subEventLoops[conn->getFd() % m_threadNum]->newConn(conn); // 把conn存放到EventLoop的map容器中。
+        eventLoop->newConn(conn); // 把conn存放到EventLoop的map容器中。
+
+        // 先排队建立连接，确保业务回调中send()产生的任务排在Channel生命周期绑定之后。
+        eventLoop->pushToQueue([conn]() { conn->connectEstablished(); });
 
         if (m_newConnCb) m_newConnCb(conn); // 回调上层业务类的handleNewConn()。
     }

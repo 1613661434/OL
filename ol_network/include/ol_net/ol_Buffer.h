@@ -2,8 +2,8 @@
 #define OL_BUFFER_H 1
 
 #include <errno.h> // 用于错误码处理
+#include <cstdint>
 #include <iostream>
-#include <string.h>
 #include <string>
 
 #ifdef __unix__
@@ -16,35 +16,40 @@ namespace ol
 #ifdef __unix__
     class Buffer
     {
+    public:
+        static constexpr size_t DEFAULT_MAX_FRAME_SIZE = 64U * 1024U * 1024U;
+
     private:
-        std::string m_buf;    ///< 用于存放数据。
-        const uint16_t m_sep; ///< 报文的分隔符：0-无分隔符(固定长度、视频会议)；1-四字节的报头；2-"\r\n\r\n"分隔符（http协议）。
+        std::string m_buf;          ///< 用于存放数据。
+        size_t m_readPos = 0;       ///< 已消费数据的结束位置，避免频繁从字符串头部擦除。
+        const uint16_t m_sep;       ///< 报文的分隔符：0-无分隔符；1-四字节网络序报头；2-"\r\n\r\n"。
+        const size_t m_maxFrameSize; ///< 单个报文允许的最大字节数。
+
+        void consume(size_t size);
+        void compact();
 
     public:
-        Buffer(uint16_t sep = 1);
-        ~Buffer();
+        explicit Buffer(uint16_t sep = 1, size_t maxFrameSize = DEFAULT_MAX_FRAME_SIZE);
+        ~Buffer() = default;
 
         void append(const char* data, size_t size);        // 把数据追加到m_buf中。
-        void appendWithSep(const char* data, size_t size); // 把数据追加到m_buf中，附加报文头部4字节（报文长度）。
-        inline void erase(size_t pos, size_t n)            // 从m_buf的pos开始，删除n个字节，pos从0开始。
-        {
-            m_buf.erase(pos, n);
-        }
+        void appendWithSep(const char* data, size_t size); // 追加数据；sep=1时附加uint32网络字节序长度。
+        void erase(size_t pos, size_t n);                  // 从尚未消费的数据中删除指定字节。
 
-        size_t size(); // 返回m_buf的大小。
+        size_t size() const; // 返回尚未消费的数据大小。
 
-        const char* data(); // 返回m_buf的首地址。
+        const char* data() const; // 返回尚未消费数据的首地址。
 
         void clear(); // 清空m_buf。
 
         inline bool empty() const
         {
-            return m_buf.empty();
+            return size() == 0;
         }
 
         bool pickMessage(std::string& s); // 从m_buf中拆分出一个报文，存放在s中，如果m_buf中没有报文，返回false。
 
-        ssize_t recvFd(int fd); // 从fd读取数据到缓冲区（非阻塞模式）
+        ssize_t recvFd(int fd); // 从fd读取一个数据块；返回值语义与read()一致。
     };
 #endif // __unix__
 

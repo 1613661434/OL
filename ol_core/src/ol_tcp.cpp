@@ -1,9 +1,109 @@
 #include "ol_tcp.h"
 
+#include <algorithm>
+#include <cerrno>
+#include <chrono>
+#include <climits>
+#include <cstdint>
+#include <cstring>
+#include <limits>
+#include <new>
+#include <stdexcept>
+
+#ifdef __unix__
+#include <unistd.h>
+#endif
+
 namespace ol
 {
 
 #ifdef __unix__
+    namespace
+    {
+        using SteadyClock = std::chrono::steady_clock;
+
+        int remainingPollTimeout(int timeoutSeconds, const SteadyClock::time_point& deadline)
+        {
+            if (timeoutSeconds == 0) return -1;
+            if (timeoutSeconds == -1) return 0;
+
+            const auto now = SteadyClock::now();
+            if (now >= deadline) return 0;
+
+            auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(deadline - now).count();
+            if (milliseconds <= 0) milliseconds = 1;
+            return static_cast<int>(std::min<long long>(milliseconds, INT_MAX));
+        }
+
+        bool waitForSocket(int sockfd, short events, int timeoutSeconds,
+                           const SteadyClock::time_point& deadline)
+        {
+            while (true)
+            {
+                if (timeoutSeconds > 0 && SteadyClock::now() >= deadline)
+                {
+                    errno = ETIMEDOUT;
+                    return false;
+                }
+
+                pollfd fd{};
+                fd.fd = sockfd;
+                fd.events = events;
+
+                const int result = ::poll(&fd, 1, remainingPollTimeout(timeoutSeconds, deadline));
+                if (result > 0)
+                {
+                    if (fd.revents & (POLLERR | POLLNVAL)) return false;
+                    if (fd.revents & (events | POLLHUP)) return true;
+                    continue;
+                }
+                if (result == 0)
+                {
+                    errno = timeoutSeconds == -1 ? EAGAIN : ETIMEDOUT;
+                    return false;
+                }
+                if (errno != EINTR) return false;
+            }
+        }
+
+        bool readExactUntil(int sockfd, char* buffer, size_t size, int timeoutSeconds,
+                            const SteadyClock::time_point& deadline)
+        {
+            if (sockfd < 0 || (buffer == nullptr && size != 0) || timeoutSeconds < -1)
+            {
+                errno = EINVAL;
+                return false;
+            }
+
+            size_t received = 0;
+
+            while (received < size)
+            {
+                if (!waitForSocket(sockfd, POLLIN, timeoutSeconds, deadline)) return false;
+
+                const ssize_t count = ::recv(sockfd, buffer + received, size - received, 0);
+                if (count > 0)
+                {
+                    received += static_cast<size_t>(count);
+                    continue;
+                }
+                if (count == 0) return false;
+                if (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK) continue;
+                return false;
+            }
+
+            return true;
+        }
+
+        bool readExact(int sockfd, char* buffer, size_t size, int timeoutSeconds)
+        {
+            const auto deadline = timeoutSeconds > 0
+                                      ? SteadyClock::now() + std::chrono::seconds(timeoutSeconds)
+                                      : SteadyClock::time_point{};
+            return readExactUntil(sockfd, buffer, size, timeoutSeconds, deadline);
+        }
+    } // namespace
+
     bool ctcpclient::connect(const std::string& ip, const int port)
     {
         // 如果已连接到服务端，则断开，这种处理方法没有特别的原因，不要纠结。
@@ -13,11 +113,7 @@ namespace ol
             m_connfd = -1;
         }
 
-        // 忽略SIGPIPE信号，防止程序异常退出。
-        // 如果send到一个disconnected socket上，内核就会发出SIGPIPE信号。这个信号
-        // 的缺省处理方法是终止进程，大多数时候这都不是我们期望的。我们重新定义这
-        // 个信号的处理方法，大多数情况是直接屏蔽它。
-        signal(SIGPIPE, SIG_IGN);
+        if (port <= 0 || port > 65535) return false;
 
         m_ip = ip;
         m_port = port;
@@ -65,17 +161,14 @@ namespace ol
     bool ctcpserver::initserver(const unsigned int port, const int backlog)
     {
         // 如果服务端的socket>0，关掉它，这种处理方法没有特别的原因，不要纠结。
-        if (m_listenfd > 0)
+        if (m_listenfd >= 0)
         {
             ::close(m_listenfd);
             m_listenfd = -1;
         }
 
-        if ((m_listenfd = socket(AF_INET, SOCK_STREAM, 0)) <= 0) return false;
-
-        // 忽略SIGPIPE信号，防止程序异常退出。
-        // 如果往已关闭的socket继续写数据，会产生SIGPIPE信号，它的缺省行为是终止程序，所以要忽略它。
-        signal(SIGPIPE, SIG_IGN);
+        if (port == 0 || port > 65535) return false;
+        if ((m_listenfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) return false;
 
         // 打开SO_REUSEADDR选项，当服务端连接处于TIME_WAIT状态时可以再次启动服务器，
         // 否则bind()可能会不成功，报：Address already in use。
@@ -105,8 +198,8 @@ namespace ol
     {
         if (m_listenfd == -1) return false;
 
-        int m_socklen = sizeof(struct sockaddr_in);
-        if ((m_connfd = ::accept(m_listenfd, (struct sockaddr*)&m_clientaddr, (socklen_t*)&m_socklen)) < 0)
+        socklen_t socklen = sizeof(struct sockaddr_in);
+        if ((m_connfd = ::accept(m_listenfd, (struct sockaddr*)&m_clientaddr, &socklen)) < 0)
             return false;
 
         return true;
@@ -124,11 +217,11 @@ namespace ol
         return (tcpread(m_connfd, buffer, ibuflen, itimeout));
     }
 
-    bool ctcpserver::read(std::string& buffer, const int itimeout) // 接收文本数据。
+    bool ctcpserver::read(std::string& buffer, const int itimeout, size_t maxFrameSize) // 接收文本数据。
     {
         if (m_connfd == -1) return false;
 
-        return (tcpread(m_connfd, buffer, itimeout));
+        return tcpread(m_connfd, buffer, itimeout, maxFrameSize);
     }
 
     bool ctcpclient::read(void* buffer, const int ibuflen, const int itimeout) // 接收二进制数据。
@@ -138,11 +231,11 @@ namespace ol
         return (tcpread(m_connfd, buffer, ibuflen, itimeout));
     }
 
-    bool ctcpclient::read(std::string& buffer, const int itimeout) // 接收文本数据。
+    bool ctcpclient::read(std::string& buffer, const int itimeout, size_t maxFrameSize) // 接收文本数据。
     {
         if (m_connfd == -1) return false;
 
-        return (tcpread(m_connfd, buffer, itimeout));
+        return tcpread(m_connfd, buffer, itimeout, maxFrameSize);
     }
 
     bool ctcpserver::write(const void* buffer, const int ibuflen) // 发送二进制数据。
@@ -152,11 +245,11 @@ namespace ol
         return (tcpwrite(m_connfd, (char*)buffer, ibuflen));
     }
 
-    bool ctcpserver::write(const std::string& buffer)
+    bool ctcpserver::write(const std::string& buffer, size_t maxFrameSize)
     {
         if (m_connfd == -1) return false;
 
-        return (tcpwrite(m_connfd, buffer));
+        return tcpwrite(m_connfd, buffer, maxFrameSize);
     }
 
     bool ctcpclient::write(const void* buffer, const int ibuflen)
@@ -166,11 +259,11 @@ namespace ol
         return (tcpwrite(m_connfd, (char*)buffer, ibuflen));
     }
 
-    bool ctcpclient::write(const std::string& buffer)
+    bool ctcpclient::write(const std::string& buffer, size_t maxFrameSize)
     {
         if (m_connfd == -1) return false;
 
-        return (tcpwrite(m_connfd, buffer));
+        return tcpwrite(m_connfd, buffer, maxFrameSize);
     }
 
     void ctcpserver::closelisten()
@@ -199,89 +292,97 @@ namespace ol
 
     bool tcpread(const int sockfd, void* buffer, const int ibuflen, const int itimeout) // 接收二进制数据。
     {
-        if (sockfd == -1) return false;
-
-        // 如果itimeout>0，表示需要等待itimeout秒，如果itimeout秒后还没有数据到达，返回false。
-        if (itimeout > 0)
+        if (ibuflen < 0 || (buffer == nullptr && ibuflen != 0))
         {
-            struct pollfd fds;
-            fds.fd = sockfd;
-            fds.events = POLLIN;
-            if (poll(&fds, 1, itimeout * 1000) <= 0) return false;
+            errno = EINVAL;
+            return false;
         }
 
-        // 如果itimeout==-1，表示不等待，立即判断socket的缓冲区中是否有数据，如果没有，返回false。
-        if (itimeout == -1)
-        {
-            struct pollfd fds;
-            fds.fd = sockfd;
-            fds.events = POLLIN;
-            if (poll(&fds, 1, 0) <= 0) return false;
-        }
-
-        // 读取报文内容。
-        if (readn(sockfd, (char*)buffer, ibuflen) == false) return false;
-
-        return true;
+        return readExact(sockfd, static_cast<char*>(buffer), static_cast<size_t>(ibuflen), itimeout);
     }
 
-    bool tcpread(const int sockfd, std::string& buffer, const int itimeout) // 接收文本数据。
+    bool tcpread(const int sockfd, std::string& buffer, const int itimeout, size_t maxFrameSize) // 接收文本数据。
     {
-        if (sockfd == -1) return false;
-
-        // 如果itimeout>0，表示等待itimeout秒，如果itimeout秒后接收缓冲区中还没有数据，返回false。
-        if (itimeout > 0)
+        buffer.clear();
+        if (maxFrameSize == 0 || maxFrameSize > std::numeric_limits<uint32_t>::max())
         {
-            struct pollfd fds;
-            fds.fd = sockfd;
-            fds.events = POLLIN;
-            if (poll(&fds, 1, itimeout * 1000) <= 0) return false;
+            errno = EINVAL;
+            return false;
         }
 
-        // 如果itimeout==-1，表示不等待，立即判断socket的接收缓冲区中是否有数据，如果没有，返回false。
-        if (itimeout == -1)
+        if (itimeout < -1)
         {
-            struct pollfd fds;
-            fds.fd = sockfd;
-            fds.events = POLLIN;
-            if (poll(&fds, 1, 0) <= 0) return false;
+            errno = EINVAL;
+            return false;
         }
 
-        int buflen = 0;
+        const auto deadline = itimeout > 0
+                                  ? SteadyClock::now() + std::chrono::seconds(itimeout)
+                                  : SteadyClock::time_point{};
+        uint32_t encodedLength = 0;
+        if (!readExactUntil(sockfd, reinterpret_cast<char*>(&encodedLength), sizeof(encodedLength),
+                            itimeout, deadline))
+            return false;
 
-        // 先读取报文长度，4个字节。
-        if (readn(sockfd, (char*)&buflen, 4) == false) return false;
+        const size_t length = ntohl(encodedLength);
+        if (length > maxFrameSize)
+        {
+            errno = EMSGSIZE;
+            return false;
+        }
 
-        buffer.resize(buflen); // 设置buffer的大小。
+        try
+        {
+            buffer.resize(length);
+        }
+        catch (const std::bad_alloc&)
+        {
+            errno = ENOMEM;
+            return false;
+        }
+        catch (const std::length_error&)
+        {
+            errno = EMSGSIZE;
+            return false;
+        }
+        if (length == 0) return true;
+        if (readExactUntil(sockfd, buffer.data(), length, itimeout, deadline)) return true;
 
-        // 再读取报文内容。
-        if (readn(sockfd, &buffer[0], buflen) == false) return false;
-
-        return true;
+        buffer.clear();
+        return false;
     }
 
     bool tcpwrite(const int sockfd, const void* buffer, const int ibuflen) // 发送二进制数据。
     {
-        if (sockfd == -1) return false;
+        if (sockfd < 0 || ibuflen < 0 || (buffer == nullptr && ibuflen != 0))
+        {
+            errno = EINVAL;
+            return false;
+        }
 
-        if (writen(sockfd, (char*)buffer, ibuflen) == false) return false;
-
-        return true;
+        return writen(sockfd, static_cast<const char*>(buffer), static_cast<size_t>(ibuflen));
     }
 
-    bool tcpwrite(const int sockfd, const std::string& buffer) // 发送文本数据。
+    bool tcpwrite(const int sockfd, const std::string& buffer, size_t maxFrameSize) // 发送文本数据。
     {
-        if (sockfd == -1) return false;
+        if (sockfd < 0 || maxFrameSize == 0 ||
+            maxFrameSize > std::numeric_limits<uint32_t>::max())
+        {
+            errno = EINVAL;
+            return false;
+        }
+        if (buffer.size() > maxFrameSize ||
+            buffer.size() > std::numeric_limits<uint32_t>::max())
+        {
+            errno = EMSGSIZE;
+            return false;
+        }
 
-        int buflen = buffer.size();
+        const uint32_t encodedLength = htonl(static_cast<uint32_t>(buffer.size()));
+        if (!writen(sockfd, reinterpret_cast<const char*>(&encodedLength), sizeof(encodedLength)))
+            return false;
 
-        // 先发送报头。
-        if (writen(sockfd, (char*)&buflen, 4) == false) return false;
-
-        // 再发送报文体。
-        if (writen(sockfd, buffer.c_str(), buflen) == false) return false;
-
-        return true;
+        return buffer.empty() || writen(sockfd, buffer.data(), buffer.size());
     }
 
     // 从已经准备好的socket中读取数据。
@@ -291,19 +392,7 @@ namespace ol
     // 返回值：成功接收到n字节的数据后返回true，socket连接不可用返回false。
     bool readn(const int sockfd, char* buffer, const size_t n)
     {
-        int nleft = n; // 剩余需要读取的字节数。
-        int idx = 0;   // 已成功读取的字节数。
-        int nread;     // 每次调用recv()函数读到的字节数。
-
-        while (nleft > 0)
-        {
-            if ((nread = recv(sockfd, buffer + idx, nleft, 0)) <= 0) return false;
-
-            idx = idx + nread;
-            nleft = nleft - nread;
-        }
-
-        return true;
+        return readExact(sockfd, buffer, n, 0);
     }
 
     // 向已经准备好的socket中写入数据。
@@ -313,16 +402,28 @@ namespace ol
     // 返回值：成功发送完n字节的数据后返回true，socket连接不可用返回false。
     bool writen(const int sockfd, const char* buffer, const size_t n)
     {
-        int nleft = n; // 剩余需要写入的字节数。
-        int idx = 0;   // 已成功写入的字节数。
-        int nwritten;  // 每次调用send()函数写入的字节数。
-
-        while (nleft > 0)
+        if (sockfd < 0 || (buffer == nullptr && n != 0))
         {
-            if ((nwritten = send(sockfd, buffer + idx, nleft, 0)) <= 0) return false;
+            errno = EINVAL;
+            return false;
+        }
 
-            nleft = nleft - nwritten;
-            idx = idx + nwritten;
+        size_t written = 0;
+        while (written < n)
+        {
+            const ssize_t count = ::send(sockfd, buffer + written, n - written, MSG_NOSIGNAL);
+            if (count > 0)
+            {
+                written += static_cast<size_t>(count);
+                continue;
+            }
+            if (count < 0 && errno == EINTR) continue;
+            if (count < 0 && (errno == EAGAIN || errno == EWOULDBLOCK))
+            {
+                if (!waitForSocket(sockfd, POLLOUT, 0, SteadyClock::time_point{})) return false;
+                continue;
+            }
+            return false;
         }
 
         return true;

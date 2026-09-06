@@ -9,7 +9,7 @@
 #include "ol_net/ol_EventLoop.h"
 #include "ol_net/ol_SocketFd.h"
 #include "ol_net/ol_net_fwd_decls.h"
-#include <cassert>
+#include <atomic>
 #include <unordered_map>
 
 namespace ol
@@ -24,6 +24,8 @@ namespace ol
         size_t m_threadNum;                             ///< 线程池的大小，即从事件循环的个数。
         ThreadPool<false> m_threadPool;                 ///< 线程池。
         Acceptor m_acceptor;                            ///< 一个TcpServer只有一个Acceptor对象。
+        size_t m_maxFrameSize;                          ///< 单个报文允许的最大字节数。
+        std::atomic_bool m_stopped{false};              ///< 防止重复停止线程池。
         std::mutex m_connsMutex;                        ///< 保护m_conns的互斥锁。
         std::unordered_map<int, ConnectionPtr> m_conns; ///< 一个TcpServer有多个Connection对象，存放在unordered_map容器中。
 
@@ -35,7 +37,11 @@ namespace ol
         std::function<void(EventLoop*)> m_timeoutCb;                            ///< 回调上层业务类的handleTimeOut()。
         std::function<void(int)> m_timerTimeoutCb;                              ///< 回调上层业务类的handleTimerTimeOut()。
     public:
-        TcpServer(const std::string& ip, const uint16_t port, size_t threadNum = 3, size_t MainMaxEvents = 100, size_t SubMaxEvents = 100, int epWaitTimeout = 10000, int timerTimetvl = 30, int timerTimeout = 80);
+        TcpServer(const std::string& ip, const uint16_t port, size_t threadNum = 3,
+                  size_t MainMaxEvents = 100, size_t SubMaxEvents = 100,
+                  int epWaitTimeout = 10000, int timerTimetvl = 30,
+                  int timerTimeout = 80,
+                  size_t maxFrameSize = Buffer::DEFAULT_MAX_FRAME_SIZE);
         ~TcpServer();
 
         void start(int newConnTimeout = 10000); // 运行事件循环。

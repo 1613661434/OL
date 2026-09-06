@@ -1,21 +1,38 @@
 #include "ol_net/ol_Connection.h"
 
+#include <cerrno>
+#include <stdexcept>
+
 // #define OL_DEBUG
 
 namespace ol
 {
 
 #ifdef __unix__
-    Connection::Connection(EventLoop* eventLoop, SocketFd::Ptr cliFd)
-        : m_eventLoop(eventLoop), m_cliFd(std::move(cliFd)), m_disconnected(false), m_cliChnl(std::make_unique<Channel>(m_eventLoop, m_cliFd->getFd()))
+    Connection::Connection(EventLoop* eventLoop, SocketFd::Ptr cliFd, size_t maxFrameSize)
+        : m_eventLoop(eventLoop), m_cliFd(std::move(cliFd)),
+          m_cliChnl(std::make_unique<Channel>(m_eventLoop, m_cliFd->getFd())),
+          m_inputBuf(1, maxFrameSize), m_outputBuf(1, maxFrameSize),
+          m_maxFrameSize(maxFrameSize), m_disconnected(false)
     {
-        // 为新客户端连接准备读事件，并添加到epoll中。
         m_cliChnl->setReadCb(std::bind(&Connection::onMessage, this));
         m_cliChnl->setCloseCb(std::bind(&Connection::closeCb, this));
         m_cliChnl->setErrorCb(std::bind(&Connection::errorCb, this));
         m_cliChnl->setWriteCb(std::bind(&Connection::writeCb, this));
-        m_cliChnl->useET();         // 客户端连上来的fd采用边缘触发。
-        m_cliChnl->enableReading(); // 让epoll_wait()监视m_cliChnl的读事件。
+        m_cliChnl->useET(); // 客户端连上来的fd采用边缘触发。
+    }
+
+    void Connection::connectEstablished()
+    {
+        if (m_disconnected.load(std::memory_order_acquire)) return;
+        m_cliChnl->tie(shared_from_this());
+        m_cliChnl->enableReading();
+    }
+
+    void Connection::disconnect()
+    {
+        if (m_disconnected.exchange(true, std::memory_order_acq_rel)) return;
+        m_cliChnl->remove();
     }
 
     Connection::~Connection()
@@ -70,17 +87,19 @@ namespace ol
     // TCP连接关闭（断开）的回调函数，供Channel回调。
     void Connection::closeCb()
     {
-        m_disconnected = true;
+        if (m_disconnected.exchange(true, std::memory_order_acq_rel)) return;
+        auto self = shared_from_this();
         m_cliChnl->remove(); // 从事件循环中删除Channel。
-        m_closeCb(shared_from_this());
+        if (m_closeCb) m_closeCb(self);
     }
 
     // TCP连接错误的回调函数，供Channel回调。
     void Connection::errorCb()
     {
-        m_disconnected = true;
+        if (m_disconnected.exchange(true, std::memory_order_acq_rel)) return;
+        auto self = shared_from_this();
         m_cliChnl->remove(); // 从事件循环中删除Channel。
-        m_errorCb(shared_from_this());
+        if (m_errorCb) m_errorCb(self);
     }
 
     // 处理写事件的回调函数，供Channel回调。
@@ -90,68 +109,78 @@ namespace ol
         printf("Connection::writeCb(%ld).\n", syscall(SYS_gettid));
 #endif // OL_DEBUG
 
-        // 尝试把m_outputBuf中的数据全部发送出去。
-        int writen = ::send(getFd(), m_outputBuf.data(), m_outputBuf.size(), 0);
-
-        if (writen > 0)
+        while (!m_outputBuf.empty())
         {
-            // 从m_outputBuf中删除已成功发送的字节数。
-            m_outputBuf.erase(0, writen);
+            const ssize_t written = ::send(getFd(), m_outputBuf.data(), m_outputBuf.size(), MSG_NOSIGNAL);
+            if (written > 0)
+            {
+                m_outputBuf.erase(0, static_cast<size_t>(written));
+                continue;
+            }
+            if (written < 0 && errno == EINTR) continue;
+            if (written < 0 && (errno == EAGAIN || errno == EWOULDBLOCK)) break;
+
+            errorCb();
+            return;
         }
 
         // 如果发送缓冲区中没有数据了，表示数据已发送完成，不再关注写事件。
         if (m_outputBuf.empty())
         {
             m_cliChnl->disableWriting();
-            m_sendCompleteCb(shared_from_this());
+            if (m_sendCompleteCb) m_sendCompleteCb(shared_from_this());
         }
     }
 
     // 处理对端发送过来的消息。
     void Connection::onMessage()
     {
-        // 直接调用recvFd从fd读取数据到m_inputBuf，内部已处理非阻塞循环
-        ssize_t nread_total = m_inputBuf.recvFd(getFd());
-
-        if (nread_total < 0)
+        auto self = shared_from_this();
+        while (true)
         {
-            // 读取错误：区分可恢复错误和致命错误
-            if (errno == EINTR)
+            const ssize_t count = m_inputBuf.recvFd(getFd());
+            if (count > 0)
             {
-                // 被信号中断，重试读取（理论上recvFd内部已处理，此处冗余保险）
-                return;
-            }
-            else
-            {
-                // 致命错误（如连接重置、关闭），触发错误回调
-                errorCb();
-                return;
-            }
-        }
-        else if (nread_total == 0)
-        {
-            // 读取到0字节，客户端已断开连接
-            closeCb();
-            return;
-        }
-
-        // 读取成功，从m_inputBuf中拆分完整报文并处理
-        std::string message;
-        while (m_inputBuf.pickMessage(message))
-        {
-            m_lastATime = TimeStamp::now(); // 更新最后活动时间
+                try
+                {
+                    std::string message;
+                    while (m_inputBuf.pickMessage(message))
+                    {
+                        m_lastATime = TimeStamp::now();
 #ifdef OL_DEBUG
-            std::cout << "lastATime=" << m_lastATime.toString() << std::endl;
+                        std::cout << "lastATime=" << m_lastATime.toString() << std::endl;
 #endif
-            m_onMessageCb(shared_from_this(), message); // 回调业务处理
+                        if (m_onMessageCb) m_onMessageCb(self, message);
+                        if (m_disconnected.load(std::memory_order_acquire)) return;
+                    }
+                }
+                catch (const std::length_error&)
+                {
+                    errorCb();
+                    return;
+                }
+                continue;
+            }
+            if (count == 0)
+            {
+                closeCb();
+                return;
+            }
+            if (errno == EAGAIN || errno == EWOULDBLOCK) return;
+            if (errno == EINTR) continue;
+
+            errorCb();
+            return;
         }
     }
 
     // 发送数据。
     void Connection::send(const char* data, size_t size)
     {
+        if (data == nullptr && size != 0) throw std::invalid_argument("Message data must not be null");
+        if (size > m_maxFrameSize) throw std::length_error("Message exceeds the maximum frame size");
 
-        if (m_disconnected == true)
+        if (m_disconnected.load(std::memory_order_acquire))
         {
 #ifdef OL_DEBUG
             printf("send() return.\n");
@@ -174,15 +203,19 @@ namespace ol
             printf("send() 不在事件循环的线程中。\n");
 #endif
             // 拷贝数据，避免调用方buffer释放后IO线程访问已释放内存
-            auto msg = std::make_shared<std::string>(data, size);
-            m_eventLoop->pushToQueue([this, msg]()
-                                     { _sendInLoop(msg->data(), msg->size()); });
+            auto msg = data == nullptr
+                           ? std::make_shared<std::string>()
+                           : std::make_shared<std::string>(data, size);
+            auto self = shared_from_this();
+            m_eventLoop->pushToQueue([self, msg]()
+                                     { self->_sendInLoop(msg->data(), msg->size()); });
         }
     }
 
     // 发送数据，如果当前线程是IO线程，直接调用此函数，如果是工作线程，将把此函数传给IO线程去执行。
     void Connection::_sendInLoop(const char* data, size_t size)
     {
+        if (m_disconnected.load(std::memory_order_acquire)) return;
         m_outputBuf.appendWithSep(data, size); // 把需要发送的数据保存到Connection的发送缓冲区中。
         m_cliChnl->enableWriting();            // 注册写事件。
     }

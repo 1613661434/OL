@@ -37,7 +37,7 @@ namespace ol
         int m_timeout;                                    ///< Connection对象超时的时间，单位：秒。
         EpollChnlPtr m_epChnl;                            ///< 每个事件循环只有一个EpollChnl。
         std::function<void(EventLoop*)> m_epollTimeoutCb; ///< epoll_wait()超时的回调函数。
-        pid_t m_threadId;                                 ///< 事件循环所在线程的id。
+        std::atomic<pid_t> m_threadId;                    ///< 事件循环所在线程的id。
         std::mutex m_taskQueueMutex;                      ///< 任务队列同步的互斥锁。
         std::queue<std::function<void()>> m_taskQueue;    ///< 事件循环线程被eventfd唤醒后执行的任务队列。
         int m_wakeUpFd;                                   ///< 用于唤醒事件循环线程的eventfd。
@@ -71,7 +71,7 @@ namespace ol
         // 判断当前线程是否为事件循环线程。
         inline bool isInLoopThread() const
         {
-            return m_threadId == syscall(SYS_gettid);
+            return m_threadId.load(std::memory_order_acquire) == syscall(SYS_gettid);
         }
 
         void setRemoveTimeoutConnCb(std::function<void(int)> func); // 将被设置为TcpServer::removeConn(int fd)

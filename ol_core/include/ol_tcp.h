@@ -15,8 +15,9 @@
 #define OL_TCP_H 1
 
 #include "ol_fstream.h"
+#include <cstddef>
+#include <cstdint>
 #include <iostream>
-#include <signal.h>
 #include <string>
 
 #ifdef __unix__
@@ -35,6 +36,8 @@ namespace ol
     // socket通讯的函数和类
     // ===========================================================================
 #ifdef __unix__
+    inline constexpr size_t OL_TCP_DEFAULT_MAX_FRAME_SIZE = 64U * 1024U * 1024U;
+
     // TCP客户端类，用于与服务端建立连接并进行数据通信
     class ctcpclient
     {
@@ -60,18 +63,22 @@ namespace ol
          * @param buffer 存储接收数据的缓冲区（字符串或二进制指针）
          * @param ibuflen 计划接收的字节数（仅二进制版本需要）
          * @param itimeout 超时时间（秒）：-1-不等待，0-无限等待，>0-指定秒数
+         * @param maxFrameSize 文本报文允许的最大字节数
          * @return true-接收成功，false-失败（超时或连接不可用）
          */
-        bool read(std::string& buffer, const int itimeout = 0);             // 文本数据版本
+        bool read(std::string& buffer, const int itimeout = 0,
+                  size_t maxFrameSize = OL_TCP_DEFAULT_MAX_FRAME_SIZE);     // 文本数据版本
         bool read(void* buffer, const int ibuflen, const int itimeout = 0); // 二进制数据版本
 
         /**
          * @brief 向服务端发送数据
          * @param buffer 待发送数据（字符串或二进制指针）
          * @param ibuflen 待发送的字节数（仅二进制版本需要）
+         * @param maxFrameSize 文本报文允许的最大字节数
          * @return true-发送成功，false-失败（连接不可用）
          */
-        bool write(const std::string& buffer);             // 文本数据版本
+        bool write(const std::string& buffer,
+                   size_t maxFrameSize = OL_TCP_DEFAULT_MAX_FRAME_SIZE);    // 文本数据版本
         bool write(const void* buffer, const int ibuflen); // 二进制数据版本
 
         // 断开与服务端的连接
@@ -124,18 +131,22 @@ namespace ol
          * @param buffer 存储接收数据的缓冲区（字符串或二进制指针）
          * @param ibuflen 计划接收的字节数（仅二进制版本需要）
          * @param itimeout 超时时间（秒）：-1-不等待，0-无限等待，>0-指定秒数
+         * @param maxFrameSize 文本报文允许的最大字节数
          * @return true-接收成功，false-失败（超时或连接不可用）
          */
-        bool read(std::string& buffer, const int itimeout = 0);             // 文本数据版本
+        bool read(std::string& buffer, const int itimeout = 0,
+                  size_t maxFrameSize = OL_TCP_DEFAULT_MAX_FRAME_SIZE);     // 文本数据版本
         bool read(void* buffer, const int ibuflen, const int itimeout = 0); // 二进制数据版本
 
         /**
          * @brief 向客户端发送数据
          * @param buffer 待发送数据（字符串或二进制指针）
          * @param ibuflen 待发送的字节数（仅二进制版本需要）
+         * @param maxFrameSize 文本报文允许的最大字节数
          * @return true-发送成功，false-失败（连接不可用）
          */
-        bool write(const std::string& buffer);             // 文本数据版本
+        bool write(const std::string& buffer,
+                   size_t maxFrameSize = OL_TCP_DEFAULT_MAX_FRAME_SIZE);    // 文本数据版本
         bool write(const void* buffer, const int ibuflen); // 二进制数据版本
 
         /**
@@ -157,9 +168,11 @@ namespace ol
      * @param buffer 存储接收数据的缓冲区（字符串或二进制指针）
      * @param ibuflen 计划接收的字节数（仅二进制版本需要）
      * @param itimeout 超时时间（秒）
+     * @param maxFrameSize 文本报文允许的最大字节数
      * @return true-接收成功，false-失败（超时或连接不可用）
      */
-    bool tcpread(const int sockfd, std::string& buffer, const int itimeout = 0);             // 文本数据版本
+    bool tcpread(const int sockfd, std::string& buffer, const int itimeout = 0,
+                 size_t maxFrameSize = OL_TCP_DEFAULT_MAX_FRAME_SIZE);                       // 文本数据版本
     bool tcpread(const int sockfd, void* buffer, const int ibuflen, const int itimeout = 0); // 二进制数据版本
 
     /**
@@ -167,9 +180,11 @@ namespace ol
      * @param sockfd 已连接的socket描述符
      * @param buffer 待发送数据（字符串或二进制指针）
      * @param ibuflen 待发送的字节数（仅二进制版本需要）
+     * @param maxFrameSize 文本报文允许的最大字节数
      * @return true-发送成功，false-失败（连接不可用）
      */
-    bool tcpwrite(const int sockfd, const std::string& buffer);             // 文本数据版本
+    bool tcpwrite(const int sockfd, const std::string& buffer,
+                  size_t maxFrameSize = OL_TCP_DEFAULT_MAX_FRAME_SIZE);     // 文本数据版本
     bool tcpwrite(const int sockfd, const void* buffer, const int ibuflen); // 二进制数据版本
 
     /**

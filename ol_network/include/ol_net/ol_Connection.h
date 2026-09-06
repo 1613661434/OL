@@ -31,6 +31,7 @@ namespace ol
         ChannelPtr m_cliChnl;            ///< Connection对应的Channel，在构造函数中创建。
         Buffer m_inputBuf;               ///< 接收缓冲区
         Buffer m_outputBuf;              ///< 发送缓冲区
+        size_t m_maxFrameSize;            ///< 单个报文允许的最大字节数。
         std::atomic_bool m_disconnected; ///< 客户端连接是否已断开，如果已断开，则设置为true。
         TimeStamp m_lastATime;           ///< 时间戳，创建Connection对象时为当前时间，每接收到一个报文，把时间戳更新为当前时间。
 
@@ -39,8 +40,12 @@ namespace ol
         std::function<void(ConnectionPtr, std::string&)> m_onMessageCb; ///< 处理报文的回调函数，将回调TcpServer::onMessage()。
         std::function<void(ConnectionPtr)> m_sendCompleteCb;            ///< 发送数据完成后的回调函数，将回调TcpServer::sendComplete()。
     public:
-        Connection(EventLoop* eventLoop, SocketFdPtr cliFd);
+        Connection(EventLoop* eventLoop, SocketFdPtr cliFd,
+                   size_t maxFrameSize = Buffer::DEFAULT_MAX_FRAME_SIZE);
         ~Connection();
+
+        void connectEstablished(); // 设置共享所有权保护并开始监听读事件。
+        void disconnect();         // 在事件循环中移除Channel，不触发业务关闭回调。
 
         int getFd() const;         // 返回fd。
         const char* getIp() const; // 返回ip。

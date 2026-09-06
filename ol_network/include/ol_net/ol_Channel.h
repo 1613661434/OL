@@ -28,6 +28,8 @@ namespace ol
         bool m_inEpoll = false; ///< Channel是否已添加到epoll树上，如果未添加，调用epoll_ctl()的时候用EPOLL_CTL_ADD，否则用EPOLL_CTL_MOD。
         uint32_t m_events = 0;  ///< m_fd需要监视的事件。listenfd和clientfd需要监视EPOLLIN，clientfd还可能需要监视EPOLLOUT。
         uint32_t m_revents = 0; ///< m_fd已发生的事件。
+        std::weak_ptr<void> m_tie; ///< 事件处理期间保护Channel所属对象的生命周期。
+        bool m_tied = false;
 
         std::function<void()> m_readCb;  ///< m_fd读事件的回调函数。
         std::function<void()> m_closeCb; ///< 关闭m_fd的回调函数，将回调Connection::closeCb()。
@@ -53,7 +55,10 @@ namespace ol
         void remove(); // 从事件循环中删除Channel。
 
         void setInEpoll();            // 把m_inepoll成员的值设置为true。
+        void setNotInEpoll();         // 把m_inepoll成员的值设置为false。
         void setRevents(uint32_t ev); // 设置m_revents成员的值为参数ev。
+        void tie(const std::shared_ptr<void>& owner); // 绑定Channel所属对象的共享生命周期。
+        std::shared_ptr<void> lockTie() const;         // 获取所属对象，保护整批epoll事件的处理过程。
 
         void setReadCb(std::function<void()> func);  // 设置m_fd读事件的回调函数。
         void setCloseCb(std::function<void()> func); // 设置关闭m_fd的回调函数。
@@ -61,6 +66,9 @@ namespace ol
         void setWriteCb(std::function<void()> func); // 设置写事件的回调函数。
 
         void handleEvent(); // 事件处理函数，epoll_wait()返回的时候，执行它。
+
+    private:
+        void handleEventWithGuard();
     };
 #endif // __unix__
 

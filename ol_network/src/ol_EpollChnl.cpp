@@ -64,6 +64,7 @@ namespace ol
                 perror("epoll_ctl() failed.\n");
                 exit(-1);
             }
+            chnl->setNotInEpoll();
         }
     }
 
