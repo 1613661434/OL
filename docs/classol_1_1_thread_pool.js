@@ -1,37 +1,57 @@
 var classol_1_1_thread_pool =
 [
     [ "DynamicMembers", "structol_1_1_thread_pool_1_1_dynamic_members.html", "structol_1_1_thread_pool_1_1_dynamic_members" ],
+    [ "ThreadContextGuard", "classol_1_1_thread_pool_1_1_thread_context_guard.html", "classol_1_1_thread_pool_1_1_thread_context_guard" ],
     [ "QueueFullPolicy", "classol_1_1_thread_pool.html#ad2ba1d0d419e9cba2999bbb5196d4a37", [
       [ "kReject", "classol_1_1_thread_pool.html#ad2ba1d0d419e9cba2999bbb5196d4a37a8f2fd79d5722327d476c8bb783ea2477", null ],
       [ "kBlock", "classol_1_1_thread_pool.html#ad2ba1d0d419e9cba2999bbb5196d4a37aaf937713a39275d7c02a4a08b982d81a", null ],
       [ "kTimeout", "classol_1_1_thread_pool.html#ad2ba1d0d419e9cba2999bbb5196d4a37a7f27861ff1d3f550c6aa77150d7edabd", null ]
     ] ],
+    [ "ShutdownMode", "classol_1_1_thread_pool.html#aaaf3528a0458286a81a14ea08512b8cb", [
+      [ "Drain", "classol_1_1_thread_pool.html#aaaf3528a0458286a81a14ea08512b8cba0e37f13157f126473ed9ea7b244fca4c", null ],
+      [ "CancelPending", "classol_1_1_thread_pool.html#aaaf3528a0458286a81a14ea08512b8cbace1f602f34175c74887059a49b6ce87a", null ]
+    ] ],
+    [ "State", "classol_1_1_thread_pool.html#a80ce45525f9b9676ca2a8aa6cdf68242", [
+      [ "Running", "classol_1_1_thread_pool.html#a80ce45525f9b9676ca2a8aa6cdf68242a5bda814c4aedb126839228f1a3d92f09", null ],
+      [ "Draining", "classol_1_1_thread_pool.html#a80ce45525f9b9676ca2a8aa6cdf68242a000c3dbb106309cf21ccf74967f39c4c", null ],
+      [ "Cancelling", "classol_1_1_thread_pool.html#a80ce45525f9b9676ca2a8aa6cdf68242a56395991012586c2067aa7bcb5905b50", null ],
+      [ "Stopped", "classol_1_1_thread_pool.html#a80ce45525f9b9676ca2a8aa6cdf68242ac23e2b09ebe6bf4cb5e2a9abe85c0be2", null ]
+    ] ],
     [ "ThreadPool", "classol_1_1_thread_pool.html#ace0dd0d8b93de9ce8a2ff0e884ec9ede", null ],
     [ "ThreadPool", "classol_1_1_thread_pool.html#a6b598cbc04430bce6cec00c5a466c3d4", null ],
     [ "~ThreadPool", "classol_1_1_thread_pool.html#a08df835b4cf7704999c1711e4f31477a", null ],
     [ "addTask", "classol_1_1_thread_pool.html#a43c4ab10427cb07ba2e54d02146ca524", null ],
+    [ "errorLog", "classol_1_1_thread_pool.html#abc7fd93bed1002c1fbcd2c73ea07ff21", null ],
     [ "getIdleThreadNum", "classol_1_1_thread_pool.html#a5e569574a2a1d8a28ba0a3428618e020", null ],
+    [ "getState", "classol_1_1_thread_pool.html#af4f0928809cdf4365fef992c76753dca", null ],
     [ "getTaskNum", "classol_1_1_thread_pool.html#aaaf3b544386236be46a5d68706f7032e", null ],
+    [ "getThreadId", "classol_1_1_thread_pool.html#a857e8f645fd13ef3ba25029922cf43dc", null ],
+    [ "getThreadId", "classol_1_1_thread_pool.html#a6c7a9b75361b7c9b3c330ef9d2b7acc6", null ],
     [ "getWorkerNum", "classol_1_1_thread_pool.html#ae6ad9887e3d55cc3cb06dfb1e0a63c24", null ],
-    [ "isRunning", "classol_1_1_thread_pool.html#a7ff1d3f67739fdb05b5da589952447f2", null ],
+    [ "isRunning", "classol_1_1_thread_pool.html#a45939f9fce35d62ddbc58a243f18d0ec", null ],
     [ "manager", "classol_1_1_thread_pool.html#aa49c156140053ac1063f9681b3d58ab7", null ],
+    [ "requestStop", "classol_1_1_thread_pool.html#aa7fcd25c81014e99dd614f2eabb25c18", null ],
     [ "setBlockPolicy", "classol_1_1_thread_pool.html#a50d8c665001aeb6dc1f7f54ccf6124fa", null ],
     [ "setCheckInterval", "classol_1_1_thread_pool.html#a92fbcc1a9f3879ba6d011fe8042fe675", null ],
     [ "setRejectPolicy", "classol_1_1_thread_pool.html#aa8e3f419cf8172e16792e1d7bad2a38b", null ],
     [ "setTimeoutPolicy", "classol_1_1_thread_pool.html#ab8039b578e14873d313d7c60c84fc141", null ],
     [ "stop", "classol_1_1_thread_pool.html#a08b1ce8586db5b411447fec9276386c8", null ],
+    [ "stopNow", "classol_1_1_thread_pool.html#a14df01353637955f57332a83822d6de4", null ],
     [ "submitTask", "classol_1_1_thread_pool.html#a4e88cb921b3fa31299c1c113d3705bfb", null ],
+    [ "wait", "classol_1_1_thread_pool.html#a515324597ab2c6b382bed8c3cae91d48", null ],
     [ "worker", "classol_1_1_thread_pool.html#a3dfd7c2649dabf4e70882fe4b788206f", null ],
     [ "m_activeWorkers", "classol_1_1_thread_pool.html#a5ab9ba063c81d81bf38052ec98ada098", null ],
     [ "m_dynamic", "classol_1_1_thread_pool.html#a966d14f85bc602162990f30c720f7071", null ],
     [ "m_maxQueueSize", "classol_1_1_thread_pool.html#aa91e95535c078ac1032105c8b6da25de", null ],
     [ "m_queueFullPolicy", "classol_1_1_thread_pool.html#a4c83c52488e87362113b148ffde1097d", null ],
-    [ "m_stop", "classol_1_1_thread_pool.html#aa1e4f75ae1315f8b983e1a08b8e552c8", null ],
+    [ "m_state", "classol_1_1_thread_pool.html#ae5d53073b83ab4f97e8d9b55c05e24d7", null ],
     [ "m_taskQueue", "classol_1_1_thread_pool.html#a3ac6022a74a5caa1f4401c49697e5d68", null ],
     [ "m_taskQueueMutex", "classol_1_1_thread_pool.html#a5ee67b3a1eae85550701bd8224be2788", null ],
     [ "m_taskQueueNotEmpty_condVar", "classol_1_1_thread_pool.html#a700b4f16c2d1c1bfda90624bc414884e", null ],
     [ "m_taskQueueNotFull_condVar", "classol_1_1_thread_pool.html#ae8c7ce0f199d378b65cdd5cdd0530d1b", null ],
     [ "m_timeoutMS", "classol_1_1_thread_pool.html#a72a21e3545fbe01ef463f57942e9fe8f", null ],
+    [ "m_waitMutex", "classol_1_1_thread_pool.html#a93ba2d884888cc5711640cd886705898", null ],
     [ "m_workers", "classol_1_1_thread_pool.html#a53ce197f44320534e849bb579308e707", null ],
-    [ "m_workersMutex", "classol_1_1_thread_pool.html#a78b7e22dca8e90df7e4eff0b50859f04", null ]
+    [ "m_workersMutex", "classol_1_1_thread_pool.html#a78b7e22dca8e90df7e4eff0b50859f04", null ],
+    [ "s_currentThreadPool", "classol_1_1_thread_pool.html#a8e42ad29c3c655ae6f49cca13344c2e2", null ]
 ];

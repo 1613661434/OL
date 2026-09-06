@@ -1,0 +1,730 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: test_ol_ThreadPool.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('test_ol__thread_pool_8cpp-example.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">test_ol_ThreadPool.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol___thread_pool_8h.html">ol_ThreadPool.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;cassert&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;numeric&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;assert.h&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 全局输出互斥锁，确保多线程输出不交错</span></div>
+<div class="line">std::mutex g_printMutex;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 线程安全的格式化打印函数</span></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Args&gt;</div>
+<div class="line"><span class="keywordtype">void</span> safePrint(<span class="keyword">const</span> <span class="keywordtype">char</span>* format, Args&amp;&amp;... args)</div>
+<div class="line">{</div>
+<div class="line">    std::lock_guard&lt;std::mutex&gt; lock(g_printMutex);</div>
+<div class="line">    printf(format, std::forward&lt;Args&gt;(args)...);</div>
+<div class="line">    fflush(stdout);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 线程安全的流式打印函数</span></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keywordtype">void</span> safePrint(<span class="keyword">const</span> T&amp; content)</div>
+<div class="line">{</div>
+<div class="line">    std::lock_guard&lt;std::mutex&gt; lock(g_printMutex);</div>
+<div class="line">    std::cout &lt;&lt; content;</div>
+<div class="line">    std::cout.flush();</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 测试任务：无返回值，打印信息</span></div>
+<div class="line"><span class="keywordtype">void</span> printMessage(<span class="keywordtype">int</span> <span class="keywordtype">id</span>, <span class="keyword">const</span> std::string&amp; msg)</div>
+<div class="line">{</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;任务 %d: %s (线程ID: %llu)\n&quot;</span>,</div>
+<div class="line">              <span class="keywordtype">id</span>, msg.c_str(),</div>
+<div class="line">              <a id="_a0" name="_a0"></a><a class="code hl_function" href="classol_1_1_thread_pool.html#a857e8f645fd13ef3ba25029922cf43dc">ol::ThreadPool&lt;&gt;::getThreadId</a>());</div>
+<div class="line"> </div>
+<div class="line">    std::this_thread::sleep_for(std::chrono::milliseconds(100));</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 测试任务：有返回值，计算-100</span></div>
+<div class="line"><span class="keywordtype">int</span> subtract100(<span class="keywordtype">int</span> x)</div>
+<div class="line">{</div>
+<div class="line">    std::this_thread::sleep_for(std::chrono::milliseconds(50));</div>
+<div class="line">    <span class="keywordflow">return</span> x - 100;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 测试任务：有返回值，计算+1000（用于策略测试）</span></div>
+<div class="line"><span class="keywordtype">int</span> add1000(<span class="keywordtype">int</span> x)</div>
+<div class="line">{</div>
+<div class="line">    uint64_t threadId = <a class="code hl_function" href="classol_1_1_thread_pool.html#a857e8f645fd13ef3ba25029922cf43dc">ol::ThreadPool&lt;&gt;::getThreadId</a>();</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;  阻塞策略任务 %d 开始执行 (执行线程: %llu)\n&quot;</span>, x, threadId);</div>
+<div class="line"> </div>
+<div class="line">    std::this_thread::sleep_for(std::chrono::milliseconds(100));</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordtype">int</span> result = x + 1000;</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;  阻塞策略任务 %d 执行完成 (执行线程: %llu, 结果: %d)\n&quot;</span>, x, threadId, result);</div>
+<div class="line">    <span class="keywordflow">return</span> result;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 测试任务：可能抛出异常，验证异常处理机制</span></div>
+<div class="line"><span class="keywordtype">void</span> riskyTask(<span class="keywordtype">int</span> <span class="keywordtype">id</span>)</div>
+<div class="line">{</div>
+<div class="line">    std::this_thread::sleep_for(std::chrono::milliseconds(50));</div>
+<div class="line">    <span class="keywordflow">if</span> (<span class="keywordtype">id</span> % 3 == 0)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;风险任务 &quot;</span> + std::to_string(<span class="keywordtype">id</span>) + <span class="stringliteral">&quot; 触发了预期异常&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;风险任务 %d 成功完成\n&quot;</span>, <span class="keywordtype">id</span>);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 测试任务：计算区间总和，验证返回值正确性</span></div>
+<div class="line"><span class="keywordtype">long</span> <span class="keywordtype">long</span> sumRange(<span class="keywordtype">int</span> start, <span class="keywordtype">int</span> end)</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordtype">long</span> <span class="keywordtype">long</span> sum = 0;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = start; i &lt;= end; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        sum += i;</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">return</span> sum;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 测试任务：用于验证stop()方法的行为</span></div>
+<div class="line"><span class="keywordtype">void</span> stopTestTask(<span class="keywordtype">int</span> <span class="keywordtype">id</span>)</div>
+<div class="line">{</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;停止测试任务 %d 开始执行\n&quot;</span>, <span class="keywordtype">id</span>);</div>
+<div class="line">    std::this_thread::sleep_for(std::chrono::milliseconds(200));</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;停止测试任务 %d 执行完毕\n&quot;</span>, <span class="keywordtype">id</span>);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 测试任务：长时间运行的任务，用于验证队列策略和动态扩缩容</span></div>
+<div class="line"><span class="keywordtype">void</span> longRunningTask(<span class="keywordtype">int</span> <span class="keywordtype">id</span>)</div>
+<div class="line">{</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;长任务 %d 开始执行\n&quot;</span>, <span class="keywordtype">id</span>);</div>
+<div class="line">    std::this_thread::sleep_for(std::chrono::milliseconds(500));</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;长任务 %d 执行完毕\n&quot;</span>, <span class="keywordtype">id</span>);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 测试任务：轻量级任务，用于测试动态线程池的扩缩容</span></div>
+<div class="line"><span class="keywordtype">void</span> lightTask(<span class="keywordtype">int</span> <span class="keywordtype">id</span>)</div>
+<div class="line">{</div>
+<div class="line">    uint64_t threadId = <a class="code hl_function" href="classol_1_1_thread_pool.html#a857e8f645fd13ef3ba25029922cf43dc">ol::ThreadPool&lt;&gt;::getThreadId</a>();</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;轻量任务 %d 开始执行 (线程: %llu)\n&quot;</span>, <span class="keywordtype">id</span>, threadId);</div>
+<div class="line">    std::this_thread::sleep_for(std::chrono::milliseconds(200));</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;轻量任务 %d 执行完毕 (线程: %llu)\n&quot;</span>, <span class="keywordtype">id</span>, threadId);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 固定模式线程池基本功能测试</span></div>
+<div class="line"><span class="keywordtype">void</span> runFixedCommonTests(<span class="keywordtype">size_t</span> threadNum, <span class="keywordtype">size_t</span> maxQueueSize)</div>
+<div class="line">{</div>
+<div class="line">    <a id="_a1" name="_a1"></a><a class="code hl_class" href="classol_1_1_thread_pool.html">ol::ThreadPool&lt;false&gt;</a> pool(threadNum, maxQueueSize);</div>
+<div class="line">    <span class="keyword">const</span> std::string poolType = <span class="stringliteral">&quot;固定模式&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== %s 基本功能测试 ===\n&quot;</span>, poolType.c_str());</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;创建了包含 %zu 个线程的线程池\n&quot;</span>, pool.getWorkerNum());</div>
+<div class="line">    assert(pool.isRunning() &amp;&amp; <span class="stringliteral">&quot;线程池未处于运行状态&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试无返回值任务</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== %s 无返回值任务测试 ===\n&quot;</span>, poolType.c_str());</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 5; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordtype">bool</span> success = pool.addTask(std::bind(printMessage, i, poolType + <span class="stringliteral">&quot;线程池的问候&quot;</span>));</div>
+<div class="line">        assert(success &amp;&amp; <span class="stringliteral">&quot;无返回值任务添加失败&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;当前等待执行的任务数: %zu\n&quot;</span>, pool.getTaskNum());</div>
+<div class="line">    std::this_thread::sleep_for(std::chrono::seconds(1));</div>
+<div class="line">    assert(pool.getTaskNum() == 0 &amp;&amp; <span class="stringliteral">&quot;无返回值任务未正确执行完毕&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试带返回值的任务</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== %s 带返回值任务测试 ===\n&quot;</span>, poolType.c_str());</div>
+<div class="line">    std::vector&lt;std::future&lt;int&gt;&gt; subtractFutures;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt;= 5; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        subtractFutures.emplace_back(pool.submitTask(subtract100, i).second);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 获取并验证结果</span></div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; (int)subtractFutures.size(); ++i)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordtype">int</span> result = subtractFutures[i].get();</div>
+<div class="line">        <span class="keywordtype">int</span> expected = (i + 1) - 100;</div>
+<div class="line">        safePrint(<span class="stringliteral">&quot;%d - 100 = %d（预期%d）\n&quot;</span>, i + 1, result, expected);</div>
+<div class="line">        assert(result == expected &amp;&amp; <span class="stringliteral">&quot;减法计算结果错误&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试异常处理机制</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== %s 异常处理测试 ===\n&quot;</span>, poolType.c_str());</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 5; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        pool.addTask(std::bind(riskyTask, i));</div>
+<div class="line">    }</div>
+<div class="line">    std::this_thread::sleep_for(std::chrono::seconds(1));</div>
+<div class="line">    assert(pool.isRunning() &amp;&amp; <span class="stringliteral">&quot;异常导致线程池停止&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试大量任务处理能力</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== %s 大量任务处理测试 ===\n&quot;</span>, poolType.c_str());</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">int</span> TASK_COUNT = 8;</div>
+<div class="line">    std::vector&lt;std::future&lt;long long&gt;&gt; sumFutures;</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; TASK_COUNT; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordtype">int</span> start = i * 1000;</div>
+<div class="line">        <span class="keywordtype">int</span> end = start + 999;</div>
+<div class="line">        sumFutures.emplace_back(pool.submitTask(sumRange, start, end).second);</div>
+<div class="line">        safePrint(<span class="stringliteral">&quot;添加任务: 计算 %d 到 %d 的总和\n&quot;</span>, start, end);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 验证计算结果</span></div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; TASK_COUNT; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordtype">long</span> <span class="keywordtype">long</span> result = sumFutures[i].get();</div>
+<div class="line">        <span class="keywordtype">int</span> start = i * 1000;</div>
+<div class="line">        <span class="keywordtype">int</span> end = start + 999;</div>
+<div class="line">        <span class="keywordtype">long</span> <span class="keywordtype">long</span> expected = (<span class="keywordtype">long</span> long)(start + end) * (end - start + 1) / 2;</div>
+<div class="line">        safePrint(<span class="stringliteral">&quot;%d 到 %d 的总和: %lld（预期: %lld）\n&quot;</span>,</div>
+<div class="line">                  start, end, result, expected);</div>
+<div class="line">        assert(result == expected &amp;&amp; <span class="stringliteral">&quot;区间求和结果错误&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 动态模式线程池基本功能测试</span></div>
+<div class="line"><span class="keywordtype">void</span> runDynamicCommonTests(<span class="keywordtype">size_t</span> minThreadNum, <span class="keywordtype">size_t</span> maxThreadNum,</div>
+<div class="line">                           <span class="keywordtype">size_t</span> maxQueueSize, std::chrono::seconds checkInterval)</div>
+<div class="line">{</div>
+<div class="line">    <a class="code hl_class" href="classol_1_1_thread_pool.html">ol::ThreadPool&lt;true&gt;</a> pool(minThreadNum, maxThreadNum, maxQueueSize, checkInterval);</div>
+<div class="line">    <span class="keyword">const</span> std::string poolType = <span class="stringliteral">&quot;动态模式&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== %s 基本功能测试 ===\n&quot;</span>, poolType.c_str());</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;创建了包含 %zu 个线程的线程池\n&quot;</span>, pool.getWorkerNum());</div>
+<div class="line">    assert(pool.isRunning() &amp;&amp; <span class="stringliteral">&quot;线程池未处于运行状态&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试无返回值任务</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== %s 无返回值任务测试 ===\n&quot;</span>, poolType.c_str());</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 5; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordtype">bool</span> success = pool.addTask(std::bind(printMessage, i, poolType + <span class="stringliteral">&quot;线程池的问候&quot;</span>));</div>
+<div class="line">        assert(success &amp;&amp; <span class="stringliteral">&quot;无返回值任务添加失败&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;当前等待执行的任务数: %zu\n&quot;</span>, pool.getTaskNum());</div>
+<div class="line">    std::this_thread::sleep_for(std::chrono::seconds(1));</div>
+<div class="line">    assert(pool.getTaskNum() == 0 &amp;&amp; <span class="stringliteral">&quot;无返回值任务未正确执行完毕&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试带返回值的任务</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== %s 带返回值任务测试 ===\n&quot;</span>, poolType.c_str());</div>
+<div class="line">    std::vector&lt;std::future&lt;int&gt;&gt; subtractFutures;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt;= 5; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        subtractFutures.emplace_back(pool.submitTask(subtract100, i).second);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 获取并验证结果</span></div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; (int)subtractFutures.size(); ++i)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordtype">int</span> result = subtractFutures[i].get();</div>
+<div class="line">        <span class="keywordtype">int</span> expected = (i + 1) - 100;</div>
+<div class="line">        safePrint(<span class="stringliteral">&quot;%d - 100 = %d（预期%d）\n&quot;</span>, i + 1, result, expected);</div>
+<div class="line">        assert(result == expected &amp;&amp; <span class="stringliteral">&quot;减法计算结果错误&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试异常处理机制</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== %s 异常处理测试 ===\n&quot;</span>, poolType.c_str());</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 5; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        pool.addTask(std::bind(riskyTask, i));</div>
+<div class="line">    }</div>
+<div class="line">    std::this_thread::sleep_for(std::chrono::seconds(1));</div>
+<div class="line">    assert(pool.isRunning() &amp;&amp; <span class="stringliteral">&quot;异常导致线程池停止&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试大量任务处理能力</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== %s 大量任务处理测试 ===\n&quot;</span>, poolType.c_str());</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">int</span> TASK_COUNT = 8;</div>
+<div class="line">    std::vector&lt;std::future&lt;long long&gt;&gt; sumFutures;</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; TASK_COUNT; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordtype">int</span> start = i * 1000;</div>
+<div class="line">        <span class="keywordtype">int</span> end = start + 999;</div>
+<div class="line">        sumFutures.emplace_back(pool.submitTask(sumRange, start, end).second);</div>
+<div class="line">        safePrint(<span class="stringliteral">&quot;添加任务: 计算 %d 到 %d 的总和\n&quot;</span>, start, end);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 验证计算结果</span></div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; TASK_COUNT; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordtype">long</span> <span class="keywordtype">long</span> result = sumFutures[i].get();</div>
+<div class="line">        <span class="keywordtype">int</span> start = i * 1000;</div>
+<div class="line">        <span class="keywordtype">int</span> end = start + 999;</div>
+<div class="line">        <span class="keywordtype">long</span> <span class="keywordtype">long</span> expected = (<span class="keywordtype">long</span> long)(start + end) * (end - start + 1) / 2;</div>
+<div class="line">        safePrint(<span class="stringliteral">&quot;%d 到 %d 的总和: %lld（预期: %lld）\n&quot;</span>,</div>
+<div class="line">                  start, end, result, expected);</div>
+<div class="line">        assert(result == expected &amp;&amp; <span class="stringliteral">&quot;区间求和结果错误&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 固定模式队列策略测试</span></div>
+<div class="line"><span class="keywordtype">void</span> testFixedQueuePolicies(<span class="keywordtype">size_t</span> threadNum, <span class="keywordtype">size_t</span> maxQueueSize)</div>
+<div class="line">{</div>
+<div class="line">    <a class="code hl_class" href="classol_1_1_thread_pool.html">ol::ThreadPool&lt;false&gt;</a> pool(threadNum, maxQueueSize);</div>
+<div class="line">    <span class="keyword">const</span> std::string poolType = <span class="stringliteral">&quot;固定模式&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试队列满策略：拒绝策略</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== %s 队列满策略测试：拒绝策略 ===\n&quot;</span>, poolType.c_str());</div>
+<div class="line">    pool.setRejectPolicy();</div>
+<div class="line">    <span class="keywordtype">int</span> rejectSuccessAdd = 0;</div>
+<div class="line">    <span class="keywordtype">int</span> rejectSuccessSubmit = 0;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试addTask在拒绝策略下的行为</span></div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 5; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordtype">bool</span> success = pool.addTask(std::bind(longRunningTask, i));</div>
+<div class="line">        <span class="keywordflow">if</span> (success)</div>
+<div class="line">        {</div>
+<div class="line">            ++rejectSuccessAdd;</div>
+<div class="line">            safePrint(<span class="stringliteral">&quot;拒绝策略-add: 任务 %d 添加成功\n&quot;</span>, i);</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">else</span></div>
+<div class="line">        {</div>
+<div class="line">            safePrint(<span class="stringliteral">&quot;拒绝策略-add: 任务 %d 添加失败（队列已满）\n&quot;</span>, i);</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试submitTask在拒绝策略下的行为</span></div>
+<div class="line">    std::vector&lt;std::future&lt;int&gt;&gt; rejectFutures;</div>
+<div class="line">    <span class="comment">// 提交所有任务</span></div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 10; i &lt; 15; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keyword">auto</span> [success, future] = pool.submitTask(add1000, i);</div>
+<div class="line">        <span class="keywordflow">if</span> (success)</div>
+<div class="line">        {</div>
+<div class="line">            ++rejectSuccessSubmit;</div>
+<div class="line">            rejectFutures.push_back(std::move(future));</div>
+<div class="line">            safePrint(<span class="stringliteral">&quot;拒绝策略-submit: 任务 %d 添加成功\n&quot;</span>, i);</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">else</span></div>
+<div class="line">        {</div>
+<div class="line">            safePrint(<span class="stringliteral">&quot;拒绝策略-submit: 任务 %d 添加失败\n&quot;</span>, i);</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 验证结果并统计成功数</span></div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> j = 0; j &lt; rejectFutures.size(); ++j)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordtype">int</span> taskId = 10 + j;</div>
+<div class="line">        <span class="keywordtype">int</span> result = rejectFutures[j].get();</div>
+<div class="line">        assert(result == taskId + 1000 &amp;&amp; <span class="stringliteral">&quot;加法计算错误&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;拒绝策略：add成功 %d 个，submit成功 %d 个\n&quot;</span>,</div>
+<div class="line">              rejectSuccessAdd, rejectSuccessSubmit);</div>
+<div class="line">    assert(pool.getTaskNum() == 0 &amp;&amp; <span class="stringliteral">&quot;拒绝策略任务未执行完毕&quot;</span>);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 动态模式队列策略测试</span></div>
+<div class="line"><span class="keywordtype">void</span> testDynamicQueuePolicies(<span class="keywordtype">size_t</span> minThreadNum, <span class="keywordtype">size_t</span> maxThreadNum,</div>
+<div class="line">                              <span class="keywordtype">size_t</span> maxQueueSize, std::chrono::seconds checkInterval)</div>
+<div class="line">{</div>
+<div class="line">    <a class="code hl_class" href="classol_1_1_thread_pool.html">ol::ThreadPool&lt;true&gt;</a> pool(minThreadNum, maxThreadNum, maxQueueSize, checkInterval);</div>
+<div class="line">    <span class="keyword">const</span> std::string poolType = <span class="stringliteral">&quot;动态模式&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试队列满策略：拒绝策略</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== %s 队列满策略测试：拒绝策略 ===\n&quot;</span>, poolType.c_str());</div>
+<div class="line">    pool.setRejectPolicy();</div>
+<div class="line">    <span class="keywordtype">int</span> rejectSuccessAdd = 0;</div>
+<div class="line">    <span class="keywordtype">int</span> rejectSuccessSubmit = 0;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试addTask在拒绝策略下的行为</span></div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 5; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordtype">bool</span> success = pool.addTask(std::bind(longRunningTask, i));</div>
+<div class="line">        <span class="keywordflow">if</span> (success)</div>
+<div class="line">        {</div>
+<div class="line">            ++rejectSuccessAdd;</div>
+<div class="line">            safePrint(<span class="stringliteral">&quot;拒绝策略-add: 任务 %d 添加成功\n&quot;</span>, i);</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">else</span></div>
+<div class="line">        {</div>
+<div class="line">            safePrint(<span class="stringliteral">&quot;拒绝策略-add: 任务 %d 添加失败（队列已满）\n&quot;</span>, i);</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试submitTask在拒绝策略下的行为</span></div>
+<div class="line">    std::vector&lt;std::future&lt;int&gt;&gt; rejectFutures;</div>
+<div class="line">    <span class="comment">// 提交所有任务</span></div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 10; i &lt; 15; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keyword">auto</span> [success, future] = pool.submitTask(add1000, i);</div>
+<div class="line">        <span class="keywordflow">if</span> (success)</div>
+<div class="line">        {</div>
+<div class="line">            ++rejectSuccessSubmit;</div>
+<div class="line">            rejectFutures.push_back(std::move(future));</div>
+<div class="line">            safePrint(<span class="stringliteral">&quot;拒绝策略-submit: 任务 %d 添加成功\n&quot;</span>, i);</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">else</span></div>
+<div class="line">        {</div>
+<div class="line">            safePrint(<span class="stringliteral">&quot;拒绝策略-submit: 任务 %d 添加失败\n&quot;</span>, i);</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 验证结果并统计成功数</span></div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> j = 0; j &lt; rejectFutures.size(); ++j)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordtype">int</span> taskId = 10 + j;</div>
+<div class="line">        <span class="keywordtype">int</span> result = rejectFutures[j].get();</div>
+<div class="line">        assert(result == taskId + 1000 &amp;&amp; <span class="stringliteral">&quot;加法计算错误&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;拒绝策略：add成功 %d 个，submit成功 %d 个\n&quot;</span>,</div>
+<div class="line">              rejectSuccessAdd, rejectSuccessSubmit);</div>
+<div class="line">    assert(pool.getTaskNum() == 0 &amp;&amp; <span class="stringliteral">&quot;拒绝策略任务未执行完毕&quot;</span>);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 固定模式stop方法测试</span></div>
+<div class="line"><span class="keywordtype">void</span> testFixedStopBehavior(<span class="keywordtype">size_t</span> threadNum, <span class="keywordtype">size_t</span> maxQueueSize)</div>
+<div class="line">{</div>
+<div class="line">    <span class="keyword">const</span> std::string poolType = <span class="stringliteral">&quot;固定模式&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试1：stop()的等待性（强制等待任务完成）</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== %s stop()等待性测试 ===\n&quot;</span>, poolType.c_str());</div>
+<div class="line">    <a class="code hl_class" href="classol_1_1_thread_pool.html">ol::ThreadPool&lt;false&gt;</a> stopTestPool1(threadNum, maxQueueSize);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 提交一个中等时长任务（验证stop会等待完成）</span></div>
+<div class="line">    stopTestPool1.addTask([]()</div>
+<div class="line">                          { std::this_thread::sleep_for(std::chrono::milliseconds(300)); });</div>
+<div class="line">    std::this_thread::sleep_for(std::chrono::milliseconds(50)); <span class="comment">// 确保任务已开始执行</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 记录stop()调用时间（强制等待任务完成）</span></div>
+<div class="line">    <span class="keyword">auto</span> start = std::chrono::steady_clock::now();</div>
+<div class="line">    stopTestPool1.stop(); <span class="comment">// 无参stop，强制等待任务完成后返回</span></div>
+<div class="line">    <span class="keyword">auto</span> end = std::chrono::steady_clock::now();</div>
+<div class="line"> </div>
+<div class="line">    <span class="keyword">auto</span> duration = std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(end - start).count();</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;stop() 执行耗时: %lld ms（预期 &lt;= 1000ms）\n&quot;</span>, duration);</div>
+<div class="line">    assert(duration &lt;= 1000 &amp;&amp; <span class="stringliteral">&quot;stop() 等待超时&quot;</span>);</div>
+<div class="line">    assert(!stopTestPool1.isRunning() &amp;&amp; <span class="stringliteral">&quot;stop() 未正确停止线程池&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试2：空任务池调用stop()的安全性</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== %s 空任务池stop()测试 ===\n&quot;</span>, poolType.c_str());</div>
+<div class="line">    <a class="code hl_class" href="classol_1_1_thread_pool.html">ol::ThreadPool&lt;false&gt;</a> stopTestPool2(threadNum, maxQueueSize);</div>
+<div class="line">    start = std::chrono::steady_clock::now();</div>
+<div class="line">    stopTestPool2.stop(); <span class="comment">// 空池调用stop，应快速返回</span></div>
+<div class="line">    end = std::chrono::steady_clock::now();</div>
+<div class="line"> </div>
+<div class="line">    duration = std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(end - start).count();</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;空池stop() 执行耗时: %lld ms（预期 &lt;= 1000ms）\n&quot;</span>, duration);</div>
+<div class="line">    assert(duration &lt;= 1000 &amp;&amp; <span class="stringliteral">&quot;空池stop() 执行耗时过长&quot;</span>);</div>
+<div class="line">    assert(!stopTestPool2.isRunning() &amp;&amp; <span class="stringliteral">&quot;空池stop() 未正确停止线程池&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试3：已停止的线程池行为</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== %s 已停止线程池行为测试 ===\n&quot;</span>, poolType.c_str());</div>
+<div class="line">    <a class="code hl_class" href="classol_1_1_thread_pool.html">ol::ThreadPool&lt;false&gt;</a> stoppedPool(threadNum, maxQueueSize);</div>
+<div class="line">    stoppedPool.stop(); <span class="comment">// 先停止</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 验证任务提交失败</span></div>
+<div class="line">    <span class="keywordtype">bool</span> addResult = stoppedPool.addTask([]()</div>
+<div class="line">                                         { safePrint(<span class="stringliteral">&quot;此任务不应执行\n&quot;</span>); });</div>
+<div class="line">    assert(!addResult &amp;&amp; <span class="stringliteral">&quot;已停止线程池不应接受addTask任务&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordtype">bool</span> submitThrew = <span class="keyword">false</span>;</div>
+<div class="line">    <span class="keywordflow">try</span></div>
+<div class="line">    {</div>
+<div class="line">        <span class="comment">// 线程池已停止时调用submitTask本身不会抛异常，而是返回带异常的future</span></div>
+<div class="line">        <span class="keyword">auto</span> [success, future] = stoppedPool.submitTask(subtract100, 5);</div>
+<div class="line">        <span class="comment">// 调用get()时才会触发异常</span></div>
+<div class="line">        future.get();</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e)</div>
+<div class="line">    {</div>
+<div class="line">        submitThrew = <span class="keyword">true</span>;</div>
+<div class="line">        safePrint(<span class="stringliteral">&quot;已停止线程池：submitTask正确抛出异常 - %s\n&quot;</span>, e.what());</div>
+<div class="line">    }</div>
+<div class="line">    assert(submitThrew &amp;&amp; <span class="stringliteral">&quot;已停止线程池应拒绝submitTask任务&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试4：重复调用stop()的安全性</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== %s 重复调用stop()测试 ===\n&quot;</span>, poolType.c_str());</div>
+<div class="line">    <a class="code hl_class" href="classol_1_1_thread_pool.html">ol::ThreadPool&lt;false&gt;</a> repeatStopPool(threadNum, maxQueueSize);</div>
+<div class="line">    repeatStopPool.stop();</div>
+<div class="line">    start = std::chrono::steady_clock::now();</div>
+<div class="line">    repeatStopPool.stop(); <span class="comment">// 重复调用，应无副作用且快速返回</span></div>
+<div class="line">    end = std::chrono::steady_clock::now();</div>
+<div class="line"> </div>
+<div class="line">    duration = std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(end - start).count();</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;重复stop() 执行耗时: %lld ms（预期 &lt;= 1000ms）\n&quot;</span>, duration);</div>
+<div class="line">    assert(duration &lt;= 1000 &amp;&amp; <span class="stringliteral">&quot;重复stop() 执行耗时过长&quot;</span>);</div>
+<div class="line">    assert(!repeatStopPool.isRunning() &amp;&amp; <span class="stringliteral">&quot;重复stop() 状态错误&quot;</span>);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 动态模式stop方法测试</span></div>
+<div class="line"><span class="keywordtype">void</span> testDynamicStopBehavior(<span class="keywordtype">size_t</span> minThreadNum, <span class="keywordtype">size_t</span> maxThreadNum,</div>
+<div class="line">                             <span class="keywordtype">size_t</span> maxQueueSize, std::chrono::seconds checkInterval)</div>
+<div class="line">{</div>
+<div class="line">    <span class="keyword">const</span> std::string poolType = <span class="stringliteral">&quot;动态模式&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试1：stop()等待任务+管理者线程退出</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== %s stop()等待性测试 ===\n&quot;</span>, poolType.c_str());</div>
+<div class="line">    <a class="code hl_class" href="classol_1_1_thread_pool.html">ol::ThreadPool&lt;true&gt;</a> stopTestPool1(minThreadNum, maxThreadNum, maxQueueSize, checkInterval);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 提交任务并确保管理者线程活跃</span></div>
+<div class="line">    stopTestPool1.addTask([]()</div>
+<div class="line">                          { std::this_thread::sleep_for(std::chrono::milliseconds(300)); });</div>
+<div class="line">    std::this_thread::sleep_for(std::chrono::milliseconds(50)); <span class="comment">// 确保任务开始执行</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 记录stop()调用时间（等待任务+管理者线程退出）</span></div>
+<div class="line">    <span class="keyword">auto</span> start = std::chrono::steady_clock::now();</div>
+<div class="line">    stopTestPool1.stop(); <span class="comment">// 无参stop，强制等待所有任务+管理者线程完成</span></div>
+<div class="line">    <span class="keyword">auto</span> end = std::chrono::steady_clock::now();</div>
+<div class="line"> </div>
+<div class="line">    <span class="keyword">auto</span> duration = std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(end - start).count();</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;stop() 执行耗时: %lld ms（预期 &lt;= 1000ms）\n&quot;</span>, duration);</div>
+<div class="line">    assert(duration &lt;= 1000 &amp;&amp; <span class="stringliteral">&quot;stop() 等待超时&quot;</span>);</div>
+<div class="line">    assert(!stopTestPool1.isRunning() &amp;&amp; <span class="stringliteral">&quot;stop() 未正确停止线程池&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试2：空动态池stop()的安全性</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== %s 空任务池stop()测试 ===\n&quot;</span>, poolType.c_str());</div>
+<div class="line">    <a class="code hl_class" href="classol_1_1_thread_pool.html">ol::ThreadPool&lt;true&gt;</a> stopTestPool2(minThreadNum, maxThreadNum, maxQueueSize, checkInterval);</div>
+<div class="line">    start = std::chrono::steady_clock::now();</div>
+<div class="line">    stopTestPool2.stop(); <span class="comment">// 空池调用stop，应快速返回（管理者线程退出）</span></div>
+<div class="line">    end = std::chrono::steady_clock::now();</div>
+<div class="line"> </div>
+<div class="line">    duration = std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(end - start).count();</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;空池stop() 执行耗时: %lld ms（预期 &lt;= 1000ms）\n&quot;</span>, duration);</div>
+<div class="line">    assert(duration &lt;= 1000 &amp;&amp; <span class="stringliteral">&quot;空池stop() 执行耗时过长&quot;</span>);</div>
+<div class="line">    assert(!stopTestPool2.isRunning() &amp;&amp; <span class="stringliteral">&quot;空池stop() 未正确停止线程池&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试3：已停止的线程池行为</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== %s 已停止线程池行为测试 ===\n&quot;</span>, poolType.c_str());</div>
+<div class="line">    <a class="code hl_class" href="classol_1_1_thread_pool.html">ol::ThreadPool&lt;true&gt;</a> stoppedPool(minThreadNum, maxThreadNum, maxQueueSize, checkInterval);</div>
+<div class="line">    stoppedPool.stop(); <span class="comment">// 主动停止</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 验证任务提交失败</span></div>
+<div class="line">    <span class="keywordtype">bool</span> addResult = stoppedPool.addTask([]()</div>
+<div class="line">                                         { safePrint(<span class="stringliteral">&quot;此任务不应执行\n&quot;</span>); });</div>
+<div class="line">    assert(!addResult &amp;&amp; <span class="stringliteral">&quot;已停止线程池不应接受addTask任务&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordtype">bool</span> submitThrew = <span class="keyword">false</span>;</div>
+<div class="line">    <span class="keywordflow">try</span></div>
+<div class="line">    {</div>
+<div class="line">        <span class="keyword">auto</span> [success, future] = stoppedPool.submitTask(subtract100, 5);</div>
+<div class="line">        future.get();</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e)</div>
+<div class="line">    {</div>
+<div class="line">        submitThrew = <span class="keyword">true</span>;</div>
+<div class="line">        safePrint(<span class="stringliteral">&quot;已停止线程池：submitTask正确抛出异常 - %s\n&quot;</span>, e.what());</div>
+<div class="line">    }</div>
+<div class="line">    assert(submitThrew &amp;&amp; <span class="stringliteral">&quot;已停止线程池应拒绝submitTask任务&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试4：重复调用stop()的安全性</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== %s 重复调用stop()测试 ===\n&quot;</span>, poolType.c_str());</div>
+<div class="line">    <a class="code hl_class" href="classol_1_1_thread_pool.html">ol::ThreadPool&lt;true&gt;</a> repeatStopPool(minThreadNum, maxThreadNum, maxQueueSize, checkInterval);</div>
+<div class="line">    repeatStopPool.stop();</div>
+<div class="line">    start = std::chrono::steady_clock::now();</div>
+<div class="line">    repeatStopPool.stop(); <span class="comment">// 重复调用，无副作用</span></div>
+<div class="line">    end = std::chrono::steady_clock::now();</div>
+<div class="line"> </div>
+<div class="line">    duration = std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(end - start).count();</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;重复stop() 执行耗时: %lld ms（预期 &lt;= 1000ms）\n&quot;</span>, duration);</div>
+<div class="line">    assert(duration &lt;= 1000 &amp;&amp; <span class="stringliteral">&quot;重复stop() 执行耗时过长&quot;</span>);</div>
+<div class="line">    assert(!repeatStopPool.isRunning() &amp;&amp; <span class="stringliteral">&quot;重复stop() 状态错误&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n%s stop方法测试全部通过\n&quot;</span>, poolType.c_str());</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 动态线程池的扩缩容功能测试</span></div>
+<div class="line"><span class="keywordtype">void</span> testDynamicScaling()</div>
+<div class="line">{</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== 动态线程池扩缩容测试 ===\n&quot;</span>);</div>
+<div class="line">    <span class="comment">// 创建动态线程池：最小2，最大5，检查间隔1秒</span></div>
+<div class="line">    <a class="code hl_class" href="classol_1_1_thread_pool.html">ol::ThreadPool&lt;true&gt;</a> dynamicPool(2, 5, 100, std::chrono::seconds(1));</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;初始线程数: %zu（预期2）\n&quot;</span>, dynamicPool.getWorkerNum());</div>
+<div class="line">    assert(dynamicPool.getWorkerNum() == 2 &amp;&amp; <span class="stringliteral">&quot;初始线程数错误&quot;</span>);</div>
+<div class="line">    std::this_thread::sleep_for(std::chrono::milliseconds(1500));</div>
+<div class="line">    assert(dynamicPool.getIdleThreadNum() == 2 &amp;&amp; <span class="stringliteral">&quot;初始空闲线程数错误&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 阶段1：少量任务（线程数应保持最小）</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== 阶段1：少量任务测试 ===\n&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 3; ++i)</div>
+<div class="line">        dynamicPool.addTask(std::bind(lightTask, i));</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 等待1.5个检查周期</span></div>
+<div class="line">    std::this_thread::sleep_for(std::chrono::milliseconds(1500));</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;当前线程数: %zu（预期2）\n&quot;</span>, dynamicPool.getWorkerNum());</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;当前空闲线程数: %zu\n&quot;</span>, dynamicPool.getIdleThreadNum());</div>
+<div class="line">    assert(dynamicPool.getWorkerNum() == 2 &amp;&amp; <span class="stringliteral">&quot;阶段1不应扩容&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 阶段2：大量任务（增加任务数量，确保触发扩容）</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== 阶段2：大量任务测试 ===\n&quot;</span>);</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">int</span> BATCH_SIZE = 80; <span class="comment">// 增加到80个任务</span></div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; BATCH_SIZE; ++i)</div>
+<div class="line">        dynamicPool.addTask(std::bind(lightTask, i));</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 等待5个检查周期（确保管理者线程检查并扩容）</span></div>
+<div class="line">    std::this_thread::sleep_for(std::chrono::seconds(5));</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;扩容后线程数: %zu（预期3-5）\n&quot;</span>, dynamicPool.getWorkerNum());</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;扩容后空闲线程数: %zu\n&quot;</span>, dynamicPool.getIdleThreadNum());</div>
+<div class="line">    assert(dynamicPool.getWorkerNum() &gt;= 3 &amp;&amp; dynamicPool.getWorkerNum() &lt;= 5 &amp;&amp; <span class="stringliteral">&quot;未正常扩容&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 阶段3：任务完成后缩容</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== 阶段3：任务完成缩容测试 ===\n&quot;</span>);</div>
+<div class="line">    std::this_thread::sleep_for(std::chrono::seconds(3)); <span class="comment">// 等待所有任务完成</span></div>
+<div class="line">    std::this_thread::sleep_for(std::chrono::seconds(2)); <span class="comment">// 等待缩容</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;缩容后线程数: %zu（预期2-4）\n&quot;</span>, dynamicPool.getWorkerNum());</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;缩容后空闲线程数: %zu\n&quot;</span>, dynamicPool.getIdleThreadNum());</div>
+<div class="line">    assert(dynamicPool.getWorkerNum() &gt;= 2 &amp;&amp; dynamicPool.getWorkerNum() &lt;= 4 &amp;&amp; <span class="stringliteral">&quot;未正常缩容&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试最小线程数为0的动态模式</span></div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n=== 测试最小线程数为0的动态模式 ===\n&quot;</span>);</div>
+<div class="line">    <a class="code hl_class" href="classol_1_1_thread_pool.html">ol::ThreadPool&lt;true&gt;</a> zeroMinPool(0, 3, 5);</div>
+<div class="line">    <span class="keywordtype">size_t</span> initialThreads = zeroMinPool.getWorkerNum();</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;初始线程数（min=0）: %zu（预期1）\n&quot;</span>, initialThreads);</div>
+<div class="line">    assert(initialThreads == 1 &amp;&amp; <span class="stringliteral">&quot;初始线程数不为1&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 添加任务并等待扩容</span></div>
+<div class="line">    zeroMinPool.addTask(std::bind(lightTask, 100));</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;已添加任务，等待线程创建...\n&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 延长等待时间至2秒，确保管理者线程完成检查和扩容</span></div>
+<div class="line">    std::this_thread::sleep_for(std::chrono::milliseconds(2000));</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 输出当前线程数，辅助调试</span></div>
+<div class="line">    <span class="keywordtype">size_t</span> afterThreads = zeroMinPool.getWorkerNum();</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;添加任务后线程数: %zu（预期1-3）\n&quot;</span>, afterThreads);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 验证线程创建</span></div>
+<div class="line">    assert(afterThreads &gt;= 1 &amp;&amp; <span class="stringliteral">&quot;min=0时未动态创建线程&quot;</span>);</div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;最小线程数为0的动态模式测试通过\n&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    safePrint(<span class="stringliteral">&quot;\n动态线程池扩缩容测试完成\n&quot;</span>);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordflow">try</span></div>
+<div class="line">    {</div>
+<div class="line">        safePrint(<span class="stringliteral">&quot;===== 线程池测试程序启动 =====&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 测试固定模式线程池</span></div>
+<div class="line">        runFixedCommonTests(3, 10);</div>
+<div class="line">        testFixedQueuePolicies(3, 10);</div>
+<div class="line">        testFixedStopBehavior(2, 10);</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 测试动态模式线程池（通用功能）</span></div>
+<div class="line">        runDynamicCommonTests(2, 5, 10, std::chrono::seconds(1));</div>
+<div class="line">        testDynamicQueuePolicies(2, 5, 10, std::chrono::seconds(1));</div>
+<div class="line">        testDynamicStopBehavior(2, 5, 10, std::chrono::seconds(1));</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 测试动态模式特有功能（扩缩容）</span></div>
+<div class="line">        testDynamicScaling();</div>
+<div class="line"> </div>
+<div class="line">        safePrint(<span class="stringliteral">&quot;\n===== 所有测试均成功完成! =====&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e)</div>
+<div class="line">    {</div>
+<div class="line">        std::lock_guard&lt;std::mutex&gt; lock(g_printMutex);</div>
+<div class="line">        std::cerr &lt;&lt; <span class="stringliteral">&quot;\n测试失败: &quot;</span> &lt;&lt; e.what() &lt;&lt; std::endl;</div>
+<div class="line">        <span class="keywordflow">return</span> 1;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+<div class="ttc" id="aclassol_1_1_thread_pool_html"><div class="ttname"><a href="classol_1_1_thread_pool.html">ol::ThreadPool</a></div><div class="ttdoc">线程池模板类，支持动态/固定两种工作模式</div><div class="ttdef"><b>定义</b> ol_ThreadPool.h:73</div></div>
+<div class="ttc" id="aclassol_1_1_thread_pool_html_a857e8f645fd13ef3ba25029922cf43dc"><div class="ttname"><a href="classol_1_1_thread_pool.html#a857e8f645fd13ef3ba25029922cf43dc">ol::ThreadPool::getThreadId</a></div><div class="ttdeci">static uint64_t getThreadId()</div><div class="ttdoc">获取当前线程的可打印标识（Linux返回内核TID，Windows返回线程ID）</div><div class="ttdef"><b>定义</b> ol_ThreadPool.h:547</div></div>
+<div class="ttc" id="aol___thread_pool_8h_html"><div class="ttname"><a href="ol___thread_pool_8h.html">ol_ThreadPool.h</a></div></div>
+</div><!-- fragment --> </div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

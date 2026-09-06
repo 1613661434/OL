@@ -1,0 +1,588 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: test_ol_sort2.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('test_ol_sort2_8cpp-example.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">test_ol_sort2.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol__chrono_8h.html">ol_chrono.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol__sort_8h.html">ol_sort.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;algorithm&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;cmath&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;functional&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;list&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;random&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespaceol.html">ol</a>;</div>
+<div class="line"><span class="keyword">using namespace </span>std;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 自定义比较器</span></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">struct </span>AbsLess</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordtype">bool</span> operator()(<span class="keyword">const</span> T&amp; a, <span class="keyword">const</span> T&amp; b)<span class="keyword"> const</span></div>
+<div class="line"><span class="keyword">    </span>{</div>
+<div class="line">        <span class="keywordflow">return</span> abs(a) &lt; abs(b);</div>
+<div class="line">    }</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">struct </span>StrLenGreater</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordtype">bool</span> operator()(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; a, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; b)<span class="keyword"> const</span></div>
+<div class="line"><span class="keyword">    </span>{</div>
+<div class="line">        <span class="keywordflow">return</span> a.size() &gt; b.size();</div>
+<div class="line">    }</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">struct </span>FloatFractionGreater</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordtype">bool</span> operator()(<span class="keywordtype">double</span> a, <span class="keywordtype">double</span> b)<span class="keyword"> const</span></div>
+<div class="line"><span class="keyword">    </span>{</div>
+<div class="line">        <span class="keywordtype">double</span> frac_a = a - floor(a);</div>
+<div class="line">        <span class="keywordtype">double</span> frac_b = b - floor(b);</div>
+<div class="line">        <span class="keywordflow">return</span> frac_a &gt; frac_b;</div>
+<div class="line">    }</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 生成随机数据</span></div>
+<div class="line">vector&lt;int&gt; generate_random_ints(<span class="keywordtype">size_t</span> size, <span class="keywordtype">int</span> min_val, <span class="keywordtype">int</span> max_val)</div>
+<div class="line">{</div>
+<div class="line">    vector&lt;int&gt; result(size);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 使用随机数引擎和均匀分布生成更均匀的随机数</span></div>
+<div class="line">    random_device rd;                                     <span class="comment">// 用于获取种子</span></div>
+<div class="line">    mt19937 gen(rd());                                    <span class="comment">// 梅森旋转算法随机数生成器</span></div>
+<div class="line">    uniform_int_distribution&lt;int&gt; dist(min_val, max_val); <span class="comment">// 均匀整数分布</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; size; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        result[i] = dist(gen);</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">return</span> result;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line">vector&lt;double&gt; generate_random_floats(<span class="keywordtype">size_t</span> size, <span class="keywordtype">double</span> min_val, <span class="keywordtype">double</span> max_val)</div>
+<div class="line">{</div>
+<div class="line">    vector&lt;double&gt; result(size);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 使用随机数引擎和均匀分布生成更均匀的随机数</span></div>
+<div class="line">    random_device rd;                                         <span class="comment">// 用于获取种子</span></div>
+<div class="line">    mt19937 gen(rd());                                        <span class="comment">// 梅森旋转算法随机数生成器</span></div>
+<div class="line">    uniform_real_distribution&lt;double&gt; dist(min_val, max_val); <span class="comment">// 定义浮点数分布</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; size; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        result[i] = dist(gen);</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">return</span> result;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 辅助函数：打印分隔线</span></div>
+<div class="line"><span class="keywordtype">void</span> print_separator(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; title)</div>
+<div class="line">{</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n============================================================&quot;</span> &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">    cout &lt;&lt; title &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;============================================================&quot;</span> &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 打印容器工具</span></div>
+<div class="line"><span class="keyword">namespace </span>test_utils</div>
+<div class="line">{</div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Container&gt;</div>
+<div class="line">    <span class="keywordtype">void</span> <a class="code hl_function" href="namespaceol.html#ab59144036437a58a1390422ea187c7b7">print_container</a>(<span class="keyword">const</span> Container&amp; c)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordtype">size_t</span> size = c.size();</div>
+<div class="line">        <span class="keywordflow">if</span> (size &lt;= 20)</div>
+<div class="line">        {</div>
+<div class="line">            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; elem : c) cout &lt;&lt; elem &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">else</span></div>
+<div class="line">        {</div>
+<div class="line">            <span class="keyword">auto</span> it = c.begin();</div>
+<div class="line">            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; 10; ++i, ++it) cout &lt;&lt; *it &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
+<div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;... &quot;</span>;</div>
+<div class="line">            it = c.end();</div>
+<div class="line">            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; 10; ++i) --it;</div>
+<div class="line">            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; 10; ++i, ++it) cout &lt;&lt; *it &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
+<div class="line">        }</div>
+<div class="line">        cout &lt;&lt; endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T1, <span class="keyword">typename</span> T2&gt;</div>
+<div class="line">    <span class="keywordtype">void</span> <a class="code hl_function" href="namespaceol.html#ab59144036437a58a1390422ea187c7b7">print_container</a>(<span class="keyword">const</span> vector&lt;pair&lt;T1, T2&gt;&gt;&amp; c)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordtype">size_t</span> size = c.size();</div>
+<div class="line">        <span class="keywordflow">if</span> (size &lt;= 20)</div>
+<div class="line">        {</div>
+<div class="line">            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; elem : c) cout &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; elem.first &lt;&lt; <span class="stringliteral">&quot;,&quot;</span> &lt;&lt; elem.second &lt;&lt; <span class="stringliteral">&quot;) &quot;</span>;</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">else</span></div>
+<div class="line">        {</div>
+<div class="line">            <span class="keyword">auto</span> it = c.begin();</div>
+<div class="line">            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; 10; ++i, ++it) cout &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; it-&gt;first &lt;&lt; <span class="stringliteral">&quot;,&quot;</span> &lt;&lt; it-&gt;second &lt;&lt; <span class="stringliteral">&quot;) &quot;</span>;</div>
+<div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;... &quot;</span>;</div>
+<div class="line">            it = c.end();</div>
+<div class="line">            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; 10; ++i) --it;</div>
+<div class="line">            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; 10; ++i, ++it) cout &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; it-&gt;first &lt;&lt; <span class="stringliteral">&quot;,&quot;</span> &lt;&lt; it-&gt;second &lt;&lt; <span class="stringliteral">&quot;) &quot;</span>;</div>
+<div class="line">        }</div>
+<div class="line">        cout &lt;&lt; endl;</div>
+<div class="line">    }</div>
+<div class="line">} <span class="comment">// namespace test_utils</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 日期工具</span></div>
+<div class="line"><span class="keyword">namespace </span>date_utils</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordtype">string</span> normalize_date(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; date)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordtype">string</span> result;</div>
+<div class="line">        <span class="keywordflow">for</span> (<span class="keywordtype">char</span> c : date)</div>
+<div class="line">        {</div>
+<div class="line">            <span class="keywordflow">if</span> (c != <span class="charliteral">&#39;-&#39;</span>) result += c;</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">return</span> result;</div>
+<div class="line">    }</div>
+<div class="line">} <span class="comment">// namespace date_utils</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">size_t</span> LARGE_DATA_SIZE = 100000;</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">size_t</span> MEDIUM_DATA_SIZE = 10000;</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">size_t</span> SMALL_DATA_SIZE = 100;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 1. 基础排序算法与STL比较</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;1. 基础排序算法与STL std::sort比较（大型数组）&quot;</span>);</div>
+<div class="line">    <span class="keyword">auto</span> large_ints = generate_random_ints(LARGE_DATA_SIZE, -1000000, 1000000);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// STL排序</span></div>
+<div class="line">    vector&lt;int&gt; vec_stl = large_ints;</div>
+<div class="line">    <a id="_a0" name="_a0"></a><a class="code hl_class" href="classol_1_1ctimer.html">ctimer</a> timer;</div>
+<div class="line">    sort(vec_stl.begin(), vec_stl.end());</div>
+<div class="line">    <span class="keywordtype">double</span> stl_time = timer.<a id="a1" name="a1"></a><a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;STL std::sort (&quot;</span> &lt;&lt; LARGE_DATA_SIZE &lt;&lt; <span class="stringliteral">&quot;元素): &quot;</span> &lt;&lt; stl_time &lt;&lt; <span class="stringliteral">&quot; 秒&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;前10个元素: &quot;</span>;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; 10; ++i) cout &lt;&lt; vec_stl[i] &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
+<div class="line">    cout &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 快速排序</span></div>
+<div class="line">    vector&lt;int&gt; vec_quick = large_ints;</div>
+<div class="line">    timer.<a id="a2" name="a2"></a><a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    <a id="_a3" name="_a3"></a><a class="code hl_function" href="namespaceol.html#a20e0ccd87e1ef5296e5b901c6d5f0691">quick_sort</a>(vec_quick);</div>
+<div class="line">    <span class="keywordtype">double</span> quick_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;自定义快速排序 (&quot;</span> &lt;&lt; LARGE_DATA_SIZE &lt;&lt; <span class="stringliteral">&quot;元素): &quot;</span> &lt;&lt; quick_time &lt;&lt; <span class="stringliteral">&quot; 秒&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;相对速度: &quot;</span> &lt;&lt; (quick_time / stl_time) &lt;&lt; <span class="stringliteral">&quot;x, 前10个元素: &quot;</span>;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; 10; ++i) cout &lt;&lt; vec_quick[i] &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
+<div class="line">    cout &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 归并排序</span></div>
+<div class="line">    vector&lt;int&gt; vec_merge = large_ints;</div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    <a id="_a4" name="_a4"></a><a class="code hl_function" href="namespaceol.html#afc1301e964ee0feb56c92811ad669d3c">merge_sort</a>(vec_merge);</div>
+<div class="line">    <span class="keywordtype">double</span> merge_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;自定义归并排序 (&quot;</span> &lt;&lt; LARGE_DATA_SIZE &lt;&lt; <span class="stringliteral">&quot;元素): &quot;</span> &lt;&lt; merge_time &lt;&lt; <span class="stringliteral">&quot; 秒&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;相对速度: &quot;</span> &lt;&lt; (merge_time / stl_time) &lt;&lt; <span class="stringliteral">&quot;x, 前10个元素: &quot;</span>;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; 10; ++i) cout &lt;&lt; vec_merge[i] &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
+<div class="line">    cout &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 堆排序</span></div>
+<div class="line">    vector&lt;int&gt; vec_heap = large_ints;</div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    <a id="_a5" name="_a5"></a><a class="code hl_function" href="namespaceol.html#ad58d66ffb28691d52d0c8a3436efa3a1">heap_sort</a>(vec_heap);</div>
+<div class="line">    <span class="keywordtype">double</span> heap_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;自定义堆排序   (&quot;</span> &lt;&lt; LARGE_DATA_SIZE &lt;&lt; <span class="stringliteral">&quot;元素): &quot;</span> &lt;&lt; heap_time &lt;&lt; <span class="stringliteral">&quot; 秒&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;相对速度: &quot;</span> &lt;&lt; (heap_time / stl_time) &lt;&lt; <span class="stringliteral">&quot;x, 前10个元素: &quot;</span>;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; 10; ++i) cout &lt;&lt; vec_heap[i] &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
+<div class="line">    cout &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 希尔排序</span></div>
+<div class="line">    vector&lt;int&gt; vec_shell = large_ints;</div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    <a id="_a6" name="_a6"></a><a class="code hl_function" href="namespaceol.html#a14ba777d836ccf56aa6eeeaaf0230e34">shell_sort</a>(vec_shell);</div>
+<div class="line">    <span class="keywordtype">double</span> shell_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;自定义希尔排序 (&quot;</span> &lt;&lt; LARGE_DATA_SIZE &lt;&lt; <span class="stringliteral">&quot;元素): &quot;</span> &lt;&lt; shell_time &lt;&lt; <span class="stringliteral">&quot; 秒&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;相对速度: &quot;</span> &lt;&lt; (shell_time / stl_time) &lt;&lt; <span class="stringliteral">&quot;x, 前10个元素: &quot;</span>;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; 10; ++i) cout &lt;&lt; vec_shell[i] &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
+<div class="line">    cout &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 选择排序（小数据集）</span></div>
+<div class="line">    <span class="keyword">auto</span> small_ints = generate_random_ints(SMALL_DATA_SIZE, -10000, 10000);</div>
+<div class="line">    vector&lt;int&gt; vec_select = small_ints;</div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    <a id="_a7" name="_a7"></a><a class="code hl_function" href="namespaceol.html#ab5050dfa7769d72e80979b03d5838d47">selection_sort</a>(vec_select);</div>
+<div class="line">    <span class="keywordtype">double</span> select_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line"> </div>
+<div class="line">    vector&lt;int&gt; vec_stl_small = small_ints;</div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    sort(vec_stl_small.begin(), vec_stl_small.end());</div>
+<div class="line">    <span class="keywordtype">double</span> stl_small_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line"> </div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;自定义选择排序 (&quot;</span> &lt;&lt; SMALL_DATA_SIZE &lt;&lt; <span class="stringliteral">&quot;元素): &quot;</span> &lt;&lt; select_time &lt;&lt; <span class="stringliteral">&quot; 秒&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;相对速度: &quot;</span> &lt;&lt; (select_time / stl_small_time) &lt;&lt; <span class="stringliteral">&quot;x, 前10个元素: &quot;</span>;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; 10; ++i) cout &lt;&lt; vec_select[i] &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
+<div class="line">    cout &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 2. 浮点型排序与STL比较</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;2. 浮点型排序与STL比较&quot;</span>);</div>
+<div class="line">    <span class="keyword">auto</span> large_floats = generate_random_floats(MEDIUM_DATA_SIZE, -100000.0, 100000.0);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原始vector&lt;double&gt; (&quot;</span> &lt;&lt; MEDIUM_DATA_SIZE &lt;&lt; <span class="stringliteral">&quot;元素): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(large_floats);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 自定义希尔排序</span></div>
+<div class="line">    vector&lt;double&gt; vec_shell_float = large_floats;</div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#a14ba777d836ccf56aa6eeeaaf0230e34">shell_sort</a>(vec_shell_float);</div>
+<div class="line">    <span class="keywordtype">double</span> float_shell_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;自定义希尔排序后: &quot;</span> &lt;&lt; float_shell_time &lt;&lt; <span class="stringliteral">&quot; 秒&quot;</span> &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// STL排序</span></div>
+<div class="line">    vector&lt;double&gt; vec_stl_float = large_floats;</div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    sort(vec_stl_float.begin(), vec_stl_float.end());</div>
+<div class="line">    <span class="keywordtype">double</span> stl_float_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;STL排序耗时: &quot;</span> &lt;&lt; stl_float_time &lt;&lt; <span class="stringliteral">&quot; 秒, 相对速度: &quot;</span> &lt;&lt; (float_shell_time / stl_float_time) &lt;&lt; <span class="stringliteral">&quot;x&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    test_utils::print_container(vec_shell_float);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 3. 双向迭代器容器排序与STL比较</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;3. 双向迭代器容器排序与STL比较&quot;</span>);</div>
+<div class="line">    <span class="keyword">auto</span> medium_ints = generate_random_ints(MEDIUM_DATA_SIZE / 10, -10000, 10000);</div>
+<div class="line">    list&lt;int&gt; lst(medium_ints.begin(), medium_ints.end());</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原始list&lt;int&gt; (&quot;</span> &lt;&lt; lst.size() &lt;&lt; <span class="stringliteral">&quot;元素): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(lst);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 插入排序</span></div>
+<div class="line">    list&lt;int&gt; lst_insert = lst;</div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    <a id="_a8" name="_a8"></a><a class="code hl_function" href="namespaceol.html#ab6ff8f596eb0adeac5de66f9c658c253">insertion_sort</a>(lst_insert);</div>
+<div class="line">    <span class="keywordtype">double</span> insert_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;自定义插入排序后: &quot;</span> &lt;&lt; insert_time &lt;&lt; <span class="stringliteral">&quot; 秒&quot;</span> &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// STL list排序</span></div>
+<div class="line">    list&lt;int&gt; lst_stl = lst;</div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    lst_stl.sort();</div>
+<div class="line">    <span class="keywordtype">double</span> stl_list_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;STL list::sort耗时: &quot;</span> &lt;&lt; stl_list_time &lt;&lt; <span class="stringliteral">&quot; 秒, 相对速度: &quot;</span> &lt;&lt; (insert_time / stl_list_time) &lt;&lt; <span class="stringliteral">&quot;x&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    test_utils::print_container(lst_insert);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 冒泡排序</span></div>
+<div class="line">    list&lt;int&gt; lst_bubble = lst;</div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    <a id="_a9" name="_a9"></a><a class="code hl_function" href="namespaceol.html#afd6efc10009da0b60ba08496cf1465e2">bubble_sort</a>(lst_bubble);</div>
+<div class="line">    <span class="keywordtype">double</span> bubble_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;自定义冒泡排序后: &quot;</span> &lt;&lt; bubble_time &lt;&lt; <span class="stringliteral">&quot; 秒&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;相对速度: &quot;</span> &lt;&lt; (bubble_time / stl_list_time) &lt;&lt; <span class="stringliteral">&quot;x&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    test_utils::print_container(lst_bubble);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 4. 计数排序测试（补充）</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;4. 计数排序测试&quot;</span>);</div>
+<div class="line">    vector&lt;int&gt; vec_count = generate_random_ints(MEDIUM_DATA_SIZE, 0, 1000);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原始vector (&quot;</span> &lt;&lt; MEDIUM_DATA_SIZE &lt;&lt; <span class="stringliteral">&quot;元素): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_count);</div>
+<div class="line"> </div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    <a id="_a10" name="_a10"></a><a class="code hl_function" href="namespaceol.html#a7f1d9815c8bbf0a5e37466b69ac4154f">counting_sort</a>(vec_count);</div>
+<div class="line">    <span class="keywordtype">double</span> count_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;计数排序后: &quot;</span> &lt;&lt; count_time &lt;&lt; <span class="stringliteral">&quot; 秒, &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_count);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// STL对比</span></div>
+<div class="line">    vector&lt;int&gt; vec_stl_count = generate_random_ints(MEDIUM_DATA_SIZE, 0, 1000);</div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    sort(vec_stl_count.begin(), vec_stl_count.end());</div>
+<div class="line">    <span class="keywordtype">double</span> stl_count_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;STL排序耗时: &quot;</span> &lt;&lt; stl_count_time &lt;&lt; <span class="stringliteral">&quot; 秒, 相对速度: &quot;</span> &lt;&lt; (count_time / stl_count_time) &lt;&lt; <span class="stringliteral">&quot;x&quot;</span> &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 5. 基数排序LSD测试（补充）</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;5. 基数排序LSD测试&quot;</span>);</div>
+<div class="line">    vector&lt;int&gt; vec_radix_lsd = generate_random_ints(MEDIUM_DATA_SIZE, -100000, 100000);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原始vector (&quot;</span> &lt;&lt; MEDIUM_DATA_SIZE &lt;&lt; <span class="stringliteral">&quot;元素): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_radix_lsd);</div>
+<div class="line"> </div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    <a id="_a11" name="_a11"></a><a class="code hl_function" href="namespaceol.html#ad3a7ae1e3c04b9fb3fe03a8c01767965">radix_sort_lsd</a>(vec_radix_lsd);</div>
+<div class="line">    <span class="keywordtype">double</span> radix_lsd_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;基数排序LSD(升序): &quot;</span> &lt;&lt; radix_lsd_time &lt;&lt; <span class="stringliteral">&quot; 秒, &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_radix_lsd);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// STL对比</span></div>
+<div class="line">    vector&lt;int&gt; vec_stl_radix_lsd = generate_random_ints(MEDIUM_DATA_SIZE, -100000, 100000);</div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    sort(vec_stl_radix_lsd.begin(), vec_stl_radix_lsd.end());</div>
+<div class="line">    <span class="keywordtype">double</span> stl_radix_lsd_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;STL排序耗时: &quot;</span> &lt;&lt; stl_radix_lsd_time &lt;&lt; <span class="stringliteral">&quot; 秒, 相对速度: &quot;</span> &lt;&lt; (radix_lsd_time / stl_radix_lsd_time) &lt;&lt; <span class="stringliteral">&quot;x&quot;</span> &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 6. 基数排序MSD测试与分组功能（恢复）</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;6. 基数排序MSD测试与分组功能&quot;</span>);</div>
+<div class="line">    vector&lt;string&gt; vec_str = {<span class="stringliteral">&quot;apple&quot;</span>, <span class="stringliteral">&quot;banana&quot;</span>, <span class="stringliteral">&quot;cherry&quot;</span>, <span class="stringliteral">&quot;date&quot;</span>, <span class="stringliteral">&quot;elderberry&quot;</span>,</div>
+<div class="line">                              <span class="stringliteral">&quot;fig&quot;</span>, <span class="stringliteral">&quot;grape&quot;</span>, <span class="stringliteral">&quot;kiwi&quot;</span>, <span class="stringliteral">&quot;lemon&quot;</span>, <span class="stringliteral">&quot;mango&quot;</span>, <span class="stringliteral">&quot;nectarine&quot;</span>,</div>
+<div class="line">                              <span class="stringliteral">&quot;orange&quot;</span>, <span class="stringliteral">&quot;pear&quot;</span>, <span class="stringliteral">&quot;quince&quot;</span>, <span class="stringliteral">&quot;raspberry&quot;</span>, <span class="stringliteral">&quot;strawberry&quot;</span>,</div>
+<div class="line">                              <span class="stringliteral">&quot;tangerine&quot;</span>, <span class="stringliteral">&quot;watermelon&quot;</span>, <span class="stringliteral">&quot;blueberry&quot;</span>, <span class="stringliteral">&quot;blackberry&quot;</span>,</div>
+<div class="line">                              <span class="stringliteral">&quot;apricot&quot;</span>, <span class="stringliteral">&quot;avocado&quot;</span>, <span class="stringliteral">&quot;blackcurrant&quot;</span>, <span class="stringliteral">&quot;boysenberry&quot;</span>};</div>
+<div class="line">    vector&lt;string&gt; large_strs;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 500; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        large_strs.push_back(vec_str[i % vec_str.size()] + to_string(i));</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原始vector&lt;string&gt; (&quot;</span> &lt;&lt; large_strs.size() &lt;&lt; <span class="stringliteral">&quot;元素): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(large_strs);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// MSD排序</span></div>
+<div class="line">    vector&lt;string&gt; vec_msd = large_strs;</div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    <a id="_a12" name="_a12"></a><a class="code hl_function" href="namespaceol.html#ab3b54338a25c60a7d48ee493209d675e">radix_sort_msd</a>(vec_msd);</div>
+<div class="line">    <span class="keywordtype">double</span> radix_msd_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;基数排序MSD后: &quot;</span> &lt;&lt; radix_msd_time &lt;&lt; <span class="stringliteral">&quot; 秒, &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_msd);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// STL对比</span></div>
+<div class="line">    vector&lt;string&gt; vec_stl_msd = large_strs;</div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    sort(vec_stl_msd.begin(), vec_stl_msd.end());</div>
+<div class="line">    <span class="keywordtype">double</span> stl_msd_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;STL排序耗时: &quot;</span> &lt;&lt; stl_msd_time &lt;&lt; <span class="stringliteral">&quot; 秒, 相对速度: &quot;</span> &lt;&lt; (radix_msd_time / stl_msd_time) &lt;&lt; <span class="stringliteral">&quot;x&quot;</span> &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 恢复前2位分组功能</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n基数排序前2位分组测试: &quot;</span> &lt;&lt; endl;</div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    <span class="keyword">auto</span> groups = <a id="_a13" name="_a13"></a><a class="code hl_function" href="namespaceol.html#ae7766935138c272ea6c5c41d97b8f9d2">radix_group_by_prefix</a>(large_strs, 2);</div>
+<div class="line">    <span class="keywordtype">double</span> group_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;按前2个字符分组结果(&quot;</span> &lt;&lt; group_time &lt;&lt; <span class="stringliteral">&quot; 秒): &quot;</span> &lt;&lt; endl;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;  共 &quot;</span> &lt;&lt; groups.size() &lt;&lt; <span class="stringliteral">&quot; 个分组&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; min(static_cast&lt;size_t&gt;(3), groups.size()); ++i)</div>
+<div class="line">    {</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;  分组 &quot;</span> &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot; (&quot;</span> &lt;&lt; groups[i].size() &lt;&lt; <span class="stringliteral">&quot;元素): &quot;</span>;</div>
+<div class="line">        test_utils::print_container(groups[i]);</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">if</span> (groups.size() &gt; 3)</div>
+<div class="line">    {</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;  ... 省略 &quot;</span> &lt;&lt; groups.size() - 3 &lt;&lt; <span class="stringliteral">&quot; 个分组&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 7. 桶排序全测试</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;7. 桶排序全测试&quot;</span>);</div>
+<div class="line">    <span class="comment">// 7.1 整数桶排序</span></div>
+<div class="line">    vector&lt;int&gt; vec_bucket_int = generate_random_ints(MEDIUM_DATA_SIZE, 0, 10000);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原始整数vector (&quot;</span> &lt;&lt; MEDIUM_DATA_SIZE &lt;&lt; <span class="stringliteral">&quot;元素): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_bucket_int);</div>
+<div class="line"> </div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    <a id="_a14" name="_a14"></a><a class="code hl_function" href="namespaceol.html#aebf9da183c7571fd920489173964fc62">bucket_sort</a>(vec_bucket_int, 10, greater&lt;int&gt;());</div>
+<div class="line">    <span class="keywordtype">double</span> bucket_int_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;整数桶排序(降序): &quot;</span> &lt;&lt; bucket_int_time &lt;&lt; <span class="stringliteral">&quot; 秒, &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_bucket_int);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// STL对比</span></div>
+<div class="line">    vector&lt;int&gt; vec_stl_bucket_int = generate_random_ints(MEDIUM_DATA_SIZE, 0, 10000);</div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    sort(vec_stl_bucket_int.begin(), vec_stl_bucket_int.end(), greater&lt;int&gt;());</div>
+<div class="line">    <span class="keywordtype">double</span> stl_bucket_int_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;STL排序耗时: &quot;</span> &lt;&lt; stl_bucket_int_time &lt;&lt; <span class="stringliteral">&quot; 秒, 相对速度: &quot;</span> &lt;&lt; (bucket_int_time / stl_bucket_int_time) &lt;&lt; <span class="stringliteral">&quot;x&quot;</span> &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 7.2 浮点数桶排序（小数部分）</span></div>
+<div class="line">    vector&lt;double&gt; vec_bucket_float = generate_random_floats(MEDIUM_DATA_SIZE, 0.0, 1000.0);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n原始浮点数vector (&quot;</span> &lt;&lt; MEDIUM_DATA_SIZE &lt;&lt; <span class="stringliteral">&quot;元素): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_bucket_float);</div>
+<div class="line"> </div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#aebf9da183c7571fd920489173964fc62">bucket_sort</a>(vec_bucket_float, 10, 0.0, 1000.0, FloatFractionGreater());</div>
+<div class="line">    <span class="keywordtype">double</span> bucket_float_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;浮点数桶排序(按小数部分降序): &quot;</span> &lt;&lt; bucket_float_time &lt;&lt; <span class="stringliteral">&quot; 秒, &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_bucket_float);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// STL对比</span></div>
+<div class="line">    vector&lt;double&gt; vec_stl_bucket_float = generate_random_floats(MEDIUM_DATA_SIZE, 0.0, 1000.0);</div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    sort(vec_stl_bucket_float.begin(), vec_stl_bucket_float.end(), FloatFractionGreater());</div>
+<div class="line">    <span class="keywordtype">double</span> stl_bucket_float_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;STL排序耗时: &quot;</span> &lt;&lt; stl_bucket_float_time &lt;&lt; <span class="stringliteral">&quot; 秒, 相对速度: &quot;</span> &lt;&lt; (bucket_float_time / stl_bucket_float_time) &lt;&lt; <span class="stringliteral">&quot;x&quot;</span> &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 8. 折半插入排序测试（补充）</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;8. 折半插入排序测试&quot;</span>);</div>
+<div class="line">    vector&lt;int&gt; vec_binary_insert = generate_random_ints(MEDIUM_DATA_SIZE / 10, -10000, 10000);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原始vector (&quot;</span> &lt;&lt; vec_binary_insert.size() &lt;&lt; <span class="stringliteral">&quot;元素): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_binary_insert);</div>
+<div class="line"> </div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    <a id="_a15" name="_a15"></a><a class="code hl_function" href="namespaceol.html#a45db5d3d6fa79c3adb1e07b0873a1cd4">binary_insertion_sort</a>(vec_binary_insert);</div>
+<div class="line">    <span class="keywordtype">double</span> binary_insert_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;折半插入排序后: &quot;</span> &lt;&lt; binary_insert_time &lt;&lt; <span class="stringliteral">&quot; 秒, &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_binary_insert);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// STL对比</span></div>
+<div class="line">    vector&lt;int&gt; vec_stl_binary = generate_random_ints(MEDIUM_DATA_SIZE / 10, -10000, 10000);</div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    sort(vec_stl_binary.begin(), vec_stl_binary.end());</div>
+<div class="line">    <span class="keywordtype">double</span> stl_binary_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;STL排序耗时: &quot;</span> &lt;&lt; stl_binary_time &lt;&lt; <span class="stringliteral">&quot; 秒, 相对速度: &quot;</span> &lt;&lt; (binary_insert_time / stl_binary_time) &lt;&lt; <span class="stringliteral">&quot;x&quot;</span> &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 9. 部分范围排序与STL比较</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;9. 部分范围排序与STL比较&quot;</span>);</div>
+<div class="line">    vector&lt;int&gt; vec_part = generate_random_ints(MEDIUM_DATA_SIZE, 0, 10000);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原始vector (&quot;</span> &lt;&lt; MEDIUM_DATA_SIZE &lt;&lt; <span class="stringliteral">&quot;元素): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_part);</div>
+<div class="line"> </div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#a20e0ccd87e1ef5296e5b901c6d5f0691">quick_sort</a>(vec_part.begin() + MEDIUM_DATA_SIZE / 4, vec_part.end() - MEDIUM_DATA_SIZE / 4);</div>
+<div class="line">    <span class="keywordtype">double</span> partial_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;自定义部分排序后 [1/4, 3/4): &quot;</span> &lt;&lt; partial_time &lt;&lt; <span class="stringliteral">&quot; 秒&quot;</span> &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">    vector&lt;int&gt; vec_stl_part = generate_random_ints(MEDIUM_DATA_SIZE, 0, 10000);</div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    sort(vec_stl_part.begin() + MEDIUM_DATA_SIZE / 4, vec_stl_part.end() - MEDIUM_DATA_SIZE / 4);</div>
+<div class="line">    <span class="keywordtype">double</span> stl_part_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;STL部分排序耗时: &quot;</span> &lt;&lt; stl_part_time &lt;&lt; <span class="stringliteral">&quot; 秒, 相对速度: &quot;</span> &lt;&lt; (partial_time / stl_part_time) &lt;&lt; <span class="stringliteral">&quot;x&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    test_utils::print_container(vec_part);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 10. Lambda函数自定义排序与STL比较</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;10. Lambda函数自定义排序与STL比较&quot;</span>);</div>
+<div class="line">    vector&lt;pair&lt;int, int&gt;&gt; vec_lambda;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; MEDIUM_DATA_SIZE; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        vec_lambda.emplace_back(rand() % 100, rand() % 1000);</div>
+<div class="line">    }</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原始vector (&quot;</span> &lt;&lt; MEDIUM_DATA_SIZE &lt;&lt; <span class="stringliteral">&quot;元素): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_lambda);</div>
+<div class="line"> </div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#a20e0ccd87e1ef5296e5b901c6d5f0691">quick_sort</a>(vec_lambda, [](<span class="keyword">const</span> pair&lt;int, int&gt;&amp; a, <span class="keyword">const</span> pair&lt;int, int&gt;&amp; b)</div>
+<div class="line">               { <span class="keywordflow">return</span> a.first != b.first ? a.first &gt; b.first : a.second &lt; b.second; });</div>
+<div class="line">    <span class="keywordtype">double</span> lambda_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;自定义Lambda排序后: &quot;</span> &lt;&lt; lambda_time &lt;&lt; <span class="stringliteral">&quot; 秒&quot;</span> &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">    vector&lt;pair&lt;int, int&gt;&gt; vec_stl_lambda;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; MEDIUM_DATA_SIZE; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        vec_stl_lambda.emplace_back(rand() % 100, rand() % 1000);</div>
+<div class="line">    }</div>
+<div class="line">    timer.<a class="code hl_function" href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">start</a>();</div>
+<div class="line">    sort(vec_stl_lambda.begin(), vec_stl_lambda.end(), [](<span class="keyword">const</span> pair&lt;int, int&gt;&amp; a, <span class="keyword">const</span> pair&lt;int, int&gt;&amp; b)</div>
+<div class="line">         { return a.first != b.first ? a.first &gt; b.first : a.second &lt; b.second; });</div>
+<div class="line">    <span class="keywordtype">double</span> stl_lambda_time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;STL Lambda排序耗时: &quot;</span> &lt;&lt; stl_lambda_time &lt;&lt; <span class="stringliteral">&quot; 秒, 相对速度: &quot;</span> &lt;&lt; (lambda_time / stl_lambda_time) &lt;&lt; <span class="stringliteral">&quot;x&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    test_utils::print_container(vec_lambda);</div>
+<div class="line"> </div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;所有排序测试完成&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+<div class="ttc" id="aclassol_1_1ctimer_html"><div class="ttname"><a href="classol_1_1ctimer.html">ol::ctimer</a></div><div class="ttdef"><b>定义</b> ol_chrono.h:166</div></div>
+<div class="ttc" id="aclassol_1_1ctimer_html_a140cfbde8901bea56747ad8c02f6cc49"><div class="ttname"><a href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">ol::ctimer::elapsed</a></div><div class="ttdeci">double elapsed()</div><div class="ttdoc">计算从上次start()到当前的逝去时间</div><div class="ttdef"><b>定义</b> ol_chrono.cpp:295</div></div>
+<div class="ttc" id="aclassol_1_1ctimer_html_a81c0f80809dd7f70e98a8bde9fa34383"><div class="ttname"><a href="classol_1_1ctimer.html#a81c0f80809dd7f70e98a8bde9fa34383">ol::ctimer::start</a></div><div class="ttdeci">void start()</div><div class="ttdef"><b>定义</b> ol_chrono.cpp:285</div></div>
+<div class="ttc" id="anamespaceol_html"><div class="ttname"><a href="namespaceol.html">ol</a></div><div class="ttdef"><b>定义</b> ol_sort_base.h:20</div></div>
+<div class="ttc" id="anamespaceol_html_a14ba777d836ccf56aa6eeeaaf0230e34"><div class="ttname"><a href="namespaceol.html#a14ba777d836ccf56aa6eeeaaf0230e34">ol::shell_sort</a></div><div class="ttdeci">void shell_sort(RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</div><div class="ttdoc">希尔排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:136</div></div>
+<div class="ttc" id="anamespaceol_html_a20e0ccd87e1ef5296e5b901c6d5f0691"><div class="ttname"><a href="namespaceol.html#a20e0ccd87e1ef5296e5b901c6d5f0691">ol::quick_sort</a></div><div class="ttdeci">void quick_sort(RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</div><div class="ttdoc">快速排序（迭代器版本）</div><div class="ttdef"><b>定义</b> ol_sort.h:591</div></div>
+<div class="ttc" id="anamespaceol_html_a45db5d3d6fa79c3adb1e07b0873a1cd4"><div class="ttname"><a href="namespaceol.html#a45db5d3d6fa79c3adb1e07b0873a1cd4">ol::binary_insertion_sort</a></div><div class="ttdeci">void binary_insertion_sort(RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</div><div class="ttdoc">折半插入排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:87</div></div>
+<div class="ttc" id="anamespaceol_html_a7f1d9815c8bbf0a5e37466b69ac4154f"><div class="ttname"><a href="namespaceol.html#a7f1d9815c8bbf0a5e37466b69ac4154f">ol::counting_sort</a></div><div class="ttdeci">std::enable_if&lt; std::is_integral&lt; typenamestd::iterator_traits&lt; RandomIt &gt;::value_type &gt;::value, void &gt;::type counting_sort(RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</div><div class="ttdoc">计数排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:370</div></div>
+<div class="ttc" id="anamespaceol_html_ab3b54338a25c60a7d48ee493209d675e"><div class="ttname"><a href="namespaceol.html#ab3b54338a25c60a7d48ee493209d675e">ol::radix_sort_msd</a></div><div class="ttdeci">std::enable_if&lt; std::is_same&lt; typenamestd::iterator_traits&lt; RandomIt &gt;::value_type, std::string &gt;::value, void &gt;::type radix_sort_msd(RandomIt first, RandomIt last, int max_pos=-1, int radix=256)</div><div class="ttdoc">基数排序（迭代器版本，MSD策略，字符串专用）</div><div class="ttdef"><b>定义</b> ol_sort.h:485</div></div>
+<div class="ttc" id="anamespaceol_html_ab5050dfa7769d72e80979b03d5838d47"><div class="ttname"><a href="namespaceol.html#ab5050dfa7769d72e80979b03d5838d47">ol::selection_sort</a></div><div class="ttdeci">void selection_sort(Iterator first, Iterator last, const Compare &amp;comp=Compare())</div><div class="ttdoc">选择排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:228</div></div>
+<div class="ttc" id="anamespaceol_html_ab59144036437a58a1390422ea187c7b7"><div class="ttname"><a href="namespaceol.html#ab59144036437a58a1390422ea187c7b7">ol::print_container</a></div><div class="ttdeci">void print_container(const Container &amp;container)</div><div class="ttdoc">打印容器元素（调试用）</div><div class="ttdef"><b>定义</b> ol_sort.h:759</div></div>
+<div class="ttc" id="anamespaceol_html_ab6ff8f596eb0adeac5de66f9c658c253"><div class="ttname"><a href="namespaceol.html#ab6ff8f596eb0adeac5de66f9c658c253">ol::insertion_sort</a></div><div class="ttdeci">void insertion_sort(Iterator first, Iterator last, const Compare &amp;comp=Compare())</div><div class="ttdoc">插入排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:44</div></div>
+<div class="ttc" id="anamespaceol_html_ad3a7ae1e3c04b9fb3fe03a8c01767965"><div class="ttname"><a href="namespaceol.html#ad3a7ae1e3c04b9fb3fe03a8c01767965">ol::radix_sort_lsd</a></div><div class="ttdeci">std::enable_if&lt; std::is_integral&lt; typenamestd::iterator_traits&lt; RandomIt &gt;::value_type &gt;::value, void &gt;::type radix_sort_lsd(RandomIt first, RandomIt last, int radix=10, const Compare &amp;comp=Compare())</div><div class="ttdoc">基数排序（迭代器版本，LSD策略，适用于整数类型）</div><div class="ttdef"><b>定义</b> ol_sort.h:428</div></div>
+<div class="ttc" id="anamespaceol_html_ad58d66ffb28691d52d0c8a3436efa3a1"><div class="ttname"><a href="namespaceol.html#ad58d66ffb28691d52d0c8a3436efa3a1">ol::heap_sort</a></div><div class="ttdeci">void heap_sort(RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</div><div class="ttdoc">堆排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:271</div></div>
+<div class="ttc" id="anamespaceol_html_ae7766935138c272ea6c5c41d97b8f9d2"><div class="ttname"><a href="namespaceol.html#ae7766935138c272ea6c5c41d97b8f9d2">ol::radix_group_by_prefix</a></div><div class="ttdeci">std::enable_if&lt; std::is_same&lt; typenamecontainer_traits&lt; Container &gt;::value_type, std::string &gt;::value, std::vector&lt; Container &gt; &gt;::type radix_group_by_prefix(Container &amp;container, size_t group_pos, int radix=256)</div><div class="ttdoc">按字符串前缀分组（基于基数排序MSD）</div><div class="ttdef"><b>定义</b> ol_sort.h:541</div></div>
+<div class="ttc" id="anamespaceol_html_aebf9da183c7571fd920489173964fc62"><div class="ttname"><a href="namespaceol.html#aebf9da183c7571fd920489173964fc62">ol::bucket_sort</a></div><div class="ttdeci">std::enable_if&lt; std::is_floating_point&lt; typenamestd::iterator_traits&lt; RandomIt &gt;::value_type &gt;::value, void &gt;::type bucket_sort(RandomIt first, RandomIt last, size_t num_buckets=10, double min_val=0.0, double max_val=1.0, const Compare &amp;comp=Compare())</div><div class="ttdoc">桶排序（迭代器版本，适用于浮点数）</div><div class="ttdef"><b>定义</b> ol_sort.h:640</div></div>
+<div class="ttc" id="anamespaceol_html_afc1301e964ee0feb56c92811ad669d3c"><div class="ttname"><a href="namespaceol.html#afc1301e964ee0feb56c92811ad669d3c">ol::merge_sort</a></div><div class="ttdeci">void merge_sort(RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</div><div class="ttdoc">归并排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:320</div></div>
+<div class="ttc" id="anamespaceol_html_afd6efc10009da0b60ba08496cf1465e2"><div class="ttname"><a href="namespaceol.html#afd6efc10009da0b60ba08496cf1465e2">ol::bubble_sort</a></div><div class="ttdeci">void bubble_sort(Iterator first, Iterator last, const Compare &amp;comp=Compare())</div><div class="ttdoc">冒泡排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:185</div></div>
+<div class="ttc" id="aol__chrono_8h_html"><div class="ttname"><a href="ol__chrono_8h.html">ol_chrono.h</a></div></div>
+<div class="ttc" id="aol__sort_8h_html"><div class="ttname"><a href="ol__sort_8h.html">ol_sort.h</a></div></div>
+</div><!-- fragment --> </div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

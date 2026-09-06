@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: test_ol_mutex.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('test_ol_mutex_8cpp-example.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">test_ol_mutex.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;future&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;thread&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol__mutex_8h.html">ol_mutex.h</a>&quot;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">using namespace </span>std;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 全局共享资源（用于多线程测试）</span></div>
+<div class="line"><span class="keywordtype">int</span> g_shared_counter = 0;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 多线程测试：用 ol::spin_mutex 保护共享资源</span></div>
+<div class="line"><span class="keywordtype">void</span> thread_task_spin(<a id="_a0" name="_a0"></a><a class="code hl_class" href="classol_1_1spin__mutex.html">ol::spin_mutex</a>&amp; smtx, <span class="keywordtype">int</span> loop_count)</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; loop_count; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="comment">// 使用 std::unique_lock 加锁</span></div>
+<div class="line">        unique_lock&lt;ol::spin_mutex&gt; lock(smtx);</div>
+<div class="line">        <span class="comment">// 临界区：修改共享计数器</span></div>
+<div class="line">        g_shared_counter++;</div>
+<div class="line">        <span class="comment">// 模拟临界区耗时（让线程竞争更明显）</span></div>
+<div class="line">        this_thread::sleep_for(chrono::microseconds(1));</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 多线程测试：用 ol::recursive_spin_mutex 保护共享资源</span></div>
+<div class="line"><span class="keywordtype">void</span> thread_task_recursive(<a id="_a1" name="_a1"></a><a class="code hl_class" href="classol_1_1recursive__spin__mutex.html">ol::recursive_spin_mutex</a>&amp; rsmtx, <span class="keywordtype">int</span> loop_count, <span class="keywordtype">int</span> recursion_depth)</div>
+<div class="line">{</div>
+<div class="line">    <span class="comment">// 递归辅助函数：验证递归锁的可重入性</span></div>
+<div class="line">    <span class="keyword">auto</span> recursive_func = [&amp;](<span class="keyword">auto</span>&amp;&amp; self, <span class="keywordtype">int</span> depth) -&gt; <span class="keywordtype">void</span></div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordflow">if</span> (depth &lt;= 0) <span class="keywordflow">return</span>;</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 递归加锁（同一线程多次加锁，递归锁不会死锁）</span></div>
+<div class="line">        unique_lock&lt;ol::recursive_spin_mutex&gt; lock(rsmtx);</div>
+<div class="line">        g_shared_counter++;</div>
+<div class="line">        self(self, depth - 1); <span class="comment">// 递归调用，再次加锁</span></div>
+<div class="line">    };</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; loop_count; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        recursive_func(recursive_func, recursion_depth);</div>
+<div class="line">        this_thread::sleep_for(chrono::microseconds(1));</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;==================================== 测试1：spin_mutex 单线程基础用法 ====================================&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    {</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1spin__mutex.html">ol::spin_mutex</a> smtx;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;--- 测试 std::lock_guard 自动加锁/解锁 ---&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        <span class="comment">// lock_guard 构造自动加锁，析构自动解锁</span></div>
+<div class="line">        lock_guard&lt;ol::spin_mutex&gt; lock1(smtx);</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;lock_guard 持有锁中，临界区执行完成&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    } <span class="comment">// 此处 lock1 析构，自动解锁</span></div>
+<div class="line"> </div>
+<div class="line">    {</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1spin__mutex.html">ol::spin_mutex</a> smtx;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;\n--- 测试 std::unique_lock 手动控制加锁/解锁 ---&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        unique_lock&lt;ol::spin_mutex&gt; lock2(smtx); <span class="comment">// 默认构造：自动加锁</span></div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;初始加锁后，是否持有锁：&quot;</span> &lt;&lt; (lock2.owns_lock() ? <span class="stringliteral">&quot;是（1）&quot;</span> : <span class="stringliteral">&quot;否（0）&quot;</span>) &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">        lock2.unlock(); <span class="comment">// 手动解锁</span></div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;手动解锁后，是否持有锁：&quot;</span> &lt;&lt; (lock2.owns_lock() ? <span class="stringliteral">&quot;是（1）&quot;</span> : <span class="stringliteral">&quot;否（0）&quot;</span>) &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">        lock2.lock(); <span class="comment">// 手动再次加锁</span></div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;手动再次加锁后，是否持有锁：&quot;</span> &lt;&lt; (lock2.owns_lock() ? <span class="stringliteral">&quot;是（1）&quot;</span> : <span class="stringliteral">&quot;否（0）&quot;</span>) &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">        lock2.unlock(); <span class="comment">// 手动解锁</span></div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;手动解锁后，尝试无阻塞加锁（try_lock）：&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        <span class="keywordtype">bool</span> try_ok = lock2.try_lock(); <span class="comment">// 无阻塞尝试加锁</span></div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;try_lock 结果：&quot;</span> &lt;&lt; (try_ok ? <span class="stringliteral">&quot;成功（1）&quot;</span> : <span class="stringliteral">&quot;失败（0）&quot;</span>) &lt;&lt; <span class="stringliteral">&quot;，当前是否持有锁：&quot;</span> &lt;&lt; (lock2.owns_lock() ? <span class="stringliteral">&quot;是（1）&quot;</span> : <span class="stringliteral">&quot;否（0）&quot;</span>) &lt;&lt; endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n==================================== 测试2：spin_mutex unique_lock 标签高级用法 ====================================&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    {</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1spin__mutex.html">ol::spin_mutex</a> smtx;</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 1. 测试 defer_lock：小{}包裹，确保析构释放锁</span></div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;--- 测试 std::defer_lock （延迟加锁）---&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        {</div>
+<div class="line">            unique_lock&lt;ol::spin_mutex&gt; lock_defer(smtx, std::defer_lock); <span class="comment">// 延迟加锁，构造时不加锁</span></div>
+<div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;构造后（未加锁），是否持有锁：&quot;</span> &lt;&lt; (lock_defer.owns_lock() ? <span class="stringliteral">&quot;是（1）&quot;</span> : <span class="stringliteral">&quot;否（0）&quot;</span>) &lt;&lt; endl;</div>
+<div class="line">            lock_defer.lock(); <span class="comment">// 手动加锁</span></div>
+<div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;手动加锁后，是否持有锁：&quot;</span> &lt;&lt; (lock_defer.owns_lock() ? <span class="stringliteral">&quot;是（1）&quot;</span> : <span class="stringliteral">&quot;否（0）&quot;</span>) &lt;&lt; endl;</div>
+<div class="line">        } <span class="comment">// lock_defer 析构，自动解锁</span></div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 2. 测试 try_to_lock：小{}包裹，确保析构释放锁</span></div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;\n--- 测试 std::try_to_lock （无阻塞尝试加锁）---&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        {</div>
+<div class="line">            unique_lock&lt;ol::spin_mutex&gt; lock_try(smtx, std::try_to_lock); <span class="comment">// 无阻塞尝试加锁</span></div>
+<div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;try_to_lock 结果：&quot;</span> &lt;&lt; (lock_try.owns_lock() ? <span class="stringliteral">&quot;成功（1）&quot;</span> : <span class="stringliteral">&quot;失败（0）&quot;</span>) &lt;&lt; endl;</div>
+<div class="line">        } <span class="comment">// lock_try 析构，自动解锁</span></div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 3. 测试 adopt_lock：此时锁已释放，可成功手动加锁</span></div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;\n--- 测试 std::adopt_lock （采用已加锁）---&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        smtx.<a id="a2" name="a2"></a><a class="code hl_function" href="classol_1_1spin__mutex.html#a34093b92923fdd880f119b8e60ca06c6">lock</a>(); <span class="comment">// 手动先加锁（成功，无阻塞）</span></div>
+<div class="line">        {</div>
+<div class="line">            unique_lock&lt;ol::spin_mutex&gt; lock_adopt(smtx, std::adopt_lock); <span class="comment">// 采用已加锁的锁</span></div>
+<div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;采用已加锁的锁后，是否持有锁：&quot;</span> &lt;&lt; (lock_adopt.owns_lock() ? <span class="stringliteral">&quot;是（1）&quot;</span> : <span class="stringliteral">&quot;否（0）&quot;</span>) &lt;&lt; endl;</div>
+<div class="line">        } <span class="comment">// lock_adopt 析构，自动解锁</span></div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n==================================== 测试3：spin_mutex 多线程竞争测试 ====================================&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    {</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1spin__mutex.html">ol::spin_mutex</a> smtx;</div>
+<div class="line">        <span class="keyword">const</span> <span class="keywordtype">int</span> thread_num = 5;   <span class="comment">// 线程数</span></div>
+<div class="line">        <span class="keyword">const</span> <span class="keywordtype">int</span> loop_count = 100; <span class="comment">// 每个线程循环次数</span></div>
+<div class="line">        vector&lt;thread&gt; threads;</div>
+<div class="line"> </div>
+<div class="line">        g_shared_counter = 0; <span class="comment">// 重置共享计数器</span></div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;启动 &quot;</span> &lt;&lt; thread_num &lt;&lt; <span class="stringliteral">&quot; 个线程，每个线程修改共享计数器 &quot;</span> &lt;&lt; loop_count &lt;&lt; <span class="stringliteral">&quot; 次...&quot;</span> &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 启动所有线程</span></div>
+<div class="line">        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; thread_num; ++i)</div>
+<div class="line">        {</div>
+<div class="line">            threads.emplace_back(thread_task_spin, ref(smtx), loop_count);</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 等待所有线程执行完成</span></div>
+<div class="line">        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; t : threads)</div>
+<div class="line">        {</div>
+<div class="line">            t.join();</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 验证共享计数器结果（预期：thread_num * loop_count）</span></div>
+<div class="line">        <span class="keywordtype">int</span> expected = thread_num * loop_count;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;共享计数器最终值：&quot;</span> &lt;&lt; g_shared_counter &lt;&lt; <span class="stringliteral">&quot;，预期值：&quot;</span> &lt;&lt; expected &lt;&lt; endl;</div>
+<div class="line">        cout &lt;&lt; (g_shared_counter == expected ? <span class="stringliteral">&quot;测试通过：多线程竞争无数据混乱&quot;</span> : <span class="stringliteral">&quot;测试失败：存在数据竞争&quot;</span>) &lt;&lt; endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n==================================== 测试4：recursive_spin_mutex 递归与多线程测试 ====================================&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    {</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1recursive__spin__mutex.html">ol::recursive_spin_mutex</a> rsmtx;</div>
+<div class="line">        <span class="keyword">const</span> <span class="keywordtype">int</span> thread_num = 3;      <span class="comment">// 线程数</span></div>
+<div class="line">        <span class="keyword">const</span> <span class="keywordtype">int</span> loop_count = 50;     <span class="comment">// 每个线程循环次数</span></div>
+<div class="line">        <span class="keyword">const</span> <span class="keywordtype">int</span> recursion_depth = 3; <span class="comment">// 递归深度（每个循环递归加锁3次）</span></div>
+<div class="line">        vector&lt;thread&gt; threads;</div>
+<div class="line"> </div>
+<div class="line">        g_shared_counter = 0; <span class="comment">// 重置共享计数器</span></div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;启动 &quot;</span> &lt;&lt; thread_num &lt;&lt; <span class="stringliteral">&quot; 个线程，每个线程递归修改共享计数器 &quot;</span> &lt;&lt; loop_count &lt;&lt; <span class="stringliteral">&quot; 次（递归深度 &quot;</span> &lt;&lt; recursion_depth &lt;&lt; <span class="stringliteral">&quot;）...&quot;</span> &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 启动所有线程</span></div>
+<div class="line">        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; thread_num; ++i)</div>
+<div class="line">        {</div>
+<div class="line">            threads.emplace_back(thread_task_recursive, ref(rsmtx), loop_count, recursion_depth);</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 等待所有线程执行完成</span></div>
+<div class="line">        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; t : threads)</div>
+<div class="line">        {</div>
+<div class="line">            t.join();</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 验证共享计数器结果（预期：thread_num * loop_count * recursion_depth）</span></div>
+<div class="line">        <span class="keywordtype">int</span> expected = thread_num * loop_count * recursion_depth;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;共享计数器最终值：&quot;</span> &lt;&lt; g_shared_counter &lt;&lt; <span class="stringliteral">&quot;，预期值：&quot;</span> &lt;&lt; expected &lt;&lt; endl;</div>
+<div class="line">        cout &lt;&lt; (g_shared_counter == expected ? <span class="stringliteral">&quot;测试通过：递归锁可重入，多线程无数据混乱&quot;</span> : <span class="stringliteral">&quot;测试失败：递归锁异常或存在数据竞争&quot;</span>) &lt;&lt; endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n==================================== 测试5：recursive_spin_mutex 异常场景测试（非持有者解锁） ====================================&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    {</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1recursive__spin__mutex.html">ol::recursive_spin_mutex</a> rsmtx;</div>
+<div class="line">        <span class="comment">// 先让主线程获取锁</span></div>
+<div class="line">        unique_lock&lt;ol::recursive_spin_mutex&gt; main_lock(rsmtx);</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;主线程已获取递归锁，启动子线程尝试解锁...&quot;</span> &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 子线程（非锁持有者）尝试解锁，预期抛出 std::logic_error</span></div>
+<div class="line">        thread err_thread([&amp;]()</div>
+<div class="line">                          {</div>
+<div class="line">            <span class="keywordflow">try</span></div>
+<div class="line">            {</div>
+<div class="line">                rsmtx.<a id="a3" name="a3"></a><a class="code hl_function" href="classol_1_1recursive__spin__mutex.html#a78d0c1b5587ae17fc5b7d65796dfd92c">unlock</a>(); <span class="comment">// 非持有者解锁，抛出异常</span></div>
+<div class="line">            }</div>
+<div class="line">            <span class="keywordflow">catch</span> (<span class="keyword">const</span> logic_error&amp; e)</div>
+<div class="line">            {</div>
+<div class="line">                cout &lt;&lt; <span class="stringliteral">&quot;捕获到预期异常：&quot;</span> &lt;&lt; e.what() &lt;&lt; endl;</div>
+<div class="line">            } });</div>
+<div class="line"> </div>
+<div class="line">        err_thread.join();</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;异常场景测试完成&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n==================================== 所有测试执行完毕 ====================================&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+<div class="ttc" id="aclassol_1_1recursive__spin__mutex_html"><div class="ttname"><a href="classol_1_1recursive__spin__mutex.html">ol::recursive_spin_mutex</a></div><div class="ttdoc">可递归自旋锁</div><div class="ttdef"><b>定义</b> ol_mutex.h:63</div></div>
+<div class="ttc" id="aclassol_1_1recursive__spin__mutex_html_a78d0c1b5587ae17fc5b7d65796dfd92c"><div class="ttname"><a href="classol_1_1recursive__spin__mutex.html#a78d0c1b5587ae17fc5b7d65796dfd92c">ol::recursive_spin_mutex::unlock</a></div><div class="ttdeci">void unlock()</div><div class="ttdoc">解锁操作，递归计数减至0时释放锁，非持有者调用抛异常</div><div class="ttdef"><b>定义</b> ol_mutex.h:134</div></div>
+<div class="ttc" id="aclassol_1_1spin__mutex_html"><div class="ttname"><a href="classol_1_1spin__mutex.html">ol::spin_mutex</a></div><div class="ttdoc">不可重入自旋锁</div><div class="ttdef"><b>定义</b> ol_mutex.h:27</div></div>
+<div class="ttc" id="aclassol_1_1spin__mutex_html_a34093b92923fdd880f119b8e60ca06c6"><div class="ttname"><a href="classol_1_1spin__mutex.html#a34093b92923fdd880f119b8e60ca06c6">ol::spin_mutex::lock</a></div><div class="ttdeci">void lock() noexcept</div><div class="ttdoc">加锁操作，自旋等待直到获取锁</div><div class="ttdef"><b>定义</b> ol_mutex.h:45</div></div>
+<div class="ttc" id="aol__mutex_8h_html"><div class="ttname"><a href="ol__mutex_8h.html">ol_mutex.h</a></div></div>
+</div><!-- fragment --> </div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

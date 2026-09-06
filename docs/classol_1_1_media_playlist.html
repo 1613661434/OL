@@ -1,0 +1,706 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ol::MediaPlaylist类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('classol_1_1_media_playlist.html','','classol_1_1_media_playlist-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ol::MediaPlaylist类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>媒体播放列表类，适配 Qt6 QMediaPlayer 实现播放列表管理、自动循环切歌、播放模式控制，无需手动处理音源切换  
+ <a href="#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ol___media_playlist_8h_source.html">ol_MediaPlaylist.h</a>&gt;</code></p>
+<div class="dynheader">
+类 ol::MediaPlaylist 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classol_1_1_media_playlist.png" alt=""/>
+ </div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:ad123498b0bda4c69d78bf96f680b623a" id="r_ad123498b0bda4c69d78bf96f680b623a"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad123498b0bda4c69d78bf96f680b623a">PlaybackMode</a> : char { <a class="el" href="#ad123498b0bda4c69d78bf96f680b623aaad73d2b14df988c3e42f8b793fad5232">CurrentItemOnce</a>
+, <a class="el" href="#ad123498b0bda4c69d78bf96f680b623aa0b160451935b0c8b284cded646565af1">CurrentItemLoop</a>
+, <a class="el" href="#ad123498b0bda4c69d78bf96f680b623aaded18f2254fa9096c88914b87336b12b">SequentialLoop</a>
+ }</td></tr>
+<tr class="memdesc:ad123498b0bda4c69d78bf96f680b623a"><td class="mdescLeft">&#160;</td><td class="mdescRight">播放模式枚举  <a href="#ad123498b0bda4c69d78bf96f680b623a">更多...</a><br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-signals" class="groupheader"><a id="signals" name="signals"></a>
+信号</h2></td></tr>
+<tr class="memitem:a4afc18634b9244d4768b679a95701185" id="r_a4afc18634b9244d4768b679a95701185"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4afc18634b9244d4768b679a95701185">currentIndexChanged</a> (int newIndex)</td></tr>
+<tr class="memdesc:a4afc18634b9244d4768b679a95701185"><td class="mdescLeft">&#160;</td><td class="mdescRight">播放索引改变信号，用于用户未来功能扩展  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:aa2943905cd89d45af7d4b8d1e3f6b8f2" id="r_aa2943905cd89d45af7d4b8d1e3f6b8f2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa2943905cd89d45af7d4b8d1e3f6b8f2">MediaPlaylist</a> (QObject *parent=nullptr)</td></tr>
+<tr class="memdesc:aa2943905cd89d45af7d4b8d1e3f6b8f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="memitem:aba5a9863f1210abc57b0a545a6a8ea88" id="r_aba5a9863f1210abc57b0a545a6a8ea88"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba5a9863f1210abc57b0a545a6a8ea88">addMedia</a> (const QUrl &amp;media)</td></tr>
+<tr class="memdesc:aba5a9863f1210abc57b0a545a6a8ea88"><td class="mdescLeft">&#160;</td><td class="mdescRight">向播放列表添加媒体资源  <br /></td></tr>
+<tr class="memitem:a621bd34f0532541619188d41d07c5ff5" id="r_a621bd34f0532541619188d41d07c5ff5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a621bd34f0532541619188d41d07c5ff5">clear</a> ()</td></tr>
+<tr class="memdesc:a621bd34f0532541619188d41d07c5ff5"><td class="mdescLeft">&#160;</td><td class="mdescRight">清空播放列表，重置索引  <br /></td></tr>
+<tr class="memitem:aff2c7be4a63821fc58446d168b378274" id="r_aff2c7be4a63821fc58446d168b378274"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff2c7be4a63821fc58446d168b378274">setCurrentIndex</a> (int index)</td></tr>
+<tr class="memdesc:aff2c7be4a63821fc58446d168b378274"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置当前播放索引（自动切换播放器音源）  <br /></td></tr>
+<tr class="memitem:a64b3d9fb0b92a9eca33e6c53fd280344" id="r_a64b3d9fb0b92a9eca33e6c53fd280344"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a64b3d9fb0b92a9eca33e6c53fd280344">getCurrentIndex</a> () const</td></tr>
+<tr class="memdesc:a64b3d9fb0b92a9eca33e6c53fd280344"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前播放索引  <br /></td></tr>
+<tr class="memitem:a08f980529bb176c293dce12849c4a610" id="r_a08f980529bb176c293dce12849c4a610"><td class="memItemLeft" align="right" valign="top">QUrl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a08f980529bb176c293dce12849c4a610">getCurrentMedia</a> () const</td></tr>
+<tr class="memdesc:a08f980529bb176c293dce12849c4a610"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前播放的媒体 URL  <br /></td></tr>
+<tr class="memitem:a9c26751c8aad91f30ffebb6cd1f8c179" id="r_a9c26751c8aad91f30ffebb6cd1f8c179"><td class="memItemLeft" align="right" valign="top">qsizetype&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9c26751c8aad91f30ffebb6cd1f8c179">getMediaCount</a> () const</td></tr>
+<tr class="memdesc:a9c26751c8aad91f30ffebb6cd1f8c179"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取列表总媒体数量  <br /></td></tr>
+<tr class="memitem:a76c68c2f8d2a8e226479343583f51b7a" id="r_a76c68c2f8d2a8e226479343583f51b7a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a76c68c2f8d2a8e226479343583f51b7a">setPlaybackMode</a> (<a class="el" href="#ad123498b0bda4c69d78bf96f680b623a">PlaybackMode</a> mode)</td></tr>
+<tr class="memdesc:a76c68c2f8d2a8e226479343583f51b7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置播放模式  <br /></td></tr>
+<tr class="memitem:a49566e433ae84bf707cbc82a2f54802c" id="r_a49566e433ae84bf707cbc82a2f54802c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ad123498b0bda4c69d78bf96f680b623a">PlaybackMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49566e433ae84bf707cbc82a2f54802c">getPlaybackMode</a> () const</td></tr>
+<tr class="memdesc:a49566e433ae84bf707cbc82a2f54802c"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前播放模式  <br /></td></tr>
+<tr class="memitem:a886641dc8da6bb5393733a6719f2522b" id="r_a886641dc8da6bb5393733a6719f2522b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a886641dc8da6bb5393733a6719f2522b">setPlayer</a> (QMediaPlayer *player)</td></tr>
+<tr class="memdesc:a886641dc8da6bb5393733a6719f2522b"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定 Qt 媒体播放器  <br /></td></tr>
+<tr class="memitem:aa35f7751a45265656dff94fb611bc15c" id="r_aa35f7751a45265656dff94fb611bc15c"><td class="memItemLeft" align="right" valign="top">QUrl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa35f7751a45265656dff94fb611bc15c">nextMedia</a> ()</td></tr>
+<tr class="memdesc:aa35f7751a45265656dff94fb611bc15c"><td class="mdescLeft">&#160;</td><td class="mdescRight">切换到下一首媒体  <br /></td></tr>
+<tr class="memitem:a858252b00ce8a9a2140caf7bc26c239f" id="r_a858252b00ce8a9a2140caf7bc26c239f"><td class="memItemLeft" align="right" valign="top">QUrl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a858252b00ce8a9a2140caf7bc26c239f">previousMedia</a> ()</td></tr>
+<tr class="memdesc:a858252b00ce8a9a2140caf7bc26c239f"><td class="mdescLeft">&#160;</td><td class="mdescRight">切换到上一首媒体  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-slots" class="groupheader"><a id="pri-slots" name="pri-slots"></a>
+Private 槽</h2></td></tr>
+<tr class="memitem:a5dca88f14aa4ef05a73695ab88e5f54f" id="r_a5dca88f14aa4ef05a73695ab88e5f54f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5dca88f14aa4ef05a73695ab88e5f54f">onMediaStatusChanged</a> (QMediaPlayer::MediaStatus status)</td></tr>
+<tr class="memdesc:a5dca88f14aa4ef05a73695ab88e5f54f"><td class="mdescLeft">&#160;</td><td class="mdescRight">监听播放器状态，播放完成自动处理切歌/循环  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:afcc07d4ac863b1a16dcffd85334bd655" id="r_afcc07d4ac863b1a16dcffd85334bd655"><td class="memItemLeft" align="right" valign="top">QVector&lt; QUrl &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afcc07d4ac863b1a16dcffd85334bd655">m_mediaList</a></td></tr>
+<tr class="memdesc:afcc07d4ac863b1a16dcffd85334bd655"><td class="mdescLeft">&#160;</td><td class="mdescRight">媒体资源 URL 列表  <br /></td></tr>
+<tr class="memitem:a459f29395c0502da4726d83eaab24f47" id="r_a459f29395c0502da4726d83eaab24f47"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a459f29395c0502da4726d83eaab24f47">m_currentIndex</a></td></tr>
+<tr class="memdesc:a459f29395c0502da4726d83eaab24f47"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前播放索引，-1 表示未选中  <br /></td></tr>
+<tr class="memitem:a620e8af0b87f457f49c00e2199b11b3b" id="r_a620e8af0b87f457f49c00e2199b11b3b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ad123498b0bda4c69d78bf96f680b623a">PlaybackMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a620e8af0b87f457f49c00e2199b11b3b">m_playbackMode</a></td></tr>
+<tr class="memdesc:a620e8af0b87f457f49c00e2199b11b3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前播放模式  <br /></td></tr>
+<tr class="memitem:af1d069dfc40d5c2cd7baa4c66bbb6703" id="r_af1d069dfc40d5c2cd7baa4c66bbb6703"><td class="memItemLeft" align="right" valign="top">QMediaPlayer *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af1d069dfc40d5c2cd7baa4c66bbb6703">m_player</a></td></tr>
+<tr class="memdesc:af1d069dfc40d5c2cd7baa4c66bbb6703"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定的 Qt 媒体播放器  <br /></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">详细描述</h2>
+<div class="textblock"><p>媒体播放列表类，适配 Qt6 QMediaPlayer 实现播放列表管理、自动循环切歌、播放模式控制，无需手动处理音源切换 </p>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol_media_playlist_8cpp-example.html#_a0">test_ol_media_playlist.cpp</a>.</dd>
+</dl>
+</div><a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">成员枚举类型说明</h2>
+<a id="ad123498b0bda4c69d78bf96f680b623a" name="ad123498b0bda4c69d78bf96f680b623a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad123498b0bda4c69d78bf96f680b623a">&#9670;&#160;</a></span>PlaybackMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#ad123498b0bda4c69d78bf96f680b623a">ol::MediaPlaylist::PlaybackMode</a> : char</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>播放模式枚举 </p>
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="ad123498b0bda4c69d78bf96f680b623aaad73d2b14df988c3e42f8b793fad5232" name="ad123498b0bda4c69d78bf96f680b623aaad73d2b14df988c3e42f8b793fad5232"></a>CurrentItemOnce&#160;</td><td class="fielddoc"><p>当前曲目播放一次后自动停止 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ad123498b0bda4c69d78bf96f680b623aa0b160451935b0c8b284cded646565af1" name="ad123498b0bda4c69d78bf96f680b623aa0b160451935b0c8b284cded646565af1"></a>CurrentItemLoop&#160;</td><td class="fielddoc"><p>当前曲目无限循环播放 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ad123498b0bda4c69d78bf96f680b623aaded18f2254fa9096c88914b87336b12b" name="ad123498b0bda4c69d78bf96f680b623aaded18f2254fa9096c88914b87336b12b"></a>SequentialLoop&#160;</td><td class="fielddoc"><p>列表顺序循环，尾首自动衔接 </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
+<a id="aa2943905cd89d45af7d4b8d1e3f6b8f2" name="aa2943905cd89d45af7d4b8d1e3f6b8f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2943905cd89d45af7d4b8d1e3f6b8f2">&#9670;&#160;</a></span>MediaPlaylist()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ol::MediaPlaylist::MediaPlaylist </td>
+          <td>(</td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>parent</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel explicit">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent</td><td>父对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">成员函数说明</h2>
+<a id="aba5a9863f1210abc57b0a545a6a8ea88" name="aba5a9863f1210abc57b0a545a6a8ea88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba5a9863f1210abc57b0a545a6a8ea88">&#9670;&#160;</a></span>addMedia()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ol::MediaPlaylist::addMedia </td>
+          <td>(</td>
+          <td class="paramtype">const QUrl &amp;</td>          <td class="paramname"><span class="paramname"><em>media</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>向播放列表添加媒体资源 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">media</td><td>媒体资源 URL（支持 qrc 资源/本地文件） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol_media_playlist_8cpp-example.html#a1">test_ol_media_playlist.cpp</a>.</dd>
+</dl>
+
+</div>
+</div>
+<a id="a621bd34f0532541619188d41d07c5ff5" name="a621bd34f0532541619188d41d07c5ff5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a621bd34f0532541619188d41d07c5ff5">&#9670;&#160;</a></span>clear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ol::MediaPlaylist::clear </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>清空播放列表，重置索引 </p>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol_media_playlist_8cpp-example.html#a7">test_ol_media_playlist.cpp</a>.</dd>
+</dl>
+
+</div>
+</div>
+<a id="a4afc18634b9244d4768b679a95701185" name="a4afc18634b9244d4768b679a95701185"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4afc18634b9244d4768b679a95701185">&#9670;&#160;</a></span>currentIndexChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ol::MediaPlaylist::currentIndexChanged </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>newIndex</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel signal">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>播放索引改变信号，用于用户未来功能扩展 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newIndex</td><td>新的播放索引 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a64b3d9fb0b92a9eca33e6c53fd280344" name="a64b3d9fb0b92a9eca33e6c53fd280344"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64b3d9fb0b92a9eca33e6c53fd280344">&#9670;&#160;</a></span>getCurrentIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::MediaPlaylist::getCurrentIndex </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前播放索引 </p>
+<dl class="section return"><dt>返回</dt><dd>当前索引，-1 表示无效 </dd></dl>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol_media_playlist_8cpp-example.html#a3">test_ol_media_playlist.cpp</a>.</dd>
+</dl>
+
+</div>
+</div>
+<a id="a08f980529bb176c293dce12849c4a610" name="a08f980529bb176c293dce12849c4a610"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08f980529bb176c293dce12849c4a610">&#9670;&#160;</a></span>getCurrentMedia()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QUrl ol::MediaPlaylist::getCurrentMedia </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取当前播放的媒体 URL </p>
+<dl class="section return"><dt>返回</dt><dd>有效 URL / 空 QUrl </dd></dl>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol_media_playlist_8cpp-example.html#a4">test_ol_media_playlist.cpp</a>.</dd>
+</dl>
+
+</div>
+</div>
+<a id="a9c26751c8aad91f30ffebb6cd1f8c179" name="a9c26751c8aad91f30ffebb6cd1f8c179"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c26751c8aad91f30ffebb6cd1f8c179">&#9670;&#160;</a></span>getMediaCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">qsizetype ol::MediaPlaylist::getMediaCount </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取列表总媒体数量 </p>
+<dl class="section return"><dt>返回</dt><dd>媒体资源总数 </dd></dl>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol_media_playlist_8cpp-example.html#a2">test_ol_media_playlist.cpp</a>.</dd>
+</dl>
+
+</div>
+</div>
+<a id="a49566e433ae84bf707cbc82a2f54802c" name="a49566e433ae84bf707cbc82a2f54802c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49566e433ae84bf707cbc82a2f54802c">&#9670;&#160;</a></span>getPlaybackMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ad123498b0bda4c69d78bf96f680b623a">PlaybackMode</a> ol::MediaPlaylist::getPlaybackMode </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前播放模式 </p>
+<dl class="section return"><dt>返回</dt><dd>播放模式枚举值 </dd></dl>
+
+</div>
+</div>
+<a id="aa35f7751a45265656dff94fb611bc15c" name="aa35f7751a45265656dff94fb611bc15c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa35f7751a45265656dff94fb611bc15c">&#9670;&#160;</a></span>nextMedia()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QUrl ol::MediaPlaylist::nextMedia </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>切换到下一首媒体 </p>
+<dl class="section return"><dt>返回</dt><dd>下一首媒体的 URL </dd></dl>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol_media_playlist_8cpp-example.html#a5">test_ol_media_playlist.cpp</a>.</dd>
+</dl>
+
+</div>
+</div>
+<a id="a5dca88f14aa4ef05a73695ab88e5f54f" name="a5dca88f14aa4ef05a73695ab88e5f54f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dca88f14aa4ef05a73695ab88e5f54f">&#9670;&#160;</a></span>onMediaStatusChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ol::MediaPlaylist::onMediaStatusChanged </td>
+          <td>(</td>
+          <td class="paramtype">QMediaPlayer::MediaStatus</td>          <td class="paramname"><span class="paramname"><em>status</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel slot">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>监听播放器状态，播放完成自动处理切歌/循环 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">status</td><td>媒体播放状态 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a858252b00ce8a9a2140caf7bc26c239f" name="a858252b00ce8a9a2140caf7bc26c239f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a858252b00ce8a9a2140caf7bc26c239f">&#9670;&#160;</a></span>previousMedia()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QUrl ol::MediaPlaylist::previousMedia </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>切换到上一首媒体 </p>
+<dl class="section return"><dt>返回</dt><dd>上一首媒体的 URL </dd></dl>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol_media_playlist_8cpp-example.html#a6">test_ol_media_playlist.cpp</a>.</dd>
+</dl>
+
+</div>
+</div>
+<a id="aff2c7be4a63821fc58446d168b378274" name="aff2c7be4a63821fc58446d168b378274"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff2c7be4a63821fc58446d168b378274">&#9670;&#160;</a></span>setCurrentIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ol::MediaPlaylist::setCurrentIndex </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置当前播放索引（自动切换播放器音源） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>目标播放索引 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a76c68c2f8d2a8e226479343583f51b7a" name="a76c68c2f8d2a8e226479343583f51b7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76c68c2f8d2a8e226479343583f51b7a">&#9670;&#160;</a></span>setPlaybackMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ol::MediaPlaylist::setPlaybackMode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ad123498b0bda4c69d78bf96f680b623a">PlaybackMode</a></td>          <td class="paramname"><span class="paramname"><em>mode</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>设置播放模式 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mode</td><td>目标播放模式 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a886641dc8da6bb5393733a6719f2522b" name="a886641dc8da6bb5393733a6719f2522b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a886641dc8da6bb5393733a6719f2522b">&#9670;&#160;</a></span>setPlayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ol::MediaPlaylist::setPlayer </td>
+          <td>(</td>
+          <td class="paramtype">QMediaPlayer *</td>          <td class="paramname"><span class="paramname"><em>player</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>绑定 Qt 媒体播放器 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">player</td><td>待绑定的 QMediaPlayer 对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">类成员变量说明</h2>
+<a id="a459f29395c0502da4726d83eaab24f47" name="a459f29395c0502da4726d83eaab24f47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a459f29395c0502da4726d83eaab24f47">&#9670;&#160;</a></span>m_currentIndex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::MediaPlaylist::m_currentIndex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前播放索引，-1 表示未选中 </p>
+
+</div>
+</div>
+<a id="afcc07d4ac863b1a16dcffd85334bd655" name="afcc07d4ac863b1a16dcffd85334bd655"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcc07d4ac863b1a16dcffd85334bd655">&#9670;&#160;</a></span>m_mediaList</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVector&lt;QUrl&gt; ol::MediaPlaylist::m_mediaList</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>媒体资源 URL 列表 </p>
+
+</div>
+</div>
+<a id="a620e8af0b87f457f49c00e2199b11b3b" name="a620e8af0b87f457f49c00e2199b11b3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a620e8af0b87f457f49c00e2199b11b3b">&#9670;&#160;</a></span>m_playbackMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ad123498b0bda4c69d78bf96f680b623a">PlaybackMode</a> ol::MediaPlaylist::m_playbackMode</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前播放模式 </p>
+
+</div>
+</div>
+<a id="af1d069dfc40d5c2cd7baa4c66bbb6703" name="af1d069dfc40d5c2cd7baa4c66bbb6703"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1d069dfc40d5c2cd7baa4c66bbb6703">&#9670;&#160;</a></span>m_player</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QMediaPlayer* ol::MediaPlaylist::m_player</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>绑定的 Qt 媒体播放器 </p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>ol_qt/include/<a class="el" href="ol___media_playlist_8h_source.html">ol_MediaPlaylist.h</a></li>
+<li>ol_qt/src/<a class="el" href="ol___media_playlist_8cpp.html">ol_MediaPlaylist.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="namespaceol.html">ol</a></li><li class="navelem"><a href="classol_1_1_media_playlist.html">MediaPlaylist</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

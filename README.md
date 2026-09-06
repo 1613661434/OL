@@ -79,6 +79,12 @@
 bool newdir(const std::string& pathorfilename, bool bisfilename = true);
 ```
 
+在项目根目录重新生成 HTML 文档：
+
+```bash
+doxygen doxygen/Doxyfile
+```
+
 ## ⚙️ 环境依赖
 
 ### 基础依赖
@@ -254,6 +260,11 @@ OL
 ├── LICENSE                   # 许可证
 ├── clang-format.txt          # 代码格式化配置
 │
+├── doxygen/                  # Doxygen 文档生成资源
+│   ├── Doxyfile             ## Doxygen 配置
+│   ├── DoxygenExamples.dox   ## 测试示例清单
+│   └── OL.png                ## 文档 Logo
+│
 ├── ol_core/                  # 核心基础工具库（必选）
 │   ├── include/              ## 头文件（ThreadPool、容器、字符串等）
 │   ├── src/                  ## 源文件
@@ -291,7 +302,7 @@ OL
 │   ├── src/                  ## 源文件
 │   └── test/                 ## 播放列表测试
 │
-└── docs/                     # 项目文档
+└── docs/                     # Doxygen 生成的 HTML 文档
 ```
 
 ## 📋 ol_core 核心库详解

@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: test_ol_cqueue_double_destroy.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('test_ol_cqueue_double_destroy_8cpp-example.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">test_ol_cqueue_double_destroy.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol__cqueue_8h.html">ol_cqueue.h</a>&quot;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#include &lt;cstdlib&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;unordered_set&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">namespace</span></div>
+<div class="line">{</div>
+<div class="line">    <span class="comment">// 只记录对象地址，不读取已经结束生命周期的对象成员。</span></div>
+<div class="line">    <span class="comment">// 这样能够明确显示同一个数组元素是否被析构了两次。</span></div>
+<div class="line">    std::unordered_set&lt;const void*&gt;&amp; liveObjects()</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keyword">static</span> std::unordered_set&lt;const void*&gt; objects;</div>
+<div class="line">        <span class="keywordflow">return</span> objects;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="keyword">class </span>LifetimeProbe</div>
+<div class="line">    {</div>
+<div class="line">    <span class="keyword">public</span>:</div>
+<div class="line">        LifetimeProbe()</div>
+<div class="line">        {</div>
+<div class="line">            <span class="keyword">const</span> <span class="keywordtype">bool</span> inserted = liveObjects().insert(<span class="keyword">this</span>).second;</div>
+<div class="line">            std::cout &lt;&lt; <span class="stringliteral">&quot;construct  object @ &quot;</span> &lt;&lt; <span class="keyword">this</span> &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line"> </div>
+<div class="line">            <span class="keywordflow">if</span> (!inserted)</div>
+<div class="line">            {</div>
+<div class="line">                std::cerr &lt;&lt; <span class="stringliteral">&quot;ERROR: object was constructed twice at the same live address\n&quot;</span>;</div>
+<div class="line">                std::abort();</div>
+<div class="line">            }</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        LifetimeProbe(<span class="keyword">const</span> LifetimeProbe&amp;) : LifetimeProbe() {}</div>
+<div class="line">        LifetimeProbe(LifetimeProbe&amp;&amp;) noexcept : LifetimeProbe() {}</div>
+<div class="line"> </div>
+<div class="line">        LifetimeProbe&amp; operator=(<span class="keyword">const</span> LifetimeProbe&amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line">        LifetimeProbe&amp; operator=(LifetimeProbe&amp;&amp;) <span class="keyword">noexcept</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"> </div>
+<div class="line">        ~LifetimeProbe()</div>
+<div class="line">        {</div>
+<div class="line">            <span class="keywordflow">if</span> (liveObjects().erase(<span class="keyword">this</span>) == 0)</div>
+<div class="line">            {</div>
+<div class="line">                std::cerr &lt;&lt; <span class="stringliteral">&quot;\nDOUBLE DESTRUCTION DETECTED @ &quot;</span> &lt;&lt; <span class="keyword">this</span> &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">                std::cerr &lt;&lt; <span class="stringliteral">&quot;The cqueue destructor manually destroyed this element,\n&quot;</span></div>
+<div class="line">                             <span class="stringliteral">&quot;then the T m_data[MAX_SIZE] array destroyed it again.\n&quot;</span>;</div>
+<div class="line">                std::abort();</div>
+<div class="line">            }</div>
+<div class="line"> </div>
+<div class="line">            std::cout &lt;&lt; <span class="stringliteral">&quot;destroy    object @ &quot;</span> &lt;&lt; <span class="keyword">this</span> &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">        }</div>
+<div class="line">    };</div>
+<div class="line"> </div>
+<div class="line">    <span class="keyword">class </span>NonDefaultValue</div>
+<div class="line">    {</div>
+<div class="line">    <span class="keyword">public</span>:</div>
+<div class="line">        <span class="keyword">explicit</span> NonDefaultValue(<span class="keywordtype">int</span> value) : m_value(value) {}</div>
+<div class="line"> </div>
+<div class="line">        <span class="keywordtype">int</span> value()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_value; }</div>
+<div class="line"> </div>
+<div class="line">    <span class="keyword">private</span>:</div>
+<div class="line">        <span class="keywordtype">int</span> m_value;</div>
+<div class="line">    };</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Create cqueue&lt;LifetimeProbe, 1&gt; and push one element.\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    {</div>
+<div class="line">        <a id="_a0" name="_a0"></a><a class="code hl_class" href="classol_1_1cqueue.html">ol::cqueue&lt;LifetimeProbe, 1&gt;</a> queue;</div>
+<div class="line">        queue.<a id="a1" name="a1"></a><a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(LifetimeProbe{});</div>
+<div class="line"> </div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;Queue size: &quot;</span> &lt;&lt; queue.<a id="a2" name="a2"></a><a class="code hl_function" href="classol_1_1cqueue.html#ab5ad1f1c652d5bfe9c181a3b78d48ef7">size</a>() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;Leaving scope now...\n&quot;</span> &lt;&lt; std::flush;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">if</span> (!liveObjects().empty())</div>
+<div class="line">    {</div>
+<div class="line">        std::cerr &lt;&lt; <span class="stringliteral">&quot;LEAK DETECTED: &quot;</span> &lt;&lt; liveObjects().size()</div>
+<div class="line">                  &lt;&lt; <span class="stringliteral">&quot; object(s) were not destroyed.\n&quot;</span>;</div>
+<div class="line">        <span class="keywordflow">return</span> 1;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 原始存储方案不应强迫队列元素提供默认构造函数。</span></div>
+<div class="line">    {</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1cqueue.html">ol::cqueue&lt;NonDefaultValue, 1&gt;</a> queue;</div>
+<div class="line">        queue.<a id="a3" name="a3"></a><a class="code hl_function" href="classol_1_1cqueue.html#a9a1f582765a656c3f51c8096b849797d">emplace</a>(42);</div>
+<div class="line">        <span class="keywordflow">if</span> (queue.<a id="a4" name="a4"></a><a class="code hl_function" href="classol_1_1cqueue.html#a4ef8069c96fda089a1645c2b7dc55c37">front</a>().value() != 42)</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;Unexpected value in non-default-constructible test.\n&quot;</span>;</div>
+<div class="line">            <span class="keywordflow">return</span> 1;</div>
+<div class="line">        }</div>
+<div class="line">        queue.<a id="a5" name="a5"></a><a class="code hl_function" href="classol_1_1cqueue.html#a84e01a21528fab956aca1f071c5552b0">pop</a>();</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;No double destruction detected.\n&quot;</span>;</div>
+<div class="line">    <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+<div class="ttc" id="aclassol_1_1cqueue_html"><div class="ttname"><a href="classol_1_1cqueue.html">ol::cqueue</a></div><div class="ttdoc">循环队列模板类 基于静态数组实现，大小固定，支持高效的FIFO（先进先出）操作</div><div class="ttdef"><b>定义</b> ol_cqueue.h:36</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a4ef8069c96fda089a1645c2b7dc55c37"><div class="ttname"><a href="classol_1_1cqueue.html#a4ef8069c96fda089a1645c2b7dc55c37">ol::cqueue::front</a></div><div class="ttdeci">T &amp; front()</div><div class="ttdoc">获取队头元素（非const版本）</div><div class="ttdef"><b>定义</b> ol_cqueue.h:245</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a84e01a21528fab956aca1f071c5552b0"><div class="ttname"><a href="classol_1_1cqueue.html#a84e01a21528fab956aca1f071c5552b0">ol::cqueue::pop</a></div><div class="ttdeci">bool pop()</div><div class="ttdoc">元素出队</div><div class="ttdef"><b>定义</b> ol_cqueue.h:197</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a9a1f582765a656c3f51c8096b849797d"><div class="ttname"><a href="classol_1_1cqueue.html#a9a1f582765a656c3f51c8096b849797d">ol::cqueue::emplace</a></div><div class="ttdeci">bool emplace(Args &amp;&amp;... args)</div><div class="ttdoc">原地构造元素入队（直接在队列内存中构造对象）</div><div class="ttdef"><b>定义</b> ol_cqueue.h:269</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_ab5ad1f1c652d5bfe9c181a3b78d48ef7"><div class="ttname"><a href="classol_1_1cqueue.html#ab5ad1f1c652d5bfe9c181a3b78d48ef7">ol::cqueue::size</a></div><div class="ttdeci">size_t size() const</div><div class="ttdoc">获取队列当前元素数量</div><div class="ttdef"><b>定义</b> ol_cqueue.h:238</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_ae41a3fb6ee71f57c6fae344832ee560d"><div class="ttname"><a href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">ol::cqueue::push</a></div><div class="ttdeci">bool push(const T &amp;e)</div><div class="ttdoc">元素入队（拷贝版本）</div><div class="ttdef"><b>定义</b> ol_cqueue.h:158</div></div>
+<div class="ttc" id="aol__cqueue_8h_html"><div class="ttname"><a href="ol__cqueue_8h.html">ol_cqueue.h</a></div></div>
+</div><!-- fragment --> </div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

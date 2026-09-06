@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ol_BankServer.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('ol__bank_server_8cpp-example.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ol_BankServer.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;ol_BankServer.h&quot;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#ifdef __unix__</span></div>
+<div class="line"><span class="preprocessor">#include &lt;sys/syscall.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;unistd.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#endif </span><span class="comment">// __unix__</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// #define OL_DEBUG</span></div>
+<div class="line"><span class="comment">// #define OL_DEBUG2</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceol.html">ol</a></div>
+<div class="line">{</div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#ifdef __unix__</span></div>
+<div class="line">    BankServer::BankServer(<span class="keyword">const</span> std::string&amp; ip, <span class="keyword">const</span> uint16_t port, <span class="keywordtype">size_t</span> workThreadNum, <span class="keywordtype">size_t</span> subThreadNum, <span class="keywordtype">size_t</span> MainMaxEvents, <span class="keywordtype">size_t</span> SubMaxEvents, <span class="keywordtype">int</span> epWaitTimeout, <span class="keywordtype">int</span> timerTimetvl, <span class="keywordtype">int</span> timerTimeout)</div>
+<div class="line">        : m_tcpServ(ip, port, subThreadNum, MainMaxEvents, SubMaxEvents, epWaitTimeout, timerTimetvl, timerTimeout), m_threadPool(workThreadNum, 0)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="comment">// 以下代码不是必须的，业务关心什么事件，就指定相应的回调函数。</span></div>
+<div class="line">        m_tcpServ.setNewConnCb(std::bind(&amp;BankServer::handleNewConn, <span class="keyword">this</span>, std::placeholders::_1));</div>
+<div class="line">        m_tcpServ.setCloseCb(std::bind(&amp;BankServer::handleClose, <span class="keyword">this</span>, std::placeholders::_1));</div>
+<div class="line">        m_tcpServ.setErrorCb(std::bind(&amp;BankServer::handleError, <span class="keyword">this</span>, std::placeholders::_1));</div>
+<div class="line">        m_tcpServ.setOnMessageCb(std::bind(&amp;BankServer::handleMessage, <span class="keyword">this</span>, std::placeholders::_1, std::placeholders::_2));</div>
+<div class="line">        <span class="comment">// m_tcpServ.setSendCompleteCb(std::bind(&amp;BankServer::handleSendComplete, this, std::placeholders::_1));</span></div>
+<div class="line">        <span class="comment">// m_tcpServ.setTimeoutCb(std::bind(&amp;BankServer::handleTimeOut, this, std::placeholders::_1));</span></div>
+<div class="line">        m_tcpServ.setTimerTimeoutCb(std::bind(&amp;BankServer::handleTimerTimeOut, <span class="keyword">this</span>, std::placeholders::_1));</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    BankServer::~BankServer()</div>
+<div class="line">    {</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 启动服务。</span></div>
+<div class="line">    <span class="keywordtype">void</span> BankServer::start(<span class="keywordtype">int</span> newConnTimeout)</div>
+<div class="line">    {</div>
+<div class="line">        m_tcpServ.start(newConnTimeout);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 停止服务。</span></div>
+<div class="line">    <span class="keywordtype">void</span> BankServer::stop()</div>
+<div class="line">    {</div>
+<div class="line">        <span class="comment">// 停止工作线程。</span></div>
+<div class="line">        m_threadPool.stop();</div>
+<div class="line"><span class="preprocessor">#ifdef OL_DEBUG</span></div>
+<div class="line">        printf(<span class="stringliteral">&quot;工作线程已停止。\n&quot;</span>);</div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 停止TcpServer。</span></div>
+<div class="line">        m_tcpServ.stop();</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 处理新客户端连接请求，在TcpServer类中回调此函数。</span></div>
+<div class="line">    <span class="keywordtype">void</span> BankServer::handleNewConn(Connection::Ptr conn)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="comment">// 新客户端连上来时，把用户连接的信息保存到状态机中。</span></div>
+<div class="line">        UserInfo::Ptr userinfo(<span class="keyword">new</span> UserInfo(conn-&gt;getFd(), conn-&gt;getIp()));</div>
+<div class="line">        {</div>
+<div class="line">            std::lock_guard&lt;std::mutex&gt; lock(m_userInfoMutex);</div>
+<div class="line">            m_userInfo_umap[conn-&gt;getFd()] = userinfo; <span class="comment">// 把用户添加到状态机中。</span></div>
+<div class="line">        }</div>
+<div class="line">        printf(<span class="stringliteral">&quot;%s 新建连接（ip=%s）.\n&quot;</span>, <a id="a0" name="a0"></a><a class="code hl_function" href="classol_1_1_time_stamp.html#ac027c6ee637670e40e2028706a1b7a9f">TimeStamp::now</a>().toString().c_str(), conn-&gt;getIp());</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 关闭客户端的连接，在TcpServer类中回调此函数。</span></div>
+<div class="line">    <span class="keywordtype">void</span> BankServer::handleClose(Connection::Ptr conn)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="comment">// 关闭客户端连接的时候，从状态机中删除客户端连接的信息。</span></div>
+<div class="line">        printf(<span class="stringliteral">&quot;%s 连接已断开（ip=%s）.\n&quot;</span>, <a class="code hl_function" href="classol_1_1_time_stamp.html#ac027c6ee637670e40e2028706a1b7a9f">TimeStamp::now</a>().toString().c_str(), conn-&gt;getIp());</div>
+<div class="line">        {</div>
+<div class="line">            std::lock_guard&lt;std::mutex&gt; gd(m_userInfoMutex);</div>
+<div class="line">            m_userInfo_umap.erase(conn-&gt;getFd()); <span class="comment">// 从状态机中删除用户信息。</span></div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 客户端的连接错误，在TcpServer类中回调此函数。</span></div>
+<div class="line">    <span class="keywordtype">void</span> BankServer::handleError(Connection::Ptr conn)</div>
+<div class="line">    {</div>
+<div class="line">        handleClose(conn);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 处理客户端的请求报文，在TcpServer类中回调此函数。</span></div>
+<div class="line">    <span class="keywordtype">void</span> BankServer::handleMessage(Connection::Ptr conn, std::string&amp; message)</div>
+<div class="line">    {</div>
+<div class="line"><span class="preprocessor">#ifdef OL_DEBUG</span></div>
+<div class="line">        printf(<span class="stringliteral">&quot;BankServer::handleMessage(%ld).\n&quot;</span>, syscall(SYS_gettid));</div>
+<div class="line"><span class="preprocessor">#endif </span><span class="comment">// OL_DEBUG</span></div>
+<div class="line"> </div>
+<div class="line">        <span class="keywordflow">if</span> (m_threadPool.getWorkerNum() == 0)</div>
+<div class="line">        {</div>
+<div class="line">            <span class="comment">// 如果没有工作线程，表示在IO线程中计算</span></div>
+<div class="line">            onMessage(conn, message);</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">else</span></div>
+<div class="line">        {</div>
+<div class="line">            <span class="comment">// 把业务添加到线程池的任务队列中。</span></div>
+<div class="line">            m_threadPool.addTask(std::bind(&amp;BankServer::onMessage, <span class="keyword">this</span>, conn, message));</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 数据发送完成后，在TcpServer类中回调此函数。</span></div>
+<div class="line">    <span class="keywordtype">void</span> BankServer::handleSendComplete(Connection::Ptr conn)</div>
+<div class="line">    {</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;Message send complete.&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 根据业务的需求，在这里可以增加其它的代码。</span></div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// epoll_wait()超时，在TcpServer类中回调此函数。</span></div>
+<div class="line">    <span class="keywordtype">void</span> BankServer::handleTimeOut(EventLoop* eventLoop)</div>
+<div class="line">    {</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;BankServer timeout.&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 根据业务的需求，在这里可以增加其它的代码。</span></div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 客户端的连接超时，在TcpServer类中回调此函数。</span></div>
+<div class="line">    <span class="keywordtype">void</span> BankServer::handleTimerTimeOut(<span class="keywordtype">int</span> fd)</div>
+<div class="line">    {</div>
+<div class="line">        printf(<span class="stringliteral">&quot;fd(%d) 已超时。\n&quot;</span>, fd);</div>
+<div class="line"> </div>
+<div class="line">        std::lock_guard&lt;std::mutex&gt; lock(m_userInfoMutex);</div>
+<div class="line">        m_userInfo_umap.erase(fd); <span class="comment">// 从状态机中删除用户信息。</span></div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 处理客户端的请求报文，用于添加给线程池。</span></div>
+<div class="line">    <span class="keywordtype">void</span> BankServer::onMessage(Connection::Ptr conn, std::string&amp; message)</div>
+<div class="line">    {</div>
+<div class="line">        UserInfo::Ptr userinfo = m_userInfo_umap[conn-&gt;getFd()]; <span class="comment">// 从状态机中获取客户端的信息。</span></div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 解析客户端的请求报文，处理各种业务。</span></div>
+<div class="line">        <span class="comment">// &lt;bizcode&gt;00101&lt;/bizcode&gt;&lt;username&gt;ol&lt;/username&gt;&lt;password&gt;123456&lt;/password&gt;</span></div>
+<div class="line">        std::string bizcode;                   <span class="comment">// 业务代码。</span></div>
+<div class="line">        std::string replaymessage;             <span class="comment">// 回应报文。</span></div>
+<div class="line">        <a id="a1" name="a1"></a><a class="code hl_function" href="namespaceol.html#a6e00aa77d20c4ae67811e493a35e6611">getByXml</a>(message, <span class="stringliteral">&quot;bizcode&quot;</span>, bizcode); <span class="comment">// 从请求报文中解析出业务代码。</span></div>
+<div class="line"> </div>
+<div class="line">        <span class="keywordflow">if</span> (bizcode == <span class="stringliteral">&quot;00101&quot;</span>) <span class="comment">// 登录业务。</span></div>
+<div class="line">        {</div>
+<div class="line">            std::string username, password;</div>
+<div class="line">            <a class="code hl_function" href="namespaceol.html#a6e00aa77d20c4ae67811e493a35e6611">getByXml</a>(message, <span class="stringliteral">&quot;username&quot;</span>, username);          <span class="comment">// 解析用户名。</span></div>
+<div class="line">            <a class="code hl_function" href="namespaceol.html#a6e00aa77d20c4ae67811e493a35e6611">getByXml</a>(message, <span class="stringliteral">&quot;password&quot;</span>, password);          <span class="comment">// 解析密码。</span></div>
+<div class="line">            <span class="keywordflow">if</span> ((username == <span class="stringliteral">&quot;ol&quot;</span>) &amp;&amp; (password == <span class="stringliteral">&quot;123456&quot;</span>)) <span class="comment">// 假设从数据库或Redis中查询用户名和密码。</span></div>
+<div class="line">            {</div>
+<div class="line">                <span class="comment">// 用户名和密码正确。</span></div>
+<div class="line">                replaymessage = <span class="stringliteral">&quot;&lt;bizcode&gt;00102&lt;/bizcode&gt;&lt;retcode&gt;0&lt;/retcode&gt;&lt;message&gt;ok&lt;/message&gt;&quot;</span>;</div>
+<div class="line">                userinfo-&gt;setLogin(<span class="keyword">true</span>); <span class="comment">// 设置用户的登录状态为true。</span></div>
+<div class="line">            }</div>
+<div class="line">            <span class="keywordflow">else</span></div>
+<div class="line">            {</div>
+<div class="line">                <span class="comment">// 用户名和密码不正确。</span></div>
+<div class="line">                replaymessage = <span class="stringliteral">&quot;&lt;bizcode&gt;00102&lt;/bizcode&gt;&lt;retcode&gt;-1&lt;/retcode&gt;&lt;message&gt;用户名或密码不正确。&lt;/message&gt;&quot;</span>;</div>
+<div class="line">            }</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (bizcode == <span class="stringliteral">&quot;00201&quot;</span>) <span class="comment">// 查询余额业务。</span></div>
+<div class="line">        {</div>
+<div class="line">            <span class="keywordflow">if</span> (userinfo-&gt;login() == <span class="keyword">true</span>)</div>
+<div class="line">            {</div>
+<div class="line">                <span class="comment">// 把用户的余额从数据库或Redis中查询出来。</span></div>
+<div class="line">                replaymessage = <span class="stringliteral">&quot;&lt;bizcode&gt;00202&lt;/bizcode&gt;&lt;retcode&gt;0&lt;/retcode&gt;&lt;message&gt;5088.80&lt;/message&gt;&quot;</span>;</div>
+<div class="line">            }</div>
+<div class="line">            <span class="keywordflow">else</span></div>
+<div class="line">            {</div>
+<div class="line">                replaymessage = <span class="stringliteral">&quot;&lt;bizcode&gt;00202&lt;/bizcode&gt;&lt;retcode&gt;-1&lt;/retcode&gt;&lt;message&gt;用户未登录。&lt;/message&gt;&quot;</span>;</div>
+<div class="line">            }</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (bizcode == <span class="stringliteral">&quot;00901&quot;</span>) <span class="comment">// 注销业务。</span></div>
+<div class="line">        {</div>
+<div class="line">            <span class="keywordflow">if</span> (userinfo-&gt;login() == <span class="keyword">true</span>)</div>
+<div class="line">            {</div>
+<div class="line">                replaymessage = <span class="stringliteral">&quot;&lt;bizcode&gt;00902&lt;/bizcode&gt;&lt;retcode&gt;0&lt;/retcode&gt;&lt;message&gt;ok&lt;/message&gt;&quot;</span>;</div>
+<div class="line">                userinfo-&gt;setLogin(<span class="keyword">false</span>); <span class="comment">// 设置用户的登录状态为false。</span></div>
+<div class="line">            }</div>
+<div class="line">            <span class="keywordflow">else</span></div>
+<div class="line">            {</div>
+<div class="line">                replaymessage = <span class="stringliteral">&quot;&lt;bizcode&gt;00902&lt;/bizcode&gt;&lt;retcode&gt;-1&lt;/retcode&gt;&lt;message&gt;用户未登录。&lt;/message&gt;&quot;</span>;</div>
+<div class="line">            }</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (bizcode == <span class="stringliteral">&quot;00001&quot;</span>) <span class="comment">// 心跳。</span></div>
+<div class="line">        {</div>
+<div class="line">            <span class="keywordflow">if</span> (userinfo-&gt;login() == <span class="keyword">true</span>)</div>
+<div class="line">            {</div>
+<div class="line">                replaymessage = <span class="stringliteral">&quot;&lt;bizcode&gt;00002&lt;/bizcode&gt;&lt;retcode&gt;0&lt;/retcode&gt;&lt;message&gt;ok&lt;/message&gt;&quot;</span>;</div>
+<div class="line">            }</div>
+<div class="line">            <span class="keywordflow">else</span></div>
+<div class="line">            {</div>
+<div class="line">                replaymessage = <span class="stringliteral">&quot;&lt;bizcode&gt;00002&lt;/bizcode&gt;&lt;retcode&gt;-1&lt;/retcode&gt;&lt;message&gt;用户未登录。&lt;/message&gt;&quot;</span>;</div>
+<div class="line">            }</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        conn-&gt;send(replaymessage.data(), replaymessage.size()); <span class="comment">// 把数据发送出去。</span></div>
+<div class="line">    }</div>
+<div class="line"><span class="preprocessor">#endif </span><span class="comment">// __unix__</span></div>
+<div class="line"> </div>
+<div class="line">} <span class="comment">// namespace ol</span></div>
+<div class="ttc" id="aclassol_1_1_time_stamp_html_ac027c6ee637670e40e2028706a1b7a9f"><div class="ttname"><a href="classol_1_1_time_stamp.html#ac027c6ee637670e40e2028706a1b7a9f">ol::TimeStamp::now</a></div><div class="ttdeci">static TimeStamp now()</div><div class="ttdef"><b>定义</b> ol_TimeStamp.cpp:18</div></div>
+<div class="ttc" id="anamespaceol_html"><div class="ttname"><a href="namespaceol.html">ol</a></div><div class="ttdef"><b>定义</b> ol_sort_base.h:20</div></div>
+<div class="ttc" id="anamespaceol_html_a6e00aa77d20c4ae67811e493a35e6611"><div class="ttname"><a href="namespaceol.html#a6e00aa77d20c4ae67811e493a35e6611">ol::getByXml</a></div><div class="ttdeci">bool getByXml(const std::string &amp;xmlStr, const std::string &amp;tag, std::string &amp;value, const size_t len=0)</div><div class="ttdoc">解析XML格式字符串，提取指定标签的内容并转换为目标类型</div><div class="ttdef"><b>定义</b> ol_string.cpp:472</div></div>
+</div><!-- fragment --> </div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

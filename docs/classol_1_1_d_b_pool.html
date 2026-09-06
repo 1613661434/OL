@@ -1,0 +1,967 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ol::DBPool&lt; T &gt; 模板类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('classol_1_1_d_b_pool.html','','classol_1_1_d_b_pool-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ol::DBPool&lt; T &gt; 模板类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>模板数据库连接池（全局单例模式）  
+ <a href="#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ol__database_8h_source.html">ol_database.h</a>&gt;</code></p>
+<div class="dynheader">
+类 ol::DBPool&lt; T &gt; 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classol_1_1_d_b_pool.png" usemap="#ol_3A_3ADBPool_3C_20T_20_3E_map" alt=""/>
+  <map id="ol_3A_3ADBPool_3C_20T_20_3E_map" name="ol_3A_3ADBPool_3C_20T_20_3E_map">
+<area href="classol_1_1_type_singleton.html" alt="ol::TypeSingleton&lt; DBPool&lt; T &gt; &gt;" shape="rect" coords="107,112,312,136"/>
+<area href="classol_1_1_type_non_copyable_movable.html" title="不可拷贝且不可移动标记类（TypeNonCopyable + TypeNonMovable的组合）" alt="ol::TypeNonCopyableMovable" shape="rect" coords="107,56,312,80"/>
+<area href="classol_1_1_type_non_copyable.html" title="不可拷贝标记类，继承此类的派生类将禁用拷贝构造和拷贝赋值" alt="ol::TypeNonCopyable" shape="rect" coords="0,0,205,24"/>
+<area href="classol_1_1_type_non_movable.html" title="不可移动标记类，继承此类的派生类将禁用移动构造和移动赋值" alt="ol::TypeNonMovable" shape="rect" coords="215,0,420,24"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:ConnectionLease" id="r_ConnectionLease"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_d_b_pool_1_1_connection_lease.html">ConnectionLease</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">独占连接租约，离开作用域时自动将连接归还连接池  <a href="classol_1_1_d_b_pool_1_1_connection_lease.html#details">更多...</a><br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:ad758807f39bf79f34856580312fee71b" id="r_ad758807f39bf79f34856580312fee71b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad758807f39bf79f34856580312fee71b">ConnConfigCallback</a> = std::function&lt;void(T&amp; conn)&gt;</td></tr>
+<tr class="memitem:aaf967dc3bef792741b6dcbb6f0f4d062" id="r_aaf967dc3bef792741b6dcbb6f0f4d062"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf967dc3bef792741b6dcbb6f0f4d062">TimeoutMs</a> = std::chrono::milliseconds</td></tr>
+<tr class="memitem:a2996563882f3a7d06e62f155eaf698aa" id="r_a2996563882f3a7d06e62f155eaf698aa"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2996563882f3a7d06e62f155eaf698aa">ConnPtr</a> = <a class="el" href="classol_1_1_d_b_pool_1_1_connection_lease.html">ConnectionLease</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a40d60a3f126d34709a7244f0a521af76" id="r_a40d60a3f126d34709a7244f0a521af76"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a40d60a3f126d34709a7244f0a521af76">init</a> (size_t max_conn, <a class="el" href="#ad758807f39bf79f34856580312fee71b">ConnConfigCallback</a> config_cb)</td></tr>
+<tr class="memdesc:a40d60a3f126d34709a7244f0a521af76"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化单例连接池（全局仅需调用1次）  <br /></td></tr>
+<tr class="memitem:a3442f0e931eaaf287e3853ce4faf825c" id="r_a3442f0e931eaaf287e3853ce4faf825c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a2996563882f3a7d06e62f155eaf698aa">ConnPtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3442f0e931eaaf287e3853ce4faf825c">get</a> ()</td></tr>
+<tr class="memdesc:a3442f0e931eaaf287e3853ce4faf825c"><td class="mdescLeft">&#160;</td><td class="mdescRight">阻塞获取连接（无限等待，直到获取到可用连接）  <br /></td></tr>
+<tr class="memitem:ad455cbb0444ec0ab7e99a4dbcf9a259d" id="r_ad455cbb0444ec0ab7e99a4dbcf9a259d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a2996563882f3a7d06e62f155eaf698aa">ConnPtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad455cbb0444ec0ab7e99a4dbcf9a259d">getTimeout</a> (<a class="el" href="#aaf967dc3bef792741b6dcbb6f0f4d062">TimeoutMs</a> timeout_ms=<a class="el" href="#aaf967dc3bef792741b6dcbb6f0f4d062">TimeoutMs</a>(3000))</td></tr>
+<tr class="memdesc:ad455cbb0444ec0ab7e99a4dbcf9a259d"><td class="mdescLeft">&#160;</td><td class="mdescRight">超时获取连接（带默认超时时间）  <br /></td></tr>
+<tr class="memitem:a804ee3e96b1164832804e8c2b96516dd" id="r_a804ee3e96b1164832804e8c2b96516dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a804ee3e96b1164832804e8c2b96516dd">release</a> (<a class="el" href="#a2996563882f3a7d06e62f155eaf698aa">ConnPtr</a> &amp;conn) noexcept</td></tr>
+<tr class="memdesc:a804ee3e96b1164832804e8c2b96516dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">提前释放连接租约（通常无需调用，租约析构时会自动归还）  <br /></td></tr>
+<tr class="memitem:a1307e1a6d4abe14a6720f125a99a0958" id="r_a1307e1a6d4abe14a6720f125a99a0958"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1307e1a6d4abe14a6720f125a99a0958">destroy</a> () noexcept</td></tr>
+<tr class="memdesc:a1307e1a6d4abe14a6720f125a99a0958"><td class="mdescLeft">&#160;</td><td class="mdescRight">销毁连接池，关闭所有数据库连接  <br /></td></tr>
+<tr class="memitem:ad7c22f4fbe8e62a56506fb6d12be9263" id="r_ad7c22f4fbe8e62a56506fb6d12be9263"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad7c22f4fbe8e62a56506fb6d12be9263">idle</a> () const</td></tr>
+<tr class="memdesc:ad7c22f4fbe8e62a56506fb6d12be9263"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前空闲连接数量  <br /></td></tr>
+<tr class="memitem:aac9426d6222e523cebd6d0207d9c7020" id="r_aac9426d6222e523cebd6d0207d9c7020"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aac9426d6222e523cebd6d0207d9c7020">maxConn</a> () const</td></tr>
+<tr class="memdesc:aac9426d6222e523cebd6d0207d9c7020"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取连接池最大连接数  <br /></td></tr>
+<tr class="memitem:a77885e408975facd566bc225727fecaf" id="r_a77885e408975facd566bc225727fecaf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a77885e408975facd566bc225727fecaf">isRunning</a> () const</td></tr>
+<tr class="memdesc:a77885e408975facd566bc225727fecaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查连接池是否仍接受连接获取和归还  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-types" class="groupheader"><a id="pri-types" name="pri-types"></a>
+Private 类型</h2></td></tr>
+<tr class="memitem:a914e4a58eb014a3cd9695f56dceafce5" id="r_a914e4a58eb014a3cd9695f56dceafce5"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a914e4a58eb014a3cd9695f56dceafce5">State</a> : char { <a class="el" href="#a914e4a58eb014a3cd9695f56dceafce5af704f57ea420275ad51bf55b7dec2c96">Uninitialized</a>
+, <a class="el" href="#a914e4a58eb014a3cd9695f56dceafce5a32b169f72b293ef80d35435e9894f8e2">Initializing</a>
+, <a class="el" href="#a914e4a58eb014a3cd9695f56dceafce5a5bda814c4aedb126839228f1a3d92f09">Running</a>
+, <a class="el" href="#a914e4a58eb014a3cd9695f56dceafce5ac23e2b09ebe6bf4cb5e2a9abe85c0be2">Stopped</a>
+ }</td></tr>
+<tr class="memitem:a21bca58f5bdf051c1b1a5604885461c2" id="r_a21bca58f5bdf051c1b1a5604885461c2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a21bca58f5bdf051c1b1a5604885461c2">StoragePtr</a> = std::unique_ptr&lt;T&gt;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:aa012cc8470024c5f27701ab693db2f61" id="r_aa012cc8470024c5f27701ab693db2f61"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa012cc8470024c5f27701ab693db2f61">DBPool</a> ()=default</td></tr>
+<tr class="memitem:ad640043fd4323d4ec5bc8c002a0b9a33" id="r_ad640043fd4323d4ec5bc8c002a0b9a33"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad640043fd4323d4ec5bc8c002a0b9a33">~DBPool</a> ()</td></tr>
+<tr class="memitem:a47ec54e2e13bd4849e1e58d8de59273c" id="r_a47ec54e2e13bd4849e1e58d8de59273c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a47ec54e2e13bd4849e1e58d8de59273c">returnConnection</a> (<a class="el" href="#a21bca58f5bdf051c1b1a5604885461c2">StoragePtr</a> conn) noexcept</td></tr>
+<tr class="memitem:a2c29fae4f45d7acf7c75710e782eec86" id="r_a2c29fae4f45d7acf7c75710e782eec86"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a2996563882f3a7d06e62f155eaf698aa">ConnPtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2c29fae4f45d7acf7c75710e782eec86">prepareLease</a> (<a class="el" href="#a21bca58f5bdf051c1b1a5604885461c2">StoragePtr</a> conn, const <a class="el" href="#ad758807f39bf79f34856580312fee71b">ConnConfigCallback</a> &amp;config_cb)</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-static-methods" class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
+静态 Private 成员函数</h2></td></tr>
+<tr class="memitem:a97fc1230333f5141240cc277d9130790" id="r_a97fc1230333f5141240cc277d9130790"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97fc1230333f5141240cc277d9130790">disconnectNoexcept</a> (<a class="el" href="#a21bca58f5bdf051c1b1a5604885461c2">StoragePtr</a> &amp;conn) noexcept</td></tr>
+<tr class="memitem:aec994d3c4ca9a20324b7ace0fd061389" id="r_aec994d3c4ca9a20324b7ace0fd061389"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aec994d3c4ca9a20324b7ace0fd061389">disconnectAll</a> (std::queue&lt; <a class="el" href="#a21bca58f5bdf051c1b1a5604885461c2">StoragePtr</a> &gt; &amp;connections) noexcept</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:ae97327b5002c9ad27ad03f6c94429e60" id="r_ae97327b5002c9ad27ad03f6c94429e60"><td class="memItemLeft" align="right" valign="top">std::queue&lt; <a class="el" href="#a21bca58f5bdf051c1b1a5604885461c2">StoragePtr</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae97327b5002c9ad27ad03f6c94429e60">m_queue</a></td></tr>
+<tr class="memdesc:ae97327b5002c9ad27ad03f6c94429e60"><td class="mdescLeft">&#160;</td><td class="mdescRight">空闲连接队列  <br /></td></tr>
+<tr class="memitem:aa962f046d3a579876053e03c8aabb580" id="r_aa962f046d3a579876053e03c8aabb580"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa962f046d3a579876053e03c8aabb580">m_mtx</a></td></tr>
+<tr class="memdesc:aa962f046d3a579876053e03c8aabb580"><td class="mdescLeft">&#160;</td><td class="mdescRight">互斥锁  <br /></td></tr>
+<tr class="memitem:afa3d6f4754cd9beccaf37b7f73083868" id="r_afa3d6f4754cd9beccaf37b7f73083868"><td class="memItemLeft" align="right" valign="top">std::condition_variable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa3d6f4754cd9beccaf37b7f73083868">m_cv</a></td></tr>
+<tr class="memdesc:afa3d6f4754cd9beccaf37b7f73083868"><td class="mdescLeft">&#160;</td><td class="mdescRight">条件变量：实现空闲连接阻塞等待  <br /></td></tr>
+<tr class="memitem:aafcc322af4e2750cb56087eaa9d1c263" id="r_aafcc322af4e2750cb56087eaa9d1c263"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aafcc322af4e2750cb56087eaa9d1c263">m_max_conn</a> {0}</td></tr>
+<tr class="memdesc:aafcc322af4e2750cb56087eaa9d1c263"><td class="mdescLeft">&#160;</td><td class="mdescRight">最大连接数  <br /></td></tr>
+<tr class="memitem:a3f173267130694702771b1cfadcdfc44" id="r_a3f173267130694702771b1cfadcdfc44"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ad758807f39bf79f34856580312fee71b">ConnConfigCallback</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f173267130694702771b1cfadcdfc44">m_config_cb</a></td></tr>
+<tr class="memdesc:a3f173267130694702771b1cfadcdfc44"><td class="mdescLeft">&#160;</td><td class="mdescRight">连接初始化配置回调  <br /></td></tr>
+<tr class="memitem:a43f886aefd2fbfcf04ab6bd9b8981bfa" id="r_a43f886aefd2fbfcf04ab6bd9b8981bfa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a914e4a58eb014a3cd9695f56dceafce5">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a43f886aefd2fbfcf04ab6bd9b8981bfa">m_state</a> {<a class="el" href="#a914e4a58eb014a3cd9695f56dceafce5af704f57ea420275ad51bf55b7dec2c96">State::Uninitialized</a>}</td></tr>
+<tr class="memdesc:a43f886aefd2fbfcf04ab6bd9b8981bfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">连接池状态（由m_mtx保护）  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-friends" class="groupheader"><a id="friends" name="friends"></a>
+友元</h2></td></tr>
+<tr class="memitem:a97818eb56ea044ba4e8269fdde66d44a" id="r_a97818eb56ea044ba4e8269fdde66d44a"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97818eb56ea044ba4e8269fdde66d44a">TypeSingleton&lt; DBPool&lt; T &gt; &gt;</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-inherited" class="groupheader"><a id="inherited" name="inherited"></a>
+额外继承的成员函数</h2></td></tr>
+<tr class="inherit_header pub_static_methods_classol_1_1_type_singleton"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_static_methods_classol_1_1_type_singleton')"><span class="dynarrow"><span class="arrowhead closed"></span></span>静态 Public 成员函数 继承自 <a class="el" href="classol_1_1_type_singleton.html">ol::TypeSingleton&lt; DBPool&lt; T &gt; &gt;</a></td></tr>
+<tr class="memitem:a5e2d1fea3649b75a70f1486ddfecd155 inherit pub_static_methods_classol_1_1_type_singleton" id="r_a5e2d1fea3649b75a70f1486ddfecd155"><td class="memItemLeft" align="right" valign="top">static T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_singleton.html#a5e2d1fea3649b75a70f1486ddfecd155">GetInst</a> ()</td></tr>
+<tr class="inherit_header pro_methods_classol_1_1_type_singleton"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_classol_1_1_type_singleton')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected 成员函数 继承自 <a class="el" href="classol_1_1_type_singleton.html">ol::TypeSingleton&lt; DBPool&lt; T &gt; &gt;</a></td></tr>
+<tr class="memitem:abe9a02cd5a4586aed581f3780215e8b6 inherit pro_methods_classol_1_1_type_singleton" id="r_abe9a02cd5a4586aed581f3780215e8b6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_singleton.html#abe9a02cd5a4586aed581f3780215e8b6">TypeSingleton</a> ()=default</td></tr>
+<tr class="memitem:aa69fb55670ee9d8e58ff4b76986b91e3 inherit pro_methods_classol_1_1_type_singleton" id="r_aa69fb55670ee9d8e58ff4b76986b91e3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_singleton.html#aa69fb55670ee9d8e58ff4b76986b91e3">~TypeSingleton</a> ()=default</td></tr>
+<tr class="inherit_header pro_methods_classol_1_1_type_non_copyable_movable"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_classol_1_1_type_non_copyable_movable')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected 成员函数 继承自 <a class="el" href="classol_1_1_type_non_copyable_movable.html">ol::TypeNonCopyableMovable</a></td></tr>
+<tr class="memitem:af7afd8c553bf4e8b02ac1288239cfa96 inherit pro_methods_classol_1_1_type_non_copyable_movable" id="r_af7afd8c553bf4e8b02ac1288239cfa96"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_copyable_movable.html#af7afd8c553bf4e8b02ac1288239cfa96">TypeNonCopyableMovable</a> ()=default</td></tr>
+<tr class="memitem:ad700983e1cdf7d82d16d5e5f86912a12 inherit pro_methods_classol_1_1_type_non_copyable_movable" id="r_ad700983e1cdf7d82d16d5e5f86912a12"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_copyable_movable.html#ad700983e1cdf7d82d16d5e5f86912a12">~TypeNonCopyableMovable</a> ()=default</td></tr>
+<tr class="inherit_header pro_methods_classol_1_1_type_non_copyable"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_classol_1_1_type_non_copyable')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected 成员函数 继承自 <a class="el" href="classol_1_1_type_non_copyable.html">ol::TypeNonCopyable</a></td></tr>
+<tr class="memitem:aad5c17513b3255032f3907896107642a inherit pro_methods_classol_1_1_type_non_copyable" id="r_aad5c17513b3255032f3907896107642a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_copyable.html#aad5c17513b3255032f3907896107642a">TypeNonCopyable</a> ()=default</td></tr>
+<tr class="memitem:a391e86224526622427666585822d724a inherit pro_methods_classol_1_1_type_non_copyable" id="r_a391e86224526622427666585822d724a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_copyable.html#a391e86224526622427666585822d724a">~TypeNonCopyable</a> ()=default</td></tr>
+<tr class="inherit_header pro_methods_classol_1_1_type_non_movable"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_classol_1_1_type_non_movable')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected 成员函数 继承自 <a class="el" href="classol_1_1_type_non_movable.html">ol::TypeNonMovable</a></td></tr>
+<tr class="memitem:a935a5fca01f78b7747bc2399c76666ea inherit pro_methods_classol_1_1_type_non_movable" id="r_a935a5fca01f78b7747bc2399c76666ea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_movable.html#a935a5fca01f78b7747bc2399c76666ea">TypeNonMovable</a> ()=default</td></tr>
+<tr class="memitem:a00ff9a5d4fde1ba3772b5daebfa0409f inherit pro_methods_classol_1_1_type_non_movable" id="r_a00ff9a5d4fde1ba3772b5daebfa0409f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_movable.html#a00ff9a5d4fde1ba3772b5daebfa0409f">~TypeNonMovable</a> ()=default</td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">详细描述</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
+class ol::DBPool&lt; T &gt;</div><p>模板数据库连接池（全局单例模式） </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>数据库连接类型，必须继承自IDBConn </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>线程安全设计，支持多线程并发获取/释放连接 </dd>
+<dd>
+继承单例基类，每种数据库类型对应唯一全局单例 </dd>
+<dd>
+禁止外部构造/拷贝/移动，保证单例唯一性 </dd></dl>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol_database_pool_8cpp-example.html#_a5">test_ol_database_pool.cpp</a>.</dd>
+</dl>
+</div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">成员类型定义说明</h2>
+<a id="ad758807f39bf79f34856580312fee71b" name="ad758807f39bf79f34856580312fee71b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad758807f39bf79f34856580312fee71b">&#9670;&#160;</a></span>ConnConfigCallback</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::ConnConfigCallback = std::function&lt;void(T&amp; conn)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2996563882f3a7d06e62f155eaf698aa" name="a2996563882f3a7d06e62f155eaf698aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2996563882f3a7d06e62f155eaf698aa">&#9670;&#160;</a></span>ConnPtr</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::ConnPtr = <a class="el" href="classol_1_1_d_b_pool_1_1_connection_lease.html">ConnectionLease</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a21bca58f5bdf051c1b1a5604885461c2" name="a21bca58f5bdf051c1b1a5604885461c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21bca58f5bdf051c1b1a5604885461c2">&#9670;&#160;</a></span>StoragePtr</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::StoragePtr = std::unique_ptr&lt;T&gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaf967dc3bef792741b6dcbb6f0f4d062" name="aaf967dc3bef792741b6dcbb6f0f4d062"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf967dc3bef792741b6dcbb6f0f4d062">&#9670;&#160;</a></span>TimeoutMs</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::TimeoutMs = std::chrono::milliseconds</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">成员枚举类型说明</h2>
+<a id="a914e4a58eb014a3cd9695f56dceafce5" name="a914e4a58eb014a3cd9695f56dceafce5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a914e4a58eb014a3cd9695f56dceafce5">&#9670;&#160;</a></span>State</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a914e4a58eb014a3cd9695f56dceafce5">ol::DBPool::State</a> : char</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a914e4a58eb014a3cd9695f56dceafce5af704f57ea420275ad51bf55b7dec2c96" name="a914e4a58eb014a3cd9695f56dceafce5af704f57ea420275ad51bf55b7dec2c96"></a>Uninitialized&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a914e4a58eb014a3cd9695f56dceafce5a32b169f72b293ef80d35435e9894f8e2" name="a914e4a58eb014a3cd9695f56dceafce5a32b169f72b293ef80d35435e9894f8e2"></a>Initializing&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a914e4a58eb014a3cd9695f56dceafce5a5bda814c4aedb126839228f1a3d92f09" name="a914e4a58eb014a3cd9695f56dceafce5a5bda814c4aedb126839228f1a3d92f09"></a>Running&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a914e4a58eb014a3cd9695f56dceafce5ac23e2b09ebe6bf4cb5e2a9abe85c0be2" name="a914e4a58eb014a3cd9695f56dceafce5ac23e2b09ebe6bf4cb5e2a9abe85c0be2"></a>Stopped&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
+<a id="aa012cc8470024c5f27701ab693db2f61" name="aa012cc8470024c5f27701ab693db2f61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa012cc8470024c5f27701ab693db2f61">&#9670;&#160;</a></span>DBPool()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::DBPool </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad640043fd4323d4ec5bc8c002a0b9a33" name="ad640043fd4323d4ec5bc8c002a0b9a33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad640043fd4323d4ec5bc8c002a0b9a33">&#9670;&#160;</a></span>~DBPool()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::~<a class="el" href="classol_1_1_d_b_pool.html">DBPool</a> </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">成员函数说明</h2>
+<a id="a1307e1a6d4abe14a6720f125a99a0958" name="a1307e1a6d4abe14a6720f125a99a0958"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1307e1a6d4abe14a6720f125a99a0958">&#9670;&#160;</a></span>destroy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::destroy </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>销毁连接池，关闭所有数据库连接 </p>
+<dl class="section note"><dt>注解</dt><dd>唤醒所有等待线程，避免销毁时阻塞卡死 </dd></dl>
+
+</div>
+</div>
+<a id="aec994d3c4ca9a20324b7ace0fd061389" name="aec994d3c4ca9a20324b7ace0fd061389"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec994d3c4ca9a20324b7ace0fd061389">&#9670;&#160;</a></span>disconnectAll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::disconnectAll </td>
+          <td>(</td>
+          <td class="paramtype">std::queue&lt; <a class="el" href="#a21bca58f5bdf051c1b1a5604885461c2">StoragePtr</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>connections</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel private">private</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a97fc1230333f5141240cc277d9130790" name="a97fc1230333f5141240cc277d9130790"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97fc1230333f5141240cc277d9130790">&#9670;&#160;</a></span>disconnectNoexcept()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::disconnectNoexcept </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a21bca58f5bdf051c1b1a5604885461c2">StoragePtr</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>conn</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel private">private</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3442f0e931eaaf287e3853ce4faf825c" name="a3442f0e931eaaf287e3853ce4faf825c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3442f0e931eaaf287e3853ce4faf825c">&#9670;&#160;</a></span>get()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a2996563882f3a7d06e62f155eaf698aa">ConnPtr</a> <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::get </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>阻塞获取连接（无限等待，直到获取到可用连接） </p>
+<dl class="section return"><dt>返回</dt><dd>成功返回连接租约；连接池已停止时返回空租约 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>无空闲连接时线程阻塞，获取后自动检查连接有效性 </dd>
+<dd>
+必须先调用init()初始化连接池 </dd></dl>
+
+</div>
+</div>
+<a id="ad455cbb0444ec0ab7e99a4dbcf9a259d" name="ad455cbb0444ec0ab7e99a4dbcf9a259d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad455cbb0444ec0ab7e99a4dbcf9a259d">&#9670;&#160;</a></span>getTimeout()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a2996563882f3a7d06e62f155eaf698aa">ConnPtr</a> <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::getTimeout </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#aaf967dc3bef792741b6dcbb6f0f4d062">TimeoutMs</a></td>          <td class="paramname"><span class="paramname"><em>timeout_ms</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="#aaf967dc3bef792741b6dcbb6f0f4d062">TimeoutMs</a>(3000)</span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>超时获取连接（带默认超时时间） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">timeout_ms</td><td>超时时间，默认3秒 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>成功返回连接租约；超时或连接池已停止时返回空租约 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>超时时间可自定义，避免线程无限阻塞 </dd>
+<dd>
+必须先调用init()初始化连接池 </dd></dl>
+
+</div>
+</div>
+<a id="ad7c22f4fbe8e62a56506fb6d12be9263" name="ad7c22f4fbe8e62a56506fb6d12be9263"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7c22f4fbe8e62a56506fb6d12be9263">&#9670;&#160;</a></span>idle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::idle </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前空闲连接数量 </p>
+<dl class="section return"><dt>返回</dt><dd>空闲连接数 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>线程安全，通过互斥锁保护队列访问 </dd></dl>
+
+</div>
+</div>
+<a id="a40d60a3f126d34709a7244f0a521af76" name="a40d60a3f126d34709a7244f0a521af76"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40d60a3f126d34709a7244f0a521af76">&#9670;&#160;</a></span>init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::init </td>
+          <td>(</td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>max_conn</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#ad758807f39bf79f34856580312fee71b">ConnConfigCallback</a></td>          <td class="paramname"><span class="paramname"><em>config_cb</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>初始化单例连接池（全局仅需调用1次） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">max_conn</td><td>最大连接数（必须大于0） </td></tr>
+    <tr><td class="paramname">config_cb</td><td>连接配置回调（设置地址、账号、密码、字符集等参数） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::invalid_argument</td><td>回调为空或最大连接数为0时抛出 </td></tr>
+    <tr><td class="paramname">std::runtime_error</td><td>连接初始化失败时抛出 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a77885e408975facd566bc225727fecaf" name="a77885e408975facd566bc225727fecaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77885e408975facd566bc225727fecaf">&#9670;&#160;</a></span>isRunning()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::isRunning </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>检查连接池是否仍接受连接获取和归还 </p>
+
+</div>
+</div>
+<a id="aac9426d6222e523cebd6d0207d9c7020" name="aac9426d6222e523cebd6d0207d9c7020"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac9426d6222e523cebd6d0207d9c7020">&#9670;&#160;</a></span>maxConn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::maxConn </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取连接池最大连接数 </p>
+<dl class="section return"><dt>返回</dt><dd>最大连接数量 </dd></dl>
+
+</div>
+</div>
+<a id="a2c29fae4f45d7acf7c75710e782eec86" name="a2c29fae4f45d7acf7c75710e782eec86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c29fae4f45d7acf7c75710e782eec86">&#9670;&#160;</a></span>prepareLease()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a2996563882f3a7d06e62f155eaf698aa">ConnPtr</a> <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::prepareLease </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a21bca58f5bdf051c1b1a5604885461c2">StoragePtr</a></td>          <td class="paramname"><span class="paramname"><em>conn</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="#ad758807f39bf79f34856580312fee71b">ConnConfigCallback</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config_cb</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a804ee3e96b1164832804e8c2b96516dd" name="a804ee3e96b1164832804e8c2b96516dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a804ee3e96b1164832804e8c2b96516dd">&#9670;&#160;</a></span>release()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::release </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a2996563882f3a7d06e62f155eaf698aa">ConnPtr</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>conn</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>提前释放连接租约（通常无需调用，租约析构时会自动归还） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">conn</td><td>由当前连接池获取的连接租约 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>重复调用安全；外部连接无法构造成ConnectionLease </dd></dl>
+
+</div>
+</div>
+<a id="a47ec54e2e13bd4849e1e58d8de59273c" name="a47ec54e2e13bd4849e1e58d8de59273c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47ec54e2e13bd4849e1e58d8de59273c">&#9670;&#160;</a></span>returnConnection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::returnConnection </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a21bca58f5bdf051c1b1a5604885461c2">StoragePtr</a></td>          <td class="paramname"><span class="paramname"><em>conn</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-related-members" id="doc-related-members"></a><h2 id="header-doc-related-members" class="groupheader">友元及相关符号说明</h2>
+<a id="a97818eb56ea044ba4e8269fdde66d44a" name="a97818eb56ea044ba4e8269fdde66d44a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97818eb56ea044ba4e8269fdde66d44a">&#9670;&#160;</a></span>TypeSingleton&lt; DBPool&lt; T &gt; &gt;</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="classol_1_1_type_singleton.html">TypeSingleton</a>&lt; <a class="el" href="classol_1_1_d_b_pool.html">DBPool</a>&lt; T &gt; &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">类成员变量说明</h2>
+<a id="a3f173267130694702771b1cfadcdfc44" name="a3f173267130694702771b1cfadcdfc44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f173267130694702771b1cfadcdfc44">&#9670;&#160;</a></span>m_config_cb</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ad758807f39bf79f34856580312fee71b">ConnConfigCallback</a> <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::m_config_cb</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>连接初始化配置回调 </p>
+
+</div>
+</div>
+<a id="afa3d6f4754cd9beccaf37b7f73083868" name="afa3d6f4754cd9beccaf37b7f73083868"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa3d6f4754cd9beccaf37b7f73083868">&#9670;&#160;</a></span>m_cv</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::condition_variable <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::m_cv</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>条件变量：实现空闲连接阻塞等待 </p>
+
+</div>
+</div>
+<a id="aafcc322af4e2750cb56087eaa9d1c263" name="aafcc322af4e2750cb56087eaa9d1c263"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafcc322af4e2750cb56087eaa9d1c263">&#9670;&#160;</a></span>m_max_conn</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::m_max_conn {0}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>最大连接数 </p>
+
+</div>
+</div>
+<a id="aa962f046d3a579876053e03c8aabb580" name="aa962f046d3a579876053e03c8aabb580"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa962f046d3a579876053e03c8aabb580">&#9670;&#160;</a></span>m_mtx</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::m_mtx</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel mutable">mutable</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>互斥锁 </p>
+
+</div>
+</div>
+<a id="ae97327b5002c9ad27ad03f6c94429e60" name="ae97327b5002c9ad27ad03f6c94429e60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae97327b5002c9ad27ad03f6c94429e60">&#9670;&#160;</a></span>m_queue</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::queue&lt;<a class="el" href="#a21bca58f5bdf051c1b1a5604885461c2">StoragePtr</a>&gt; <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::m_queue</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>空闲连接队列 </p>
+
+</div>
+</div>
+<a id="a43f886aefd2fbfcf04ab6bd9b8981bfa" name="a43f886aefd2fbfcf04ab6bd9b8981bfa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43f886aefd2fbfcf04ab6bd9b8981bfa">&#9670;&#160;</a></span>m_state</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a914e4a58eb014a3cd9695f56dceafce5">State</a> <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::m_state {<a class="el" href="#a914e4a58eb014a3cd9695f56dceafce5af704f57ea420275ad51bf55b7dec2c96">State::Uninitialized</a>}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>连接池状态（由m_mtx保护） </p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>ol_database/include/<a class="el" href="ol__database_8h_source.html">ol_database.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="namespaceol.html">ol</a></li><li class="navelem"><a href="classol_1_1_d_b_pool.html">DBPool</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

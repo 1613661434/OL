@@ -39,6 +39,3 @@ tmp/
 
 # AI
 .agents/
-
-# Doxygen_config
-OL_Doxygen

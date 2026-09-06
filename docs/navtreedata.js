@@ -30,7 +30,8 @@ var NAVTREE =
       [ "命名空间成员", "namespacemembers.html", [
         [ "全部", "namespacemembers.html", null ],
         [ "函数", "namespacemembers_func.html", null ],
-        [ "变量", "namespacemembers_vars.html", null ]
+        [ "变量", "namespacemembers_vars.html", null ],
+        [ "类型定义", "namespacemembers_type.html", null ]
       ] ]
     ] ],
     [ "类", "annotated.html", [
@@ -43,7 +44,6 @@ var NAVTREE =
         [ "变量", "functions_vars.html", null ],
         [ "类型定义", "functions_type.html", null ],
         [ "枚举", "functions_enum.html", null ],
-        [ "枚举值", "functions_eval.html", null ],
         [ "相关符号", "functions_rela.html", null ]
       ] ]
     ] ],
@@ -64,10 +64,13 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"classol_1_1_union_find.html",
-"classol_1_1mysql_1_1_d_b_stmt.html#a5350071ae497a79b4f680491bd8a1b2b",
-"ftplib_8h.html#a1d8c232bd1e241a834e22736386f3a99",
-"ol___channel_8cpp.html"
+"classol_1_1_media_playlist.html#ad123498b0bda4c69d78bf96f680b623a",
+"classol_1_1_trie_set.html#a4da0768f54028952c5f9eb530c5f0d64",
+"classol_1_1mysql_1_1_d_b_conn.html",
+"classol_1_1oracle_1_1_d_b_conn.html#aeb4b12ef13172dc12cf9a984622bf332",
+"ftplib_8h.html#a7ae36664bd8f842194b0307e64503b0a",
+"ol___channel_8cpp.html",
+"test_ol_fstream_renamefile_a_n_dcopyfile_a_n_dsetmtime_a_n_dfiletime_8cpp-example.html"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';

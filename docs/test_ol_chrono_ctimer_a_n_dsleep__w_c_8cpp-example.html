@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: test_ol_chrono_ctimerANDsleep_WC.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('test_ol_chrono_ctimer_a_n_dsleep__w_c_8cpp-example.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">test_ol_chrono_ctimerANDsleep_WC.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment"> *  程序名：test_ol_chrono_ctimer&amp;sleep_%.cpp，此程序演示开发框架中的ctimer类（计时器）的用法。</span></div>
+<div class="line"><span class="comment"> *  作者：ol</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol__chrono_8h.html">ol_chrono.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespaceol.html">ol</a>;</div>
+<div class="line"><span class="keyword">using namespace </span>std;</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">    <a id="_a0" name="_a0"></a><a class="code hl_class" href="classol_1_1ctimer.html">ctimer</a> timer;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 首次调用elapsed()：获取从计时器初始化到现在的时间</span></div>
+<div class="line">    <span class="comment">// 预期：接近0秒（因为刚创建计时器，几乎无耗时）</span></div>
+<div class="line">    printf(<span class="stringliteral">&quot;elapsed=%lf\n&quot;</span>, timer.<a id="a1" name="a1"></a><a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>());</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 休眠1秒（1000毫秒）</span></div>
+<div class="line">    <a id="_a2" name="_a2"></a><a class="code hl_function" href="namespaceol.html#ac624dba15a65798fc097dc515022c249">sleep_sec</a>(1);</div>
+<div class="line">    <span class="comment">// 调用elapsed()：获取上一次elapsed()到现在的间隔（即sleep_sec(1)的实际耗时）</span></div>
+<div class="line">    <span class="comment">// 预期：略大于1秒（受系统调度影响，通常在1.000-1.010秒之间）</span></div>
+<div class="line">    printf(<span class="stringliteral">&quot;elapsed=%lf\n&quot;</span>, timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>());</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 再休眠1秒</span></div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#ac624dba15a65798fc097dc515022c249">sleep_sec</a>(1);</div>
+<div class="line">    <span class="comment">// 调用elapsed()：获取上一次elapsed()到现在的间隔（第二次sleep_sec(1)的实际耗时）</span></div>
+<div class="line">    <span class="comment">// 预期：略大于1秒</span></div>
+<div class="line">    printf(<span class="stringliteral">&quot;elapsed=%lf\n&quot;</span>, timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>());</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 休眠1000微秒（即1毫秒）</span></div>
+<div class="line">    <a id="_a3" name="_a3"></a><a class="code hl_function" href="namespaceol.html#a48224ad9e2c21e51b9e301c287cd3aa0">sleep_us</a>(1000);</div>
+<div class="line">    <span class="comment">// 调用elapsed()：获取上一次elapsed()到现在的间隔（sleep_us(1000)的实际耗时）</span></div>
+<div class="line">    <span class="comment">// 预期：略大于0.001秒（1毫秒），可能在0.001-0.010秒之间（微秒级休眠受系统精度限制）</span></div>
+<div class="line">    printf(<span class="stringliteral">&quot;elapsed=%lf\n&quot;</span>, timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>());</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 休眠100微秒</span></div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#a48224ad9e2c21e51b9e301c287cd3aa0">sleep_us</a>(100);</div>
+<div class="line">    <span class="comment">// 调用elapsed()：获取上一次elapsed()到现在的间隔（sleep_us(100)的实际耗时）</span></div>
+<div class="line">    <span class="comment">// 预期：略大于0.0001秒（100微秒），但可能因系统调度有较大误差（可能达到0.001秒级别）</span></div>
+<div class="line">    printf(<span class="stringliteral">&quot;elapsed=%lf\n&quot;</span>, timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>());</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 休眠10秒</span></div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#ac624dba15a65798fc097dc515022c249">sleep_sec</a>(10);</div>
+<div class="line">    <span class="comment">// 调用elapsed()：获取上一次elapsed()到现在的间隔（sleep_sec(10)的实际耗时）</span></div>
+<div class="line">    <span class="comment">// 预期：略大于10秒，通常在10.000-10.010秒之间</span></div>
+<div class="line">    printf(<span class="stringliteral">&quot;elapsed=%lf\n&quot;</span>, timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>());</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 使用通用模板（需要显式指定时间单位）</span></div>
+<div class="line">    <a id="_a4" name="_a4"></a><a class="code hl_function" href="namespaceol.html#a8ab0387cd3663518222d4fc4b0d5cc0b">sleep</a>(std::chrono::seconds(2));        <span class="comment">// 休眠2秒</span></div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#a8ab0387cd3663518222d4fc4b0d5cc0b">sleep</a>(std::chrono::milliseconds(100)); <span class="comment">// 休眠100毫秒</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 使用重载函数（直接传数值）</span></div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#ac624dba15a65798fc097dc515022c249">sleep_sec</a>(1);      <span class="comment">// 休眠1秒</span></div>
+<div class="line">    <a id="_a5" name="_a5"></a><a class="code hl_function" href="namespaceol.html#a82a6a51dbf9dc8c1ba527e70b1f8707c">sleep_ms</a>(250);     <span class="comment">// 休眠250毫秒</span></div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#a48224ad9e2c21e51b9e301c287cd3aa0">sleep_us</a>(500000);  <span class="comment">// 休眠500000微秒（0.5秒）</span></div>
+<div class="line">    <a id="_a6" name="_a6"></a><a class="code hl_function" href="namespaceol.html#aee164d17dc0777c945a2dd47bbd8443f">sleep_ns</a>(1000000); <span class="comment">// 休眠1000000纳秒（1毫秒）</span></div>
+<div class="line"> </div>
+<div class="line">    printf(<span class="stringliteral">&quot;elapsed=%lf\n&quot;</span>, timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>());</div>
+<div class="line">}</div>
+<div class="ttc" id="aclassol_1_1ctimer_html"><div class="ttname"><a href="classol_1_1ctimer.html">ol::ctimer</a></div><div class="ttdef"><b>定义</b> ol_chrono.h:166</div></div>
+<div class="ttc" id="aclassol_1_1ctimer_html_a140cfbde8901bea56747ad8c02f6cc49"><div class="ttname"><a href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">ol::ctimer::elapsed</a></div><div class="ttdeci">double elapsed()</div><div class="ttdoc">计算从上次start()到当前的逝去时间</div><div class="ttdef"><b>定义</b> ol_chrono.cpp:295</div></div>
+<div class="ttc" id="anamespaceol_html"><div class="ttname"><a href="namespaceol.html">ol</a></div><div class="ttdef"><b>定义</b> ol_sort_base.h:20</div></div>
+<div class="ttc" id="anamespaceol_html_a48224ad9e2c21e51b9e301c287cd3aa0"><div class="ttname"><a href="namespaceol.html#a48224ad9e2c21e51b9e301c287cd3aa0">ol::sleep_us</a></div><div class="ttdeci">void sleep_us(long long microseconds)</div><div class="ttdoc">微秒级休眠</div><div class="ttdef"><b>定义</b> ol_chrono.h:210</div></div>
+<div class="ttc" id="anamespaceol_html_a82a6a51dbf9dc8c1ba527e70b1f8707c"><div class="ttname"><a href="namespaceol.html#a82a6a51dbf9dc8c1ba527e70b1f8707c">ol::sleep_ms</a></div><div class="ttdeci">void sleep_ms(long long milliseconds)</div><div class="ttdoc">毫秒级休眠</div><div class="ttdef"><b>定义</b> ol_chrono.h:219</div></div>
+<div class="ttc" id="anamespaceol_html_a8ab0387cd3663518222d4fc4b0d5cc0b"><div class="ttname"><a href="namespaceol.html#a8ab0387cd3663518222d4fc4b0d5cc0b">ol::sleep</a></div><div class="ttdeci">void sleep(std::chrono::duration&lt; Rep, Period &gt; duration)</div><div class="ttdoc">通用休眠函数（支持任意时间单位）</div><div class="ttdef"><b>定义</b> ol_chrono.h:192</div></div>
+<div class="ttc" id="anamespaceol_html_ac624dba15a65798fc097dc515022c249"><div class="ttname"><a href="namespaceol.html#ac624dba15a65798fc097dc515022c249">ol::sleep_sec</a></div><div class="ttdeci">void sleep_sec(long long seconds)</div><div class="ttdoc">秒级休眠</div><div class="ttdef"><b>定义</b> ol_chrono.h:228</div></div>
+<div class="ttc" id="anamespaceol_html_aee164d17dc0777c945a2dd47bbd8443f"><div class="ttname"><a href="namespaceol.html#aee164d17dc0777c945a2dd47bbd8443f">ol::sleep_ns</a></div><div class="ttdeci">void sleep_ns(long long nanoseconds)</div><div class="ttdoc">纳秒级休眠</div><div class="ttdef"><b>定义</b> ol_chrono.h:201</div></div>
+<div class="ttc" id="aol__chrono_8h_html"><div class="ttname"><a href="ol__chrono_8h.html">ol_chrono.h</a></div></div>
+</div><!-- fragment --> </div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

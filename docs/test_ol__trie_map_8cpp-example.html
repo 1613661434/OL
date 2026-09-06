@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: test_ol_TrieMap.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('test_ol__trie_map_8cpp-example.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">test_ol_TrieMap.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol___trie_map_8h.html">ol_TrieMap.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespaceol.html">ol</a>;</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">    <a id="_a0" name="_a0"></a><a class="code hl_class" href="classol_1_1_trie_map.html">TrieMap&lt;std::string&gt;</a> trie;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 1. 插入键值对（包含默认值场景）</span></div>
+<div class="line">    trie.<a id="a1" name="a1"></a><a class="code hl_function" href="classol_1_1_trie_map.html#a0f101baa5235017cfabc34b810c30703">put</a>(<span class="stringliteral">&quot;apple&quot;</span>, <span class="stringliteral">&quot;A fruit&quot;</span>);</div>
+<div class="line">    trie.<a class="code hl_function" href="classol_1_1_trie_map.html#a0f101baa5235017cfabc34b810c30703">put</a>(<span class="stringliteral">&quot;app&quot;</span>, <span class="stringliteral">&quot;Short for application&quot;</span>);</div>
+<div class="line">    trie.<a class="code hl_function" href="classol_1_1_trie_map.html#a0f101baa5235017cfabc34b810c30703">put</a>(<span class="stringliteral">&quot;application&quot;</span>, <span class="stringliteral">&quot;A software program&quot;</span>);</div>
+<div class="line">    trie.<a class="code hl_function" href="classol_1_1_trie_map.html#a0f101baa5235017cfabc34b810c30703">put</a>(<span class="stringliteral">&quot;banana&quot;</span>, <span class="stringliteral">&quot;Another fruit&quot;</span>);</div>
+<div class="line">    trie.<a class="code hl_function" href="classol_1_1_trie_map.html#a0f101baa5235017cfabc34b810c30703">put</a>(<span class="stringliteral">&quot;grape&quot;</span>, <span class="stringliteral">&quot;&quot;</span>); <span class="comment">// 插入默认值（空字符串）</span></div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;=== 插入完成 ===&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 2. 测试 get 方法（std::optional 处理）</span></div>
+<div class="line">    <span class="keyword">auto</span> getApple = trie.<a id="a2" name="a2"></a><a class="code hl_function" href="classol_1_1_trie_map.html#af6c61399bd73581fcb1fb0f2ec29ae62">get</a>(<span class="stringliteral">&quot;apple&quot;</span>);</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Get &#39;apple&#39;: &quot;</span> &lt;&lt; (getApple.has_value() ? getApple.value() : <span class="stringliteral">&quot;null&quot;</span>) &lt;&lt; std::endl; <span class="comment">// A fruit</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="keyword">auto</span> getGrape = trie.<a class="code hl_function" href="classol_1_1_trie_map.html#af6c61399bd73581fcb1fb0f2ec29ae62">get</a>(<span class="stringliteral">&quot;grape&quot;</span>);</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Get &#39;grape&#39; (empty value): &quot;</span> &lt;&lt; (getGrape.has_value() ? getGrape.value() : <span class="stringliteral">&quot;null&quot;</span>) &lt;&lt; std::endl; <span class="comment">// 空字符串</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="keyword">auto</span> getOrange = trie.<a class="code hl_function" href="classol_1_1_trie_map.html#af6c61399bd73581fcb1fb0f2ec29ae62">get</a>(<span class="stringliteral">&quot;orange&quot;</span>);</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Get &#39;orange&#39; (not exists): &quot;</span> &lt;&lt; (getOrange.has_value() ? getOrange.value() : <span class="stringliteral">&quot;null&quot;</span>) &lt;&lt; std::endl; <span class="comment">// null</span></div>
+<div class="line">    std::cout &lt;&lt; std::endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 3. 测试 has 方法</span></div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Has &#39;apple&#39;? &quot;</span> &lt;&lt; (trie.<a id="a3" name="a3"></a><a class="code hl_function" href="classol_1_1_trie_map.html#a2606ba0b2de5414a56a68232eb546226">has</a>(<span class="stringliteral">&quot;apple&quot;</span>) ? <span class="stringliteral">&quot;Yes&quot;</span> : <span class="stringliteral">&quot;No&quot;</span>) &lt;&lt; std::endl;   <span class="comment">// Yes</span></div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Has &#39;grape&#39;? &quot;</span> &lt;&lt; (trie.<a class="code hl_function" href="classol_1_1_trie_map.html#a2606ba0b2de5414a56a68232eb546226">has</a>(<span class="stringliteral">&quot;grape&quot;</span>) ? <span class="stringliteral">&quot;Yes&quot;</span> : <span class="stringliteral">&quot;No&quot;</span>) &lt;&lt; std::endl;   <span class="comment">// Yes（即使值为空）</span></div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Has &#39;orange&#39;? &quot;</span> &lt;&lt; (trie.<a class="code hl_function" href="classol_1_1_trie_map.html#a2606ba0b2de5414a56a68232eb546226">has</a>(<span class="stringliteral">&quot;orange&quot;</span>) ? <span class="stringliteral">&quot;Yes&quot;</span> : <span class="stringliteral">&quot;No&quot;</span>) &lt;&lt; std::endl; <span class="comment">// No</span></div>
+<div class="line">    std::cout &lt;&lt; std::endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 4. 前缀匹配测试</span></div>
+<div class="line">    std::string prefix = <span class="stringliteral">&quot;app&quot;</span>;</div>
+<div class="line">    <span class="keyword">auto</span> appKeys = trie.<a id="a4" name="a4"></a><a class="code hl_function" href="classol_1_1_trie_map.html#ad63720a291ef162977c49b19b516dbd8">keysByPrefix</a>(prefix);</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Keys with prefix &#39;&quot;</span> &lt;&lt; prefix &lt;&lt; <span class="stringliteral">&quot;&#39;: &quot;</span>;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; key : appKeys) std::cout &lt;&lt; key &lt;&lt; <span class="stringliteral">&quot; &quot;</span>; <span class="comment">// app apple application</span></div>
+<div class="line">    std::cout &lt;&lt; std::endl</div>
+<div class="line">              &lt;&lt; std::endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 5. 最短/最长前缀测试</span></div>
+<div class="line">    std::string query = <span class="stringliteral">&quot;apparatus&quot;</span>;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Shortest prefix of &#39;&quot;</span> &lt;&lt; query &lt;&lt; <span class="stringliteral">&quot;&#39;: &quot;</span> &lt;&lt; trie.<a id="a5" name="a5"></a><a class="code hl_function" href="classol_1_1_trie_map.html#a9a0bcb10ff8de27a35e64f19b6f954ed">shortestPrefix</a>(query) &lt;&lt; std::endl; <span class="comment">// app</span></div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Longest prefix of &#39;&quot;</span> &lt;&lt; query &lt;&lt; <span class="stringliteral">&quot;&#39;: &quot;</span> &lt;&lt; trie.<a id="a6" name="a6"></a><a class="code hl_function" href="classol_1_1_trie_map.html#aa56dbbc4dc6e8fb601a4fd3b2b7f3f19">longestPrefix</a>(query) &lt;&lt; std::endl;   <span class="comment">// app</span></div>
+<div class="line">    std::cout &lt;&lt; std::endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 6. 删除测试</span></div>
+<div class="line">    trie.<a id="a7" name="a7"></a><a class="code hl_function" href="classol_1_1_trie_map.html#adc3409a528dc4204239916d4a58a0463">remove</a>(<span class="stringliteral">&quot;app&quot;</span>);</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;After remove &#39;app&#39;: &quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Has &#39;app&#39;? &quot;</span> &lt;&lt; (trie.<a class="code hl_function" href="classol_1_1_trie_map.html#a2606ba0b2de5414a56a68232eb546226">has</a>(<span class="stringliteral">&quot;app&quot;</span>) ? <span class="stringliteral">&quot;Yes&quot;</span> : <span class="stringliteral">&quot;No&quot;</span>) &lt;&lt; std::endl; <span class="comment">// No</span></div>
+<div class="line">    <span class="keyword">auto</span> appKeysAfterRemove = trie.<a class="code hl_function" href="classol_1_1_trie_map.html#ad63720a291ef162977c49b19b516dbd8">keysByPrefix</a>(<span class="stringliteral">&quot;app&quot;</span>);</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Keys with prefix &#39;app&#39; now: &quot;</span>;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; key : appKeysAfterRemove) std::cout &lt;&lt; key &lt;&lt; <span class="stringliteral">&quot; &quot;</span>; <span class="comment">// apple application</span></div>
+<div class="line">    std::cout &lt;&lt; std::endl</div>
+<div class="line">              &lt;&lt; std::endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 7. 模式匹配测试（. 匹配单个字符）</span></div>
+<div class="line">    std::string pattern1 = <span class="stringliteral">&quot;a..le&quot;</span>; <span class="comment">// 匹配 apple</span></div>
+<div class="line">    <span class="keyword">auto</span> match1 = trie.<a id="a8" name="a8"></a><a class="code hl_function" href="classol_1_1_trie_map.html#a1d362f7b1f5cc601b8483417cc2a963a">keysByPattern</a>(pattern1);</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Keys matching &#39;&quot;</span> &lt;&lt; pattern1 &lt;&lt; <span class="stringliteral">&quot;&#39;: &quot;</span>;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; key : match1) std::cout &lt;&lt; key &lt;&lt; <span class="stringliteral">&quot; &quot;</span>; <span class="comment">// apple</span></div>
+<div class="line">    std::cout &lt;&lt; std::endl;</div>
+<div class="line"> </div>
+<div class="line">    std::string pattern2 = <span class="stringliteral">&quot;b.n.n.&quot;</span>; <span class="comment">// 匹配 banana</span></div>
+<div class="line">    <span class="keyword">auto</span> match2 = trie.<a class="code hl_function" href="classol_1_1_trie_map.html#a1d362f7b1f5cc601b8483417cc2a963a">keysByPattern</a>(pattern2);</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Keys matching &#39;&quot;</span> &lt;&lt; pattern2 &lt;&lt; <span class="stringliteral">&quot;&#39;: &quot;</span>;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; key : match2) std::cout &lt;&lt; key &lt;&lt; <span class="stringliteral">&quot; &quot;</span>; <span class="comment">// banana</span></div>
+<div class="line">    std::cout &lt;&lt; std::endl;</div>
+<div class="line"> </div>
+<div class="line">    std::string pattern3 = <span class="stringliteral">&quot;...........&quot;</span>; <span class="comment">// 11个字符（测试边界）</span></div>
+<div class="line">    <span class="keyword">auto</span> match3 = trie.<a class="code hl_function" href="classol_1_1_trie_map.html#a1d362f7b1f5cc601b8483417cc2a963a">keysByPattern</a>(pattern3);</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Keys matching &#39;&quot;</span> &lt;&lt; pattern3 &lt;&lt; <span class="stringliteral">&quot;&#39;: &quot;</span>;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; key : match3) std::cout &lt;&lt; key &lt;&lt; <span class="stringliteral">&quot; &quot;</span>; <span class="comment">// application（长度11）</span></div>
+<div class="line">    std::cout &lt;&lt; std::endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+<div class="ttc" id="aclassol_1_1_trie_map_html"><div class="ttname"><a href="classol_1_1_trie_map.html">ol::TrieMap</a></div><div class="ttdoc">Trie树键值对映射类（TrieMap）</div><div class="ttdef"><b>定义</b> ol_TrieMap.h:50</div></div>
+<div class="ttc" id="aclassol_1_1_trie_map_html_a0f101baa5235017cfabc34b810c30703"><div class="ttname"><a href="classol_1_1_trie_map.html#a0f101baa5235017cfabc34b810c30703">ol::TrieMap::put</a></div><div class="ttdeci">std::shared_ptr&lt; TrieNode&lt; V &gt; &gt; put(std::shared_ptr&lt; TrieNode&lt; V &gt; &gt; node, const std::string &amp;key, V val, size_t i)</div><div class="ttdoc">递归插入键值对</div><div class="ttdef"><b>定义</b> ol_TrieMap.h:131</div></div>
+<div class="ttc" id="aclassol_1_1_trie_map_html_a1d362f7b1f5cc601b8483417cc2a963a"><div class="ttname"><a href="classol_1_1_trie_map.html#a1d362f7b1f5cc601b8483417cc2a963a">ol::TrieMap::keysByPattern</a></div><div class="ttdeci">std::list&lt; std::string &gt; keysByPattern(const std::string &amp;pattern)</div><div class="ttdoc">获取所有匹配模式的键（支持&#39;.&#39;作为通配符，匹配单个任意字符）</div><div class="ttdef"><b>定义</b> ol_TrieMap.h:384</div></div>
+<div class="ttc" id="aclassol_1_1_trie_map_html_a2606ba0b2de5414a56a68232eb546226"><div class="ttname"><a href="classol_1_1_trie_map.html#a2606ba0b2de5414a56a68232eb546226">ol::TrieMap::has</a></div><div class="ttdeci">bool has(const std::string &amp;key)</div><div class="ttdoc">检查键是否存在</div><div class="ttdef"><b>定义</b> ol_TrieMap.h:286</div></div>
+<div class="ttc" id="aclassol_1_1_trie_map_html_a9a0bcb10ff8de27a35e64f19b6f954ed"><div class="ttname"><a href="classol_1_1_trie_map.html#a9a0bcb10ff8de27a35e64f19b6f954ed">ol::TrieMap::shortestPrefix</a></div><div class="ttdeci">std::string shortestPrefix(const std::string &amp;query)</div><div class="ttdoc">查找查询字符串的最短前缀键</div><div class="ttdef"><b>定义</b> ol_TrieMap.h:307</div></div>
+<div class="ttc" id="aclassol_1_1_trie_map_html_aa56dbbc4dc6e8fb601a4fd3b2b7f3f19"><div class="ttname"><a href="classol_1_1_trie_map.html#aa56dbbc4dc6e8fb601a4fd3b2b7f3f19">ol::TrieMap::longestPrefix</a></div><div class="ttdeci">std::string longestPrefix(const std::string &amp;query)</div><div class="ttdoc">查找查询字符串的最长前缀键</div><div class="ttdef"><b>定义</b> ol_TrieMap.h:335</div></div>
+<div class="ttc" id="aclassol_1_1_trie_map_html_ad63720a291ef162977c49b19b516dbd8"><div class="ttname"><a href="classol_1_1_trie_map.html#ad63720a291ef162977c49b19b516dbd8">ol::TrieMap::keysByPrefix</a></div><div class="ttdeci">std::list&lt; std::string &gt; keysByPrefix(const std::string &amp;prefix)</div><div class="ttdoc">获取所有以指定前缀开头的键</div><div class="ttdef"><b>定义</b> ol_TrieMap.h:367</div></div>
+<div class="ttc" id="aclassol_1_1_trie_map_html_adc3409a528dc4204239916d4a58a0463"><div class="ttname"><a href="classol_1_1_trie_map.html#adc3409a528dc4204239916d4a58a0463">ol::TrieMap::remove</a></div><div class="ttdeci">std::shared_ptr&lt; TrieNode&lt; V &gt; &gt; remove(std::shared_ptr&lt; TrieNode&lt; V &gt; &gt; node, const std::string &amp;key, size_t i)</div><div class="ttdoc">递归删除键</div><div class="ttdef"><b>定义</b> ol_TrieMap.h:154</div></div>
+<div class="ttc" id="aclassol_1_1_trie_map_html_af6c61399bd73581fcb1fb0f2ec29ae62"><div class="ttname"><a href="classol_1_1_trie_map.html#af6c61399bd73581fcb1fb0f2ec29ae62">ol::TrieMap::get</a></div><div class="ttdeci">std::optional&lt; V &gt; get(const std::string &amp;key)</div><div class="ttdoc">获取键对应的值，通过 std::optional 明确表示值是否存在</div><div class="ttdef"><b>定义</b> ol_TrieMap.h:274</div></div>
+<div class="ttc" id="anamespaceol_html"><div class="ttname"><a href="namespaceol.html">ol</a></div><div class="ttdef"><b>定义</b> ol_sort_base.h:20</div></div>
+<div class="ttc" id="aol___trie_map_8h_html"><div class="ttname"><a href="ol___trie_map_8h.html">ol_TrieMap.h</a></div></div>
+</div><!-- fragment --> </div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

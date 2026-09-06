@@ -1,0 +1,558 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ol::DBPool&lt; T &gt;::ConnectionLease类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('classol_1_1_d_b_pool_1_1_connection_lease.html','','classol_1_1_d_b_pool_1_1_connection_lease-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ol::DBPool&lt; T &gt;::ConnectionLease类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>独占连接租约，离开作用域时自动将连接归还连接池  
+ <a href="#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ol__database_8h_source.html">ol_database.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a17c553139542c2482031318e16da714a" id="r_a17c553139542c2482031318e16da714a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17c553139542c2482031318e16da714a">ConnectionLease</a> () noexcept=default</td></tr>
+<tr class="memitem:aab7f0299c6055ba5a94d36f1499c5840" id="r_aab7f0299c6055ba5a94d36f1499c5840"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab7f0299c6055ba5a94d36f1499c5840">~ConnectionLease</a> ()</td></tr>
+<tr class="memitem:af1c0b4e23dce6a15ee4a0637012825b6" id="r_af1c0b4e23dce6a15ee4a0637012825b6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af1c0b4e23dce6a15ee4a0637012825b6">ConnectionLease</a> (const <a class="el" href="classol_1_1_d_b_pool_1_1_connection_lease.html">ConnectionLease</a> &amp;)=delete</td></tr>
+<tr class="memitem:a811f2a07be1bd8fa00a786c65d2fbb6d" id="r_a811f2a07be1bd8fa00a786c65d2fbb6d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classol_1_1_d_b_pool_1_1_connection_lease.html">ConnectionLease</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a811f2a07be1bd8fa00a786c65d2fbb6d">operator=</a> (const <a class="el" href="classol_1_1_d_b_pool_1_1_connection_lease.html">ConnectionLease</a> &amp;)=delete</td></tr>
+<tr class="memitem:a9abdda29ea53652eda00bef64d0c7896" id="r_a9abdda29ea53652eda00bef64d0c7896"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9abdda29ea53652eda00bef64d0c7896">ConnectionLease</a> (<a class="el" href="classol_1_1_d_b_pool_1_1_connection_lease.html">ConnectionLease</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="memitem:a6b5bfca0258bb81af241d423f2e3cd2a" id="r_a6b5bfca0258bb81af241d423f2e3cd2a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classol_1_1_d_b_pool_1_1_connection_lease.html">ConnectionLease</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b5bfca0258bb81af241d423f2e3cd2a">operator=</a> (<a class="el" href="classol_1_1_d_b_pool_1_1_connection_lease.html">ConnectionLease</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="memitem:ac76d581372c0315d332f655c21899b33" id="r_ac76d581372c0315d332f655c21899b33"><td class="memItemLeft" align="right" valign="top">T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac76d581372c0315d332f655c21899b33">get</a> () const noexcept</td></tr>
+<tr class="memitem:a6ac6718be94988c1d800702a359e2991" id="r_a6ac6718be94988c1d800702a359e2991"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ac6718be94988c1d800702a359e2991">operator*</a> () const noexcept</td></tr>
+<tr class="memitem:a369504458f1dc26eaf807a5f4eb06840" id="r_a369504458f1dc26eaf807a5f4eb06840"><td class="memItemLeft" align="right" valign="top">T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a369504458f1dc26eaf807a5f4eb06840">operator-&gt;</a> () const noexcept</td></tr>
+<tr class="memitem:a08f73dd2c3b133699e1df20ee280f87b" id="r_a08f73dd2c3b133699e1df20ee280f87b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a08f73dd2c3b133699e1df20ee280f87b">operator bool</a> () const noexcept</td></tr>
+<tr class="memitem:ae3a68b2284f2651d3995a374357db6d9" id="r_ae3a68b2284f2651d3995a374357db6d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae3a68b2284f2651d3995a374357db6d9">reset</a> () noexcept</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a2ba986ca6bff74726fedf5e72d755fa4" id="r_a2ba986ca6bff74726fedf5e72d755fa4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ba986ca6bff74726fedf5e72d755fa4">ConnectionLease</a> (<a class="el" href="classol_1_1_d_b_pool.html">DBPool</a> *pool, <a class="el" href="classol_1_1_d_b_pool.html#a21bca58f5bdf051c1b1a5604885461c2">StoragePtr</a> conn) noexcept</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:acc81f5157620b26973577108544b238a" id="r_acc81f5157620b26973577108544b238a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classol_1_1_d_b_pool.html">DBPool</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acc81f5157620b26973577108544b238a">m_pool</a> {nullptr}</td></tr>
+<tr class="memitem:a3d4f379b52cd6237f4563f86b8795731" id="r_a3d4f379b52cd6237f4563f86b8795731"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classol_1_1_d_b_pool.html#a21bca58f5bdf051c1b1a5604885461c2">StoragePtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3d4f379b52cd6237f4563f86b8795731">m_conn</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-friends" class="groupheader"><a id="friends" name="friends"></a>
+友元</h2></td></tr>
+<tr class="memitem:afd086fc493a72979e43a3a4b5317bfd0" id="r_afd086fc493a72979e43a3a4b5317bfd0"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afd086fc493a72979e43a3a4b5317bfd0">DBPool&lt; T &gt;</a></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">详细描述</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
+class ol::DBPool&lt; T &gt;::ConnectionLease</div><p>独占连接租约，离开作用域时自动将连接归还连接池 </p>
+<dl class="section note"><dt>注解</dt><dd>不可复制但可以移动，从类型上避免重复归还和归还外部连接 </dd></dl>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
+<a id="a2ba986ca6bff74726fedf5e72d755fa4" name="a2ba986ca6bff74726fedf5e72d755fa4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ba986ca6bff74726fedf5e72d755fa4">&#9670;&#160;</a></span>ConnectionLease() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::ConnectionLease::ConnectionLease </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classol_1_1_d_b_pool.html">DBPool</a> *</td>          <td class="paramname"><span class="paramname"><em>pool</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classol_1_1_d_b_pool.html#a21bca58f5bdf051c1b1a5604885461c2">StoragePtr</a></td>          <td class="paramname"><span class="paramname"><em>conn</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a17c553139542c2482031318e16da714a" name="a17c553139542c2482031318e16da714a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17c553139542c2482031318e16da714a">&#9670;&#160;</a></span>ConnectionLease() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::ConnectionLease::ConnectionLease </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel default">default</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aab7f0299c6055ba5a94d36f1499c5840" name="aab7f0299c6055ba5a94d36f1499c5840"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab7f0299c6055ba5a94d36f1499c5840">&#9670;&#160;</a></span>~ConnectionLease()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::ConnectionLease::~ConnectionLease </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af1c0b4e23dce6a15ee4a0637012825b6" name="af1c0b4e23dce6a15ee4a0637012825b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1c0b4e23dce6a15ee4a0637012825b6">&#9670;&#160;</a></span>ConnectionLease() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::ConnectionLease::ConnectionLease </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classol_1_1_d_b_pool_1_1_connection_lease.html">ConnectionLease</a> &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9abdda29ea53652eda00bef64d0c7896" name="a9abdda29ea53652eda00bef64d0c7896"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9abdda29ea53652eda00bef64d0c7896">&#9670;&#160;</a></span>ConnectionLease() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::ConnectionLease::ConnectionLease </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classol_1_1_d_b_pool_1_1_connection_lease.html">ConnectionLease</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">成员函数说明</h2>
+<a id="ac76d581372c0315d332f655c21899b33" name="ac76d581372c0315d332f655c21899b33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac76d581372c0315d332f655c21899b33">&#9670;&#160;</a></span>get()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T * <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::ConnectionLease::get </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a08f73dd2c3b133699e1df20ee280f87b" name="a08f73dd2c3b133699e1df20ee280f87b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08f73dd2c3b133699e1df20ee280f87b">&#9670;&#160;</a></span>operator bool()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::ConnectionLease::operator bool </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel explicit">explicit</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6ac6718be94988c1d800702a359e2991" name="a6ac6718be94988c1d800702a359e2991"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ac6718be94988c1d800702a359e2991">&#9670;&#160;</a></span>operator*()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T &amp; <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::ConnectionLease::operator* </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a369504458f1dc26eaf807a5f4eb06840" name="a369504458f1dc26eaf807a5f4eb06840"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a369504458f1dc26eaf807a5f4eb06840">&#9670;&#160;</a></span>operator-&gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T * <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::ConnectionLease::operator-&gt; </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6b5bfca0258bb81af241d423f2e3cd2a" name="a6b5bfca0258bb81af241d423f2e3cd2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b5bfca0258bb81af241d423f2e3cd2a">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1_d_b_pool_1_1_connection_lease.html">ConnectionLease</a> &amp; <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::ConnectionLease::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classol_1_1_d_b_pool_1_1_connection_lease.html">ConnectionLease</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a811f2a07be1bd8fa00a786c65d2fbb6d" name="a811f2a07be1bd8fa00a786c65d2fbb6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a811f2a07be1bd8fa00a786c65d2fbb6d">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1_d_b_pool_1_1_connection_lease.html">ConnectionLease</a> &amp; <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::ConnectionLease::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classol_1_1_d_b_pool_1_1_connection_lease.html">ConnectionLease</a> &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae3a68b2284f2651d3995a374357db6d9" name="ae3a68b2284f2651d3995a374357db6d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3a68b2284f2651d3995a374357db6d9">&#9670;&#160;</a></span>reset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::ConnectionLease::reset </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-related-members" id="doc-related-members"></a><h2 id="header-doc-related-members" class="groupheader">友元及相关符号说明</h2>
+<a id="afd086fc493a72979e43a3a4b5317bfd0" name="afd086fc493a72979e43a3a4b5317bfd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd086fc493a72979e43a3a4b5317bfd0">&#9670;&#160;</a></span>DBPool&lt; T &gt;</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="classol_1_1_d_b_pool.html">DBPool</a>&lt; T &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">类成员变量说明</h2>
+<a id="a3d4f379b52cd6237f4563f86b8795731" name="a3d4f379b52cd6237f4563f86b8795731"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d4f379b52cd6237f4563f86b8795731">&#9670;&#160;</a></span>m_conn</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1_d_b_pool.html#a21bca58f5bdf051c1b1a5604885461c2">StoragePtr</a> <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::ConnectionLease::m_conn</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acc81f5157620b26973577108544b238a" name="acc81f5157620b26973577108544b238a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc81f5157620b26973577108544b238a">&#9670;&#160;</a></span>m_pool</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classol_1_1_d_b_pool.html">DBPool</a>* <a class="el" href="classol_1_1_d_b_pool.html">ol::DBPool</a>&lt; T &gt;::ConnectionLease::m_pool {nullptr}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>ol_database/include/<a class="el" href="ol__database_8h_source.html">ol_database.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="namespaceol.html">ol</a></li><li class="navelem"><a href="classol_1_1_d_b_pool.html">DBPool</a></li><li class="navelem"><a href="classol_1_1_d_b_pool_1_1_connection_lease.html">ConnectionLease</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

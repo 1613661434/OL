@@ -1,0 +1,386 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: test_ol_network_regression.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('test_ol_network_regression_8cpp-example.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">test_ol_network_regression.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol___buffer_8h.html">ol_net/ol_Buffer.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol___connection_8h.html">ol_net/ol_Connection.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol___event_loop_8h.html">ol_net/ol_EventLoop.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol___socket_fd_8h.html">ol_net/ol_SocketFd.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol__tcp_8h.html">ol_tcp.h</a>&quot;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#include &lt;arpa/inet.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;atomic&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;cerrno&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;cstdlib&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;cstring&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;future&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;fcntl.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;sys/socket.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;thread&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;unistd.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;utility&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">namespace</span></div>
+<div class="line">{</div>
+<div class="line">    <span class="keyword">using namespace </span>std::chrono_literals;</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordtype">void</span> require(<span class="keywordtype">bool</span> condition, <span class="keyword">const</span> <span class="keywordtype">char</span>* message)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordflow">if</span> (!condition) <span class="keywordflow">throw</span> std::runtime_error(message);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="keyword">class </span>SocketPair</div>
+<div class="line">    {</div>
+<div class="line">    <span class="keyword">public</span>:</div>
+<div class="line">        <span class="keywordtype">int</span> fd[2]{-1, -1};</div>
+<div class="line"> </div>
+<div class="line">        SocketPair()</div>
+<div class="line">        {</div>
+<div class="line">            <span class="keywordflow">if</span> (::socketpair(AF_UNIX, SOCK_STREAM, 0, fd) != 0)</div>
+<div class="line">                <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;socketpair failed&quot;</span>);</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        ~SocketPair()</div>
+<div class="line">        {</div>
+<div class="line">            <span class="keywordflow">if</span> (fd[0] &gt;= 0) ::close(fd[0]);</div>
+<div class="line">            <span class="keywordflow">if</span> (fd[1] &gt;= 0) ::close(fd[1]);</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        SocketPair(<span class="keyword">const</span> SocketPair&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line">        SocketPair&amp; operator=(<span class="keyword">const</span> SocketPair&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line">    };</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordtype">void</span> testBufferProtocol()</div>
+<div class="line">    {</div>
+<div class="line">        ol::Buffer buffer(1, 8);</div>
+<div class="line">        buffer.appendWithSep(<span class="stringliteral">&quot;abc&quot;</span>, 3);</div>
+<div class="line"> </div>
+<div class="line">        <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> expectedHeader[] = {0, 0, 0, 3};</div>
+<div class="line">        require(buffer.size() == 7, <span class="stringliteral">&quot;Buffer frame size is incorrect&quot;</span>);</div>
+<div class="line">        require(std::memcmp(buffer.data(), expectedHeader, <span class="keyword">sizeof</span>(expectedHeader)) == 0,</div>
+<div class="line">                <span class="stringliteral">&quot;Buffer length header is not uint32 network byte order&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">        std::string message;</div>
+<div class="line">        require(buffer.pickMessage(message), <span class="stringliteral">&quot;Buffer did not produce a complete frame&quot;</span>);</div>
+<div class="line">        require(message == <span class="stringliteral">&quot;abc&quot;</span>, <span class="stringliteral">&quot;Buffer decoded payload is incorrect&quot;</span>);</div>
+<div class="line">        require(buffer.empty(), <span class="stringliteral">&quot;Buffer did not consume the decoded frame&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">        ol::Buffer limited(1, 4);</div>
+<div class="line">        <span class="keyword">const</span> uint32_t oversized = htonl(5);</div>
+<div class="line">        limited.append(<span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(&amp;oversized), <span class="keyword">sizeof</span>(oversized));</div>
+<div class="line"> </div>
+<div class="line">        <span class="keywordtype">bool</span> rejected = <span class="keyword">false</span>;</div>
+<div class="line">        <span class="keywordflow">try</span></div>
+<div class="line">        {</div>
+<div class="line">            limited.pickMessage(message);</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::length_error&amp;)</div>
+<div class="line">        {</div>
+<div class="line">            rejected = <span class="keyword">true</span>;</div>
+<div class="line">        }</div>
+<div class="line">        require(rejected, <span class="stringliteral">&quot;Buffer accepted an oversized incoming frame&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordtype">void</span> testTcpFrameProtocolAndLimit()</div>
+<div class="line">    {</div>
+<div class="line">        {</div>
+<div class="line">            SocketPair sockets;</div>
+<div class="line">            <span class="keyword">const</span> std::string sent(<span class="stringliteral">&quot;hello\0world&quot;</span>, 11);</div>
+<div class="line">            require(ol::tcpwrite(sockets.fd[0], sent, 1024), <span class="stringliteral">&quot;tcpwrite failed&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">            std::string received;</div>
+<div class="line">            require(ol::tcpread(sockets.fd[1], received, 1, 1024), <span class="stringliteral">&quot;tcpread failed&quot;</span>);</div>
+<div class="line">            require(received == sent, <span class="stringliteral">&quot;TCP framed payload changed during transfer&quot;</span>);</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        {</div>
+<div class="line">            SocketPair sockets;</div>
+<div class="line">            <span class="keyword">const</span> uint32_t oversized = htonl(4096);</div>
+<div class="line">            require(::send(sockets.fd[0], &amp;oversized, <span class="keyword">sizeof</span>(oversized), 0) == <span class="keyword">sizeof</span>(oversized),</div>
+<div class="line">                    <span class="stringliteral">&quot;Could not send oversized frame header&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">            std::string received;</div>
+<div class="line">            errno = 0;</div>
+<div class="line">            require(!ol::tcpread(sockets.fd[1], received, -1, 32),</div>
+<div class="line">                    <span class="stringliteral">&quot;tcpread accepted an oversized frame&quot;</span>);</div>
+<div class="line">            require(errno == EMSGSIZE, <span class="stringliteral">&quot;tcpread did not report EMSGSIZE for oversized frame&quot;</span>);</div>
+<div class="line">            require(received.empty(), <span class="stringliteral">&quot;tcpread allocated payload storage for oversized frame&quot;</span>);</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordtype">void</span> testTcpPartialFrameTimeout()</div>
+<div class="line">    {</div>
+<div class="line">        SocketPair sockets;</div>
+<div class="line">        <span class="keyword">const</span> uint32_t frameSize = htonl(4);</div>
+<div class="line">        require(::send(sockets.fd[0], &amp;frameSize, <span class="keyword">sizeof</span>(frameSize), 0) == <span class="keyword">sizeof</span>(frameSize),</div>
+<div class="line">                <span class="stringliteral">&quot;Could not send partial frame header&quot;</span>);</div>
+<div class="line">        require(::send(sockets.fd[0], <span class="stringliteral">&quot;x&quot;</span>, 1, 0) == 1, <span class="stringliteral">&quot;Could not send partial frame body&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">        std::string received;</div>
+<div class="line">        <span class="keyword">const</span> <span class="keyword">auto</span> begin = std::chrono::steady_clock::now();</div>
+<div class="line">        errno = 0;</div>
+<div class="line">        require(!ol::tcpread(sockets.fd[1], received, 1, 16),</div>
+<div class="line">                <span class="stringliteral">&quot;tcpread unexpectedly accepted a partial frame&quot;</span>);</div>
+<div class="line">        <span class="keyword">const</span> <span class="keyword">auto</span> elapsed = std::chrono::steady_clock::now() - begin;</div>
+<div class="line"> </div>
+<div class="line">        require(errno == ETIMEDOUT, <span class="stringliteral">&quot;Partial frame did not end with ETIMEDOUT&quot;</span>);</div>
+<div class="line">        require(elapsed &lt; 3s, <span class="stringliteral">&quot;Partial frame ignored the total read deadline&quot;</span>);</div>
+<div class="line">        require(received.empty(), <span class="stringliteral">&quot;Failed partial frame left a partially initialized string&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordtype">void</span> testEventLoopTaskReentry()</div>
+<div class="line">    {</div>
+<div class="line">        ol::EventLoop loop(<span class="keyword">true</span>, 16, 60, 80);</div>
+<div class="line">        std::promise&lt;void&gt; nestedTaskDone;</div>
+<div class="line">        <span class="keyword">auto</span> nestedTaskFuture = nestedTaskDone.get_future();</div>
+<div class="line">        std::thread runner([&amp;loop]() { loop.run(-1); });</div>
+<div class="line"> </div>
+<div class="line">        loop.pushToQueue([&amp;loop, &amp;nestedTaskDone]() {</div>
+<div class="line">            loop.pushToQueue([&amp;nestedTaskDone]() { nestedTaskDone.set_value(); });</div>
+<div class="line">        });</div>
+<div class="line"> </div>
+<div class="line">        <span class="keywordflow">if</span> (nestedTaskFuture.wait_for(2s) != std::future_status::ready)</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;EventLoop deadlocked while a task queued another task\n&quot;</span>;</div>
+<div class="line">            std::_Exit(EXIT_FAILURE);</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        loop.stop();</div>
+<div class="line">        runner.join();</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordtype">void</span> testAsyncSendKeepsConnectionAlive()</div>
+<div class="line">    {</div>
+<div class="line">        SocketPair sockets;</div>
+<div class="line">        ol::EventLoop loop(<span class="keyword">true</span>, 16, 60, 80);</div>
+<div class="line">        <span class="keyword">auto</span> socketFd = std::make_unique&lt;ol::SocketFd&gt;(sockets.fd[0]);</div>
+<div class="line">        sockets.fd[0] = -1; <span class="comment">// 所有权已经交给SocketFd。</span></div>
+<div class="line"> </div>
+<div class="line">        <span class="keyword">auto</span> conn = std::make_shared&lt;ol::Connection&gt;(&amp;loop, std::move(socketFd), 1024);</div>
+<div class="line">        conn-&gt;connectEstablished();</div>
+<div class="line">        std::weak_ptr&lt;ol::Connection&gt; weakConn = conn;</div>
+<div class="line"> </div>
+<div class="line">        conn-&gt;send(<span class="stringliteral">&quot;queued&quot;</span>, 6);</div>
+<div class="line">        conn-&gt;disconnect();</div>
+<div class="line">        conn.reset();</div>
+<div class="line">        require(!weakConn.expired(), <span class="stringliteral">&quot;Queued send did not retain the Connection&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">        std::promise&lt;void&gt; queueDrained;</div>
+<div class="line">        <span class="keyword">auto</span> queueDrainedFuture = queueDrained.get_future();</div>
+<div class="line">        loop.pushToQueue([&amp;queueDrained]() { queueDrained.set_value(); });</div>
+<div class="line">        std::thread runner([&amp;loop]() { loop.run(-1); });</div>
+<div class="line"> </div>
+<div class="line">        <span class="keywordflow">if</span> (queueDrainedFuture.wait_for(2s) != std::future_status::ready)</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;EventLoop did not drain the queued send\n&quot;</span>;</div>
+<div class="line">            std::_Exit(EXIT_FAILURE);</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        loop.stop();</div>
+<div class="line">        runner.join();</div>
+<div class="line">        require(weakConn.expired(), <span class="stringliteral">&quot;Queued send retained the Connection after execution&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordtype">void</span> testConnectionEtSendDrainsOutput()</div>
+<div class="line">    {</div>
+<div class="line">        SocketPair sockets;</div>
+<div class="line">        <span class="keyword">const</span> <span class="keywordtype">int</span> flags = ::fcntl(sockets.fd[0], F_GETFL, 0);</div>
+<div class="line">        require(flags &gt;= 0 &amp;&amp; ::fcntl(sockets.fd[0], F_SETFL, flags | O_NONBLOCK) == 0,</div>
+<div class="line">                <span class="stringliteral">&quot;Could not make Connection socket nonblocking&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">        <span class="keyword">const</span> <span class="keywordtype">int</span> sendBufferSize = 4096;</div>
+<div class="line">        require(::setsockopt(sockets.fd[0], SOL_SOCKET, SO_SNDBUF,</div>
+<div class="line">                             &amp;sendBufferSize, <span class="keyword">sizeof</span>(sendBufferSize)) == 0,</div>
+<div class="line">                <span class="stringliteral">&quot;Could not shrink socket send buffer&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">        ol::EventLoop loop(<span class="keyword">true</span>, 32, 60, 80);</div>
+<div class="line">        <span class="keyword">auto</span> socketFd = std::make_unique&lt;ol::SocketFd&gt;(sockets.fd[0]);</div>
+<div class="line">        sockets.fd[0] = -1;</div>
+<div class="line">        <span class="keyword">auto</span> conn = std::make_shared&lt;ol::Connection&gt;(&amp;loop, std::move(socketFd), 1024 * 1024);</div>
+<div class="line"> </div>
+<div class="line">        std::promise&lt;void&gt; sendComplete;</div>
+<div class="line">        <span class="keyword">auto</span> sendCompleteFuture = sendComplete.get_future();</div>
+<div class="line">        conn-&gt;setSendCompleteCb([&amp;sendComplete](ol::Connection::Ptr) { sendComplete.set_value(); });</div>
+<div class="line">        loop.newConn(conn);</div>
+<div class="line">        conn-&gt;connectEstablished();</div>
+<div class="line"> </div>
+<div class="line">        std::thread runner([&amp;loop]() { loop.run(-1); });</div>
+<div class="line">        <span class="keyword">const</span> std::string sent(512 * 1024, <span class="charliteral">&#39;E&#39;</span>);</div>
+<div class="line">        <span class="keyword">auto</span> receiver = std::async(std::launch::async, [fd = sockets.fd[1]]() {</div>
+<div class="line">            std::string received;</div>
+<div class="line">            const bool ok = ol::tcpread(fd, received, 5, 1024 * 1024);</div>
+<div class="line">            return std::make_pair(ok, std::move(received));</div>
+<div class="line">        });</div>
+<div class="line">        conn-&gt;send(sent.data(), sent.size());</div>
+<div class="line"> </div>
+<div class="line">        <span class="keywordflow">if</span> (receiver.wait_for(6s) != std::future_status::ready)</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;Connection ET send did not drain its output buffer\n&quot;</span>;</div>
+<div class="line">            std::_Exit(EXIT_FAILURE);</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keyword">auto</span> receiveResult = receiver.get();</div>
+<div class="line">        <span class="keyword">const</span> <span class="keywordtype">bool</span> completed = sendCompleteFuture.wait_for(2s) == std::future_status::ready;</div>
+<div class="line"> </div>
+<div class="line">        loop.stop();</div>
+<div class="line">        runner.join();</div>
+<div class="line">        conn-&gt;disconnect();</div>
+<div class="line">        loop.closeConn(conn);</div>
+<div class="line"> </div>
+<div class="line">        require(receiveResult.first, <span class="stringliteral">&quot;Peer failed to receive the Connection frame&quot;</span>);</div>
+<div class="line">        require(receiveResult.second == sent, <span class="stringliteral">&quot;Connection ET send lost or changed payload bytes&quot;</span>);</div>
+<div class="line">        require(completed, <span class="stringliteral">&quot;Connection did not report completed output&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordtype">void</span> testTimerFdIsDrained()</div>
+<div class="line">    {</div>
+<div class="line">        ol::EventLoop loop(<span class="keyword">true</span>, 16, 1, 80);</div>
+<div class="line">        std::atomic&lt;unsigned int&gt; epollTimeouts{0};</div>
+<div class="line">        loop.setEpollTimeoutCb([&amp;epollTimeouts](ol::EventLoop*) {</div>
+<div class="line">            epollTimeouts.fetch_add(1, std::memory_order_relaxed);</div>
+<div class="line">        });</div>
+<div class="line"> </div>
+<div class="line">        std::thread runner([&amp;loop]() { loop.run(50); });</div>
+<div class="line">        std::this_thread::sleep_for(1300ms);</div>
+<div class="line">        <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> before = epollTimeouts.load(std::memory_order_relaxed);</div>
+<div class="line">        std::this_thread::sleep_for(400ms);</div>
+<div class="line">        <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> after = epollTimeouts.load(std::memory_order_relaxed);</div>
+<div class="line"> </div>
+<div class="line">        loop.stop();</div>
+<div class="line">        runner.join();</div>
+<div class="line">        require(after &gt; before, <span class="stringliteral">&quot;timerfd remained readable and forced EventLoop into a busy loop&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line">} <span class="comment">// namespace</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordflow">try</span></div>
+<div class="line">    {</div>
+<div class="line">        testBufferProtocol();</div>
+<div class="line">        testTcpFrameProtocolAndLimit();</div>
+<div class="line">        testTcpPartialFrameTimeout();</div>
+<div class="line">        testEventLoopTaskReentry();</div>
+<div class="line">        testAsyncSendKeepsConnectionAlive();</div>
+<div class="line">        testConnectionEtSendDrainsOutput();</div>
+<div class="line">        testTimerFdIsDrained();</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;network regression tests passed\n&quot;</span>;</div>
+<div class="line">        <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; error)</div>
+<div class="line">    {</div>
+<div class="line">        std::cerr &lt;&lt; <span class="stringliteral">&quot;network regression test failed: &quot;</span> &lt;&lt; error.what() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">        <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="ttc" id="aol___buffer_8h_html"><div class="ttname"><a href="ol___buffer_8h.html">ol_Buffer.h</a></div></div>
+<div class="ttc" id="aol___connection_8h_html"><div class="ttname"><a href="ol___connection_8h.html">ol_Connection.h</a></div></div>
+<div class="ttc" id="aol___event_loop_8h_html"><div class="ttname"><a href="ol___event_loop_8h.html">ol_EventLoop.h</a></div></div>
+<div class="ttc" id="aol___socket_fd_8h_html"><div class="ttname"><a href="ol___socket_fd_8h.html">ol_SocketFd.h</a></div></div>
+<div class="ttc" id="aol__tcp_8h_html"><div class="ttname"><a href="ol__tcp_8h.html">ol_tcp.h</a></div></div>
+</div><!-- fragment --> </div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

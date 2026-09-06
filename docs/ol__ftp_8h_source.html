@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.14.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>OL: ollib/include/ol_ftp.h 源文件</title>
+<title>OL: ol_ftp/include/ol_ftp.h 源文件</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -27,7 +27,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
   <td id="projectalign">
-   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
    </div>
    <div id="projectbrief">This is a C++ library.</div>
   </td>
@@ -102,89 +102,112 @@ $(function(){initNavTree('ol__ftp_8h_source.html','',''); });
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> *          - 支持目录创建、删除、切换及列表获取</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> *          - 提供文件大小、修改时间获取及完整性校验功能</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> *          - 记录操作失败原因（连接失败、登录失败、模式设置失败等）</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> *          - 仅支持 Linux 平台</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> * 作者：ol</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> * 适用标准：C++11及以上（需依赖ftplib库）</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"> */</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment">/****************************************************************************************/</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#ifndef OL_FTP_H</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#define OL_FTP_H 1</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#ifdef __linux__</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &quot;<a class="code" href="ftplib_8h.html">third_party/ftplib/ftplib.h</a>&quot;</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#include &quot;<a class="code" href="ol__chrono_8h.html">ol_chrono.h</a>&quot;</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#include &quot;<a class="code" href="ol__fstream_8h.html">ol_fstream.h</a>&quot;</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#endif </span><span class="comment">// __linux__</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> * 作者：ol</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> * 适用标准：C++11及以上（依赖ftplib库）</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">/****************************************************************************************/</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#ifndef OL_FTP_H</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#define OL_FTP_H 1</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &quot;<a class="code" href="ftplib_8h.html">ftplib.h</a>&quot;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &quot;<a class="code" href="ol__chrono_8h.html">ol_chrono.h</a>&quot;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &quot;<a class="code" href="ol__fstream_8h.html">ol_fstream.h</a>&quot;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceol.html">ol</a></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>{</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceol.html">ol</a></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>{</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#ifdef __linux__</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="comment">// FTP客户端类，封装FTP服务器的连接及文件操作</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keyword">class </span>cftpclient</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    {</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a>* m_ftpconn; <span class="comment">// ftp连接句柄。</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> m_size; <span class="comment">// 文件的大小，单位：字节。</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        std::string m_mtime; <span class="comment">// 文件的修改时间，格式：yyyymmddhh24miss。</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <span class="comment">// 以下三个成员变量用于存放login方法登录失败的原因。</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="keywordtype">bool</span> m_connectfailed; <span class="comment">// 如果网络连接失败，该成员的值为true。</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="keywordtype">bool</span> m_loginfailed;   <span class="comment">// 如果登录失败，用户名和密码不正确，或没有登录权限，该成员的值为true。</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keywordtype">bool</span> m_optionfailed;  <span class="comment">// 如果设置传输模式失败，该成员变量的值为true。</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="comment">// FTP客户端类，封装FTP服务器的连接及文件操作</span></div>
+<div class="foldopen" id="foldopen00026" data-start="{" data-end="};">
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="classol_1_1cftpclient.html">   26</a></span>    <span class="keyword">class </span><a class="code hl_function" href="classol_1_1cftpclient.html#ab63752bee348eca7fb65dc1f258ca696">cftpclient</a></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classol_1_1cftpclient.html#a5dd29143140d46ae9f46be3f5bac8c5f">   29</a></span>        <a class="code hl_typedef" href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a>* <a class="code hl_variable" href="classol_1_1cftpclient.html#a5dd29143140d46ae9f46be3f5bac8c5f">m_ftpconn</a>; </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="classol_1_1cftpclient.html#a8da753c36ee3ba1a744dee05077de5d5">   31</a></span>        <span class="keywordtype">int</span> <a class="code hl_variable" href="classol_1_1cftpclient.html#a8da753c36ee3ba1a744dee05077de5d5">m_size</a>;          </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classol_1_1cftpclient.html#a86b848421ca515eade18849e993a512b">   32</a></span>        std::string <a class="code hl_variable" href="classol_1_1cftpclient.html#a86b848421ca515eade18849e993a512b">m_mtime</a>; </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="comment">// 以下三个成员变量用于存放login方法登录失败的原因。</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classol_1_1cftpclient.html#ad4b400515afef5a6d85e9a1ef738bda7">   35</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="classol_1_1cftpclient.html#ad4b400515afef5a6d85e9a1ef738bda7">m_connectfailed</a>; </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classol_1_1cftpclient.html#a21da746af90e50262030b66498f1b1f3">   36</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="classol_1_1cftpclient.html#a21da746af90e50262030b66498f1b1f3">m_loginfailed</a>;   </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classol_1_1cftpclient.html#aea330d196c5cd86d4f59c67317012f6c">   37</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="classol_1_1cftpclient.html#aea330d196c5cd86d4f59c67317012f6c">m_optionfailed</a>;  </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="comment">// 构造函数</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <a class="code hl_function" href="classol_1_1cftpclient.html#ab63752bee348eca7fb65dc1f258ca696">cftpclient</a>();</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="comment">// 构造函数</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        cftpclient();</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="comment">// 析构函数</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <a class="code hl_function" href="classol_1_1cftpclient.html#a4e1f22238a2b77f1d40e44e89fc950ff">~cftpclient</a>();</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        <span class="comment">// 析构函数</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        ~cftpclient();</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="comment">// 禁用拷贝构造和赋值（避免连接句柄重复释放）</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        cftpclient(<span class="keyword">const</span> cftpclient&amp;) = <span class="keyword">delete</span>;</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        cftpclient&amp; operator=(<span class="keyword">const</span> cftpclient) = <span class="keyword">delete</span>;</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="comment">// 初始化m_size和m_mtime成员变量。</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <span class="keywordtype">void</span> initdata();</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span></div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        <span class="keywordtype">bool</span> login(<span class="keyword">const</span> std::string&amp; host, <span class="keyword">const</span> std::string&amp; username, <span class="keyword">const</span> std::string&amp; password, <span class="keyword">const</span> <span class="keywordtype">int</span> imode = <a class="code hl_define" href="ftplib_8h.html#aa0ad169c53b73ddcc2854356d3f05409">FTPLIB_PASSIVE</a>);</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="keywordtype">bool</span> logout();</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="keywordtype">bool</span> mtime(<span class="keyword">const</span> std::string&amp; remotefilename);</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span></div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="keywordtype">bool</span> size(<span class="keyword">const</span> std::string&amp; remotefilename);</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span></div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keywordtype">bool</span> chdir(<span class="keyword">const</span> std::string&amp; remotedir);</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span></div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keywordtype">bool</span> mkdir(<span class="keyword">const</span> std::string&amp; remotedir);</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span></div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="keywordtype">bool</span> rmdir(<span class="keyword">const</span> std::string&amp; remotedir);</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span></div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        <span class="keywordtype">bool</span> nlist(<span class="keyword">const</span> std::string&amp; remotedir, <span class="keyword">const</span> std::string&amp; listfilename);</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span></div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        <span class="keywordtype">bool</span> get(<span class="keyword">const</span> std::string&amp; remotefilename, <span class="keyword">const</span> std::string&amp; localfilename, <span class="keyword">const</span> <span class="keywordtype">bool</span> bcheckmtime = <span class="keyword">true</span>);</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span></div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        <span class="keywordtype">bool</span> put(<span class="keyword">const</span> std::string&amp; localfilename, <span class="keyword">const</span> std::string&amp; remotefilename, <span class="keyword">const</span> <span class="keywordtype">bool</span> bchecksize = <span class="keyword">true</span>);</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span></div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        <span class="keywordtype">bool</span> ftpdelete(<span class="keyword">const</span> std::string&amp; remotefilename);</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span></div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>        <span class="keywordtype">bool</span> ftprename(<span class="keyword">const</span> std::string&amp; srcremotefilename, <span class="keyword">const</span> std::string&amp; dstremotefilename);</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span></div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        <span class="keywordtype">bool</span> site(<span class="keyword">const</span> std::string&amp; command);</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span></div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>        <span class="keywordtype">char</span>* response();</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    };</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span><span class="preprocessor">#endif </span><span class="comment">// __linux__</span></div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span> </div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>} <span class="comment">// namespace ol</span></div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span><span class="preprocessor">#endif </span><span class="comment">// !OL_FTP_H</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        <span class="comment">// 禁用拷贝构造和赋值（避免连接句柄重复释放）</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classol_1_1cftpclient.html#a233923d5e10de38eff5afeb3de33de63">   47</a></span>        <a class="code hl_function" href="classol_1_1cftpclient.html#a233923d5e10de38eff5afeb3de33de63">cftpclient</a>(<span class="keyword">const</span> <a class="code hl_function" href="classol_1_1cftpclient.html#ab63752bee348eca7fb65dc1f258ca696">cftpclient</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="classol_1_1cftpclient.html#a3a7914b4ac708e96cc9e49f33557faa5">   48</a></span>        <a class="code hl_function" href="classol_1_1cftpclient.html#ab63752bee348eca7fb65dc1f258ca696">cftpclient</a>&amp; <a class="code hl_function" href="classol_1_1cftpclient.html#a3a7914b4ac708e96cc9e49f33557faa5">operator=</a>(<span class="keyword">const</span> <a class="code hl_function" href="classol_1_1cftpclient.html#ab63752bee348eca7fb65dc1f258ca696">cftpclient</a>) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <span class="comment">// 初始化m_size和m_mtime成员变量。</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1cftpclient.html#a44fec7a5c36b9e8901cabdd9b92a2ef3">initdata</a>();</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1cftpclient.html#a67766b751d5745aa3710e541aee23a8c">login</a>(<span class="keyword">const</span> std::string&amp; host, <span class="keyword">const</span> std::string&amp; username, <span class="keyword">const</span> std::string&amp; password, <span class="keyword">const</span> <span class="keywordtype">int</span> imode = <a class="code hl_define" href="ftplib_8h.html#aa0ad169c53b73ddcc2854356d3f05409">FTPLIB_PASSIVE</a>);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1cftpclient.html#a0dd327964589d50ee1e6578d9b9bc9b5">logout</a>();</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1cftpclient.html#a44591971d4e3c1771568d17dbf9882ca">mtime</a>(<span class="keyword">const</span> std::string&amp; remotefilename);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1cftpclient.html#a7c03bd23c5918e53838ac8917e5ad34e">size</a>(<span class="keyword">const</span> std::string&amp; remotefilename);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1cftpclient.html#ab81f0307188ddd7f420dbb73a484f770">chdir</a>(<span class="keyword">const</span> std::string&amp; remotedir);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1cftpclient.html#ad4fa22283892b4f9a87373a63f680962">mkdir</a>(<span class="keyword">const</span> std::string&amp; remotedir);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1cftpclient.html#a67e91ee832a8d54428dabcce6aa80bff">rmdir</a>(<span class="keyword">const</span> std::string&amp; remotedir);</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1cftpclient.html#a154a618a823b95189555a998bf27fdaf">nlist</a>(<span class="keyword">const</span> std::string&amp; remotedir, <span class="keyword">const</span> std::string&amp; listfilename);</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1cftpclient.html#a62a8d7f0bb38ddbb31e101d6fab6ac43">get</a>(<span class="keyword">const</span> std::string&amp; remotefilename, <span class="keyword">const</span> std::string&amp; localfilename, <span class="keyword">const</span> <span class="keywordtype">bool</span> bcheckmtime = <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1cftpclient.html#af692adfb2fac90d857b86dad3354a37d">put</a>(<span class="keyword">const</span> std::string&amp; localfilename, <span class="keyword">const</span> std::string&amp; remotefilename, <span class="keyword">const</span> <span class="keywordtype">bool</span> bchecksize = <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1cftpclient.html#a4f2ec2918cccb61ef36600a170023a3d">ftpdelete</a>(<span class="keyword">const</span> std::string&amp; remotefilename);</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1cftpclient.html#ae972f050bbd381db886c1f27ddf228cb">ftprename</a>(<span class="keyword">const</span> std::string&amp; srcremotefilename, <span class="keyword">const</span> std::string&amp; dstremotefilename);</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1cftpclient.html#a44b14723ac3bfd4e8d2b2839c98db64a">site</a>(<span class="keyword">const</span> std::string&amp; command);</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        <span class="keywordtype">char</span>* <a class="code hl_function" href="classol_1_1cftpclient.html#a4a4c46e0aea587aff8b7d1add24f2784">response</a>();</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    };</div>
+</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>} <span class="comment">// namespace ol</span></div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span> </div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span><span class="preprocessor">#endif </span><span class="comment">// !OL_FTP_H</span></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_a0dd327964589d50ee1e6578d9b9bc9b5"><div class="ttname"><a href="classol_1_1cftpclient.html#a0dd327964589d50ee1e6578d9b9bc9b5">ol::cftpclient::logout</a></div><div class="ttdeci">bool logout()</div><div class="ttdoc">从FTP服务器注销并断开连接</div><div class="ttdef"><b>定义</b> ol_ftp.cpp:67</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_a154a618a823b95189555a998bf27fdaf"><div class="ttname"><a href="classol_1_1cftpclient.html#a154a618a823b95189555a998bf27fdaf">ol::cftpclient::nlist</a></div><div class="ttdeci">bool nlist(const std::string &amp;remotedir, const std::string &amp;listfilename)</div><div class="ttdoc">列出FTP服务器目录中的文件和子目录（发送NLST命令）</div><div class="ttdef"><b>定义</b> ol_ftp.cpp:171</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_a21da746af90e50262030b66498f1b1f3"><div class="ttname"><a href="classol_1_1cftpclient.html#a21da746af90e50262030b66498f1b1f3">ol::cftpclient::m_loginfailed</a></div><div class="ttdeci">bool m_loginfailed</div><div class="ttdoc">如果登录失败，用户名和密码不正确，或没有登录权限，该成员的值为true。</div><div class="ttdef"><b>定义</b> ol_ftp.h:36</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_a233923d5e10de38eff5afeb3de33de63"><div class="ttname"><a href="classol_1_1cftpclient.html#a233923d5e10de38eff5afeb3de33de63">ol::cftpclient::cftpclient</a></div><div class="ttdeci">cftpclient(const cftpclient &amp;)=delete</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_a3a7914b4ac708e96cc9e49f33557faa5"><div class="ttname"><a href="classol_1_1cftpclient.html#a3a7914b4ac708e96cc9e49f33557faa5">ol::cftpclient::operator=</a></div><div class="ttdeci">cftpclient &amp; operator=(const cftpclient)=delete</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_a44591971d4e3c1771568d17dbf9882ca"><div class="ttname"><a href="classol_1_1cftpclient.html#a44591971d4e3c1771568d17dbf9882ca">ol::cftpclient::mtime</a></div><div class="ttdeci">bool mtime(const std::string &amp;remotefilename)</div><div class="ttdoc">获取FTP服务器上文件的修改时间</div><div class="ttdef"><b>定义</b> ol_ftp.cpp:116</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_a44b14723ac3bfd4e8d2b2839c98db64a"><div class="ttname"><a href="classol_1_1cftpclient.html#a44b14723ac3bfd4e8d2b2839c98db64a">ol::cftpclient::site</a></div><div class="ttdeci">bool site(const std::string &amp;command)</div><div class="ttdoc">向FTP服务器发送SITE命令（站点特定命令）</div><div class="ttdef"><b>定义</b> ol_ftp.cpp:243</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_a44fec7a5c36b9e8901cabdd9b92a2ef3"><div class="ttname"><a href="classol_1_1cftpclient.html#a44fec7a5c36b9e8901cabdd9b92a2ef3">ol::cftpclient::initdata</a></div><div class="ttdeci">void initdata()</div><div class="ttdef"><b>定义</b> ol_ftp.cpp:29</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_a4a4c46e0aea587aff8b7d1add24f2784"><div class="ttname"><a href="classol_1_1cftpclient.html#a4a4c46e0aea587aff8b7d1add24f2784">ol::cftpclient::response</a></div><div class="ttdeci">char * response()</div><div class="ttdoc">获取服务器最后一次响应信息(return a pointer to the last response received)</div><div class="ttdef"><b>定义</b> ol_ftp.cpp:252</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_a4e1f22238a2b77f1d40e44e89fc950ff"><div class="ttname"><a href="classol_1_1cftpclient.html#a4e1f22238a2b77f1d40e44e89fc950ff">ol::cftpclient::~cftpclient</a></div><div class="ttdeci">~cftpclient()</div><div class="ttdef"><b>定义</b> ol_ftp.cpp:24</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_a4f2ec2918cccb61ef36600a170023a3d"><div class="ttname"><a href="classol_1_1cftpclient.html#a4f2ec2918cccb61ef36600a170023a3d">ol::cftpclient::ftpdelete</a></div><div class="ttdeci">bool ftpdelete(const std::string &amp;remotefilename)</div><div class="ttdoc">删除FTP服务器上的文件</div><div class="ttdef"><b>定义</b> ol_ftp.cpp:225</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_a5dd29143140d46ae9f46be3f5bac8c5f"><div class="ttname"><a href="classol_1_1cftpclient.html#a5dd29143140d46ae9f46be3f5bac8c5f">ol::cftpclient::m_ftpconn</a></div><div class="ttdeci">netbuf * m_ftpconn</div><div class="ttdoc">ftp连接句柄。</div><div class="ttdef"><b>定义</b> ol_ftp.h:29</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_a62a8d7f0bb38ddbb31e101d6fab6ac43"><div class="ttname"><a href="classol_1_1cftpclient.html#a62a8d7f0bb38ddbb31e101d6fab6ac43">ol::cftpclient::get</a></div><div class="ttdeci">bool get(const std::string &amp;remotefilename, const std::string &amp;localfilename, const bool bcheckmtime=true)</div><div class="ttdoc">从FTP服务器下载文件</div><div class="ttdef"><b>定义</b> ol_ftp.cpp:78</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_a67766b751d5745aa3710e541aee23a8c"><div class="ttname"><a href="classol_1_1cftpclient.html#a67766b751d5745aa3710e541aee23a8c">ol::cftpclient::login</a></div><div class="ttdeci">bool login(const std::string &amp;host, const std::string &amp;username, const std::string &amp;password, const int imode=FTPLIB_PASSIVE)</div><div class="ttdoc">登录FTP服务器</div><div class="ttdef"><b>定义</b> ol_ftp.cpp:36</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_a67e91ee832a8d54428dabcce6aa80bff"><div class="ttname"><a href="classol_1_1cftpclient.html#a67e91ee832a8d54428dabcce6aa80bff">ol::cftpclient::rmdir</a></div><div class="ttdeci">bool rmdir(const std::string &amp;remotedir)</div><div class="ttdoc">删除FTP服务器上的目录</div><div class="ttdef"><b>定义</b> ol_ftp.cpp:162</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_a7c03bd23c5918e53838ac8917e5ad34e"><div class="ttname"><a href="classol_1_1cftpclient.html#a7c03bd23c5918e53838ac8917e5ad34e">ol::cftpclient::size</a></div><div class="ttdeci">bool size(const std::string &amp;remotefilename)</div><div class="ttdoc">获取FTP服务器上文件的大小</div><div class="ttdef"><b>定义</b> ol_ftp.cpp:133</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_a86b848421ca515eade18849e993a512b"><div class="ttname"><a href="classol_1_1cftpclient.html#a86b848421ca515eade18849e993a512b">ol::cftpclient::m_mtime</a></div><div class="ttdeci">std::string m_mtime</div><div class="ttdoc">文件的修改时间，格式：yyyymmddhh24miss。</div><div class="ttdef"><b>定义</b> ol_ftp.h:32</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_a8da753c36ee3ba1a744dee05077de5d5"><div class="ttname"><a href="classol_1_1cftpclient.html#a8da753c36ee3ba1a744dee05077de5d5">ol::cftpclient::m_size</a></div><div class="ttdeci">int m_size</div><div class="ttdoc">文件的大小，单位：字节。</div><div class="ttdef"><b>定义</b> ol_ftp.h:31</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_ab63752bee348eca7fb65dc1f258ca696"><div class="ttname"><a href="classol_1_1cftpclient.html#ab63752bee348eca7fb65dc1f258ca696">ol::cftpclient::cftpclient</a></div><div class="ttdeci">cftpclient()</div><div class="ttdef"><b>定义</b> ol_ftp.cpp:11</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_ab81f0307188ddd7f420dbb73a484f770"><div class="ttname"><a href="classol_1_1cftpclient.html#ab81f0307188ddd7f420dbb73a484f770">ol::cftpclient::chdir</a></div><div class="ttdeci">bool chdir(const std::string &amp;remotedir)</div><div class="ttdoc">切换FTP服务器的当前工作目录</div><div class="ttdef"><b>定义</b> ol_ftp.cpp:144</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_ad4b400515afef5a6d85e9a1ef738bda7"><div class="ttname"><a href="classol_1_1cftpclient.html#ad4b400515afef5a6d85e9a1ef738bda7">ol::cftpclient::m_connectfailed</a></div><div class="ttdeci">bool m_connectfailed</div><div class="ttdoc">如果网络连接失败，该成员的值为true。</div><div class="ttdef"><b>定义</b> ol_ftp.h:35</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_ad4fa22283892b4f9a87373a63f680962"><div class="ttname"><a href="classol_1_1cftpclient.html#ad4fa22283892b4f9a87373a63f680962">ol::cftpclient::mkdir</a></div><div class="ttdeci">bool mkdir(const std::string &amp;remotedir)</div><div class="ttdoc">在FTP服务器上创建目录</div><div class="ttdef"><b>定义</b> ol_ftp.cpp:153</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_ae972f050bbd381db886c1f27ddf228cb"><div class="ttname"><a href="classol_1_1cftpclient.html#ae972f050bbd381db886c1f27ddf228cb">ol::cftpclient::ftprename</a></div><div class="ttdeci">bool ftprename(const std::string &amp;srcremotefilename, const std::string &amp;dstremotefilename)</div><div class="ttdoc">重命名FTP服务器上的文件</div><div class="ttdef"><b>定义</b> ol_ftp.cpp:234</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_aea330d196c5cd86d4f59c67317012f6c"><div class="ttname"><a href="classol_1_1cftpclient.html#aea330d196c5cd86d4f59c67317012f6c">ol::cftpclient::m_optionfailed</a></div><div class="ttdeci">bool m_optionfailed</div><div class="ttdoc">如果设置传输模式失败，该成员变量的值为true。</div><div class="ttdef"><b>定义</b> ol_ftp.h:37</div></div>
+<div class="ttc" id="aclassol_1_1cftpclient_html_af692adfb2fac90d857b86dad3354a37d"><div class="ttname"><a href="classol_1_1cftpclient.html#af692adfb2fac90d857b86dad3354a37d">ol::cftpclient::put</a></div><div class="ttdeci">bool put(const std::string &amp;localfilename, const std::string &amp;remotefilename, const bool bchecksize=true)</div><div class="ttdoc">向FTP服务器上传文件</div><div class="ttdef"><b>定义</b> ol_ftp.cpp:182</div></div>
 <div class="ttc" id="aftplib_8h_html"><div class="ttname"><a href="ftplib_8h.html">ftplib.h</a></div></div>
 <div class="ttc" id="aftplib_8h_html_a41c079148fbe076c02326a3f114d9a0a"><div class="ttname"><a href="ftplib_8h.html#a41c079148fbe076c02326a3f114d9a0a">netbuf</a></div><div class="ttdeci">struct NetBuf netbuf</div><div class="ttdef"><b>定义</b> ftplib.h:71</div></div>
-<div class="ttc" id="aftplib_8h_html_aa0ad169c53b73ddcc2854356d3f05409"><div class="ttname"><a href="ftplib_8h.html#aa0ad169c53b73ddcc2854356d3f05409">FTPLIB_PASSIVE</a></div><div class="ttdeci">#define FTPLIB_PASSIVE</div><div class="ttdef"><b>定义</b> ftplib.h:51</div></div>
-<div class="ttc" id="anamespaceol_html"><div class="ttname"><a href="namespaceol.html">ol</a></div><div class="ttdef"><b>定义</b> ol_chrono.cpp:7</div></div>
+<div class="ttc" id="aftplib_8h_html_aa0ad169c53b73ddcc2854356d3f05409"><div class="ttname"><a href="ftplib_8h.html#aa0ad169c53b73ddcc2854356d3f05409">FTPLIB_PASSIVE</a></div><div class="ttdeci">#define FTPLIB_PASSIVE</div><div class="ttdef"><b>定义</b> ftplib.h:56</div></div>
+<div class="ttc" id="anamespaceol_html"><div class="ttname"><a href="namespaceol.html">ol</a></div><div class="ttdef"><b>定义</b> ol_sort_base.h:20</div></div>
 <div class="ttc" id="aol__chrono_8h_html"><div class="ttname"><a href="ol__chrono_8h.html">ol_chrono.h</a></div></div>
 <div class="ttc" id="aol__fstream_8h_html"><div class="ttname"><a href="ol__fstream_8h.html">ol_fstream.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
@@ -193,7 +216,7 @@ $(function(){initNavTree('ol__ftp_8h_source.html','',''); });
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="dir_75b512e435434d14bff7e88c830596e1.html">ollib</a></li><li class="navelem"><a href="dir_b9a0bbad5c7f744a36cd404f18e81e13.html">include</a></li><li class="navelem"><a href="ol__ftp_8h.html">ol_ftp.h</a></li>
+    <li class="navelem"><a href="dir_cfa4bd860ab9135d6701e88c02362962.html">ol_ftp</a></li><li class="navelem"><a href="dir_4d64549a0c199e759dc37a42c12f5447.html">include</a></li><li class="navelem"><a href="ol__ftp_8h.html">ol_ftp.h</a></li>
     <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
   </ul>
 </div>

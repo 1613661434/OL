@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ol_core/include/ol_enum_char_ops.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('ol__enum__char__ops_8h.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ol_enum_char_ops.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;type_traits&gt;</code><br />
+</div>
+<p><a href="ol__enum__char__ops_8h_source.html">浏览该文件的源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:ol" id="r_ol"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html">ol</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+类型定义</h2></td></tr>
+<tr class="memitem:a27fe0401318737aea01f31c40be86eae" id="r_a27fe0401318737aea01f31c40be86eae"><td class="memTemplParams" colspan="2">template&lt;typename E&gt; </td></tr>
+<tr class="memitem:a27fe0401318737aea01f31c40be86eae template"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a27fe0401318737aea01f31c40be86eae">ol::EnableIfCharEnum</a></td></tr>
+<tr class="memdesc:a27fe0401318737aea01f31c40be86eae"><td class="mdescLeft">&#160;</td><td class="mdescRight">模板类型限制：仅匹配「底层为 char 的类型枚举（enum）」  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:abe528a19ec64c0b35b65a3bb60b54aa5" id="r_abe528a19ec64c0b35b65a3bb60b54aa5"><td class="memTemplParams" colspan="2">template&lt;typename E, typename = EnableIfCharEnum&lt;E&gt;&gt; </td></tr>
+<tr class="memitem:abe528a19ec64c0b35b65a3bb60b54aa5 template"><td class="memItemLeft" align="right" valign="top">E &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#abe528a19ec64c0b35b65a3bb60b54aa5">ol::operator++</a> (E &amp;e)</td></tr>
+<tr class="memdesc:abe528a19ec64c0b35b65a3bb60b54aa5"><td class="mdescLeft">&#160;</td><td class="mdescRight">重载前置 ++ 运算符  <br /></td></tr>
+<tr class="memitem:a06a3d5c33735b2aee538665a05b64745" id="r_a06a3d5c33735b2aee538665a05b64745"><td class="memTemplParams" colspan="2">template&lt;typename E, typename = EnableIfCharEnum&lt;E&gt;&gt; </td></tr>
+<tr class="memitem:a06a3d5c33735b2aee538665a05b64745 template"><td class="memItemLeft" align="right" valign="top">E&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a06a3d5c33735b2aee538665a05b64745">ol::operator++</a> (E &amp;e, int)</td></tr>
+<tr class="memdesc:a06a3d5c33735b2aee538665a05b64745"><td class="mdescLeft">&#160;</td><td class="mdescRight">重载后置 ++ 运算符  <br /></td></tr>
+<tr class="memitem:afcb52481509fb70be4adf275c3a86ec8" id="r_afcb52481509fb70be4adf275c3a86ec8"><td class="memTemplParams" colspan="2">template&lt;typename E, typename = EnableIfCharEnum&lt;E&gt;&gt; </td></tr>
+<tr class="memitem:afcb52481509fb70be4adf275c3a86ec8 template"><td class="memItemLeft" align="right" valign="top">E &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#afcb52481509fb70be4adf275c3a86ec8">ol::operator--</a> (E &amp;e)</td></tr>
+<tr class="memdesc:afcb52481509fb70be4adf275c3a86ec8"><td class="mdescLeft">&#160;</td><td class="mdescRight">重载前置 &ndash; 运算符  <br /></td></tr>
+<tr class="memitem:a69d9c1fbd0b37263d2222c7038b07f00" id="r_a69d9c1fbd0b37263d2222c7038b07f00"><td class="memTemplParams" colspan="2">template&lt;typename E, typename = EnableIfCharEnum&lt;E&gt;&gt; </td></tr>
+<tr class="memitem:a69d9c1fbd0b37263d2222c7038b07f00 template"><td class="memItemLeft" align="right" valign="top">E&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a69d9c1fbd0b37263d2222c7038b07f00">ol::operator--</a> (E &amp;e, int)</td></tr>
+<tr class="memdesc:a69d9c1fbd0b37263d2222c7038b07f00"><td class="mdescLeft">&#160;</td><td class="mdescRight">重载后置 &ndash; 运算符  <br /></td></tr>
+<tr class="memitem:af6a22e75250dbf257993ab644dd31876" id="r_af6a22e75250dbf257993ab644dd31876"><td class="memTemplParams" colspan="2">template&lt;typename E, typename = EnableIfCharEnum&lt;E&gt;&gt; </td></tr>
+<tr class="memitem:af6a22e75250dbf257993ab644dd31876 template"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#af6a22e75250dbf257993ab644dd31876">ol::operator&lt;</a> (const E &amp;lhs, const E &amp;rhs)</td></tr>
+<tr class="memdesc:af6a22e75250dbf257993ab644dd31876"><td class="mdescLeft">&#160;</td><td class="mdescRight">重载小于运算符 &lt;  <br /></td></tr>
+<tr class="memitem:a45468b9363cc005d93ed0a4e8b5a03ac" id="r_a45468b9363cc005d93ed0a4e8b5a03ac"><td class="memTemplParams" colspan="2">template&lt;typename E, typename = EnableIfCharEnum&lt;E&gt;&gt; </td></tr>
+<tr class="memitem:a45468b9363cc005d93ed0a4e8b5a03ac template"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a45468b9363cc005d93ed0a4e8b5a03ac">ol::operator&gt;</a> (const E &amp;lhs, const E &amp;rhs)</td></tr>
+<tr class="memdesc:a45468b9363cc005d93ed0a4e8b5a03ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">重载大于运算符 &gt;  <br /></td></tr>
+<tr class="memitem:af2ffc398377dc2ae3118ed446db9b471" id="r_af2ffc398377dc2ae3118ed446db9b471"><td class="memTemplParams" colspan="2">template&lt;typename E, typename = EnableIfCharEnum&lt;E&gt;&gt; </td></tr>
+<tr class="memitem:af2ffc398377dc2ae3118ed446db9b471 template"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#af2ffc398377dc2ae3118ed446db9b471">ol::operator&lt;=</a> (const E &amp;lhs, const E &amp;rhs)</td></tr>
+<tr class="memdesc:af2ffc398377dc2ae3118ed446db9b471"><td class="mdescLeft">&#160;</td><td class="mdescRight">重载小于等于运算符 &lt;=  <br /></td></tr>
+<tr class="memitem:aba41f71282cebe7081ea6272b1c97e3f" id="r_aba41f71282cebe7081ea6272b1c97e3f"><td class="memTemplParams" colspan="2">template&lt;typename E, typename = EnableIfCharEnum&lt;E&gt;&gt; </td></tr>
+<tr class="memitem:aba41f71282cebe7081ea6272b1c97e3f template"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#aba41f71282cebe7081ea6272b1c97e3f">ol::operator&gt;=</a> (const E &amp;lhs, const E &amp;rhs)</td></tr>
+<tr class="memdesc:aba41f71282cebe7081ea6272b1c97e3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">重载大于等于运算符 &gt;=  <br /></td></tr>
+<tr class="memitem:aca01644a1411ed0412f2de8dab371321" id="r_aca01644a1411ed0412f2de8dab371321"><td class="memTemplParams" colspan="2">template&lt;typename E, typename = EnableIfCharEnum&lt;E&gt;&gt; </td></tr>
+<tr class="memitem:aca01644a1411ed0412f2de8dab371321 template"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#aca01644a1411ed0412f2de8dab371321">ol::operator==</a> (const E &amp;lhs, const E &amp;rhs)</td></tr>
+<tr class="memdesc:aca01644a1411ed0412f2de8dab371321"><td class="mdescLeft">&#160;</td><td class="mdescRight">重载等于运算符 ==  <br /></td></tr>
+<tr class="memitem:afdb1e595eec5f6e616d33fd2811e0d4f" id="r_afdb1e595eec5f6e616d33fd2811e0d4f"><td class="memTemplParams" colspan="2">template&lt;typename E, typename = EnableIfCharEnum&lt;E&gt;&gt; </td></tr>
+<tr class="memitem:afdb1e595eec5f6e616d33fd2811e0d4f template"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#afdb1e595eec5f6e616d33fd2811e0d4f">ol::operator!=</a> (const E &amp;lhs, const E &amp;rhs)</td></tr>
+<tr class="memdesc:afdb1e595eec5f6e616d33fd2811e0d4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">重载不等于运算符 !=  <br /></td></tr>
+<tr class="memitem:a1a096ce8ededa716487bb44f141e503a" id="r_a1a096ce8ededa716487bb44f141e503a"><td class="memTemplParams" colspan="2">template&lt;typename E, typename = EnableIfCharEnum&lt;E&gt;&gt; </td></tr>
+<tr class="memitem:a1a096ce8ededa716487bb44f141e503a template"><td class="memItemLeft" align="right" valign="top">E&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a1a096ce8ededa716487bb44f141e503a">ol::operator+</a> (const E &amp;e, int offset)</td></tr>
+<tr class="memdesc:a1a096ce8ededa716487bb44f141e503a"><td class="mdescLeft">&#160;</td><td class="mdescRight">重载加法运算符 +（枚举值 + 整数偏移量）  <br /></td></tr>
+<tr class="memitem:a1a0f440fac7788a19e4e3af239883a34" id="r_a1a0f440fac7788a19e4e3af239883a34"><td class="memTemplParams" colspan="2">template&lt;typename E, typename = EnableIfCharEnum&lt;E&gt;&gt; </td></tr>
+<tr class="memitem:a1a0f440fac7788a19e4e3af239883a34 template"><td class="memItemLeft" align="right" valign="top">E&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a1a0f440fac7788a19e4e3af239883a34">ol::operator-</a> (const E &amp;e, int offset)</td></tr>
+<tr class="memdesc:a1a0f440fac7788a19e4e3af239883a34"><td class="mdescLeft">&#160;</td><td class="mdescRight">重载减法运算符 -（枚举值 - 整数偏移量）  <br /></td></tr>
+<tr class="memitem:a150f37c58c56a8c3897f69fdcaba8724" id="r_a150f37c58c56a8c3897f69fdcaba8724"><td class="memTemplParams" colspan="2">template&lt;typename E, typename = EnableIfCharEnum&lt;E&gt;&gt; </td></tr>
+<tr class="memitem:a150f37c58c56a8c3897f69fdcaba8724 template"><td class="memItemLeft" align="right" valign="top">E &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a150f37c58c56a8c3897f69fdcaba8724">ol::operator+=</a> (E &amp;e, int offset)</td></tr>
+<tr class="memdesc:a150f37c58c56a8c3897f69fdcaba8724"><td class="mdescLeft">&#160;</td><td class="mdescRight">重载赋值加法运算符 +=（枚举值自增指定偏移量）  <br /></td></tr>
+<tr class="memitem:a204be4eda39a8c3704b8f2f67fd8804d" id="r_a204be4eda39a8c3704b8f2f67fd8804d"><td class="memTemplParams" colspan="2">template&lt;typename E, typename = EnableIfCharEnum&lt;E&gt;&gt; </td></tr>
+<tr class="memitem:a204be4eda39a8c3704b8f2f67fd8804d template"><td class="memItemLeft" align="right" valign="top">E &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html#a204be4eda39a8c3704b8f2f67fd8804d">ol::operator-=</a> (E &amp;e, int offset)</td></tr>
+<tr class="memdesc:a204be4eda39a8c3704b8f2f67fd8804d"><td class="mdescLeft">&#160;</td><td class="mdescRight">重载赋值减法运算符 -=（枚举值自减指定偏移量）  <br /></td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_ec89b758369e2f89df9ee858011313e0.html">ol_core</a></li><li class="navelem"><a href="dir_282a4c3c2fd67b603a87790c789a66b1.html">include</a></li><li class="navelem"><a href="ol__enum__char__ops_8h.html">ol_enum_char_ops.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

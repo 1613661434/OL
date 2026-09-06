@@ -1,0 +1,380 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: test_ol_cqueue.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('test_ol_cqueue_8cpp-example.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">test_ol_cqueue.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol__cqueue_8h.html">ol_cqueue.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespaceol.html">ol</a>;</div>
+<div class="line"><span class="keyword">using namespace </span>std;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 自定义测试类，用于验证复杂类型的处理（含资源管理，便于观察clear时的析构）</span></div>
+<div class="line"><span class="keyword">class </span>TestClass</div>
+<div class="line">{</div>
+<div class="line"><span class="keyword">private</span>:</div>
+<div class="line">    <span class="keywordtype">int</span> m_id;</div>
+<div class="line">    <span class="keywordtype">string</span> m_name;</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">public</span>:</div>
+<div class="line">    <span class="comment">// 默认构造函数</span></div>
+<div class="line">    TestClass() : m_id(0), m_name(<span class="stringliteral">&quot;default&quot;</span>)</div>
+<div class="line">    {</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;Default constructor: &quot;</span> &lt;&lt; m_name &lt;&lt; endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 带参数的构造函数</span></div>
+<div class="line">    TestClass(<span class="keywordtype">int</span> <span class="keywordtype">id</span>, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; name) : m_id(<span class="keywordtype">id</span>), m_name(name)</div>
+<div class="line">    {</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;Constructor: &quot;</span> &lt;&lt; m_name &lt;&lt; endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 拷贝构造函数</span></div>
+<div class="line">    TestClass(<span class="keyword">const</span> TestClass&amp; other) : m_id(other.m_id), m_name(other.m_name)</div>
+<div class="line">    {</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;Copy constructor: &quot;</span> &lt;&lt; m_name &lt;&lt; endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 移动构造函数</span></div>
+<div class="line">    TestClass(TestClass&amp;&amp; other) noexcept : m_id(other.m_id), m_name(move(other.m_name))</div>
+<div class="line">    {</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;Move constructor: &quot;</span> &lt;&lt; m_name &lt;&lt; endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 析构函数（非平凡析构，clear时需显式调用，此处打印以验证）</span></div>
+<div class="line">    ~TestClass()</div>
+<div class="line">    {</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;Destructor: &quot;</span> &lt;&lt; m_name &lt;&lt; <span class="stringliteral">&quot; (资源释放)&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 拷贝赋值运算符</span></div>
+<div class="line">    TestClass&amp; operator=(<span class="keyword">const</span> TestClass&amp; other)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordflow">if</span> (<span class="keyword">this</span> != &amp;other)</div>
+<div class="line">        {</div>
+<div class="line">            m_id = other.m_id;</div>
+<div class="line">            m_name = other.m_name;</div>
+<div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;Copy assignment: &quot;</span> &lt;&lt; m_name &lt;&lt; endl;</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 移动赋值运算符</span></div>
+<div class="line">    TestClass&amp; operator=(TestClass&amp;&amp; other) <span class="keyword">noexcept</span></div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordflow">if</span> (<span class="keyword">this</span> != &amp;other)</div>
+<div class="line">        {</div>
+<div class="line">            m_id = other.m_id;</div>
+<div class="line">            m_name = move(other.m_name);</div>
+<div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;Move assignment: &quot;</span> &lt;&lt; m_name &lt;&lt; endl;</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 获取信息</span></div>
+<div class="line">    <span class="keywordtype">string</span> info()<span class="keyword"> const</span></div>
+<div class="line"><span class="keyword">    </span>{</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="stringliteral">&quot;ID: &quot;</span> + to_string(m_id) + <span class="stringliteral">&quot;, Name: &quot;</span> + m_name;</div>
+<div class="line">    }</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 辅助函数：打印分隔线</span></div>
+<div class="line"><span class="keywordtype">void</span> printSeparator(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; title = <span class="stringliteral">&quot;&quot;</span>)</div>
+<div class="line">{</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n===== &quot;</span> &lt;&lt; title &lt;&lt; <span class="stringliteral">&quot; =====&quot;</span> &lt;&lt; endl;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">    printSeparator(<span class="stringliteral">&quot;测试基本整数队列操作&quot;</span>);</div>
+<div class="line">    {</div>
+<div class="line">        <a id="_a0" name="_a0"></a><a class="code hl_class" href="classol_1_1cqueue.html">cqueue&lt;int, 3&gt;</a> intQueue;</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;入队操作测试:&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        intQueue.<a id="a1" name="a1"></a><a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(10);</div>
+<div class="line">        intQueue.<a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(20);</div>
+<div class="line">        intQueue.<a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(30);</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;队列已满，尝试入队40:&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        <span class="keywordflow">if</span> (!intQueue.<a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(40))</div>
+<div class="line">        {</div>
+<div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;入队失败，队列已满&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;\n队列状态:&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;队列长度: &quot;</span> &lt;&lt; intQueue.<a id="a2" name="a2"></a><a class="code hl_function" href="classol_1_1cqueue.html#ab5ad1f1c652d5bfe9c181a3b78d48ef7">size</a>() &lt;&lt; endl;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;队列元素:&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        intQueue.<a id="a3" name="a3"></a><a class="code hl_function" href="classol_1_1cqueue.html#a21e98b88a5bef49f05b7eb98333bdeda">print</a>();</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;\n出队操作测试:&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        <span class="keywordflow">while</span> (!intQueue.<a id="a4" name="a4"></a><a class="code hl_function" href="classol_1_1cqueue.html#a005eaad2063f7f74268a0924f5ccaa74">empty</a>())</div>
+<div class="line">        {</div>
+<div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;队首元素: &quot;</span> &lt;&lt; intQueue.<a id="a5" name="a5"></a><a class="code hl_function" href="classol_1_1cqueue.html#a4ef8069c96fda089a1645c2b7dc55c37">front</a>() &lt;&lt; endl;</div>
+<div class="line">            intQueue.<a id="a6" name="a6"></a><a class="code hl_function" href="classol_1_1cqueue.html#a84e01a21528fab956aca1f071c5552b0">pop</a>();</div>
+<div class="line">        }</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;队列已空，尝试出队:&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        <span class="keywordflow">if</span> (!intQueue.<a class="code hl_function" href="classol_1_1cqueue.html#a84e01a21528fab956aca1f071c5552b0">pop</a>())</div>
+<div class="line">        {</div>
+<div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;出队失败，队列为空&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    printSeparator(<span class="stringliteral">&quot;测试异常处理&quot;</span>);</div>
+<div class="line">    {</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1cqueue.html">cqueue&lt;int, 2&gt;</a> queue;</div>
+<div class="line"> </div>
+<div class="line">        <span class="keywordflow">try</span></div>
+<div class="line">        {</div>
+<div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;尝试从空队列获取队首元素...&quot;</span> &lt;&lt; endl;</div>
+<div class="line">            queue.<a class="code hl_function" href="classol_1_1cqueue.html#a4ef8069c96fda089a1645c2b7dc55c37">front</a>();</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">catch</span> (<span class="keyword">const</span> out_of_range&amp; e)</div>
+<div class="line">        {</div>
+<div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;捕获异常: &quot;</span> &lt;&lt; e.what() &lt;&lt; endl;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        queue.<a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(1);</div>
+<div class="line">        queue.<a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(2);</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;\n队列已满，尝试入队3...&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        <span class="keywordflow">if</span> (!queue.<a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(3))</div>
+<div class="line">        {</div>
+<div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;入队失败，队列已满&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    printSeparator(<span class="stringliteral">&quot;测试自定义类型&quot;</span>);</div>
+<div class="line">    {</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1cqueue.html">cqueue&lt;TestClass, 2&gt;</a> objQueue;</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;\n使用push入队临时对象:&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        objQueue.<a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(TestClass(1, <span class="stringliteral">&quot;Object1&quot;</span>));</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;\n使用emplace原地构造对象:&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        objQueue.<a id="a7" name="a7"></a><a class="code hl_function" href="classol_1_1cqueue.html#a9a1f582765a656c3f51c8096b849797d">emplace</a>(2, <span class="stringliteral">&quot;Object2&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;\n队列元素:&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        <span class="keywordflow">while</span> (!objQueue.<a class="code hl_function" href="classol_1_1cqueue.html#a005eaad2063f7f74268a0924f5ccaa74">empty</a>())</div>
+<div class="line">        {</div>
+<div class="line">            cout &lt;&lt; objQueue.<a class="code hl_function" href="classol_1_1cqueue.html#a4ef8069c96fda089a1645c2b7dc55c37">front</a>().info() &lt;&lt; endl;</div>
+<div class="line">            objQueue.<a class="code hl_function" href="classol_1_1cqueue.html#a84e01a21528fab956aca1f071c5552b0">pop</a>();</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    printSeparator(<span class="stringliteral">&quot;测试移动语义&quot;</span>);</div>
+<div class="line">    {</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1cqueue.html">cqueue&lt;string, 2&gt;</a> strQueue;</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;\n使用push入队右值引用:&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        strQueue.<a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(<span class="stringliteral">&quot;Hello&quot;</span>);</div>
+<div class="line">        strQueue.<a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(<span class="keywordtype">string</span>(<span class="stringliteral">&quot;World&quot;</span>));</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;\n队列元素:&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        strQueue.<a class="code hl_function" href="classol_1_1cqueue.html#a21e98b88a5bef49f05b7eb98333bdeda">print</a>();</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;\n移动构造新队列:&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1cqueue.html">cqueue&lt;string, 2&gt;</a> movedQueue(move(strQueue));</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;移动后原队列状态:&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;原队列是否为空: &quot;</span> &lt;&lt; (strQueue.<a class="code hl_function" href="classol_1_1cqueue.html#a005eaad2063f7f74268a0924f5ccaa74">empty</a>() ? <span class="stringliteral">&quot;是&quot;</span> : <span class="stringliteral">&quot;否&quot;</span>) &lt;&lt; endl;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;移动后新队列元素:&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        movedQueue.print();</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    printSeparator(<span class="stringliteral">&quot;测试init()方法&quot;</span>);</div>
+<div class="line">    {</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1cqueue.html">cqueue&lt;int, 3&gt;</a> queue;</div>
+<div class="line">        queue.<a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(1);</div>
+<div class="line">        queue.<a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(2);</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;初始化前队列长度: &quot;</span> &lt;&lt; queue.<a class="code hl_function" href="classol_1_1cqueue.html#ab5ad1f1c652d5bfe9c181a3b78d48ef7">size</a>() &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;调用init()重新初始化队列...&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        queue.<a id="a8" name="a8"></a><a class="code hl_function" href="classol_1_1cqueue.html#a411b7faf0839d674ab1fdbfb749bc8e2">init</a>();</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;初始化后队列长度: &quot;</span> &lt;&lt; queue.<a class="code hl_function" href="classol_1_1cqueue.html#ab5ad1f1c652d5bfe9c181a3b78d48ef7">size</a>() &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;重新入队元素...&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        queue.<a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(100);</div>
+<div class="line">        queue.<a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(200);</div>
+<div class="line">        queue.<a class="code hl_function" href="classol_1_1cqueue.html#a21e98b88a5bef49f05b7eb98333bdeda">print</a>();</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    printSeparator(<span class="stringliteral">&quot;测试队列满和空的边界条件&quot;</span>);</div>
+<div class="line">    {</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1cqueue.html">cqueue&lt;int, 1&gt;</a> queue;</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;入队元素1...&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        queue.<a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(1);</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;队列是否已满: &quot;</span> &lt;&lt; (queue.<a id="a9" name="a9"></a><a class="code hl_function" href="classol_1_1cqueue.html#ae125865a11fc17c348805966e8e461c0">full</a>() ? <span class="stringliteral">&quot;是&quot;</span> : <span class="stringliteral">&quot;否&quot;</span>) &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;尝试再次入队元素2...&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        <span class="keywordflow">if</span> (!queue.<a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(2))</div>
+<div class="line">        {</div>
+<div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;入队失败，队列已满&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;出队元素...&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        queue.<a class="code hl_function" href="classol_1_1cqueue.html#a84e01a21528fab956aca1f071c5552b0">pop</a>();</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;队列是否为空: &quot;</span> &lt;&lt; (queue.<a class="code hl_function" href="classol_1_1cqueue.html#a005eaad2063f7f74268a0924f5ccaa74">empty</a>() ? <span class="stringliteral">&quot;是&quot;</span> : <span class="stringliteral">&quot;否&quot;</span>) &lt;&lt; endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    printSeparator(<span class="stringliteral">&quot;测试clear()函数&quot;</span>);</div>
+<div class="line">    {</div>
+<div class="line">        <span class="comment">// 1. 测试POD类型（int）的clear：仅重置状态，无需析构</span></div>
+<div class="line">        printSeparator(<span class="stringliteral">&quot;1. POD类型（int）的clear&quot;</span>);</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1cqueue.html">cqueue&lt;int, 3&gt;</a> podQueue;</div>
+<div class="line">        podQueue.<a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(10);</div>
+<div class="line">        podQueue.<a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(20);</div>
+<div class="line">        podQueue.<a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(30);</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;clear前 - 队列长度: &quot;</span> &lt;&lt; podQueue.<a class="code hl_function" href="classol_1_1cqueue.html#ab5ad1f1c652d5bfe9c181a3b78d48ef7">size</a>() &lt;&lt; <span class="stringliteral">&quot;, 元素: &quot;</span>;</div>
+<div class="line">        podQueue.<a class="code hl_function" href="classol_1_1cqueue.html#a21e98b88a5bef49f05b7eb98333bdeda">print</a>();</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;调用clear()...&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        podQueue.<a id="a10" name="a10"></a><a class="code hl_function" href="classol_1_1cqueue.html#adb3a526dc20118d66469624040cbcc77">clear</a>();</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;clear后 - 队列长度: &quot;</span> &lt;&lt; podQueue.<a class="code hl_function" href="classol_1_1cqueue.html#ab5ad1f1c652d5bfe9c181a3b78d48ef7">size</a>() &lt;&lt; <span class="stringliteral">&quot;, 是否为空: &quot;</span> &lt;&lt; (podQueue.<a class="code hl_function" href="classol_1_1cqueue.html#a005eaad2063f7f74268a0924f5ccaa74">empty</a>() ? <span class="stringliteral">&quot;是&quot;</span> : <span class="stringliteral">&quot;否&quot;</span>) &lt;&lt; endl;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;clear后重新入队元素（验证复用）:&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        podQueue.<a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(100);</div>
+<div class="line">        podQueue.<a class="code hl_function" href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">push</a>(200);</div>
+<div class="line">        podQueue.<a class="code hl_function" href="classol_1_1cqueue.html#a21e98b88a5bef49f05b7eb98333bdeda">print</a>();</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 2. 测试非POD类型（TestClass）的clear：需显式析构元素（观察Destructor打印）</span></div>
+<div class="line">        printSeparator(<span class="stringliteral">&quot;2. 非POD类型（TestClass）的clear&quot;</span>);</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1cqueue.html">cqueue&lt;TestClass, 2&gt;</a> nonPodQueue;</div>
+<div class="line">        nonPodQueue.<a class="code hl_function" href="classol_1_1cqueue.html#a9a1f582765a656c3f51c8096b849797d">emplace</a>(1, <span class="stringliteral">&quot;ClearTest1&quot;</span>); <span class="comment">// 原地构造</span></div>
+<div class="line">        nonPodQueue.<a class="code hl_function" href="classol_1_1cqueue.html#a9a1f582765a656c3f51c8096b849797d">emplace</a>(2, <span class="stringliteral">&quot;ClearTest2&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;clear前 - 队列长度: &quot;</span> &lt;&lt; nonPodQueue.<a class="code hl_function" href="classol_1_1cqueue.html#ab5ad1f1c652d5bfe9c181a3b78d48ef7">size</a>() &lt;&lt; <span class="stringliteral">&quot;, 元素信息:&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        cout &lt;&lt; nonPodQueue.<a class="code hl_function" href="classol_1_1cqueue.html#a4ef8069c96fda089a1645c2b7dc55c37">front</a>().info() &lt;&lt; endl;</div>
+<div class="line">        nonPodQueue.<a class="code hl_function" href="classol_1_1cqueue.html#a84e01a21528fab956aca1f071c5552b0">pop</a>(); <span class="comment">// 先弹出第一个，留一个在队列中便于观察clear的析构</span></div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;弹出一个元素后，剩余队列长度: &quot;</span> &lt;&lt; nonPodQueue.<a class="code hl_function" href="classol_1_1cqueue.html#ab5ad1f1c652d5bfe9c181a3b78d48ef7">size</a>() &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;调用clear()（观察下方&#39;资源释放&#39;打印，验证析构）...&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        nonPodQueue.<a class="code hl_function" href="classol_1_1cqueue.html#adb3a526dc20118d66469624040cbcc77">clear</a>();</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;clear后 - 队列长度: &quot;</span> &lt;&lt; nonPodQueue.<a class="code hl_function" href="classol_1_1cqueue.html#ab5ad1f1c652d5bfe9c181a3b78d48ef7">size</a>() &lt;&lt; <span class="stringliteral">&quot;, 是否为空: &quot;</span> &lt;&lt; (nonPodQueue.<a class="code hl_function" href="classol_1_1cqueue.html#a005eaad2063f7f74268a0924f5ccaa74">empty</a>() ? <span class="stringliteral">&quot;是&quot;</span> : <span class="stringliteral">&quot;否&quot;</span>) &lt;&lt; endl;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;clear后重新入队（验证复用）:&quot;</span> &lt;&lt; endl;</div>
+<div class="line">        nonPodQueue.<a class="code hl_function" href="classol_1_1cqueue.html#a9a1f582765a656c3f51c8096b849797d">emplace</a>(3, <span class="stringliteral">&quot;ClearTest3&quot;</span>); <span class="comment">// 重新构造元素</span></div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;复用后队列元素: &quot;</span> &lt;&lt; nonPodQueue.<a class="code hl_function" href="classol_1_1cqueue.html#a4ef8069c96fda089a1645c2b7dc55c37">front</a>().info() &lt;&lt; endl;</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 3. 测试空队列调用clear：无操作（边界场景）</span></div>
+<div class="line">        printSeparator(<span class="stringliteral">&quot;3. 空队列调用clear（边界场景）&quot;</span>);</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1cqueue.html">cqueue&lt;string, 2&gt;</a> emptyQueue;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;空队列调用clear()前 - 是否为空: &quot;</span> &lt;&lt; (emptyQueue.<a class="code hl_function" href="classol_1_1cqueue.html#a005eaad2063f7f74268a0924f5ccaa74">empty</a>() ? <span class="stringliteral">&quot;是&quot;</span> : <span class="stringliteral">&quot;否&quot;</span>) &lt;&lt; endl;</div>
+<div class="line">        emptyQueue.<a class="code hl_function" href="classol_1_1cqueue.html#adb3a526dc20118d66469624040cbcc77">clear</a>(); <span class="comment">// 调用无副作用</span></div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;空队列调用clear()后 - 是否为空: &quot;</span> &lt;&lt; (emptyQueue.<a class="code hl_function" href="classol_1_1cqueue.html#a005eaad2063f7f74268a0924f5ccaa74">empty</a>() ? <span class="stringliteral">&quot;是&quot;</span> : <span class="stringliteral">&quot;否&quot;</span>) &lt;&lt; endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+<div class="ttc" id="aclassol_1_1cqueue_html"><div class="ttname"><a href="classol_1_1cqueue.html">ol::cqueue</a></div><div class="ttdoc">循环队列模板类 基于静态数组实现，大小固定，支持高效的FIFO（先进先出）操作</div><div class="ttdef"><b>定义</b> ol_cqueue.h:36</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a005eaad2063f7f74268a0924f5ccaa74"><div class="ttname"><a href="classol_1_1cqueue.html#a005eaad2063f7f74268a0924f5ccaa74">ol::cqueue::empty</a></div><div class="ttdeci">bool empty() const</div><div class="ttdoc">判断队列是否为空</div><div class="ttdef"><b>定义</b> ol_cqueue.h:151</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a21e98b88a5bef49f05b7eb98333bdeda"><div class="ttname"><a href="classol_1_1cqueue.html#a21e98b88a5bef49f05b7eb98333bdeda">ol::cqueue::print</a></div><div class="ttdeci">void print() const</div><div class="ttdoc">打印队列中所有元素（调试用） 要求元素类型支持std::cout输出</div><div class="ttdef"><b>定义</b> ol_cqueue.h:287</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a411b7faf0839d674ab1fdbfb749bc8e2"><div class="ttname"><a href="classol_1_1cqueue.html#a411b7faf0839d674ab1fdbfb749bc8e2">ol::cqueue::init</a></div><div class="ttdeci">void init()</div><div class="ttdoc">初始化队列（仅未初始化时有效） 用于共享内存场景（不自动调用构造函数时）</div><div class="ttdef"><b>定义</b> ol_cqueue.h:130</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a4ef8069c96fda089a1645c2b7dc55c37"><div class="ttname"><a href="classol_1_1cqueue.html#a4ef8069c96fda089a1645c2b7dc55c37">ol::cqueue::front</a></div><div class="ttdeci">T &amp; front()</div><div class="ttdoc">获取队头元素（非const版本）</div><div class="ttdef"><b>定义</b> ol_cqueue.h:245</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a84e01a21528fab956aca1f071c5552b0"><div class="ttname"><a href="classol_1_1cqueue.html#a84e01a21528fab956aca1f071c5552b0">ol::cqueue::pop</a></div><div class="ttdeci">bool pop()</div><div class="ttdoc">元素出队</div><div class="ttdef"><b>定义</b> ol_cqueue.h:197</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_a9a1f582765a656c3f51c8096b849797d"><div class="ttname"><a href="classol_1_1cqueue.html#a9a1f582765a656c3f51c8096b849797d">ol::cqueue::emplace</a></div><div class="ttdeci">bool emplace(Args &amp;&amp;... args)</div><div class="ttdoc">原地构造元素入队（直接在队列内存中构造对象）</div><div class="ttdef"><b>定义</b> ol_cqueue.h:269</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_ab5ad1f1c652d5bfe9c181a3b78d48ef7"><div class="ttname"><a href="classol_1_1cqueue.html#ab5ad1f1c652d5bfe9c181a3b78d48ef7">ol::cqueue::size</a></div><div class="ttdeci">size_t size() const</div><div class="ttdoc">获取队列当前元素数量</div><div class="ttdef"><b>定义</b> ol_cqueue.h:238</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_adb3a526dc20118d66469624040cbcc77"><div class="ttname"><a href="classol_1_1cqueue.html#adb3a526dc20118d66469624040cbcc77">ol::cqueue::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">清空队列所有元素（重置队列状态） 对于非平凡析构类型，会显式调用元素的析构函数</div><div class="ttdef"><b>定义</b> ol_cqueue.h:218</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_ae125865a11fc17c348805966e8e461c0"><div class="ttname"><a href="classol_1_1cqueue.html#ae125865a11fc17c348805966e8e461c0">ol::cqueue::full</a></div><div class="ttdeci">bool full() const</div><div class="ttdoc">判断队列是否已满</div><div class="ttdef"><b>定义</b> ol_cqueue.h:145</div></div>
+<div class="ttc" id="aclassol_1_1cqueue_html_ae41a3fb6ee71f57c6fae344832ee560d"><div class="ttname"><a href="classol_1_1cqueue.html#ae41a3fb6ee71f57c6fae344832ee560d">ol::cqueue::push</a></div><div class="ttdeci">bool push(const T &amp;e)</div><div class="ttdoc">元素入队（拷贝版本）</div><div class="ttdef"><b>定义</b> ol_cqueue.h:158</div></div>
+<div class="ttc" id="anamespaceol_html"><div class="ttname"><a href="namespaceol.html">ol</a></div><div class="ttdef"><b>定义</b> ol_sort_base.h:20</div></div>
+<div class="ttc" id="aol__cqueue_8h_html"><div class="ttname"><a href="ol__cqueue_8h.html">ol_cqueue.h</a></div></div>
+</div><!-- fragment --> </div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -27,7 +27,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
   <td id="projectalign">
-   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
    </div>
    <div id="projectbrief">This is a C++ library.</div>
   </td>
@@ -94,6 +94,9 @@ $(function(){initNavTree('classol_1_1_type_singleton.html','','classol_1_1_type_
 </div><!--header-->
 <div class="contents">
 
+<p>单例类（懒汉模式），提供GetInst()，且不可拷贝不可移动  
+ <a href="#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="ol__type__traits_8h_source.html">ol_type_traits.h</a>&gt;</code></p>
 <div class="dynheader">
 类 ol::TypeSingleton&lt; T &gt; 继承关系图:</div>
@@ -101,9 +104,9 @@ $(function(){initNavTree('classol_1_1_type_singleton.html','','classol_1_1_type_
  <div class="center">
   <img src="classol_1_1_type_singleton.png" usemap="#ol_3A_3ATypeSingleton_3C_20T_20_3E_map" alt=""/>
   <map id="ol_3A_3ATypeSingleton_3C_20T_20_3E_map" name="ol_3A_3ATypeSingleton_3C_20T_20_3E_map">
-<area href="classol_1_1_type_non_copyable_movable.html" alt="ol::TypeNonCopyableMovable" shape="rect" coords="96,56,278,80"/>
-<area href="classol_1_1_type_non_copyable.html" alt="ol::TypeNonCopyable" shape="rect" coords="0,0,182,24"/>
-<area href="classol_1_1_type_non_movable.html" alt="ol::TypeNonMovable" shape="rect" coords="192,0,374,24"/>
+<area href="classol_1_1_type_non_copyable_movable.html" title="不可拷贝且不可移动标记类（TypeNonCopyable + TypeNonMovable的组合）" alt="ol::TypeNonCopyableMovable" shape="rect" coords="96,56,278,80"/>
+<area href="classol_1_1_type_non_copyable.html" title="不可拷贝标记类，继承此类的派生类将禁用拷贝构造和拷贝赋值" alt="ol::TypeNonCopyable" shape="rect" coords="0,0,182,24"/>
+<area href="classol_1_1_type_non_movable.html" title="不可移动标记类，继承此类的派生类将禁用移动构造和移动赋值" alt="ol::TypeNonMovable" shape="rect" coords="192,0,374,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -125,7 +128,25 @@ Protected 成员函数</h2></td></tr>
 <tr class="memitem:a935a5fca01f78b7747bc2399c76666ea inherit pro_methods_classol_1_1_type_non_movable" id="r_a935a5fca01f78b7747bc2399c76666ea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_movable.html#a935a5fca01f78b7747bc2399c76666ea">TypeNonMovable</a> ()=default</td></tr>
 <tr class="memitem:a00ff9a5d4fde1ba3772b5daebfa0409f inherit pro_methods_classol_1_1_type_non_movable" id="r_a00ff9a5d4fde1ba3772b5daebfa0409f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_movable.html#a00ff9a5d4fde1ba3772b5daebfa0409f">~TypeNonMovable</a> ()=default</td></tr>
 </table>
-<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">详细描述</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
+class ol::TypeSingleton&lt; T &gt;</div><p>单例类（懒汉模式），提供GetInst()，且不可拷贝不可移动 </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>传入需要单例的类 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>使用奇异递归模板模式(CRTP)，C++11后局部静态变量初始化线程安全 </dd></dl>
+<dl class="section user"><dt>使用示例</dt><dd><div class="fragment"><div class="line"><span class="keyword">class </span>A : <span class="keyword">public</span> <a class="code hl_function" href="#abe9a02cd5a4586aed581f3780215e8b6">TypeSingleton</a>&lt;A&gt;</div>
+<div class="line">{</div>
+<div class="line">    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_function" href="#abe9a02cd5a4586aed581f3780215e8b6">TypeSingleton</a>&lt;A&gt;;</div>
+<div class="line">};</div>
+<div class="ttc" id="aclassol_1_1_type_singleton_html_abe9a02cd5a4586aed581f3780215e8b6"><div class="ttname"><a href="#abe9a02cd5a4586aed581f3780215e8b6">ol::TypeSingleton::TypeSingleton</a></div><div class="ttdeci">TypeSingleton()=default</div></div>
+</div><!-- fragment --> </dd></dl>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol_type_traits__type_singleton_8cpp-example.html#_a0">test_ol_type_traits_TypeSingleton.cpp</a>.</dd>
+</dl>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
 <a id="abe9a02cd5a4586aed581f3780215e8b6" name="abe9a02cd5a4586aed581f3780215e8b6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abe9a02cd5a4586aed581f3780215e8b6">&#9670;&#160;</a></span>TypeSingleton()</h2>
 
@@ -209,7 +230,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <hr/>该类的文档由以下文件生成:<ul>
-<li>ollib/include/<a class="el" href="ol__type__traits_8h_source.html">ol_type_traits.h</a></li>
+<li>ol_core/include/<a class="el" href="ol__type__traits_8h_source.html">ol_type_traits.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

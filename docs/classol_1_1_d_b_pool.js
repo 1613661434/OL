@@ -1,0 +1,35 @@
+var classol_1_1_d_b_pool =
+[
+    [ "ConnectionLease", "classol_1_1_d_b_pool_1_1_connection_lease.html", "classol_1_1_d_b_pool_1_1_connection_lease" ],
+    [ "ConnConfigCallback", "classol_1_1_d_b_pool.html#ad758807f39bf79f34856580312fee71b", null ],
+    [ "ConnPtr", "classol_1_1_d_b_pool.html#a2996563882f3a7d06e62f155eaf698aa", null ],
+    [ "StoragePtr", "classol_1_1_d_b_pool.html#a21bca58f5bdf051c1b1a5604885461c2", null ],
+    [ "TimeoutMs", "classol_1_1_d_b_pool.html#aaf967dc3bef792741b6dcbb6f0f4d062", null ],
+    [ "State", "classol_1_1_d_b_pool.html#a914e4a58eb014a3cd9695f56dceafce5", [
+      [ "Uninitialized", "classol_1_1_d_b_pool.html#a914e4a58eb014a3cd9695f56dceafce5af704f57ea420275ad51bf55b7dec2c96", null ],
+      [ "Initializing", "classol_1_1_d_b_pool.html#a914e4a58eb014a3cd9695f56dceafce5a32b169f72b293ef80d35435e9894f8e2", null ],
+      [ "Running", "classol_1_1_d_b_pool.html#a914e4a58eb014a3cd9695f56dceafce5a5bda814c4aedb126839228f1a3d92f09", null ],
+      [ "Stopped", "classol_1_1_d_b_pool.html#a914e4a58eb014a3cd9695f56dceafce5ac23e2b09ebe6bf4cb5e2a9abe85c0be2", null ]
+    ] ],
+    [ "DBPool", "classol_1_1_d_b_pool.html#aa012cc8470024c5f27701ab693db2f61", null ],
+    [ "~DBPool", "classol_1_1_d_b_pool.html#ad640043fd4323d4ec5bc8c002a0b9a33", null ],
+    [ "destroy", "classol_1_1_d_b_pool.html#a1307e1a6d4abe14a6720f125a99a0958", null ],
+    [ "disconnectAll", "classol_1_1_d_b_pool.html#aec994d3c4ca9a20324b7ace0fd061389", null ],
+    [ "disconnectNoexcept", "classol_1_1_d_b_pool.html#a97fc1230333f5141240cc277d9130790", null ],
+    [ "get", "classol_1_1_d_b_pool.html#a3442f0e931eaaf287e3853ce4faf825c", null ],
+    [ "getTimeout", "classol_1_1_d_b_pool.html#ad455cbb0444ec0ab7e99a4dbcf9a259d", null ],
+    [ "idle", "classol_1_1_d_b_pool.html#ad7c22f4fbe8e62a56506fb6d12be9263", null ],
+    [ "init", "classol_1_1_d_b_pool.html#a40d60a3f126d34709a7244f0a521af76", null ],
+    [ "isRunning", "classol_1_1_d_b_pool.html#a77885e408975facd566bc225727fecaf", null ],
+    [ "maxConn", "classol_1_1_d_b_pool.html#aac9426d6222e523cebd6d0207d9c7020", null ],
+    [ "prepareLease", "classol_1_1_d_b_pool.html#a2c29fae4f45d7acf7c75710e782eec86", null ],
+    [ "release", "classol_1_1_d_b_pool.html#a804ee3e96b1164832804e8c2b96516dd", null ],
+    [ "returnConnection", "classol_1_1_d_b_pool.html#a47ec54e2e13bd4849e1e58d8de59273c", null ],
+    [ "TypeSingleton< DBPool< T > >", "classol_1_1_d_b_pool.html#a97818eb56ea044ba4e8269fdde66d44a", null ],
+    [ "m_config_cb", "classol_1_1_d_b_pool.html#a3f173267130694702771b1cfadcdfc44", null ],
+    [ "m_cv", "classol_1_1_d_b_pool.html#afa3d6f4754cd9beccaf37b7f73083868", null ],
+    [ "m_max_conn", "classol_1_1_d_b_pool.html#aafcc322af4e2750cb56087eaa9d1c263", null ],
+    [ "m_mtx", "classol_1_1_d_b_pool.html#aa962f046d3a579876053e03c8aabb580", null ],
+    [ "m_queue", "classol_1_1_d_b_pool.html#ae97327b5002c9ad27ad03f6c94429e60", null ],
+    [ "m_state", "classol_1_1_d_b_pool.html#a43f886aefd2fbfcf04ab6bd9b8981bfa", null ]
+];

@@ -7,7 +7,7 @@ var ol__sort__base_8h =
     [ "ol::base::bucket_sort_int_base", "namespaceol_1_1base.html#a499da4630bd21432da012a822220ccb8", null ],
     [ "ol::base::counting_sort_base", "namespaceol_1_1base.html#a6390fcf1944bc32d6bc7ec25f91fdeea", null ],
     [ "ol::base::fast_pow", "namespaceol_1_1base.html#a2282714b1d8e8a94b13dacf5e97eca4e", null ],
-    [ "ol::base::get_char", "namespaceol_1_1base.html#adc4684b7186d6f732010a29fb4bc50b2", null ],
+    [ "ol::base::get_char", "namespaceol_1_1base.html#ac2817c70f560d7065762043ca493253d", null ],
     [ "ol::base::heap_sort_base", "namespaceol_1_1base.html#a818303d117b5c8b54d77f7a8ed85bbc5", null ],
     [ "ol::base::heapify_base", "namespaceol_1_1base.html#a45139cea158d6552dfcc307858c6c7fe", null ],
     [ "ol::base::insertion_sort_base", "namespaceol_1_1base.html#a9ac216579a9a5eb5a48decbc29c8534c", null ],

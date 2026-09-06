@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: test_ol_type_traits_TypeSingleton.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('test_ol_type_traits__type_singleton_8cpp-example.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">test_ol_type_traits_TypeSingleton.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol__type__traits_8h.html">ol_type_traits.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;thread&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;atomic&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;cstdio&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespaceol.html">ol</a>;</div>
+<div class="line"><span class="keyword">using namespace </span>std;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// ======================== 1. 定义待测试的单例子类 ========================</span></div>
+<div class="line"><span class="keyword">class </span>MyClass : <span class="keyword">public</span> <a id="_a0" name="_a0"></a><a class="code hl_class" href="classol_1_1_type_singleton.html">TypeSingleton</a>&lt;MyClass&gt;</div>
+<div class="line">{</div>
+<div class="line">    <span class="comment">// 必须声明友元，授权单例基类调用私有构造函数</span></div>
+<div class="line">    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_class" href="classol_1_1_type_singleton.html">TypeSingleton</a>&lt;MyClass&gt;;</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">private</span>:</div>
+<div class="line">    <span class="comment">// 【单例核心要求】构造函数私有化，禁止外部创建实例</span></div>
+<div class="line">    MyClass()</div>
+<div class="line">    {</div>
+<div class="line">        <span class="comment">// 初始化计数，原子变量保证多线程安全</span></div>
+<div class="line">        m_nCount = 0;</div>
+<div class="line">        <span class="comment">// 记录初始化次数，原子变量防止多线程竞态</span></div>
+<div class="line">        ++m_nInitCount;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;[MyClass] 单例对象 初始化成功 | 实例内存地址: &quot;</span> &lt;&lt; <span class="keyword">this</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 析构私有化，杜绝外部手动释放</span></div>
+<div class="line">    ~MyClass()</div>
+<div class="line">    {</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;[MyClass] 单例对象 析构成功\n&quot;</span>;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">public</span>:</div>
+<div class="line">    <span class="comment">// 原子成员变量：多线程环境下安全修改，验证实例唯一性</span></div>
+<div class="line">    atomic&lt;int&gt; m_nCount;</div>
+<div class="line">    <span class="comment">// 静态原子变量：统计单例的初始化次数，【核心】验证是否只初始化1次</span></div>
+<div class="line">    <span class="keyword">static</span> atomic&lt;int&gt; m_nInitCount;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 业务成员函数：打印实例信息+修改计数</span></div>
+<div class="line">    <span class="keywordtype">void</span> doWork(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; threadName)</div>
+<div class="line">    {</div>
+<div class="line">        ++m_nCount;</div>
+<div class="line">        printf(<span class="stringliteral">&quot;[%s] 调用单例成员函数 | 实例地址: %p | 当前计数: %d\n&quot;</span>,</div>
+<div class="line">               threadName.c_str(), <span class="keyword">this</span>, m_nCount.load());</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 获取当前实例地址，用于验证唯一性</span></div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">void</span>* getInstanceAddr()<span class="keyword"> const</span></div>
+<div class="line"><span class="keyword">    </span>{</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="keyword">this</span>;</div>
+<div class="line">    }</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 初始化静态原子变量，必须类外初始化</span></div>
+<div class="line">atomic&lt;int&gt; MyClass::m_nInitCount = 0;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// ======================== 2. 多线程测试函数：每个线程高频调用单例 ========================</span></div>
+<div class="line"><span class="comment">// 模拟多线程并发获取单例、调用成员函数，验证线程安全+实例唯一</span></div>
+<div class="line"><span class="keywordtype">void</span> threadFunc(<span class="keywordtype">int</span> threadId)</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordtype">string</span> threadName = <span class="stringliteral">&quot;线程&quot;</span> + to_string(threadId);</div>
+<div class="line">    <span class="comment">// 每个线程【多次调用】单例，模拟高并发场景</span></div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 10; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="comment">// 核心调用：获取单例引用</span></div>
+<div class="line">        MyClass&amp; instance = MyClass::GetInst();</div>
+<div class="line">        <span class="comment">// 调用成员函数</span></div>
+<div class="line">        instance.doWork(threadName);</div>
+<div class="line">        <span class="comment">// 短暂休眠，模拟业务逻辑耗时，加大线程竞争</span></div>
+<div class="line">        this_thread::sleep_for(chrono::nanoseconds(100));</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// ======================== 3. 主测试函数：分模块全场景测试 ========================</span></div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;========================================\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;ol::TypeSingleton 单例测试程序           \n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;C++17标准 | 全场景覆盖 | 线程安全验证     \n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;========================================\n\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// -------------------------- 测试1：基础单例唯一性验证 --------------------------</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;[测试1] 基础单例唯一性验证 -----------------\n&quot;</span>;</div>
+<div class="line">    MyClass&amp; inst1 = MyClass::GetInst();</div>
+<div class="line">    MyClass&amp; inst2 = MyClass::GetInst();</div>
+<div class="line">    MyClass&amp; inst3 = MyClass::GetInst();</div>
+<div class="line">    <span class="comment">// 所有引用指向【同一个内存地址】，证明实例唯一</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;inst1 地址: &quot;</span> &lt;&lt; inst1.getInstanceAddr() &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;inst2 地址: &quot;</span> &lt;&lt; inst2.getInstanceAddr() &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;inst3 地址: &quot;</span> &lt;&lt; inst3.getInstanceAddr() &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;所有引用指向同一实例: &quot;</span> &lt;&lt; (inst1.getInstanceAddr() == inst2.getInstanceAddr() &amp;&amp; inst2.getInstanceAddr() == inst3.getInstanceAddr()) &lt;&lt; <span class="stringliteral">&quot;\n\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// -------------------------- 测试2：验证【不可拷贝/不可移动】特性生效 --------------------------</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;[测试2] 不可拷贝/不可移动特性验证 (以下代码编译会报错) -----------------\n&quot;</span>;</div>
+<div class="line">    MyClass&amp; ref = MyClass::GetInst();</div>
+<div class="line">    <span class="comment">// 以下代码全部【编译报错】，证明你的TypeNonCopyableMovable生效，完美禁止值语义</span></div>
+<div class="line">    <span class="comment">// 1. 禁用拷贝构造</span></div>
+<div class="line">    <span class="comment">// MyClass obj1 = ref;</span></div>
+<div class="line">    <span class="comment">// 2. 禁用拷贝赋值</span></div>
+<div class="line">    <span class="comment">// MyClass obj2; obj2 = ref;</span></div>
+<div class="line">    <span class="comment">// 3. 禁用移动构造</span></div>
+<div class="line">    <span class="comment">// MyClass obj3 = move(ref);</span></div>
+<div class="line">    <span class="comment">// 4. 禁用移动赋值</span></div>
+<div class="line">    <span class="comment">// MyClass obj4; obj4 = move(ref);</span></div>
+<div class="line">    <span class="comment">// 5. 禁用构造函数</span></div>
+<div class="line">    <span class="comment">// TypeSingleton&lt;MyClass&gt; obj5;</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// -------------------------- 测试3：验证【引用转指针】合法且安全 --------------------------</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;[测试3] 引用转指针 合法性验证 -----------------\n&quot;</span>;</div>
+<div class="line">    MyClass* pInst = &amp;MyClass::GetInst();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;单例引用转指针地址: &quot;</span> &lt;&lt; pInst &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;指针与引用指向同一实例: &quot;</span> &lt;&lt; (pInst == &amp;ref) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line">    <span class="comment">// 指针调用成员函数，功能完全正常</span></div>
+<div class="line">    pInst-&gt;doWork(<span class="stringliteral">&quot;指针调用&quot;</span>);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;✅ 引用转指针 合法、安全、零开销，功能正常\n\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// -------------------------- 测试4：验证【懒汉模式】(第一次调用才初始化) --------------------------</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;[测试4] 懒汉模式验证 -----------------\n&quot;</span>;</div>
+<div class="line">    <span class="comment">// 重置初始化计数</span></div>
+<div class="line">    MyClass::m_nInitCount = 0;</div>
+<div class="line">    <span class="comment">// 定义一个新的单例测试类，验证懒加载</span></div>
+<div class="line">    <span class="keyword">class </span>LazyTest : <span class="keyword">public</span> <a class="code hl_class" href="classol_1_1_type_singleton.html">TypeSingleton</a>&lt;LazyTest&gt;</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keyword">friend</span> <span class="keyword">class </span>TypeSingleton&lt;LazyTest&gt;;</div>
+<div class="line"> </div>
+<div class="line">    <span class="keyword">private</span>:</div>
+<div class="line">        LazyTest() { cout &lt;&lt; <span class="stringliteral">&quot;LazyTest 单例 第一次调用，初始化成功！\n&quot;</span>; }</div>
+<div class="line">    };</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;调用GetInst()前，无初始化日志输出\n&quot;</span>;</div>
+<div class="line">    LazyTest::GetInst();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;✅ 懒汉模式生效：单例实例【第一次调用GetInst()时才初始化】\n\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// -------------------------- 测试5：多线程高并发线程安全测试 --------------------------</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;[测试5] 多线程高并发测试 -----------------\n&quot;</span>;</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">int</span> THREAD_NUM = 10; <span class="comment">// 创建线程</span></div>
+<div class="line">    vector&lt;thread&gt; threadPool;</div>
+<div class="line">    threadPool.reserve(THREAD_NUM);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 重置计数，便于统计</span></div>
+<div class="line">    MyClass::GetInst().m_nCount = 0;</div>
+<div class="line">    MyClass::m_nInitCount = 0;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 创建所有线程</span></div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; THREAD_NUM; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        threadPool.emplace_back(threadFunc, i);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 等待所有线程执行完毕</span></div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; t : threadPool)</div>
+<div class="line">    {</div>
+<div class="line">        t.join();</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 核心验证结果</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n【多线程测试核心结果】\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;✅ 单例初始化总次数: &quot;</span> &lt;&lt; MyClass::m_nInitCount.load() &lt;&lt; <span class="stringliteral">&quot; (正确值应为1)\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;✅ 单例最终计数: &quot;</span> &lt;&lt; MyClass::GetInst().m_nCount.load() &lt;&lt; <span class="stringliteral">&quot; (正确值应为10*10=100)\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;✅ 所有线程获取的实例地址完全一致，无多实例创建问题\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// -------------------------- 测试总结 --------------------------</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n========================================\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;✅ 所有测试用例通过！\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;✅ ol::TypeSingleton 单例特性总结：\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;   1. 实例全局唯一，无重复创建\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;   2. 完美禁用拷贝/移动，杜绝值语义破坏单例\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;   3. 引用转指针合法、安全、零开销\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;   4. 懒汉模式生效，按需初始化\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;   5. C++17原生线程安全，高并发无问题\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;========================================\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+<div class="ttc" id="aclassol_1_1_type_singleton_html"><div class="ttname"><a href="classol_1_1_type_singleton.html">ol::TypeSingleton</a></div><div class="ttdoc">单例类（懒汉模式），提供GetInst()，且不可拷贝不可移动</div><div class="ttdef"><b>定义</b> ol_type_traits.h:105</div></div>
+<div class="ttc" id="anamespaceol_html"><div class="ttname"><a href="namespaceol.html">ol</a></div><div class="ttdef"><b>定义</b> ol_sort_base.h:20</div></div>
+<div class="ttc" id="aol__type__traits_8h_html"><div class="ttname"><a href="ol__type__traits_8h.html">ol_type_traits.h</a></div></div>
+</div><!-- fragment --> </div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

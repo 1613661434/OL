@@ -1,0 +1,476 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: test_ol_sort.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('test_ol_sort_8cpp-example.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">test_ol_sort.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol__sort_8h.html">ol_sort.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;cmath&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;functional&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;list&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespaceol.html">ol</a>;</div>
+<div class="line"><span class="keyword">using namespace </span>std;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 自定义比较器1：按绝对值升序</span></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">struct </span>AbsLess</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordtype">bool</span> operator()(<span class="keyword">const</span> T&amp; a, <span class="keyword">const</span> T&amp; b)<span class="keyword"> const</span></div>
+<div class="line"><span class="keyword">    </span>{</div>
+<div class="line">        <span class="keywordflow">return</span> abs(a) &lt; abs(b);</div>
+<div class="line">    }</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 自定义比较器2：字符串按长度降序</span></div>
+<div class="line"><span class="keyword">struct </span>StrLenGreater</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordtype">bool</span> operator()(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; a, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; b)<span class="keyword"> const</span></div>
+<div class="line"><span class="keyword">    </span>{</div>
+<div class="line">        <span class="keywordflow">return</span> a.size() &gt; b.size();</div>
+<div class="line">    }</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 自定义比较器3：浮点数按小数部分降序</span></div>
+<div class="line"><span class="keyword">struct </span>FloatFractionGreater</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordtype">bool</span> operator()(<span class="keywordtype">double</span> a, <span class="keywordtype">double</span> b)<span class="keyword"> const</span></div>
+<div class="line"><span class="keyword">    </span>{</div>
+<div class="line">        <span class="comment">// 提取小数部分</span></div>
+<div class="line">        <span class="keywordtype">double</span> frac_a = a - floor(a);</div>
+<div class="line">        <span class="keywordtype">double</span> frac_b = b - floor(b);</div>
+<div class="line">        <span class="keywordflow">return</span> frac_a &gt; frac_b;</div>
+<div class="line">    }</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 辅助函数：打印分隔线</span></div>
+<div class="line"><span class="keywordtype">void</span> print_separator(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; title)</div>
+<div class="line">{</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n============================================================&quot;</span> &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">    cout &lt;&lt; title &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;============================================================&quot;</span> &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 全局打印函数（避免命名空间冲突）</span></div>
+<div class="line"><span class="keyword">namespace </span>test_utils</div>
+<div class="line">{</div>
+<div class="line">    <span class="comment">// 通用打印容器</span></div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Container&gt;</div>
+<div class="line">    <span class="keywordtype">void</span> <a class="code hl_function" href="namespaceol.html#ab59144036437a58a1390422ea187c7b7">print_container</a>(<span class="keyword">const</span> Container&amp; c)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; elem : c)</div>
+<div class="line">        {</div>
+<div class="line">            cout &lt;&lt; elem &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
+<div class="line">        }</div>
+<div class="line">        cout &lt;&lt; endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// pair类型特化打印</span></div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T1, <span class="keyword">typename</span> T2&gt;</div>
+<div class="line">    <span class="keywordtype">void</span> <a class="code hl_function" href="namespaceol.html#ab59144036437a58a1390422ea187c7b7">print_container</a>(<span class="keyword">const</span> vector&lt;pair&lt;T1, T2&gt;&gt;&amp; c)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; elem : c)</div>
+<div class="line">        {</div>
+<div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; elem.first &lt;&lt; <span class="stringliteral">&quot;,&quot;</span> &lt;&lt; elem.second &lt;&lt; <span class="stringliteral">&quot;) &quot;</span>;</div>
+<div class="line">        }</div>
+<div class="line">        cout &lt;&lt; endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 原生数组打印</span></div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keywordtype">size_t</span> N&gt;</div>
+<div class="line">    <span class="keywordtype">void</span> <a class="code hl_function" href="namespaceol.html#ab59144036437a58a1390422ea187c7b7">print_container</a>(<span class="keyword">const</span> T (&amp;arr)[N])</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; N; ++i)</div>
+<div class="line">        {</div>
+<div class="line">            cout &lt;&lt; arr[i] &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
+<div class="line">        }</div>
+<div class="line">        cout &lt;&lt; endl;</div>
+<div class="line">    }</div>
+<div class="line">} <span class="comment">// namespace test_utils</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 日期相关辅助函数</span></div>
+<div class="line"><span class="keyword">namespace </span>date_utils</div>
+<div class="line">{</div>
+<div class="line">    <span class="comment">// 移除日期中的连字符，便于排序</span></div>
+<div class="line">    <span class="keywordtype">string</span> normalize_date(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; date)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordtype">string</span> result;</div>
+<div class="line">        <span class="keywordflow">for</span> (<span class="keywordtype">char</span> c : date)</div>
+<div class="line">        {</div>
+<div class="line">            <span class="keywordflow">if</span> (c != <span class="charliteral">&#39;-&#39;</span>)</div>
+<div class="line">                result += c;</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">return</span> result;</div>
+<div class="line">    }</div>
+<div class="line">} <span class="comment">// namespace date_utils</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">    <span class="comment">// 1. 基础排序算法测试（原生数组）</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;1. 基础排序算法测试（原生数组）&quot;</span>);</div>
+<div class="line">    <span class="keywordtype">int</span> arr[] = {5, 2, 8, 1, 9, 3, 7, 4, 6};</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原始数组: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(arr);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 快速排序</span></div>
+<div class="line">    <span class="keywordtype">int</span> arr_quick[] = {5, 2, 8, 1, 9, 3, 7, 4, 6};</div>
+<div class="line">    <a id="_a0" name="_a0"></a><a class="code hl_function" href="namespaceol.html#a20e0ccd87e1ef5296e5b901c6d5f0691">quick_sort</a>(arr_quick);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;快速排序: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(arr_quick);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 归并排序</span></div>
+<div class="line">    <span class="keywordtype">int</span> arr_merge[] = {5, 2, 8, 1, 9, 3, 7, 4, 6};</div>
+<div class="line">    <a id="_a1" name="_a1"></a><a class="code hl_function" href="namespaceol.html#afc1301e964ee0feb56c92811ad669d3c">merge_sort</a>(arr_merge);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;归并排序: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(arr_merge);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 堆排序</span></div>
+<div class="line">    <span class="keywordtype">int</span> arr_heap[] = {5, 2, 8, 1, 9, 3, 7, 4, 6};</div>
+<div class="line">    <a id="_a2" name="_a2"></a><a class="code hl_function" href="namespaceol.html#ad58d66ffb28691d52d0c8a3436efa3a1">heap_sort</a>(arr_heap);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;堆排序:   &quot;</span>;</div>
+<div class="line">    test_utils::print_container(arr_heap);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 希尔排序</span></div>
+<div class="line">    <span class="keywordtype">int</span> arr_shell[] = {5, 2, 8, 1, 9, 3, 7, 4, 6};</div>
+<div class="line">    <a id="_a3" name="_a3"></a><a class="code hl_function" href="namespaceol.html#a14ba777d836ccf56aa6eeeaaf0230e34">shell_sort</a>(arr_shell);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;希尔排序: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(arr_shell);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 选择排序</span></div>
+<div class="line">    <span class="keywordtype">int</span> arr_select[] = {5, 2, 8, 1, 9, 3, 7, 4, 6};</div>
+<div class="line">    <a id="_a4" name="_a4"></a><a class="code hl_function" href="namespaceol.html#ab5050dfa7769d72e80979b03d5838d47">selection_sort</a>(arr_select);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;选择排序: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(arr_select);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 2. 浮点型排序测试（希尔排序）</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;2. 浮点型排序测试（希尔排序）&quot;</span>);</div>
+<div class="line">    vector&lt;double&gt; vec_double = {3.14, 2.71, 1.618, 0.577, 4.669, 2.718};</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原始vector&lt;double&gt;: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_double);</div>
+<div class="line"> </div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#a14ba777d836ccf56aa6eeeaaf0230e34">shell_sort</a>(vec_double);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;希尔排序后:        &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_double);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 3. 双向迭代器容器测试（插入排序、冒泡排序）</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;3. 双向迭代器容器测试（插入排序、冒泡排序）&quot;</span>);</div>
+<div class="line">    list&lt;int&gt; lst = {15, 12, 18, 11, 19, 13, 17, 14, 16};</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原始list&lt;int&gt;: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(lst);</div>
+<div class="line"> </div>
+<div class="line">    <a id="_a5" name="_a5"></a><a class="code hl_function" href="namespaceol.html#ab6ff8f596eb0adeac5de66f9c658c253">insertion_sort</a>(lst);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;插入排序后:    &quot;</span>;</div>
+<div class="line">    test_utils::print_container(lst);</div>
+<div class="line"> </div>
+<div class="line">    list&lt;int&gt; lst2 = {15, 12, 18, 11, 19, 13, 17, 14, 16};</div>
+<div class="line">    <a id="_a6" name="_a6"></a><a class="code hl_function" href="namespaceol.html#afd6efc10009da0b60ba08496cf1465e2">bubble_sort</a>(lst2);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;冒泡排序后:    &quot;</span>;</div>
+<div class="line">    test_utils::print_container(lst2);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 4. 自定义排序规则测试（快速排序）</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;4. 自定义排序规则测试（多种排序算法）&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 4.1 降序排序</span></div>
+<div class="line">    vector&lt;int&gt; vec_desc_int = {5, 2, 8, 1, 9};</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原始vector (降序测试): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_desc_int);</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#a20e0ccd87e1ef5296e5b901c6d5f0691">quick_sort</a>(vec_desc_int, greater&lt;int&gt;());</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;快速排序(降序):        &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_desc_int);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 4.2 绝对值升序</span></div>
+<div class="line">    vector&lt;int&gt; vec_abs = {-3, 1, -5, 2, -4};</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n原始vector (绝对值测试): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_abs);</div>
+<div class="line">    <a id="_a7" name="_a7"></a><a class="code hl_function" href="namespaceol.html#a45db5d3d6fa79c3adb1e07b0873a1cd4">binary_insertion_sort</a>(vec_abs, AbsLess&lt;int&gt;());</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;折半插入排序(绝对值升序): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_abs);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 4.3 字符串长度降序</span></div>
+<div class="line">    vector&lt;string&gt; vec_str = {<span class="stringliteral">&quot;apple&quot;</span>, <span class="stringliteral">&quot;banana&quot;</span>, <span class="stringliteral">&quot;cherry&quot;</span>, <span class="stringliteral">&quot;date&quot;</span>, <span class="stringliteral">&quot;elderberry&quot;</span>};</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n原始vector&lt;string&gt;: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_str);</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#a20e0ccd87e1ef5296e5b901c6d5f0691">quick_sort</a>(vec_str, StrLenGreater());</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;快速排序(按长度降序): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_str);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 5. 计数排序测试（整数专用）</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;5. 计数排序测试（整数专用）&quot;</span>);</div>
+<div class="line">    vector&lt;int&gt; vec_count = {4, 2, 2, 8, 3, 3, 1};</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原始vector: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_count);</div>
+<div class="line">    <a id="_a8" name="_a8"></a><a class="code hl_function" href="namespaceol.html#a7f1d9815c8bbf0a5e37466b69ac4154f">counting_sort</a>(vec_count);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;计数排序后: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_count);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 6. 基数排序LSD测试（整数，增加升序/降序测试）</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;6. 基数排序LSD测试（整数）&quot;</span>);</div>
+<div class="line">    vector&lt;int&gt; vec_radix_asc = {170, 45, 75, 90, 802, 24, 2, 66, -12, -56};</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原始vector: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_radix_asc);</div>
+<div class="line"> </div>
+<div class="line">    <a id="_a9" name="_a9"></a><a class="code hl_function" href="namespaceol.html#ad3a7ae1e3c04b9fb3fe03a8c01767965">radix_sort_lsd</a>(vec_radix_asc); <span class="comment">// 默认升序（std::less）</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;基数排序LSD(升序): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_radix_asc);</div>
+<div class="line"> </div>
+<div class="line">    vector&lt;int&gt; vec_radix_desc = {170, 45, 75, 90, 802, 24, 2, 66, -12, -56};</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#ad3a7ae1e3c04b9fb3fe03a8c01767965">radix_sort_lsd</a>(vec_radix_desc, 10, greater&lt;int&gt;()); <span class="comment">// 降序测试</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;基数排序LSD(降序): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_radix_desc);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 7. 基数排序MSD测试（字符串和日期）</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;7. 基数排序MSD测试（字符串和日期）&quot;</span>);</div>
+<div class="line">    vector&lt;string&gt; vec_radix_str = {<span class="stringliteral">&quot;banana&quot;</span>, <span class="stringliteral">&quot;apple&quot;</span>, <span class="stringliteral">&quot;cherry&quot;</span>, <span class="stringliteral">&quot;date&quot;</span>, <span class="stringliteral">&quot;elderberry&quot;</span>, <span class="stringliteral">&quot;fig&quot;</span>};</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原始vector&lt;string&gt;: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_radix_str);</div>
+<div class="line"> </div>
+<div class="line">    <a id="_a10" name="_a10"></a><a class="code hl_function" href="namespaceol.html#ab3b54338a25c60a7d48ee493209d675e">radix_sort_msd</a>(vec_radix_str);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;基数排序MSD后:     &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_radix_str);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 日期排序测试（YYYY-MM-DD格式）- 使用字符串处理</span></div>
+<div class="line">    vector&lt;string&gt; date_strings = {</div>
+<div class="line">        <span class="stringliteral">&quot;2023-10-05&quot;</span>, <span class="stringliteral">&quot;2021-12-25&quot;</span>, <span class="stringliteral">&quot;2022-03-15&quot;</span>,</div>
+<div class="line">        <span class="stringliteral">&quot;2023-01-01&quot;</span>, <span class="stringliteral">&quot;2022-11-30&quot;</span>, <span class="stringliteral">&quot;2024-02-29&quot;</span>, <span class="stringliteral">&quot;2021-05-10&quot;</span>};</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 创建标准化日期（无连字符）用于排序</span></div>
+<div class="line">    vector&lt;string&gt; normalized_dates;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; date : date_strings)</div>
+<div class="line">    {</div>
+<div class="line">        normalized_dates.push_back(date_utils::normalize_date(date));</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n原始日期: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(date_strings);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 对标准化日期进行排序</span></div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#ab3b54338a25c60a7d48ee493209d675e">radix_sort_msd</a>(normalized_dates);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 创建排序后的原始日期向量</span></div>
+<div class="line">    vector&lt;string&gt; sorted_dates;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; norm_date : normalized_dates)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="comment">// 找到对应的原始日期</span></div>
+<div class="line">        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; orig_date : date_strings)</div>
+<div class="line">        {</div>
+<div class="line">            <span class="keywordflow">if</span> (date_utils::normalize_date(orig_date) == norm_date &amp;&amp;</div>
+<div class="line">                find(sorted_dates.begin(), sorted_dates.end(), orig_date) == sorted_dates.end())</div>
+<div class="line">            {</div>
+<div class="line">                sorted_dates.push_back(orig_date);</div>
+<div class="line">                <span class="keywordflow">break</span>;</div>
+<div class="line">            }</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;MSD基数排序后(按日期升序): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(sorted_dates);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 字符串前缀分组测试</span></div>
+<div class="line">    vector&lt;string&gt; vec_group = {<span class="stringliteral">&quot;apple&quot;</span>, <span class="stringliteral">&quot;app&quot;</span>, <span class="stringliteral">&quot;application&quot;</span>, <span class="stringliteral">&quot;banana&quot;</span>, <span class="stringliteral">&quot;band&quot;</span>, <span class="stringliteral">&quot;bank&quot;</span>, <span class="stringliteral">&quot;cat&quot;</span>, <span class="stringliteral">&quot;car&quot;</span>};</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n原始分组vector: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_group);</div>
+<div class="line"> </div>
+<div class="line">    <span class="keyword">auto</span> groups = <a id="_a11" name="_a11"></a><a class="code hl_function" href="namespaceol.html#ae7766935138c272ea6c5c41d97b8f9d2">radix_group_by_prefix</a>(vec_group, 2); <span class="comment">// 按前2个字符分组</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;按前2个字符分组结果:&quot;</span> &lt;&lt; endl;</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; groups.size(); ++i)</div>
+<div class="line">    {</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;  分组 &quot;</span> &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot;: &quot;</span>;</div>
+<div class="line">        test_utils::print_container(groups[i]);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 8. 桶排序测试（增加自定义比较器测试）</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;8. 桶排序测试（整数、浮点数及自定义比较器）&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 8.1 整数桶排序（降序）</span></div>
+<div class="line">    vector&lt;int&gt; vec_bucket_int = {42, 32, 33, 52, 37, 47, 51};</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原始整数vector: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_bucket_int);</div>
+<div class="line">    <a id="_a12" name="_a12"></a><a class="code hl_function" href="namespaceol.html#aebf9da183c7571fd920489173964fc62">bucket_sort</a>(vec_bucket_int, 5, greater&lt;int&gt;()); <span class="comment">// 整数降序</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;整数桶排序(降序): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_bucket_int);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 8.2 浮点数桶排序（默认升序）</span></div>
+<div class="line">    vector&lt;double&gt; vec_bucket_float = {0.42, 0.32, 0.33, 0.52, 0.37, 0.47, 0.51};</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n原始浮点数vector: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_bucket_float);</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#aebf9da183c7571fd920489173964fc62">bucket_sort</a>(vec_bucket_float, 5, 0.0, 1.0);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;浮点数桶排序(升序): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_bucket_float);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 8.3 浮点数桶排序（按小数部分降序，自定义比较器）</span></div>
+<div class="line">    vector&lt;double&gt; vec_bucket_float_custom = {3.14, 2.71, 1.618, 0.577, 4.669, 2.718};</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n原始浮点数vector: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_bucket_float_custom);</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#aebf9da183c7571fd920489173964fc62">bucket_sort</a>(vec_bucket_float_custom, 5, 0.0, 5.0, FloatFractionGreater());</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;浮点数桶排序(按小数部分降序): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_bucket_float_custom);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 8.4 整数桶排序（按绝对值升序，自定义比较器）</span></div>
+<div class="line">    vector&lt;int&gt; vec_bucket_abs = {-5, 3, -2, 4, -1, 6, -3};</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n原始整数vector: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_bucket_abs);</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#aebf9da183c7571fd920489173964fc62">bucket_sort</a>(vec_bucket_abs, 5, AbsLess&lt;int&gt;()); <span class="comment">// 使用绝对值比较器</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;整数桶排序(按绝对值升序): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_bucket_abs);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 9. 部分范围排序测试</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;9. 部分范围排序测试（迭代器版本）&quot;</span>);</div>
+<div class="line">    vector&lt;int&gt; vec_part = {10, 5, 8, 3, 1, 9, 2, 7, 4, 6};</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原始vector:          &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_part);</div>
+<div class="line"> </div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#a20e0ccd87e1ef5296e5b901c6d5f0691">quick_sort</a>(vec_part.begin() + 2, vec_part.end() - 2);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;部分排序后 [2, end-2): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_part);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 10. Lambda函数自定义排序测试</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;10. Lambda函数自定义排序测试&quot;</span>);</div>
+<div class="line">    vector&lt;pair&lt;int, int&gt;&gt; vec_desc_pair = {{5, 3}, {8, 5}, {8, 20}, {2, 2}, {8, 4}, {1, 5}, {9, 6}, {5, 98}};</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原始vector: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_desc_pair);</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#a20e0ccd87e1ef5296e5b901c6d5f0691">quick_sort</a>(vec_desc_pair, [](<span class="keyword">const</span> pair&lt;int, int&gt;&amp; a, <span class="keyword">const</span> pair&lt;int, int&gt;&amp; b)</div>
+<div class="line">               { <span class="keywordflow">return</span> a.first != b.first ? a.first &gt; b.first : a.second &lt; b.second; });</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;快速排序(按key降序，key相同按value升序): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_desc_pair);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 11. 更多排序算法补充测试</span></div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;11. 补充排序算法测试&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 折半插入排序</span></div>
+<div class="line">    vector&lt;int&gt; vec_binary_insert = {9, 5, 1, 3, 7, 2, 8, 6, 4};</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原始vector (折半插入排序): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_binary_insert);</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#a45db5d3d6fa79c3adb1e07b0873a1cd4">binary_insertion_sort</a>(vec_binary_insert);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;折半插入排序后: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_binary_insert);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 归并排序（字符串）</span></div>
+<div class="line">    vector&lt;string&gt; vec_merge_str = {<span class="stringliteral">&quot;dog&quot;</span>, <span class="stringliteral">&quot;apple&quot;</span>, <span class="stringliteral">&quot;cat&quot;</span>, <span class="stringliteral">&quot;banana&quot;</span>, <span class="stringliteral">&quot;elephant&quot;</span>};</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n原始vector&lt;string&gt; (归并排序): &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_merge_str);</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#afc1301e964ee0feb56c92811ad669d3c">merge_sort</a>(vec_merge_str);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;归并排序后: &quot;</span>;</div>
+<div class="line">    test_utils::print_container(vec_merge_str);</div>
+<div class="line"> </div>
+<div class="line">    print_separator(<span class="stringliteral">&quot;所有排序测试完成&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+<div class="ttc" id="anamespaceol_html"><div class="ttname"><a href="namespaceol.html">ol</a></div><div class="ttdef"><b>定义</b> ol_sort_base.h:20</div></div>
+<div class="ttc" id="anamespaceol_html_a14ba777d836ccf56aa6eeeaaf0230e34"><div class="ttname"><a href="namespaceol.html#a14ba777d836ccf56aa6eeeaaf0230e34">ol::shell_sort</a></div><div class="ttdeci">void shell_sort(RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</div><div class="ttdoc">希尔排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:136</div></div>
+<div class="ttc" id="anamespaceol_html_a20e0ccd87e1ef5296e5b901c6d5f0691"><div class="ttname"><a href="namespaceol.html#a20e0ccd87e1ef5296e5b901c6d5f0691">ol::quick_sort</a></div><div class="ttdeci">void quick_sort(RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</div><div class="ttdoc">快速排序（迭代器版本）</div><div class="ttdef"><b>定义</b> ol_sort.h:591</div></div>
+<div class="ttc" id="anamespaceol_html_a45db5d3d6fa79c3adb1e07b0873a1cd4"><div class="ttname"><a href="namespaceol.html#a45db5d3d6fa79c3adb1e07b0873a1cd4">ol::binary_insertion_sort</a></div><div class="ttdeci">void binary_insertion_sort(RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</div><div class="ttdoc">折半插入排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:87</div></div>
+<div class="ttc" id="anamespaceol_html_a7f1d9815c8bbf0a5e37466b69ac4154f"><div class="ttname"><a href="namespaceol.html#a7f1d9815c8bbf0a5e37466b69ac4154f">ol::counting_sort</a></div><div class="ttdeci">std::enable_if&lt; std::is_integral&lt; typenamestd::iterator_traits&lt; RandomIt &gt;::value_type &gt;::value, void &gt;::type counting_sort(RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</div><div class="ttdoc">计数排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:370</div></div>
+<div class="ttc" id="anamespaceol_html_ab3b54338a25c60a7d48ee493209d675e"><div class="ttname"><a href="namespaceol.html#ab3b54338a25c60a7d48ee493209d675e">ol::radix_sort_msd</a></div><div class="ttdeci">std::enable_if&lt; std::is_same&lt; typenamestd::iterator_traits&lt; RandomIt &gt;::value_type, std::string &gt;::value, void &gt;::type radix_sort_msd(RandomIt first, RandomIt last, int max_pos=-1, int radix=256)</div><div class="ttdoc">基数排序（迭代器版本，MSD策略，字符串专用）</div><div class="ttdef"><b>定义</b> ol_sort.h:485</div></div>
+<div class="ttc" id="anamespaceol_html_ab5050dfa7769d72e80979b03d5838d47"><div class="ttname"><a href="namespaceol.html#ab5050dfa7769d72e80979b03d5838d47">ol::selection_sort</a></div><div class="ttdeci">void selection_sort(Iterator first, Iterator last, const Compare &amp;comp=Compare())</div><div class="ttdoc">选择排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:228</div></div>
+<div class="ttc" id="anamespaceol_html_ab59144036437a58a1390422ea187c7b7"><div class="ttname"><a href="namespaceol.html#ab59144036437a58a1390422ea187c7b7">ol::print_container</a></div><div class="ttdeci">void print_container(const Container &amp;container)</div><div class="ttdoc">打印容器元素（调试用）</div><div class="ttdef"><b>定义</b> ol_sort.h:759</div></div>
+<div class="ttc" id="anamespaceol_html_ab6ff8f596eb0adeac5de66f9c658c253"><div class="ttname"><a href="namespaceol.html#ab6ff8f596eb0adeac5de66f9c658c253">ol::insertion_sort</a></div><div class="ttdeci">void insertion_sort(Iterator first, Iterator last, const Compare &amp;comp=Compare())</div><div class="ttdoc">插入排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:44</div></div>
+<div class="ttc" id="anamespaceol_html_ad3a7ae1e3c04b9fb3fe03a8c01767965"><div class="ttname"><a href="namespaceol.html#ad3a7ae1e3c04b9fb3fe03a8c01767965">ol::radix_sort_lsd</a></div><div class="ttdeci">std::enable_if&lt; std::is_integral&lt; typenamestd::iterator_traits&lt; RandomIt &gt;::value_type &gt;::value, void &gt;::type radix_sort_lsd(RandomIt first, RandomIt last, int radix=10, const Compare &amp;comp=Compare())</div><div class="ttdoc">基数排序（迭代器版本，LSD策略，适用于整数类型）</div><div class="ttdef"><b>定义</b> ol_sort.h:428</div></div>
+<div class="ttc" id="anamespaceol_html_ad58d66ffb28691d52d0c8a3436efa3a1"><div class="ttname"><a href="namespaceol.html#ad58d66ffb28691d52d0c8a3436efa3a1">ol::heap_sort</a></div><div class="ttdeci">void heap_sort(RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</div><div class="ttdoc">堆排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:271</div></div>
+<div class="ttc" id="anamespaceol_html_ae7766935138c272ea6c5c41d97b8f9d2"><div class="ttname"><a href="namespaceol.html#ae7766935138c272ea6c5c41d97b8f9d2">ol::radix_group_by_prefix</a></div><div class="ttdeci">std::enable_if&lt; std::is_same&lt; typenamecontainer_traits&lt; Container &gt;::value_type, std::string &gt;::value, std::vector&lt; Container &gt; &gt;::type radix_group_by_prefix(Container &amp;container, size_t group_pos, int radix=256)</div><div class="ttdoc">按字符串前缀分组（基于基数排序MSD）</div><div class="ttdef"><b>定义</b> ol_sort.h:541</div></div>
+<div class="ttc" id="anamespaceol_html_aebf9da183c7571fd920489173964fc62"><div class="ttname"><a href="namespaceol.html#aebf9da183c7571fd920489173964fc62">ol::bucket_sort</a></div><div class="ttdeci">std::enable_if&lt; std::is_floating_point&lt; typenamestd::iterator_traits&lt; RandomIt &gt;::value_type &gt;::value, void &gt;::type bucket_sort(RandomIt first, RandomIt last, size_t num_buckets=10, double min_val=0.0, double max_val=1.0, const Compare &amp;comp=Compare())</div><div class="ttdoc">桶排序（迭代器版本，适用于浮点数）</div><div class="ttdef"><b>定义</b> ol_sort.h:640</div></div>
+<div class="ttc" id="anamespaceol_html_afc1301e964ee0feb56c92811ad669d3c"><div class="ttname"><a href="namespaceol.html#afc1301e964ee0feb56c92811ad669d3c">ol::merge_sort</a></div><div class="ttdeci">void merge_sort(RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</div><div class="ttdoc">归并排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:320</div></div>
+<div class="ttc" id="anamespaceol_html_afd6efc10009da0b60ba08496cf1465e2"><div class="ttname"><a href="namespaceol.html#afd6efc10009da0b60ba08496cf1465e2">ol::bubble_sort</a></div><div class="ttdeci">void bubble_sort(Iterator first, Iterator last, const Compare &amp;comp=Compare())</div><div class="ttdoc">冒泡排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:185</div></div>
+<div class="ttc" id="aol__sort_8h_html"><div class="ttname"><a href="ol__sort_8h.html">ol_sort.h</a></div></div>
+</div><!-- fragment --> </div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

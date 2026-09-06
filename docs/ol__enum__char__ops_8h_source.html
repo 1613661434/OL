@@ -1,0 +1,291 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ol_core/include/ol_enum_char_ops.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('ol__enum__char__ops_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ol_enum_char_ops.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ol__enum__char__ops_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/****************************************************************************************/</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">/*</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> * 程序名：ol_enum_char_ops.h</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> * 功能描述：为底层类型为 char 的类型枚举（enum : char）提供通用运算符重载，</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> *          支持 int 类型常用的算术/比较操作，兼容 C++11 及以上标准，无外部依赖</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> *          - 自增/自减：前置++、后置++、前置--、后置--</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> *          - 比较运算符：&lt;、&gt;、&lt;=、&gt;=、==、!=（完整大小比较）</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> *          - 算术运算符：+、-（枚举值 ± 整数偏移量）</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> *          - 赋值运算符：+=、-=（枚举值自增/自减指定偏移量）</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> *          所有重载仅作用于「底层为 char 的类型枚举」，避免全局作用域污染</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> * 作者：ol</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> * 适用标准：C++11及以上（需支持 type_traits 头文件及相关类型萃取特性）</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment">/****************************************************************************************/</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#ifndef OL_ENUM_CHAR_OPS_H</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#define OL_ENUM_CHAR_OPS_H 1</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceol.html">ol</a></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>{</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E&gt;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="namespaceol.html#a27fe0401318737aea01f31c40be86eae">   29</a></span>    <span class="keyword">using </span><a class="code hl_typedef" href="namespaceol.html#a27fe0401318737aea01f31c40be86eae">EnableIfCharEnum</a> = <span class="keyword">typename</span> std::enable_if&lt;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        std::is_enum&lt;E&gt;::value &amp;&amp;                                              <span class="comment">// 类型 E 是枚举类型</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            std::is_same&lt;typename std::underlying_type&lt;E&gt;::type, <span class="keywordtype">char</span>&gt;::value, <span class="comment">// 底层类型为 char</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="keywordtype">void</span>&gt;::type;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="comment">// ====================== 自增运算符 ======================</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E, <span class="keyword">typename</span> = EnableIfCharEnum&lt;E&gt;&gt;</div>
+<div class="foldopen" id="foldopen00044" data-start="{" data-end="}">
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="namespaceol.html#abe528a19ec64c0b35b65a3bb60b54aa5">   44</a></span>    <span class="keyword">inline</span> E&amp; <a class="code hl_function" href="namespaceol.html#abe528a19ec64c0b35b65a3bb60b54aa5">operator++</a>(E&amp; e)</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    {</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        e = <span class="keyword">static_cast&lt;</span>E<span class="keyword">&gt;</span>(<span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(e) + 1);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordflow">return</span> e;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    }</div>
+</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E, <span class="keyword">typename</span> = EnableIfCharEnum&lt;E&gt;&gt;</div>
+<div class="foldopen" id="foldopen00059" data-start="{" data-end="}">
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="namespaceol.html#a06a3d5c33735b2aee538665a05b64745">   59</a></span>    <span class="keyword">inline</span> E <a class="code hl_function" href="namespaceol.html#abe528a19ec64c0b35b65a3bb60b54aa5">operator++</a>(E&amp; e, <span class="keywordtype">int</span>)</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        E temp = e;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        ++e;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="keywordflow">return</span> temp;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    }</div>
+</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="comment">// ====================== 自减运算符 ======================</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E, <span class="keyword">typename</span> = EnableIfCharEnum&lt;E&gt;&gt;</div>
+<div class="foldopen" id="foldopen00075" data-start="{" data-end="}">
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="namespaceol.html#afcb52481509fb70be4adf275c3a86ec8">   75</a></span>    <span class="keyword">inline</span> E&amp; <a class="code hl_function" href="namespaceol.html#afcb52481509fb70be4adf275c3a86ec8">operator--</a>(E&amp; e)</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    {</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        e = <span class="keyword">static_cast&lt;</span>E<span class="keyword">&gt;</span>(<span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(e) - 1);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">return</span> e;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
+</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E, <span class="keyword">typename</span> = EnableIfCharEnum&lt;E&gt;&gt;</div>
+<div class="foldopen" id="foldopen00090" data-start="{" data-end="}">
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="namespaceol.html#a69d9c1fbd0b37263d2222c7038b07f00">   90</a></span>    <span class="keyword">inline</span> E <a class="code hl_function" href="namespaceol.html#afcb52481509fb70be4adf275c3a86ec8">operator--</a>(E&amp; e, <span class="keywordtype">int</span>)</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    {</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        E temp = e;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        --e;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="keywordflow">return</span> temp;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    }</div>
+</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="comment">// ====================== 比较运算符 ======================</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E, <span class="keyword">typename</span> = EnableIfCharEnum&lt;E&gt;&gt;</div>
+<div class="foldopen" id="foldopen00107" data-start="{" data-end="}">
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="namespaceol.html#af6a22e75250dbf257993ab644dd31876">  107</a></span>    <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="namespaceol.html#af6a22e75250dbf257993ab644dd31876">operator&lt;</a>(<span class="keyword">const</span> E&amp; lhs, <span class="keyword">const</span> E&amp; rhs)</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(lhs) &lt; <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(rhs);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    }</div>
+</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E, <span class="keyword">typename</span> = EnableIfCharEnum&lt;E&gt;&gt;</div>
+<div class="foldopen" id="foldopen00121" data-start="{" data-end="}">
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno"><a class="line" href="namespaceol.html#a45468b9363cc005d93ed0a4e8b5a03ac">  121</a></span>    <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="namespaceol.html#a45468b9363cc005d93ed0a4e8b5a03ac">operator&gt;</a>(<span class="keyword">const</span> E&amp; lhs, <span class="keyword">const</span> E&amp; rhs)</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    {</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(lhs) &gt; <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(rhs);</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    }</div>
+</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span></div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E, <span class="keyword">typename</span> = EnableIfCharEnum&lt;E&gt;&gt;</div>
+<div class="foldopen" id="foldopen00135" data-start="{" data-end="}">
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno"><a class="line" href="namespaceol.html#af2ffc398377dc2ae3118ed446db9b471">  135</a></span>    <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="namespaceol.html#af2ffc398377dc2ae3118ed446db9b471">operator&lt;=</a>(<span class="keyword">const</span> E&amp; lhs, <span class="keyword">const</span> E&amp; rhs)</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    {</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(lhs) &lt;= <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(rhs);</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    }</div>
+</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E, <span class="keyword">typename</span> = EnableIfCharEnum&lt;E&gt;&gt;</div>
+<div class="foldopen" id="foldopen00149" data-start="{" data-end="}">
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="namespaceol.html#aba41f71282cebe7081ea6272b1c97e3f">  149</a></span>    <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="namespaceol.html#aba41f71282cebe7081ea6272b1c97e3f">operator&gt;=</a>(<span class="keyword">const</span> E&amp; lhs, <span class="keyword">const</span> E&amp; rhs)</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    {</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(lhs) &gt;= <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(rhs);</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    }</div>
+</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span></div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E, <span class="keyword">typename</span> = EnableIfCharEnum&lt;E&gt;&gt;</div>
+<div class="foldopen" id="foldopen00163" data-start="{" data-end="}">
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno"><a class="line" href="namespaceol.html#aca01644a1411ed0412f2de8dab371321">  163</a></span>    <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="namespaceol.html#aca01644a1411ed0412f2de8dab371321">operator==</a>(<span class="keyword">const</span> E&amp; lhs, <span class="keyword">const</span> E&amp; rhs)</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    {</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(lhs) == <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(rhs);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    }</div>
+</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span></div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E, <span class="keyword">typename</span> = EnableIfCharEnum&lt;E&gt;&gt;</div>
+<div class="foldopen" id="foldopen00177" data-start="{" data-end="}">
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno"><a class="line" href="namespaceol.html#afdb1e595eec5f6e616d33fd2811e0d4f">  177</a></span>    <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="namespaceol.html#afdb1e595eec5f6e616d33fd2811e0d4f">operator!=</a>(<span class="keyword">const</span> E&amp; lhs, <span class="keyword">const</span> E&amp; rhs)</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    {</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>        <span class="keywordflow">return</span> !(lhs == rhs);</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    }</div>
+</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    <span class="comment">// ====================== 算术运算符 ======================</span></div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E, <span class="keyword">typename</span> = EnableIfCharEnum&lt;E&gt;&gt;</div>
+<div class="foldopen" id="foldopen00192" data-start="{" data-end="}">
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno"><a class="line" href="namespaceol.html#a1a096ce8ededa716487bb44f141e503a">  192</a></span>    <span class="keyword">inline</span> E <a class="code hl_function" href="namespaceol.html#a1a096ce8ededa716487bb44f141e503a">operator+</a>(<span class="keyword">const</span> E&amp; e, <span class="keywordtype">int</span> offset)</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    {</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>E<span class="keyword">&gt;</span>(<span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(e) + offset);</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    }</div>
+</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span></div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E, <span class="keyword">typename</span> = EnableIfCharEnum&lt;E&gt;&gt;</div>
+<div class="foldopen" id="foldopen00206" data-start="{" data-end="}">
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno"><a class="line" href="namespaceol.html#a1a0f440fac7788a19e4e3af239883a34">  206</a></span>    <span class="keyword">inline</span> E <a class="code hl_function" href="namespaceol.html#a1a0f440fac7788a19e4e3af239883a34">operator-</a>(<span class="keyword">const</span> E&amp; e, <span class="keywordtype">int</span> offset)</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    {</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>E<span class="keyword">&gt;</span>(<span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(e) - offset);</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>    }</div>
+</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span> </div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    <span class="comment">// ====================== 赋值运算符 ======================</span></div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E, <span class="keyword">typename</span> = EnableIfCharEnum&lt;E&gt;&gt;</div>
+<div class="foldopen" id="foldopen00221" data-start="{" data-end="}">
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno"><a class="line" href="namespaceol.html#a150f37c58c56a8c3897f69fdcaba8724">  221</a></span>    <span class="keyword">inline</span> E&amp; <a class="code hl_function" href="namespaceol.html#a150f37c58c56a8c3897f69fdcaba8724">operator+=</a>(E&amp; e, <span class="keywordtype">int</span> offset)</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    {</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>        e = e + offset;</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>        <span class="keywordflow">return</span> e;</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    }</div>
+</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span></div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E, <span class="keyword">typename</span> = EnableIfCharEnum&lt;E&gt;&gt;</div>
+<div class="foldopen" id="foldopen00236" data-start="{" data-end="}">
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno"><a class="line" href="namespaceol.html#a204be4eda39a8c3704b8f2f67fd8804d">  236</a></span>    <span class="keyword">inline</span> E&amp; <a class="code hl_function" href="namespaceol.html#a204be4eda39a8c3704b8f2f67fd8804d">operator-=</a>(E&amp; e, <span class="keywordtype">int</span> offset)</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    {</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>        e = e - offset;</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>        <span class="keywordflow">return</span> e;</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>    }</div>
+</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span> </div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>} <span class="comment">// namespace ol</span></div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span> </div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span><span class="comment">// 全局导出运算符</span></div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span><span class="comment">// using ol::operator++;</span></div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span><span class="comment">// using ol::operator--;</span></div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span><span class="comment">// using ol::operator&lt;;</span></div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span><span class="comment">// using ol::operator&gt;;</span></div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span><span class="comment">// using ol::operator&lt;=;</span></div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span><span class="comment">// using ol::operator&gt;=;</span></div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span><span class="comment">// using ol::operator==;</span></div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span><span class="comment">// using ol::operator!=;</span></div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span><span class="comment">// using ol::operator+;</span></div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span><span class="comment">// using ol::operator-;</span></div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span><span class="comment">// using ol::operator+=;</span></div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span><span class="comment">// using ol::operator-=;</span></div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span> </div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span><span class="preprocessor">#endif </span><span class="comment">// !OL_ENUM_CHAR_OPS_H</span></div>
+<div class="ttc" id="anamespaceol_html"><div class="ttname"><a href="namespaceol.html">ol</a></div><div class="ttdef"><b>定义</b> ol_sort_base.h:20</div></div>
+<div class="ttc" id="anamespaceol_html_a150f37c58c56a8c3897f69fdcaba8724"><div class="ttname"><a href="namespaceol.html#a150f37c58c56a8c3897f69fdcaba8724">ol::operator+=</a></div><div class="ttdeci">E &amp; operator+=(E &amp;e, int offset)</div><div class="ttdoc">重载赋值加法运算符 +=（枚举值自增指定偏移量）</div><div class="ttdef"><b>定义</b> ol_enum_char_ops.h:221</div></div>
+<div class="ttc" id="anamespaceol_html_a1a096ce8ededa716487bb44f141e503a"><div class="ttname"><a href="namespaceol.html#a1a096ce8ededa716487bb44f141e503a">ol::operator+</a></div><div class="ttdeci">E operator+(const E &amp;e, int offset)</div><div class="ttdoc">重载加法运算符 +（枚举值 + 整数偏移量）</div><div class="ttdef"><b>定义</b> ol_enum_char_ops.h:192</div></div>
+<div class="ttc" id="anamespaceol_html_a1a0f440fac7788a19e4e3af239883a34"><div class="ttname"><a href="namespaceol.html#a1a0f440fac7788a19e4e3af239883a34">ol::operator-</a></div><div class="ttdeci">E operator-(const E &amp;e, int offset)</div><div class="ttdoc">重载减法运算符 -（枚举值 - 整数偏移量）</div><div class="ttdef"><b>定义</b> ol_enum_char_ops.h:206</div></div>
+<div class="ttc" id="anamespaceol_html_a204be4eda39a8c3704b8f2f67fd8804d"><div class="ttname"><a href="namespaceol.html#a204be4eda39a8c3704b8f2f67fd8804d">ol::operator-=</a></div><div class="ttdeci">E &amp; operator-=(E &amp;e, int offset)</div><div class="ttdoc">重载赋值减法运算符 -=（枚举值自减指定偏移量）</div><div class="ttdef"><b>定义</b> ol_enum_char_ops.h:236</div></div>
+<div class="ttc" id="anamespaceol_html_a27fe0401318737aea01f31c40be86eae"><div class="ttname"><a href="namespaceol.html#a27fe0401318737aea01f31c40be86eae">ol::EnableIfCharEnum</a></div><div class="ttdeci">typename std::enable_if&lt; std::is_enum&lt; E &gt;::value &amp;&amp; std::is_same&lt; typename std::underlying_type&lt; E &gt;::type, char &gt;::value, void &gt;::type EnableIfCharEnum</div><div class="ttdoc">模板类型限制：仅匹配「底层为 char 的类型枚举（enum）」</div><div class="ttdef"><b>定义</b> ol_enum_char_ops.h:29</div></div>
+<div class="ttc" id="anamespaceol_html_a45468b9363cc005d93ed0a4e8b5a03ac"><div class="ttname"><a href="namespaceol.html#a45468b9363cc005d93ed0a4e8b5a03ac">ol::operator&gt;</a></div><div class="ttdeci">bool operator&gt;(const E &amp;lhs, const E &amp;rhs)</div><div class="ttdoc">重载大于运算符 &gt;</div><div class="ttdef"><b>定义</b> ol_enum_char_ops.h:121</div></div>
+<div class="ttc" id="anamespaceol_html_aba41f71282cebe7081ea6272b1c97e3f"><div class="ttname"><a href="namespaceol.html#aba41f71282cebe7081ea6272b1c97e3f">ol::operator&gt;=</a></div><div class="ttdeci">bool operator&gt;=(const E &amp;lhs, const E &amp;rhs)</div><div class="ttdoc">重载大于等于运算符 &gt;=</div><div class="ttdef"><b>定义</b> ol_enum_char_ops.h:149</div></div>
+<div class="ttc" id="anamespaceol_html_abe528a19ec64c0b35b65a3bb60b54aa5"><div class="ttname"><a href="namespaceol.html#abe528a19ec64c0b35b65a3bb60b54aa5">ol::operator++</a></div><div class="ttdeci">E &amp; operator++(E &amp;e)</div><div class="ttdoc">重载前置 ++ 运算符</div><div class="ttdef"><b>定义</b> ol_enum_char_ops.h:44</div></div>
+<div class="ttc" id="anamespaceol_html_aca01644a1411ed0412f2de8dab371321"><div class="ttname"><a href="namespaceol.html#aca01644a1411ed0412f2de8dab371321">ol::operator==</a></div><div class="ttdeci">bool operator==(const E &amp;lhs, const E &amp;rhs)</div><div class="ttdoc">重载等于运算符 ==</div><div class="ttdef"><b>定义</b> ol_enum_char_ops.h:163</div></div>
+<div class="ttc" id="anamespaceol_html_af2ffc398377dc2ae3118ed446db9b471"><div class="ttname"><a href="namespaceol.html#af2ffc398377dc2ae3118ed446db9b471">ol::operator&lt;=</a></div><div class="ttdeci">bool operator&lt;=(const E &amp;lhs, const E &amp;rhs)</div><div class="ttdoc">重载小于等于运算符 &lt;=</div><div class="ttdef"><b>定义</b> ol_enum_char_ops.h:135</div></div>
+<div class="ttc" id="anamespaceol_html_af6a22e75250dbf257993ab644dd31876"><div class="ttname"><a href="namespaceol.html#af6a22e75250dbf257993ab644dd31876">ol::operator&lt;</a></div><div class="ttdeci">bool operator&lt;(const E &amp;lhs, const E &amp;rhs)</div><div class="ttdoc">重载小于运算符 &lt;</div><div class="ttdef"><b>定义</b> ol_enum_char_ops.h:107</div></div>
+<div class="ttc" id="anamespaceol_html_afcb52481509fb70be4adf275c3a86ec8"><div class="ttname"><a href="namespaceol.html#afcb52481509fb70be4adf275c3a86ec8">ol::operator--</a></div><div class="ttdeci">E &amp; operator--(E &amp;e)</div><div class="ttdoc">重载前置 – 运算符</div><div class="ttdef"><b>定义</b> ol_enum_char_ops.h:75</div></div>
+<div class="ttc" id="anamespaceol_html_afdb1e595eec5f6e616d33fd2811e0d4f"><div class="ttname"><a href="namespaceol.html#afdb1e595eec5f6e616d33fd2811e0d4f">ol::operator!=</a></div><div class="ttdeci">bool operator!=(const E &amp;lhs, const E &amp;rhs)</div><div class="ttdoc">重载不等于运算符 !=</div><div class="ttdef"><b>定义</b> ol_enum_char_ops.h:177</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_ec89b758369e2f89df9ee858011313e0.html">ol_core</a></li><li class="navelem"><a href="dir_282a4c3c2fd67b603a87790c789a66b1.html">include</a></li><li class="navelem"><a href="ol__enum__char__ops_8h.html">ol_enum_char_ops.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

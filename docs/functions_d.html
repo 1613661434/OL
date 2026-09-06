@@ -27,7 +27,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
   <td id="projectalign">
-   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
    </div>
    <div id="projectbrief">This is a C++ library.</div>
   </td>
@@ -93,11 +93,17 @@ $(function(){initNavTree('functions_d.html','',''); });
 <div class="textblock">这里列出了所有类成员，并附带类的详细说明:</div>
 
 <h3 class="doxsection"><a id="index_d" name="index_d"></a>- d -</h3><ul>
-<li>DBConn()&#160;:&#160;<a class="el" href="classol_1_1mysql_1_1_d_b_conn.html#ae54ccfde6f9e18cd31e9323e6520ec6c">ol::mysql::DBConn</a>, <a class="el" href="classol_1_1oracle_1_1_d_b_conn.html#add912558cb4138750d3e063f98b9a182">ol::oracle::DBConn</a></li>
-<li>DBStmt&#160;:&#160;<a class="el" href="classol_1_1mysql_1_1_d_b_conn.html#aa64c719be4d2aea92d419606f414e98a">ol::mysql::DBConn</a>, <a class="el" href="classol_1_1mysql_1_1_d_b_stmt.html#a4af046a45994bc957729f2bd8a3436a0">ol::mysql::DBStmt</a>, <a class="el" href="classol_1_1oracle_1_1_d_b_conn.html#aa64c719be4d2aea92d419606f414e98a">ol::oracle::DBConn</a>, <a class="el" href="classol_1_1oracle_1_1_d_b_stmt.html#ac3f3736bb5d7084b749b64845dc9c066">ol::oracle::DBStmt</a></li>
-<li>defhp&#160;:&#160;<a class="el" href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html#a079840e4754a0f1d23519088cfa42370">ol::oracle::OCI_HANDLE</a></li>
-<li>disconnect()&#160;:&#160;<a class="el" href="classol_1_1mysql_1_1_d_b_conn.html#a1e8862e18153291f932587533e5e5826">ol::mysql::DBConn</a>, <a class="el" href="classol_1_1mysql_1_1_d_b_stmt.html#aa278e833c57dc9a2ff7e32bbb97f4c77">ol::mysql::DBStmt</a>, <a class="el" href="classol_1_1oracle_1_1_d_b_conn.html#a0feec3335b6377b7095395dc70c7c201">ol::oracle::DBConn</a>, <a class="el" href="classol_1_1oracle_1_1_d_b_stmt.html#a74e689ee9ff0f2a9fba2224a0519bfd9">ol::oracle::DBStmt</a></li>
-<li>disconnected&#160;:&#160;<a class="el" href="classol_1_1mysql_1_1_d_b_conn.html#a5d11a35a629e977c652c6d42be616a88adceccc45418380f3f59bcc9ca57bcb8b">ol::mysql::DBConn</a>, <a class="el" href="classol_1_1mysql_1_1_d_b_stmt.html#ad1c9fbbea834008ae5abb85c18c4ee24a70b91dde62dfcd76dfb4373e4c94251d">ol::mysql::DBStmt</a>, <a class="el" href="classol_1_1oracle_1_1_d_b_conn.html#a67d7a22cbaf1eea710c8ff156167d4a6aa7109c1633f986d2fbf9f32dfa76134f">ol::oracle::DBConn</a>, <a class="el" href="classol_1_1oracle_1_1_d_b_stmt.html#a3376103b0e5ad22d315c382d55db5c70a3ccd235bc0705b2cab02b4dd16273286">ol::oracle::DBStmt</a></li>
+<li>data&#160;:&#160;<a class="el" href="struct_net_buf.html#a5464f498f9bcbdb122c364f924b6f8ba">NetBuf</a></li>
+<li>DBConn()&#160;:&#160;<a class="el" href="classol_1_1mysql_1_1_d_b_conn.html#a436bfa9d118e16b48bc4fbb75aba9509">ol::mysql::DBConn</a>, <a class="el" href="classol_1_1mysql_1_1_d_b_stmt.html#aed174131e866422decde733853cd9a86">ol::mysql::DBStmt</a>, <a class="el" href="classol_1_1oracle_1_1_d_b_conn.html#a9fd96b02a751d419b17f65b6cc653d92">ol::oracle::DBConn</a>, <a class="el" href="classol_1_1oracle_1_1_d_b_stmt.html#aed174131e866422decde733853cd9a86">ol::oracle::DBStmt</a></li>
+<li>DBPool()&#160;:&#160;<a class="el" href="classol_1_1_d_b_pool.html#aa012cc8470024c5f27701ab693db2f61">ol::DBPool&lt; T &gt;</a></li>
+<li>DBPool&lt; T &gt;&#160;:&#160;<a class="el" href="classol_1_1_d_b_pool_1_1_connection_lease.html#afd086fc493a72979e43a3a4b5317bfd0">ol::DBPool&lt; T &gt;::ConnectionLease</a></li>
+<li>DBStmt&#160;:&#160;<a class="el" href="classol_1_1mysql_1_1_d_b_conn.html#aa64c719be4d2aea92d419606f414e98a">ol::mysql::DBConn</a>, <a class="el" href="classol_1_1mysql_1_1_d_b_stmt.html#aae4a131fea1b88492b181876d5740082">ol::mysql::DBStmt</a>, <a class="el" href="classol_1_1oracle_1_1_d_b_conn.html#aa64c719be4d2aea92d419606f414e98a">ol::oracle::DBConn</a>, <a class="el" href="classol_1_1oracle_1_1_d_b_stmt.html#a183ef514a6536e4694fb666240a62685">ol::oracle::DBStmt</a></li>
+<li>destroy()&#160;:&#160;<a class="el" href="classol_1_1_d_b_pool.html#a1307e1a6d4abe14a6720f125a99a0958">ol::DBPool&lt; T &gt;</a></li>
+<li>destroyAt()&#160;:&#160;<a class="el" href="classol_1_1cqueue.html#a1a87d21174e9cfb8ff45ceb8b708889b">ol::cqueue&lt; T, MAX_SIZE &gt;</a></li>
+<li>dir&#160;:&#160;<a class="el" href="struct_net_buf.html#a2f4f9215b0a8c787986d988279ae39a9">NetBuf</a></li>
+<li>disconnect()&#160;:&#160;<a class="el" href="classol_1_1_i_d_b_conn.html#a985dc2e0705f770e7e4d5590a61d8db0">ol::IDBConn</a>, <a class="el" href="classol_1_1mysql_1_1_d_b_conn.html#a5c51f94a9c510b7663fbf01ab81e36c7">ol::mysql::DBConn</a>, <a class="el" href="classol_1_1oracle_1_1_d_b_conn.html#a1eb729e83bcbb964d5c7c74ef4b9b13f">ol::oracle::DBConn</a></li>
+<li>disconnectAll()&#160;:&#160;<a class="el" href="classol_1_1_d_b_pool.html#aec994d3c4ca9a20324b7ace0fd061389">ol::DBPool&lt; T &gt;</a></li>
+<li>disconnectNoexcept()&#160;:&#160;<a class="el" href="classol_1_1_d_b_pool.html#a97fc1230333f5141240cc277d9130790">ol::DBPool&lt; T &gt;</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

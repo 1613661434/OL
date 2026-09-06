@@ -27,7 +27,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
   <td id="projectalign">
-   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
    </div>
    <div id="projectbrief">This is a C++ library.</div>
   </td>
@@ -144,8 +144,8 @@ $(function(){initNavTree('namespaceol_1_1base.html','',''); });
 <tr class="memitem:ac063fcdb081836c72287620d5c5020dd" id="r_ac063fcdb081836c72287620d5c5020dd"><td class="memTemplParams" colspan="2">template&lt;typename RandomIt&gt; </td></tr>
 <tr class="memitem:ac063fcdb081836c72287620d5c5020dd template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac063fcdb081836c72287620d5c5020dd">radix_sort_lsd_base</a> (RandomIt first, RandomIt last, int radix)</td></tr>
 <tr class="memdesc:ac063fcdb081836c72287620d5c5020dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">基数排序核心实现（LSD策略）  <br /></td></tr>
-<tr class="memitem:adc4684b7186d6f732010a29fb4bc50b2" id="r_adc4684b7186d6f732010a29fb4bc50b2"><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adc4684b7186d6f732010a29fb4bc50b2">get_char</a> (const std::string &amp;str, size_t pos)</td></tr>
-<tr class="memdesc:adc4684b7186d6f732010a29fb4bc50b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取字符串在指定位置的字符（支持越界处理，使用unsigned char确保无符号性）  <br /></td></tr>
+<tr class="memitem:ac2817c70f560d7065762043ca493253d" id="r_ac2817c70f560d7065762043ca493253d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac2817c70f560d7065762043ca493253d">get_char</a> (const std::string &amp;str, size_t pos)</td></tr>
+<tr class="memdesc:ac2817c70f560d7065762043ca493253d"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取字符串在指定位置的字符（使用-1表示字符串结束）  <br /></td></tr>
 <tr class="memitem:a7a865dbcb6d0c659b3e5c7e6a8be89ea" id="r_a7a865dbcb6d0c659b3e5c7e6a8be89ea"><td class="memTemplParams" colspan="2">template&lt;typename RandomIt&gt; </td></tr>
 <tr class="memitem:a7a865dbcb6d0c659b3e5c7e6a8be89ea template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a865dbcb6d0c659b3e5c7e6a8be89ea">radix_sort_msd_base</a> (RandomIt first, RandomIt last, size_t pos, int max_pos, int radix=256)</td></tr>
 <tr class="memdesc:a7a865dbcb6d0c659b3e5c7e6a8be89ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">基数排序MSD核心递归实现  <br /></td></tr>
@@ -506,8 +506,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="adc4684b7186d6f732010a29fb4bc50b2" name="adc4684b7186d6f732010a29fb4bc50b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adc4684b7186d6f732010a29fb4bc50b2">&#9670;&#160;</a></span>get_char()</h2>
+<a id="ac2817c70f560d7065762043ca493253d" name="ac2817c70f560d7065762043ca493253d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2817c70f560d7065762043ca493253d">&#9670;&#160;</a></span>get_char()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -516,7 +516,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned char ol::base::get_char </td>
+          <td class="memname">int ol::base::get_char </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>str</em></span>, </td>
         </tr>
@@ -533,7 +533,7 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>获取字符串在指定位置的字符（支持越界处理，使用unsigned char确保无符号性） </p>
+<p>获取字符串在指定位置的字符（使用-1表示字符串结束） </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">str</td><td>输入字符串 </td></tr>
@@ -541,7 +541,7 @@ template&lt;typename T&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>若pos在字符串长度范围内则返回对应unsigned char，否则返回'\0' </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>若pos在字符串长度范围内则返回对应unsigned char值，否则返回-1 </dd></dl>
 
 </div>
 </div>

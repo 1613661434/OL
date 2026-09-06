@@ -27,7 +27,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
   <td id="projectalign">
-   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
    </div>
    <div id="projectbrief">This is a C++ library.</div>
   </td>
@@ -94,95 +94,157 @@ $(function(){initNavTree('classol_1_1oracle_1_1_d_b_stmt.html','','classol_1_1or
 </div><!--header-->
 <div class="contents">
 
+<p>Oracle预处理语句操作类  
+ <a href="#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="ol__oci_8h_source.html">ol_oci.h</a>&gt;</code></p>
+<div class="dynheader">
+类 ol::oracle::DBStmt 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classol_1_1oracle_1_1_d_b_stmt.png" usemap="#ol_3A_3Aoracle_3A_3ADBStmt_map" alt=""/>
+  <map id="ol_3A_3Aoracle_3A_3ADBStmt_map" name="ol_3A_3Aoracle_3A_3ADBStmt_map">
+<area href="classol_1_1_type_non_copyable_movable.html" title="不可拷贝且不可移动标记类（TypeNonCopyable + TypeNonMovable的组合）" alt="ol::TypeNonCopyableMovable" shape="rect" coords="96,56,278,80"/>
+<area href="classol_1_1_type_non_copyable.html" title="不可拷贝标记类，继承此类的派生类将禁用拷贝构造和拷贝赋值" alt="ol::TypeNonCopyable" shape="rect" coords="0,0,182,24"/>
+<area href="classol_1_1_type_non_movable.html" title="不可移动标记类，继承此类的派生类将禁用移动构造和移动赋值" alt="ol::TypeNonMovable" shape="rect" coords="192,0,374,24"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
-<tr class="memitem:a1e76d8eeaab4d7a38d292b492f33abaf" id="r_a1e76d8eeaab4d7a38d292b492f33abaf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e76d8eeaab4d7a38d292b492f33abaf">DBStmt</a> ()</td></tr>
-<tr class="memitem:aad28b80a9e6b7383d01a7c4889a9189f" id="r_aad28b80a9e6b7383d01a7c4889a9189f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad28b80a9e6b7383d01a7c4889a9189f">DBStmt</a> (<a class="el" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a> *conn)</td></tr>
+<tr class="memitem:a183ef514a6536e4694fb666240a62685" id="r_a183ef514a6536e4694fb666240a62685"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a183ef514a6536e4694fb666240a62685">DBStmt</a> (<a class="el" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a> &amp;conn)</td></tr>
+<tr class="memdesc:a183ef514a6536e4694fb666240a62685"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
 <tr class="memitem:a6411609d2422cb66289f473d45a9ff48" id="r_a6411609d2422cb66289f473d45a9ff48"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6411609d2422cb66289f473d45a9ff48">~DBStmt</a> ()</td></tr>
-<tr class="memitem:a8ec044d1fefadd1a31113c6faffd712e" id="r_a8ec044d1fefadd1a31113c6faffd712e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8ec044d1fefadd1a31113c6faffd712e">connect</a> (<a class="el" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a> *conn)</td></tr>
-<tr class="memdesc:a8ec044d1fefadd1a31113c6faffd712e"><td class="mdescLeft">&#160;</td><td class="mdescRight">关联数据库连接  <br /></td></tr>
-<tr class="memitem:a0e35925126ed129fb9da5de73dc8a381" id="r_a0e35925126ed129fb9da5de73dc8a381"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e35925126ed129fb9da5de73dc8a381">isopen</a> ()</td></tr>
-<tr class="memdesc:a0e35925126ed129fb9da5de73dc8a381"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断是否已关联数据库连接  <br /></td></tr>
-<tr class="memitem:a74e689ee9ff0f2a9fba2224a0519bfd9" id="r_a74e689ee9ff0f2a9fba2224a0519bfd9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74e689ee9ff0f2a9fba2224a0519bfd9">disconnect</a> ()</td></tr>
-<tr class="memdesc:a74e689ee9ff0f2a9fba2224a0519bfd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">解除与数据库连接的关联  <br /></td></tr>
-<tr class="memitem:a4a0e399b0463ff367d1a4820cbd919dd" id="r_a4a0e399b0463ff367d1a4820cbd919dd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4a0e399b0463ff367d1a4820cbd919dd">prepare</a> (const std::string &amp;strsql)</td></tr>
-<tr class="memdesc:a4a0e399b0463ff367d1a4820cbd919dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">准备SQL语句（支持格式化字符串）  <br /></td></tr>
-<tr class="memitem:a2398ac1f412a2f1fd5f29efe9e1f08a4" id="r_a2398ac1f412a2f1fd5f29efe9e1f08a4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2398ac1f412a2f1fd5f29efe9e1f08a4">prepare</a> (const char *fmt,...)</td></tr>
-<tr class="memdesc:a2398ac1f412a2f1fd5f29efe9e1f08a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">准备SQL语句（支持可变参数，同printf）  <br /></td></tr>
-<tr class="memitem:a1b1edc201621442821fbc4f4a06d37c2" id="r_a1b1edc201621442821fbc4f4a06d37c2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b1edc201621442821fbc4f4a06d37c2">bindin</a> (const unsigned int position, int &amp;value)</td></tr>
-<tr class="memdesc:a1b1edc201621442821fbc4f4a06d37c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定输入变量（将SQL中的占位符与变量关联）  <br /></td></tr>
-<tr class="memitem:a2c7dc79229ffefedd8e49cd1482b7d57" id="r_a2c7dc79229ffefedd8e49cd1482b7d57"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2c7dc79229ffefedd8e49cd1482b7d57">bindin</a> (const unsigned int position, long &amp;value)</td></tr>
-<tr class="memitem:a9e24a121a0ced94660fc39aaebc00c92" id="r_a9e24a121a0ced94660fc39aaebc00c92"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9e24a121a0ced94660fc39aaebc00c92">bindin</a> (const unsigned int position, unsigned int &amp;value)</td></tr>
-<tr class="memitem:a35b64ed08df9692bcc87ba1df3cd1b43" id="r_a35b64ed08df9692bcc87ba1df3cd1b43"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a35b64ed08df9692bcc87ba1df3cd1b43">bindin</a> (const unsigned int position, unsigned long &amp;value)</td></tr>
-<tr class="memitem:a01dd4640dd2e27ae6a26c0d69ea8f6a6" id="r_a01dd4640dd2e27ae6a26c0d69ea8f6a6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01dd4640dd2e27ae6a26c0d69ea8f6a6">bindin</a> (const unsigned int position, float &amp;value)</td></tr>
-<tr class="memitem:a0786df543fdb136996b5580bc0f823fd" id="r_a0786df543fdb136996b5580bc0f823fd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0786df543fdb136996b5580bc0f823fd">bindin</a> (const unsigned int position, double &amp;value)</td></tr>
-<tr class="memitem:a05d255288f47f3f2cdc1543c87ce0dec" id="r_a05d255288f47f3f2cdc1543c87ce0dec"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05d255288f47f3f2cdc1543c87ce0dec">bindin</a> (const unsigned int position, char *value, unsigned int len=2000)</td></tr>
-<tr class="memitem:a75cd6be37c4eb6b42b8e9fd40554f0c8" id="r_a75cd6be37c4eb6b42b8e9fd40554f0c8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a75cd6be37c4eb6b42b8e9fd40554f0c8">bindin</a> (const unsigned int position, std::string &amp;value, unsigned int len=2000)</td></tr>
-<tr class="memitem:ac746106ed7775b243907c843f2130b07" id="r_ac746106ed7775b243907c843f2130b07"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac746106ed7775b243907c843f2130b07">bindin1</a> (const unsigned int position, std::string &amp;value)</td></tr>
-<tr class="memitem:a64526e944b348b5a4e09e50aed4ad44e" id="r_a64526e944b348b5a4e09e50aed4ad44e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a64526e944b348b5a4e09e50aed4ad44e">bindout</a> (const unsigned int position, int &amp;value)</td></tr>
-<tr class="memdesc:a64526e944b348b5a4e09e50aed4ad44e"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定输出变量（将查询结果字段与变量关联）  <br /></td></tr>
-<tr class="memitem:aaf0298477681776a997489168ed0c1c3" id="r_aaf0298477681776a997489168ed0c1c3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf0298477681776a997489168ed0c1c3">bindout</a> (const unsigned int position, long &amp;value)</td></tr>
-<tr class="memitem:aa94f79403e9bc3645482661e97038747" id="r_aa94f79403e9bc3645482661e97038747"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa94f79403e9bc3645482661e97038747">bindout</a> (const unsigned int position, unsigned int &amp;value)</td></tr>
-<tr class="memitem:a6a86c2e2b36b95faae3f8eb45f3cb67c" id="r_a6a86c2e2b36b95faae3f8eb45f3cb67c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a86c2e2b36b95faae3f8eb45f3cb67c">bindout</a> (const unsigned int position, unsigned long &amp;value)</td></tr>
-<tr class="memitem:ad1fc14b1ba82d59d0087940c5d049ecc" id="r_ad1fc14b1ba82d59d0087940c5d049ecc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1fc14b1ba82d59d0087940c5d049ecc">bindout</a> (const unsigned int position, float &amp;value)</td></tr>
-<tr class="memitem:ade79ed5db2a776bff54ae32124342eef" id="r_ade79ed5db2a776bff54ae32124342eef"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade79ed5db2a776bff54ae32124342eef">bindout</a> (const unsigned int position, double &amp;value)</td></tr>
-<tr class="memitem:abf2d760a373687a297a4244cf6ccda95" id="r_abf2d760a373687a297a4244cf6ccda95"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abf2d760a373687a297a4244cf6ccda95">bindout</a> (const unsigned int position, char *value, unsigned int len=2000)</td></tr>
-<tr class="memitem:acbcbc59e9150052043c2839656083ca7" id="r_acbcbc59e9150052043c2839656083ca7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acbcbc59e9150052043c2839656083ca7">bindout</a> (const unsigned int position, std::string &amp;value, unsigned int len=2000)</td></tr>
-<tr class="memitem:a7a4f45d878629ca6f1ef70443a28aec2" id="r_a7a4f45d878629ca6f1ef70443a28aec2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a4f45d878629ca6f1ef70443a28aec2">execute</a> ()</td></tr>
-<tr class="memdesc:a7a4f45d878629ca6f1ef70443a28aec2"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行已准备的（静态或动态）SQL语句  <br /></td></tr>
-<tr class="memitem:aaa4a184ae63b487ef423306794e2b826" id="r_aaa4a184ae63b487ef423306794e2b826"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaa4a184ae63b487ef423306794e2b826">execute</a> (const char *fmt,...)</td></tr>
-<tr class="memdesc:aaa4a184ae63b487ef423306794e2b826"><td class="mdescLeft">&#160;</td><td class="mdescRight">直接执行静态SQL语句（无绑定变量，非查询语句）  <br /></td></tr>
+<tr class="memdesc:a6411609d2422cb66289f473d45a9ff48"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数，释放资源  <br /></td></tr>
+<tr class="memitem:a0b8abc01b74c5bdf61485953e7f09442" id="r_a0b8abc01b74c5bdf61485953e7f09442"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0b8abc01b74c5bdf61485953e7f09442">prepare</a> (const char *<a class="el" href="#a0be6c71f8fe0f2801a50f05226d6f1bc">sql</a>)</td></tr>
+<tr class="memdesc:a0b8abc01b74c5bdf61485953e7f09442"><td class="mdescLeft">&#160;</td><td class="mdescRight">预处理SQL语句  <br /></td></tr>
+<tr class="memitem:a2e1c9b9a63ce928c0d9032b2bbd46e06" id="r_a2e1c9b9a63ce928c0d9032b2bbd46e06"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e1c9b9a63ce928c0d9032b2bbd46e06">prepare</a> (const std::string &amp;<a class="el" href="#a0be6c71f8fe0f2801a50f05226d6f1bc">sql</a>)</td></tr>
+<tr class="memdesc:a2e1c9b9a63ce928c0d9032b2bbd46e06"><td class="mdescLeft">&#160;</td><td class="mdescRight">预处理SQL语句  <br /></td></tr>
+<tr class="memitem:ac73aabee0fd438f502196b6f00c7e88b" id="r_ac73aabee0fd438f502196b6f00c7e88b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac73aabee0fd438f502196b6f00c7e88b">prepareFmt</a> (const char *fmt,...)</td></tr>
+<tr class="memdesc:ac73aabee0fd438f502196b6f00c7e88b"><td class="mdescLeft">&#160;</td><td class="mdescRight">格式化预处理SQL  <br /></td></tr>
+<tr class="memitem:af26fe2210941e0227927a188d4e2f2e0" id="r_af26fe2210941e0227927a188d4e2f2e0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af26fe2210941e0227927a188d4e2f2e0">bindin</a> (unsigned int pos, int &amp;value)</td></tr>
+<tr class="memdesc:af26fe2210941e0227927a188d4e2f2e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定输入变量（将SQL中的占位符与变量关联）  <br /></td></tr>
+<tr class="memitem:a665775282bb749197665395312abd0fa" id="r_a665775282bb749197665395312abd0fa"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a665775282bb749197665395312abd0fa">bindin</a> (unsigned int pos, long &amp;value)</td></tr>
+<tr class="memdesc:a665775282bb749197665395312abd0fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定long类型  <br /></td></tr>
+<tr class="memitem:a0262d140baf9337fbb456282e807d889" id="r_a0262d140baf9337fbb456282e807d889"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0262d140baf9337fbb456282e807d889">bindin</a> (unsigned int pos, unsigned int &amp;value)</td></tr>
+<tr class="memdesc:a0262d140baf9337fbb456282e807d889"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定unsigned int类型  <br /></td></tr>
+<tr class="memitem:ad6bb13ecd41ae698088b39e1b0c9264b" id="r_ad6bb13ecd41ae698088b39e1b0c9264b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad6bb13ecd41ae698088b39e1b0c9264b">bindin</a> (unsigned int pos, unsigned long &amp;value)</td></tr>
+<tr class="memdesc:ad6bb13ecd41ae698088b39e1b0c9264b"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定unsigned long类型  <br /></td></tr>
+<tr class="memitem:a6f894be704ee17197603da15326afaf5" id="r_a6f894be704ee17197603da15326afaf5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f894be704ee17197603da15326afaf5">bindin</a> (unsigned int pos, float &amp;value)</td></tr>
+<tr class="memdesc:a6f894be704ee17197603da15326afaf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定float类型  <br /></td></tr>
+<tr class="memitem:a9db2cc3c6441918f7a364dfb2c7cd76b" id="r_a9db2cc3c6441918f7a364dfb2c7cd76b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9db2cc3c6441918f7a364dfb2c7cd76b">bindin</a> (unsigned int pos, double &amp;value)</td></tr>
+<tr class="memdesc:a9db2cc3c6441918f7a364dfb2c7cd76b"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定double类型  <br /></td></tr>
+<tr class="memitem:a97f5688e56496ff67058065f1157f681" id="r_a97f5688e56496ff67058065f1157f681"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97f5688e56496ff67058065f1157f681">bindin</a> (unsigned int pos, char *value, unsigned int len=512u)</td></tr>
+<tr class="memdesc:a97f5688e56496ff67058065f1157f681"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定char*类型  <br /></td></tr>
+<tr class="memitem:a299cbea628450522ae41da69f88b5a7d" id="r_a299cbea628450522ae41da69f88b5a7d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a299cbea628450522ae41da69f88b5a7d">bindin</a> (unsigned int pos, std::string &amp;value, unsigned int len=512u)</td></tr>
+<tr class="memdesc:a299cbea628450522ae41da69f88b5a7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定std::string类型  <br /></td></tr>
+<tr class="memitem:aa21ddb3259cba40ca4af6b3fa87601e0" id="r_aa21ddb3259cba40ca4af6b3fa87601e0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa21ddb3259cba40ca4af6b3fa87601e0">bindout</a> (unsigned int pos, int &amp;value)</td></tr>
+<tr class="memdesc:aa21ddb3259cba40ca4af6b3fa87601e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定输出变量（将查询结果字段与变量关联）  <br /></td></tr>
+<tr class="memitem:a7cb6342d46bed678eabefd49be11ab63" id="r_a7cb6342d46bed678eabefd49be11ab63"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7cb6342d46bed678eabefd49be11ab63">bindout</a> (unsigned int pos, long &amp;value)</td></tr>
+<tr class="memdesc:a7cb6342d46bed678eabefd49be11ab63"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定long类型  <br /></td></tr>
+<tr class="memitem:a13e1bdb4990ad481b04a536d71eea11a" id="r_a13e1bdb4990ad481b04a536d71eea11a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a13e1bdb4990ad481b04a536d71eea11a">bindout</a> (unsigned int pos, unsigned int &amp;value)</td></tr>
+<tr class="memdesc:a13e1bdb4990ad481b04a536d71eea11a"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定unsigned int类型  <br /></td></tr>
+<tr class="memitem:aafa8a80a95e7a4992f9990bb4878584c" id="r_aafa8a80a95e7a4992f9990bb4878584c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aafa8a80a95e7a4992f9990bb4878584c">bindout</a> (unsigned int pos, unsigned long &amp;value)</td></tr>
+<tr class="memdesc:aafa8a80a95e7a4992f9990bb4878584c"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定unsigned long类型  <br /></td></tr>
+<tr class="memitem:a8c2ce34efbc17dc077e5e8115b68075a" id="r_a8c2ce34efbc17dc077e5e8115b68075a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8c2ce34efbc17dc077e5e8115b68075a">bindout</a> (unsigned int pos, float &amp;value)</td></tr>
+<tr class="memdesc:a8c2ce34efbc17dc077e5e8115b68075a"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定float类型  <br /></td></tr>
+<tr class="memitem:aa3f4ee1d9a02dc8ee7eb9ef5785a8a49" id="r_aa3f4ee1d9a02dc8ee7eb9ef5785a8a49"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3f4ee1d9a02dc8ee7eb9ef5785a8a49">bindout</a> (unsigned int pos, double &amp;value)</td></tr>
+<tr class="memdesc:aa3f4ee1d9a02dc8ee7eb9ef5785a8a49"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定double类型  <br /></td></tr>
+<tr class="memitem:ac79a7a04dc000fbc639d9db153b2b4d9" id="r_ac79a7a04dc000fbc639d9db153b2b4d9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac79a7a04dc000fbc639d9db153b2b4d9">bindout</a> (unsigned int pos, char *value, unsigned int len=512u)</td></tr>
+<tr class="memdesc:ac79a7a04dc000fbc639d9db153b2b4d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定char*类型  <br /></td></tr>
+<tr class="memitem:a55f6c2e510a757465857be53b08d9bc2" id="r_a55f6c2e510a757465857be53b08d9bc2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a55f6c2e510a757465857be53b08d9bc2">bindout</a> (unsigned int pos, std::string &amp;value, unsigned int len=512u)</td></tr>
+<tr class="memdesc:a55f6c2e510a757465857be53b08d9bc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定std::string类型  <br /></td></tr>
+<tr class="memitem:a0be32aeefffc31651851d226d030480c" id="r_a0be32aeefffc31651851d226d030480c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0be32aeefffc31651851d226d030480c">execute</a> ()</td></tr>
+<tr class="memdesc:a0be32aeefffc31651851d226d030480c"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行预处理语句  <br /></td></tr>
 <tr class="memitem:a26a626fc7f038cfcd06441af4c0df800" id="r_a26a626fc7f038cfcd06441af4c0df800"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a26a626fc7f038cfcd06441af4c0df800">next</a> ()</td></tr>
-<tr class="memdesc:a26a626fc7f038cfcd06441af4c0df800"><td class="mdescLeft">&#160;</td><td class="mdescRight">从结果集中获取下一条记录（仅查询语句有效）  <br /></td></tr>
-<tr class="memitem:ae4d4ec987ba995aa7d93607fabb764b1" id="r_ae4d4ec987ba995aa7d93607fabb764b1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4d4ec987ba995aa7d93607fabb764b1">bindblob</a> ()</td></tr>
-<tr class="memdesc:ae4d4ec987ba995aa7d93607fabb764b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定BLOB字段（用于插入/读取二进制大对象）  <br /></td></tr>
-<tr class="memitem:ab4db523d08af0b8044cc1f7c9aa99a68" id="r_ab4db523d08af0b8044cc1f7c9aa99a68"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab4db523d08af0b8044cc1f7c9aa99a68">bindclob</a> ()</td></tr>
-<tr class="memdesc:ab4db523d08af0b8044cc1f7c9aa99a68"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定CLOB字段（用于插入/读取字符大对象）  <br /></td></tr>
-<tr class="memitem:aa9a97322278e0c44e0691e0faffc2aa4" id="r_aa9a97322278e0c44e0691e0faffc2aa4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9a97322278e0c44e0691e0faffc2aa4">filetolob</a> (const std::string &amp;filename)</td></tr>
-<tr class="memdesc:aa9a97322278e0c44e0691e0faffc2aa4"><td class="mdescLeft">&#160;</td><td class="mdescRight">将文件内容导入到LOB字段  <br /></td></tr>
-<tr class="memitem:a32fb6f9e53a2971935912ee02ee2c882" id="r_a32fb6f9e53a2971935912ee02ee2c882"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32fb6f9e53a2971935912ee02ee2c882">lobtofile</a> (const std::string &amp;filename)</td></tr>
-<tr class="memdesc:a32fb6f9e53a2971935912ee02ee2c882"><td class="mdescLeft">&#160;</td><td class="mdescRight">将LOB字段内容导出到文件  <br /></td></tr>
-<tr class="memitem:ac116c0c80703ff265b6bf7eb60cf6cec" id="r_ac116c0c80703ff265b6bf7eb60cf6cec"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac116c0c80703ff265b6bf7eb60cf6cec">sql</a> ()</td></tr>
-<tr class="memdesc:ac116c0c80703ff265b6bf7eb60cf6cec"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取SQL语句的文本  <br /></td></tr>
-<tr class="memitem:ae27aa746ef3a471a0ca004e5f0bece1a" id="r_ae27aa746ef3a471a0ca004e5f0bece1a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae27aa746ef3a471a0ca004e5f0bece1a">rc</a> ()</td></tr>
-<tr class="memdesc:ae27aa746ef3a471a0ca004e5f0bece1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取错误代码（Return Code）  <br /></td></tr>
-<tr class="memitem:a222cb61cfa5729795817680660c9c8d8" id="r_a222cb61cfa5729795817680660c9c8d8"><td class="memItemLeft" align="right" valign="top">unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a222cb61cfa5729795817680660c9c8d8">rpc</a> ()</td></tr>
-<tr class="memdesc:a222cb61cfa5729795817680660c9c8d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取影响数据的行数（Rows Processed Count）  <br /></td></tr>
-<tr class="memitem:ae437928902890e447328d1ec8c6dc880" id="r_ae437928902890e447328d1ec8c6dc880"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae437928902890e447328d1ec8c6dc880">message</a> ()</td></tr>
-<tr class="memdesc:ae437928902890e447328d1ec8c6dc880"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取错误描述信息  <br /></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pri-types" class="groupheader"><a id="pri-types" name="pri-types"></a>
-Private 类型</h2></td></tr>
-<tr class="memitem:a3376103b0e5ad22d315c382d55db5c70" id="r_a3376103b0e5ad22d315c382d55db5c70"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="#a3376103b0e5ad22d315c382d55db5c70aff82c6b99ba816cc4f133e4b024d8739">connected</a>
-, <a class="el" href="#a3376103b0e5ad22d315c382d55db5c70a3ccd235bc0705b2cab02b4dd16273286">disconnected</a>
- }</td></tr>
+<tr class="memdesc:a26a626fc7f038cfcd06441af4c0df800"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取下一行结果集  <br /></td></tr>
+<tr class="memitem:a13b082ed0a372388848184e5499bcd97" id="r_a13b082ed0a372388848184e5499bcd97"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a13b082ed0a372388848184e5499bcd97">bindblob</a> (unsigned int pos)</td></tr>
+<tr class="memdesc:a13b082ed0a372388848184e5499bcd97"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定BLOB字段（用于读取二进制大对象）  <br /></td></tr>
+<tr class="memitem:a5f202888bca32902eb1366dd599952f3" id="r_a5f202888bca32902eb1366dd599952f3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f202888bca32902eb1366dd599952f3">bindclob</a> (unsigned int pos)</td></tr>
+<tr class="memdesc:a5f202888bca32902eb1366dd599952f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">绑定CLOB字段（用于读取字符大对象）  <br /></td></tr>
+<tr class="memitem:a8e827b63598ff63143e26c1b015979a2" id="r_a8e827b63598ff63143e26c1b015979a2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e827b63598ff63143e26c1b015979a2">filetoblob</a> (unsigned int pos, const std::string &amp;filename)</td></tr>
+<tr class="memdesc:a8e827b63598ff63143e26c1b015979a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">将文件内容导入到BLOB字段  <br /></td></tr>
+<tr class="memitem:ac6502554632366f98c3ca695e8d8b18b" id="r_ac6502554632366f98c3ca695e8d8b18b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac6502554632366f98c3ca695e8d8b18b">blobtofile</a> (unsigned int pos, const std::string &amp;filename)</td></tr>
+<tr class="memdesc:ac6502554632366f98c3ca695e8d8b18b"><td class="mdescLeft">&#160;</td><td class="mdescRight">将BLOB字段内容导出到文件  <br /></td></tr>
+<tr class="memitem:ae197f0408c00602fec44aac209b96c99" id="r_ae197f0408c00602fec44aac209b96c99"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae197f0408c00602fec44aac209b96c99">filetoclob</a> (unsigned int pos, const std::string &amp;filename)</td></tr>
+<tr class="memdesc:ae197f0408c00602fec44aac209b96c99"><td class="mdescLeft">&#160;</td><td class="mdescRight">将文件内容导入到CLOB字段  <br /></td></tr>
+<tr class="memitem:ac33e7df3098b436c539d667a20fd0ff1" id="r_ac33e7df3098b436c539d667a20fd0ff1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac33e7df3098b436c539d667a20fd0ff1">clobtofile</a> (unsigned int pos, const std::string &amp;filename)</td></tr>
+<tr class="memdesc:ac33e7df3098b436c539d667a20fd0ff1"><td class="mdescLeft">&#160;</td><td class="mdescRight">将CLOB字段内容导出到文件  <br /></td></tr>
+<tr class="memitem:a0be6c71f8fe0f2801a50f05226d6f1bc" id="r_a0be6c71f8fe0f2801a50f05226d6f1bc"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0be6c71f8fe0f2801a50f05226d6f1bc">sql</a> () const</td></tr>
+<tr class="memdesc:a0be6c71f8fe0f2801a50f05226d6f1bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前SQL语句  <br /></td></tr>
+<tr class="memitem:aa95e09666c0e01e379a11a7ab946f87f" id="r_aa95e09666c0e01e379a11a7ab946f87f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa95e09666c0e01e379a11a7ab946f87f">code</a> () const</td></tr>
+<tr class="memdesc:aa95e09666c0e01e379a11a7ab946f87f"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取执行结果码  <br /></td></tr>
+<tr class="memitem:a54954a21e71bedf67f6358f7af0c0b31" id="r_a54954a21e71bedf67f6358f7af0c0b31"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54954a21e71bedf67f6358f7af0c0b31">affectedRows</a> () const</td></tr>
+<tr class="memdesc:a54954a21e71bedf67f6358f7af0c0b31"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取受影响行数  <br /></td></tr>
+<tr class="memitem:a45bbd26a2f9327243052a1499ce795f3" id="r_a45bbd26a2f9327243052a1499ce795f3"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a45bbd26a2f9327243052a1499ce795f3">errorMsg</a> () const</td></tr>
+<tr class="memdesc:a45bbd26a2f9327243052a1499ce795f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取错误信息  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private 成员函数</h2></td></tr>
-<tr class="memitem:aa22d6d6669d60da728db6afa29a5ce98" id="r_aa22d6d6669d60da728db6afa29a5ce98"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa22d6d6669d60da728db6afa29a5ce98">err_report</a> ()</td></tr>
+<tr class="memitem:ab5216f25ef958f0bc4c74a434be663d3" id="r_ab5216f25ef958f0bc4c74a434be663d3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5216f25ef958f0bc4c74a434be663d3">isOpen</a> () const</td></tr>
+<tr class="memdesc:ab5216f25ef958f0bc4c74a434be663d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查语句是否初始化  <br /></td></tr>
+<tr class="memitem:a2b4b7f551a6d894dd53563d99b2384b8" id="r_a2b4b7f551a6d894dd53563d99b2384b8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b4b7f551a6d894dd53563d99b2384b8">errReport</a> ()</td></tr>
+<tr class="memdesc:a2b4b7f551a6d894dd53563d99b2384b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">记录语句错误信息  <br /></td></tr>
 <tr class="memitem:a50ebc5499c4a90b87702566721a4db89" id="r_a50ebc5499c4a90b87702566721a4db89"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a50ebc5499c4a90b87702566721a4db89">alloclob</a> ()</td></tr>
-<tr class="memitem:a91a7d1e00691fc5d2bee6e0032cfc512" id="r_a91a7d1e00691fc5d2bee6e0032cfc512"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a91a7d1e00691fc5d2bee6e0032cfc512">filetolob</a> (FILE *fp)</td></tr>
-<tr class="memitem:a56406d40af96a3f245bf718ad5477e0d" id="r_a56406d40af96a3f245bf718ad5477e0d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a56406d40af96a3f245bf718ad5477e0d">lobtofile</a> (FILE *fp)</td></tr>
+<tr class="memdesc:a50ebc5499c4a90b87702566721a4db89"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化LOB定位器  <br /></td></tr>
 <tr class="memitem:af480042e0729bce35e1a2325ee3f4458" id="r_af480042e0729bce35e1a2325ee3f4458"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af480042e0729bce35e1a2325ee3f4458">freelob</a> ()</td></tr>
-<tr class="memitem:ac3f3736bb5d7084b749b64845dc9c066" id="r_ac3f3736bb5d7084b749b64845dc9c066"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3f3736bb5d7084b749b64845dc9c066">DBStmt</a> (const <a class="el" href="classol_1_1oracle_1_1_d_b_stmt.html">DBStmt</a> &amp;)=delete</td></tr>
-<tr class="memitem:a3c5f195ad6edc60660c12e1f57d51598" id="r_a3c5f195ad6edc60660c12e1f57d51598"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classol_1_1oracle_1_1_d_b_stmt.html">DBStmt</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3c5f195ad6edc60660c12e1f57d51598">operator=</a> (const <a class="el" href="classol_1_1oracle_1_1_d_b_stmt.html">DBStmt</a> &amp;)=delete</td></tr>
+<tr class="memdesc:af480042e0729bce35e1a2325ee3f4458"><td class="mdescLeft">&#160;</td><td class="mdescRight">释放LOB定位器  <br /></td></tr>
+<tr class="memitem:a6d21782e73463e8df0e602a7e483497a" id="r_a6d21782e73463e8df0e602a7e483497a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d21782e73463e8df0e602a7e483497a">filetolobInternal</a> (FILE *fp)</td></tr>
+<tr class="memdesc:a6d21782e73463e8df0e602a7e483497a"><td class="mdescLeft">&#160;</td><td class="mdescRight">将文件内容写入LOB字段（内部实现，分片传输）  <br /></td></tr>
+<tr class="memitem:a6ab835ee6d13dd4277af8f44e4f5c866" id="r_a6ab835ee6d13dd4277af8f44e4f5c866"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ab835ee6d13dd4277af8f44e4f5c866">lobtofileInternal</a> (FILE *fp)</td></tr>
+<tr class="memdesc:a6ab835ee6d13dd4277af8f44e4f5c866"><td class="mdescLeft">&#160;</td><td class="mdescRight">将LOB字段内容写入文件（内部实现，分片读取）  <br /></td></tr>
+<tr class="memitem:a3a65992eac2e4c37ed493b1fb25332ee" id="r_a3a65992eac2e4c37ed493b1fb25332ee"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3a65992eac2e4c37ed493b1fb25332ee">ociStmtCreate</a> ()</td></tr>
+<tr class="memitem:ac72f80af1c775287bbc58e2a5365b234" id="r_ac72f80af1c775287bbc58e2a5365b234"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac72f80af1c775287bbc58e2a5365b234">ociStmtClose</a> ()</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private 属性</h2></td></tr>
-<tr class="memitem:abb28e36e6c794714185f8360d8a0d1d1" id="r_abb28e36e6c794714185f8360d8a0d1d1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html">OCI_HANDLE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb28e36e6c794714185f8360d8a0d1d1">m_handle</a></td></tr>
-<tr class="memitem:af36f47d9639bed35e4dc123e2e44d6a1" id="r_af36f47d9639bed35e4dc123e2e44d6a1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af36f47d9639bed35e4dc123e2e44d6a1">m_conn</a></td></tr>
-<tr class="memitem:a999bedf0100657e3aba62fd881d5f44a" id="r_a999bedf0100657e3aba62fd881d5f44a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a999bedf0100657e3aba62fd881d5f44a">m_sqltype</a></td></tr>
-<tr class="memitem:accbc6594225e222651065a30a259ec28" id="r_accbc6594225e222651065a30a259ec28"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#accbc6594225e222651065a30a259ec28">m_autocommitopt</a></td></tr>
-<tr class="memitem:aa4028a08343b65e84b12fbd5c4859417" id="r_aa4028a08343b65e84b12fbd5c4859417"><td class="memItemLeft" align="right" valign="top">OCILobLocator *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa4028a08343b65e84b12fbd5c4859417">m_lob</a></td></tr>
-<tr class="memitem:a2503bd0dfdc67a0143a17df26dbb3868" id="r_a2503bd0dfdc67a0143a17df26dbb3868"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2503bd0dfdc67a0143a17df26dbb3868">m_state</a></td></tr>
+<tr class="memitem:a7f2dcdfeead01d4a9d6e1a9133099f93" id="r_a7f2dcdfeead01d4a9d6e1a9133099f93"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7f2dcdfeead01d4a9d6e1a9133099f93">m_conn</a></td></tr>
+<tr class="memdesc:a7f2dcdfeead01d4a9d6e1a9133099f93"><td class="mdescLeft">&#160;</td><td class="mdescRight">所属数据库连接  <br /></td></tr>
+<tr class="memitem:a468274ec3d946bb205cc441b74d79610" id="r_a468274ec3d946bb205cc441b74d79610"><td class="memItemLeft" align="right" valign="top">OCIStmt *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a468274ec3d946bb205cc441b74d79610">m_smthp</a> = nullptr</td></tr>
+<tr class="memdesc:a468274ec3d946bb205cc441b74d79610"><td class="mdescLeft">&#160;</td><td class="mdescRight">OCI语句句柄  <br /></td></tr>
+<tr class="memitem:a349d43ea83965c093d6b2e20a359bb31" id="r_a349d43ea83965c093d6b2e20a359bb31"><td class="memItemLeft" align="right" valign="top">OCIBind *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a349d43ea83965c093d6b2e20a359bb31">m_bindhp</a> = nullptr</td></tr>
+<tr class="memdesc:a349d43ea83965c093d6b2e20a359bb31"><td class="mdescLeft">&#160;</td><td class="mdescRight">OCI绑定句柄  <br /></td></tr>
+<tr class="memitem:ae8b60c98965e3aec0f2738fadc385e68" id="r_ae8b60c98965e3aec0f2738fadc385e68"><td class="memItemLeft" align="right" valign="top">OCIDefine *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae8b60c98965e3aec0f2738fadc385e68">m_defhp</a> = nullptr</td></tr>
+<tr class="memdesc:ae8b60c98965e3aec0f2738fadc385e68"><td class="mdescLeft">&#160;</td><td class="mdescRight">OCI定义句柄  <br /></td></tr>
+<tr class="memitem:a2f10a014926292b3de51aee990fdd988" id="r_a2f10a014926292b3de51aee990fdd988"><td class="memItemLeft" align="right" valign="top">OCIError *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f10a014926292b3de51aee990fdd988">m_errhp</a> = nullptr</td></tr>
+<tr class="memdesc:a2f10a014926292b3de51aee990fdd988"><td class="mdescLeft">&#160;</td><td class="mdescRight">错误句柄（引用自DBConn）  <br /></td></tr>
+<tr class="memitem:a994340871c6d6cc354fadac5cf6cebb4" id="r_a994340871c6d6cc354fadac5cf6cebb4"><td class="memItemLeft" align="right" valign="top">OCISvcCtx *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a994340871c6d6cc354fadac5cf6cebb4">m_svchp</a> = nullptr</td></tr>
+<tr class="memdesc:a994340871c6d6cc354fadac5cf6cebb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">服务上下文（引用自DBConn）  <br /></td></tr>
+<tr class="memitem:af751cc38779f8f07196734023de23a54" id="r_af751cc38779f8f07196734023de23a54"><td class="memItemLeft" align="right" valign="top">OCIEnv *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af751cc38779f8f07196734023de23a54">m_envhp</a> = nullptr</td></tr>
+<tr class="memdesc:af751cc38779f8f07196734023de23a54"><td class="mdescLeft">&#160;</td><td class="mdescRight">环境句柄（引用自DBConn）  <br /></td></tr>
+<tr class="memitem:accbc6594225e222651065a30a259ec28" id="r_accbc6594225e222651065a30a259ec28"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#accbc6594225e222651065a30a259ec28">m_autocommitopt</a> = false</td></tr>
+<tr class="memdesc:accbc6594225e222651065a30a259ec28"><td class="mdescLeft">&#160;</td><td class="mdescRight">自动提交标志  <br /></td></tr>
+<tr class="memitem:aa8d9cf1c59affefd80860870c49e7b89" id="r_aa8d9cf1c59affefd80860870c49e7b89"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa8d9cf1c59affefd80860870c49e7b89">m_isQuery</a> = false</td></tr>
+<tr class="memdesc:aa8d9cf1c59affefd80860870c49e7b89"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否为查询语句（SELECT）  <br /></td></tr>
+<tr class="memitem:aa4028a08343b65e84b12fbd5c4859417" id="r_aa4028a08343b65e84b12fbd5c4859417"><td class="memItemLeft" align="right" valign="top">OCILobLocator *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa4028a08343b65e84b12fbd5c4859417">m_lob</a> = nullptr</td></tr>
+<tr class="memdesc:aa4028a08343b65e84b12fbd5c4859417"><td class="mdescLeft">&#160;</td><td class="mdescRight">LOB定位器  <br /></td></tr>
 <tr class="memitem:a9dadcb4934876e14a14078bac6829aec" id="r_a9dadcb4934876e14a14078bac6829aec"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9dadcb4934876e14a14078bac6829aec">m_sql</a></td></tr>
-<tr class="memitem:ab5fb7d0c31852615859e31153f074652" id="r_ab5fb7d0c31852615859e31153f074652"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structol_1_1oracle_1_1_c_d_a___d_e_f.html">CDA_DEF</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5fb7d0c31852615859e31153f074652">m_cda</a></td></tr>
+<tr class="memdesc:a9dadcb4934876e14a14078bac6829aec"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前执行的SQL语句  <br /></td></tr>
+<tr class="memitem:a73135f618fce4a599708718229f4b49a" id="r_a73135f618fce4a599708718229f4b49a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structol_1_1oracle_1_1_d_b_result.html">DBResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a73135f618fce4a599708718229f4b49a">m_result</a></td></tr>
+<tr class="memdesc:a73135f618fce4a599708718229f4b49a"><td class="mdescLeft">&#160;</td><td class="mdescRight">语句执行结果  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-friends" class="groupheader"><a id="friends" name="friends"></a>
+友元</h2></td></tr>
+<tr class="memitem:aed174131e866422decde733853cd9a86" id="r_aed174131e866422decde733853cd9a86"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed174131e866422decde733853cd9a86">DBConn</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-inherited" class="groupheader"><a id="inherited" name="inherited"></a>
+额外继承的成员函数</h2></td></tr>
+<tr class="inherit_header pro_methods_classol_1_1_type_non_copyable_movable"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_classol_1_1_type_non_copyable_movable')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected 成员函数 继承自 <a class="el" href="classol_1_1_type_non_copyable_movable.html">ol::TypeNonCopyableMovable</a></td></tr>
+<tr class="memitem:af7afd8c553bf4e8b02ac1288239cfa96 inherit pro_methods_classol_1_1_type_non_copyable_movable" id="r_af7afd8c553bf4e8b02ac1288239cfa96"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_copyable_movable.html#af7afd8c553bf4e8b02ac1288239cfa96">TypeNonCopyableMovable</a> ()=default</td></tr>
+<tr class="memitem:ad700983e1cdf7d82d16d5e5f86912a12 inherit pro_methods_classol_1_1_type_non_copyable_movable" id="r_ad700983e1cdf7d82d16d5e5f86912a12"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_copyable_movable.html#ad700983e1cdf7d82d16d5e5f86912a12">~TypeNonCopyableMovable</a> ()=default</td></tr>
+<tr class="inherit_header pro_methods_classol_1_1_type_non_copyable"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_classol_1_1_type_non_copyable')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected 成员函数 继承自 <a class="el" href="classol_1_1_type_non_copyable.html">ol::TypeNonCopyable</a></td></tr>
+<tr class="memitem:aad5c17513b3255032f3907896107642a inherit pro_methods_classol_1_1_type_non_copyable" id="r_aad5c17513b3255032f3907896107642a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_copyable.html#aad5c17513b3255032f3907896107642a">TypeNonCopyable</a> ()=default</td></tr>
+<tr class="memitem:a391e86224526622427666585822d724a inherit pro_methods_classol_1_1_type_non_copyable" id="r_a391e86224526622427666585822d724a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_copyable.html#a391e86224526622427666585822d724a">~TypeNonCopyable</a> ()=default</td></tr>
+<tr class="inherit_header pro_methods_classol_1_1_type_non_movable"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_classol_1_1_type_non_movable')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Protected 成员函数 继承自 <a class="el" href="classol_1_1_type_non_movable.html">ol::TypeNonMovable</a></td></tr>
+<tr class="memitem:a935a5fca01f78b7747bc2399c76666ea inherit pro_methods_classol_1_1_type_non_movable" id="r_a935a5fca01f78b7747bc2399c76666ea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_movable.html#a935a5fca01f78b7747bc2399c76666ea">TypeNonMovable</a> ()=default</td></tr>
+<tr class="memitem:a00ff9a5d4fde1ba3772b5daebfa0409f inherit pro_methods_classol_1_1_type_non_movable" id="r_a00ff9a5d4fde1ba3772b5daebfa0409f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_movable.html#a00ff9a5d4fde1ba3772b5daebfa0409f">~TypeNonMovable</a> ()=default</td></tr>
 </table>
-<a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">成员枚举类型说明</h2>
-<a id="a3376103b0e5ad22d315c382d55db5c70" name="a3376103b0e5ad22d315c382d55db5c70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3376103b0e5ad22d315c382d55db5c70">&#9670;&#160;</a></span>anonymous enum</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">详细描述</h2>
+<div class="textblock"><p>Oracle预处理语句操作类 </p>
+<dl class="section note"><dt>注解</dt><dd>支持参数绑定、结果集读取、大字段操作 </dd></dl>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
+<a id="a183ef514a6536e4694fb666240a62685" name="a183ef514a6536e4694fb666240a62685"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a183ef514a6536e4694fb666240a62685">&#9670;&#160;</a></span>DBStmt()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -191,79 +253,26 @@ Private 属性</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">anonymous enum</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a3376103b0e5ad22d315c382d55db5c70aff82c6b99ba816cc4f133e4b024d8739" name="a3376103b0e5ad22d315c382d55db5c70aff82c6b99ba816cc4f133e4b024d8739"></a>connected&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a3376103b0e5ad22d315c382d55db5c70a3ccd235bc0705b2cab02b4dd16273286" name="a3376103b0e5ad22d315c382d55db5c70a3ccd235bc0705b2cab02b4dd16273286"></a>disconnected&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
-<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
-<a id="ac3f3736bb5d7084b749b64845dc9c066" name="ac3f3736bb5d7084b749b64845dc9c066"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3f3736bb5d7084b749b64845dc9c066">&#9670;&#160;</a></span>DBStmt() <span class="overload">[1/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
           <td class="memname">ol::oracle::DBStmt::DBStmt </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classol_1_1oracle_1_1_d_b_stmt.html">DBStmt</a> &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>conn</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel delete">delete</span></span>  </td>
+<span class="mlabels"><span class="mlabel explicit">explicit</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="a1e76d8eeaab4d7a38d292b492f33abaf" name="a1e76d8eeaab4d7a38d292b492f33abaf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1e76d8eeaab4d7a38d292b492f33abaf">&#9670;&#160;</a></span>DBStmt() <span class="overload">[2/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ol::oracle::DBStmt::DBStmt </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aad28b80a9e6b7383d01a7c4889a9189f" name="aad28b80a9e6b7383d01a7c4889a9189f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad28b80a9e6b7383d01a7c4889a9189f">&#9670;&#160;</a></span>DBStmt() <span class="overload">[3/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ol::oracle::DBStmt::DBStmt </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a> *</td>          <td class="paramname"><span class="paramname"><em>conn</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">conn</td><td>所属数据库连接 </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -282,9 +291,31 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>析构函数，释放资源 </p>
+
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">成员函数说明</h2>
+<a id="a54954a21e71bedf67f6358f7af0c0b31" name="a54954a21e71bedf67f6358f7af0c0b31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54954a21e71bedf67f6358f7af0c0b31">&#9670;&#160;</a></span>affectedRows()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t ol::oracle::DBStmt::affectedRows </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取受影响行数 </p>
+<dl class="section return"><dt>返回</dt><dd>行数 </dd></dl>
+
+</div>
+</div>
 <a id="a50ebc5499c4a90b87702566721a4db89" name="a50ebc5499c4a90b87702566721a4db89"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a50ebc5499c4a90b87702566721a4db89">&#9670;&#160;</a></span>alloclob()</h2>
 
@@ -308,10 +339,13 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>初始化LOB定位器 </p>
+<dl class="section return"><dt>返回</dt><dd>0成功，其他失败 </dd></dl>
+
 </div>
 </div>
-<a id="ae4d4ec987ba995aa7d93607fabb764b1" name="ae4d4ec987ba995aa7d93607fabb764b1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4d4ec987ba995aa7d93607fabb764b1">&#9670;&#160;</a></span>bindblob()</h2>
+<a id="a13b082ed0a372388848184e5499bcd97" name="a13b082ed0a372388848184e5499bcd97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13b082ed0a372388848184e5499bcd97">&#9670;&#160;</a></span>bindblob()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -319,19 +353,25 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="memname">int ol::oracle::DBStmt::bindblob </td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>绑定BLOB字段（用于插入/读取二进制大对象） </p>
-<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（程序中一般不必关心返回值） </dd></dl>
+<p>绑定BLOB字段（用于读取二进制大对象） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pos</td><td>字段位置（从1开始） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>0成功，其他失败 </dd></dl>
 
 </div>
 </div>
-<a id="ab4db523d08af0b8044cc1f7c9aa99a68" name="ab4db523d08af0b8044cc1f7c9aa99a68"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab4db523d08af0b8044cc1f7c9aa99a68">&#9670;&#160;</a></span>bindclob()</h2>
+<a id="a5f202888bca32902eb1366dd599952f3" name="a5f202888bca32902eb1366dd599952f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f202888bca32902eb1366dd599952f3">&#9670;&#160;</a></span>bindclob()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -339,19 +379,25 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="memname">int ol::oracle::DBStmt::bindclob </td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>绑定CLOB字段（用于插入/读取字符大对象） </p>
-<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（程序中一般不必关心返回值） </dd></dl>
+<p>绑定CLOB字段（用于读取字符大对象） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pos</td><td>字段位置（从1开始） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>0成功，其他失败 </dd></dl>
 
 </div>
 </div>
-<a id="a05d255288f47f3f2cdc1543c87ce0dec" name="a05d255288f47f3f2cdc1543c87ce0dec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a05d255288f47f3f2cdc1543c87ce0dec">&#9670;&#160;</a></span>bindin() <span class="overload">[1/8]</span></h2>
+<a id="a97f5688e56496ff67058065f1157f681" name="a97f5688e56496ff67058065f1157f681"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97f5688e56496ff67058065f1157f681">&#9670;&#160;</a></span>bindin() <span class="overload">[1/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -359,7 +405,7 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="memname">int ol::oracle::DBStmt::bindin </td>
           <td>(</td>
-          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -369,15 +415,17 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>len</em></span><span class="paramdefsep"> = </span><span class="paramdefval">2000</span>&#160;)</td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>len</em></span><span class="paramdefsep"> = </span><span class="paramdefval">512u</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>绑定char*类型 </p>
+
 </div>
 </div>
-<a id="a0786df543fdb136996b5580bc0f823fd" name="a0786df543fdb136996b5580bc0f823fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0786df543fdb136996b5580bc0f823fd">&#9670;&#160;</a></span>bindin() <span class="overload">[2/8]</span></h2>
+<a id="a9db2cc3c6441918f7a364dfb2c7cd76b" name="a9db2cc3c6441918f7a364dfb2c7cd76b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9db2cc3c6441918f7a364dfb2c7cd76b">&#9670;&#160;</a></span>bindin() <span class="overload">[2/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -385,7 +433,7 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="memname">int ol::oracle::DBStmt::bindin </td>
           <td>(</td>
-          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -395,10 +443,12 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>绑定double类型 </p>
+
 </div>
 </div>
-<a id="a01dd4640dd2e27ae6a26c0d69ea8f6a6" name="a01dd4640dd2e27ae6a26c0d69ea8f6a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01dd4640dd2e27ae6a26c0d69ea8f6a6">&#9670;&#160;</a></span>bindin() <span class="overload">[3/8]</span></h2>
+<a id="a6f894be704ee17197603da15326afaf5" name="a6f894be704ee17197603da15326afaf5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f894be704ee17197603da15326afaf5">&#9670;&#160;</a></span>bindin() <span class="overload">[3/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -406,7 +456,7 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="memname">int ol::oracle::DBStmt::bindin </td>
           <td>(</td>
-          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -416,10 +466,12 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>绑定float类型 </p>
+
 </div>
 </div>
-<a id="a1b1edc201621442821fbc4f4a06d37c2" name="a1b1edc201621442821fbc4f4a06d37c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1b1edc201621442821fbc4f4a06d37c2">&#9670;&#160;</a></span>bindin() <span class="overload">[4/8]</span></h2>
+<a id="af26fe2210941e0227927a188d4e2f2e0" name="af26fe2210941e0227927a188d4e2f2e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af26fe2210941e0227927a188d4e2f2e0">&#9670;&#160;</a></span>bindin() <span class="overload">[4/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -427,7 +479,7 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="memname">int ol::oracle::DBStmt::bindin </td>
           <td>(</td>
-          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -440,19 +492,19 @@ Private 属性</h2></td></tr>
 <p>绑定输入变量（将SQL中的占位符与变量关联） </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">position</td><td>占位符位置（从1开始，必须与prepare方法中的SQL的序号一一对应） </td></tr>
+    <tr><td class="paramname">pos</td><td>占位符位置（从1开始，必须与prepare方法中的SQL的序号一一对应） </td></tr>
     <tr><td class="paramname">value</td><td>输入变量地址（如果是字符串，内存大小应该是表对应的字段长度加1） </td></tr>
-    <tr><td class="paramname">len</td><td>字符串类型的长度（不含终止符，默认2000） </td></tr>
+    <tr><td class="paramname">len</td><td>字符串类型的长度（不含终止符，默认512） </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（程序中一般不必关心返回值） </dd></dl>
-<dl class="section note"><dt>注解</dt><dd>1）如果SQL语句没有改变，只需要bindin一次就可以了； 2）如果value的类型是std::string，bindin()函数中会resize(len)； 3）如果value的类型是std::string，那么，在用户的程序代码中，不可改变它内部buffer的地址。 4）如果value的类型是std::string或char，那么传入len的参数不包括最后的NULL。 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>1）如果SQL语句没有改变，只需要bindin一次就可以了； 2）如果value的类型是std::string，bindin()函数中会resize(len)； 3）如果value的类型是std::string，那么，在用户的程序代码中，不可改变它内部buffer的地址。 4）如果value的类型是std::string或char，那么传入len的参数不包括最后的NULL。 绑定int类型 </dd></dl>
 
 </div>
 </div>
-<a id="a2c7dc79229ffefedd8e49cd1482b7d57" name="a2c7dc79229ffefedd8e49cd1482b7d57"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2c7dc79229ffefedd8e49cd1482b7d57">&#9670;&#160;</a></span>bindin() <span class="overload">[5/8]</span></h2>
+<a id="a665775282bb749197665395312abd0fa" name="a665775282bb749197665395312abd0fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a665775282bb749197665395312abd0fa">&#9670;&#160;</a></span>bindin() <span class="overload">[5/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -460,7 +512,7 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="memname">int ol::oracle::DBStmt::bindin </td>
           <td>(</td>
-          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -470,10 +522,12 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>绑定long类型 </p>
+
 </div>
 </div>
-<a id="a75cd6be37c4eb6b42b8e9fd40554f0c8" name="a75cd6be37c4eb6b42b8e9fd40554f0c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a75cd6be37c4eb6b42b8e9fd40554f0c8">&#9670;&#160;</a></span>bindin() <span class="overload">[6/8]</span></h2>
+<a id="a299cbea628450522ae41da69f88b5a7d" name="a299cbea628450522ae41da69f88b5a7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a299cbea628450522ae41da69f88b5a7d">&#9670;&#160;</a></span>bindin() <span class="overload">[6/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -481,7 +535,7 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="memname">int ol::oracle::DBStmt::bindin </td>
           <td>(</td>
-          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -491,15 +545,17 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>len</em></span><span class="paramdefsep"> = </span><span class="paramdefval">2000</span>&#160;)</td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>len</em></span><span class="paramdefsep"> = </span><span class="paramdefval">512u</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>绑定std::string类型 </p>
+
 </div>
 </div>
-<a id="a9e24a121a0ced94660fc39aaebc00c92" name="a9e24a121a0ced94660fc39aaebc00c92"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9e24a121a0ced94660fc39aaebc00c92">&#9670;&#160;</a></span>bindin() <span class="overload">[7/8]</span></h2>
+<a id="a0262d140baf9337fbb456282e807d889" name="a0262d140baf9337fbb456282e807d889"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0262d140baf9337fbb456282e807d889">&#9670;&#160;</a></span>bindin() <span class="overload">[7/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -507,7 +563,7 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="memname">int ol::oracle::DBStmt::bindin </td>
           <td>(</td>
-          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -517,10 +573,12 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>绑定unsigned int类型 </p>
+
 </div>
 </div>
-<a id="a35b64ed08df9692bcc87ba1df3cd1b43" name="a35b64ed08df9692bcc87ba1df3cd1b43"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a35b64ed08df9692bcc87ba1df3cd1b43">&#9670;&#160;</a></span>bindin() <span class="overload">[8/8]</span></h2>
+<a id="ad6bb13ecd41ae698088b39e1b0c9264b" name="ad6bb13ecd41ae698088b39e1b0c9264b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6bb13ecd41ae698088b39e1b0c9264b">&#9670;&#160;</a></span>bindin() <span class="overload">[8/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -528,7 +586,7 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="memname">int ol::oracle::DBStmt::bindin </td>
           <td>(</td>
-          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -538,31 +596,12 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="ac746106ed7775b243907c843f2130b07" name="ac746106ed7775b243907c843f2130b07"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac746106ed7775b243907c843f2130b07">&#9670;&#160;</a></span>bindin1()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int ol::oracle::DBStmt::bindin1 </td>
-          <td>(</td>
-          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>绑定unsigned long类型 </p>
 
 </div>
 </div>
-<a id="abf2d760a373687a297a4244cf6ccda95" name="abf2d760a373687a297a4244cf6ccda95"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abf2d760a373687a297a4244cf6ccda95">&#9670;&#160;</a></span>bindout() <span class="overload">[1/8]</span></h2>
+<a id="ac79a7a04dc000fbc639d9db153b2b4d9" name="ac79a7a04dc000fbc639d9db153b2b4d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac79a7a04dc000fbc639d9db153b2b4d9">&#9670;&#160;</a></span>bindout() <span class="overload">[1/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -570,7 +609,7 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="memname">int ol::oracle::DBStmt::bindout </td>
           <td>(</td>
-          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -580,15 +619,17 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>len</em></span><span class="paramdefsep"> = </span><span class="paramdefval">2000</span>&#160;)</td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>len</em></span><span class="paramdefsep"> = </span><span class="paramdefval">512u</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>绑定char*类型 </p>
+
 </div>
 </div>
-<a id="ade79ed5db2a776bff54ae32124342eef" name="ade79ed5db2a776bff54ae32124342eef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade79ed5db2a776bff54ae32124342eef">&#9670;&#160;</a></span>bindout() <span class="overload">[2/8]</span></h2>
+<a id="aa3f4ee1d9a02dc8ee7eb9ef5785a8a49" name="aa3f4ee1d9a02dc8ee7eb9ef5785a8a49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3f4ee1d9a02dc8ee7eb9ef5785a8a49">&#9670;&#160;</a></span>bindout() <span class="overload">[2/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -596,7 +637,7 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="memname">int ol::oracle::DBStmt::bindout </td>
           <td>(</td>
-          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -606,10 +647,12 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>绑定double类型 </p>
+
 </div>
 </div>
-<a id="ad1fc14b1ba82d59d0087940c5d049ecc" name="ad1fc14b1ba82d59d0087940c5d049ecc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad1fc14b1ba82d59d0087940c5d049ecc">&#9670;&#160;</a></span>bindout() <span class="overload">[3/8]</span></h2>
+<a id="a8c2ce34efbc17dc077e5e8115b68075a" name="a8c2ce34efbc17dc077e5e8115b68075a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c2ce34efbc17dc077e5e8115b68075a">&#9670;&#160;</a></span>bindout() <span class="overload">[3/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -617,7 +660,7 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="memname">int ol::oracle::DBStmt::bindout </td>
           <td>(</td>
-          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -627,10 +670,12 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>绑定float类型 </p>
+
 </div>
 </div>
-<a id="a64526e944b348b5a4e09e50aed4ad44e" name="a64526e944b348b5a4e09e50aed4ad44e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a64526e944b348b5a4e09e50aed4ad44e">&#9670;&#160;</a></span>bindout() <span class="overload">[4/8]</span></h2>
+<a id="aa21ddb3259cba40ca4af6b3fa87601e0" name="aa21ddb3259cba40ca4af6b3fa87601e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa21ddb3259cba40ca4af6b3fa87601e0">&#9670;&#160;</a></span>bindout() <span class="overload">[4/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -638,7 +683,7 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="memname">int ol::oracle::DBStmt::bindout </td>
           <td>(</td>
-          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -651,19 +696,19 @@ Private 属性</h2></td></tr>
 <p>绑定输出变量（将查询结果字段与变量关联） </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">position</td><td>结果集字段位置（从1开始，与SQL的结果集一一对应） </td></tr>
+    <tr><td class="paramname">pos</td><td>结果集字段位置（从1开始，与SQL的结果集一一对应） </td></tr>
     <tr><td class="paramname">value</td><td>输出变量地址（如果是字符串，内存大小应该是表对应的字段长度加1） </td></tr>
-    <tr><td class="paramname">len</td><td>字符串类型的最大长度（不含终止符，默认2000） </td></tr>
+    <tr><td class="paramname">len</td><td>字符串类型的最大长度（不含终止符，默认512） </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（程序中一般不必关心返回值） </dd></dl>
-<dl class="section note"><dt>注解</dt><dd>1）如果SQL语句没有改变，只需要bindout一次就可以了； 2）如果value的类型是std::string，那么将在内容后面填充0，直到len的大小，value.size()永远是len。 3）如果value的类型是std::string，那么，在用户的程序代码中，不可改变它内部buffer的地址。 4）如果value的类型是std::string或char，那么传入len的参数不包括最后的NULL。 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>1）如果SQL语句没有改变，只需要bindout一次就可以了； 2）如果value的类型是std::string，那么将在内容后面填充0，直到len的大小，value.size()永远是len。 3）如果value的类型是std::string，那么，在用户的程序代码中，不可改变它内部buffer的地址。 4）如果value的类型是std::string或char，那么传入len的参数不包括最后的NULL。 绑定int类型 </dd></dl>
 
 </div>
 </div>
-<a id="aaf0298477681776a997489168ed0c1c3" name="aaf0298477681776a997489168ed0c1c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf0298477681776a997489168ed0c1c3">&#9670;&#160;</a></span>bindout() <span class="overload">[5/8]</span></h2>
+<a id="a7cb6342d46bed678eabefd49be11ab63" name="a7cb6342d46bed678eabefd49be11ab63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cb6342d46bed678eabefd49be11ab63">&#9670;&#160;</a></span>bindout() <span class="overload">[5/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -671,7 +716,7 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="memname">int ol::oracle::DBStmt::bindout </td>
           <td>(</td>
-          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -681,10 +726,12 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>绑定long类型 </p>
+
 </div>
 </div>
-<a id="acbcbc59e9150052043c2839656083ca7" name="acbcbc59e9150052043c2839656083ca7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acbcbc59e9150052043c2839656083ca7">&#9670;&#160;</a></span>bindout() <span class="overload">[6/8]</span></h2>
+<a id="a55f6c2e510a757465857be53b08d9bc2" name="a55f6c2e510a757465857be53b08d9bc2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55f6c2e510a757465857be53b08d9bc2">&#9670;&#160;</a></span>bindout() <span class="overload">[6/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -692,7 +739,7 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="memname">int ol::oracle::DBStmt::bindout </td>
           <td>(</td>
-          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -702,15 +749,17 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>len</em></span><span class="paramdefsep"> = </span><span class="paramdefval">2000</span>&#160;)</td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>len</em></span><span class="paramdefsep"> = </span><span class="paramdefval">512u</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>绑定std::string类型 </p>
+
 </div>
 </div>
-<a id="aa94f79403e9bc3645482661e97038747" name="aa94f79403e9bc3645482661e97038747"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa94f79403e9bc3645482661e97038747">&#9670;&#160;</a></span>bindout() <span class="overload">[7/8]</span></h2>
+<a id="a13e1bdb4990ad481b04a536d71eea11a" name="a13e1bdb4990ad481b04a536d71eea11a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13e1bdb4990ad481b04a536d71eea11a">&#9670;&#160;</a></span>bindout() <span class="overload">[7/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -718,7 +767,7 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="memname">int ol::oracle::DBStmt::bindout </td>
           <td>(</td>
-          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -728,10 +777,12 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>绑定unsigned int类型 </p>
+
 </div>
 </div>
-<a id="a6a86c2e2b36b95faae3f8eb45f3cb67c" name="a6a86c2e2b36b95faae3f8eb45f3cb67c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a86c2e2b36b95faae3f8eb45f3cb67c">&#9670;&#160;</a></span>bindout() <span class="overload">[8/8]</span></h2>
+<a id="aafa8a80a95e7a4992f9990bb4878584c" name="aafa8a80a95e7a4992f9990bb4878584c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafa8a80a95e7a4992f9990bb4878584c">&#9670;&#160;</a></span>bindout() <span class="overload">[8/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -739,7 +790,7 @@ Private 属性</h2></td></tr>
         <tr>
           <td class="memname">int ol::oracle::DBStmt::bindout </td>
           <td>(</td>
-          <td class="paramtype">const unsigned int</td>          <td class="paramname"><span class="paramname"><em>position</em></span>, </td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -749,57 +800,114 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>绑定unsigned long类型 </p>
+
 </div>
 </div>
-<a id="a8ec044d1fefadd1a31113c6faffd712e" name="a8ec044d1fefadd1a31113c6faffd712e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ec044d1fefadd1a31113c6faffd712e">&#9670;&#160;</a></span>connect()</h2>
+<a id="ac6502554632366f98c3ca695e8d8b18b" name="ac6502554632366f98c3ca695e8d8b18b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6502554632366f98c3ca695e8d8b18b">&#9670;&#160;</a></span>blobtofile()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int ol::oracle::DBStmt::connect </td>
+          <td class="memname">int ol::oracle::DBStmt::blobtofile </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a> *</td>          <td class="paramname"><span class="paramname"><em>conn</em></span></td><td>)</td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>关联数据库连接 </p>
+<p>将BLOB字段内容导出到文件 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">conn</td><td>数据库连接对象指针 </td></tr>
+    <tr><td class="paramname">pos</td><td>字段位置（从1开始） </td></tr>
+    <tr><td class="paramname">filename</td><td>导出文件的路径 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（只要conn参数是有效的，并且数据库的游标资源足够，connect方法不会返回失败） </dd></dl>
-<dl class="section note"><dt>注解</dt><dd>程序中一般不必关心connect方法的返回值 每个DBStmt只需要指定一次，在指定新的DBConn前，必须先显式的调用disconnect方法 </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>0成功，其他失败 </dd></dl>
 
 </div>
 </div>
-<a id="a74e689ee9ff0f2a9fba2224a0519bfd9" name="a74e689ee9ff0f2a9fba2224a0519bfd9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a74e689ee9ff0f2a9fba2224a0519bfd9">&#9670;&#160;</a></span>disconnect()</h2>
+<a id="ac33e7df3098b436c539d667a20fd0ff1" name="ac33e7df3098b436c539d667a20fd0ff1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac33e7df3098b436c539d667a20fd0ff1">&#9670;&#160;</a></span>clobtofile()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int ol::oracle::DBStmt::disconnect </td>
+          <td class="memname">int ol::oracle::DBStmt::clobtofile </td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>解除与数据库连接的关联 </p>
-<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（程序中一般不必关心返回值） </dd></dl>
+<p>将CLOB字段内容导出到文件 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pos</td><td>字段位置（从1开始） </td></tr>
+    <tr><td class="paramname">filename</td><td>导出文件的路径 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>0成功，其他失败 </dd></dl>
 
 </div>
 </div>
-<a id="aa22d6d6669d60da728db6afa29a5ce98" name="aa22d6d6669d60da728db6afa29a5ce98"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa22d6d6669d60da728db6afa29a5ce98">&#9670;&#160;</a></span>err_report()</h2>
+<a id="aa95e09666c0e01e379a11a7ab946f87f" name="aa95e09666c0e01e379a11a7ab946f87f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa95e09666c0e01e379a11a7ab946f87f">&#9670;&#160;</a></span>code()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::oracle::DBStmt::code </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取执行结果码 </p>
+<dl class="section return"><dt>返回</dt><dd>结果码 </dd></dl>
+
+</div>
+</div>
+<a id="a45bbd26a2f9327243052a1499ce795f3" name="a45bbd26a2f9327243052a1499ce795f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45bbd26a2f9327243052a1499ce795f3">&#9670;&#160;</a></span>errorMsg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string ol::oracle::DBStmt::errorMsg </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取错误信息 </p>
+<dl class="section return"><dt>返回</dt><dd>错误字符串 </dd></dl>
+
+</div>
+</div>
+<a id="a2b4b7f551a6d894dd53563d99b2384b8" name="a2b4b7f551a6d894dd53563d99b2384b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b4b7f551a6d894dd53563d99b2384b8">&#9670;&#160;</a></span>errReport()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -808,7 +916,7 @@ Private 属性</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ol::oracle::DBStmt::err_report </td>
+          <td class="memname">void ol::oracle::DBStmt::errReport </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -821,16 +929,18 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>记录语句错误信息 </p>
+
 </div>
 </div>
-<a id="a7a4f45d878629ca6f1ef70443a28aec2" name="a7a4f45d878629ca6f1ef70443a28aec2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a4f45d878629ca6f1ef70443a28aec2">&#9670;&#160;</a></span>execute() <span class="overload">[1/2]</span></h2>
+<a id="a0be32aeefffc31651851d226d030480c" name="a0be32aeefffc31651851d226d030480c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0be32aeefffc31651851d226d030480c">&#9670;&#160;</a></span>execute()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int ol::oracle::DBStmt::execute </td>
+          <td class="memname">bool ol::oracle::DBStmt::execute </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -838,71 +948,75 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>执行已准备的（静态或动态）SQL语句 </p>
-<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（失败的代码在m_cda.rc中，失败的描述在m_cda.message中） </dd></dl>
-<dl class="section note"><dt>注解</dt><dd>如果成功的执行了非查询语句，在m_cda.rpc中保存了本次执行SQL影响记录的行数。 程序中必须检查execute方法的返回值。 </dd></dl>
+<p>执行预处理语句 </p>
+<dl class="section return"><dt>返回</dt><dd>执行成功返回true </dd></dl>
 
 </div>
 </div>
-<a id="aaa4a184ae63b487ef423306794e2b826" name="aaa4a184ae63b487ef423306794e2b826"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa4a184ae63b487ef423306794e2b826">&#9670;&#160;</a></span>execute() <span class="overload">[2/2]</span></h2>
+<a id="a8e827b63598ff63143e26c1b015979a2" name="a8e827b63598ff63143e26c1b015979a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e827b63598ff63143e26c1b015979a2">&#9670;&#160;</a></span>filetoblob()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int ol::oracle::DBStmt::execute </td>
+          <td class="memname">int ol::oracle::DBStmt::filetoblob </td>
           <td>(</td>
-          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>fmt</em></span>, </td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>...</em></span>&#160;)</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>直接执行静态SQL语句（无绑定变量，非查询语句） </p>
+<p>将文件内容导入到BLOB字段 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">fmt</td><td>格式化SQL字符串（支持可变参数，同printf） </td></tr>
+    <tr><td class="paramname">pos</td><td>字段位置（从1开始） </td></tr>
+    <tr><td class="paramname">filename</td><td>待导入文件的路径 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（失败的代码在m_cda.rc中，失败的描述在m_cda.message中） </dd></dl>
-<dl class="section note"><dt>注解</dt><dd>如果成功的执行了非查询语句，在m_cda.rpc中保存了本次执行SQL影响记录的行数。 程序中必须检查execute方法的返回值。 </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>0成功，其他失败 </dd></dl>
 
 </div>
 </div>
-<a id="aa9a97322278e0c44e0691e0faffc2aa4" name="aa9a97322278e0c44e0691e0faffc2aa4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9a97322278e0c44e0691e0faffc2aa4">&#9670;&#160;</a></span>filetolob() <span class="overload">[1/2]</span></h2>
+<a id="ae197f0408c00602fec44aac209b96c99" name="ae197f0408c00602fec44aac209b96c99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae197f0408c00602fec44aac209b96c99">&#9670;&#160;</a></span>filetoclob()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int ol::oracle::DBStmt::filetolob </td>
+          <td class="memname">int ol::oracle::DBStmt::filetoclob </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span></td><td>)</td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>将文件内容导入到LOB字段 </p>
+<p>将文件内容导入到CLOB字段 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">filename</td><td>待导入文件的路径（建议绝对路径） </td></tr>
+    <tr><td class="paramname">pos</td><td>字段位置（从1开始） </td></tr>
+    <tr><td class="paramname">filename</td><td>待导入文件的路径 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（程序中一般不必关心返回值） </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>0成功，其他失败 </dd></dl>
 
 </div>
 </div>
-<a id="a91a7d1e00691fc5d2bee6e0032cfc512" name="a91a7d1e00691fc5d2bee6e0032cfc512"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a91a7d1e00691fc5d2bee6e0032cfc512">&#9670;&#160;</a></span>filetolob() <span class="overload">[2/2]</span></h2>
+<a id="a6d21782e73463e8df0e602a7e483497a" name="a6d21782e73463e8df0e602a7e483497a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d21782e73463e8df0e602a7e483497a">&#9670;&#160;</a></span>filetolobInternal()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -911,7 +1025,7 @@ Private 属性</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int ol::oracle::DBStmt::filetolob </td>
+          <td class="memname">int ol::oracle::DBStmt::filetolobInternal </td>
           <td>(</td>
           <td class="paramtype">FILE *</td>          <td class="paramname"><span class="paramname"><em>fp</em></span></td><td>)</td>
           <td></td>
@@ -923,6 +1037,15 @@ Private 属性</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>将文件内容写入LOB字段（内部实现，分片传输） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fp</td><td>已打开的文件指针 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>0成功，其他失败 </dd></dl>
 
 </div>
 </div>
@@ -949,56 +1072,12 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="a0e35925126ed129fb9da5de73dc8a381" name="a0e35925126ed129fb9da5de73dc8a381"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e35925126ed129fb9da5de73dc8a381">&#9670;&#160;</a></span>isopen()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool ol::oracle::DBStmt::isopen </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>判断是否已关联数据库连接 </p>
-<dl class="section return"><dt>返回</dt><dd>已关联返回true，否则false </dd></dl>
+<p>释放LOB定位器 </p>
 
 </div>
 </div>
-<a id="a32fb6f9e53a2971935912ee02ee2c882" name="a32fb6f9e53a2971935912ee02ee2c882"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32fb6f9e53a2971935912ee02ee2c882">&#9670;&#160;</a></span>lobtofile() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int ol::oracle::DBStmt::lobtofile </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>filename</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>将LOB字段内容导出到文件 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">filename</td><td>导出文件的路径（建议绝对路径） </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（程序中一般不必关心返回值） </dd></dl>
-
-</div>
-</div>
-<a id="a56406d40af96a3f245bf718ad5477e0d" name="a56406d40af96a3f245bf718ad5477e0d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a56406d40af96a3f245bf718ad5477e0d">&#9670;&#160;</a></span>lobtofile() <span class="overload">[2/2]</span></h2>
+<a id="ab5216f25ef958f0bc4c74a434be663d3" name="ab5216f25ef958f0bc4c74a434be663d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5216f25ef958f0bc4c74a434be663d3">&#9670;&#160;</a></span>isOpen()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1007,7 +1086,35 @@ Private 属性</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int ol::oracle::DBStmt::lobtofile </td>
+          <td class="memname">bool ol::oracle::DBStmt::isOpen </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>检查语句是否初始化 </p>
+<dl class="section return"><dt>返回</dt><dd>已初始化返回true </dd></dl>
+
+</div>
+</div>
+<a id="a6ab835ee6d13dd4277af8f44e4f5c866" name="a6ab835ee6d13dd4277af8f44e4f5c866"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ab835ee6d13dd4277af8f44e4f5c866">&#9670;&#160;</a></span>lobtofileInternal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::oracle::DBStmt::lobtofileInternal </td>
           <td>(</td>
           <td class="paramtype">FILE *</td>          <td class="paramname"><span class="paramname"><em>fp</em></span></td><td>)</td>
           <td></td>
@@ -1020,33 +1127,14 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="ae437928902890e447328d1ec8c6dc880" name="ae437928902890e447328d1ec8c6dc880"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae437928902890e447328d1ec8c6dc880">&#9670;&#160;</a></span>message()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const char * ol::oracle::DBStmt::message </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>获取错误描述信息 </p>
-<dl class="section return"><dt>返回</dt><dd>错误描述字符串（失败时有效） </dd></dl>
+<p>将LOB字段内容写入文件（内部实现，分片读取） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fp</td><td>已打开的文件指针 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>0成功，其他失败 </dd></dl>
 
 </div>
 </div>
@@ -1065,14 +1153,13 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>从结果集中获取下一条记录（仅查询语句有效） </p>
-<dl class="section return"><dt>返回</dt><dd>0-成功，1403-无更多记录，其他-失败（失败的代码在m_cda.rc中，失败的描述在m_cda.message中） </dd></dl>
-<dl class="section note"><dt>注解</dt><dd>返回失败的原因主要有两个：1）与数据库的连接已断开；2）绑定输出变量的内存太小。 每执行一次next方法，m_cda.rpc的值加1。 程序中必须检查next方法的返回值。 </dd></dl>
+<p>获取下一行结果集 </p>
+<dl class="section return"><dt>返回</dt><dd>0成功，OCI_NO_DATA(100)无数据，其他错误 </dd></dl>
 
 </div>
 </div>
-<a id="a3c5f195ad6edc60660c12e1f57d51598" name="a3c5f195ad6edc60660c12e1f57d51598"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c5f195ad6edc60660c12e1f57d51598">&#9670;&#160;</a></span>operator=()</h2>
+<a id="ac72f80af1c775287bbc58e2a5365b234" name="ac72f80af1c775287bbc58e2a5365b234"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac72f80af1c775287bbc58e2a5365b234">&#9670;&#160;</a></span>ociStmtClose()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1081,29 +1168,106 @@ Private 属性</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classol_1_1oracle_1_1_d_b_stmt.html">DBStmt</a> &amp; ol::oracle::DBStmt::operator= </td>
+          <td class="memname">int ol::oracle::DBStmt::ociStmtClose </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classol_1_1oracle_1_1_d_b_stmt.html">DBStmt</a> &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span><span class="mlabel delete">delete</span></span>  </td>
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a2398ac1f412a2f1fd5f29efe9e1f08a4" name="a2398ac1f412a2f1fd5f29efe9e1f08a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2398ac1f412a2f1fd5f29efe9e1f08a4">&#9670;&#160;</a></span>prepare() <span class="overload">[1/2]</span></h2>
+<a id="a3a65992eac2e4c37ed493b1fb25332ee" name="a3a65992eac2e4c37ed493b1fb25332ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a65992eac2e4c37ed493b1fb25332ee">&#9670;&#160;</a></span>ociStmtCreate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ol::oracle::DBStmt::ociStmtCreate </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0b8abc01b74c5bdf61485953e7f09442" name="a0b8abc01b74c5bdf61485953e7f09442"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b8abc01b74c5bdf61485953e7f09442">&#9670;&#160;</a></span>prepare() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int ol::oracle::DBStmt::prepare </td>
+          <td class="memname">bool ol::oracle::DBStmt::prepare </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>sql</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>预处理SQL语句 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sql</td><td>SQL字符串 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>预处理成功返回true </dd></dl>
+
+</div>
+</div>
+<a id="a2e1c9b9a63ce928c0d9032b2bbd46e06" name="a2e1c9b9a63ce928c0d9032b2bbd46e06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e1c9b9a63ce928c0d9032b2bbd46e06">&#9670;&#160;</a></span>prepare() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ol::oracle::DBStmt::prepare </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>sql</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>预处理SQL语句 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sql</td><td>SQL字符串 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>预处理成功返回true </dd></dl>
+
+</div>
+</div>
+<a id="ac73aabee0fd438f502196b6f00c7e88b" name="ac73aabee0fd438f502196b6f00c7e88b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac73aabee0fd438f502196b6f00c7e88b">&#9670;&#160;</a></span>prepareFmt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ol::oracle::DBStmt::prepareFmt </td>
           <td>(</td>
           <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>fmt</em></span>, </td>
         </tr>
@@ -1115,134 +1279,58 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>准备SQL语句（支持可变参数，同printf） </p>
+<p>格式化预处理SQL </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">fmt</td><td>格式化SQL字符串 </td></tr>
+    <tr><td class="paramname">fmt</td><td>格式化字符串 </td></tr>
+    <tr><td class="paramname">...</td><td>可变参数 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（程序中一般不必关心返回值） </dd></dl>
-<dl class="section note"><dt>注解</dt><dd>如果SQL语句没有改变，只需要prepare一次就可以了 </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>成功返回true </dd></dl>
 
 </div>
 </div>
-<a id="a4a0e399b0463ff367d1a4820cbd919dd" name="a4a0e399b0463ff367d1a4820cbd919dd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a0e399b0463ff367d1a4820cbd919dd">&#9670;&#160;</a></span>prepare() <span class="overload">[2/2]</span></h2>
+<a id="a0be6c71f8fe0f2801a50f05226d6f1bc" name="a0be6c71f8fe0f2801a50f05226d6f1bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0be6c71f8fe0f2801a50f05226d6f1bc">&#9670;&#160;</a></span>sql()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int ol::oracle::DBStmt::prepare </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>strsql</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>准备SQL语句（支持格式化字符串） </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">strsql</td><td>SQL字符串 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>0-成功，其他-失败（程序中一般不必关心返回值） </dd></dl>
-<dl class="section note"><dt>注解</dt><dd>如果SQL语句没有改变，只需要prepare一次就可以了 </dd></dl>
-
-</div>
-</div>
-<a id="ae27aa746ef3a471a0ca004e5f0bece1a" name="ae27aa746ef3a471a0ca004e5f0bece1a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae27aa746ef3a471a0ca004e5f0bece1a">&#9670;&#160;</a></span>rc()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int ol::oracle::DBStmt::rc </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>获取错误代码（Return Code） </p>
-<dl class="section return"><dt>返回</dt><dd>0-成功，其它值-失败 </dd></dl>
-
-</div>
-</div>
-<a id="a222cb61cfa5729795817680660c9c8d8" name="a222cb61cfa5729795817680660c9c8d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a222cb61cfa5729795817680660c9c8d8">&#9670;&#160;</a></span>rpc()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">unsigned long ol::oracle::DBStmt::rpc </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>获取影响数据的行数（Rows Processed Count） </p>
-<dl class="section return"><dt>返回</dt><dd>对于insert/update/delete返回影响记录数，对于select返回结果集行数 </dd></dl>
-
-</div>
-</div>
-<a id="ac116c0c80703ff265b6bf7eb60cf6cec" name="ac116c0c80703ff265b6bf7eb60cf6cec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac116c0c80703ff265b6bf7eb60cf6cec">&#9670;&#160;</a></span>sql()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">const char * ol::oracle::DBStmt::sql </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取当前SQL语句 </p>
+<dl class="section return"><dt>返回</dt><dd>SQL字符串 </dd></dl>
+
+</div>
+</div>
+<a name="doc-related-members" id="doc-related-members"></a><h2 id="header-doc-related-members" class="groupheader">友元及相关符号说明</h2>
+<a id="aed174131e866422decde733853cd9a86" name="aed174131e866422decde733853cd9a86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed174131e866422decde733853cd9a86">&#9670;&#160;</a></span>DBConn</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>获取SQL语句的文本 </p>
-<dl class="section return"><dt>返回</dt><dd>SQL语句字符串的常量指针 </dd></dl>
 
 </div>
 </div>
@@ -1257,7 +1345,7 @@ Private 属性</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool ol::oracle::DBStmt::m_autocommitopt</td>
+          <td class="memname">bool ol::oracle::DBStmt::m_autocommitopt = false</td>
         </tr>
       </table>
   </td>
@@ -1267,10 +1355,12 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>自动提交标志 </p>
+
 </div>
 </div>
-<a id="ab5fb7d0c31852615859e31153f074652" name="ab5fb7d0c31852615859e31153f074652"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab5fb7d0c31852615859e31153f074652">&#9670;&#160;</a></span>m_cda</h2>
+<a id="a349d43ea83965c093d6b2e20a359bb31" name="a349d43ea83965c093d6b2e20a359bb31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a349d43ea83965c093d6b2e20a359bb31">&#9670;&#160;</a></span>m_bindhp</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1279,7 +1369,7 @@ Private 属性</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structol_1_1oracle_1_1_c_d_a___d_e_f.html">CDA_DEF</a> ol::oracle::DBStmt::m_cda</td>
+          <td class="memname">OCIBind* ol::oracle::DBStmt::m_bindhp = nullptr</td>
         </tr>
       </table>
   </td>
@@ -1289,10 +1379,12 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>OCI绑定句柄 </p>
+
 </div>
 </div>
-<a id="af36f47d9639bed35e4dc123e2e44d6a1" name="af36f47d9639bed35e4dc123e2e44d6a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af36f47d9639bed35e4dc123e2e44d6a1">&#9670;&#160;</a></span>m_conn</h2>
+<a id="a7f2dcdfeead01d4a9d6e1a9133099f93" name="a7f2dcdfeead01d4a9d6e1a9133099f93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f2dcdfeead01d4a9d6e1a9133099f93">&#9670;&#160;</a></span>m_conn</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1301,7 +1393,7 @@ Private 属性</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a>* ol::oracle::DBStmt::m_conn</td>
+          <td class="memname"><a class="el" href="classol_1_1oracle_1_1_d_b_conn.html">DBConn</a>&amp; ol::oracle::DBStmt::m_conn</td>
         </tr>
       </table>
   </td>
@@ -1311,10 +1403,12 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>所属数据库连接 </p>
+
 </div>
 </div>
-<a id="abb28e36e6c794714185f8360d8a0d1d1" name="abb28e36e6c794714185f8360d8a0d1d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb28e36e6c794714185f8360d8a0d1d1">&#9670;&#160;</a></span>m_handle</h2>
+<a id="ae8b60c98965e3aec0f2738fadc385e68" name="ae8b60c98965e3aec0f2738fadc385e68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8b60c98965e3aec0f2738fadc385e68">&#9670;&#160;</a></span>m_defhp</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1323,7 +1417,7 @@ Private 属性</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structol_1_1oracle_1_1_o_c_i___h_a_n_d_l_e.html">OCI_HANDLE</a> ol::oracle::DBStmt::m_handle</td>
+          <td class="memname">OCIDefine* ol::oracle::DBStmt::m_defhp = nullptr</td>
         </tr>
       </table>
   </td>
@@ -1332,6 +1426,80 @@ Private 属性</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>OCI定义句柄 </p>
+
+</div>
+</div>
+<a id="af751cc38779f8f07196734023de23a54" name="af751cc38779f8f07196734023de23a54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af751cc38779f8f07196734023de23a54">&#9670;&#160;</a></span>m_envhp</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">OCIEnv* ol::oracle::DBStmt::m_envhp = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>环境句柄（引用自DBConn） </p>
+
+</div>
+</div>
+<a id="a2f10a014926292b3de51aee990fdd988" name="a2f10a014926292b3de51aee990fdd988"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f10a014926292b3de51aee990fdd988">&#9670;&#160;</a></span>m_errhp</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">OCIError* ol::oracle::DBStmt::m_errhp = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>错误句柄（引用自DBConn） </p>
+
+</div>
+</div>
+<a id="aa8d9cf1c59affefd80860870c49e7b89" name="aa8d9cf1c59affefd80860870c49e7b89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8d9cf1c59affefd80860870c49e7b89">&#9670;&#160;</a></span>m_isQuery</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ol::oracle::DBStmt::m_isQuery = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>是否为查询语句（SELECT） </p>
 
 </div>
 </div>
@@ -1345,7 +1513,7 @@ Private 属性</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">OCILobLocator* ol::oracle::DBStmt::m_lob</td>
+          <td class="memname">OCILobLocator* ol::oracle::DBStmt::m_lob = nullptr</td>
         </tr>
       </table>
   </td>
@@ -1354,6 +1522,56 @@ Private 属性</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>LOB定位器 </p>
+
+</div>
+</div>
+<a id="a73135f618fce4a599708718229f4b49a" name="a73135f618fce4a599708718229f4b49a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73135f618fce4a599708718229f4b49a">&#9670;&#160;</a></span>m_result</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structol_1_1oracle_1_1_d_b_result.html">DBResult</a> ol::oracle::DBStmt::m_result</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>语句执行结果 </p>
+
+</div>
+</div>
+<a id="a468274ec3d946bb205cc441b74d79610" name="a468274ec3d946bb205cc441b74d79610"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a468274ec3d946bb205cc441b74d79610">&#9670;&#160;</a></span>m_smthp</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">OCIStmt* ol::oracle::DBStmt::m_smthp = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>OCI语句句柄 </p>
 
 </div>
 </div>
@@ -1377,10 +1595,12 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>当前执行的SQL语句 </p>
+
 </div>
 </div>
-<a id="a999bedf0100657e3aba62fd881d5f44a" name="a999bedf0100657e3aba62fd881d5f44a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a999bedf0100657e3aba62fd881d5f44a">&#9670;&#160;</a></span>m_sqltype</h2>
+<a id="a994340871c6d6cc354fadac5cf6cebb4" name="a994340871c6d6cc354fadac5cf6cebb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a994340871c6d6cc354fadac5cf6cebb4">&#9670;&#160;</a></span>m_svchp</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1389,7 +1609,7 @@ Private 属性</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool ol::oracle::DBStmt::m_sqltype</td>
+          <td class="memname">OCISvcCtx* ol::oracle::DBStmt::m_svchp = nullptr</td>
         </tr>
       </table>
   </td>
@@ -1399,33 +1619,13 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="a2503bd0dfdc67a0143a17df26dbb3868" name="a2503bd0dfdc67a0143a17df26dbb3868"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2503bd0dfdc67a0143a17df26dbb3868">&#9670;&#160;</a></span>m_state</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int ol::oracle::DBStmt::m_state</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>服务上下文（引用自DBConn） </p>
 
 </div>
 </div>
 <hr/>该类的文档由以下文件生成:<ul>
-<li>oldblib/oracle/include/<a class="el" href="ol__oci_8h_source.html">ol_oci.h</a></li>
-<li>oldblib/oracle/src/<a class="el" href="ol__oci_8cpp.html">ol_oci.cpp</a></li>
+<li>ol_database/oracle/include/<a class="el" href="ol__oci_8h_source.html">ol_oci.h</a></li>
+<li>ol_database/oracle/src/<a class="el" href="ol__oci_8cpp.html">ol_oci.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

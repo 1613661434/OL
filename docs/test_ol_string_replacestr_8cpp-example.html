@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: test_ol_string_replacestr.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('test_ol_string_replacestr_8cpp-example.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">test_ol_string_replacestr.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment"> *  程序名：test_ol_string_replacestr.cpp，此程序演示开发框架中字符串替换replacestr函数的使用。</span></div>
+<div class="line"><span class="comment"> *  作者：ol</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol__string_8h.html">ol_string.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;string.h&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespaceol.html">ol</a>;</div>
+<div class="line"><span class="keyword">using namespace </span>std;</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordtype">char</span> str1[301];</div>
+<div class="line"> </div>
+<div class="line">    strcpy(str1, <span class="stringliteral">&quot;name:messi,no:10,job:striker.&quot;</span>);</div>
+<div class="line">    <a id="_a0" name="_a0"></a><a class="code hl_function" href="namespaceol.html#acac3b36117c350b30d7627c06dee201c">replacestr</a>(str1, <span class="stringliteral">&quot;:&quot;</span>, <span class="stringliteral">&quot;=&quot;</span>); <span class="comment">// 把冒号替换成等号。</span></div>
+<div class="line">    printf(<span class="stringliteral">&quot;str1=%s=\n&quot;</span>, str1); <span class="comment">// 出输结果是str1=name=messi,no=10,job=striker.=</span></div>
+<div class="line"> </div>
+<div class="line">    strcpy(str1, <span class="stringliteral">&quot;name:messi,no:10,job:striker.&quot;</span>);</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#acac3b36117c350b30d7627c06dee201c">replacestr</a>(str1, <span class="stringliteral">&quot;name:&quot;</span>, <span class="stringliteral">&quot;&quot;</span>); <span class="comment">// 把&quot;name:&quot;替换成&quot;&quot;，相当于删除内容&quot;name:&quot;。</span></div>
+<div class="line">    printf(<span class="stringliteral">&quot;str1=%s=\n&quot;</span>, str1);    <span class="comment">// 出输结果是str1=messi,no:10,job:striker.=</span></div>
+<div class="line"> </div>
+<div class="line">    strcpy(str1, <span class="stringliteral">&quot;messi----10----striker&quot;</span>);</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#acac3b36117c350b30d7627c06dee201c">replacestr</a>(str1, <span class="stringliteral">&quot;--&quot;</span>, <span class="stringliteral">&quot;-&quot;</span>, <span class="keyword">false</span>); <span class="comment">// 把两个&quot;--&quot;替换成一个&quot;-&quot;，bloop参数为false。</span></div>
+<div class="line">    printf(<span class="stringliteral">&quot;str1=%s=\n&quot;</span>, str1);         <span class="comment">// 出输结果是str1=messi--10--striker=</span></div>
+<div class="line"> </div>
+<div class="line">    strcpy(str1, <span class="stringliteral">&quot;messi----10----striker&quot;</span>);</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#acac3b36117c350b30d7627c06dee201c">replacestr</a>(str1, <span class="stringliteral">&quot;--&quot;</span>, <span class="stringliteral">&quot;-&quot;</span>, <span class="keyword">true</span>); <span class="comment">// 把两个&quot;--&quot;替换成一个&quot;-&quot;，bloop参数为true。</span></div>
+<div class="line">    printf(<span class="stringliteral">&quot;str1=%s=\n&quot;</span>, str1);        <span class="comment">// 出输结果是str1=messi-10-striker=</span></div>
+<div class="line"> </div>
+<div class="line">    strcpy(str1, <span class="stringliteral">&quot;messi-10-striker&quot;</span>);</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#acac3b36117c350b30d7627c06dee201c">replacestr</a>(str1, <span class="stringliteral">&quot;-&quot;</span>, <span class="stringliteral">&quot;--&quot;</span>, <span class="keyword">false</span>); <span class="comment">// 把一个&quot;-&quot;替换成两个&quot;--&quot;，bLoop参数为false。</span></div>
+<div class="line">    printf(<span class="stringliteral">&quot;str1=%s=\n&quot;</span>, str1);         <span class="comment">// 出输结果是str1=messi--10--striker=</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 以下代码把&quot;-&quot;替换成&quot;--&quot;，bloop参数为true，存在逻辑错误，replacestr将不执行替换。</span></div>
+<div class="line">    strcpy(str1, <span class="stringliteral">&quot;messi-10-striker&quot;</span>);</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#acac3b36117c350b30d7627c06dee201c">replacestr</a>(str1, <span class="stringliteral">&quot;-&quot;</span>, <span class="stringliteral">&quot;--&quot;</span>, <span class="keyword">true</span>); <span class="comment">// 把一个&quot;-&quot;替换成两个&quot;--&quot;，bloop参数为true。</span></div>
+<div class="line">    printf(<span class="stringliteral">&quot;str1=%s=\n&quot;</span>, str1);        <span class="comment">// 出输结果是str1=messi-10-striker=</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// ////////////////////////////////////</span></div>
+<div class="line">    <span class="keywordtype">string</span> str2;</div>
+<div class="line">    str2 = <span class="stringliteral">&quot;name:messi,no:10,job:striker.&quot;</span>;</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#acac3b36117c350b30d7627c06dee201c">replacestr</a>(str2, <span class="stringliteral">&quot;:&quot;</span>, <span class="stringliteral">&quot;=&quot;</span>);       <span class="comment">// 把冒号替换成等号。</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;str2=&quot;</span> &lt;&lt; str2 &lt;&lt; <span class="stringliteral">&quot;=\n&quot;</span>; <span class="comment">// 出输结果是str2=name=messi,no=10,job=striker.=</span></div>
+<div class="line"> </div>
+<div class="line">    str2 = <span class="stringliteral">&quot;name:messi,no:10,job:striker.&quot;</span>;</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#acac3b36117c350b30d7627c06dee201c">replacestr</a>(str2, <span class="stringliteral">&quot;name:&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);    <span class="comment">// 把&quot;name:&quot;替换成&quot;&quot;，相当于删除内容&quot;name:&quot;。</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;str2=&quot;</span> &lt;&lt; str2 &lt;&lt; <span class="stringliteral">&quot;=\n&quot;</span>; <span class="comment">// 出输结果是str2=messi,no:10,job:striker.=</span></div>
+<div class="line"> </div>
+<div class="line">    str2 = <span class="stringliteral">&quot;messi----10----striker&quot;</span>;</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#acac3b36117c350b30d7627c06dee201c">replacestr</a>(str2, <span class="stringliteral">&quot;--&quot;</span>, <span class="stringliteral">&quot;-&quot;</span>, <span class="keyword">false</span>); <span class="comment">// 把两个&quot;--&quot;替换成一个&quot;-&quot;，bLoop参数为false。</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;str2=&quot;</span> &lt;&lt; str2 &lt;&lt; <span class="stringliteral">&quot;=\n&quot;</span>;   <span class="comment">// 出输结果是str2=messi--10--striker=</span></div>
+<div class="line"> </div>
+<div class="line">    str2 = <span class="stringliteral">&quot;messi----10----striker&quot;</span>;</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#acac3b36117c350b30d7627c06dee201c">replacestr</a>(str2, <span class="stringliteral">&quot;--&quot;</span>, <span class="stringliteral">&quot;-&quot;</span>, <span class="keyword">true</span>); <span class="comment">// 把两个&quot;--&quot;替换成一个&quot;-&quot;，bLoop参数为true。</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;str2=&quot;</span> &lt;&lt; str2 &lt;&lt; <span class="stringliteral">&quot;=\n&quot;</span>;  <span class="comment">// 出输结果是str2=messi-10-striker=</span></div>
+<div class="line"> </div>
+<div class="line">    str2 = <span class="stringliteral">&quot;messi-10-striker&quot;</span>;</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#acac3b36117c350b30d7627c06dee201c">replacestr</a>(str2, <span class="stringliteral">&quot;-&quot;</span>, <span class="stringliteral">&quot;--&quot;</span>, <span class="keyword">false</span>); <span class="comment">// 把一个&quot;-&quot;替换成两个&quot;--&quot;，bLoop参数为false。</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;str2=&quot;</span> &lt;&lt; str2 &lt;&lt; <span class="stringliteral">&quot;=\n&quot;</span>;   <span class="comment">// 出输结果是str2=messi--10--striker=</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 以下代码把&quot;-&quot;替换成&quot;--&quot;，bloop参数为true，存在逻辑错误，updatestr将不执行替换。</span></div>
+<div class="line">    str2 = <span class="stringliteral">&quot;messi-10-striker&quot;</span>;</div>
+<div class="line">    <a class="code hl_function" href="namespaceol.html#acac3b36117c350b30d7627c06dee201c">replacestr</a>(str2, <span class="stringliteral">&quot;-&quot;</span>, <span class="stringliteral">&quot;--&quot;</span>, <span class="keyword">true</span>); <span class="comment">// 把一个&quot;-&quot;替换成两个&quot;--&quot;，bloop参数为true。</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;str2=&quot;</span> &lt;&lt; str2 &lt;&lt; <span class="stringliteral">&quot;=\n&quot;</span>;  <span class="comment">// 出输结果是str2=messi-10-striker=</span></div>
+<div class="line">}</div>
+<div class="ttc" id="anamespaceol_html"><div class="ttname"><a href="namespaceol.html">ol</a></div><div class="ttdef"><b>定义</b> ol_sort_base.h:20</div></div>
+<div class="ttc" id="anamespaceol_html_acac3b36117c350b30d7627c06dee201c"><div class="ttname"><a href="namespaceol.html#acac3b36117c350b30d7627c06dee201c">ol::replacestr</a></div><div class="ttdeci">bool replacestr(char *str, const std::string &amp;str1, const std::string &amp;str2, const bool bloop=false)</div><div class="ttdoc">字符串替换</div><div class="ttdef"><b>定义</b> ol_string.cpp:150</div></div>
+<div class="ttc" id="aol__string_8h_html"><div class="ttname"><a href="ol__string_8h.html">ol_string.h</a></div></div>
+</div><!-- fragment --> </div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

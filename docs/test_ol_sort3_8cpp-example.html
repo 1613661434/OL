@@ -1,0 +1,336 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: test_ol_sort3.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('test_ol_sort3_8cpp-example.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">test_ol_sort3.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol__chrono_8h.html">ol_chrono.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol__sort_8h.html">ol_sort.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;algorithm&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;cmath&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;fstream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;functional&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iomanip&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;random&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespaceol.html">ol</a>;</div>
+<div class="line"><span class="keyword">using namespace </span>std;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 使用随机数引擎生成更均匀的随机整数</span></div>
+<div class="line">vector&lt;int&gt; generate_random_ints(<span class="keywordtype">size_t</span> size = 50000, <span class="keywordtype">int</span> min_val = -1000000, <span class="keywordtype">int</span> max_val = 1000000)</div>
+<div class="line">{</div>
+<div class="line">    vector&lt;int&gt; result(size);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 使用随机数引擎和均匀分布生成更均匀的随机数</span></div>
+<div class="line">    random_device rd;                                     <span class="comment">// 用于获取种子</span></div>
+<div class="line">    mt19937 gen(rd());                                    <span class="comment">// 梅森旋转算法随机数生成器</span></div>
+<div class="line">    uniform_int_distribution&lt;int&gt; dist(min_val, max_val); <span class="comment">// 均匀整数分布</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; size; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        result[i] = dist(gen);</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">return</span> result;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 将排序结果保存到英文命名的文件</span></div>
+<div class="line"><span class="keywordtype">void</span> save_sort_result(<span class="keyword">const</span> vector&lt;int&gt;&amp; sorted_data, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; sort_name)</div>
+<div class="line">{</div>
+<div class="line">    ofstream out_file(sort_name + <span class="stringliteral">&quot;_sorted_result.txt&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">if</span> (!out_file.is_open())</div>
+<div class="line">    {</div>
+<div class="line">        cerr &lt;&lt; <span class="stringliteral">&quot;错误：无法创建文件 &quot;</span> &lt;&lt; sort_name &lt;&lt; <span class="stringliteral">&quot;_sorted_result.txt\n&quot;</span>;</div>
+<div class="line">        <span class="keywordflow">return</span>;</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; num : sorted_data)</div>
+<div class="line">    {</div>
+<div class="line">        out_file &lt;&lt; num &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">    }</div>
+<div class="line">    out_file.close();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;已保存：&quot;</span> &lt;&lt; sort_name &lt;&lt; <span class="stringliteral">&quot; 结果到 &quot;</span> &lt;&lt; sort_name &lt;&lt; <span class="stringliteral">&quot;_sorted_result.txt\n&quot;</span>;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 打印性能对比表格</span></div>
+<div class="line"><span class="keywordtype">void</span> print_performance_table(<span class="keyword">const</span> vector&lt;pair&lt;string, double&gt;&gt;&amp; performance_data)</div>
+<div class="line">{</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n============================================================\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;                  排序算法性能对比\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;============================================================\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; left &lt;&lt; setw(15) &lt;&lt; <span class="stringliteral">&quot;算法名称&quot;</span> &lt;&lt; setw(20) &lt;&lt; <span class="stringliteral">&quot;数据规模&quot;</span> &lt;&lt; setw(15) &lt;&lt; <span class="stringliteral">&quot;时间（秒）\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;------------------------------------------------------------\n&quot;</span>;</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">size_t</span> data_size = generate_random_ints().size();</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; item : performance_data)</div>
+<div class="line">    {</div>
+<div class="line">        cout &lt;&lt; left &lt;&lt; setw(15) &lt;&lt; item.first</div>
+<div class="line">             &lt;&lt; setw(20) &lt;&lt; data_size</div>
+<div class="line">             &lt;&lt; setw(15) &lt;&lt; fixed &lt;&lt; setprecision(6) &lt;&lt; item.second &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">    }</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;============================================================\n&quot;</span>;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 比较所有排序结果文件</span></div>
+<div class="line"><span class="keywordtype">void</span> compare_sorted_files()</div>
+<div class="line">{</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n============================================================\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;                  排序结果文件比较\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;============================================================\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 所有排序结果文件列表</span></div>
+<div class="line">    vector&lt;string&gt; filenames = {</div>
+<div class="line">        <span class="stringliteral">&quot;bubble_sort_sorted_result.txt&quot;</span>,</div>
+<div class="line">        <span class="stringliteral">&quot;heap_sort_sorted_result.txt&quot;</span>,</div>
+<div class="line">        <span class="stringliteral">&quot;insertion_sort_sorted_result.txt&quot;</span>,</div>
+<div class="line">        <span class="stringliteral">&quot;merge_sort_sorted_result.txt&quot;</span>,</div>
+<div class="line">        <span class="stringliteral">&quot;quick_sort_sorted_result.txt&quot;</span>,</div>
+<div class="line">        <span class="stringliteral">&quot;selection_sort_sorted_result.txt&quot;</span>,</div>
+<div class="line">        <span class="stringliteral">&quot;shell_sort_sorted_result.txt&quot;</span>};</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 以第一个文件为基准，与其他所有文件进行比较</span></div>
+<div class="line">    <span class="keywordflow">if</span> (filenames.empty()) <span class="keywordflow">return</span>;</div>
+<div class="line">    <span class="keywordtype">string</span> base_file = filenames[0];</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 1; i &lt; filenames.size(); ++i)</div>
+<div class="line">    {</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;\n比较 &quot;</span> &lt;&lt; base_file &lt;&lt; <span class="stringliteral">&quot; 和 &quot;</span> &lt;&lt; filenames[i] &lt;&lt; <span class="stringliteral">&quot;：\n&quot;</span>;</div>
+<div class="line">        <span class="keywordtype">string</span> command = <span class="stringliteral">&quot;fc /n &quot;</span> + base_file + <span class="stringliteral">&quot; &quot;</span> + filenames[i];</div>
+<div class="line">        <span class="keywordtype">int</span> result = system(command.c_str());</div>
+<div class="line"> </div>
+<div class="line">        <span class="keywordflow">if</span> (result == 0)</div>
+<div class="line">        {</div>
+<div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;结论：两个文件内容完全相同\n&quot;</span>;</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">else</span></div>
+<div class="line">        {</div>
+<div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;结论：两个文件内容存在差异\n&quot;</span>;</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n============================================================\n&quot;</span>;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">    <span class="comment">// 生成原始随机数据</span></div>
+<div class="line">    vector&lt;int&gt; raw_data = generate_random_ints();</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;已生成 &quot;</span> &lt;&lt; raw_data.size() &lt;&lt; <span class="stringliteral">&quot; 个随机整数\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 存储排序算法名称和对应的耗时</span></div>
+<div class="line">    vector&lt;pair&lt;string, double&gt;&gt; performance_data;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 1. 插入排序 (Insertion Sort)</span></div>
+<div class="line">    {</div>
+<div class="line">        vector&lt;int&gt; data = raw_data;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;\n正在执行插入排序...\n&quot;</span>;</div>
+<div class="line">        <a id="_a0" name="_a0"></a><a class="code hl_class" href="classol_1_1ctimer.html">ctimer</a> timer;</div>
+<div class="line">        <a id="_a1" name="_a1"></a><a class="code hl_function" href="namespaceol.html#ab6ff8f596eb0adeac5de66f9c658c253">insertion_sort</a>(data);</div>
+<div class="line">        <span class="keywordtype">double</span> time = timer.<a id="a2" name="a2"></a><a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">        save_sort_result(data, <span class="stringliteral">&quot;insertion_sort&quot;</span>);</div>
+<div class="line">        performance_data.emplace_back(<span class="stringliteral">&quot;插入排序&quot;</span>, time);</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;插入排序完成，耗时 &quot;</span> &lt;&lt; fixed &lt;&lt; setprecision(6) &lt;&lt; time &lt;&lt; <span class="stringliteral">&quot; 秒\n&quot;</span>;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 2. 希尔排序 (Shell Sort)</span></div>
+<div class="line">    {</div>
+<div class="line">        vector&lt;int&gt; data = raw_data;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;\n正在执行希尔排序...\n&quot;</span>;</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1ctimer.html">ctimer</a> timer;</div>
+<div class="line">        <a id="_a3" name="_a3"></a><a class="code hl_function" href="namespaceol.html#a14ba777d836ccf56aa6eeeaaf0230e34">shell_sort</a>(data);</div>
+<div class="line">        <span class="keywordtype">double</span> time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">        save_sort_result(data, <span class="stringliteral">&quot;shell_sort&quot;</span>);</div>
+<div class="line">        performance_data.emplace_back(<span class="stringliteral">&quot;希尔排序&quot;</span>, time);</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;希尔排序完成，耗时 &quot;</span> &lt;&lt; fixed &lt;&lt; setprecision(6) &lt;&lt; time &lt;&lt; <span class="stringliteral">&quot; 秒\n&quot;</span>;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 3. 起泡排序 (Bubble Sort)</span></div>
+<div class="line">    {</div>
+<div class="line">        vector&lt;int&gt; data = raw_data;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;\n正在执行起泡排序...\n&quot;</span>;</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1ctimer.html">ctimer</a> timer;</div>
+<div class="line">        <a id="_a4" name="_a4"></a><a class="code hl_function" href="namespaceol.html#afd6efc10009da0b60ba08496cf1465e2">bubble_sort</a>(data);</div>
+<div class="line">        <span class="keywordtype">double</span> time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">        save_sort_result(data, <span class="stringliteral">&quot;bubble_sort&quot;</span>);</div>
+<div class="line">        performance_data.emplace_back(<span class="stringliteral">&quot;起泡排序&quot;</span>, time);</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;起泡排序完成，耗时 &quot;</span> &lt;&lt; fixed &lt;&lt; setprecision(6) &lt;&lt; time &lt;&lt; <span class="stringliteral">&quot; 秒\n&quot;</span>;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 4. 快速排序 (Quick Sort)</span></div>
+<div class="line">    {</div>
+<div class="line">        vector&lt;int&gt; data = raw_data;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;\n正在执行快速排序...\n&quot;</span>;</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1ctimer.html">ctimer</a> timer;</div>
+<div class="line">        <a id="_a5" name="_a5"></a><a class="code hl_function" href="namespaceol.html#a20e0ccd87e1ef5296e5b901c6d5f0691">quick_sort</a>(data);</div>
+<div class="line">        <span class="keywordtype">double</span> time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">        save_sort_result(data, <span class="stringliteral">&quot;quick_sort&quot;</span>);</div>
+<div class="line">        performance_data.emplace_back(<span class="stringliteral">&quot;快速排序&quot;</span>, time);</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;快速排序完成，耗时 &quot;</span> &lt;&lt; fixed &lt;&lt; setprecision(6) &lt;&lt; time &lt;&lt; <span class="stringliteral">&quot; 秒\n&quot;</span>;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 5. 选择排序 (Selection Sort)</span></div>
+<div class="line">    {</div>
+<div class="line">        vector&lt;int&gt; data = raw_data;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;\n正在执行选择排序...\n&quot;</span>;</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1ctimer.html">ctimer</a> timer;</div>
+<div class="line">        <a id="_a6" name="_a6"></a><a class="code hl_function" href="namespaceol.html#ab5050dfa7769d72e80979b03d5838d47">selection_sort</a>(data);</div>
+<div class="line">        <span class="keywordtype">double</span> time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">        save_sort_result(data, <span class="stringliteral">&quot;selection_sort&quot;</span>);</div>
+<div class="line">        performance_data.emplace_back(<span class="stringliteral">&quot;选择排序&quot;</span>, time);</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;选择排序完成，耗时 &quot;</span> &lt;&lt; fixed &lt;&lt; setprecision(6) &lt;&lt; time &lt;&lt; <span class="stringliteral">&quot; 秒\n&quot;</span>;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 6. 堆排序 (Heap Sort)</span></div>
+<div class="line">    {</div>
+<div class="line">        vector&lt;int&gt; data = raw_data;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;\n正在执行堆排序...\n&quot;</span>;</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1ctimer.html">ctimer</a> timer;</div>
+<div class="line">        <a id="_a7" name="_a7"></a><a class="code hl_function" href="namespaceol.html#ad58d66ffb28691d52d0c8a3436efa3a1">heap_sort</a>(data);</div>
+<div class="line">        <span class="keywordtype">double</span> time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">        save_sort_result(data, <span class="stringliteral">&quot;heap_sort&quot;</span>);</div>
+<div class="line">        performance_data.emplace_back(<span class="stringliteral">&quot;堆排序&quot;</span>, time);</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;堆排序完成，耗时 &quot;</span> &lt;&lt; fixed &lt;&lt; setprecision(6) &lt;&lt; time &lt;&lt; <span class="stringliteral">&quot; 秒\n&quot;</span>;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 7. 归并排序 (Merge Sort)</span></div>
+<div class="line">    {</div>
+<div class="line">        vector&lt;int&gt; data = raw_data;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;\n正在执行归并排序...\n&quot;</span>;</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1ctimer.html">ctimer</a> timer;</div>
+<div class="line">        <a id="_a8" name="_a8"></a><a class="code hl_function" href="namespaceol.html#afc1301e964ee0feb56c92811ad669d3c">merge_sort</a>(data);</div>
+<div class="line">        <span class="keywordtype">double</span> time = timer.<a class="code hl_function" href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">elapsed</a>();</div>
+<div class="line">        save_sort_result(data, <span class="stringliteral">&quot;merge_sort&quot;</span>);</div>
+<div class="line">        performance_data.emplace_back(<span class="stringliteral">&quot;归并排序&quot;</span>, time);</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;归并排序完成，耗时 &quot;</span> &lt;&lt; fixed &lt;&lt; setprecision(6) &lt;&lt; time &lt;&lt; <span class="stringliteral">&quot; 秒\n&quot;</span>;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 显示性能对比</span></div>
+<div class="line">    print_performance_table(performance_data);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 确定最快的两种算法</span></div>
+<div class="line">    sort(performance_data.begin(), performance_data.end(),</div>
+<div class="line">         [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; a, <span class="keyword">const</span> <span class="keyword">auto</span>&amp; b)</div>
+<div class="line">         { return a.second &lt; b.second; });</div>
+<div class="line"> </div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n最快的两种算法：\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;1. &quot;</span> &lt;&lt; performance_data[0].first &lt;&lt; <span class="stringliteral">&quot;：&quot;</span> &lt;&lt; fixed &lt;&lt; setprecision(6) &lt;&lt; performance_data[0].second &lt;&lt; <span class="stringliteral">&quot; 秒\n&quot;</span>;</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;2. &quot;</span> &lt;&lt; performance_data[1].first &lt;&lt; <span class="stringliteral">&quot;：&quot;</span> &lt;&lt; fixed &lt;&lt; setprecision(6) &lt;&lt; performance_data[1].second &lt;&lt; <span class="stringliteral">&quot; 秒\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 比较所有排序结果文件</span></div>
+<div class="line">    compare_sorted_files();</div>
+<div class="line"> </div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;\n所有排序测试已完成\n&quot;</span>;</div>
+<div class="line">    <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+<div class="ttc" id="aclassol_1_1ctimer_html"><div class="ttname"><a href="classol_1_1ctimer.html">ol::ctimer</a></div><div class="ttdef"><b>定义</b> ol_chrono.h:166</div></div>
+<div class="ttc" id="aclassol_1_1ctimer_html_a140cfbde8901bea56747ad8c02f6cc49"><div class="ttname"><a href="classol_1_1ctimer.html#a140cfbde8901bea56747ad8c02f6cc49">ol::ctimer::elapsed</a></div><div class="ttdeci">double elapsed()</div><div class="ttdoc">计算从上次start()到当前的逝去时间</div><div class="ttdef"><b>定义</b> ol_chrono.cpp:295</div></div>
+<div class="ttc" id="anamespaceol_html"><div class="ttname"><a href="namespaceol.html">ol</a></div><div class="ttdef"><b>定义</b> ol_sort_base.h:20</div></div>
+<div class="ttc" id="anamespaceol_html_a14ba777d836ccf56aa6eeeaaf0230e34"><div class="ttname"><a href="namespaceol.html#a14ba777d836ccf56aa6eeeaaf0230e34">ol::shell_sort</a></div><div class="ttdeci">void shell_sort(RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</div><div class="ttdoc">希尔排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:136</div></div>
+<div class="ttc" id="anamespaceol_html_a20e0ccd87e1ef5296e5b901c6d5f0691"><div class="ttname"><a href="namespaceol.html#a20e0ccd87e1ef5296e5b901c6d5f0691">ol::quick_sort</a></div><div class="ttdeci">void quick_sort(RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</div><div class="ttdoc">快速排序（迭代器版本）</div><div class="ttdef"><b>定义</b> ol_sort.h:591</div></div>
+<div class="ttc" id="anamespaceol_html_ab5050dfa7769d72e80979b03d5838d47"><div class="ttname"><a href="namespaceol.html#ab5050dfa7769d72e80979b03d5838d47">ol::selection_sort</a></div><div class="ttdeci">void selection_sort(Iterator first, Iterator last, const Compare &amp;comp=Compare())</div><div class="ttdoc">选择排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:228</div></div>
+<div class="ttc" id="anamespaceol_html_ab6ff8f596eb0adeac5de66f9c658c253"><div class="ttname"><a href="namespaceol.html#ab6ff8f596eb0adeac5de66f9c658c253">ol::insertion_sort</a></div><div class="ttdeci">void insertion_sort(Iterator first, Iterator last, const Compare &amp;comp=Compare())</div><div class="ttdoc">插入排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:44</div></div>
+<div class="ttc" id="anamespaceol_html_ad58d66ffb28691d52d0c8a3436efa3a1"><div class="ttname"><a href="namespaceol.html#ad58d66ffb28691d52d0c8a3436efa3a1">ol::heap_sort</a></div><div class="ttdeci">void heap_sort(RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</div><div class="ttdoc">堆排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:271</div></div>
+<div class="ttc" id="anamespaceol_html_afc1301e964ee0feb56c92811ad669d3c"><div class="ttname"><a href="namespaceol.html#afc1301e964ee0feb56c92811ad669d3c">ol::merge_sort</a></div><div class="ttdeci">void merge_sort(RandomIt first, RandomIt last, const Compare &amp;comp=Compare())</div><div class="ttdoc">归并排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:320</div></div>
+<div class="ttc" id="anamespaceol_html_afd6efc10009da0b60ba08496cf1465e2"><div class="ttname"><a href="namespaceol.html#afd6efc10009da0b60ba08496cf1465e2">ol::bubble_sort</a></div><div class="ttdeci">void bubble_sort(Iterator first, Iterator last, const Compare &amp;comp=Compare())</div><div class="ttdoc">冒泡排序（迭代器版本，支持默认比较器）</div><div class="ttdef"><b>定义</b> ol_sort.h:185</div></div>
+<div class="ttc" id="aol__chrono_8h_html"><div class="ttname"><a href="ol__chrono_8h.html">ol_chrono.h</a></div></div>
+<div class="ttc" id="aol__sort_8h_html"><div class="ttname"><a href="ol__sort_8h.html">ol_sort.h</a></div></div>
+</div><!-- fragment --> </div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

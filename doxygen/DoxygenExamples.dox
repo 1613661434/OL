@@ -1,0 +1,102 @@
+/**
+ * @file DoxygenExamples.dox
+ * @brief 将各模块的测试程序注册为 Doxygen 示例。
+ *
+ * @note 添加新的测试源文件后，请在本文件增加对应的 @c example 条目。
+ */
+
+/** @example test_fifo_receiver.cpp */
+/** @example test_fifo_sender.cpp */
+/** @example test_ol_BITree.cpp */
+/** @example test_ol_chrono_addtime.cpp */
+/** @example test_ol_chrono_ctimerANDsleep_WC.cpp */
+/** @example test_ol_chrono_ltime.cpp */
+/** @example test_ol_chrono_strtotimeANDtimetostr.cpp */
+/** @example test_ol_cqueue.cpp */
+/** @example test_ol_cqueue_double_destroy.cpp */
+/** @example test_ol_enum_char_ops.cpp */
+/** @example test_ol_fstream_cdir.cpp */
+/** @example test_ol_fstream_cifile.cpp */
+/** @example test_ol_fstream_cifile_binary.cpp */
+/** @example test_ol_fstream_clogfile.cpp */
+/** @example test_ol_fstream_cofile.cpp */
+/** @example test_ol_fstream_cofile_binary.cpp */
+/** @example test_ol_fstream_newdir.cpp */
+/** @example test_ol_fstream_nlANDclearbufANDbinary.cpp */
+/** @example test_ol_fstream_renamefileANDcopyfileANDsetmtimeANDfiletime.cpp */
+/** @example test_ol_graph.cpp */
+/** @example test_ol_hash.cpp */
+/** @example test_ol_ipc_st_procinfoANDcsemp-o-cpactive.cpp */
+/** @example test_ol_ipc_st_procinfoANDcsempANDcpactive.cpp */
+/** @example test_ol_ipcANDol_cqueue-o-PCM_C.cpp */
+/** @example test_ol_ipcANDol_cqueue-o-PCM_P.cpp */
+/** @example test_ol_math.cpp */
+/** @example test_ol_mutex.cpp */
+/** @example test_ol_mutex_handoff.cpp */
+/** @example test_ol_public.cpp */
+/** @example test_ol_signal.cpp */
+/** @example test_ol_sort.cpp */
+/** @example test_ol_sort2.cpp */
+/** @example test_ol_sort3.cpp */
+/** @example test_ol_sort_msd.cpp */
+/** @example test_ol_string_ccmdstr.cpp */
+/** @example test_ol_string_deleteWCchr.cpp */
+/** @example test_ol_string_getByXml.cpp */
+/** @example test_ol_string_matchstr.cpp */
+/** @example test_ol_string_picknumber.cpp */
+/** @example test_ol_string_replacestr.cpp */
+/** @example test_ol_string_sformat.cpp */
+/** @example test_ol_string_skmp.cpp */
+/** @example test_ol_string_toLowerANDtoUpper.cpp */
+/** @example test_ol_tcp_ctcpclient.cpp */
+/** @example test_ol_tcp_ctcpclient_binary.cpp */
+/** @example test_ol_tcp_ctcpserver.cpp */
+/** @example test_ol_tcp_ctcpserver_binary.cpp */
+/** @example test_ol_ThreadPool.cpp */
+/** @example test_ol_threadpool_shutdown.cpp */
+/** @example test_ol_TimeStamp.cpp */
+/** @example test_ol_TrieMap.cpp */
+/** @example test_ol_triemap_remove.cpp */
+/** @example test_ol_TrieSet.cpp */
+/** @example test_ol_type_traits_TypeSingleton.cpp */
+/** @example test_ol_UnionFind.cpp */
+/** @example test_pipe.cpp */
+/** @example test_shm.cpp */
+
+/** @example test_ol_database_pool.cpp */
+/** @example test_ol_mysql_blobtofile.cpp */
+/** @example test_ol_mysql_createtable.cpp */
+/** @example test_ol_mysql_deletetable.cpp */
+/** @example test_ol_mysql_filetoblob.cpp */
+/** @example test_ol_mysql_filetotext.cpp */
+/** @example test_ol_mysql_inserttable.cpp */
+/** @example test_ol_mysql_selecttable.cpp */
+/** @example test_ol_mysql_test.cpp */
+/** @example test_ol_mysql_texttofile.cpp */
+/** @example test_ol_mysql_updatetable.cpp */
+/** @example test_ol_oci_blobtofile.cpp */
+/** @example test_ol_oci_clobtofile.cpp */
+/** @example test_ol_oci_createtable.cpp */
+/** @example test_ol_oci_deletetable.cpp */
+/** @example test_ol_oci_filetoblob.cpp */
+/** @example test_ol_oci_filetoclob.cpp */
+/** @example test_ol_oci_inserttable.cpp */
+/** @example test_ol_oci_selecttable.cpp */
+/** @example test_ol_oci_test.cpp */
+/** @example test_ol_oci_updatetable.cpp */
+
+/** @example test_ol_ftp_cftpclient_get.cpp */
+/** @example test_ol_ftp_cftpclient_nlist.cpp */
+/** @example test_ol_ftp_cftpclient_put.cpp */
+
+/** @example ol_BankServer.cpp */
+/** @example ol_EchoServer.cpp */
+/** @example test_ol_bankclient.cpp */
+/** @example test_ol_bankserver.cpp */
+/** @example test_ol_echoclient.cpp */
+/** @example test_ol_echoserver.cpp */
+/** @example test_ol_InetAddr.cpp */
+/** @example test_ol_network_regression.cpp */
+
+/** @example test_ol_shader_move.cpp */
+/** @example test_ol_media_playlist.cpp */

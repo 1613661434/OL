@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.14.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>OL: ollib/include/ol_type_traits.h 文件参考</title>
+<title>OL: ol_core/include/ol_type_traits.h 文件参考</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -27,7 +27,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
   <td id="projectalign">
-   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
    </div>
    <div id="projectbrief">This is a C++ library.</div>
   </td>
@@ -105,9 +105,13 @@ $(function(){initNavTree('ol__type__traits_8h.html','',''); });
 <tr class="memitem:ol_3A_3ATypeEmpty" id="r_ol_3A_3ATypeEmpty"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structol_1_1_type_empty.html">ol::TypeEmpty</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">空结构体标记，用于模板中需要占位但不占用内存的场景  <a href="structol_1_1_type_empty.html#details">更多...</a><br /></td></tr>
 <tr class="memitem:ol_3A_3ATypeNonCopyable" id="r_ol_3A_3ATypeNonCopyable"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_copyable.html">ol::TypeNonCopyable</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">不可拷贝标记类，继承此类的派生类将禁用拷贝构造和拷贝赋值  <a href="classol_1_1_type_non_copyable.html#details">更多...</a><br /></td></tr>
 <tr class="memitem:ol_3A_3ATypeNonMovable" id="r_ol_3A_3ATypeNonMovable"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_movable.html">ol::TypeNonMovable</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">不可移动标记类，继承此类的派生类将禁用移动构造和移动赋值  <a href="classol_1_1_type_non_movable.html#details">更多...</a><br /></td></tr>
 <tr class="memitem:ol_3A_3ATypeNonCopyableMovable" id="r_ol_3A_3ATypeNonCopyableMovable"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_copyable_movable.html">ol::TypeNonCopyableMovable</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">不可拷贝且不可移动标记类（TypeNonCopyable + TypeNonMovable的组合）  <a href="classol_1_1_type_non_copyable_movable.html#details">更多...</a><br /></td></tr>
 <tr class="memitem:ol_3A_3ATypeSingleton_3C_20T_20_3E" id="r_ol_3A_3ATypeSingleton_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_singleton.html">ol::TypeSingleton&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">单例类（懒汉模式），提供GetInst()，且不可拷贝不可移动  <a href="classol_1_1_type_singleton.html#details">更多...</a><br /></td></tr>
 <tr class="memitem:ol_3A_3AIsTypeEmpty_3C_20T_20_3E" id="r_ol_3A_3AIsTypeEmpty_3C_20T_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structol_1_1_is_type_empty.html">ol::IsTypeEmpty&lt; T &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查类型是否为ol::TypeEmpty类型  <a href="structol_1_1_is_type_empty.html#details">更多...</a><br /></td></tr>
 <tr class="memitem:ol_3A_3Acontainer_5Ftraits_3C_20Container_20_3E" id="r_ol_3A_3Acontainer_5Ftraits_3C_20Container_20_3E"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structol_1_1container__traits.html">ol::container_traits&lt; Container &gt;</a></td></tr>
@@ -137,7 +141,7 @@ $(function(){initNavTree('ol__type__traits_8h.html','',''); });
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="dir_75b512e435434d14bff7e88c830596e1.html">ollib</a></li><li class="navelem"><a href="dir_b9a0bbad5c7f744a36cd404f18e81e13.html">include</a></li><li class="navelem"><a href="ol__type__traits_8h.html">ol_type_traits.h</a></li>
+    <li class="navelem"><a href="dir_ec89b758369e2f89df9ee858011313e0.html">ol_core</a></li><li class="navelem"><a href="dir_282a4c3c2fd67b603a87790c789a66b1.html">include</a></li><li class="navelem"><a href="ol__type__traits_8h.html">ol_type_traits.h</a></li>
     <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
   </ul>
 </div>

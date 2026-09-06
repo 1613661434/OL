@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: test_ol_echoclient.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('test_ol_echoclient_8cpp-example.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">test_ol_echoclient.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><span class="comment">// 回显业务的客户端程序。</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#if !defined(__unix__)</span></div>
+<div class="line"><span class="preprocessor">#error &quot;仅支持Linux平台，不支持当前系统！&quot;</span></div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#include &lt;arpa/inet.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;errno.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;netinet/in.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;string.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;sys/socket.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;time.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;unistd.h&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#define MessageNum 100000</span></div>
+<div class="line"><span class="comment">// #define OL_DEBUG</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">void</span> sendMessage(<span class="keywordtype">int</span> fd, <span class="keywordtype">char</span>* buf, <span class="keywordtype">int</span> bufLen, <span class="keywordtype">int</span> i);</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">void</span> recvMessage(<span class="keywordtype">int</span> fd, <span class="keywordtype">char</span>* buf, <span class="keywordtype">int</span> bufLen, <span class="keywordtype">int</span> i);</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* argv[])</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordflow">if</span> (argc != 3)</div>
+<div class="line">    {</div>
+<div class="line">        printf(<span class="stringliteral">&quot;Usage: ./test_ol_echoclient ip port\n&quot;</span>);</div>
+<div class="line">        printf(<span class="stringliteral">&quot;Example: ./test_ol_echoclient 192.168.195.5 5085\n\n&quot;</span>);</div>
+<div class="line">        <span class="keywordflow">return</span> -1;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordtype">int</span> sockfd;</div>
+<div class="line">    <span class="keyword">struct </span>sockaddr_in servaddr;</div>
+<div class="line">    <span class="keywordtype">char</span> buf[1024];</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">if</span> ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) &lt; 0)</div>
+<div class="line">    {</div>
+<div class="line">        printf(<span class="stringliteral">&quot;socket() failed.\n&quot;</span>);</div>
+<div class="line">        <span class="keywordflow">return</span> -1;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    memset(&amp;servaddr, 0, <span class="keyword">sizeof</span>(servaddr));</div>
+<div class="line">    servaddr.sin_family = AF_INET;</div>
+<div class="line">    servaddr.sin_port = htons(atoi(argv[2]));</div>
+<div class="line">    servaddr.sin_addr.s_addr = inet_addr(argv[1]);</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">if</span> (connect(sockfd, (<span class="keyword">struct</span> sockaddr*)&amp;servaddr, <span class="keyword">sizeof</span>(servaddr)) != 0)</div>
+<div class="line">    {</div>
+<div class="line">        printf(<span class="stringliteral">&quot;connect(%s:%s) failed.\n&quot;</span>, argv[1], argv[2]);</div>
+<div class="line">        close(sockfd);</div>
+<div class="line">        <span class="keywordflow">return</span> -1;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    printf(<span class="stringliteral">&quot;connect ok.\n&quot;</span>);</div>
+<div class="line">    printf(<span class="stringliteral">&quot;开始时间：%ld\n&quot;</span>, time(<span class="keyword">nullptr</span>));</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 业务</span></div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt;= MessageNum; ++i)</div>
+<div class="line">    {</div>
+<div class="line">        sendMessage(sockfd, buf, <span class="keyword">sizeof</span>(buf), i);</div>
+<div class="line">        recvMessage(sockfd, buf, <span class="keyword">sizeof</span>(buf), i);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 显式关闭套接字</span></div>
+<div class="line">    close(sockfd);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 打印结束时间并强制刷新缓冲区</span></div>
+<div class="line">    printf(<span class="stringliteral">&quot;结束时间：%ld\n&quot;</span>, time(<span class="keyword">nullptr</span>));</div>
+<div class="line">    fflush(stdout); <span class="comment">// 强制刷新，确保输出</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 显式退出</span></div>
+<div class="line">    <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">void</span> sendMessage(<span class="keywordtype">int</span> fd, <span class="keywordtype">char</span>* buf, <span class="keywordtype">int</span> bufLen, <span class="keywordtype">int</span> i)</div>
+<div class="line">{</div>
+<div class="line">    memset(buf, 0, bufLen);</div>
+<div class="line">    <span class="keywordtype">char</span> message[1024];</div>
+<div class="line">    sprintf(message, <span class="stringliteral">&quot;第%d个超女&quot;</span>, i);</div>
+<div class="line">    <span class="keywordtype">int</span> len = strlen(message);</div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#ifdef OL_DEBUG</span></div>
+<div class="line">    printf(<span class="stringliteral">&quot;send:%s\n&quot;</span>, message);</div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+<div class="line"> </div>
+<div class="line">    memcpy(buf, &amp;len, 4);</div>
+<div class="line">    memcpy(buf + 4, message, len);</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">if</span> (send(fd, buf, len + 4, 0) &lt;= 0)</div>
+<div class="line">    {</div>
+<div class="line">        printf(<span class="stringliteral">&quot;write() failed.\n&quot;</span>);</div>
+<div class="line">        close(fd);</div>
+<div class="line">        exit(-1);</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">void</span> recvMessage(<span class="keywordtype">int</span> fd, <span class="keywordtype">char</span>* buf, <span class="keywordtype">int</span> bufLen, <span class="keywordtype">int</span> i)</div>
+<div class="line">{</div>
+<div class="line">    memset(buf, 0, bufLen);</div>
+<div class="line">    <span class="keywordtype">int</span> len;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 读取长度（注意：实际应循环读取确保4字节完整接收）</span></div>
+<div class="line">    <span class="keywordflow">if</span> (recv(fd, &amp;len, 4, 0) != 4)</div>
+<div class="line">    {</div>
+<div class="line">        printf(<span class="stringliteral">&quot;recv len failed (i=%d).\n&quot;</span>, i);</div>
+<div class="line">        close(fd);</div>
+<div class="line">        exit(-1);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 读取消息内容（同样需循环读取确保完整）</span></div>
+<div class="line">    <span class="keywordtype">int</span> recv_len = 0;</div>
+<div class="line">    <span class="keywordflow">while</span> (recv_len &lt; len)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordtype">int</span> n = recv(fd, buf + recv_len, len - recv_len, 0);</div>
+<div class="line">        <span class="keywordflow">if</span> (n &lt;= 0)</div>
+<div class="line">        {</div>
+<div class="line">            printf(<span class="stringliteral">&quot;recv data failed (i=%d).\n&quot;</span>, i);</div>
+<div class="line">            close(fd);</div>
+<div class="line">            exit(-1);</div>
+<div class="line">        }</div>
+<div class="line">        recv_len += n;</div>
+<div class="line">    }</div>
+<div class="line"><span class="preprocessor">#ifdef OL_DEBUG</span></div>
+<div class="line">    printf(<span class="stringliteral">&quot;recv:%s\n&quot;</span>, buf);</div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+<div class="line">}</div>
+</div><!-- fragment --> </div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

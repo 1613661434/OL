@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: test_ol_enum_char_ops.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('test_ol_enum_char_ops_8cpp-example.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">test_ol_enum_char_ops.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><span class="comment">/****************************************************************************************/</span></div>
+<div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment"> * 程序名：test_ol_enum_char_ops.cpp</span></div>
+<div class="line"><span class="comment"> * 功能描述：测试 ol_enum_char_ops.h 中为底层 char 强类型枚举提供的运算符重载功能</span></div>
+<div class="line"><span class="comment"> *          验证：自增/自减、所有比较运算符、算术/赋值运算符的正确性</span></div>
+<div class="line"><span class="comment"> *          - 自增：前置++、后置++</span></div>
+<div class="line"><span class="comment"> *          - 自减：前置--、后置--</span></div>
+<div class="line"><span class="comment"> *          - 比较：&lt;、&gt;、&gt;=、&lt;=、==、!=</span></div>
+<div class="line"><span class="comment"> *          - 算术：+、-（枚举 ± 整数偏移）</span></div>
+<div class="line"><span class="comment"> *          - 赋值：+=、-=</span></div>
+<div class="line"><span class="comment"> * 作者：ol</span></div>
+<div class="line"><span class="comment"> * 适用标准：C++11及以上</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"><span class="comment">/****************************************************************************************/</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol__enum__char__ops_8h.html">ol_enum_char_ops.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespaceol.html">ol</a>;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 定义测试用的强类型枚举（底层为char，符合头文件适用条件）</span></div>
+<div class="line"><span class="keyword">enum class</span> CardPoint : <span class="keywordtype">char</span></div>
+<div class="line">{</div>
+<div class="line">    Card_Begin,</div>
+<div class="line">    Card_3,  <span class="comment">// 1</span></div>
+<div class="line">    Card_4,  <span class="comment">// 2</span></div>
+<div class="line">    Card_5,  <span class="comment">// 3</span></div>
+<div class="line">    Card_6,  <span class="comment">// 4</span></div>
+<div class="line">    Card_7,  <span class="comment">// 5</span></div>
+<div class="line">    Card_8,  <span class="comment">// 6</span></div>
+<div class="line">    Card_9,  <span class="comment">// 7</span></div>
+<div class="line">    Card_10, <span class="comment">// 8</span></div>
+<div class="line">    Card_J,  <span class="comment">// 9</span></div>
+<div class="line">    Card_Q,  <span class="comment">// 10</span></div>
+<div class="line">    Card_K,  <span class="comment">// 11</span></div>
+<div class="line">    Card_A,  <span class="comment">// 12</span></div>
+<div class="line">    Card_2,  <span class="comment">// 13</span></div>
+<div class="line">    Card_SJ, <span class="comment">// Small Joker (14)</span></div>
+<div class="line">    Card_BJ, <span class="comment">// Big Joker (15)</span></div>
+<div class="line">    Card_End <span class="comment">// 16</span></div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> E&gt;</div>
+<div class="line"><span class="keywordtype">void</span> print_enum(<span class="keyword">const</span> <span class="keywordtype">char</span>* name, <span class="keyword">const</span> E&amp; p)</div>
+<div class="line">{</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;  &quot;</span> &lt;&lt; name &lt;&lt; <span class="stringliteral">&quot; = &quot;</span> &lt;&lt; <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(<span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(p)) &lt;&lt; std::endl;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;=====================================&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;开始测试 ol_enum_char_ops.h 功能&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;=====================================&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试1：前置++ + &lt; 运算符（核心循环场景）</span></div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\n【测试1】前置++ + &lt; 运算符（循环遍历 Card_3 ~ Card_2）&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    <span class="keywordtype">int</span> loop_count = 0;</div>
+<div class="line">    <span class="keywordflow">for</span> (CardPoint p = CardPoint::Card_Begin + 1; p &lt; CardPoint::Card_SJ; ++p)</div>
+<div class="line">    {</div>
+<div class="line">        loop_count++;</div>
+<div class="line">        <span class="comment">// 仅输出前3个和最后1个，避免输出过长</span></div>
+<div class="line">        <span class="keywordflow">if</span> (loop_count &lt;= 3 || loop_count == 13)</div>
+<div class="line">        {</div>
+<div class="line">            print_enum(</div>
+<div class="line">                loop_count == 1 ? <span class="stringliteral">&quot;Card_3&quot;</span> : loop_count == 2 ? <span class="stringliteral">&quot;Card_4&quot;</span></div>
+<div class="line">                                         : loop_count == 3   ? <span class="stringliteral">&quot;Card_5&quot;</span></div>
+<div class="line">                                                             : <span class="stringliteral">&quot;Card_2&quot;</span>,</div>
+<div class="line">                p);</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;  循环次数验证：&quot;</span> &lt;&lt; loop_count &lt;&lt; <span class="stringliteral">&quot;（预期13次，Card_3~Card_2共13个值）&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    <span class="keywordflow">if</span> (loop_count == 13)</div>
+<div class="line">    {</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;  ✅ 前置++ + &lt; 运算符测试通过&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">else</span></div>
+<div class="line">    {</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;  ❌ 前置++ + &lt; 运算符测试失败&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试2：加法运算符 +（枚举 + 整数偏移）</span></div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\n【测试2】加法运算符 +（Card_3 + 2）&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    CardPoint p_add = CardPoint::Card_3 + 2;</div>
+<div class="line">    print_enum(<span class="stringliteral">&quot;Card_3 + 2 (预期Card_5)&quot;</span>, p_add);</div>
+<div class="line">    <span class="keywordflow">if</span> (<span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(p_add) == <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(CardPoint::Card_5))</div>
+<div class="line">    {</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;  ✅ 加法运算符测试通过&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">else</span></div>
+<div class="line">    {</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;  ❌ 加法运算符测试失败&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试3：赋值加法 += 运算符</span></div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\n【测试3】赋值加法 += 运算符（Card_4 += 3）&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    CardPoint p_add_eq = CardPoint::Card_4;</div>
+<div class="line">    p_add_eq += 3;</div>
+<div class="line">    print_enum(<span class="stringliteral">&quot;Card_4 += 3 (预期Card_7)&quot;</span>, p_add_eq);</div>
+<div class="line">    <span class="keywordflow">if</span> (<span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(p_add_eq) == <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(CardPoint::Card_7))</div>
+<div class="line">    {</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;  ✅ 赋值加法运算符测试通过&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">else</span></div>
+<div class="line">    {</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;  ❌ 赋值加法运算符测试失败&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试4：后置++ 运算符</span></div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\n【测试4】后置++ 运算符（Card_5++）&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    CardPoint p_post_inc = CardPoint::Card_5;</div>
+<div class="line">    CardPoint p_post_inc_old = p_post_inc++; <span class="comment">// 后置++返回原值</span></div>
+<div class="line">    print_enum(<span class="stringliteral">&quot;Card_5++ 原值&quot;</span>, p_post_inc_old);</div>
+<div class="line">    print_enum(<span class="stringliteral">&quot;Card_5++ 后值&quot;</span>, p_post_inc);</div>
+<div class="line">    <span class="keywordflow">if</span> (<span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(p_post_inc_old) == <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(CardPoint::Card_5) &amp;&amp;</div>
+<div class="line">        <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(p_post_inc) == <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(CardPoint::Card_6))</div>
+<div class="line">    {</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;  ✅ 后置++运算符测试通过&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">else</span></div>
+<div class="line">    {</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;  ❌ 后置++运算符测试失败&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试5：自减运算符 --（前置--、后置--）</span></div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\n【测试5】自减运算符 --（Card_7--、--Card_6）&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    <span class="comment">// 测试后置--</span></div>
+<div class="line">    CardPoint p_post_dec = CardPoint::Card_7;</div>
+<div class="line">    CardPoint p_post_dec_old = p_post_dec--;</div>
+<div class="line">    print_enum(<span class="stringliteral">&quot;Card_7-- 原值&quot;</span>, p_post_dec_old);</div>
+<div class="line">    print_enum(<span class="stringliteral">&quot;Card_7-- 后值&quot;</span>, p_post_dec);</div>
+<div class="line">    <span class="comment">// 测试前置--</span></div>
+<div class="line">    CardPoint p_pre_dec = CardPoint::Card_6;</div>
+<div class="line">    --p_pre_dec;</div>
+<div class="line">    print_enum(<span class="stringliteral">&quot;--Card_6 后值 (预期Card_5)&quot;</span>, p_pre_dec);</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordtype">bool</span> dec_ok = (<span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(p_post_dec_old) == <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(CardPoint::Card_7) &amp;&amp;</div>
+<div class="line">                   <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(p_post_dec) == <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(CardPoint::Card_6) &amp;&amp;</div>
+<div class="line">                   <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(p_pre_dec) == <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(CardPoint::Card_5));</div>
+<div class="line">    <span class="keywordflow">if</span> (dec_ok)</div>
+<div class="line">    {</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;  ✅ 自减运算符测试通过&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">else</span></div>
+<div class="line">    {</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;  ❌ 自减运算符测试失败&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试6：比较运算符（&gt;、&gt;=、&lt;=、==、!=）</span></div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\n【测试6】比较运算符（&gt;、&gt;=、&lt;=、==、!=）&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    CardPoint p5 = CardPoint::Card_5;</div>
+<div class="line">    CardPoint p6 = CardPoint::Card_6;</div>
+<div class="line">    CardPoint p5_copy = CardPoint::Card_5;</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordtype">bool</span> gt_ok = (p6 &gt; p5) == <span class="keyword">true</span>;</div>
+<div class="line">    <span class="keywordtype">bool</span> ge_ok = (p6 &gt;= p5) == <span class="keyword">true</span> &amp;&amp; (p5 &gt;= p5_copy) == <span class="keyword">true</span>;</div>
+<div class="line">    <span class="keywordtype">bool</span> le_ok = (p5 &lt;= p6) == <span class="keyword">true</span> &amp;&amp; (p5 &lt;= p5_copy) == <span class="keyword">true</span>;</div>
+<div class="line">    <span class="keywordtype">bool</span> eq_ok = (p5 == p5_copy) == <span class="keyword">true</span>;</div>
+<div class="line">    <span class="keywordtype">bool</span> ne_ok = (p5 != p6) == <span class="keyword">true</span>;</div>
+<div class="line"> </div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;  Card_6 &gt; Card_5: &quot;</span> &lt;&lt; (p6 &gt; p5 ? <span class="stringliteral">&quot;true&quot;</span> : <span class="stringliteral">&quot;false&quot;</span>) &lt;&lt; <span class="stringliteral">&quot;（预期true）&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;  Card_5 &gt;= Card_5: &quot;</span> &lt;&lt; (p5 &gt;= p5_copy ? <span class="stringliteral">&quot;true&quot;</span> : <span class="stringliteral">&quot;false&quot;</span>) &lt;&lt; <span class="stringliteral">&quot;（预期true）&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;  Card_5 &lt;= Card_6: &quot;</span> &lt;&lt; (p5 &lt;= p6 ? <span class="stringliteral">&quot;true&quot;</span> : <span class="stringliteral">&quot;false&quot;</span>) &lt;&lt; <span class="stringliteral">&quot;（预期true）&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;  Card_5 == Card_5: &quot;</span> &lt;&lt; (p5 == p5_copy ? <span class="stringliteral">&quot;true&quot;</span> : <span class="stringliteral">&quot;false&quot;</span>) &lt;&lt; <span class="stringliteral">&quot;（预期true）&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;  Card_5 != Card_6: &quot;</span> &lt;&lt; (p5 != p6 ? <span class="stringliteral">&quot;true&quot;</span> : <span class="stringliteral">&quot;false&quot;</span>) &lt;&lt; <span class="stringliteral">&quot;（预期true）&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordtype">bool</span> cmp_all_ok = gt_ok &amp;&amp; ge_ok &amp;&amp; le_ok &amp;&amp; eq_ok &amp;&amp; ne_ok;</div>
+<div class="line">    <span class="keywordflow">if</span> (cmp_all_ok)</div>
+<div class="line">    {</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;  ✅ 所有比较运算符测试通过&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">else</span></div>
+<div class="line">    {</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;  ❌ 部分比较运算符测试失败&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试7：减法运算符 -（枚举 - 整数偏移）</span></div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\n【测试7】减法运算符 -（Card_7 - 2）&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    CardPoint p_sub = CardPoint::Card_7 - 2;</div>
+<div class="line">    print_enum(<span class="stringliteral">&quot;Card_7 - 2 (预期Card_5)&quot;</span>, p_sub);</div>
+<div class="line">    <span class="keywordflow">if</span> (<span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(p_sub) == <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(CardPoint::Card_5))</div>
+<div class="line">    {</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;  ✅ 减法运算符测试通过&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">else</span></div>
+<div class="line">    {</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;  ❌ 减法运算符测试失败&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试8：赋值减法 -= 运算符</span></div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\n【测试8】赋值减法 -= 运算符（Card_8 -= 3）&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    CardPoint p_sub_eq = CardPoint::Card_8;</div>
+<div class="line">    p_sub_eq -= 3;</div>
+<div class="line">    print_enum(<span class="stringliteral">&quot;Card_8 -= 3 (预期Card_5)&quot;</span>, p_sub_eq);</div>
+<div class="line">    <span class="keywordflow">if</span> (<span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(p_sub_eq) == <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(CardPoint::Card_5))</div>
+<div class="line">    {</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;  ✅ 赋值减法运算符测试通过&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">else</span></div>
+<div class="line">    {</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;  ❌ 赋值减法运算符测试失败&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\n=====================================&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;所有测试完成&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;=====================================&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+<div class="ttc" id="anamespaceol_html"><div class="ttname"><a href="namespaceol.html">ol</a></div><div class="ttdef"><b>定义</b> ol_sort_base.h:20</div></div>
+<div class="ttc" id="aol__enum__char__ops_8h_html"><div class="ttname"><a href="ol__enum__char__ops_8h.html">ol_enum_char_ops.h</a></div></div>
+</div><!-- fragment --> </div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

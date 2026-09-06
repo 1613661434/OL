@@ -27,7 +27,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
   <td id="projectalign">
-   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
    </div>
    <div id="projectbrief">This is a C++ library.</div>
   </td>
@@ -94,6 +94,9 @@ $(function(){initNavTree('classol_1_1spin__mutex.html','','classol_1_1spin__mute
 </div><!--header-->
 <div class="contents">
 
+<p>不可重入自旋锁  
+ <a href="#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="ol__mutex_8h_source.html">ol_mutex.h</a>&gt;</code></p>
 <div class="dynheader">
 类 ol::spin_mutex 继承关系图:</div>
@@ -101,21 +104,29 @@ $(function(){initNavTree('classol_1_1spin__mutex.html','','classol_1_1spin__mute
  <div class="center">
   <img src="classol_1_1spin__mutex.png" usemap="#ol_3A_3Aspin_5Fmutex_map" alt=""/>
   <map id="ol_3A_3Aspin_5Fmutex_map" name="ol_3A_3Aspin_5Fmutex_map">
-<area href="classol_1_1_type_non_copyable_movable.html" alt="ol::TypeNonCopyableMovable" shape="rect" coords="96,56,278,80"/>
-<area href="classol_1_1_type_non_copyable.html" alt="ol::TypeNonCopyable" shape="rect" coords="0,0,182,24"/>
-<area href="classol_1_1_type_non_movable.html" alt="ol::TypeNonMovable" shape="rect" coords="192,0,374,24"/>
+<area href="classol_1_1_type_non_copyable_movable.html" title="不可拷贝且不可移动标记类（TypeNonCopyable + TypeNonMovable的组合）" alt="ol::TypeNonCopyableMovable" shape="rect" coords="96,56,278,80"/>
+<area href="classol_1_1_type_non_copyable.html" title="不可拷贝标记类，继承此类的派生类将禁用拷贝构造和拷贝赋值" alt="ol::TypeNonCopyable" shape="rect" coords="0,0,182,24"/>
+<area href="classol_1_1_type_non_movable.html" title="不可移动标记类，继承此类的派生类将禁用移动构造和移动赋值" alt="ol::TypeNonMovable" shape="rect" coords="192,0,374,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
-<tr class="memitem:a56ce47f6bfe8a9753f4adf62cd872e7d" id="r_a56ce47f6bfe8a9753f4adf62cd872e7d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a56ce47f6bfe8a9753f4adf62cd872e7d">spin_mutex</a> ()</td></tr>
-<tr class="memitem:ac0141ed27d7e8b40e6575d71e2a6edb4" id="r_ac0141ed27d7e8b40e6575d71e2a6edb4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac0141ed27d7e8b40e6575d71e2a6edb4">lock</a> ()</td></tr>
-<tr class="memitem:a9557f892431a8170afa60c718bedaab3" id="r_a9557f892431a8170afa60c718bedaab3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9557f892431a8170afa60c718bedaab3">unlock</a> ()</td></tr>
+<tr class="memitem:af2b141fa53056fdc12faa28f4b9c6357" id="r_af2b141fa53056fdc12faa28f4b9c6357"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af2b141fa53056fdc12faa28f4b9c6357">spin_mutex</a> () noexcept=default</td></tr>
+<tr class="memdesc:af2b141fa53056fdc12faa28f4b9c6357"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数，初始化原子标志为未锁定状态  <br /></td></tr>
+<tr class="memitem:aa4a694d682837d86d70ac2c80d2f05c4" id="r_aa4a694d682837d86d70ac2c80d2f05c4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa4a694d682837d86d70ac2c80d2f05c4">~spin_mutex</a> () noexcept=default</td></tr>
+<tr class="memdesc:aa4a694d682837d86d70ac2c80d2f05c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数，确保锁未被持有（用户需保证解锁后销毁）  <br /></td></tr>
+<tr class="memitem:a34093b92923fdd880f119b8e60ca06c6" id="r_a34093b92923fdd880f119b8e60ca06c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a34093b92923fdd880f119b8e60ca06c6">lock</a> () noexcept</td></tr>
+<tr class="memdesc:a34093b92923fdd880f119b8e60ca06c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">加锁操作，自旋等待直到获取锁  <br /></td></tr>
+<tr class="memitem:a750333f7c4a42442f89e6e380b884316" id="r_a750333f7c4a42442f89e6e380b884316"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a750333f7c4a42442f89e6e380b884316">try_lock</a> () noexcept</td></tr>
+<tr class="memdesc:a750333f7c4a42442f89e6e380b884316"><td class="mdescLeft">&#160;</td><td class="mdescRight">尝试加锁操作，无阻塞，立即返回结果  <br /></td></tr>
+<tr class="memitem:aacfdbea003e964f8314dbc6159d70efb" id="r_aacfdbea003e964f8314dbc6159d70efb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aacfdbea003e964f8314dbc6159d70efb">unlock</a> () noexcept</td></tr>
+<tr class="memdesc:aacfdbea003e964f8314dbc6159d70efb"><td class="mdescLeft">&#160;</td><td class="mdescRight">解锁操作，释放锁允许其他线程竞争  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private 属性</h2></td></tr>
-<tr class="memitem:a915473acd6ae00b5c011d2de151879c8" id="r_a915473acd6ae00b5c011d2de151879c8"><td class="memItemLeft" align="right" valign="top">std::atomic_flag&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a915473acd6ae00b5c011d2de151879c8">flag</a></td></tr>
+<tr class="memitem:a915473acd6ae00b5c011d2de151879c8" id="r_a915473acd6ae00b5c011d2de151879c8"><td class="memItemLeft" align="right" valign="top">std::atomic_flag&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a915473acd6ae00b5c011d2de151879c8">flag</a> = ATOMIC_FLAG_INIT</td></tr>
+<tr class="memdesc:a915473acd6ae00b5c011d2de151879c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">原子标志位（默认未锁定，C++11 兼容）  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-inherited" class="groupheader"><a id="inherited" name="inherited"></a>
 额外继承的成员函数</h2></td></tr>
@@ -129,9 +140,13 @@ Private 属性</h2></td></tr>
 <tr class="memitem:a935a5fca01f78b7747bc2399c76666ea inherit pro_methods_classol_1_1_type_non_movable" id="r_a935a5fca01f78b7747bc2399c76666ea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_movable.html#a935a5fca01f78b7747bc2399c76666ea">TypeNonMovable</a> ()=default</td></tr>
 <tr class="memitem:a00ff9a5d4fde1ba3772b5daebfa0409f inherit pro_methods_classol_1_1_type_non_movable" id="r_a00ff9a5d4fde1ba3772b5daebfa0409f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_type_non_movable.html#a00ff9a5d4fde1ba3772b5daebfa0409f">~TypeNonMovable</a> ()=default</td></tr>
 </table>
-<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
-<a id="a56ce47f6bfe8a9753f4adf62cd872e7d" name="a56ce47f6bfe8a9753f4adf62cd872e7d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a56ce47f6bfe8a9753f4adf62cd872e7d">&#9670;&#160;</a></span>spin_mutex()</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">详细描述</h2>
+<div class="textblock"><p>不可重入自旋锁 </p>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol_mutex_8cpp-example.html#_a0">test_ol_mutex.cpp</a>.</dd>
+</dl>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
+<a id="af2b141fa53056fdc12faa28f4b9c6357" name="af2b141fa53056fdc12faa28f4b9c6357"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2b141fa53056fdc12faa28f4b9c6357">&#9670;&#160;</a></span>spin_mutex()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -148,16 +163,45 @@ Private 属性</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel default">default</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p>构造函数，初始化原子标志为未锁定状态 </p>
+
+</div>
+</div>
+<a id="aa4a694d682837d86d70ac2c80d2f05c4" name="aa4a694d682837d86d70ac2c80d2f05c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4a694d682837d86d70ac2c80d2f05c4">&#9670;&#160;</a></span>~spin_mutex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ol::spin_mutex::~spin_mutex </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel default">default</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>析构函数，确保锁未被持有（用户需保证解锁后销毁） </p>
+
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">成员函数说明</h2>
-<a id="ac0141ed27d7e8b40e6575d71e2a6edb4" name="ac0141ed27d7e8b40e6575d71e2a6edb4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac0141ed27d7e8b40e6575d71e2a6edb4">&#9670;&#160;</a></span>lock()</h2>
+<a id="a34093b92923fdd880f119b8e60ca06c6" name="a34093b92923fdd880f119b8e60ca06c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34093b92923fdd880f119b8e60ca06c6">&#9670;&#160;</a></span>lock()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -174,15 +218,47 @@ Private 属性</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p>加锁操作，自旋等待直到获取锁 </p>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol_mutex_8cpp-example.html#a2">test_ol_mutex.cpp</a>.</dd>
+</dl>
+
 </div>
 </div>
-<a id="a9557f892431a8170afa60c718bedaab3" name="a9557f892431a8170afa60c718bedaab3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9557f892431a8170afa60c718bedaab3">&#9670;&#160;</a></span>unlock()</h2>
+<a id="a750333f7c4a42442f89e6e380b884316" name="a750333f7c4a42442f89e6e380b884316"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a750333f7c4a42442f89e6e380b884316">&#9670;&#160;</a></span>try_lock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ol::spin_mutex::try_lock </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>尝试加锁操作，无阻塞，立即返回结果 </p>
+<dl class="section return"><dt>返回</dt><dd>true-加锁成功，false-加锁失败（锁已被其他线程持有） </dd></dl>
+
+</div>
+</div>
+<a id="aacfdbea003e964f8314dbc6159d70efb" name="aacfdbea003e964f8314dbc6159d70efb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacfdbea003e964f8314dbc6159d70efb">&#9670;&#160;</a></span>unlock()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -199,10 +275,12 @@ Private 属性</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>解锁操作，释放锁允许其他线程竞争 </p>
 
 </div>
 </div>
@@ -217,7 +295,7 @@ Private 属性</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::atomic_flag ol::spin_mutex::flag</td>
+          <td class="memname">std::atomic_flag ol::spin_mutex::flag = ATOMIC_FLAG_INIT</td>
         </tr>
       </table>
   </td>
@@ -227,10 +305,12 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>原子标志位（默认未锁定，C++11 兼容） </p>
+
 </div>
 </div>
 <hr/>该类的文档由以下文件生成:<ul>
-<li>ollib/include/<a class="el" href="ol__mutex_8h_source.html">ol_mutex.h</a></li>
+<li>ol_core/include/<a class="el" href="ol__mutex_8h_source.html">ol_mutex.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

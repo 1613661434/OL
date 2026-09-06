@@ -3,6 +3,7 @@ var ol__fstream_8cpp =
     [ "ol::ACCESS", "namespaceol.html#ac7f241e197b4aee31bccfa11bc58d5d3", null ],
     [ "ol::clearbuf", "namespaceol.html#a8b8a16c2b2b49e295d7299a8922eb40e", null ],
     [ "ol::copyfile", "namespaceol.html#aba683542bcc3658cee4ba7a7dc5f5455", null ],
+    [ "ol::fileExists", "namespaceol.html#a1fb48da1bd410c5db4dec6370e1738b7", null ],
     [ "ol::filemtime", "namespaceol.html#ad40bbc392d95b486ce6ea0dc229ed00b", null ],
     [ "ol::filemtime", "namespaceol.html#ab3e74e09a9d9b181d71bda70bbe4eeaa", null ],
     [ "ol::filesize", "namespaceol.html#a9678bc0f8ed0f972cf1948293d920372", null ],

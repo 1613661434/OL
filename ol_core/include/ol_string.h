@@ -188,13 +188,18 @@ namespace ol
     // ===========================================================================
     /**
      * @brief 解析XML格式字符串，提取指定标签的内容并转换为目标类型
-     * @param xmlStr 待解析的XML格式字符串（如"<tag>value</tag>..."）
-     * @param tag 要提取的字段标签名（如"filename"对应<filename>标签）
+     * @param xmlStr 待解析的XML格式字符串（如 @c \<tag\>value\</tag\>...）
+     * @param tag 要提取的字段标签名（如 @c filename 对应 @c \<filename\> 标签）
      * @param value 存储结果的变量引用/指针
      * @param len 仅字符串类型有效，指定内容最大长度（默认0表示不限长度）
      * @return true-成功（标签存在且转换成功），false-失败（标签不存在或转换失败）
      * @note 当value为char[]时，需保证数组内存充足，避免溢出
-     * @example <filename>/tmp/_public.h</filename><mtime>2020-01-01 12:20:35</mtime><size>18348</size>
+     * @par XML内容示例
+     * @code{.xml}
+     * <filename>/tmp/_public.h</filename>
+     * <mtime>2020-01-01 12:20:35</mtime>
+     * <size>18348</size>
+     * @endcode
      */
     bool getByXml(const std::string& xmlStr, const std::string& tag, std::string& value, const size_t len = 0); // 提取为std::string
     bool getByXml(const std::string& xmlStr, const std::string& tag, char* value, const size_t len = 0);        // 提取为C字符串（自动添加'\0'）

@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: test_fifo_sender.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('test_fifo_sender_8cpp-example.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">test_fifo_sender.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment"> * 程序名：test_fifo_sender.cpp，命名管道的发送端</span></div>
+<div class="line"><span class="comment"> * 作者：ol</span></div>
+<div class="line"><span class="comment"> * 功能：创建命名管道并向其写入数据（仅支持Linux）</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#if !defined(__unix__)</span></div>
+<div class="line"><span class="preprocessor">#error &quot;仅支持Linux平台，不支持当前系统！&quot;</span></div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#include &lt;fcntl.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;string.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;sys/stat.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;unistd.h&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#define FIFO_PATH &quot;/tmp/my_fifo&quot; </span><span class="comment">// 命名管道的路径</span></div>
+<div class="line"><span class="preprocessor">#define BUFFER_SIZE 1024         </span><span class="comment">// 缓冲区大小</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// # 主函数</span></div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">    <span class="comment">// 1. 创建命名管道</span></div>
+<div class="line">    <span class="comment">// 0666表示读写权限，S_IFIFO表示创建FIFO文件</span></div>
+<div class="line">    <span class="keywordflow">if</span> (mkfifo(FIFO_PATH, 0666) == -1)</div>
+<div class="line">    {</div>
+<div class="line">        perror(<span class="stringliteral">&quot;mkfifo() failed&quot;</span>);</div>
+<div class="line">        exit(EXIT_FAILURE);</div>
+<div class="line">    }</div>
+<div class="line">    printf(<span class="stringliteral">&quot;命名管道创建成功: %s\n&quot;</span>, FIFO_PATH);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 2. 打开命名管道（写方式）</span></div>
+<div class="line">    <span class="comment">// 注意：如果没有进程以读方式打开，open会阻塞直到有读进程连接</span></div>
+<div class="line">    <span class="keywordtype">int</span> fd = open(FIFO_PATH, O_WRONLY);</div>
+<div class="line">    <span class="keywordflow">if</span> (fd == -1)</div>
+<div class="line">    {</div>
+<div class="line">        perror(<span class="stringliteral">&quot;open() failed&quot;</span>);</div>
+<div class="line">        exit(EXIT_FAILURE);</div>
+<div class="line">    }</div>
+<div class="line">    printf(<span class="stringliteral">&quot;已打开命名管道，准备发送数据...\n&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 3. 向管道发送数据</span></div>
+<div class="line">    <span class="keywordtype">char</span> buffer[BUFFER_SIZE];</div>
+<div class="line">    <span class="keywordflow">while</span> (1)</div>
+<div class="line">    {</div>
+<div class="line">        printf(<span class="stringliteral">&quot;请输入要发送的消息(输入&#39;quit&#39;退出): &quot;</span>);</div>
+<div class="line">        fflush(stdout); <span class="comment">// 刷新标准输出，确保提示信息显示</span></div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 读取用户输入</span></div>
+<div class="line">        <span class="keywordflow">if</span> (fgets(buffer, BUFFER_SIZE, stdin) == NULL)</div>
+<div class="line">        {</div>
+<div class="line">            perror(<span class="stringliteral">&quot;fgets() failed&quot;</span>);</div>
+<div class="line">            <span class="keywordflow">break</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 移除输入中的换行符</span></div>
+<div class="line">        buffer[strcspn(buffer, <span class="stringliteral">&quot;\n&quot;</span>)] = <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 检查是否退出</span></div>
+<div class="line">        <span class="keywordflow">if</span> (strcmp(buffer, <span class="stringliteral">&quot;quit&quot;</span>) == 0)</div>
+<div class="line">        {</div>
+<div class="line">            <span class="keywordflow">break</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 写入管道</span></div>
+<div class="line">        ssize_t bytes_written = write(fd, buffer, strlen(buffer) + 1);</div>
+<div class="line">        <span class="keywordflow">if</span> (bytes_written == -1)</div>
+<div class="line">        {</div>
+<div class="line">            perror(<span class="stringliteral">&quot;write() failed&quot;</span>);</div>
+<div class="line">            <span class="keywordflow">break</span>;</div>
+<div class="line">        }</div>
+<div class="line">        printf(<span class="stringliteral">&quot;已发送 %zd 字节: %s\n&quot;</span>, bytes_written, buffer);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 4. 关闭并删除命名管道</span></div>
+<div class="line">    close(fd);</div>
+<div class="line">    unlink(FIFO_PATH); <span class="comment">// 删除FIFO文件</span></div>
+<div class="line">    printf(<span class="stringliteral">&quot;通信结束，已删除命名管道\n&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+</div><!-- fragment --> </div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

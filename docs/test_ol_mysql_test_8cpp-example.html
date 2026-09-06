@@ -1,0 +1,468 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: test_ol_mysql_test.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('test_ol_mysql_test_8cpp-example.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">test_ol_mysql_test.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><span class="comment">/****************************************************************************************/</span></div>
+<div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment"> * 程序名：ol_mysql_test.cpp</span></div>
+<div class="line"><span class="comment"> * 功能描述：MySQL连接池综合测试用例，测试内容包括：</span></div>
+<div class="line"><span class="comment"> *          - 单连接基础操作（连接、增删改查、事务）</span></div>
+<div class="line"><span class="comment"> *          - 预处理语句（绑定参数、执行、结果集）</span></div>
+<div class="line"><span class="comment"> *          - 生产级连接池（多线程、阻塞获取、自动重连、连接复用）</span></div>
+<div class="line"><span class="comment"> *          - 测试环境自动清理</span></div>
+<div class="line"><span class="comment"> * 作者：ol</span></div>
+<div class="line"><span class="comment"> * 适用标准：C++17及以上</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"><span class="comment">/****************************************************************************************/</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol__mysql_8h.html">ol_mysql.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol__database_8h.html">ol_database.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;thread&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;cstdio&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;cstring&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 全局测试配置</span></div>
+<div class="line"><span class="keyword">const</span> std::string MYSQL_CONN_STR = <span class="stringliteral">&quot;root:0088@127.0.0.1:3306/testdb&quot;</span>;</div>
+<div class="line"><span class="keyword">const</span> std::string MYSQL_CHARSET = <span class="stringliteral">&quot;utf8mb4&quot;</span>;</div>
+<div class="line"><span class="keyword">const</span> <span class="keywordtype">size_t</span> MAX_CONN = 5;          </div>
+<div class="line"><span class="keyword">const</span> <span class="keywordtype">size_t</span> THREAD_TEST_COUNT = 3; </div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">void</span> printTestResult(<span class="keyword">const</span> std::string&amp; testName, <span class="keywordtype">bool</span> success)</div>
+<div class="line">{</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; (success ? <span class="stringliteral">&quot;PASS&quot;</span> : <span class="stringliteral">&quot;FAIL&quot;</span>) &lt;&lt; <span class="stringliteral">&quot;] &quot;</span> &lt;&lt; testName &lt;&lt; std::endl;</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">bool</span> testSingleDBConn()</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordflow">try</span></div>
+<div class="line">    {</div>
+<div class="line">        <a id="_a0" name="_a0"></a><a class="code hl_class" href="classol_1_1mysql_1_1_d_b_conn.html">ol::mysql::DBConn</a> conn;</div>
+<div class="line">        <span class="comment">// 配置连接参数</span></div>
+<div class="line">        conn.<a id="a1" name="a1"></a><a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#a54b0466dd3f307bac3261bfe9225f09e">setConnectParam</a>(MYSQL_CONN_STR, MYSQL_CHARSET, <span class="keyword">true</span>);</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 1. 测试连接</span></div>
+<div class="line">        <span class="keywordflow">if</span> (!conn.<a id="a2" name="a2"></a><a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#a3c18b0ab499a9acb14c0b77b32e4ed2d">connect</a>())</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;连接失败: &quot;</span> &lt;&lt; conn.<a id="a3" name="a3"></a><a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#ad907a0ff709d5c09685ab2a76e26dee0">errorMsg</a>() &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">if</span> (!conn.<a id="a4" name="a4"></a><a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#a1fe33edf3740a1f221329607db148fa8">isConnected</a>())</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;连接状态检测失败&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 2. 测试执行SQL（创建测试表）</span></div>
+<div class="line">        <span class="keywordtype">int</span> ret = conn.<a id="a5" name="a5"></a><a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#ae475137773b3e0bd04676eded3e2c1ab">execute</a>(</div>
+<div class="line">            <span class="stringliteral">&quot;CREATE TABLE IF NOT EXISTS test_pool_table (&quot;</span></div>
+<div class="line">            <span class="stringliteral">&quot;id INT PRIMARY KEY AUTO_INCREMENT, &quot;</span></div>
+<div class="line">            <span class="stringliteral">&quot;name VARCHAR(50) NOT NULL, &quot;</span></div>
+<div class="line">            <span class="stringliteral">&quot;age INT DEFAULT 0, &quot;</span></div>
+<div class="line">            <span class="stringliteral">&quot;create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP&quot;</span></div>
+<div class="line">            <span class="stringliteral">&quot;) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;&quot;</span>);</div>
+<div class="line">        <span class="keywordflow">if</span> (ret != 0)</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;创建表失败: &quot;</span> &lt;&lt; conn.<a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#ad907a0ff709d5c09685ab2a76e26dee0">errorMsg</a>() &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 3. 测试插入数据</span></div>
+<div class="line">        ret = conn.<a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#ae475137773b3e0bd04676eded3e2c1ab">execute</a>(<span class="stringliteral">&quot;INSERT INTO test_pool_table (name, age) VALUES (&#39;test_user1&#39;, 20);&quot;</span>);</div>
+<div class="line">        <span class="keywordflow">if</span> (ret != 0 || conn.<a id="a6" name="a6"></a><a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#a624a6c80ba357a2bf812f2c574cf48e4">affectedRows</a>() != 1)</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;插入数据失败: &quot;</span> &lt;&lt; conn.<a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#ad907a0ff709d5c09685ab2a76e26dee0">errorMsg</a>() &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 4. 测试事务回滚</span></div>
+<div class="line">        <span class="keywordflow">if</span> (!conn.<a id="a7" name="a7"></a><a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#aaa672e0d597e5ee41a9809caf1650b20">beginTransaction</a>())</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;开启事务失败: &quot;</span> &lt;&lt; conn.<a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#ad907a0ff709d5c09685ab2a76e26dee0">errorMsg</a>() &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line">        ret = conn.<a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#ae475137773b3e0bd04676eded3e2c1ab">execute</a>(<span class="stringliteral">&quot;INSERT INTO test_pool_table (name, age) VALUES (&#39;test_rollback&#39;, 30);&quot;</span>);</div>
+<div class="line">        <span class="keywordflow">if</span> (ret != 0)</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;事务插入失败: &quot;</span> &lt;&lt; conn.<a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#ad907a0ff709d5c09685ab2a76e26dee0">errorMsg</a>() &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line">        conn.<a id="a8" name="a8"></a><a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#aeb67d2ee540cd4170628f7967c33f317">rollback</a>();</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 5. 测试删除测试数据</span></div>
+<div class="line">        ret = conn.<a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#ae475137773b3e0bd04676eded3e2c1ab">execute</a>(<span class="stringliteral">&quot;DELETE FROM test_pool_table WHERE name = &#39;test_user1&#39;;&quot;</span>);</div>
+<div class="line">        <span class="keywordflow">if</span> (ret != 0)</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;删除数据失败: &quot;</span> &lt;&lt; conn.<a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#ad907a0ff709d5c09685ab2a76e26dee0">errorMsg</a>() &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 6. 断开连接</span></div>
+<div class="line">        conn.<a id="a9" name="a9"></a><a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#a5c51f94a9c510b7663fbf01ab81e36c7">disconnect</a>();</div>
+<div class="line">        <span class="keywordflow">if</span> (conn.<a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#a1fe33edf3740a1f221329607db148fa8">isConnected</a>())</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;断开连接失败&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e)</div>
+<div class="line">    {</div>
+<div class="line">        std::cerr &lt;&lt; <span class="stringliteral">&quot;单连接测试异常: &quot;</span> &lt;&lt; e.what() &lt;&lt; std::endl;</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">bool</span> testDBStmt(<a class="code hl_class" href="classol_1_1mysql_1_1_d_b_conn.html">ol::mysql::DBConn</a>&amp; conn)</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordflow">try</span></div>
+<div class="line">    {</div>
+<div class="line">        <span class="comment">// 1. 创建预处理语句对象</span></div>
+<div class="line">        <span class="keyword">auto</span> stmt = conn.<a id="a10" name="a10"></a><a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#af89748c4196f95ba167a2c832f9deb82">createStmt</a>();</div>
+<div class="line">        <span class="keywordflow">if</span> (!stmt)</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;创建预处理语句失败&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 2. 预处理插入SQL</span></div>
+<div class="line">        <span class="keyword">const</span> <span class="keywordtype">char</span>* insertSql = <span class="stringliteral">&quot;INSERT INTO test_pool_table (name, age) VALUES (?, ?);&quot;</span>;</div>
+<div class="line">        <span class="keywordflow">if</span> (!stmt-&gt;prepare(insertSql))</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;预处理SQL失败: &quot;</span> &lt;&lt; stmt-&gt;errorMsg() &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 3. 绑定输入参数</span></div>
+<div class="line">        <span class="keywordtype">char</span>* name = <span class="stringliteral">&quot;stmt_test&quot;</span>;</div>
+<div class="line">        <span class="keywordtype">int</span> name_len = strlen(name);</div>
+<div class="line">        <span class="keywordtype">int</span> age = 25;</div>
+<div class="line">        <span class="keywordflow">if</span> (stmt-&gt;bindin(1, name, name_len) != 0 || stmt-&gt;bindin(2, age) != 0)</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;绑定参数失败: &quot;</span> &lt;&lt; stmt-&gt;errorMsg() &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 4. 执行预处理语句</span></div>
+<div class="line">        <span class="keywordflow">if</span> (!stmt-&gt;execute())</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;执行预处理语句失败: &quot;</span> &lt;&lt; stmt-&gt;errorMsg() &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">if</span> (stmt-&gt;affectedRows() != 1)</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;预处理插入影响行数错误&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 5. 预处理查询</span></div>
+<div class="line">        <span class="keyword">auto</span> queryStmt = conn.<a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#af89748c4196f95ba167a2c832f9deb82">createStmt</a>();</div>
+<div class="line">        <span class="keyword">const</span> <span class="keywordtype">char</span>* querySql = <span class="stringliteral">&quot;SELECT age FROM test_pool_table WHERE name = ?;&quot;</span>;</div>
+<div class="line">        <span class="keywordflow">if</span> (!queryStmt-&gt;prepare(querySql))</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;预处理查询SQL失败: &quot;</span> &lt;&lt; queryStmt-&gt;errorMsg() &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="keywordflow">if</span> (queryStmt-&gt;bindin(1, name, name_len) != 0)</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;绑定查询参数失败: &quot;</span> &lt;&lt; queryStmt-&gt;errorMsg() &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 6. 绑定输出参数</span></div>
+<div class="line">        <span class="keywordtype">int</span> resAge = 0;</div>
+<div class="line">        <span class="keywordflow">if</span> (queryStmt-&gt;bindout(1, resAge) != 0)</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;绑定输出参数失败: &quot;</span> &lt;&lt; queryStmt-&gt;errorMsg() &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="keywordflow">if</span> (!queryStmt-&gt;execute())</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;执行查询失败: &quot;</span> &lt;&lt; queryStmt-&gt;errorMsg() &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="keywordflow">if</span> (queryStmt-&gt;next() != 0)</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;获取查询结果失败&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">if</span> (resAge != 25)</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;查询结果错误，预期25，实际&quot;</span> &lt;&lt; resAge &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 清理测试数据</span></div>
+<div class="line">        conn.<a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#ae475137773b3e0bd04676eded3e2c1ab">execute</a>(<span class="stringliteral">&quot;DELETE FROM test_pool_table WHERE name = &#39;stmt_test&#39;;&quot;</span>);</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e)</div>
+<div class="line">    {</div>
+<div class="line">        std::cerr &lt;&lt; <span class="stringliteral">&quot;预处理语句测试异常: &quot;</span> &lt;&lt; e.what() &lt;&lt; std::endl;</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">bool</span> testDBPool()</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordflow">try</span></div>
+<div class="line">    {</div>
+<div class="line">        <span class="comment">// ===================== 适配单例模式：获取全局唯一连接池 =====================</span></div>
+<div class="line">        <span class="keyword">auto</span>&amp; pool = <a id="a11" name="a11"></a><a class="code hl_function" href="classol_1_1_type_singleton.html#a5e2d1fea3649b75a70f1486ddfecd155">ol::DBPool&lt;ol::mysql::DBConn&gt;::GetInst</a>();</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 初始化连接池</span></div>
+<div class="line">        pool.init(</div>
+<div class="line">            MAX_CONN,</div>
+<div class="line">            [&amp;](<a class="code hl_class" href="classol_1_1mysql_1_1_d_b_conn.html">ol::mysql::DBConn</a>&amp; conn)</div>
+<div class="line">            {</div>
+<div class="line">                conn.<a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#a54b0466dd3f307bac3261bfe9225f09e">setConnectParam</a>(MYSQL_CONN_STR, MYSQL_CHARSET, <span class="keyword">true</span>);</div>
+<div class="line">            });</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 检查初始空闲连接数</span></div>
+<div class="line">        <span class="keywordtype">size_t</span> initIdle = pool.idle();</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;初始空闲连接数: &quot;</span> &lt;&lt; initIdle &lt;&lt; std::endl;</div>
+<div class="line">        <span class="keywordflow">if</span> (initIdle == 0)</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;连接池初始化失败，无可用连接&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 阻塞获取连接</span></div>
+<div class="line">        <span class="keyword">auto</span> conn1 = pool.get();</div>
+<div class="line">        <span class="keywordflow">if</span> (!conn1)</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;获取第一个连接失败&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 执行预处理语句测试</span></div>
+<div class="line">        <span class="keywordflow">if</span> (!testDBStmt(*conn1))</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;连接池连接执行预处理语句失败&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 释放连接回池</span></div>
+<div class="line">        pool.release(conn1);</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 多线程并发测试连接池</span></div>
+<div class="line">        <span class="keywordtype">bool</span> threadTestSuccess = <span class="keyword">true</span>;</div>
+<div class="line">        <span class="keyword">auto</span> threadFunc = [&amp;](<span class="keywordtype">int</span> threadId)</div>
+<div class="line">        {</div>
+<div class="line">            <span class="keywordflow">try</span></div>
+<div class="line">            {</div>
+<div class="line">                <span class="comment">// 超时获取连接（默认3秒，生产环境推荐）</span></div>
+<div class="line">                <span class="keyword">auto</span> conn = pool.getTimeout();</div>
+<div class="line">                <span class="keywordflow">if</span> (!conn)</div>
+<div class="line">                {</div>
+<div class="line">                    std::cerr &lt;&lt; <span class="stringliteral">&quot;线程&quot;</span> &lt;&lt; threadId &lt;&lt; <span class="stringliteral">&quot;获取连接超时/失败&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">                    threadTestSuccess = <span class="keyword">false</span>;</div>
+<div class="line">                    <span class="keywordflow">return</span>;</div>
+<div class="line">                }</div>
+<div class="line">                <span class="comment">// 模拟业务逻辑执行</span></div>
+<div class="line">                std::this_thread::sleep_for(std::chrono::milliseconds(100));</div>
+<div class="line">                conn-&gt;<a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#ae475137773b3e0bd04676eded3e2c1ab">execute</a>(<span class="stringliteral">&quot;SELECT 1;&quot;</span>);</div>
+<div class="line">                <span class="comment">// 释放连接</span></div>
+<div class="line">                pool.release(conn);</div>
+<div class="line">            }</div>
+<div class="line">            <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e)</div>
+<div class="line">            {</div>
+<div class="line">                std::cerr &lt;&lt; <span class="stringliteral">&quot;线程&quot;</span> &lt;&lt; threadId &lt;&lt; <span class="stringliteral">&quot;异常: &quot;</span> &lt;&lt; e.what() &lt;&lt; std::endl;</div>
+<div class="line">                threadTestSuccess = <span class="keyword">false</span>;</div>
+<div class="line">            }</div>
+<div class="line">        };</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 启动多线程测试</span></div>
+<div class="line">        std::vector&lt;std::thread&gt; threads;</div>
+<div class="line">        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 1; i &lt;= THREAD_TEST_COUNT; ++i)</div>
+<div class="line">        {</div>
+<div class="line">            threads.emplace_back(threadFunc, i);</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; t : threads)</div>
+<div class="line">        {</div>
+<div class="line">            t.join();</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="keywordflow">if</span> (!threadTestSuccess)</div>
+<div class="line">        {</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// 销毁连接池，释放所有资源</span></div>
+<div class="line">        pool.destroy();</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e)</div>
+<div class="line">    {</div>
+<div class="line">        std::cerr &lt;&lt; <span class="stringliteral">&quot;连接池测试异常: &quot;</span> &lt;&lt; e.what() &lt;&lt; std::endl;</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">bool</span> cleanTestEnv()</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordflow">try</span></div>
+<div class="line">    {</div>
+<div class="line">        <a class="code hl_class" href="classol_1_1mysql_1_1_d_b_conn.html">ol::mysql::DBConn</a> conn;</div>
+<div class="line">        <span class="comment">// 统一连接参数配置</span></div>
+<div class="line">        conn.<a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#a54b0466dd3f307bac3261bfe9225f09e">setConnectParam</a>(MYSQL_CONN_STR, MYSQL_CHARSET, <span class="keyword">true</span>);</div>
+<div class="line">        <span class="keywordflow">if</span> (!conn.<a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#a3c18b0ab499a9acb14c0b77b32e4ed2d">connect</a>())</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;清理环境连接失败: &quot;</span> &lt;&lt; conn.<a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#ad907a0ff709d5c09685ab2a76e26dee0">errorMsg</a>() &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line">        <span class="comment">// 删除测试表</span></div>
+<div class="line">        <span class="keywordtype">int</span> ret = conn.<a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#ae475137773b3e0bd04676eded3e2c1ab">execute</a>(<span class="stringliteral">&quot;DROP TABLE IF EXISTS test_pool_table;&quot;</span>);</div>
+<div class="line">        <span class="keywordflow">if</span> (ret != 0)</div>
+<div class="line">        {</div>
+<div class="line">            std::cerr &lt;&lt; <span class="stringliteral">&quot;删除测试表失败: &quot;</span> &lt;&lt; conn.<a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#ad907a0ff709d5c09685ab2a76e26dee0">errorMsg</a>() &lt;&lt; std::endl;</div>
+<div class="line">            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">        }</div>
+<div class="line">        conn.<a class="code hl_function" href="classol_1_1mysql_1_1_d_b_conn.html#a5c51f94a9c510b7663fbf01ab81e36c7">disconnect</a>();</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e)</div>
+<div class="line">    {</div>
+<div class="line">        std::cerr &lt;&lt; <span class="stringliteral">&quot;清理环境异常: &quot;</span> &lt;&lt; e.what() &lt;&lt; std::endl;</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;==================== MySQL连接池综合测试 ====================&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 顺序执行所有测试用例</span></div>
+<div class="line">    printTestResult(<span class="stringliteral">&quot;单个MySQL连接基本操作&quot;</span>, testSingleDBConn());</div>
+<div class="line">    printTestResult(<span class="stringliteral">&quot;数据库连接池核心功能&quot;</span>, testDBPool());</div>
+<div class="line">    printTestResult(<span class="stringliteral">&quot;清理测试环境&quot;</span>, cleanTestEnv());</div>
+<div class="line"> </div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;============================================================&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;所有测试完成！&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+<div class="ttc" id="aclassol_1_1_type_singleton_html_a5e2d1fea3649b75a70f1486ddfecd155"><div class="ttname"><a href="classol_1_1_type_singleton.html#a5e2d1fea3649b75a70f1486ddfecd155">ol::TypeSingleton&lt; DBPool&lt; T &gt; &gt;::GetInst</a></div><div class="ttdeci">static T &amp; GetInst()</div><div class="ttdef"><b>定义</b> ol_type_traits.h:107</div></div>
+<div class="ttc" id="aclassol_1_1mysql_1_1_d_b_conn_html"><div class="ttname"><a href="classol_1_1mysql_1_1_d_b_conn.html">ol::mysql::DBConn</a></div><div class="ttdoc">MySQL连接实现类</div><div class="ttdef"><b>定义</b> ol_mysql.h:50</div></div>
+<div class="ttc" id="aclassol_1_1mysql_1_1_d_b_conn_html_a1fe33edf3740a1f221329607db148fa8"><div class="ttname"><a href="classol_1_1mysql_1_1_d_b_conn.html#a1fe33edf3740a1f221329607db148fa8">ol::mysql::DBConn::isConnected</a></div><div class="ttdeci">bool isConnected() const override</div><div class="ttdoc">检查连接是否有效</div><div class="ttdef"><b>定义</b> ol_mysql.cpp:98</div></div>
+<div class="ttc" id="aclassol_1_1mysql_1_1_d_b_conn_html_a3c18b0ab499a9acb14c0b77b32e4ed2d"><div class="ttname"><a href="classol_1_1mysql_1_1_d_b_conn.html#a3c18b0ab499a9acb14c0b77b32e4ed2d">ol::mysql::DBConn::connect</a></div><div class="ttdeci">bool connect() override</div><div class="ttdoc">建立数据库连接</div><div class="ttdef"><b>定义</b> ol_mysql.cpp:56</div></div>
+<div class="ttc" id="aclassol_1_1mysql_1_1_d_b_conn_html_a54b0466dd3f307bac3261bfe9225f09e"><div class="ttname"><a href="classol_1_1mysql_1_1_d_b_conn.html#a54b0466dd3f307bac3261bfe9225f09e">ol::mysql::DBConn::setConnectParam</a></div><div class="ttdeci">void setConnectParam(const std::string &amp;connstr, const std::string &amp;charset, bool autocommit=false)</div><div class="ttdoc">设置数据库连接参数</div><div class="ttdef"><b>定义</b> ol_mysql.cpp:49</div></div>
+<div class="ttc" id="aclassol_1_1mysql_1_1_d_b_conn_html_a5c51f94a9c510b7663fbf01ab81e36c7"><div class="ttname"><a href="classol_1_1mysql_1_1_d_b_conn.html#a5c51f94a9c510b7663fbf01ab81e36c7">ol::mysql::DBConn::disconnect</a></div><div class="ttdeci">void disconnect() override</div><div class="ttdoc">断开数据库连接</div><div class="ttdef"><b>定义</b> ol_mysql.cpp:87</div></div>
+<div class="ttc" id="aclassol_1_1mysql_1_1_d_b_conn_html_a624a6c80ba357a2bf812f2c574cf48e4"><div class="ttname"><a href="classol_1_1mysql_1_1_d_b_conn.html#a624a6c80ba357a2bf812f2c574cf48e4">ol::mysql::DBConn::affectedRows</a></div><div class="ttdeci">size_t affectedRows() const</div><div class="ttdoc">获取受影响行数</div><div class="ttdef"><b>定义</b> ol_mysql.cpp:183</div></div>
+<div class="ttc" id="aclassol_1_1mysql_1_1_d_b_conn_html_aaa672e0d597e5ee41a9809caf1650b20"><div class="ttname"><a href="classol_1_1mysql_1_1_d_b_conn.html#aaa672e0d597e5ee41a9809caf1650b20">ol::mysql::DBConn::beginTransaction</a></div><div class="ttdeci">bool beginTransaction()</div><div class="ttdoc">开启事务</div><div class="ttdef"><b>定义</b> ol_mysql.cpp:119</div></div>
+<div class="ttc" id="aclassol_1_1mysql_1_1_d_b_conn_html_ad907a0ff709d5c09685ab2a76e26dee0"><div class="ttname"><a href="classol_1_1mysql_1_1_d_b_conn.html#ad907a0ff709d5c09685ab2a76e26dee0">ol::mysql::DBConn::errorMsg</a></div><div class="ttdeci">std::string errorMsg() const</div><div class="ttdoc">获取错误信息</div><div class="ttdef"><b>定义</b> ol_mysql.cpp:184</div></div>
+<div class="ttc" id="aclassol_1_1mysql_1_1_d_b_conn_html_ae475137773b3e0bd04676eded3e2c1ab"><div class="ttname"><a href="classol_1_1mysql_1_1_d_b_conn.html#ae475137773b3e0bd04676eded3e2c1ab">ol::mysql::DBConn::execute</a></div><div class="ttdeci">int execute(const char *fmt,...)</div><div class="ttdoc">直接执行SQL语句</div><div class="ttdef"><b>定义</b> ol_mysql.cpp:139</div></div>
+<div class="ttc" id="aclassol_1_1mysql_1_1_d_b_conn_html_aeb67d2ee540cd4170628f7967c33f317"><div class="ttname"><a href="classol_1_1mysql_1_1_d_b_conn.html#aeb67d2ee540cd4170628f7967c33f317">ol::mysql::DBConn::rollback</a></div><div class="ttdeci">bool rollback()</div><div class="ttdoc">回滚事务</div><div class="ttdef"><b>定义</b> ol_mysql.cpp:129</div></div>
+<div class="ttc" id="aclassol_1_1mysql_1_1_d_b_conn_html_af89748c4196f95ba167a2c832f9deb82"><div class="ttname"><a href="classol_1_1mysql_1_1_d_b_conn.html#af89748c4196f95ba167a2c832f9deb82">ol::mysql::DBConn::createStmt</a></div><div class="ttdeci">std::unique_ptr&lt; DBStmt &gt; createStmt()</div><div class="ttdoc">创建预处理语句对象</div><div class="ttdef"><b>定义</b> ol_mysql.cpp:134</div></div>
+<div class="ttc" id="aol__database_8h_html"><div class="ttname"><a href="ol__database_8h.html">ol_database.h</a></div></div>
+<div class="ttc" id="aol__mysql_8h_html"><div class="ttname"><a href="ol__mysql_8h.html">ol_mysql.h</a></div></div>
+</div><!-- fragment --> </div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

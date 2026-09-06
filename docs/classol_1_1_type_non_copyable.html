@@ -27,7 +27,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
   <td id="projectalign">
-   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
    </div>
    <div id="projectbrief">This is a C++ library.</div>
   </td>
@@ -94,6 +94,9 @@ $(function(){initNavTree('classol_1_1_type_non_copyable.html','','classol_1_1_ty
 </div><!--header-->
 <div class="contents">
 
+<p>不可拷贝标记类，继承此类的派生类将禁用拷贝构造和拷贝赋值  
+ <a href="#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="ol__type__traits_8h_source.html">ol_type_traits.h</a>&gt;</code></p>
 <div class="dynheader">
 类 ol::TypeNonCopyable 继承关系图:</div>
@@ -101,10 +104,15 @@ $(function(){initNavTree('classol_1_1_type_non_copyable.html','','classol_1_1_ty
  <div class="center">
   <img src="classol_1_1_type_non_copyable.png" usemap="#ol_3A_3ATypeNonCopyable_map" alt=""/>
   <map id="ol_3A_3ATypeNonCopyable_map" name="ol_3A_3ATypeNonCopyable_map">
-<area href="classol_1_1_type_non_copyable_movable.html" alt="ol::TypeNonCopyableMovable" shape="rect" coords="192,56,374,80"/>
-<area href="classol_1_1_thread_pool.html" title="线程池模板类，支持动态/固定两种工作模式" alt="ol::ThreadPool&lt; IsDynamic &gt;" shape="rect" coords="0,112,182,136"/>
-<area href="classol_1_1_type_singleton.html" alt="ol::TypeSingleton&lt; T &gt;" shape="rect" coords="192,112,374,136"/>
-<area href="classol_1_1spin__mutex.html" alt="ol::spin_mutex" shape="rect" coords="384,112,566,136"/>
+<area href="classol_1_1_type_non_copyable_movable.html" title="不可拷贝且不可移动标记类（TypeNonCopyable + TypeNonMovable的组合）" alt="ol::TypeNonCopyableMovable" shape="rect" coords="0,56,205,80"/>
+<area href="classol_1_1_type_singleton.html" alt="ol::TypeSingleton&lt; DBPool&lt; T &gt; &gt;" shape="rect" coords="215,112,420,136"/>
+<area href="classol_1_1_i_d_b_conn.html" title="数据库连接抽象基类" alt="ol::IDBConn" shape="rect" coords="215,168,420,192"/>
+<area href="classol_1_1_thread_pool.html" title="线程池模板类，支持动态/固定两种工作模式" alt="ol::ThreadPool&lt; IsDynamic &gt;" shape="rect" coords="215,224,420,248"/>
+<area href="classol_1_1_type_singleton.html" title="单例类（懒汉模式），提供GetInst()，且不可拷贝不可移动" alt="ol::TypeSingleton&lt; T &gt;" shape="rect" coords="215,280,420,304"/>
+<area href="classol_1_1mysql_1_1_d_b_stmt.html" title="MySQL预处理语句操作类" alt="ol::mysql::DBStmt" shape="rect" coords="215,336,420,360"/>
+<area href="classol_1_1oracle_1_1_d_b_stmt.html" title="Oracle预处理语句操作类" alt="ol::oracle::DBStmt" shape="rect" coords="215,392,420,416"/>
+<area href="classol_1_1recursive__spin__mutex.html" title="可递归自旋锁" alt="ol::recursive_spin_mutex" shape="rect" coords="215,448,420,472"/>
+<area href="classol_1_1spin__mutex.html" title="不可重入自旋锁" alt="ol::spin_mutex" shape="rect" coords="215,504,420,528"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -118,7 +126,13 @@ Private 成员函数</h2></td></tr>
 <tr class="memitem:a5cca67f1b209f78068c286238d738dff" id="r_a5cca67f1b209f78068c286238d738dff"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5cca67f1b209f78068c286238d738dff">TypeNonCopyable</a> (const <a class="el" href="classol_1_1_type_non_copyable.html">TypeNonCopyable</a> &amp;)=delete</td></tr>
 <tr class="memitem:afa45d99fa97a018ad56454f213c0654e" id="r_afa45d99fa97a018ad56454f213c0654e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classol_1_1_type_non_copyable.html">TypeNonCopyable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa45d99fa97a018ad56454f213c0654e">operator=</a> (const <a class="el" href="classol_1_1_type_non_copyable.html">TypeNonCopyable</a> &amp;)=delete</td></tr>
 </table>
-<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">详细描述</h2>
+<div class="textblock"><p>不可拷贝标记类，继承此类的派生类将禁用拷贝构造和拷贝赋值 </p>
+<dl class="section note"><dt>注解</dt><dd>构造函数和析构函数为protected，允许派生类正常构造和析构 </dd></dl>
+<dl class="section user"><dt>使用示例</dt><dd><div class="fragment"><div class="line"><span class="keyword">class </span>MyClass : <span class="keyword">public</span> <a class="code hl_function" href="#a5cca67f1b209f78068c286238d738dff">TypeNonCopyable</a> {};</div>
+<div class="ttc" id="aclassol_1_1_type_non_copyable_html_a5cca67f1b209f78068c286238d738dff"><div class="ttname"><a href="#a5cca67f1b209f78068c286238d738dff">ol::TypeNonCopyable::TypeNonCopyable</a></div><div class="ttdeci">TypeNonCopyable(const TypeNonCopyable &amp;)=delete</div></div>
+</div><!-- fragment --> </dd></dl>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
 <a id="a5cca67f1b209f78068c286238d738dff" name="a5cca67f1b209f78068c286238d738dff"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5cca67f1b209f78068c286238d738dff">&#9670;&#160;</a></span>TypeNonCopyable() <span class="overload">[1/2]</span></h2>
 
@@ -221,7 +235,7 @@ Private 成员函数</h2></td></tr>
 </div>
 </div>
 <hr/>该类的文档由以下文件生成:<ul>
-<li>ollib/include/<a class="el" href="ol__type__traits_8h_source.html">ol_type_traits.h</a></li>
+<li>ol_core/include/<a class="el" href="ol__type__traits_8h_source.html">ol_type_traits.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

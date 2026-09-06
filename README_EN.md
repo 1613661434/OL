@@ -74,6 +74,12 @@ All headers (`.h`) follow the **Doxygen** comment style:
 bool newdir(const std::string& pathorfilename, bool bisfilename = true);
 ```
 
+Regenerate the HTML documentation from the repository root:
+
+```bash
+doxygen doxygen/Doxyfile
+```
+
 ## ⚙️ Requirements
 
 ### Base Requirements
@@ -248,7 +254,11 @@ OL
 ├── README_EN.md              # Project documentation (English)
 ├── LICENSE                   # MIT License
 ├── clang-format.txt          # Code formatting configuration
-├── OL_Doxygen                # Doxygen documentation configuration
+│
+├── doxygen/                  # Doxygen generation resources
+│   ├── Doxyfile             #   Doxygen configuration
+│   ├── DoxygenExamples.dox   #   Test example manifest
+│   └── OL.png                #   Documentation logo
 │
 ├── ol_core/                  # Core utility library (required)
 │   ├── include/              #   Headers (ThreadPool, containers, strings, etc.)
@@ -287,7 +297,7 @@ OL
 │   ├── src/                  #   Sources
 │   └── test/                 #   Playlist tests
 │
-└── docs/                     # Documentation
+└── docs/                     # Generated Doxygen HTML documentation
 ```
 
 ## 📋 ol_core Library Highlights

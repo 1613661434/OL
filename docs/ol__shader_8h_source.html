@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ol_gl/include/ol_shader.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('ol__shader_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ol_shader.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ol__shader_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef OL_SHADER_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define OL_SHADER_H 1</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;glad/glad.h&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;glm/glm.hpp&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;glm/gtc/type_ptr.hpp&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceol.html">ol</a></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>{</div>
+<div class="foldopen" id="foldopen00012" data-start="{" data-end="};">
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="classol_1_1_shader.html">   12</a></span>    <span class="keyword">class </span><a class="code hl_function" href="classol_1_1_shader.html#a939b8da6360f92eb6a43cf2cd9abd9db">Shader</a></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classol_1_1_shader.html#a536ff9c71f8fd637fef4f0514decf82f">   15</a></span>        GLuint <a class="code hl_variable" href="classol_1_1_shader.html#a536ff9c71f8fd637fef4f0514decf82f">m_id</a> = 0;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="comment">// uniform 位置缓存 —— 避免每帧字符串查找</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="classol_1_1_shader.html#a16d323bec8edc8a57233cb73bba5abe9">   17</a></span>        <span class="keyword">mutable</span> std::unordered_map&lt;std::string, GLint&gt; <a class="code hl_variable" href="classol_1_1_shader.html#a16d323bec8edc8a57233cb73bba5abe9">m_uniformCache</a>;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="classol_1_1_shader.html#a939b8da6360f92eb6a43cf2cd9abd9db">   20</a></span>        <a class="code hl_function" href="classol_1_1_shader.html#a939b8da6360f92eb6a43cf2cd9abd9db">Shader</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keyword">explicit</span> <a class="code hl_function" href="classol_1_1_shader.html#a939b8da6360f92eb6a43cf2cd9abd9db">Shader</a>(<span class="keyword">const</span> std::string&amp; vertexPath, <span class="keyword">const</span> std::string&amp; fragmentPath);</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <a class="code hl_function" href="classol_1_1_shader.html#a457d4e1aac468efa963bd19601815374">~Shader</a>();</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="comment">// 禁用拷贝</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="classol_1_1_shader.html#ad0219983cb44f74fe691a8e56d68954e">   25</a></span>        <a class="code hl_function" href="classol_1_1_shader.html#ad0219983cb44f74fe691a8e56d68954e">Shader</a>(<span class="keyword">const</span> <a class="code hl_function" href="classol_1_1_shader.html#a939b8da6360f92eb6a43cf2cd9abd9db">Shader</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="classol_1_1_shader.html#a4724cfdb3e6f41f6afd89ae12866a38e">   26</a></span>        <a class="code hl_function" href="classol_1_1_shader.html#a939b8da6360f92eb6a43cf2cd9abd9db">Shader</a>&amp; <a class="code hl_function" href="classol_1_1_shader.html#a4724cfdb3e6f41f6afd89ae12866a38e">operator=</a>(<span class="keyword">const</span> <a class="code hl_function" href="classol_1_1_shader.html#a939b8da6360f92eb6a43cf2cd9abd9db">Shader</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="comment">// 支持移动</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <a class="code hl_function" href="classol_1_1_shader.html#a939b8da6360f92eb6a43cf2cd9abd9db">Shader</a>(<a class="code hl_function" href="classol_1_1_shader.html#a939b8da6360f92eb6a43cf2cd9abd9db">Shader</a>&amp;&amp; other) <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <a class="code hl_function" href="classol_1_1_shader.html#a939b8da6360f92eb6a43cf2cd9abd9db">Shader</a>&amp; <a class="code hl_function" href="classol_1_1_shader.html#a4724cfdb3e6f41f6afd89ae12866a38e">operator=</a>(<a class="code hl_function" href="classol_1_1_shader.html#a939b8da6360f92eb6a43cf2cd9abd9db">Shader</a>&amp;&amp; other) <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1_shader.html#aab365d25b2c6a25dcb76ed2fef6b000a">loadShader</a>(<span class="keyword">const</span> std::string&amp; vertexPath, <span class="keyword">const</span> std::string&amp; fragmentPath);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1_shader.html#afb65baa5e51fd39fe99a3ea19b5e4185">use</a>() const noexcept;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classol_1_1_shader.html#acb5e5396a54ca290091c2b4f1ebe0e95">   34</a></span>        GLuint <a class="code hl_function" href="classol_1_1_shader.html#acb5e5396a54ca290091c2b4f1ebe0e95">getID</a>() const noexcept { <span class="keywordflow">return</span> <a class="code hl_variable" href="classol_1_1_shader.html#a536ff9c71f8fd637fef4f0514decf82f">m_id</a>; }</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classol_1_1_shader.html#aa745a713014d553307100ced3a8fb70a">   35</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1_shader.html#aa745a713014d553307100ced3a8fb70a">isValid</a>() const noexcept { <span class="keywordflow">return</span> <a class="code hl_variable" href="classol_1_1_shader.html#a536ff9c71f8fd637fef4f0514decf82f">m_id</a> != 0; }</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="comment">// ---- Uniform 设置 ----</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1_shader.html#abc67f406afa4d7bdb2687e962e1042e3">setBool</a>(<span class="keyword">const</span> std::string&amp; name, <span class="keywordtype">bool</span> value) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1_shader.html#ac48d4229f2e45b83d46a2f96866b6a9f">setInt</a>(<span class="keyword">const</span> std::string&amp; name, <span class="keywordtype">int</span> value) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1_shader.html#affca45d3b7833b0b711387a4296aa06c">setFloat</a>(<span class="keyword">const</span> std::string&amp; name, <span class="keywordtype">float</span> value) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1_shader.html#a1cdcd7c754e9f71d81e0b663f21dfffe">setVec2</a>(<span class="keyword">const</span> std::string&amp; name, <span class="keyword">const</span> glm::vec2&amp; value) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1_shader.html#a1cdcd7c754e9f71d81e0b663f21dfffe">setVec2</a>(<span class="keyword">const</span> std::string&amp; name, <span class="keywordtype">float</span> x, <span class="keywordtype">float</span> y) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1_shader.html#add72103810d11809b181a38ccc93b6b2">setVec3</a>(<span class="keyword">const</span> std::string&amp; name, <span class="keyword">const</span> glm::vec3&amp; value) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1_shader.html#add72103810d11809b181a38ccc93b6b2">setVec3</a>(<span class="keyword">const</span> std::string&amp; name, <span class="keywordtype">float</span> x, <span class="keywordtype">float</span> y, <span class="keywordtype">float</span> z) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1_shader.html#a5acf18835e58f3c48fa128ea179fb303">setVec4</a>(<span class="keyword">const</span> std::string&amp; name, <span class="keyword">const</span> glm::vec4&amp; value) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1_shader.html#a5acf18835e58f3c48fa128ea179fb303">setVec4</a>(<span class="keyword">const</span> std::string&amp; name, <span class="keywordtype">float</span> x, <span class="keywordtype">float</span> y,</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                     <span class="keywordtype">float</span> z, <span class="keywordtype">float</span> w) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1_shader.html#a4f5f4a557bd1fb864b4ec6096acc3979">setMat3</a>(<span class="keyword">const</span> std::string&amp; name, <span class="keyword">const</span> glm::mat3&amp; value) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1_shader.html#a6659cfcf7766dfb09712275f551e5d67">setMat4</a>(<span class="keyword">const</span> std::string&amp; name, <span class="keyword">const</span> glm::mat4&amp; value) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        std::string <a class="code hl_function" href="classol_1_1_shader.html#a4b1863f87fae350e2a5859cfa9f68eca">loadSrc</a>(<span class="keyword">const</span> std::string&amp; filePath) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classol_1_1_shader.html#a35523fd9185e456840952404e81a5db2">checkShaderError</a>(GLuint shader, <span class="keywordtype">bool</span> isProgram) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <span class="comment">// 带缓存的 uniform 位置查询</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        GLint <a class="code hl_function" href="classol_1_1_shader.html#a09003a0025c34f8c55388d6d488fc414">getLoc</a>(<span class="keyword">const</span> std::string&amp; name) <span class="keyword">const</span> <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    };</div>
+</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>} <span class="comment">// namespace ol</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aclassol_1_1_shader_html_a09003a0025c34f8c55388d6d488fc414"><div class="ttname"><a href="classol_1_1_shader.html#a09003a0025c34f8c55388d6d488fc414">ol::Shader::getLoc</a></div><div class="ttdeci">GLint getLoc(const std::string &amp;name) const noexcept</div><div class="ttdef"><b>定义</b> ol_shader.cpp:223</div></div>
+<div class="ttc" id="aclassol_1_1_shader_html_a16d323bec8edc8a57233cb73bba5abe9"><div class="ttname"><a href="classol_1_1_shader.html#a16d323bec8edc8a57233cb73bba5abe9">ol::Shader::m_uniformCache</a></div><div class="ttdeci">std::unordered_map&lt; std::string, GLint &gt; m_uniformCache</div><div class="ttdef"><b>定义</b> ol_shader.h:17</div></div>
+<div class="ttc" id="aclassol_1_1_shader_html_a1cdcd7c754e9f71d81e0b663f21dfffe"><div class="ttname"><a href="classol_1_1_shader.html#a1cdcd7c754e9f71d81e0b663f21dfffe">ol::Shader::setVec2</a></div><div class="ttdeci">void setVec2(const std::string &amp;name, const glm::vec2 &amp;value) const noexcept</div><div class="ttdef"><b>定义</b> ol_shader.cpp:123</div></div>
+<div class="ttc" id="aclassol_1_1_shader_html_a35523fd9185e456840952404e81a5db2"><div class="ttname"><a href="classol_1_1_shader.html#a35523fd9185e456840952404e81a5db2">ol::Shader::checkShaderError</a></div><div class="ttdeci">bool checkShaderError(GLuint shader, bool isProgram) const</div><div class="ttdef"><b>定义</b> ol_shader.cpp:187</div></div>
+<div class="ttc" id="aclassol_1_1_shader_html_a457d4e1aac468efa963bd19601815374"><div class="ttname"><a href="classol_1_1_shader.html#a457d4e1aac468efa963bd19601815374">ol::Shader::~Shader</a></div><div class="ttdeci">~Shader()</div><div class="ttdef"><b>定义</b> ol_shader.cpp:11</div></div>
+<div class="ttc" id="aclassol_1_1_shader_html_a4724cfdb3e6f41f6afd89ae12866a38e"><div class="ttname"><a href="classol_1_1_shader.html#a4724cfdb3e6f41f6afd89ae12866a38e">ol::Shader::operator=</a></div><div class="ttdeci">Shader &amp; operator=(const Shader &amp;)=delete</div></div>
+<div class="ttc" id="aclassol_1_1_shader_html_a4b1863f87fae350e2a5859cfa9f68eca"><div class="ttname"><a href="classol_1_1_shader.html#a4b1863f87fae350e2a5859cfa9f68eca">ol::Shader::loadSrc</a></div><div class="ttdeci">std::string loadSrc(const std::string &amp;filePath) const</div><div class="ttdef"><b>定义</b> ol_shader.cpp:174</div></div>
+<div class="ttc" id="aclassol_1_1_shader_html_a4f5f4a557bd1fb864b4ec6096acc3979"><div class="ttname"><a href="classol_1_1_shader.html#a4f5f4a557bd1fb864b4ec6096acc3979">ol::Shader::setMat3</a></div><div class="ttdeci">void setMat3(const std::string &amp;name, const glm::mat3 &amp;value) const noexcept</div><div class="ttdef"><b>定义</b> ol_shader.cpp:160</div></div>
+<div class="ttc" id="aclassol_1_1_shader_html_a536ff9c71f8fd637fef4f0514decf82f"><div class="ttname"><a href="classol_1_1_shader.html#a536ff9c71f8fd637fef4f0514decf82f">ol::Shader::m_id</a></div><div class="ttdeci">GLuint m_id</div><div class="ttdef"><b>定义</b> ol_shader.h:15</div></div>
+<div class="ttc" id="aclassol_1_1_shader_html_a5acf18835e58f3c48fa128ea179fb303"><div class="ttname"><a href="classol_1_1_shader.html#a5acf18835e58f3c48fa128ea179fb303">ol::Shader::setVec4</a></div><div class="ttdeci">void setVec4(const std::string &amp;name, const glm::vec4 &amp;value) const noexcept</div><div class="ttdef"><b>定义</b> ol_shader.cpp:147</div></div>
+<div class="ttc" id="aclassol_1_1_shader_html_a6659cfcf7766dfb09712275f551e5d67"><div class="ttname"><a href="classol_1_1_shader.html#a6659cfcf7766dfb09712275f551e5d67">ol::Shader::setMat4</a></div><div class="ttdeci">void setMat4(const std::string &amp;name, const glm::mat4 &amp;value) const noexcept</div><div class="ttdef"><b>定义</b> ol_shader.cpp:166</div></div>
+<div class="ttc" id="aclassol_1_1_shader_html_a939b8da6360f92eb6a43cf2cd9abd9db"><div class="ttname"><a href="classol_1_1_shader.html#a939b8da6360f92eb6a43cf2cd9abd9db">ol::Shader::Shader</a></div><div class="ttdeci">Shader()=default</div></div>
+<div class="ttc" id="aclassol_1_1_shader_html_aa745a713014d553307100ced3a8fb70a"><div class="ttname"><a href="classol_1_1_shader.html#aa745a713014d553307100ced3a8fb70a">ol::Shader::isValid</a></div><div class="ttdeci">bool isValid() const noexcept</div><div class="ttdef"><b>定义</b> ol_shader.h:35</div></div>
+<div class="ttc" id="aclassol_1_1_shader_html_aab365d25b2c6a25dcb76ed2fef6b000a"><div class="ttname"><a href="classol_1_1_shader.html#aab365d25b2c6a25dcb76ed2fef6b000a">ol::Shader::loadShader</a></div><div class="ttdeci">void loadShader(const std::string &amp;vertexPath, const std::string &amp;fragmentPath)</div><div class="ttdef"><b>定义</b> ol_shader.cpp:38</div></div>
+<div class="ttc" id="aclassol_1_1_shader_html_abc67f406afa4d7bdb2687e962e1042e3"><div class="ttname"><a href="classol_1_1_shader.html#abc67f406afa4d7bdb2687e962e1042e3">ol::Shader::setBool</a></div><div class="ttdeci">void setBool(const std::string &amp;name, bool value) const noexcept</div><div class="ttdef"><b>定义</b> ol_shader.cpp:105</div></div>
+<div class="ttc" id="aclassol_1_1_shader_html_ac48d4229f2e45b83d46a2f96866b6a9f"><div class="ttname"><a href="classol_1_1_shader.html#ac48d4229f2e45b83d46a2f96866b6a9f">ol::Shader::setInt</a></div><div class="ttdeci">void setInt(const std::string &amp;name, int value) const noexcept</div><div class="ttdef"><b>定义</b> ol_shader.cpp:111</div></div>
+<div class="ttc" id="aclassol_1_1_shader_html_acb5e5396a54ca290091c2b4f1ebe0e95"><div class="ttname"><a href="classol_1_1_shader.html#acb5e5396a54ca290091c2b4f1ebe0e95">ol::Shader::getID</a></div><div class="ttdeci">GLuint getID() const noexcept</div><div class="ttdef"><b>定义</b> ol_shader.h:34</div></div>
+<div class="ttc" id="aclassol_1_1_shader_html_ad0219983cb44f74fe691a8e56d68954e"><div class="ttname"><a href="classol_1_1_shader.html#ad0219983cb44f74fe691a8e56d68954e">ol::Shader::Shader</a></div><div class="ttdeci">Shader(const Shader &amp;)=delete</div></div>
+<div class="ttc" id="aclassol_1_1_shader_html_add72103810d11809b181a38ccc93b6b2"><div class="ttname"><a href="classol_1_1_shader.html#add72103810d11809b181a38ccc93b6b2">ol::Shader::setVec3</a></div><div class="ttdeci">void setVec3(const std::string &amp;name, const glm::vec3 &amp;value) const noexcept</div><div class="ttdef"><b>定义</b> ol_shader.cpp:135</div></div>
+<div class="ttc" id="aclassol_1_1_shader_html_afb65baa5e51fd39fe99a3ea19b5e4185"><div class="ttname"><a href="classol_1_1_shader.html#afb65baa5e51fd39fe99a3ea19b5e4185">ol::Shader::use</a></div><div class="ttdeci">void use() const noexcept</div><div class="ttdef"><b>定义</b> ol_shader.cpp:215</div></div>
+<div class="ttc" id="aclassol_1_1_shader_html_affca45d3b7833b0b711387a4296aa06c"><div class="ttname"><a href="classol_1_1_shader.html#affca45d3b7833b0b711387a4296aa06c">ol::Shader::setFloat</a></div><div class="ttdeci">void setFloat(const std::string &amp;name, float value) const noexcept</div><div class="ttdef"><b>定义</b> ol_shader.cpp:117</div></div>
+<div class="ttc" id="anamespaceol_html"><div class="ttname"><a href="namespaceol.html">ol</a></div><div class="ttdef"><b>定义</b> ol_sort_base.h:20</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_29c1927548b7d18feccbc56e19992e34.html">ol_gl</a></li><li class="navelem"><a href="dir_d31d17c6c3553002a3e22e9f66c413c5.html">include</a></li><li class="navelem"><a href="ol__shader_8h.html">ol_shader.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

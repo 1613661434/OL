@@ -27,7 +27,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
   <td id="projectalign">
-   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
    </div>
    <div id="projectbrief">This is a C++ library.</div>
   </td>
@@ -104,15 +104,27 @@ $(function(){initNavTree('classol_1_1_thread_pool.html','','classol_1_1_thread_p
  <div class="center">
   <img src="classol_1_1_thread_pool.png" usemap="#ol_3A_3AThreadPool_3C_20IsDynamic_20_3E_map" alt=""/>
   <map id="ol_3A_3AThreadPool_3C_20IsDynamic_20_3E_map" name="ol_3A_3AThreadPool_3C_20IsDynamic_20_3E_map">
-<area href="classol_1_1_type_non_copyable_movable.html" alt="ol::TypeNonCopyableMovable" shape="rect" coords="96,56,278,80"/>
-<area href="classol_1_1_type_non_copyable.html" alt="ol::TypeNonCopyable" shape="rect" coords="0,0,182,24"/>
-<area href="classol_1_1_type_non_movable.html" alt="ol::TypeNonMovable" shape="rect" coords="192,0,374,24"/>
+<area href="classol_1_1_type_non_copyable_movable.html" title="不可拷贝且不可移动标记类（TypeNonCopyable + TypeNonMovable的组合）" alt="ol::TypeNonCopyableMovable" shape="rect" coords="96,56,278,80"/>
+<area href="classol_1_1_type_non_copyable.html" title="不可拷贝标记类，继承此类的派生类将禁用拷贝构造和拷贝赋值" alt="ol::TypeNonCopyable" shape="rect" coords="0,0,182,24"/>
+<area href="classol_1_1_type_non_movable.html" title="不可移动标记类，继承此类的派生类将禁用移动构造和移动赋值" alt="ol::TypeNonMovable" shape="rect" coords="192,0,374,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 类</h2></td></tr>
 <tr class="memitem:DynamicMembers" id="r_DynamicMembers"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structol_1_1_thread_pool_1_1_dynamic_members.html">DynamicMembers</a></td></tr>
+<tr class="memitem:ThreadContextGuard" id="r_ThreadContextGuard"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classol_1_1_thread_pool_1_1_thread_context_guard.html">ThreadContextGuard</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a80ce45525f9b9676ca2a8aa6cdf68242" id="r_a80ce45525f9b9676ca2a8aa6cdf68242"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a80ce45525f9b9676ca2a8aa6cdf68242">State</a> : char { <a class="el" href="#a80ce45525f9b9676ca2a8aa6cdf68242a5bda814c4aedb126839228f1a3d92f09">Running</a>
+, <a class="el" href="#a80ce45525f9b9676ca2a8aa6cdf68242a000c3dbb106309cf21ccf74967f39c4c">Draining</a>
+, <a class="el" href="#a80ce45525f9b9676ca2a8aa6cdf68242a56395991012586c2067aa7bcb5905b50">Cancelling</a>
+, <a class="el" href="#a80ce45525f9b9676ca2a8aa6cdf68242ac23e2b09ebe6bf4cb5e2a9abe85c0be2">Stopped</a>
+ }</td></tr>
+<tr class="memitem:aaaf3528a0458286a81a14ea08512b8cb" id="r_aaaf3528a0458286a81a14ea08512b8cb"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaaf3528a0458286a81a14ea08512b8cb">ShutdownMode</a> : char { <a class="el" href="#aaaf3528a0458286a81a14ea08512b8cba0e37f13157f126473ed9ea7b244fca4c">Drain</a>
+, <a class="el" href="#aaaf3528a0458286a81a14ea08512b8cbace1f602f34175c74887059a49b6ce87a">CancelPending</a>
+ }</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
@@ -124,8 +136,14 @@ Public 成员函数</h2></td></tr>
 <tr class="memdesc:a6b598cbc04430bce6cec00c5a466c3d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">动态模式构造函数（仅IsDynamic=true时可用）  <br /></td></tr>
 <tr class="memitem:a08df835b4cf7704999c1711e4f31477a" id="r_a08df835b4cf7704999c1711e4f31477a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a08df835b4cf7704999c1711e4f31477a">~ThreadPool</a> ()</td></tr>
 <tr class="memdesc:a08df835b4cf7704999c1711e4f31477a"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="memitem:aa7fcd25c81014e99dd614f2eabb25c18" id="r_aa7fcd25c81014e99dd614f2eabb25c18"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa7fcd25c81014e99dd614f2eabb25c18">requestStop</a> (<a class="el" href="#aaaf3528a0458286a81a14ea08512b8cb">ShutdownMode</a> mode=<a class="el" href="#aaaf3528a0458286a81a14ea08512b8cba0e37f13157f126473ed9ea7b244fca4c">ShutdownMode::Drain</a>)</td></tr>
+<tr class="memdesc:aa7fcd25c81014e99dd614f2eabb25c18"><td class="mdescLeft">&#160;</td><td class="mdescRight">请求关闭线程池，不等待内部线程退出。  <br /></td></tr>
+<tr class="memitem:a515324597ab2c6b382bed8c3cae91d48" id="r_a515324597ab2c6b382bed8c3cae91d48"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a515324597ab2c6b382bed8c3cae91d48">wait</a> ()</td></tr>
+<tr class="memdesc:a515324597ab2c6b382bed8c3cae91d48"><td class="mdescLeft">&#160;</td><td class="mdescRight">等待管理者线程和全部工作线程退出并执行join。  <br /></td></tr>
 <tr class="memitem:a08b1ce8586db5b411447fec9276386c8" id="r_a08b1ce8586db5b411447fec9276386c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a08b1ce8586db5b411447fec9276386c8">stop</a> ()</td></tr>
-<tr class="memdesc:a08b1ce8586db5b411447fec9276386c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">停止线程池并清理资源  <br /></td></tr>
+<tr class="memdesc:a08b1ce8586db5b411447fec9276386c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">优雅停止：拒绝新任务，执行完已排队任务，再等待全部内部线程退出。  <br /></td></tr>
+<tr class="memitem:a14df01353637955f57332a83822d6de4" id="r_a14df01353637955f57332a83822d6de4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a14df01353637955f57332a83822d6de4">stopNow</a> ()</td></tr>
+<tr class="memdesc:a14df01353637955f57332a83822d6de4"><td class="mdescLeft">&#160;</td><td class="mdescRight">快速停止：拒绝新任务，丢弃排队任务，等待正在执行的任务结束。  <br /></td></tr>
 <tr class="memitem:aaaf3b544386236be46a5d68706f7032e" id="r_aaaf3b544386236be46a5d68706f7032e"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaaf3b544386236be46a5d68706f7032e">getTaskNum</a> () const</td></tr>
 <tr class="memdesc:aaaf3b544386236be46a5d68706f7032e"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前等待执行的任务数量  <br /></td></tr>
 <tr class="memitem:ae6ad9887e3d55cc3cb06dfb1e0a63c24" id="r_ae6ad9887e3d55cc3cb06dfb1e0a63c24"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae6ad9887e3d55cc3cb06dfb1e0a63c24">getWorkerNum</a> () const</td></tr>
@@ -147,8 +165,16 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:a4e88cb921b3fa31299c1c113d3705bfb" id="r_a4e88cb921b3fa31299c1c113d3705bfb"><td class="memTemplParams" colspan="2">template&lt;typename F, typename... Args&gt; </td></tr>
 <tr class="memitem:a4e88cb921b3fa31299c1c113d3705bfb template"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4e88cb921b3fa31299c1c113d3705bfb">submitTask</a> (F &amp;&amp;f, Args &amp;&amp;... args) -&gt; std::pair&lt; bool, std::future&lt; typename std::invoke_result_t&lt; F, Args... &gt; &gt; &gt;</td></tr>
 <tr class="memdesc:a4e88cb921b3fa31299c1c113d3705bfb"><td class="mdescLeft">&#160;</td><td class="mdescRight">提交带返回值的任务到线程池  <br /></td></tr>
-<tr class="memitem:a7ff1d3f67739fdb05b5da589952447f2" id="r_a7ff1d3f67739fdb05b5da589952447f2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7ff1d3f67739fdb05b5da589952447f2">isRunning</a> () const</td></tr>
-<tr class="memdesc:a7ff1d3f67739fdb05b5da589952447f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查线程池是否处于运行状态  <br /></td></tr>
+<tr class="memitem:a45939f9fce35d62ddbc58a243f18d0ec" id="r_a45939f9fce35d62ddbc58a243f18d0ec"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a45939f9fce35d62ddbc58a243f18d0ec">isRunning</a> () const noexcept</td></tr>
+<tr class="memdesc:a45939f9fce35d62ddbc58a243f18d0ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查线程池是否处于运行状态  <br /></td></tr>
+<tr class="memitem:af4f0928809cdf4365fef992c76753dca" id="r_af4f0928809cdf4365fef992c76753dca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a80ce45525f9b9676ca2a8aa6cdf68242">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af4f0928809cdf4365fef992c76753dca">getState</a> () const noexcept</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:a857e8f645fd13ef3ba25029922cf43dc" id="r_a857e8f645fd13ef3ba25029922cf43dc"><td class="memItemLeft" align="right" valign="top">static uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a857e8f645fd13ef3ba25029922cf43dc">getThreadId</a> ()</td></tr>
+<tr class="memdesc:a857e8f645fd13ef3ba25029922cf43dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前线程的可打印标识（Linux返回内核TID，Windows返回线程ID）  <br /></td></tr>
+<tr class="memitem:a6c7a9b75361b7c9b3c330ef9d2b7acc6" id="r_a6c7a9b75361b7c9b3c330ef9d2b7acc6"><td class="memItemLeft" align="right" valign="top">static uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6c7a9b75361b7c9b3c330ef9d2b7acc6">getThreadId</a> (const std::thread::id &amp;id)</td></tr>
+<tr class="memdesc:a6c7a9b75361b7c9b3c330ef9d2b7acc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">将std::thread::id转换为可打印哈希值（用于非当前线程的id）  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-types" class="groupheader"><a id="pri-types" name="pri-types"></a>
 Private 类型</h2></td></tr>
@@ -159,6 +185,8 @@ Private 类型</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private 成员函数</h2></td></tr>
+<tr class="memitem:abc7fd93bed1002c1fbcd2c73ea07ff21" id="r_abc7fd93bed1002c1fbcd2c73ea07ff21"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:abc7fd93bed1002c1fbcd2c73ea07ff21 template"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abc7fd93bed1002c1fbcd2c73ea07ff21">errorLog</a> (const char *event, const char *format, Args... args) const</td></tr>
 <tr class="memitem:a3dfd7c2649dabf4e70882fe4b788206f" id="r_a3dfd7c2649dabf4e70882fe4b788206f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3dfd7c2649dabf4e70882fe4b788206f">worker</a> ()</td></tr>
 <tr class="memdesc:a3dfd7c2649dabf4e70882fe4b788206f"><td class="mdescLeft">&#160;</td><td class="mdescRight">工作线程主函数  <br /></td></tr>
 <tr class="memitem:aa49c156140053ac1063f9681b3d58ab7" id="r_aa49c156140053ac1063f9681b3d58ab7"><td class="memTemplParams" colspan="2">template&lt;bool D = IsDynamic, typename = std::enable_if_t&lt;D&gt;&gt; </td></tr>
@@ -171,6 +199,8 @@ Private 属性</h2></td></tr>
 <tr class="memdesc:a78b7e22dca8e90df7e4eff0b50859f04"><td class="mdescLeft">&#160;</td><td class="mdescRight">保护工作线程集合的互斥锁  <br /></td></tr>
 <tr class="memitem:a53ce197f44320534e849bb579308e707" id="r_a53ce197f44320534e849bb579308e707"><td class="memItemLeft" align="right" valign="top">std::conditional_t&lt; IsDynamic, std::unordered_map&lt; std::thread::id, std::thread &gt;, std::vector&lt; std::thread &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a53ce197f44320534e849bb579308e707">m_workers</a></td></tr>
 <tr class="memdesc:a53ce197f44320534e849bb579308e707"><td class="mdescLeft">&#160;</td><td class="mdescRight">工作线程集合  <br /></td></tr>
+<tr class="memitem:a93ba2d884888cc5711640cd886705898" id="r_a93ba2d884888cc5711640cd886705898"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a93ba2d884888cc5711640cd886705898">m_waitMutex</a></td></tr>
+<tr class="memdesc:a93ba2d884888cc5711640cd886705898"><td class="mdescLeft">&#160;</td><td class="mdescRight">保证只有一个外部线程执行join。  <br /></td></tr>
 <tr class="memitem:a5ee67b3a1eae85550701bd8224be2788" id="r_a5ee67b3a1eae85550701bd8224be2788"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5ee67b3a1eae85550701bd8224be2788">m_taskQueueMutex</a></td></tr>
 <tr class="memdesc:a5ee67b3a1eae85550701bd8224be2788"><td class="mdescLeft">&#160;</td><td class="mdescRight">保护任务队列的互斥锁  <br /></td></tr>
 <tr class="memitem:a3ac6022a74a5caa1f4401c49697e5d68" id="r_a3ac6022a74a5caa1f4401c49697e5d68"><td class="memItemLeft" align="right" valign="top">std::queue&lt; std::function&lt; void()&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ac6022a74a5caa1f4401c49697e5d68">m_taskQueue</a></td></tr>
@@ -179,8 +209,8 @@ Private 属性</h2></td></tr>
 <tr class="memdesc:a700b4f16c2d1c1bfda90624bc414884e"><td class="mdescLeft">&#160;</td><td class="mdescRight">任务队列非空条件变量  <br /></td></tr>
 <tr class="memitem:ae8c7ce0f199d378b65cdd5cdd0530d1b" id="r_ae8c7ce0f199d378b65cdd5cdd0530d1b"><td class="memItemLeft" align="right" valign="top">std::condition_variable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae8c7ce0f199d378b65cdd5cdd0530d1b">m_taskQueueNotFull_condVar</a></td></tr>
 <tr class="memdesc:ae8c7ce0f199d378b65cdd5cdd0530d1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">任务队列非满条件变量  <br /></td></tr>
-<tr class="memitem:aa1e4f75ae1315f8b983e1a08b8e552c8" id="r_aa1e4f75ae1315f8b983e1a08b8e552c8"><td class="memItemLeft" align="right" valign="top">std::atomic_bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa1e4f75ae1315f8b983e1a08b8e552c8">m_stop</a></td></tr>
-<tr class="memdesc:aa1e4f75ae1315f8b983e1a08b8e552c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">停止标志  <br /></td></tr>
+<tr class="memitem:ae5d53073b83ab4f97e8d9b55c05e24d7" id="r_ae5d53073b83ab4f97e8d9b55c05e24d7"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; <a class="el" href="#a80ce45525f9b9676ca2a8aa6cdf68242">State</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5d53073b83ab4f97e8d9b55c05e24d7">m_state</a></td></tr>
+<tr class="memdesc:ae5d53073b83ab4f97e8d9b55c05e24d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前运行/关闭状态。  <br /></td></tr>
 <tr class="memitem:a5ab9ba063c81d81bf38052ec98ada098" id="r_a5ab9ba063c81d81bf38052ec98ada098"><td class="memItemLeft" align="right" valign="top">std::atomic_size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5ab9ba063c81d81bf38052ec98ada098">m_activeWorkers</a></td></tr>
 <tr class="memdesc:a5ab9ba063c81d81bf38052ec98ada098"><td class="mdescLeft">&#160;</td><td class="mdescRight">追踪活跃工作线程数  <br /></td></tr>
 <tr class="memitem:aa91e95535c078ac1032105c8b6da25de" id="r_aa91e95535c078ac1032105c8b6da25de"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa91e95535c078ac1032105c8b6da25de">m_maxQueueSize</a></td></tr>
@@ -191,6 +221,10 @@ Private 属性</h2></td></tr>
 <tr class="memdesc:a72a21e3545fbe01ef463f57942e9fe8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">超时时间（毫秒）  <br /></td></tr>
 <tr class="memitem:a966d14f85bc602162990f30c720f7071" id="r_a966d14f85bc602162990f30c720f7071"><td class="memItemLeft" align="right" valign="top">std::conditional_t&lt; IsDynamic, <a class="el" href="structol_1_1_thread_pool_1_1_dynamic_members.html">DynamicMembers</a>, <a class="el" href="structol_1_1_type_empty.html">TypeEmpty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a966d14f85bc602162990f30c720f7071">m_dynamic</a></td></tr>
 <tr class="memdesc:a966d14f85bc602162990f30c720f7071"><td class="mdescLeft">&#160;</td><td class="mdescRight">动态模式成员  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-static-attribs" class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
+静态 Private 属性</h2></td></tr>
+<tr class="memitem:a8e42ad29c3c655ae6f49cca13344c2e2" id="r_a8e42ad29c3c655ae6f49cca13344c2e2"><td class="memItemLeft" align="right" valign="top">static thread_local <a class="el" href="classol_1_1_thread_pool.html">ThreadPool</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e42ad29c3c655ae6f49cca13344c2e2">s_currentThreadPool</a> = nullptr</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-inherited" class="groupheader"><a id="inherited" name="inherited"></a>
 额外继承的成员函数</h2></td></tr>
@@ -218,6 +252,8 @@ class ol::ThreadPool&lt; IsDynamic &gt;</div><p>线程池模板类，支持动�
 线程安全设计，支持多线程并发添加任务 </dd>
 <dd>
 所有线程均通过join模式退出 </dd></dl>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol__thread_pool_8cpp-example.html#_a1">test_ol_ThreadPool.cpp</a> , 以及 <a class="el" href="test_ol_threadpool_shutdown_8cpp-example.html#_a0">test_ol_threadpool_shutdown.cpp</a>.</dd>
+</dl>
 </div><a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">成员枚举类型说明</h2>
 <a id="ad2ba1d0d419e9cba2999bbb5196d4a37" name="ad2ba1d0d419e9cba2999bbb5196d4a37"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad2ba1d0d419e9cba2999bbb5196d4a37">&#9670;&#160;</a></span>QueueFullPolicy</h2>
@@ -246,6 +282,68 @@ template&lt;bool IsDynamic = false&gt; </div>
 <tr><td class="fieldname"><a id="ad2ba1d0d419e9cba2999bbb5196d4a37aaf937713a39275d7c02a4a08b982d81a" name="ad2ba1d0d419e9cba2999bbb5196d4a37aaf937713a39275d7c02a4a08b982d81a"></a>kBlock&#160;</td><td class="fielddoc"><p>阻塞等待 </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ad2ba1d0d419e9cba2999bbb5196d4a37a7f27861ff1d3f550c6aa77150d7edabd" name="ad2ba1d0d419e9cba2999bbb5196d4a37a7f27861ff1d3f550c6aa77150d7edabd"></a>kTimeout&#160;</td><td class="fielddoc"><p>超时等待 </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="aaaf3528a0458286a81a14ea08512b8cb" name="aaaf3528a0458286a81a14ea08512b8cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaaf3528a0458286a81a14ea08512b8cb">&#9670;&#160;</a></span>ShutdownMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#aaaf3528a0458286a81a14ea08512b8cb">ol::ThreadPool::ShutdownMode</a> : char</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="aaaf3528a0458286a81a14ea08512b8cba0e37f13157f126473ed9ea7b244fca4c" name="aaaf3528a0458286a81a14ea08512b8cba0e37f13157f126473ed9ea7b244fca4c"></a>Drain&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aaaf3528a0458286a81a14ea08512b8cbace1f602f34175c74887059a49b6ce87a" name="aaaf3528a0458286a81a14ea08512b8cbace1f602f34175c74887059a49b6ce87a"></a>CancelPending&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a80ce45525f9b9676ca2a8aa6cdf68242" name="a80ce45525f9b9676ca2a8aa6cdf68242"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80ce45525f9b9676ca2a8aa6cdf68242">&#9670;&#160;</a></span>State</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a80ce45525f9b9676ca2a8aa6cdf68242">ol::ThreadPool::State</a> : char</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a80ce45525f9b9676ca2a8aa6cdf68242a5bda814c4aedb126839228f1a3d92f09" name="a80ce45525f9b9676ca2a8aa6cdf68242a5bda814c4aedb126839228f1a3d92f09"></a>Running&#160;</td><td class="fielddoc"><p>接受并执行任务。 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a80ce45525f9b9676ca2a8aa6cdf68242a000c3dbb106309cf21ccf74967f39c4c" name="a80ce45525f9b9676ca2a8aa6cdf68242a000c3dbb106309cf21ccf74967f39c4c"></a>Draining&#160;</td><td class="fielddoc"><p>拒绝新任务，执行完已排队任务后退出。 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a80ce45525f9b9676ca2a8aa6cdf68242a56395991012586c2067aa7bcb5905b50" name="a80ce45525f9b9676ca2a8aa6cdf68242a56395991012586c2067aa7bcb5905b50"></a>Cancelling&#160;</td><td class="fielddoc"><p>拒绝新任务，丢弃已排队任务，等待正在执行的任务结束。 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a80ce45525f9b9676ca2a8aa6cdf68242ac23e2b09ebe6bf4cb5e2a9abe85c0be2" name="a80ce45525f9b9676ca2a8aa6cdf68242ac23e2b09ebe6bf4cb5e2a9abe85c0be2"></a>Stopped&#160;</td><td class="fielddoc"><p>全部内部线程已经join。 </p>
 </td></tr>
 </table>
 
@@ -389,6 +487,7 @@ template&lt;bool IsDynamic = false&gt; </div>
 
 <p>析构函数 </p>
 <dl class="section note"><dt>注解</dt><dd>自动调用stop()，等待所有任务完成并清理资源 </dd></dl>
+<dl class="section warning"><dt>警告</dt><dd>ThreadPool对象必须由线程池外部线程销毁。 </dd></dl>
 
 </div>
 </div>
@@ -431,6 +530,44 @@ template&lt;bool IsDynamic = false&gt; </div>
 
 </div>
 </div>
+<a id="abc7fd93bed1002c1fbcd2c73ea07ff21" name="abc7fd93bed1002c1fbcd2c73ea07ff21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc7fd93bed1002c1fbcd2c73ea07ff21">&#9670;&#160;</a></span>errorLog()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<div class="memtemplate">
+template&lt;typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::errorLog </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>event</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>format</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a5e569574a2a1d8a28ba0a3428618e020" name="a5e569574a2a1d8a28ba0a3428618e020"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5e569574a2a1d8a28ba0a3428618e020">&#9670;&#160;</a></span>getIdleThreadNum()</h2>
 
@@ -461,6 +598,33 @@ template&lt;bool D = IsDynamic, typename = std::enable_if_t&lt;D&gt;&gt; </div>
 <p>动态模式特有：获取当前空闲线程数量 </p>
 <dl class="section return"><dt>返回</dt><dd>空闲线程数 </dd></dl>
 <dl class="section note"><dt>注解</dt><dd>仅IsDynamic=true时可用，原子操作确保线程安全 </dd></dl>
+
+</div>
+</div>
+<a id="af4f0928809cdf4365fef992c76753dca" name="af4f0928809cdf4365fef992c76753dca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4f0928809cdf4365fef992c76753dca">&#9670;&#160;</a></span>getState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a80ce45525f9b9676ca2a8aa6cdf68242">State</a> <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::getState </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -495,6 +659,75 @@ template&lt;bool IsDynamic = false&gt; </div>
 
 </div>
 </div>
+<a id="a857e8f645fd13ef3ba25029922cf43dc" name="a857e8f645fd13ef3ba25029922cf43dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a857e8f645fd13ef3ba25029922cf43dc">&#9670;&#160;</a></span>getThreadId() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::getThreadId </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前线程的可打印标识（Linux返回内核TID，Windows返回线程ID） </p>
+<dl class="section return"><dt>返回</dt><dd>操作系统线程标识数值（使用PRIu64进行格式化输出） </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>Linux下返回syscall(SYS_gettid)，与top -H输出一致；Windows下返回GetCurrentThreadId() </dd></dl>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol__thread_pool_8cpp-example.html#_a0">test_ol_ThreadPool.cpp</a>.</dd>
+</dl>
+
+</div>
+</div>
+<a id="a6c7a9b75361b7c9b3c330ef9d2b7acc6" name="a6c7a9b75361b7c9b3c330ef9d2b7acc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c7a9b75361b7c9b3c330ef9d2b7acc6">&#9670;&#160;</a></span>getThreadId() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::getThreadId </td>
+          <td>(</td>
+          <td class="paramtype">const std::thread::id &amp;</td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>将std::thread::id转换为可打印哈希值（用于非当前线程的id） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>线程id </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>当前进程内用于日志关联的哈希值，不等同于操作系统线程ID </dd></dl>
+
+</div>
+</div>
 <a id="ae6ad9887e3d55cc3cb06dfb1e0a63c24" name="ae6ad9887e3d55cc3cb06dfb1e0a63c24"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae6ad9887e3d55cc3cb06dfb1e0a63c24">&#9670;&#160;</a></span>getWorkerNum()</h2>
 
@@ -526,8 +759,8 @@ template&lt;bool IsDynamic = false&gt; </div>
 
 </div>
 </div>
-<a id="a7ff1d3f67739fdb05b5da589952447f2" name="a7ff1d3f67739fdb05b5da589952447f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7ff1d3f67739fdb05b5da589952447f2">&#9670;&#160;</a></span>isRunning()</h2>
+<a id="a45939f9fce35d62ddbc58a243f18d0ec" name="a45939f9fce35d62ddbc58a243f18d0ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45939f9fce35d62ddbc58a243f18d0ec">&#9670;&#160;</a></span>isRunning()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -546,14 +779,14 @@ template&lt;bool IsDynamic = false&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>检查线程池是否处于运行状态 </p>
-<dl class="section return"><dt>返回</dt><dd>运行中返回true，已停止返回false </dd></dl>
-<dl class="section note"><dt>注解</dt><dd>基于原子变量m_stop的状态判断，线程安全 </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>仍接受新任务时返回true，否则返回false。 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>只有Running状态返回true，Draining/Cancelling/Stopped均返回false。 </dd></dl>
 
 </div>
 </div>
@@ -594,6 +827,42 @@ template&lt;bool D = IsDynamic, typename = std::enable_if_t&lt;D&gt;&gt; </div>
 </li>
 </ol>
 </dd></dl>
+
+</div>
+</div>
+<a id="aa7fcd25c81014e99dd614f2eabb25c18" name="aa7fcd25c81014e99dd614f2eabb25c18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7fcd25c81014e99dd614f2eabb25c18">&#9670;&#160;</a></span>requestStop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::requestStop </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#aaaf3528a0458286a81a14ea08512b8cb">ShutdownMode</a></td>          <td class="paramname"><span class="paramname"><em>mode</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="#aaaf3528a0458286a81a14ea08512b8cba0e37f13157f126473ed9ea7b244fca4c">ShutdownMode::Drain</a></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>请求关闭线程池，不等待内部线程退出。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mode</td><td>Drain-执行完排队任务；CancelPending-丢弃排队任务。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>可以在线程池自己的工作线程中调用；多次调用安全，Drain可以升级为CancelPending。 </dd></dl>
 
 </div>
 </div>
@@ -762,11 +1031,40 @@ template&lt;bool IsDynamic = false&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>停止线程池并清理资源 </p>
-<dl class="section note"><dt>注解</dt><dd>多次调用安全，已停止状态下调用无效果 </dd>
+<p>优雅停止：拒绝新任务，执行完已排队任务，再等待全部内部线程退出。 </p>
+<dl class="section note"><dt>注解</dt><dd>只能由线程池外部线程调用；多次调用安全。 </dd></dl>
+
+</div>
+</div>
+<a id="a14df01353637955f57332a83822d6de4" name="a14df01353637955f57332a83822d6de4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14df01353637955f57332a83822d6de4">&#9670;&#160;</a></span>stopNow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::stopNow </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>快速停止：拒绝新任务，丢弃排队任务，等待正在执行的任务结束。 </p>
+<dl class="section note"><dt>注解</dt><dd>只能由线程池外部线程调用；多次调用安全。 </dd>
 <dd>
-仅支持join模式，等待所有任务完成、所有线程安全退出后返回 </dd></dl>
-<dl class="section warning"><dt>警告</dt><dd>确保任务无外部临时资源依赖，避免join等待时出现资源释放竞态 </dd></dl>
+被丢弃的submitTask任务，其future将报告std::future_errc::broken_promise。 </dd></dl>
 
 </div>
 </div>
@@ -821,6 +1119,42 @@ template&lt;typename F, typename... Args&gt; </div>
 <dl class="section note"><dt>注解</dt><dd>若任务添加失败（bool为false），调用future.get()会抛出对应异常（线程池停止/队列满）； 若任务添加成功（bool为true），future.get()会返回任务结果或抛出任务自身的异常。 </dd>
 <dd>
 线程安全，内部调用addTask实现任务添加 </dd></dl>
+
+</div>
+</div>
+<a id="a515324597ab2c6b382bed8c3cae91d48" name="a515324597ab2c6b382bed8c3cae91d48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a515324597ab2c6b382bed8c3cae91d48">&#9670;&#160;</a></span>wait()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::wait </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>等待管理者线程和全部工作线程退出并执行join。 </p>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::logic_error</td><td>当前线程属于此线程池，或尚未调用requestStop()。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>只能由线程池外部线程调用；多次调用安全。 </dd></dl>
 
 </div>
 </div>
@@ -961,8 +1295,8 @@ template&lt;bool IsDynamic = false&gt; </div>
 
 </div>
 </div>
-<a id="aa1e4f75ae1315f8b983e1a08b8e552c8" name="aa1e4f75ae1315f8b983e1a08b8e552c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa1e4f75ae1315f8b983e1a08b8e552c8">&#9670;&#160;</a></span>m_stop</h2>
+<a id="ae5d53073b83ab4f97e8d9b55c05e24d7" name="ae5d53073b83ab4f97e8d9b55c05e24d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5d53073b83ab4f97e8d9b55c05e24d7">&#9670;&#160;</a></span>m_state</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -973,7 +1307,7 @@ template&lt;bool IsDynamic = false&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::atomic_bool <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::m_stop</td>
+          <td class="memname">std::atomic&lt;<a class="el" href="#a80ce45525f9b9676ca2a8aa6cdf68242">State</a>&gt; <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::m_state</td>
         </tr>
       </table>
   </td>
@@ -983,7 +1317,7 @@ template&lt;bool IsDynamic = false&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>停止标志 </p>
+<p>当前运行/关闭状态。 </p>
 
 </div>
 </div>
@@ -1117,6 +1451,32 @@ template&lt;bool IsDynamic = false&gt; </div>
 
 </div>
 </div>
+<a id="a93ba2d884888cc5711640cd886705898" name="a93ba2d884888cc5711640cd886705898"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93ba2d884888cc5711640cd886705898">&#9670;&#160;</a></span>m_waitMutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::m_waitMutex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel mutable">mutable</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>保证只有一个外部线程执行join。 </p>
+
+</div>
+</div>
 <a id="a53ce197f44320534e849bb579308e707" name="a53ce197f44320534e849bb579308e707"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a53ce197f44320534e849bb579308e707">&#9670;&#160;</a></span>m_workers</h2>
 
@@ -1169,8 +1529,32 @@ template&lt;bool IsDynamic = false&gt; </div>
 
 </div>
 </div>
+<a id="a8e42ad29c3c655ae6f49cca13344c2e2" name="a8e42ad29c3c655ae6f49cca13344c2e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e42ad29c3c655ae6f49cca13344c2e2">&#9670;&#160;</a></span>s_currentThreadPool</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;bool IsDynamic = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">thread_local <a class="el" href="classol_1_1_thread_pool.html">ThreadPool</a>* <a class="el" href="classol_1_1_thread_pool.html">ol::ThreadPool</a>&lt; IsDynamic &gt;::s_currentThreadPool = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>该类的文档由以下文件生成:<ul>
-<li>ollib/include/<a class="el" href="ol___thread_pool_8h_source.html">ol_ThreadPool.h</a></li>
+<li>ol_core/include/<a class="el" href="ol___thread_pool_8h_source.html">ol_ThreadPool.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

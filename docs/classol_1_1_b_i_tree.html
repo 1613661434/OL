@@ -27,7 +27,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
   <td id="projectalign">
-   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
    </div>
    <div id="projectbrief">This is a C++ library.</div>
   </td>
@@ -136,6 +136,7 @@ Private 成员函数</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private 属性</h2></td></tr>
 <tr class="memitem:a806c3acd23c80725094a2a85e0f0a8e7" id="r_a806c3acd23c80725094a2a85e0f0a8e7"><td class="memItemLeft" align="right" valign="top">std::vector&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a806c3acd23c80725094a2a85e0f0a8e7">b</a></td></tr>
+<tr class="memdesc:a806c3acd23c80725094a2a85e0f0a8e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">索引从0开始  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">详细描述</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
@@ -145,6 +146,8 @@ class ol::BITree&lt; T &gt;</div><p>树状数组|二叉索引树（Binary Indexe
     <tr><td class="paramname">T</td><td>存储的数据类型（需支持加法运算） </td></tr>
   </table>
   </dd>
+</dl>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol__b_i_tree_8cpp-example.html#_a0">test_ol_BITree.cpp</a>.</dd>
 </dl>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">构造及析构函数说明</h2>
 <a id="a67bd0e92e9bb7b4dd9c8f2ec5cb4fb6c" name="a67bd0e92e9bb7b4dd9c8f2ec5cb4fb6c"></a>
@@ -457,6 +460,8 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 
 <p>打印当前BITree的内部存储结构 用于调试，输出向量b中的所有元素 </p>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol__b_i_tree_8cpp-example.html#a1">test_ol_BITree.cpp</a>.</dd>
+</dl>
 
 </div>
 </div>
@@ -661,10 +666,12 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>索引从0开始 </p>
+
 </div>
 </div>
 <hr/>该类的文档由以下文件生成:<ul>
-<li>ollib/include/<a class="el" href="ol___b_i_tree_8h_source.html">ol_BITree.h</a></li>
+<li>ol_core/include/<a class="el" href="ol___b_i_tree_8h_source.html">ol_BITree.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

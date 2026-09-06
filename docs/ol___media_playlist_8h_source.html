@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: ol_qt/include/ol_MediaPlaylist.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('ol___media_playlist_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ol_MediaPlaylist.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ol___media_playlist_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/****************************************************************************************/</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">/*</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> * 程序名：ol_MediaPlaylist.h</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> * 功能描述：Qt6 媒体播放列表类，替代废弃的 QMediaPlaylist，支持以下特性：</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> *          - 自动绑定 QMediaPlayer，监听播放完成状态</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> *          - 三种播放模式：单次播放、单曲循环、列表循环</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> *          - 播放结束自动切换曲目/循环播放</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> *          - 索引/媒体资源自动管理，适配 Qt6</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> *          - 支持信号通知索引变化，与音频播放器联动</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> * 作者：ol</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> * 适用标准：Qt 6.0及以上</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">/****************************************************************************************/</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#ifndef OL_MEDIAPLAYLIST_H</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#define OL_MEDIAPLAYLIST_H 1</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &lt;QObject&gt;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &lt;QVector&gt;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &lt;QUrl&gt;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &lt;QMediaPlayer&gt;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceol.html">ol</a></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>{</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span></div>
+<div class="foldopen" id="foldopen00029" data-start="{" data-end="};">
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classol_1_1_media_playlist.html">   29</a></span>    <span class="keyword">class </span><a class="code hl_function" href="classol_1_1_media_playlist.html#aa2943905cd89d45af7d4b8d1e3f6b8f2">MediaPlaylist</a> : <span class="keyword">public</span> QObject</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        Q_OBJECT</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00036" data-start="{" data-end="};">
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classol_1_1_media_playlist.html#ad123498b0bda4c69d78bf96f680b623a">   36</a></span>        <span class="keyword">enum class</span> <a class="code hl_enumeration" href="classol_1_1_media_playlist.html#ad123498b0bda4c69d78bf96f680b623a">PlaybackMode</a> : <span class="keywordtype">char</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        {</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classol_1_1_media_playlist.html#ad123498b0bda4c69d78bf96f680b623aaad73d2b14df988c3e42f8b793fad5232">   38</a></span>            <a class="code hl_enumvalue" href="classol_1_1_media_playlist.html#ad123498b0bda4c69d78bf96f680b623aaad73d2b14df988c3e42f8b793fad5232">CurrentItemOnce</a>, </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classol_1_1_media_playlist.html#ad123498b0bda4c69d78bf96f680b623aa0b160451935b0c8b284cded646565af1">   39</a></span>            <a class="code hl_enumvalue" href="classol_1_1_media_playlist.html#ad123498b0bda4c69d78bf96f680b623aa0b160451935b0c8b284cded646565af1">CurrentItemLoop</a>, </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="classol_1_1_media_playlist.html#ad123498b0bda4c69d78bf96f680b623aaded18f2254fa9096c88914b87336b12b">   40</a></span>            <a class="code hl_enumvalue" href="classol_1_1_media_playlist.html#ad123498b0bda4c69d78bf96f680b623aaded18f2254fa9096c88914b87336b12b">SequentialLoop</a>   </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        };</div>
+</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classol_1_1_media_playlist.html#afcc07d4ac863b1a16dcffd85334bd655">   44</a></span>        QVector&lt;QUrl&gt; <a class="code hl_variable" href="classol_1_1_media_playlist.html#afcc07d4ac863b1a16dcffd85334bd655">m_mediaList</a>;   </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="classol_1_1_media_playlist.html#a459f29395c0502da4726d83eaab24f47">   45</a></span>        <span class="keywordtype">int</span> <a class="code hl_variable" href="classol_1_1_media_playlist.html#a459f29395c0502da4726d83eaab24f47">m_currentIndex</a>;          </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="classol_1_1_media_playlist.html#a620e8af0b87f457f49c00e2199b11b3b">   46</a></span>        <a class="code hl_enumeration" href="classol_1_1_media_playlist.html#ad123498b0bda4c69d78bf96f680b623a">PlaybackMode</a> <a class="code hl_variable" href="classol_1_1_media_playlist.html#a620e8af0b87f457f49c00e2199b11b3b">m_playbackMode</a>; </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classol_1_1_media_playlist.html#af1d069dfc40d5c2cd7baa4c66bbb6703">   47</a></span>        QMediaPlayer* <a class="code hl_variable" href="classol_1_1_media_playlist.html#af1d069dfc40d5c2cd7baa4c66bbb6703">m_player</a>;      </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <span class="keyword">explicit</span> <a class="code hl_function" href="classol_1_1_media_playlist.html#aa2943905cd89d45af7d4b8d1e3f6b8f2">MediaPlaylist</a>(QObject* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1_media_playlist.html#aba5a9863f1210abc57b0a545a6a8ea88">addMedia</a>(<span class="keyword">const</span> QUrl&amp; media);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1_media_playlist.html#a621bd34f0532541619188d41d07c5ff5">clear</a>();</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1_media_playlist.html#aff2c7be4a63821fc58446d168b378274">setCurrentIndex</a>(<span class="keywordtype">int</span> index);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="classol_1_1_media_playlist.html#a64b3d9fb0b92a9eca33e6c53fd280344">   77</a></span>        <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classol_1_1_media_playlist.html#a64b3d9fb0b92a9eca33e6c53fd280344">getCurrentIndex</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classol_1_1_media_playlist.html#a459f29395c0502da4726d83eaab24f47">m_currentIndex</a>; }</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        QUrl <a class="code hl_function" href="classol_1_1_media_playlist.html#a08f980529bb176c293dce12849c4a610">getCurrentMedia</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="classol_1_1_media_playlist.html#a9c26751c8aad91f30ffebb6cd1f8c179">   89</a></span>        <span class="keyword">inline</span> qsizetype <a class="code hl_function" href="classol_1_1_media_playlist.html#a9c26751c8aad91f30ffebb6cd1f8c179">getMediaCount</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classol_1_1_media_playlist.html#afcc07d4ac863b1a16dcffd85334bd655">m_mediaList</a>.size(); }</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="classol_1_1_media_playlist.html#a76c68c2f8d2a8e226479343583f51b7a">   95</a></span>        <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1_media_playlist.html#a76c68c2f8d2a8e226479343583f51b7a">setPlaybackMode</a>(<a class="code hl_enumeration" href="classol_1_1_media_playlist.html#ad123498b0bda4c69d78bf96f680b623a">PlaybackMode</a> mode) { <a class="code hl_variable" href="classol_1_1_media_playlist.html#a620e8af0b87f457f49c00e2199b11b3b">m_playbackMode</a> = mode; }</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="classol_1_1_media_playlist.html#a49566e433ae84bf707cbc82a2f54802c">  101</a></span>        <span class="keyword">inline</span> <a class="code hl_enumeration" href="classol_1_1_media_playlist.html#ad123498b0bda4c69d78bf96f680b623a">PlaybackMode</a> <a class="code hl_function" href="classol_1_1_media_playlist.html#a49566e433ae84bf707cbc82a2f54802c">getPlaybackMode</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classol_1_1_media_playlist.html#a620e8af0b87f457f49c00e2199b11b3b">m_playbackMode</a>; }</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classol_1_1_media_playlist.html#a886641dc8da6bb5393733a6719f2522b">setPlayer</a>(QMediaPlayer* player);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        QUrl <a class="code hl_function" href="classol_1_1_media_playlist.html#aa35f7751a45265656dff94fb611bc15c">nextMedia</a>();</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        QUrl <a class="code hl_function" href="classol_1_1_media_playlist.html#a858252b00ce8a9a2140caf7bc26c239f">previousMedia</a>();</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    signals:</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno"><a class="line" href="classol_1_1_media_playlist.html#a4afc18634b9244d4768b679a95701185">  126</a></span>        <span class="keywordtype">void</span> <a class="code hl_signal" href="classol_1_1_media_playlist.html#a4afc18634b9244d4768b679a95701185">currentIndexChanged</a>(<span class="keywordtype">int</span> newIndex);</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <span class="keyword">private</span> slots:</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        <span class="keywordtype">void</span> <a class="code hl_slot" href="classol_1_1_media_playlist.html#a5dca88f14aa4ef05a73695ab88e5f54f">onMediaStatusChanged</a>(QMediaPlayer::MediaStatus status);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    };</div>
+</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>} <span class="comment">// namespace ol</span></div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span><span class="preprocessor">#endif </span><span class="comment">// !OL_MEDIAPLAYLIST_H</span></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_a08f980529bb176c293dce12849c4a610"><div class="ttname"><a href="classol_1_1_media_playlist.html#a08f980529bb176c293dce12849c4a610">ol::MediaPlaylist::getCurrentMedia</a></div><div class="ttdeci">QUrl getCurrentMedia() const</div><div class="ttdoc">获取当前播放的媒体 URL</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.cpp:43</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_a459f29395c0502da4726d83eaab24f47"><div class="ttname"><a href="classol_1_1_media_playlist.html#a459f29395c0502da4726d83eaab24f47">ol::MediaPlaylist::m_currentIndex</a></div><div class="ttdeci">int m_currentIndex</div><div class="ttdoc">当前播放索引，-1 表示未选中</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.h:45</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_a49566e433ae84bf707cbc82a2f54802c"><div class="ttname"><a href="classol_1_1_media_playlist.html#a49566e433ae84bf707cbc82a2f54802c">ol::MediaPlaylist::getPlaybackMode</a></div><div class="ttdeci">PlaybackMode getPlaybackMode() const</div><div class="ttdoc">获取当前播放模式</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.h:101</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_a4afc18634b9244d4768b679a95701185"><div class="ttname"><a href="classol_1_1_media_playlist.html#a4afc18634b9244d4768b679a95701185">ol::MediaPlaylist::currentIndexChanged</a></div><div class="ttdeci">void currentIndexChanged(int newIndex)</div><div class="ttdoc">播放索引改变信号，用于用户未来功能扩展</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_a5dca88f14aa4ef05a73695ab88e5f54f"><div class="ttname"><a href="classol_1_1_media_playlist.html#a5dca88f14aa4ef05a73695ab88e5f54f">ol::MediaPlaylist::onMediaStatusChanged</a></div><div class="ttdeci">void onMediaStatusChanged(QMediaPlayer::MediaStatus status)</div><div class="ttdoc">监听播放器状态，播放完成自动处理切歌/循环</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.cpp:83</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_a620e8af0b87f457f49c00e2199b11b3b"><div class="ttname"><a href="classol_1_1_media_playlist.html#a620e8af0b87f457f49c00e2199b11b3b">ol::MediaPlaylist::m_playbackMode</a></div><div class="ttdeci">PlaybackMode m_playbackMode</div><div class="ttdoc">当前播放模式</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.h:46</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_a621bd34f0532541619188d41d07c5ff5"><div class="ttname"><a href="classol_1_1_media_playlist.html#a621bd34f0532541619188d41d07c5ff5">ol::MediaPlaylist::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">清空播放列表，重置索引</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.cpp:24</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_a64b3d9fb0b92a9eca33e6c53fd280344"><div class="ttname"><a href="classol_1_1_media_playlist.html#a64b3d9fb0b92a9eca33e6c53fd280344">ol::MediaPlaylist::getCurrentIndex</a></div><div class="ttdeci">int getCurrentIndex() const</div><div class="ttdoc">获取当前播放索引</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.h:77</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_a76c68c2f8d2a8e226479343583f51b7a"><div class="ttname"><a href="classol_1_1_media_playlist.html#a76c68c2f8d2a8e226479343583f51b7a">ol::MediaPlaylist::setPlaybackMode</a></div><div class="ttdeci">void setPlaybackMode(PlaybackMode mode)</div><div class="ttdoc">设置播放模式</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.h:95</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_a858252b00ce8a9a2140caf7bc26c239f"><div class="ttname"><a href="classol_1_1_media_playlist.html#a858252b00ce8a9a2140caf7bc26c239f">ol::MediaPlaylist::previousMedia</a></div><div class="ttdeci">QUrl previousMedia()</div><div class="ttdoc">切换到上一首媒体</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.cpp:75</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_a886641dc8da6bb5393733a6719f2522b"><div class="ttname"><a href="classol_1_1_media_playlist.html#a886641dc8da6bb5393733a6719f2522b">ol::MediaPlaylist::setPlayer</a></div><div class="ttdeci">void setPlayer(QMediaPlayer *player)</div><div class="ttdoc">绑定 Qt 媒体播放器</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.cpp:49</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_a9c26751c8aad91f30ffebb6cd1f8c179"><div class="ttname"><a href="classol_1_1_media_playlist.html#a9c26751c8aad91f30ffebb6cd1f8c179">ol::MediaPlaylist::getMediaCount</a></div><div class="ttdeci">qsizetype getMediaCount() const</div><div class="ttdoc">获取列表总媒体数量</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.h:89</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_aa2943905cd89d45af7d4b8d1e3f6b8f2"><div class="ttname"><a href="classol_1_1_media_playlist.html#aa2943905cd89d45af7d4b8d1e3f6b8f2">ol::MediaPlaylist::MediaPlaylist</a></div><div class="ttdeci">MediaPlaylist(QObject *parent=nullptr)</div><div class="ttdoc">构造函数</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.cpp:13</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_aa35f7751a45265656dff94fb611bc15c"><div class="ttname"><a href="classol_1_1_media_playlist.html#aa35f7751a45265656dff94fb611bc15c">ol::MediaPlaylist::nextMedia</a></div><div class="ttdeci">QUrl nextMedia()</div><div class="ttdoc">切换到下一首媒体</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.cpp:67</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_aba5a9863f1210abc57b0a545a6a8ea88"><div class="ttname"><a href="classol_1_1_media_playlist.html#aba5a9863f1210abc57b0a545a6a8ea88">ol::MediaPlaylist::addMedia</a></div><div class="ttdeci">void addMedia(const QUrl &amp;media)</div><div class="ttdoc">向播放列表添加媒体资源</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.cpp:18</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_ad123498b0bda4c69d78bf96f680b623a"><div class="ttname"><a href="classol_1_1_media_playlist.html#ad123498b0bda4c69d78bf96f680b623a">ol::MediaPlaylist::PlaybackMode</a></div><div class="ttdeci">PlaybackMode</div><div class="ttdoc">播放模式枚举</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.h:37</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_ad123498b0bda4c69d78bf96f680b623aa0b160451935b0c8b284cded646565af1"><div class="ttname"><a href="classol_1_1_media_playlist.html#ad123498b0bda4c69d78bf96f680b623aa0b160451935b0c8b284cded646565af1">ol::MediaPlaylist::PlaybackMode::CurrentItemLoop</a></div><div class="ttdeci">@ CurrentItemLoop</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.h:39</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_ad123498b0bda4c69d78bf96f680b623aaad73d2b14df988c3e42f8b793fad5232"><div class="ttname"><a href="classol_1_1_media_playlist.html#ad123498b0bda4c69d78bf96f680b623aaad73d2b14df988c3e42f8b793fad5232">ol::MediaPlaylist::PlaybackMode::CurrentItemOnce</a></div><div class="ttdeci">@ CurrentItemOnce</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.h:38</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_ad123498b0bda4c69d78bf96f680b623aaded18f2254fa9096c88914b87336b12b"><div class="ttname"><a href="classol_1_1_media_playlist.html#ad123498b0bda4c69d78bf96f680b623aaded18f2254fa9096c88914b87336b12b">ol::MediaPlaylist::PlaybackMode::SequentialLoop</a></div><div class="ttdeci">@ SequentialLoop</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.h:40</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_af1d069dfc40d5c2cd7baa4c66bbb6703"><div class="ttname"><a href="classol_1_1_media_playlist.html#af1d069dfc40d5c2cd7baa4c66bbb6703">ol::MediaPlaylist::m_player</a></div><div class="ttdeci">QMediaPlayer * m_player</div><div class="ttdoc">绑定的 Qt 媒体播放器</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.h:47</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_afcc07d4ac863b1a16dcffd85334bd655"><div class="ttname"><a href="classol_1_1_media_playlist.html#afcc07d4ac863b1a16dcffd85334bd655">ol::MediaPlaylist::m_mediaList</a></div><div class="ttdeci">QVector&lt; QUrl &gt; m_mediaList</div><div class="ttdoc">媒体资源 URL 列表</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.h:44</div></div>
+<div class="ttc" id="aclassol_1_1_media_playlist_html_aff2c7be4a63821fc58446d168b378274"><div class="ttname"><a href="classol_1_1_media_playlist.html#aff2c7be4a63821fc58446d168b378274">ol::MediaPlaylist::setCurrentIndex</a></div><div class="ttdeci">void setCurrentIndex(int index)</div><div class="ttdoc">设置当前播放索引（自动切换播放器音源）</div><div class="ttdef"><b>定义</b> ol_MediaPlaylist.cpp:31</div></div>
+<div class="ttc" id="anamespaceol_html"><div class="ttname"><a href="namespaceol.html">ol</a></div><div class="ttdef"><b>定义</b> ol_sort_base.h:20</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_60827ac3ebd3a0a3394c598868c1dad8.html">ol_qt</a></li><li class="navelem"><a href="dir_ade18ea2b837d1556ec1c4ad1b157002.html">include</a></li><li class="navelem"><a href="ol___media_playlist_8h.html">ol_MediaPlaylist.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

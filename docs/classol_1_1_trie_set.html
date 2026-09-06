@@ -27,7 +27,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
   <td id="projectalign">
-   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
    </div>
    <div id="projectbrief">This is a C++ library.</div>
   </td>
@@ -125,10 +125,13 @@ Public 成员函数</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private 属性</h2></td></tr>
 <tr class="memitem:a63c09cb63707db7be47abe7db66b3250" id="r_a63c09cb63707db7be47abe7db66b3250"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classol_1_1_trie_map.html">TrieMap</a>&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a63c09cb63707db7be47abe7db66b3250">map</a></td></tr>
+<tr class="memdesc:a63c09cb63707db7be47abe7db66b3250"><td class="mdescLeft">&#160;</td><td class="mdescRight">底层TrieMap，用true标记键存在  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">详细描述</h2>
 <div class="textblock"><p>Trie树实现的字符串集合类（TrieSet） </p>
 <dl class="section note"><dt>注解</dt><dd>仅存储字符串键，不关联具体值，底层依赖TrieMap&lt;bool&gt;实现 </dd></dl>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol__trie_set_8cpp-example.html#_a0">test_ol_TrieSet.cpp</a>.</dd>
+</dl>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">成员函数说明</h2>
 <a id="ad7f63955e1003a99f2c260337387c699" name="ad7f63955e1003a99f2c260337387c699"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad7f63955e1003a99f2c260337387c699">&#9670;&#160;</a></span>has()</h2>
@@ -161,6 +164,8 @@ Private 属性</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>存在返回true，否则返回false </dd></dl>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol__trie_set_8cpp-example.html#a3">test_ol_TrieSet.cpp</a>.</dd>
+</dl>
 
 </div>
 </div>
@@ -263,6 +268,8 @@ Private 属性</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>匹配的元素列表（std::list&lt;std::string&gt;） </dd></dl>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol__trie_set_8cpp-example.html#a8">test_ol_TrieSet.cpp</a>.</dd>
+</dl>
 
 </div>
 </div>
@@ -297,6 +304,8 @@ Private 属性</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>匹配的元素列表（std::list&lt;std::string&gt;） </dd></dl>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol__trie_set_8cpp-example.html#a4">test_ol_TrieSet.cpp</a>.</dd>
+</dl>
 
 </div>
 </div>
@@ -331,6 +340,8 @@ Private 属性</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>最长前缀字符串，不存在则返回空串 </dd></dl>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol__trie_set_8cpp-example.html#a6">test_ol_TrieSet.cpp</a>.</dd>
+</dl>
 
 </div>
 </div>
@@ -364,6 +375,8 @@ Private 属性</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol__trie_set_8cpp-example.html#a1">test_ol_TrieSet.cpp</a>.</dd>
+</dl>
 
 </div>
 </div>
@@ -396,6 +409,8 @@ Private 属性</h2></td></tr>
     <tr><td class="paramname">key</td><td>要删除的字符串 </td></tr>
   </table>
   </dd>
+</dl>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol__trie_set_8cpp-example.html#a7">test_ol_TrieSet.cpp</a>.</dd>
 </dl>
 
 </div>
@@ -431,6 +446,8 @@ Private 属性</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>最短前缀字符串，不存在则返回空串 </dd></dl>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol__trie_set_8cpp-example.html#a5">test_ol_TrieSet.cpp</a>.</dd>
+</dl>
 
 </div>
 </div>
@@ -459,6 +476,8 @@ Private 属性</h2></td></tr>
 
 <p>获取集合中元素的数量 </p>
 <dl class="section return"><dt>返回</dt><dd>元素总数（size_t） </dd></dl>
+<dl class="section examples"><dt>示例</dt><dd><a class="el" href="test_ol__trie_set_8cpp-example.html#a2">test_ol_TrieSet.cpp</a>.</dd>
+</dl>
 
 </div>
 </div>
@@ -483,10 +502,12 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>底层TrieMap，用true标记键存在 </p>
+
 </div>
 </div>
 <hr/>该类的文档由以下文件生成:<ul>
-<li>ollib/include/<a class="el" href="ol___trie_set_8h_source.html">ol_TrieSet.h</a></li>
+<li>ol_core/include/<a class="el" href="ol___trie_set_8h_source.html">ol_TrieSet.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -34,7 +34,10 @@ namespace ol
     /**
      * @brief 不可拷贝标记类，继承此类的派生类将禁用拷贝构造和拷贝赋值
      * @note 构造函数和析构函数为protected，允许派生类正常构造和析构
-     * @example class MyClass : public TypeNonCopyable {};
+     * @par 使用示例
+     * @code{.cpp}
+     * class MyClass : public TypeNonCopyable {};
+     * @endcode
      */
     class TypeNonCopyable
     {
@@ -52,7 +55,10 @@ namespace ol
     /**
      * @brief 不可移动标记类，继承此类的派生类将禁用移动构造和移动赋值
      * @note 通常与TypeNonCopyable结合使用：class MyClass : public TypeNonCopyable, public TypeNonMovable {};
-     * @example class MyClass : public TypeNonMovable {};
+     * @par 使用示例
+     * @code{.cpp}
+     * class MyClass : public TypeNonMovable {};
+     * @endcode
      */
     class TypeNonMovable
     {
@@ -70,7 +76,10 @@ namespace ol
     /**
      * @brief 不可拷贝且不可移动标记类（TypeNonCopyable + TypeNonMovable的组合）
      * @note 适用于单例模式等绝对禁止值语义的场景
-     * @example class MyClass : public TypeNonCopyableMovable {};
+     * @par 使用示例
+     * @code{.cpp}
+     * class MyClass : public TypeNonCopyableMovable {};
+     * @endcode
      */
     class TypeNonCopyableMovable : public TypeNonCopyable, public TypeNonMovable
     {
@@ -83,7 +92,13 @@ namespace ol
      * @brief 单例类（懒汉模式），提供GetInst()，且不可拷贝不可移动
      * @tparam T 传入需要单例的类
      * @note 使用奇异递归模板模式(CRTP)，C++11后局部静态变量初始化线程安全
-     * @example class A : public TypeSingleton<A> { friend class TypeSingleton<A>; ... }
+     * @par 使用示例
+     * @code{.cpp}
+     * class A : public TypeSingleton<A>
+     * {
+     *     friend class TypeSingleton<A>;
+     * };
+     * @endcode
      */
     template <typename T>
     class TypeSingleton : public TypeNonCopyableMovable

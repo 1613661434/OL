@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: test_ol_triemap_remove.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('test_ol_triemap_remove_8cpp-example.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">test_ol_triemap_remove.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol___trie_map_8h.html">ol_TrieMap.h</a>&quot;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">namespace</span></div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordtype">bool</span> require(<span class="keywordtype">bool</span> condition, <span class="keyword">const</span> <span class="keywordtype">char</span>* message)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordflow">if</span> (condition) <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line">        std::cerr &lt;&lt; message &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">    <a id="_a0" name="_a0"></a><a class="code hl_class" href="classol_1_1_trie_map.html">ol::TrieMap&lt;int&gt;</a> trie;</div>
+<div class="line"> </div>
+<div class="line">    trie.<a id="a1" name="a1"></a><a class="code hl_function" href="classol_1_1_trie_map.html#a0f101baa5235017cfabc34b810c30703">put</a>(<span class="stringliteral">&quot;app&quot;</span>, 1);</div>
+<div class="line">    trie.<a class="code hl_function" href="classol_1_1_trie_map.html#a0f101baa5235017cfabc34b810c30703">put</a>(<span class="stringliteral">&quot;apple&quot;</span>, 2);</div>
+<div class="line">    trie.<a id="a2" name="a2"></a><a class="code hl_function" href="classol_1_1_trie_map.html#adc3409a528dc4204239916d4a58a0463">remove</a>(<span class="stringliteral">&quot;apple&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">if</span> (!require(trie.<a id="a3" name="a3"></a><a class="code hl_function" href="classol_1_1_trie_map.html#a2606ba0b2de5414a56a68232eb546226">has</a>(<span class="stringliteral">&quot;app&quot;</span>), <span class="stringliteral">&quot;removing a child key removed its valid parent&quot;</span>)) <span class="keywordflow">return</span> 1;</div>
+<div class="line">    <span class="keywordflow">if</span> (!require(!trie.<a id="a4" name="a4"></a><a class="code hl_function" href="classol_1_1_trie_map.html#a3c56881a04902813610e5d545aa2c917">hasPrefix</a>(<span class="stringliteral">&quot;apple&quot;</span>), <span class="stringliteral">&quot;removed leaf path was not pruned&quot;</span>)) <span class="keywordflow">return</span> 1;</div>
+<div class="line"> </div>
+<div class="line">    trie.<a class="code hl_function" href="classol_1_1_trie_map.html#adc3409a528dc4204239916d4a58a0463">remove</a>(<span class="stringliteral">&quot;app&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">if</span> (!require(trie.<a id="a5" name="a5"></a><a class="code hl_function" href="classol_1_1_trie_map.html#a1334842925033f685fb9cb7be2b1b851">size</a>() == 0, <span class="stringliteral">&quot;trie size was not decremented to zero&quot;</span>)) <span class="keywordflow">return</span> 1;</div>
+<div class="line">    <span class="keywordflow">if</span> (!require(!trie.<a class="code hl_function" href="classol_1_1_trie_map.html#a3c56881a04902813610e5d545aa2c917">hasPrefix</a>(<span class="stringliteral">&quot;a&quot;</span>), <span class="stringliteral">&quot;last key left a dangling prefix&quot;</span>)) <span class="keywordflow">return</span> 1;</div>
+<div class="line">    <span class="keywordflow">if</span> (!require(!trie.<a class="code hl_function" href="classol_1_1_trie_map.html#a3c56881a04902813610e5d545aa2c917">hasPrefix</a>(<span class="stringliteral">&quot;&quot;</span>), <span class="stringliteral">&quot;empty trie still reports an empty prefix&quot;</span>)) <span class="keywordflow">return</span> 1;</div>
+<div class="line"> </div>
+<div class="line">    trie.<a class="code hl_function" href="classol_1_1_trie_map.html#a0f101baa5235017cfabc34b810c30703">put</a>(<span class="stringliteral">&quot;again&quot;</span>, 3);</div>
+<div class="line">    <span class="keywordflow">if</span> (!require(trie.<a class="code hl_function" href="classol_1_1_trie_map.html#a2606ba0b2de5414a56a68232eb546226">has</a>(<span class="stringliteral">&quot;again&quot;</span>), <span class="stringliteral">&quot;trie could not be reused after pruning its root&quot;</span>)) <span class="keywordflow">return</span> 1;</div>
+<div class="line"> </div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;TrieMap remove regression test passed\n&quot;</span>;</div>
+<div class="line">    <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+<div class="ttc" id="aclassol_1_1_trie_map_html"><div class="ttname"><a href="classol_1_1_trie_map.html">ol::TrieMap</a></div><div class="ttdoc">Trie树键值对映射类（TrieMap）</div><div class="ttdef"><b>定义</b> ol_TrieMap.h:50</div></div>
+<div class="ttc" id="aclassol_1_1_trie_map_html_a0f101baa5235017cfabc34b810c30703"><div class="ttname"><a href="classol_1_1_trie_map.html#a0f101baa5235017cfabc34b810c30703">ol::TrieMap::put</a></div><div class="ttdeci">std::shared_ptr&lt; TrieNode&lt; V &gt; &gt; put(std::shared_ptr&lt; TrieNode&lt; V &gt; &gt; node, const std::string &amp;key, V val, size_t i)</div><div class="ttdoc">递归插入键值对</div><div class="ttdef"><b>定义</b> ol_TrieMap.h:131</div></div>
+<div class="ttc" id="aclassol_1_1_trie_map_html_a1334842925033f685fb9cb7be2b1b851"><div class="ttname"><a href="classol_1_1_trie_map.html#a1334842925033f685fb9cb7be2b1b851">ol::TrieMap::size</a></div><div class="ttdeci">size_t size() const</div><div class="ttdoc">获取当前键值对的数量</div><div class="ttdef"><b>定义</b> ol_TrieMap.h:403</div></div>
+<div class="ttc" id="aclassol_1_1_trie_map_html_a2606ba0b2de5414a56a68232eb546226"><div class="ttname"><a href="classol_1_1_trie_map.html#a2606ba0b2de5414a56a68232eb546226">ol::TrieMap::has</a></div><div class="ttdeci">bool has(const std::string &amp;key)</div><div class="ttdoc">检查键是否存在</div><div class="ttdef"><b>定义</b> ol_TrieMap.h:286</div></div>
+<div class="ttc" id="aclassol_1_1_trie_map_html_a3c56881a04902813610e5d545aa2c917"><div class="ttname"><a href="classol_1_1_trie_map.html#a3c56881a04902813610e5d545aa2c917">ol::TrieMap::hasPrefix</a></div><div class="ttdeci">bool hasPrefix(const std::string &amp;prefix)</div><div class="ttdoc">检查是否存在以指定前缀开头的键</div><div class="ttdef"><b>定义</b> ol_TrieMap.h:297</div></div>
+<div class="ttc" id="aclassol_1_1_trie_map_html_adc3409a528dc4204239916d4a58a0463"><div class="ttname"><a href="classol_1_1_trie_map.html#adc3409a528dc4204239916d4a58a0463">ol::TrieMap::remove</a></div><div class="ttdeci">std::shared_ptr&lt; TrieNode&lt; V &gt; &gt; remove(std::shared_ptr&lt; TrieNode&lt; V &gt; &gt; node, const std::string &amp;key, size_t i)</div><div class="ttdoc">递归删除键</div><div class="ttdef"><b>定义</b> ol_TrieMap.h:154</div></div>
+<div class="ttc" id="aol___trie_map_8h_html"><div class="ttname"><a href="ol___trie_map_8h.html">ol_TrieMap.h</a></div></div>
+</div><!-- fragment --> </div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

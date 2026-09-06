@@ -1,0 +1,373 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OL: test_ol_InetAddr.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
+   </div>
+   <div id="projectbrief">This is a C++ library.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','搜索',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('test_ol__inet_addr_8cpp-example.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">test_ol_InetAddr.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><span class="comment">/****************************************************************************************/</span></div>
+<div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment"> * 程序名：test_ol_InetAddr.cpp</span></div>
+<div class="line"><span class="comment"> * 功能描述：测试ol::InetAddr类的功能完整性</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"><span class="comment">/****************************************************************************************/</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#if !defined(__unix__)</span></div>
+<div class="line"><span class="preprocessor">#error &quot;仅支持Linux平台，不支持当前系统！&quot;</span></div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ol___inet_addr_8h.html">ol_net/ol_InetAddr.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;arpa/inet.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;cassert&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;cstring&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespaceol.html">ol</a>;</div>
+<div class="line"><span class="keyword">using namespace </span>std;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 测试基础构造与解析功能（IPv4/IPv6）</span></div>
+<div class="line"><span class="keywordtype">void</span> test_basic_construction()</div>
+<div class="line">{</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;=== 测试基础构造与解析 ===&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// IPv4普通地址测试</span></div>
+<div class="line">    InetAddr ipv4(<span class="stringliteral">&quot;192.168.1.1&quot;</span>, 8080);</div>
+<div class="line">    assert(ipv4.isIpv4() == <span class="keyword">true</span>);</div>
+<div class="line">    assert(ipv4.isIpv6() == <span class="keyword">false</span>);</div>
+<div class="line">    assert(strcmp(ipv4.getIp(), <span class="stringliteral">&quot;192.168.1.1&quot;</span>) == 0);</div>
+<div class="line">    assert(ipv4.getPort() == 8080);</div>
+<div class="line">    assert(ipv4.getAddrStr() == <span class="stringliteral">&quot;192.168.1.1:8080&quot;</span>);</div>
+<div class="line">    assert(ipv4.getFamily() == AF_INET);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;IPv4普通地址: &quot;</span> &lt;&lt; ipv4.getAddrStr() &lt;&lt; <span class="stringliteral">&quot; [OK]&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// IPv4任意地址（INADDR_ANY）测试</span></div>
+<div class="line">    InetAddr ipv4_any(80, <span class="keyword">false</span>);</div>
+<div class="line">    assert(strcmp(ipv4_any.getIp(), <span class="stringliteral">&quot;0.0.0.0&quot;</span>) == 0);</div>
+<div class="line">    assert(ipv4_any.getPort() == 80);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;IPv4任意地址: &quot;</span> &lt;&lt; ipv4_any.getAddrStr() &lt;&lt; <span class="stringliteral">&quot; [OK]&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// IPv6普通地址测试</span></div>
+<div class="line">    InetAddr ipv6(<span class="stringliteral">&quot;2001:db8::1&quot;</span>, 9090);</div>
+<div class="line">    assert(ipv6.isIpv6() == <span class="keyword">true</span>);</div>
+<div class="line">    assert(strcmp(ipv6.getIp(), <span class="stringliteral">&quot;2001:db8::1&quot;</span>) == 0);</div>
+<div class="line">    assert(ipv6.getPort() == 9090);</div>
+<div class="line">    assert(ipv6.getAddrStr() == <span class="stringliteral">&quot;[2001:db8::1]:9090&quot;</span>);</div>
+<div class="line">    assert(ipv6.getFamily() == AF_INET6);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;IPv6普通地址: &quot;</span> &lt;&lt; ipv6.getAddrStr() &lt;&lt; <span class="stringliteral">&quot; [OK]&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// IPv6任意地址（in6addr_any）测试</span></div>
+<div class="line">    InetAddr ipv6_any(443, <span class="keyword">true</span>);</div>
+<div class="line">    assert(strcmp(ipv6_any.getIp(), <span class="stringliteral">&quot;::&quot;</span>) == 0);</div>
+<div class="line">    assert(ipv6_any.getPort() == 443);</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;IPv6任意地址: &quot;</span> &lt;&lt; ipv6_any.getAddrStr() &lt;&lt; <span class="stringliteral">&quot; [OK]&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;基础构造与解析测试通过&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line">         &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 测试原生sockaddr转换功能</span></div>
+<div class="line"><span class="keywordtype">void</span> test_native_address_conversion()</div>
+<div class="line">{</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;=== 测试原生地址转换 ===&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 从sockaddr_in构造IPv4地址</span></div>
+<div class="line">    sockaddr_in native_ipv4;</div>
+<div class="line">    memset(&amp;native_ipv4, 0, <span class="keyword">sizeof</span>(native_ipv4));</div>
+<div class="line">    native_ipv4.sin_family = AF_INET;</div>
+<div class="line">    native_ipv4.sin_port = htons(12345);</div>
+<div class="line">    inet_pton(AF_INET, <span class="stringliteral">&quot;10.0.0.1&quot;</span>, &amp;native_ipv4.sin_addr);</div>
+<div class="line"> </div>
+<div class="line">    InetAddr from_native4(<span class="keyword">reinterpret_cast&lt;</span>sockaddr*<span class="keyword">&gt;</span>(&amp;native_ipv4), <span class="keyword">sizeof</span>(native_ipv4));</div>
+<div class="line">    assert(strcmp(from_native4.getIp(), <span class="stringliteral">&quot;10.0.0.1&quot;</span>) == 0);</div>
+<div class="line">    assert(from_native4.getPort() == 12345);</div>
+<div class="line">    assert(from_native4.getAddrLen() == <span class="keyword">sizeof</span>(native_ipv4)); <span class="comment">// 验证IPv4地址长度</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;从sockaddr_in转换: &quot;</span> &lt;&lt; from_native4.getAddrStr() &lt;&lt; <span class="stringliteral">&quot; [OK]&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 从sockaddr_in6构造IPv6地址</span></div>
+<div class="line">    sockaddr_in6 native_ipv6;</div>
+<div class="line">    memset(&amp;native_ipv6, 0, <span class="keyword">sizeof</span>(native_ipv6));</div>
+<div class="line">    native_ipv6.sin6_family = AF_INET6;</div>
+<div class="line">    native_ipv6.sin6_port = htons(54321);</div>
+<div class="line">    inet_pton(AF_INET6, <span class="stringliteral">&quot;fe80::1&quot;</span>, &amp;native_ipv6.sin6_addr);</div>
+<div class="line"> </div>
+<div class="line">    InetAddr from_native6(<span class="keyword">reinterpret_cast&lt;</span>sockaddr*<span class="keyword">&gt;</span>(&amp;native_ipv6), <span class="keyword">sizeof</span>(native_ipv6));</div>
+<div class="line">    assert(strcmp(from_native6.getIp(), <span class="stringliteral">&quot;fe80::1&quot;</span>) == 0);</div>
+<div class="line">    assert(from_native6.getPort() == 54321);</div>
+<div class="line">    assert(from_native6.getAddrLen() == <span class="keyword">sizeof</span>(native_ipv6)); <span class="comment">// 验证IPv6地址长度</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;从sockaddr_in6转换: &quot;</span> &lt;&lt; from_native6.getAddrStr() &lt;&lt; <span class="stringliteral">&quot; [OK]&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试getAddr()返回的原生地址有效性</span></div>
+<div class="line">    <span class="keyword">const</span> sockaddr* addr_ptr = from_native4.getAddr();</div>
+<div class="line">    assert(addr_ptr-&gt;sa_family == AF_INET);</div>
+<div class="line">    assert(<span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span>sockaddr_in*<span class="keyword">&gt;</span>(addr_ptr)-&gt;sin_port == htons(12345));</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原生地址指针有效性: 验证通过 [OK]&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;原生地址转换测试通过&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line">         &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 测试缓存机制（核心优化点）</span></div>
+<div class="line"><span class="keywordtype">void</span> test_ip_cache_mechanism()</div>
+<div class="line">{</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;=== 测试IP缓存机制 ===&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    InetAddr addr(<span class="stringliteral">&quot;172.16.0.1&quot;</span>, 5000);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 首次调用getIp()：缓存未初始化，应触发转换</span></div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">char</span>* first_call = addr.getIp();</div>
+<div class="line">    assert(strcmp(first_call, <span class="stringliteral">&quot;172.16.0.1&quot;</span>) == 0);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 记录缓存内容（用于后续比较）</span></div>
+<div class="line">    <span class="keywordtype">string</span> original_cache = first_call;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 二次调用getIp()：应直接返回缓存（内容不变）</span></div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">char</span>* second_call = addr.getIp();</div>
+<div class="line">    assert(strcmp(second_call, original_cache.c_str()) == 0); <span class="comment">// 内容相同</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 修改IP后：缓存应失效并重新计算</span></div>
+<div class="line">    addr.setIp(<span class="stringliteral">&quot;172.16.0.2&quot;</span>);</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">char</span>* after_modify = addr.getIp();</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 验证1：新内容与旧内容不同（缓存已更新）</span></div>
+<div class="line">    assert(strcmp(after_modify, original_cache.c_str()) != 0);</div>
+<div class="line">    <span class="comment">// 验证2：新内容正确（确实是修改后的IP）</span></div>
+<div class="line">    assert(strcmp(after_modify, <span class="stringliteral">&quot;172.16.0.2&quot;</span>) == 0);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试复制操作对缓存的影响（复制后缓存内容一致，但缓冲区独立）</span></div>
+<div class="line">    InetAddr copy = addr;</div>
+<div class="line">    assert(strcmp(copy.getIp(), after_modify) == 0); <span class="comment">// 内容相同</span></div>
+<div class="line"> </div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;IP缓存机制测试通过&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line">         &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 测试复制与修改功能</span></div>
+<div class="line"><span class="keywordtype">void</span> test_copy_and_modification()</div>
+<div class="line">{</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;=== 测试复制与修改功能 ===&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试复制构造</span></div>
+<div class="line">    InetAddr original(<span class="stringliteral">&quot;192.168.2.1&quot;</span>, 8888);</div>
+<div class="line">    InetAddr copy_ctor(original);</div>
+<div class="line">    assert(strcmp(copy_ctor.getIp(), <span class="stringliteral">&quot;192.168.2.1&quot;</span>) == 0);</div>
+<div class="line">    assert(copy_ctor.getPort() == 8888);</div>
+<div class="line">    assert(copy_ctor.getFamily() == original.getFamily());</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试赋值运算符</span></div>
+<div class="line">    InetAddr copy_assign;</div>
+<div class="line">    copy_assign = original;</div>
+<div class="line">    assert(strcmp(copy_assign.getIp(), <span class="stringliteral">&quot;192.168.2.1&quot;</span>) == 0);</div>
+<div class="line">    assert(copy_assign.getPort() == 8888);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试独立修改（修改副本不影响原对象）</span></div>
+<div class="line">    copy_assign.setIp(<span class="stringliteral">&quot;192.168.2.2&quot;</span>);</div>
+<div class="line">    copy_assign.setPort(9999);</div>
+<div class="line">    assert(strcmp(original.getIp(), <span class="stringliteral">&quot;192.168.2.1&quot;</span>) == 0); <span class="comment">// 原对象不变</span></div>
+<div class="line">    assert(original.getPort() == 8888);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试setAddr()批量修改</span></div>
+<div class="line">    InetAddr modify_test(<span class="stringliteral">&quot;10.1.1.1&quot;</span>, 1000);</div>
+<div class="line">    modify_test.setAddr(<span class="stringliteral">&quot;10.1.1.2&quot;</span>, 2000);</div>
+<div class="line">    assert(strcmp(modify_test.getIp(), <span class="stringliteral">&quot;10.1.1.2&quot;</span>) == 0);</div>
+<div class="line">    assert(modify_test.getPort() == 2000);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 测试通过原生sockaddr修改</span></div>
+<div class="line">    sockaddr_in new_addr;</div>
+<div class="line">    memset(&amp;new_addr, 0, <span class="keyword">sizeof</span>(new_addr));</div>
+<div class="line">    new_addr.sin_family = AF_INET;</div>
+<div class="line">    new_addr.sin_port = htons(3000);</div>
+<div class="line">    inet_pton(AF_INET, <span class="stringliteral">&quot;10.1.1.3&quot;</span>, &amp;new_addr.sin_addr);</div>
+<div class="line">    modify_test.setAddr(<span class="keyword">reinterpret_cast&lt;</span>sockaddr*<span class="keyword">&gt;</span>(&amp;new_addr), <span class="keyword">sizeof</span>(new_addr));</div>
+<div class="line">    assert(strcmp(modify_test.getIp(), <span class="stringliteral">&quot;10.1.1.3&quot;</span>) == 0);</div>
+<div class="line">    assert(modify_test.getPort() == 3000);</div>
+<div class="line"> </div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;复制与修改功能测试通过&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line">         &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 测试异常场景处理</span></div>
+<div class="line"><span class="keywordtype">void</span> test_exception_handling()</div>
+<div class="line">{</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;=== 测试异常场景处理 ===&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 无效IPv4地址（超出0-255范围）</span></div>
+<div class="line">    <span class="keywordtype">bool</span> invalid_ipv4 = <span class="keyword">false</span>;</div>
+<div class="line">    <span class="keywordflow">try</span></div>
+<div class="line">    {</div>
+<div class="line">        InetAddr(<span class="stringliteral">&quot;256.0.0.1&quot;</span>, 80);</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">catch</span> (<span class="keyword">const</span> invalid_argument&amp; e)</div>
+<div class="line">    {</div>
+<div class="line">        invalid_ipv4 = <span class="keyword">true</span>;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;捕获预期异常: &quot;</span> &lt;&lt; e.what() &lt;&lt; <span class="stringliteral">&quot; [OK]&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line">    }</div>
+<div class="line">    assert(invalid_ipv4);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 无效IPv6地址（格式错误）</span></div>
+<div class="line">    <span class="keywordtype">bool</span> invalid_ipv6 = <span class="keyword">false</span>;</div>
+<div class="line">    <span class="keywordflow">try</span></div>
+<div class="line">    {</div>
+<div class="line">        InetAddr(<span class="stringliteral">&quot;2001:db8:gibberish::1&quot;</span>, 80); <span class="comment">// &#39;g&#39;不是十六进制字符</span></div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">catch</span> (<span class="keyword">const</span> invalid_argument&amp; e)</div>
+<div class="line">    {</div>
+<div class="line">        invalid_ipv6 = <span class="keyword">true</span>;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;捕获预期异常: &quot;</span> &lt;&lt; e.what() &lt;&lt; <span class="stringliteral">&quot; [OK]&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line">    }</div>
+<div class="line">    assert(invalid_ipv6);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 地址族不匹配（IPv4对象设置IPv6地址）</span></div>
+<div class="line">    <span class="keywordtype">bool</span> family_mismatch = <span class="keyword">false</span>;</div>
+<div class="line">    <span class="keywordflow">try</span></div>
+<div class="line">    {</div>
+<div class="line">        InetAddr ipv4(<span class="stringliteral">&quot;192.168.1.1&quot;</span>, 80);</div>
+<div class="line">        ipv4.setIp(<span class="stringliteral">&quot;::1&quot;</span>); <span class="comment">// 类型不匹配</span></div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">catch</span> (<span class="keyword">const</span> invalid_argument&amp; e)</div>
+<div class="line">    {</div>
+<div class="line">        family_mismatch = <span class="keyword">true</span>;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;捕获预期异常: &quot;</span> &lt;&lt; e.what() &lt;&lt; <span class="stringliteral">&quot; [OK]&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line">    }</div>
+<div class="line">    assert(family_mismatch);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// 原生地址长度超限（基于联合体最大成员sockaddr_in6的大小）</span></div>
+<div class="line">    <span class="keywordtype">bool</span> addr_len_exceed = <span class="keyword">false</span>;</div>
+<div class="line">    sockaddr_in dummy;</div>
+<div class="line">    memset(&amp;dummy, 0, <span class="keyword">sizeof</span>(dummy));</div>
+<div class="line">    <span class="keywordflow">try</span></div>
+<div class="line">    {</div>
+<div class="line">        <span class="comment">// 传入的长度 &gt; 最大地址结构体（sockaddr_in6）的大小</span></div>
+<div class="line">        socklen_t excessive_len = <span class="keyword">sizeof</span>(sockaddr_in6) + 1;</div>
+<div class="line">        InetAddr(<span class="keyword">reinterpret_cast&lt;</span>sockaddr*<span class="keyword">&gt;</span>(&amp;dummy), excessive_len);</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">catch</span> (<span class="keyword">const</span> invalid_argument&amp; e)</div>
+<div class="line">    {</div>
+<div class="line">        addr_len_exceed = <span class="keyword">true</span>;</div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;捕获预期异常: &quot;</span> &lt;&lt; e.what() &lt;&lt; <span class="stringliteral">&quot; [OK]&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line">    }</div>
+<div class="line">    assert(addr_len_exceed);</div>
+<div class="line"> </div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;异常场景处理测试通过&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line">         &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordflow">try</span></div>
+<div class="line">    {</div>
+<div class="line">        test_basic_construction();</div>
+<div class="line">        test_native_address_conversion();</div>
+<div class="line">        test_ip_cache_mechanism();</div>
+<div class="line">        test_copy_and_modification();</div>
+<div class="line">        test_exception_handling();</div>
+<div class="line"> </div>
+<div class="line">        cout &lt;&lt; <span class="stringliteral">&quot;=== 所有ol::InetAddr测试通过！ ===&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line">        <span class="keywordflow">return</span> 0;</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">catch</span> (<span class="keyword">const</span> exception&amp; e)</div>
+<div class="line">    {</div>
+<div class="line">        cerr &lt;&lt; <span class="stringliteral">&quot;=== 测试失败: &quot;</span> &lt;&lt; e.what() &lt;&lt; <span class="stringliteral">&quot; ===&quot;</span> &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line">        <span class="keywordflow">return</span> 1;</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="ttc" id="anamespaceol_html"><div class="ttname"><a href="namespaceol.html">ol</a></div><div class="ttdef"><b>定义</b> ol_sort_base.h:20</div></div>
+<div class="ttc" id="aol___inet_addr_8h_html"><div class="ttname"><a href="ol___inet_addr_8h.html">ol_InetAddr.h</a></div></div>
+</div><!-- fragment --> </div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

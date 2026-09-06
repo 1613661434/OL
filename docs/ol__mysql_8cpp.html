@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.14.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>OL: oldblib/mysql/src/ol_mysql.cpp 文件参考</title>
+<title>OL: ol_database/mysql/src/ol_mysql.cpp 文件参考</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -27,7 +27,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="OL.png"/></td>
   <td id="projectalign">
-   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.0.1</span>
+   <div id="projectname">OL<span id="projectnumber">&#160;Version 0.1.0</span>
    </div>
    <div id="projectbrief">This is a C++ library.</div>
   </td>
@@ -94,16 +94,19 @@ $(function(){initNavTree('ol__mysql_8cpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="ol__mysql_8h_source.html">ol_mysql.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="ol__fstream_8h_source.html">ol_fstream.h</a>&quot;</code><br />
+<code>#include &lt;cstdarg&gt;</code><br />
+<code>#include &lt;cstdio&gt;</code><br />
+<code>#include &lt;cstring&gt;</code><br />
+<code>#include &lt;sys/stat.h&gt;</code><br />
+<code>#include &lt;errno.h&gt;</code><br />
+<code>#include &lt;direct.h&gt;</code><br />
+<code>#include &lt;cctype&gt;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 命名空间</h2></td></tr>
 <tr class="memitem:ol" id="r_ol"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol.html">ol</a></td></tr>
 <tr class="memitem:ol_3A_3Amysql" id="r_ol_3A_3Amysql"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol_1_1mysql.html">ol::mysql</a></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
-函数</h2></td></tr>
-<tr class="memitem:a7f3219b709db41f945d384a89fe412d9" id="r_a7f3219b709db41f945d384a89fe412d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol_1_1mysql.html#a7f3219b709db41f945d384a89fe412d9">ol::mysql::MY__ToUpper</a> (char *str)</td></tr>
-<tr class="memitem:a67f4a455373f920a4ab6f16d67fc1df6" id="r_a67f4a455373f920a4ab6f16d67fc1df6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceol_1_1mysql.html#a67f4a455373f920a4ab6f16d67fc1df6">ol::mysql::MY__DeleteLChar</a> (char *str, const char chr)</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -118,7 +121,7 @@ $(function(){initNavTree('ol__mysql_8cpp.html','',''); });
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="dir_6b7f86e6fb8cb2177df9a381d53ba4a9.html">oldblib</a></li><li class="navelem"><a href="dir_523b42427927277f1d89ee349fa9eb23.html">mysql</a></li><li class="navelem"><a href="dir_0aa3a95d303c8bd1355b0e06fdb74fd2.html">src</a></li><li class="navelem"><a href="ol__mysql_8cpp.html">ol_mysql.cpp</a></li>
+    <li class="navelem"><a href="dir_c16e0af410ca35e7996e98174fd39df6.html">ol_database</a></li><li class="navelem"><a href="dir_d1c33b9174b88b3c6d44b6a0ad2b9f12.html">mysql</a></li><li class="navelem"><a href="dir_5752317fa29f20056d815daf47998271.html">src</a></li><li class="navelem"><a href="ol__mysql_8cpp.html">ol_mysql.cpp</a></li>
     <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
   </ul>
 </div>
