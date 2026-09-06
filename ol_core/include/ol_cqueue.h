@@ -8,17 +8,18 @@
  *          - 支持移动构造和移动赋值，禁用拷贝构造和赋值（避免资源冲突）
  *          - 支持原地构造元素（emplace）以提升性能
  * 作者：ol
- * 适用标准：C++11及以上（需支持constexpr、type_traits、右值引用等特性）
+ * 适用标准：C++17及以上
  */
 /****************************************************************************************/
 
 #ifndef OL_CQUEUE_H
 #define OL_CQUEUE_H 1
 
+#include <cstddef> // 用于size_t
 #include <iostream>
+#include <new>         // 用于placement new、std::launder
 #include <stdexcept>   // 用于std::out_of_range
-#include <string.h>    // 用于memset
-#include <type_traits> // 用于std::is_pod
+#include <type_traits> // 用于std::aligned_storage_t
 #include <utility>     // 用于std::move、std::forward
 
 namespace ol
@@ -34,69 +35,75 @@ namespace ol
     class cqueue
     {
     private:
+        using storage_type = std::aligned_storage_t<sizeof(T), alignof(T)>;
+
         static_assert(MAX_SIZE > 0, "MAX_SIZE must be greater than 0");
-        bool m_inited = false;        ///< 队列被初始化标志，true-已初始化；false-未初始化。
-        size_t m_size = 0;            ///< 队列的实际长度。
-        T m_data[MAX_SIZE];           ///< 用数组存储循环队列中的元素。
-        size_t m_front = 0;           ///< 队列的头指针。
-        size_t m_rear = MAX_SIZE - 1; ///< 队列的尾指针，指向队尾元素。
+        bool m_inited = false;         ///< 队列被初始化标志，true-已初始化；false-未初始化。
+        size_t m_size = 0;             ///< 队列的实际长度。
+        storage_type m_data[MAX_SIZE]; ///< 仅提供存储空间，元素按需构造和析构。
+        size_t m_front = 0;            ///< 队列的头指针。
+        size_t m_rear = MAX_SIZE - 1;  ///< 队列的尾指针，指向队尾元素。
 
     private:
         cqueue(const cqueue&) = delete;            // 禁用拷贝构造函数。
         cqueue& operator=(const cqueue&) = delete; // 禁用赋值函数。
 
+        T* elementAt(size_t index) noexcept
+        {
+            return std::launder(reinterpret_cast<T*>(&m_data[index]));
+        }
+
+        const T* elementAt(size_t index) const noexcept
+        {
+            return std::launder(reinterpret_cast<const T*>(&m_data[index]));
+        }
+
+        void destroyAt(size_t index)
+        {
+            elementAt(index)->~T();
+        }
+
+        void moveFrom(cqueue&& other)
+        {
+            m_inited = other.m_inited;
+            m_size = 0;
+            m_front = 0;
+            m_rear = MAX_SIZE - 1;
+
+            if (!m_inited) return;
+
+            try
+            {
+                for (size_t i = 0; i < other.m_size; ++i)
+                {
+                    const size_t src_idx = (other.m_front + i) % MAX_SIZE;
+                    emplace(std::move(*other.elementAt(src_idx)));
+                }
+            }
+            catch (...)
+            {
+                clear();
+                throw;
+            }
+
+            other.clear();
+        }
+
     public:
         // 构造函数，自动初始化队列
         cqueue() { init(); }
 
-        // 析构函数，释放资源（非平凡析构类型需手动调用析构函数）
-        ~cqueue()
-        {
-            if (m_inited == true)
-            {
-                // 非可平凡复制类型需要手动调用析构函数
-                if constexpr (!std::is_trivially_destructible_v<T>)
-                {
-                    for (size_t i = 0; i < m_size; ++i)
-                    {
-                        size_t index = (m_front + i) % MAX_SIZE;
-                        m_data[index].~T(); // 显式调用析构函数
-                    }
-                }
-            }
-        }
+        // 析构函数，只析构队列中仍然存活的元素。
+        ~cqueue() { clear(); }
 
         /**
          * @brief 移动构造函数
          * @param other 待移动的队列对象
          */
-        cqueue(cqueue&& other) noexcept
-            : m_inited(other.m_inited),
-              m_size(other.m_size),
-              m_front(other.m_front),
-              m_rear(other.m_rear)
+        cqueue(cqueue&& other) noexcept(std::is_nothrow_move_constructible_v<T> &&
+                                        std::is_nothrow_destructible_v<T>)
         {
-            if (m_inited == true)
-            {
-                // 移动可平凡复制类型：直接内存拷贝
-                if constexpr (std::is_trivially_copyable_v<T>)
-                {
-                    memcpy(m_data, other.m_data, MAX_SIZE * sizeof(T));
-                }
-                else
-                {
-                    // 非可平凡复制类型：逐个移动
-                    for (size_t i = 0; i < other.m_size; ++i)
-                    {
-                        size_t src_idx = (other.m_front + i) % MAX_SIZE;
-                        size_t dst_idx = (m_front + i) % MAX_SIZE;
-                        m_data[dst_idx] = std::move(other.m_data[src_idx]);
-                    }
-                }
-                // 清空原队列
-                other.m_inited = false;
-                other.m_size = 0;
-            }
+            moveFrom(std::move(other));
         }
 
         /**
@@ -104,56 +111,13 @@ namespace ol
          * @param other 待移动的队列对象
          * @return 当前队列对象的引用
          */
-        cqueue& operator=(cqueue&& other) noexcept
+        cqueue& operator=(cqueue&& other) noexcept(std::is_nothrow_move_constructible_v<T> &&
+                                                   std::is_nothrow_destructible_v<T>)
         {
             if (this != &other)
             {
-                // 先释放当前队列的资源
-                if (m_inited == true)
-                {
-                    if constexpr (!std::is_trivially_destructible_v<T>)
-                    {
-                        // 非可平凡析构类型：手动调用析构函数
-                        for (size_t i = 0; i < m_size; ++i)
-                        {
-                            size_t index = (m_front + i) % MAX_SIZE;
-                            m_data[index].~T(); // 显式调用析构函数
-                        }
-                    }
-                    // 无论是否可平凡析构，都需要重置状态
-                    m_inited = false;
-                    m_size = 0;
-                    m_front = 0;
-                    m_rear = MAX_SIZE - 1;
-                }
-
-                // 移动其他队列的资源
-                m_inited = other.m_inited;
-                m_size = other.m_size;
-                m_front = other.m_front;
-                m_rear = other.m_rear;
-
-                if (m_inited == true)
-                {
-                    if constexpr (std::is_trivially_copyable_v<T>)
-                    {
-                        // 可平凡复制类型：直接内存拷贝
-                        memcpy(m_data, other.m_data, MAX_SIZE * sizeof(T));
-                    }
-                    else
-                    {
-                        // 非可平凡复制类型：逐个移动元素
-                        for (size_t i = 0; i < other.m_size; ++i)
-                        {
-                            size_t src_idx = (other.m_front + i) % MAX_SIZE;
-                            size_t dst_idx = (m_front + i) % MAX_SIZE;
-                            m_data[dst_idx] = std::move(other.m_data[src_idx]);
-                        }
-                    }
-                    // 清空原队列
-                    other.m_inited = false;
-                    other.m_size = 0;
-                }
+                clear();
+                moveFrom(std::move(other));
             }
             return *this;
         }
@@ -171,20 +135,7 @@ namespace ol
             m_rear = MAX_SIZE - 1; // 为了方便写代码，初始化时，尾指针指向队列的最后一个位置。
             m_size = 0;            // 队列的实际长度。
 
-            // 数组元素初始化。
-            if constexpr (std::is_trivially_copyable_v<T>)
-            {
-                // 可平凡复制类型专用初始化（效率优先）
-                memset(m_data, 0, sizeof(m_data));
-            }
-            else
-            {
-                for (size_t i = 0; i < MAX_SIZE; ++i)
-                {
-                    // 非可平凡复制类型通用初始化
-                    m_data[i] = T(); // 调用默认构造函数
-                }
-            }
+            // m_data是原始存储，元素在push/emplace时才开始生命周期。
         }
 
         /**
@@ -212,9 +163,9 @@ namespace ol
                 return false;
             }
 
-            // 先移动队尾指针，然后再拷贝数据。
-            m_rear = (m_rear + 1) % MAX_SIZE; // 队尾指针后移。
-            m_data[m_rear] = e;
+            const size_t new_rear = (m_rear + 1) % MAX_SIZE;
+            new (&m_data[new_rear]) T(e);
+            m_rear = new_rear;
             ++m_size;
 
             return true;
@@ -232,8 +183,9 @@ namespace ol
                 std::cerr << "Circular queue is full, enqueue failed.\n";
                 return false;
             }
-            m_rear = (m_rear + 1) % MAX_SIZE;
-            m_data[m_rear] = std::move(e);
+            const size_t new_rear = (m_rear + 1) % MAX_SIZE;
+            new (&m_data[new_rear]) T(std::move(e));
+            m_rear = new_rear;
             ++m_size;
             return true;
         }
@@ -246,8 +198,15 @@ namespace ol
         {
             if (empty()) return false;
 
+            destroyAt(m_front);
             m_front = (m_front + 1) % MAX_SIZE; // 队列头指针后移。
             --m_size;
+
+            if (m_size == 0)
+            {
+                m_front = 0;
+                m_rear = MAX_SIZE - 1;
+            }
 
             return true;
         }
@@ -260,14 +219,10 @@ namespace ol
         {
             if (!m_inited || empty()) return; // 未初始化或已空则直接返回
 
-            // 处理非平凡析构类型：需要显式调用每个元素的析构函数
-            if constexpr (!std::is_trivially_destructible_v<T>)
+            for (size_t i = 0; i < m_size; ++i)
             {
-                for (size_t i = 0; i < m_size; ++i)
-                {
-                    size_t index = (m_front + i) % MAX_SIZE;
-                    m_data[index].~T(); // 显式析构元素
-                }
+                const size_t index = (m_front + i) % MAX_SIZE;
+                destroyAt(index);
             }
 
             // 重置队列状态（无需清空数组内存，后续操作会覆盖）
@@ -290,7 +245,7 @@ namespace ol
         T& front()
         {
             if (empty()) throw std::out_of_range("Circular queue is empty");
-            return m_data[m_front];
+            return *elementAt(m_front);
         }
 
         /**
@@ -301,7 +256,7 @@ namespace ol
         const T& front() const
         {
             if (empty()) throw std::out_of_range("Circular queue is empty");
-            return m_data[m_front];
+            return *elementAt(m_front);
         }
 
         /**
@@ -318,8 +273,9 @@ namespace ol
                 std::cerr << "Circular queue is full, enqueue failed.\n";
                 return false;
             }
-            m_rear = (m_rear + 1) % MAX_SIZE;
-            new (&m_data[m_rear]) T(std::forward<Args>(args)...);
+            const size_t new_rear = (m_rear + 1) % MAX_SIZE;
+            new (&m_data[new_rear]) T(std::forward<Args>(args)...);
+            m_rear = new_rear;
             ++m_size;
             return true;
         }
@@ -332,8 +288,8 @@ namespace ol
         {
             for (size_t i = 0; i < m_size; ++i)
             {
-                std::cout << "m_data[" << (m_front + i) % MAX_SIZE << "],value="
-                          << m_data[(m_front + i) % MAX_SIZE] << '\n';
+                const size_t index = (m_front + i) % MAX_SIZE;
+                std::cout << "m_data[" << index << "],value=" << *elementAt(index) << '\n';
             }
         }
     };
