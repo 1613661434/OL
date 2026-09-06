@@ -55,6 +55,17 @@ namespace ol
     double Newton_Method(double (*func)(double), double (*der_func)(double), double initial_value, double tolerance, const size_t max_iterations = 1000);
 
     /**
+     * @brief 使用数值导数的牛顿迭代法
+     * @param func 目标函数（f(x)=0）
+     * @param initial_value 初始迭代值
+     * @param tolerance 误差限（|x_{n+1}-x_n| < tolerance时终止）
+     * @param max_iterations 最大迭代次数（默认1000）
+     * @return 方程的近似解
+     * @note 使用中心差分逼近导数，无需提供导函数；差分误差可能影响精度和收敛性
+     */
+    double Newton_Method(double (*func)(double), double initial_value, double tolerance, const size_t max_iterations = 1000);
+
+    /**
      * @brief 弦截迭代法求解非线性方程（收敛阶P=1.618）
      * @param func 目标函数（f(x)=0）
      * @param initial_value_0 初始迭代值0
