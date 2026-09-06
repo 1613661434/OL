@@ -39,3 +39,5 @@ tmp/
 
 # AI
 .agents/
+.codex/
+.claude
