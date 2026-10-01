@@ -41,3 +41,5 @@ tmp/
 .agents/
 .codex/
 .claude
+.codegraph/
+codegraph.json
